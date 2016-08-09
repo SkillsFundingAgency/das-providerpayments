@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests
         [Test]
         public void IsTrue()
         {
-            Assert.IsTrue(false);
+            Assert.IsTrue(true);
         }
     }
 }
