@@ -15,23 +15,23 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using StructureMap;
+using StructureMap.Graph;
+
 namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
-    using StructureMap.Configuration.DSL;
-    using StructureMap.Graph;
 	
-    public class DefaultRegistry : Registry {
-        #region Constructors and Destructors
+    public class DefaultRegistry : Registry
+    {
+        private const string ServiceName = "SFA.DAS.ProviderPayments";
 
         public DefaultRegistry() {
             Scan(
-                scan => {
-                    scan.TheCallingAssembly();
-                    scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
-                });
-            //For<IExample>().Use<Example>();
-        }
+               scan =>
+               {
+                   scan.AssembliesFromApplicationBaseDirectory(a => a.GetName().Name.StartsWith(ServiceName));
 
-        #endregion
+                   scan.RegisterConcreteTypesAgainstTheFirstInterface();
+               });
+        }
     }
 }
