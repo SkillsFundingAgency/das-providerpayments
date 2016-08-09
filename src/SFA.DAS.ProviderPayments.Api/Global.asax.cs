@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using SFA.DAS.ProdiverPayments.Infrastructure.Logging;
 
 namespace SFA.DAS.ProviderPayments.Api
 {
@@ -11,6 +12,8 @@ namespace SFA.DAS.ProviderPayments.Api
     {
         protected void Application_Start()
         {
+            LoggingConfig.ConfigureLogging();
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

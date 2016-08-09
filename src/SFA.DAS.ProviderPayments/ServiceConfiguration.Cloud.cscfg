@@ -3,6 +3,7 @@
   <Role name="SFA.DAS.ProviderPayments.Api">
     <Instances count="1" />
     <ConfigurationSettings>
+      <Setting name="LogLevel" value="Warn" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
   </Role>
