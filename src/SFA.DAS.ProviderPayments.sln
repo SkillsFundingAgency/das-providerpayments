@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SFA.DAS.ProdiverPayments", "SFA.DAS.ProdiverPayments\SFA.DAS.ProdiverPayments.ccproj", "{C894E705-A4AC-4F02-8028-CF34A1870BF4}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SFA.DAS.ProviderPayments", "SFA.DAS.ProviderPayments\SFA.DAS.ProviderPayments.ccproj", "{C894E705-A4AC-4F02-8028-CF34A1870BF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Api", "SFA.DAS.ProviderPayments.Api\SFA.DAS.ProviderPayments.Api.csproj", "{9209377B-12F4-4F99-A73E-25222ABDBA1A}"
 EndProject
@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8FDE423F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Api.UnitTests", "SFA.DAS.ProviderPayments.Api.UnitTests\SFA.DAS.ProviderPayments.Api.UnitTests.csproj", "{1237EA56-954B-47ED-BC5C-CF40488243FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProdiverPayments.Domain", "SFA.DAS.ProdiverPayments.Domain\SFA.DAS.ProdiverPayments.Domain.csproj", "{BD68C151-24FE-4396-99E8-E8ACD9B2E799}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Domain", "SFA.DAS.ProviderPayments.Domain\SFA.DAS.ProviderPayments.Domain.csproj", "{BD68C151-24FE-4396-99E8-E8ACD9B2E799}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProdiverPayments.Infrastructure", "SFA.DAS.ProdiverPayments.Infrastructure\SFA.DAS.ProdiverPayments.Infrastructure.csproj", "{3EB8F0F5-D35A-43F6-9644-9562BAE44056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Infrastructure", "SFA.DAS.ProviderPayments.Infrastructure\SFA.DAS.ProviderPayments.Infrastructure.csproj", "{3EB8F0F5-D35A-43F6-9644-9562BAE44056}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProdiverPayments.Application", "SFA.DAS.ProdiverPayments.Application\SFA.DAS.ProdiverPayments.Application.csproj", "{11A84978-2AFC-4E6F-A86F-ED0B7A2E6267}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Application", "SFA.DAS.ProviderPayments.Application\SFA.DAS.ProviderPayments.Application.csproj", "{11A84978-2AFC-4E6F-A86F-ED0B7A2E6267}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

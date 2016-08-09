@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.ProdiverPayments.Application
+namespace SFA.DAS.ProviderPayments.Application
 {
     public class Class1
     {
