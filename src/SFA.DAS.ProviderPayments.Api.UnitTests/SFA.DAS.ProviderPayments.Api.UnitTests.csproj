@@ -38,6 +38,10 @@
       <HintPath>..\packages\Moq.4.5.16\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +56,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,13 +72,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Api\NotificationsControllerTests\WhenGettingPeriodEnd.cs" />
     <Compile Include="DependencyResolution\StructureMapRegistrationTests\WhenAddingLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Api.Dto\SFA.DAS.ProviderPayments.Api.Dto.csproj">
+      <Project>{11223929-2508-4F08-AF69-95DC52A7E9D2}</Project>
+      <Name>SFA.DAS.ProviderPayments.Api.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Api\SFA.DAS.ProviderPayments.Api.csproj">
+      <Project>{9209377B-12F4-4F99-A73E-25222ABDBA1A}</Project>
+      <Name>SFA.DAS.ProviderPayments.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Infrastructure\SFA.DAS.ProviderPayments.Infrastructure.csproj">
       <Project>{3EB8F0F5-D35A-43F6-9644-9562BAE44056}</Project>
       <Name>SFA.DAS.ProviderPayments.Infrastructure</Name>
