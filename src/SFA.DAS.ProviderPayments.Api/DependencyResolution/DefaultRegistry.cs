@@ -15,6 +15,11 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http.Routing;
+using MediatR;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -32,6 +37,16 @@ namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
 
                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
                });
+
+            For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => ctx.GetInstance(t));
+            For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => ctx.GetAllInstances(t));
+            For<IMediator>().Use<Mediator>();
+
+            For<UrlHelper>().Transient().Use("Create UrlHelper for current request", ctx =>
+            {
+                var request = HttpContext.Current.Request;
+                return new UrlHelper(new HttpRequestMessage(new HttpMethod(request.HttpMethod), request.Url));
+            });
         }
     }
 }

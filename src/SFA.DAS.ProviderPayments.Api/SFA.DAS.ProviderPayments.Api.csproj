@@ -194,6 +194,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Orchestrators\NotificationsOrchestrator.cs" />
+    <Compile Include="Plumbing\WebApi\ILinkBuilder.cs" />
+    <Compile Include="Plumbing\WebApi\LinkBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebRole.cs" />
   </ItemGroup>
@@ -214,6 +216,14 @@
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Api.Dto\SFA.DAS.ProviderPayments.Api.Dto.csproj">
       <Project>{11223929-2508-4F08-AF69-95DC52A7E9D2}</Project>
       <Name>SFA.DAS.ProviderPayments.Api.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Application\SFA.DAS.ProviderPayments.Application.csproj">
+      <Project>{11A84978-2AFC-4E6F-A86F-ED0B7A2E6267}</Project>
+      <Name>SFA.DAS.ProviderPayments.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Domain\SFA.DAS.ProviderPayments.Domain.csproj">
+      <Project>{bd68c151-24fe-4396-99e8-e8acd9b2e799}</Project>
+      <Name>SFA.DAS.ProviderPayments.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Infrastructure\SFA.DAS.ProviderPayments.Infrastructure.csproj">
       <Project>{3EB8F0F5-D35A-43F6-9644-9562BAE44056}</Project>

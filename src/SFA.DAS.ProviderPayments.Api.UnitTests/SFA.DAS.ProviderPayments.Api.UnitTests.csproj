@@ -34,6 +34,10 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.5.16.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.16\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -74,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Api\NotificationsControllerTests\WhenGettingPeriodEnd.cs" />
     <Compile Include="DependencyResolution\StructureMapRegistrationTests\WhenAddingLogging.cs" />
+    <Compile Include="Orchestrators\NotificationsOrchestratorTests\WhenGettingPageOfPeriodEndNotifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +93,14 @@
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Api\SFA.DAS.ProviderPayments.Api.csproj">
       <Project>{9209377B-12F4-4F99-A73E-25222ABDBA1A}</Project>
       <Name>SFA.DAS.ProviderPayments.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Application\SFA.DAS.ProviderPayments.Application.csproj">
+      <Project>{11A84978-2AFC-4E6F-A86F-ED0B7A2E6267}</Project>
+      <Name>SFA.DAS.ProviderPayments.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Domain\SFA.DAS.ProviderPayments.Domain.csproj">
+      <Project>{BD68C151-24FE-4396-99E8-E8ACD9B2E799}</Project>
+      <Name>SFA.DAS.ProviderPayments.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Infrastructure\SFA.DAS.ProviderPayments.Infrastructure.csproj">
       <Project>{3EB8F0F5-D35A-43F6-9644-9562BAE44056}</Project>

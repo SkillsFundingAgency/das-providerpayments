@@ -4,20 +4,21 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Api.Controllers.Api;
 using SFA.DAS.ProviderPayments.Api.Dto;
+using SFA.DAS.ProviderPayments.Api.Dto.Hal;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.NotificationsControllerTests
 {
     public class WhenGettingPeriodEnd
     {
-        private PageOfPeriodEnds _result;
+        private HalPage<PeriodEndDto> _result;
         private Mock<NotificationsOrchestrator> _notificationsOrchestrator;
         private NotificationsController _controller;
 
         [SetUp]
         public void Arrange()
         {
-            _result = new PageOfPeriodEnds();
+            _result = new HalPage<PeriodEndDto>();
 
             _notificationsOrchestrator = new Mock<NotificationsOrchestrator>();
             _notificationsOrchestrator.Setup(o => o.GetPageOfPeriodEndNotifications(It.IsAny<int>()))
@@ -34,14 +35,14 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.NotificationsCo
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.IsInstanceOf<OkNegotiatedContentResult<PageOfPeriodEnds>>(actual);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<HalPage<PeriodEndDto>>>(actual);
         }
 
         [Test]
         public async Task ThenItShouldReturnPageFromOrchestrator()
         {
             // Act
-            var actual = (await _controller.PeriodEnd()) as OkNegotiatedContentResult<PageOfPeriodEnds>;
+            var actual = (await _controller.PeriodEnd()) as OkNegotiatedContentResult<HalPage<PeriodEndDto>>;
 
             // Assert
             Assert.AreSame(_result, actual.Content);
