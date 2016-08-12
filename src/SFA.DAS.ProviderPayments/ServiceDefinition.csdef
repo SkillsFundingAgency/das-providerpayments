@@ -9,6 +9,7 @@
       </Site>
     </Sites>
     <ConfigurationSettings>
+      <Setting name="LogLevel" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
