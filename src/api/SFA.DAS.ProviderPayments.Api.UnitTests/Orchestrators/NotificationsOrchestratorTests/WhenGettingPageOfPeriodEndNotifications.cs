@@ -15,6 +15,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
 {
     public class WhenGettingPageOfPeriodEndNotifications
     {
+        private PeriodEnd _periodEnd;
         private Mock<IMediator> _mediator;
         private Mock<ILinkBuilder> _linkBuilder;
         private NotificationsOrchestrator _notificationsOrchestrator;
@@ -22,6 +23,19 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
         [SetUp]
         public void Arrange()
         {
+            _periodEnd = new PeriodEnd
+            {
+                Period = new Period
+                {
+                    Code = "201704",
+                    PeriodType = PeriodType.CalendarMonth
+                },
+                TotalValue = 12345.67m,
+                NumberOfProviders = 23,
+                NumberOfEmployers = 92,
+                PaymentRunDate = new DateTime(2017, 05, 05)
+            };
+
             _mediator = new Mock<IMediator>();
             _mediator.Setup(m => m.SendAsync(It.Is<GetPageOfPeriodEndsQueryRequest>(r => r.PageNumber == 1)))
                 .Returns(Task.FromResult(new GetPageOfPeriodEndsQueryResponse
@@ -30,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
                     TotalNumberOfPages = 1,
                     Items = new[]
                     {
-                        new PeriodEnd { PeriodCode = "201704" }
+                        _periodEnd
                     }
                 }));
 
@@ -59,14 +73,14 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
 
             // Assert
             Assert.AreEqual(1, actual.Count);
-            Assert.AreEqual("201704", actual.PageItems.Items.ElementAt(0).PeriodCode);
+            Assert.AreEqual("201704", actual.PageItems.Items.ElementAt(0).Period.Code);
         }
 
         [TestCase(1, 1, null, null, "/1", "/1")]
         [TestCase(1, 2, "/2", null, "/1", "/2")]
         [TestCase(2, 2, null, "/1", "/1", "/2")]
         [TestCase(5, 10, "/6", "/4", "/1", "/10")]
-        public async Task ThenItShouldReturnCorrectLinks(int pageNumber, int totalNumberOfPages, 
+        public async Task ThenItShouldReturnCorrectLinks(int pageNumber, int totalNumberOfPages,
             string expectedNextLink, string expectedPrevLink, string expectedFirstLink, string expectedLastLink)
         {
             // Arrange
@@ -77,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
                     TotalNumberOfPages = totalNumberOfPages,
                     Items = new[]
                     {
-                        new PeriodEnd { PeriodCode = "201704" }
+                        _periodEnd
                     }
                 }));
 

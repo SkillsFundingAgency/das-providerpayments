@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using SFA.DAS.ProviderPayments.Api.Dto;
@@ -38,7 +39,18 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                 Count = response.TotalNumberOfItems,
                 PageItems = new HalPageItems<PeriodEndDto>
                 {
-                    Items = response.Items.Select(x => new PeriodEndDto { PeriodCode = x.PeriodCode })
+                    Items = response.Items.Select(x => new PeriodEndDto
+                    {
+                        Period = new PeriodDto
+                        {
+                            Code = x.Period.Code,
+                            PeriodType = (PeriodType)((int)x.Period.PeriodType)
+                        },
+                        TotalValue = 12345.67m,
+                        NumberOfProviders = 23,
+                        NumberOfEmployers = 93,
+                        PaymentRunDate = new DateTime(2017, 5, 5)
+                    })
                 }
             };
         }
