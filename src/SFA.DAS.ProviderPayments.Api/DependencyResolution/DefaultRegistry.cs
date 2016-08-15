@@ -23,13 +23,15 @@ using MediatR;
 using StructureMap;
 using StructureMap.Graph;
 
-namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
-	
+namespace SFA.DAS.ProviderPayments.Api.DependencyResolution
+{
+
     public class DefaultRegistry : Registry
     {
         private const string ServiceName = "SFA.DAS.ProviderPayments";
 
-        public DefaultRegistry() {
+        public DefaultRegistry()
+        {
             Scan(
                scan =>
                {
@@ -38,15 +40,35 @@ namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
                });
 
+            RegisterAutomapper();
+            RegisterMediatr();
+            RegisterHttpPipeline();
+        }
+
+        private void RegisterAutomapper()
+        {
+            For<AutoMapper.MapperConfiguration>().Use(Infrastructure.Mapping.AutoMapperConfiguration.Configure());
+        }
+
+        private void RegisterHttpPipeline()
+        {
+            For<HttpContext>()
+                .AlwaysUnique().Use(ctx => HttpContext.Current);
+
+            For<HttpRequestMessage>()
+                .AlwaysUnique()
+                .Use(ctx => ctx.GetInstance<HttpContext>().Items["MS_HttpRequestMessage"] as HttpRequestMessage);
+
+            For<UrlHelper>()
+                .AlwaysUnique()
+                .Use(ctx => new UrlHelper(ctx.GetInstance<HttpRequestMessage>()));
+        }
+
+        private void RegisterMediatr()
+        {
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => ctx.GetInstance(t));
             For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => ctx.GetAllInstances(t));
             For<IMediator>().Use<Mediator>();
-
-            For<UrlHelper>().Transient().Use("Create UrlHelper for current request", ctx =>
-            {
-                var request = HttpContext.Current.Request;
-                return new UrlHelper(new HttpRequestMessage(new HttpMethod(request.HttpMethod), request.Url));
-            });
         }
     }
 }
