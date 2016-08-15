@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Infrastructure.Mapping;
+using SFA.DAS.ProviderPayments.Infrastructure.Mapping;
 
 namespace SFA.DAS.ProviderPayments.Infrastructure.UnitTests.Mapping.AutoMapperConfigurationTests
 {

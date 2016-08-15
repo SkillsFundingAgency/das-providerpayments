@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
-using SFA.DAS.ProdiverPayments.Application.Validation;
-using SFA.DAS.ProdiverPayments.Domain.Data;
-using SFA.DAS.ProdiverPayments.Domain.Data.Entities;
-using SFA.DAS.ProdiverPayments.Domain.Mapping;
+using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
+using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Domain.Data;
+using SFA.DAS.ProviderPayments.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
 
 namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeriodEndsQuery.GetPageOfPeriodEndsQueryHandlerTests
 {
@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
     {
         private const long ExpectedNumberOfItems = 18;
         private const int ExpectedNumberOfPages = 2;
-        private readonly ProdiverPayments.Domain.PeriodEnd ExpectedPeriodEnd1 = new ProdiverPayments.Domain.PeriodEnd
+        private readonly Domain.PeriodEnd ExpectedPeriodEnd1 = new Domain.PeriodEnd
         {
             PeriodCode = "201704"
         };
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
                 }));
 
             _mapper = new Mock<IMapper>();
-            _mapper.Setup(m => m.Map<PeriodEndEntity, ProdiverPayments.Domain.PeriodEnd>(It.IsAny<IEnumerable<PeriodEndEntity>>()))
+            _mapper.Setup(m => m.Map<PeriodEndEntity, Domain.PeriodEnd>(It.IsAny<IEnumerable<PeriodEndEntity>>()))
                 .Returns(new[]
                 {
                     ExpectedPeriodEnd1

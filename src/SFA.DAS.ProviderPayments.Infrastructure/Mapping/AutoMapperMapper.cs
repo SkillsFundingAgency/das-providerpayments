@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 
-namespace SFA.DAS.ProdiverPayments.Infrastructure.Mapping
+namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
 {
-    public class AutoMapperMapper : Domain.Mapping.IMapper
+    public class AutoMapperMapper : ProviderPayments.Domain.Mapping.IMapper
     {
         private IMapper _mapper;
 

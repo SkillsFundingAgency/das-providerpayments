@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SFA.DAS.ProdiverPayments.Application.Validation;
-using SFA.DAS.ProdiverPayments.Application.Validation.Failures;
+using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 
-namespace SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
+namespace SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
 {
     public class GetPageOfPeriodEndsQueryRequestValidator : IValidator<GetPageOfPeriodEndsQueryRequest>
     {

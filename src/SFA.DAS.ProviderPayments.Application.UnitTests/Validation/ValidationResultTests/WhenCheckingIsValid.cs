@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation;
 
 namespace SFA.DAS.ProviderPayments.Application.UnitTests.Validation.ValidationResultTests
 {

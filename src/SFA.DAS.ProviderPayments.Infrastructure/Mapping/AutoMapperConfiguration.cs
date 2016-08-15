@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using SFA.DAS.ProdiverPayments.Domain;
-using SFA.DAS.ProdiverPayments.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain;
+using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 
-namespace SFA.DAS.ProdiverPayments.Infrastructure.Mapping
+namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
 {
     public static class AutoMapperConfiguration
     {

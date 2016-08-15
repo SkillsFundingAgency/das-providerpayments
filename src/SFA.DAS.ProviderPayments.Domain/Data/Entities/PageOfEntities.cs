@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SFA.DAS.ProdiverPayments.Domain.Data.Entities
+namespace SFA.DAS.ProviderPayments.Domain.Data.Entities
 {
     public class PageOfEntities<T>
     {

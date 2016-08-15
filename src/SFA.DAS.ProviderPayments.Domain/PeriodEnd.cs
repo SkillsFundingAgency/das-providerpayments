@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProdiverPayments.Domain
+﻿namespace SFA.DAS.ProviderPayments.Domain
 {
     public class PeriodEnd
     {

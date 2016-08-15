@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
-using SFA.DAS.ProdiverPayments.Domain;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
+using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
+using SFA.DAS.ProviderPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrchestratorTests
 {

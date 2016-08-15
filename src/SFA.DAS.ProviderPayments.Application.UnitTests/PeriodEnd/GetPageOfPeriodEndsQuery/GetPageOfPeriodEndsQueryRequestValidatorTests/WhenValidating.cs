@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
-using SFA.DAS.ProdiverPayments.Application.Validation.Failures;
+using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 
 namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeriodEndsQuery.GetPageOfPeriodEndsQueryRequestValidatorTests
 {

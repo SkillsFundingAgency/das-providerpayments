@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SFA.DAS.ProdiverPayments.Domain.Data;
-using SFA.DAS.ProdiverPayments.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain.Data;
+using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 
-namespace SFA.DAS.ProdiverPayments.Infrastructure.Data.InMemory
+namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
 {
     public class InMemoryPeriodEndRepository : IPeriodEndRepository
     {

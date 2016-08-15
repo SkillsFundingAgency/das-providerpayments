@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProdiverPayments.Application.Validation.Failures
+﻿namespace SFA.DAS.ProviderPayments.Application.Validation.Failures
 {
     public class InvalidPageNumberFailure : ValidationFailure
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using SFA.DAS.ProdiverPayments.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 
-namespace SFA.DAS.ProdiverPayments.Domain.Data
+namespace SFA.DAS.ProviderPayments.Domain.Data
 {
     public interface IPeriodEndRepository
     {

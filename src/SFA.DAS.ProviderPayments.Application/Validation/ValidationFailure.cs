@@ -1,4 +1,4 @@
-namespace SFA.DAS.ProdiverPayments.Application.Validation
+namespace SFA.DAS.ProviderPayments.Application.Validation
 {
     public class ValidationFailure
     {

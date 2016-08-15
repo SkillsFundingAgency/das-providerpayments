@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SFA.DAS.ProdiverPayments.Domain.Mapping
+namespace SFA.DAS.ProviderPayments.Domain.Mapping
 {
     public interface IMapper
     {

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
+namespace SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
 {
     public class GetPageOfPeriodEndsQueryRequest : IAsyncRequest<GetPageOfPeriodEndsQueryResponse>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using SFA.DAS.ProdiverPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation;
 
-namespace SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
+namespace SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
 {
     public class GetPageOfPeriodEndsQueryResponse
     {

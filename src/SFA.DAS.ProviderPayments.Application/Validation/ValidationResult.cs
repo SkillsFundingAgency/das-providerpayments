@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SFA.DAS.ProdiverPayments.Application.Validation
+namespace SFA.DAS.ProviderPayments.Application.Validation
 {
     public class ValidationResult
     {

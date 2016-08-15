@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
-using SFA.DAS.ProdiverPayments.Application.Validation;
-using SFA.DAS.ProdiverPayments.Domain.Data;
-using SFA.DAS.ProdiverPayments.Domain.Data.Entities;
-using SFA.DAS.ProdiverPayments.Domain.Mapping;
+using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Domain.Data;
+using SFA.DAS.ProviderPayments.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
 
-namespace SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
+namespace SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery
 {
     public class GetPageOfPeriodEndsQueryHandler : IAsyncRequestHandler<GetPageOfPeriodEndsQueryRequest, GetPageOfPeriodEndsQueryResponse>
     {

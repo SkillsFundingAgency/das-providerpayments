@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SFA.DAS.ProdiverPayments.Application.Validation
+namespace SFA.DAS.ProviderPayments.Application.Validation
 {
     public interface IValidator<T>
     {

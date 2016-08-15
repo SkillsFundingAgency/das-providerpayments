@@ -4,7 +4,7 @@ using NLog;
 using StructureMap;
 using StructureMap.Pipeline;
 
-namespace SFA.DAS.ProdiverPayments.Infrastructure.DependencyResolution
+namespace SFA.DAS.ProviderPayments.Infrastructure.DependencyResolution
 {
     public class LoggingPolicy : ConfiguredInstancePolicy
     {
