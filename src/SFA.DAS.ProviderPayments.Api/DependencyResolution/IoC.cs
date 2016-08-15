@@ -16,7 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using SFA.DAS.ProdiverPayments.Infrastructure.DependencyResolution;
+using SFA.DAS.ProviderPayments.Infrastructure.DependencyResolution;
 
 namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
     using StructureMap;

@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildAndDeploy", "BuildAndD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Api.Dto", "SFA.DAS.ProviderPayments.Api.Dto\SFA.DAS.ProviderPayments.Api.Dto.csproj", "{11223929-2508-4F08-AF69-95DC52A7E9D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Application.UnitTests", "SFA.DAS.ProviderPayments.Application.UnitTests\SFA.DAS.ProviderPayments.Application.UnitTests.csproj", "{037FFF81-65BA-4ADB-9251-B08FCE3B57DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Infrastructure.UnitTests", "SFA.DAS.ProviderPayments.Infrastructure.UnitTests\SFA.DAS.ProviderPayments.Infrastructure.UnitTests.csproj", "{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,11 +63,21 @@ Global
 		{11223929-2508-4F08-AF69-95DC52A7E9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11223929-2508-4F08-AF69-95DC52A7E9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11223929-2508-4F08-AF69-95DC52A7E9D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037FFF81-65BA-4ADB-9251-B08FCE3B57DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037FFF81-65BA-4ADB-9251-B08FCE3B57DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037FFF81-65BA-4ADB-9251-B08FCE3B57DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037FFF81-65BA-4ADB-9251-B08FCE3B57DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1237EA56-954B-47ED-BC5C-CF40488243FA} = {8FDE423F-FEA5-421C-84AF-CBC312B174EB}
+		{037FFF81-65BA-4ADB-9251-B08FCE3B57DE} = {8FDE423F-FEA5-421C-84AF-CBC312B174EB}
+		{80D54B25-F6FA-4D55-BD29-0FEEDBAF3DE5} = {8FDE423F-FEA5-421C-84AF-CBC312B174EB}
 	EndGlobalSection
 EndGlobal

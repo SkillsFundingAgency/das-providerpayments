@@ -2,7 +2,7 @@
 using Microsoft.Azure;
 using NLog;
 
-namespace SFA.DAS.ProdiverPayments.Infrastructure.Logging
+namespace SFA.DAS.ProviderPayments.Infrastructure.Logging
 {
     public static class LoggingConfig
     {

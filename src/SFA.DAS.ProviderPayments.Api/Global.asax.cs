@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using SFA.DAS.ProdiverPayments.Infrastructure.Logging;
+using SFA.DAS.ProviderPayments.Infrastructure.Logging;
 
 namespace SFA.DAS.ProviderPayments.Api
 {

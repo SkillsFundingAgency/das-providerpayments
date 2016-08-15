@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using SFA.DAS.ProdiverPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Dto.Hal;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
+using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 
 namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 {

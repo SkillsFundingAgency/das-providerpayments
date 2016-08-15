@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SFA.DAS.ProdiverPayments.Infrastructure.DependencyResolution;
+using SFA.DAS.ProviderPayments.Infrastructure.DependencyResolution;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.DependencyResolution.StructureMapRegistrationTests
