@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
 
 namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
@@ -15,12 +14,12 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
 
         public TDestination Map<TSource, TDestination>(TSource source)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<TDestination>(source);
         }
 
         public IEnumerable<TDestination> Map<TSource, TDestination>(IEnumerable<TSource> source)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<TDestination[]>(source);
         }
     }
 }
