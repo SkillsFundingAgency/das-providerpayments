@@ -44,7 +44,9 @@
     <Compile Include="Data\Entities\PeriodEndEntity.cs" />
     <Compile Include="Data\IPeriodEndRepository.cs" />
     <Compile Include="Mapping\IMapper.cs" />
+    <Compile Include="Period.cs" />
     <Compile Include="PeriodEnd.cs" />
+    <Compile Include="PeriodType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

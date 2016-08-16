@@ -17,7 +17,10 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
         private const int ExpectedNumberOfPages = 2;
         private readonly Domain.PeriodEnd ExpectedPeriodEnd1 = new Domain.PeriodEnd
         {
-            PeriodCode = "201704"
+            Period = new Domain.Period
+            {
+                Code = "201704"
+            }
         };
 
         private Mock<IValidator<GetPageOfPeriodEndsQueryRequest>> _validator;
@@ -36,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
                     TotalNumberOfPages = ExpectedNumberOfPages,
                     Items = new[]
                     {
-                        new PeriodEndEntity { PeriodCode = ExpectedPeriodEnd1.PeriodCode }
+                        new PeriodEndEntity { PeriodCode = ExpectedPeriodEnd1.Period.Code }
                     }
                 }));
 
@@ -106,7 +109,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
             Assert.AreEqual(ExpectedNumberOfItems, actual.TotalNumberOfItems);
             Assert.AreEqual(ExpectedNumberOfPages, actual.TotalNumberOfPages);
             Assert.IsNotNull(actual.Items);
-            Assert.IsTrue(actual.Items.Any(x => x.PeriodCode == ExpectedPeriodEnd1.PeriodCode));
+            Assert.IsTrue(actual.Items.Any(x => x.Period.Code == ExpectedPeriodEnd1.Period.Code));
         }
     }
 }

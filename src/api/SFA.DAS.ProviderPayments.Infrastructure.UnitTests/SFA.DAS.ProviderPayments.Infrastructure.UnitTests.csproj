@@ -48,12 +48,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\AutoMapperConfigurationTests\WhenConfiguring.cs" />
+    <Compile Include="Mapping\AutoMapperMapperTests\AutoMapperMapperBaseClass.cs" />
+    <Compile Include="Mapping\AutoMapperMapperTests\TestDomainObject.cs" />
+    <Compile Include="Mapping\AutoMapperMapperTests\TestDtoObject.cs" />
+    <Compile Include="Mapping\AutoMapperMapperTests\WhenMappingEnumerableOfObjects.cs" />
+    <Compile Include="Mapping\AutoMapperMapperTests\WhenMappingSingleObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Domain\SFA.DAS.ProviderPayments.Domain.csproj">
+      <Project>{BD68C151-24FE-4396-99E8-E8ACD9B2E799}</Project>
+      <Name>SFA.DAS.ProviderPayments.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Infrastructure\SFA.DAS.ProviderPayments.Infrastructure.csproj">
       <Project>{3EB8F0F5-D35A-43F6-9644-9562BAE44056}</Project>
       <Name>SFA.DAS.ProviderPayments.Infrastructure</Name>

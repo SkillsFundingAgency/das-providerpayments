@@ -48,7 +48,9 @@
     <Compile Include="Hal\HalPage.cs" />
     <Compile Include="Hal\HalPageItems.cs" />
     <Compile Include="Hal\HalPageLinks.cs" />
+    <Compile Include="PeriodDto.cs" />
     <Compile Include="PeriodEndDto.cs" />
+    <Compile Include="PeriodType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

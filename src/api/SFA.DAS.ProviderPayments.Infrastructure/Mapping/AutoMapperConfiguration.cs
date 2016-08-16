@@ -16,7 +16,16 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
 
         private static void AddPeriodEndMappings(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<PeriodEndEntity, PeriodEnd>();
+            cfg.CreateMap<PeriodEndEntity, PeriodEnd>()
+                .ForMember(dst => dst.Period, opt => opt.Ignore())
+                .AfterMap((source, destination) =>
+                {
+                    destination.Period = new Period
+                    {
+                        Code = source.PeriodCode,
+                        PeriodType = (PeriodType)source.PeriodType
+                    };
+                });
         }
     }
 }
