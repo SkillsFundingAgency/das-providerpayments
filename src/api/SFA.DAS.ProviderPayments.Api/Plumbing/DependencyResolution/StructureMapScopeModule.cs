@@ -1,10 +1,8 @@
-namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
-    using System.Web;
+using System.Web;
+using SFA.DAS.ProviderPayments.Api.App_Start;
+using StructureMap.Web.Pipeline;
 
-    using SFA.DAS.ProviderPayments.Api.App_Start;
-
-    using StructureMap.Web.Pipeline;
-
+namespace SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution {
     public class StructureMapScopeModule : IHttpModule {
         #region Public Methods and Operators
 
