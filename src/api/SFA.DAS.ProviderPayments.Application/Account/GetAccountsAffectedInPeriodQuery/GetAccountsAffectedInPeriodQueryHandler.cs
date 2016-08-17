@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain.Data;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 using SFA.DAS.ProviderPayments.Domain.Mapping;
@@ -33,6 +34,14 @@ namespace SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeri
             }
 
             var entities = await _accountRepository.GetPageOfAccountsAffectedInPeriodAsync(message.PeriodCode, message.PageNumber);
+            if (entities == null)
+            {
+                return new GetAccountsAffectedInPeriodQueryResponse
+                {
+                    IsValid = false,
+                    ValidationFailures = new[] { new PageNotFoundFailure() }
+                };
+            }
 
             return new GetAccountsAffectedInPeriodQueryResponse
             {

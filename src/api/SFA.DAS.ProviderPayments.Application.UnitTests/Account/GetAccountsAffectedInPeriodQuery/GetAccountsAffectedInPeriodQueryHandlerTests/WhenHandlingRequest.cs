@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain.Data;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 using SFA.DAS.ProviderPayments.Domain.Mapping;
@@ -108,6 +109,25 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetAccountsAffe
             Assert.IsNotNull(actual.ValidationFailures);
             Assert.AreEqual(1, actual.ValidationFailures.Count());
             Assert.AreSame(failure, actual.ValidationFailures.First());
+        }
+
+        [Test]
+        public async Task WithAPageThatDoesNotExistThenItShouldReturnInvalidResponse()
+        {
+            // Arrange
+            _accountRepository.Setup(r => r.GetPageOfAccountsAffectedInPeriodAsync(PeriodCode, It.IsAny<int>()))
+                .Returns(Task.FromResult<PageOfEntities<AccountEntity>>(null));
+
+            // Act
+            var actual = await _handler.Handle(_request);
+
+            // Assert
+            Assert.IsFalse(actual.IsValid);
+            Assert.IsNotNull(actual.ValidationFailures);
+            Assert.AreEqual(1, actual.ValidationFailures.Count());
+
+            var actualFailure = actual.ValidationFailures.First();
+            Assert.IsInstanceOf<PageNotFoundFailure>(actualFailure);
         }
     }
 }

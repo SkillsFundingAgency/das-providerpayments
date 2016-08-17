@@ -55,6 +55,8 @@
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Failures\InvalidPeriodCodeFailure.cs" />
+    <Compile Include="Validation\Failures\PageNotFoundFailure.cs" />
+    <Compile Include="Validation\Failures\PeriodNotFoundFailure.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\Failures\InvalidPageNumberFailure.cs" />
     <Compile Include="Validation\ValidationFailure.cs" />

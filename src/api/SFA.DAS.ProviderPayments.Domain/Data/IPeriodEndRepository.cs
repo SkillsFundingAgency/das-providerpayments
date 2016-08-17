@@ -5,6 +5,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Data
 {
     public interface IPeriodEndRepository
     {
+        Task<PeriodEndEntity> GetPeriodEndAsync(string periodCode);
         Task<PageOfEntities<PeriodEndEntity>> GetPageAsync(int pageNumber);
     }
 }

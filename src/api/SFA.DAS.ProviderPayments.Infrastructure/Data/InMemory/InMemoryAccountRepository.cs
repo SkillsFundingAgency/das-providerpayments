@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using SFA.DAS.ProviderPayments.Domain.Data;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 
@@ -6,20 +9,34 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
 {
     public class InMemoryAccountRepository : IAccountRepository
     {
+        private const int PageSize = 10;
+
+        private readonly List<AccountEntity> _accounts;
+
+        public InMemoryAccountRepository()
+        {
+            _accounts = new List<AccountEntity>
+            {
+                new AccountEntity {Id = "DasAccount1"}
+            };
+        }
+
         public Task<PageOfEntities<AccountEntity>> GetPageOfAccountsAffectedInPeriodAsync(string periodCode, int pageNumber)
         {
-            return Task.FromResult(new PageOfEntities<AccountEntity>
+            var skip = (pageNumber - 1) * PageSize;
+            var items = _accounts.Skip(skip).Take(PageSize).ToArray();
+            if (items.Length == 0)
             {
-                TotalNumberOfItems = 1,
-                TotalNumberOfPages = 1,
-                Items = new[]
-                {
-                    new AccountEntity
-                    {
-                        Id = "DasAccount1"
-                    }
-                }
-            });
+                return Task.FromResult<PageOfEntities<AccountEntity>>(null);
+            }
+
+            var page = new PageOfEntities<AccountEntity>
+            {
+                Items = items,
+                TotalNumberOfItems = _accounts.Count,
+                TotalNumberOfPages = (int)Math.Ceiling(_accounts.Count / (float)PageSize)
+            };
+            return Task.FromResult(page);
         }
     }
 }

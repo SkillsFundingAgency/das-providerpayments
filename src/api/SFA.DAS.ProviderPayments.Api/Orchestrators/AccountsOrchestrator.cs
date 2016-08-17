@@ -8,6 +8,7 @@ using SFA.DAS.ProviderPayments.Api.Dto.Hal;
 using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 
 namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 {
@@ -40,6 +41,14 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                 });
                 if (!response.IsValid)
                 {
+                    if (response.ValidationFailures.Any(f => f is PeriodNotFoundFailure))
+                    {
+                        throw new PeriodNotFoundException();
+                    }
+                    if (response.ValidationFailures.Any(f => f is PageNotFoundFailure))
+                    {
+                        throw new PageNotFoundException();
+                    }
                     throw new BadRequestException(response.ValidationFailures);
                 }
 

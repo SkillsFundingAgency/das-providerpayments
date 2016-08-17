@@ -10,6 +10,7 @@ using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestratorTests
@@ -143,6 +144,44 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             // Act + Assert
             var ex = Assert.ThrowsAsync<BadRequestException>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
             Assert.AreEqual("Unit testing", ex.Message);
+        }
+
+        [Test]
+        public void WithAnPeriodThatDoesNotExistThenItShouldThrowAPeriodNotFoundException()
+        {
+            // Arrange
+            _mediator.Setup(m => m.SendAsync(It.IsAny<GetAccountsAffectedInPeriodQueryRequest>()))
+                .Returns(Task.FromResult(new GetAccountsAffectedInPeriodQueryResponse
+                {
+                    IsValid = false,
+                    ValidationFailures = new[]
+                    {
+                        new PeriodNotFoundFailure()
+                    }
+                }));
+
+            // Act + Assert
+            var ex = Assert.ThrowsAsync<PeriodNotFoundException>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
+            Assert.AreEqual("The period requested does not exist", ex.Message);
+        }
+
+        [Test]
+        public void WithAnPageThatDoesNotExistThenItShouldThrowAPageNotFoundException()
+        {
+            // Arrange
+            _mediator.Setup(m => m.SendAsync(It.IsAny<GetAccountsAffectedInPeriodQueryRequest>()))
+                .Returns(Task.FromResult(new GetAccountsAffectedInPeriodQueryResponse
+                {
+                    IsValid = false,
+                    ValidationFailures = new[]
+                    {
+                        new PageNotFoundFailure()
+                    }
+                }));
+
+            // Act + Assert
+            var ex = Assert.ThrowsAsync<PageNotFoundException>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
+            Assert.AreEqual("The page requested does not exist", ex.Message);
         }
     }
 }

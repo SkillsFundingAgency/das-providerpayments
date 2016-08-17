@@ -3,12 +3,20 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
+using SFA.DAS.ProviderPayments.Domain.Data;
 
 namespace SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery
 {
     public class GetAccountsAffectedInPeriodQueryRequestValidator : IValidator<GetAccountsAffectedInPeriodQueryRequest>
     {
-        public Task<ValidationResult> ValidateAsync(GetAccountsAffectedInPeriodQueryRequest item)
+        private readonly IPeriodEndRepository _periodEndRepository;
+
+        public GetAccountsAffectedInPeriodQueryRequestValidator(IPeriodEndRepository periodEndRepository)
+        {
+            _periodEndRepository = periodEndRepository;
+        }
+
+        public async Task<ValidationResult> ValidateAsync(GetAccountsAffectedInPeriodQueryRequest item)
         {
             var failures = new List<ValidationFailure>();
 
@@ -16,15 +24,24 @@ namespace SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeri
             {
                 failures.Add(new InvalidPeriodCodeFailure());
             }
+            else
+            {
+                var period = await _periodEndRepository.GetPeriodEndAsync(item.PeriodCode);
+                if (period == null)
+                {
+                    failures.Add(new PeriodNotFoundFailure());
+                }
+            }
+
             if (!ValidatePageNumber(item.PageNumber))
             {
                 failures.Add(new InvalidPageNumberFailure());
             }
 
-            return Task.FromResult(new ValidationResult
+            return new ValidationResult
             {
                 Failures = failures
-            });
+            };
         }
 
         private bool ValidatePeriodCode(string periodCode)
