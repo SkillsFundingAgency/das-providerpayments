@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
 
             // Assert
             Assert.AreEqual(1, actual.Count);
-            Assert.AreEqual("201704", actual.PageItems.Items.ElementAt(0).Period.Code);
+            Assert.AreEqual("201704", actual.Content.Items.ElementAt(0).Period.Code);
         }
 
         [TestCase(1, 1, null, null, "/1", "/1")]

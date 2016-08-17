@@ -3,5 +3,8 @@
     public interface ILinkBuilder
     {
         string GetPeriodEndNotificationPageLink(int pageNumber);
+
+        string GetPeriodEndAccountsPageLink(int pageNumber);
+        string GetAccountPaymentsLink(string periodCode, string accountId);
     }
 }

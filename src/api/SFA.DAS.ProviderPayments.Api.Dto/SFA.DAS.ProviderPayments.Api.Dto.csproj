@@ -44,10 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountDto.cs" />
     <Compile Include="Hal\HalLink.cs" />
+    <Compile Include="Hal\HalLinks.cs" />
     <Compile Include="Hal\HalPage.cs" />
     <Compile Include="Hal\HalPageItems.cs" />
     <Compile Include="Hal\HalPageLinks.cs" />
+    <Compile Include="Hal\HalResource.cs" />
+    <Compile Include="PaymentEntityLinks.cs" />
     <Compile Include="PeriodDto.cs" />
     <Compile Include="PeriodEndDto.cs" />
     <Compile Include="PeriodType.cs" />

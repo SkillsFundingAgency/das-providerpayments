@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequest.cs" />
+    <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryResponse.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandler.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequest.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidator.cs" />
