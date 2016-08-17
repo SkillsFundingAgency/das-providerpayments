@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using NLog;
 using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Dto.Hal;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
@@ -13,11 +14,13 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
     {
         private readonly IMediator _mediator;
         private readonly ILinkBuilder _linkBuilder;
+        private readonly ILogger _logger;
 
-        public AccountsOrchestrator(IMediator mediator, ILinkBuilder linkBuilder)
+        public AccountsOrchestrator(IMediator mediator, ILinkBuilder linkBuilder, ILogger logger)
         {
             _mediator = mediator;
             _linkBuilder = linkBuilder;
+            _logger = logger;
         }
 
         protected AccountsOrchestrator()
@@ -27,31 +30,46 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 
         public virtual async Task<HalPage<AccountDto>> GetPageOfAccountsAffectedInPeriod(string periodCode, int pageNumber)
         {
-            var response = await _mediator.SendAsync(new GetAccountsAffectedInPeriodQueryRequest { PeriodCode = periodCode, PageNumber = pageNumber });
-
-            return new HalPage<AccountDto>
+            try
             {
-                Links = new HalPageLinks
-                {
-                    Next = GetPageLink(pageNumber + 1, response.TotalNumberOfPages),
-                    Prev = GetPageLink(pageNumber - 1, response.TotalNumberOfPages),
-                    First = GetPageLink(1, response.TotalNumberOfPages),
-                    Last = GetPageLink(response.TotalNumberOfPages, response.TotalNumberOfPages),
-                },
-                Count = response.TotalNumberOfItems,
-                Content = new HalPageItems<AccountDto>
-                {
-                    Items = response.Items.Select(x=>
-                    new AccountDto
-                    {
-                        Id = x.Id,
-                        Links = new PaymentEntityLinks
+                var response =
+                    await
+                        _mediator.SendAsync(new GetAccountsAffectedInPeriodQueryRequest
                         {
-                            Payments = new HalLink { Href = _linkBuilder.GetAccountPaymentsLink(periodCode, x.Id) }
-                        }
-                    })
-                }
-            };
+                            PeriodCode = periodCode,
+                            PageNumber = pageNumber
+                        });
+
+                return new HalPage<AccountDto>
+                {
+                    Links = new HalPageLinks
+                    {
+                        Next = GetPageLink(pageNumber + 1, response.TotalNumberOfPages),
+                        Prev = GetPageLink(pageNumber - 1, response.TotalNumberOfPages),
+                        First = GetPageLink(1, response.TotalNumberOfPages),
+                        Last = GetPageLink(response.TotalNumberOfPages, response.TotalNumberOfPages),
+                    },
+                    Count = response.TotalNumberOfItems,
+                    Content = new HalPageItems<AccountDto>
+                    {
+                        Items = response.Items.Select(x =>
+                            new AccountDto
+                            {
+                                Id = x.Id,
+                                Links = new PaymentEntityLinks
+                                {
+                                    Payments =
+                                        new HalLink {Href = _linkBuilder.GetAccountPaymentsLink(periodCode, x.Id)}
+                                }
+                            })
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, ex.Message);
+                throw;
+            }
         }
 
         private HalLink GetPageLink(int pageNumber, int numberOfPages)

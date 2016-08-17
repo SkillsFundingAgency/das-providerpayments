@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
+using NLog;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
@@ -19,6 +21,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
         private Account _account;
         private Mock<IMediator> _mediator;
         private Mock<ILinkBuilder> _linkBuilder;
+        private Mock<ILogger> _logger;
         private AccountsOrchestrator _orchestrator;
 
         [SetUp]
@@ -47,7 +50,9 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             _linkBuilder.Setup(b => b.GetAccountPaymentsLink(PeriodCode, AccountId))
                 .Returns(AccountPaymentsLink);
 
-            _orchestrator = new AccountsOrchestrator(_mediator.Object, _linkBuilder.Object);
+            _logger = new Mock<ILogger>();
+
+            _orchestrator = new AccountsOrchestrator(_mediator.Object, _linkBuilder.Object, _logger.Object);
         }
 
         [Test]
@@ -103,6 +108,18 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             Assert.AreEqual(expectedLastLink, actual.Links.Last?.Href);
         }
 
-        
+        [Test]
+        public void AndAnExceptionIsThrownThenItShouldLogErrorAndThrowException()
+        {
+            // Arrange
+            var actualException = new Exception("Unit test");
+            _mediator.Setup(m => m.SendAsync(It.IsAny<GetAccountsAffectedInPeriodQueryRequest>()))
+                .Throws(actualException);
+
+            // Act + assert
+            var ex = Assert.ThrowsAsync<Exception>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
+            Assert.AreEqual(actualException.Message, ex.Message);
+            _logger.Verify(l => l.Error(actualException, actualException.Message), Times.Once);
+        }
     }
 }
