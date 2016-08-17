@@ -34,6 +34,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CS.Common.External">
+      <HintPath>..\Lib\CS.Common.External.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.5.21.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.21\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -46,6 +49,10 @@
       <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,12 +63,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Context\ContextWrapper\Constructor\WhenCalledWithInvalidContext.cs" />
+    <Compile Include="Context\ContextWrapper\Constructor\WhenCalledWithValidContext.cs" />
+    <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForKnownProperty.cs" />
+    <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForNullOrEmptyProperty.cs" />
+    <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForUnknownProperty.cs" />
+    <Compile Include="Common\ExternalContext.cs" />
+    <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
+    <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
+    <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
+    <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />
+    <Compile Include="Logging\LoggingConfig\ConfigureLogging\WhenCalled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calculator.LevyPayments\SFA.DAS.ProviderPayments.Calculator.LevyPayments.csproj">
+      <Project>{ca3748b0-c749-444a-bc59-1f03a10436c7}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calculator.LevyPayments</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

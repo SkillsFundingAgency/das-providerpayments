@@ -1,17 +1,15 @@
 ﻿using CS.Common.External.Interfaces;
 using NLog;
-using SFA.DAS.ProviderPayments.Calculator.Domain.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calculator.Infrastructure.DcContext;
-using SFA.DAS.ProviderPayments.Calculator.Infrastructure.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calculator.Infrastructure.Logging;
-using System;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Context;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Exceptions;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Logging;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
 {
     public class LevyPaymentsTask : IExternalTask
     {
         private readonly IDependencyResolver _dependencyResolver;
-        private DcContextWrapper _contextWrapper;
 
         public LevyPaymentsTask()
         {
@@ -26,13 +24,14 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
         public void Execute(IExternalContext context)
         {
             _dependencyResolver.Init(typeof(LevyPaymentsProcessor));
-            _contextWrapper = new DcContextWrapper(context);
 
-            ValidateContext(_contextWrapper);
+            var contextWrapper = new ContextWrapper(context);
+
+            ValidateContext(contextWrapper);
 
             LoggingConfig.ConfigureLogging(
-                _contextWrapper.GetPropertyValue(DcContextPropertyKeys.TransientDatabaseConnectionString),
-                _contextWrapper.GetPropertyValue(DcContextPropertyKeys.LogLevel)
+                contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString),
+                contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)
             );
 
             var logger = _dependencyResolver.GetInstance<ILogger>();
@@ -42,16 +41,16 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
             processor.Process();
         }
 
-        private void ValidateContext(DcContextWrapper contextWrapper)
+        private void ValidateContext(ContextWrapper contextWrapper)
         {
-            if (contextWrapper.GetPropertyValue(DcContextPropertyKeys.TransientDatabaseConnectionString) == null)
+            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString)))
             {
-                throw new ArgumentNullException(DcContextPropertyKeys.TransientDatabaseConnectionString);
+                throw new LevyPaymentsInvalidContextException(LevyPaymentsExceptionMessages.ContextPropertiesNoConnectionString);
             }
 
-            if (contextWrapper.GetPropertyValue(DcContextPropertyKeys.LogLevel) == null)
+            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)))
             {
-                throw new ArgumentNullException(DcContextPropertyKeys.LogLevel);
+                throw new LevyPaymentsInvalidContextException(LevyPaymentsExceptionMessages.ContextPropertiesNoLogLevel);
             }
         }
     }
