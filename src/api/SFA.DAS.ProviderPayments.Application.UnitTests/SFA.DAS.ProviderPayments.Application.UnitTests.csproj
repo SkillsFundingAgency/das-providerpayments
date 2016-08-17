@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryHandlerTests\WhenHandlingRequest.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandlerTests\WhenHandling.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidatorTests\WhenValidating.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

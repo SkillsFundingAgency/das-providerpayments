@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeri
     public class GetAccountsAffectedInPeriodQueryResponse
     {
         public int TotalNumberOfPages { get; set; }
-        public int TotalNumberOfItems { get; set; }
+        public long TotalNumberOfItems { get; set; }
         public IEnumerable<Domain.Account> Items { get; set; }
 
         public bool IsValid { get; set; }
