@@ -11,6 +11,7 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
             return new MapperConfiguration(cfg =>
             {
                 AddPeriodEndMappings(cfg);
+                AddAccountMappings(cfg);
             });
         }
 
@@ -26,6 +27,10 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
                         PeriodType = (PeriodType)source.PeriodType
                     };
                 });
+        }
+        private static void AddAccountMappings(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<AccountEntity, Account>();
         }
     }
 }
