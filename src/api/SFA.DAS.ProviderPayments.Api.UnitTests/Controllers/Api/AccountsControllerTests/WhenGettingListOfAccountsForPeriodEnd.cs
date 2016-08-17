@@ -15,11 +15,11 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
 {
     public class WhenGettingListOfAccountsForPeriodEnd
     {
-        private const string PeriodKey = "201704";
+        private const string PeriodCode = "201704";
         private static readonly IEnumerable<string[]> BadRequestFailureMessageCases = new[]
         {
-            new[] {"Invalid PeriodKey"},
-            new[] {"Invalid PeriodKey", "Invalid Page Number"}
+            new[] {"Invalid PeriodCode"},
+            new[] { "Invalid PeriodCode", "Invalid Page Number"}
         };
 
         private AccountsController _controller;
@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public void Arrange()
         {
             _orchestrator = new Mock<AccountsOrchestrator>();
-            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodKey, 1))
+            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1))
                 .Returns(Task.FromResult(new HalPage<AccountDto>
                 {
                     Count = 17,
@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task ThenItShouldReturnOkResultContainingAHalPageOfAccounts()
         {
             // Act
-            var actual = await _controller.Get(PeriodKey);
+            var actual = await _controller.Get(PeriodCode);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -76,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task ThenThePageShouldHaveTheCorrectCount()
         {
             // Act
-            var actual = (await _controller.Get(PeriodKey)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
+            var actual = (await _controller.Get(PeriodCode)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
 
             // Assert
             Assert.AreEqual(17, actual.Content.Count);
@@ -86,7 +86,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task ThenThePageShouldHaveTheCorrectContent()
         {
             // Act
-            var actual = (await _controller.Get(PeriodKey)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
+            var actual = (await _controller.Get(PeriodCode)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
 
             // Assert
             Assert.IsNotNull(actual.Content.Content);
@@ -104,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task ThenThePageShouldHaveTheCorrectLinks()
         {
             // Act
-            var actual = (await _controller.Get(PeriodKey)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
+            var actual = (await _controller.Get(PeriodCode)) as OkNegotiatedContentResult<HalPage<AccountDto>>;
 
             // Assert
             Assert.IsNotNull(actual.Content.Links);
@@ -119,11 +119,11 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task AndABadRequestExceptionIsThrowThenItShouldReturnABadRequestResultWithErrorMessage(string[] failureMessages)
         {
             // Arrange
-            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodKey, 1))
+            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1))
                 .Throws(new BadRequestException(failureMessages.Select(m => new ValidationFailure { Description = m })));
 
             // Act
-            var actual = await _controller.Get(PeriodKey);
+            var actual = await _controller.Get(PeriodCode);
 
             // Assert
             var expectedMessage = failureMessages.Aggregate((x, y) => $"{x}\n{y}");
@@ -136,11 +136,11 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task AndAPageNotFoundExceptionIsThrowThenItShouldReturnANotFoundResult()
         {
             // Arrange
-            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodKey, 1))
+            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1))
                 .Throws(new PageNotFoundException());
 
             // Act
-            var actual = await _controller.Get(PeriodKey);
+            var actual = await _controller.Get(PeriodCode);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -151,11 +151,11 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task AndAPeriodNotFoundExceptionIsThrowThenItShouldReturnANotFoundResult()
         {
             // Arrange
-            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodKey, 1))
+            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1))
                 .Throws(new PeriodNotFoundException());
 
             // Act
-            var actual = await _controller.Get(PeriodKey);
+            var actual = await _controller.Get(PeriodCode);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -166,11 +166,11 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Controllers.Api.AccountsControl
         public async Task AndAUnhandledExceptionIsThrowThenItShouldReturnAInternalServerErrorResult()
         {
             // Arrange
-            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodKey, 1))
+            _orchestrator.Setup(o => o.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1))
                 .Throws(new System.Exception());
 
             // Act
-            var actual = await _controller.Get(PeriodKey);
+            var actual = await _controller.Get(PeriodCode);
 
             // Assert
             Assert.IsNotNull(actual);

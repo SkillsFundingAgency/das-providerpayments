@@ -6,6 +6,7 @@ namespace SFA.DAS.ProviderPayments.Api.Plumbing.WebApi
     {
         private const string NotificationRouteName = "NotificationsApi";
         private const string AccountListRouteName = "AccountListApi";
+        private const string AccountPaymentRouteName = "AccountPaymentsApi";
 
         private readonly UrlHelper _urlHelper;
 
@@ -26,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Api.Plumbing.WebApi
         }
         public string GetAccountPaymentsLink(string periodCode, string accountId)
         {
-            return $"{periodCode}/{accountId}";
+            return _urlHelper.Link(AccountPaymentRouteName, new { periodCode, accountId });
         }
     }
 }

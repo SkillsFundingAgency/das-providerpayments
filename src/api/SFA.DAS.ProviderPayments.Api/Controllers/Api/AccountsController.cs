@@ -17,11 +17,11 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(string periodKey, int pageNumber = 1)
+        public async Task<IHttpActionResult> Get(string periodCode, int pageNumber = 1)
         {
             try
             {
-                var page = await _accountsOrchestrator.GetPageOfAccountsAffectedInPeriod(periodKey, pageNumber);
+                var page = await _accountsOrchestrator.GetPageOfAccountsAffectedInPeriod(periodCode, pageNumber);
                 return Ok(page);
             }
             catch (BadRequestException ex)
