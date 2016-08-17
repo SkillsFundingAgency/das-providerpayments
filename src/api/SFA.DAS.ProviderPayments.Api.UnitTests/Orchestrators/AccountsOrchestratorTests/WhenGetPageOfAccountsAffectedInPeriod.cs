@@ -6,8 +6,10 @@ using Moq;
 using NLog;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
+using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
+using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestratorTests
@@ -36,6 +38,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             _mediator.Setup(m => m.SendAsync(It.Is<GetAccountsAffectedInPeriodQueryRequest>(r => r.PeriodCode == PeriodCode && r.PageNumber == 1)))
                 .Returns(Task.FromResult(new GetAccountsAffectedInPeriodQueryResponse
                 {
+                    IsValid = true,
                     TotalNumberOfItems = 1,
                     TotalNumberOfPages = 1,
                     Items = new[]
@@ -90,6 +93,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             _mediator.Setup(m => m.SendAsync(It.Is<GetAccountsAffectedInPeriodQueryRequest>(r => r.PeriodCode == PeriodCode && r.PageNumber == pageNumber)))
                 .Returns(Task.FromResult(new GetAccountsAffectedInPeriodQueryResponse
                 {
+                    IsValid = true,
                     TotalNumberOfItems = 1,
                     TotalNumberOfPages = totalNumberOfPages,
                     Items = new[]
@@ -120,6 +124,25 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             var ex = Assert.ThrowsAsync<Exception>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
             Assert.AreEqual(actualException.Message, ex.Message);
             _logger.Verify(l => l.Error(actualException, actualException.Message), Times.Once);
+        }
+
+        [Test]
+        public void WithAnInvalidRequestThenItShouldThrowABadRequestException()
+        {
+            // Arrange
+            _mediator.Setup(m => m.SendAsync(It.IsAny<GetAccountsAffectedInPeriodQueryRequest>()))
+                .Returns(Task.FromResult(new GetAccountsAffectedInPeriodQueryResponse
+                {
+                    IsValid = false,
+                    ValidationFailures = new[]
+                    {
+                        new ValidationFailure { Code = "TEST", Description = "Unit testing" }
+                    }
+                }));
+
+            // Act + Assert
+            var ex = Assert.ThrowsAsync<BadRequestException>(async () => await _orchestrator.GetPageOfAccountsAffectedInPeriod(PeriodCode, 1));
+            Assert.AreEqual("Unit testing", ex.Message);
         }
     }
 }

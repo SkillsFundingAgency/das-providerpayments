@@ -36,6 +36,7 @@ namespace SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeri
 
             return new GetAccountsAffectedInPeriodQueryResponse
             {
+                IsValid = true,
                 TotalNumberOfItems = entities.TotalNumberOfItems,
                 TotalNumberOfPages = entities.TotalNumberOfPages,
                 Items = _mapper.Map<AccountEntity, Domain.Account>(entities.Items)

@@ -78,6 +78,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetAccountsAffe
             var actual = await _handler.Handle(_request);
 
             // Assert
+            Assert.IsTrue(actual.IsValid);
             Assert.AreEqual(5, actual.TotalNumberOfItems);
             Assert.AreEqual(3, actual.TotalNumberOfPages);
             Assert.IsNotNull(actual.Items);

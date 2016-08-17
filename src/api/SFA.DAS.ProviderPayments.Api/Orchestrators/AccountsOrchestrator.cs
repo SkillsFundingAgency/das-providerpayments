@@ -5,6 +5,7 @@ using MediatR;
 using NLog;
 using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Dto.Hal;
+using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 
@@ -25,20 +26,22 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 
         protected AccountsOrchestrator()
         {
-            
+
         }
 
         public virtual async Task<HalPage<AccountDto>> GetPageOfAccountsAffectedInPeriod(string periodCode, int pageNumber)
         {
             try
             {
-                var response =
-                    await
-                        _mediator.SendAsync(new GetAccountsAffectedInPeriodQueryRequest
-                        {
-                            PeriodCode = periodCode,
-                            PageNumber = pageNumber
-                        });
+                var response = await _mediator.SendAsync(new GetAccountsAffectedInPeriodQueryRequest
+                {
+                    PeriodCode = periodCode,
+                    PageNumber = pageNumber
+                });
+                if (!response.IsValid)
+                {
+                    throw new BadRequestException(response.ValidationFailures);
+                }
 
                 return new HalPage<AccountDto>
                 {
@@ -59,13 +62,13 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                                 Links = new PaymentEntityLinks
                                 {
                                     Payments =
-                                        new HalLink {Href = _linkBuilder.GetAccountPaymentsLink(periodCode, x.Id)}
+                                        new HalLink { Href = _linkBuilder.GetAccountPaymentsLink(periodCode, x.Id) }
                                 }
                             })
                     }
                 };
             }
-            catch (Exception ex)
+            catch (Exception ex) when (!(ex is BadRequestException))
             {
                 _logger.Error(ex, ex.Message);
                 throw;
