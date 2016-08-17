@@ -47,12 +47,14 @@
   <ItemGroup>
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryHandler.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequest.cs" />
+    <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequestValidator.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryResponse.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandler.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequest.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidator.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Failures\InvalidPeriodCodeFailure.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\Failures\InvalidPageNumberFailure.cs" />
     <Compile Include="Validation\ValidationFailure.cs" />
