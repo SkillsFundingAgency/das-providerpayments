@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Exceptions;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Common;
 
-namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Context.ContextWrapper.Constructor
+namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Context.ContextWrapper.ContextWrapper
 {
     public class WhenCalledWithInvalidContext
     {
@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Context.Con
         public void ThenExpectingExceptionForNoContextPropertiesProvided(IDictionary<string, string> properties)
         {
             // Arrange
-            var context = new ExternalContext { Properties = properties };
+            var context = new ExternalContextStub { Properties = properties };
 
             // Assert
             // ReSharper disable once ObjectCreationAsStatement

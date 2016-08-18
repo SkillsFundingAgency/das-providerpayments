@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Context.Con
         [SetUp]
         public void Arrange()
         {
-            var context = new ExternalContext
+            var context = new ExternalContextStub
             {
                 Properties = new Dictionary<string, string>
                 {

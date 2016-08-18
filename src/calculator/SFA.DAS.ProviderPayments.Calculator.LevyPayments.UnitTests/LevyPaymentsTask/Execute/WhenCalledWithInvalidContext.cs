@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
         [SetUp]
         public void Arrange()
         {
-            _context = new ExternalContext();
+            _context = new ExternalContextStub();
             _logger = new Mock<ILogger>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();

@@ -63,12 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\ContextWrapper\Constructor\WhenCalledWithInvalidContext.cs" />
-    <Compile Include="Context\ContextWrapper\Constructor\WhenCalledWithValidContext.cs" />
+    <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithInvalidContext.cs" />
+    <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithValidContext.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForKnownProperty.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForNullOrEmptyProperty.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForUnknownProperty.cs" />
-    <Compile Include="Common\ExternalContext.cs" />
+    <Compile Include="Common\ExternalContextStub.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
