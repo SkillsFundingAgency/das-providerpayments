@@ -16,9 +16,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using SFA.DAS.ProviderPayments.Api.App_Start;
-using SFA.DAS.ProviderPayments.Api.DependencyResolution;
 using StructureMap;
 using System.Web.Mvc;
+using SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]

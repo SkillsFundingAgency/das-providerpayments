@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="Data\Entities\AccountEntity.cs" />
     <Compile Include="Data\Entities\PageOfEntities.cs" />
     <Compile Include="Data\Entities\PeriodEndEntity.cs" />
+    <Compile Include="Data\IAccountRepository.cs" />
     <Compile Include="Data\IPeriodEndRepository.cs" />
     <Compile Include="Mapping\IMapper.cs" />
     <Compile Include="Period.cs" />

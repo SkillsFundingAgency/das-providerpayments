@@ -16,7 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Web.Http;
-using SFA.DAS.ProviderPayments.Api.DependencyResolution;
+using SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(SFA.DAS.ProviderPayments.Api.App_Start.StructuremapWebApi), "Start")]
 

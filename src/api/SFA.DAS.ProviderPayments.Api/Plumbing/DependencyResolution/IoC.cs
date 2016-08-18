@@ -17,10 +17,9 @@
 
 
 using SFA.DAS.ProviderPayments.Infrastructure.DependencyResolution;
+using StructureMap;
 
-namespace SFA.DAS.ProviderPayments.Api.DependencyResolution {
-    using StructureMap;
-	
+namespace SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution {
     public static class IoC {
         public static IContainer Initialize() {
             return new Container(c =>
