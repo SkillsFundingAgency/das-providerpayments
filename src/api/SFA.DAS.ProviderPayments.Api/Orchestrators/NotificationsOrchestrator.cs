@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                     Last = GetPageLink(response.TotalNumberOfPages, response.TotalNumberOfPages),
                 },
                 Count = response.TotalNumberOfItems,
-                PageItems = new HalPageItems<PeriodEndDto>
+                Content = new HalPageItems<PeriodEndDto>
                 {
                     Items = response.Items.Select(x => new PeriodEndDto
                     {

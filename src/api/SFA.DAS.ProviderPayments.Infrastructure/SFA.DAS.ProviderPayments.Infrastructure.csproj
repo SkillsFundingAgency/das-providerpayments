@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\InMemory\InMemoryAccountRepository.cs" />
     <Compile Include="Data\InMemory\InMemoryPeriodEndRepository.cs" />
     <Compile Include="DependencyResolution\LoggingPolicy.cs" />
     <Compile Include="Logging\LoggingConfig.cs" />

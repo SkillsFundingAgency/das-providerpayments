@@ -21,6 +21,12 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
             };
         }
 
+        public Task<PeriodEndEntity> GetPeriodEndAsync(string periodCode)
+        {
+            var period = _periodEnds.SingleOrDefault(p => p.PeriodCode == periodCode);
+
+            return Task.FromResult(period);
+        }
         public Task<PageOfEntities<PeriodEndEntity>> GetPageAsync(int pageNumber)
         {
             var skip = (pageNumber - 1) * PageSize;

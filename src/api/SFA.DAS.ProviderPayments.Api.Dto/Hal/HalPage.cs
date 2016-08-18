@@ -10,6 +10,6 @@ namespace SFA.DAS.ProviderPayments.Api.Dto.Hal
         public long Count { get; set; }
 
         [JsonProperty("_embedded")]
-        public HalPageItems<T> PageItems { get; set; }
+        public HalPageItems<T> Content { get; set; }
     }
 }

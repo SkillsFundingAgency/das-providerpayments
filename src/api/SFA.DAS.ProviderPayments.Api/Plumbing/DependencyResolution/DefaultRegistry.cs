@@ -15,7 +15,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http.Routing;
@@ -23,7 +22,7 @@ using MediatR;
 using StructureMap;
 using StructureMap.Graph;
 
-namespace SFA.DAS.ProviderPayments.Api.DependencyResolution
+namespace SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution
 {
 
     public class DefaultRegistry : Registry

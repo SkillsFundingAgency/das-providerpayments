@@ -1,6 +1,6 @@
 ﻿namespace SFA.DAS.ProviderPayments.Api.Dto.Hal
 {
-    public class HalPageLinks
+    public class HalPageLinks : HalLinks
     {
         public HalLink Next { get; set; }
         public HalLink Prev { get; set; }

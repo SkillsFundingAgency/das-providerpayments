@@ -18,7 +18,7 @@
 using System.Web.Http.Dependencies;
 using StructureMap;
 
-namespace SFA.DAS.ProviderPayments.Api.DependencyResolution
+namespace SFA.DAS.ProviderPayments.Api.Plumbing.DependencyResolution
 {
     /// <summary>
     /// The structure map dependency resolver.
