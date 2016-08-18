@@ -45,17 +45,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDto.cs" />
+    <Compile Include="ApprenticeshipDto.cs" />
+    <Compile Include="CourseDto.cs" />
+    <Compile Include="FundingType.cs" />
     <Compile Include="Hal\HalLink.cs" />
     <Compile Include="Hal\HalLinks.cs" />
     <Compile Include="Hal\HalPage.cs" />
     <Compile Include="Hal\HalPageItems.cs" />
     <Compile Include="Hal\HalPageLinks.cs" />
     <Compile Include="Hal\HalResource.cs" />
+    <Compile Include="LearnerDto.cs" />
+    <Compile Include="PaymentDto.cs" />
     <Compile Include="PaymentEntityLinks.cs" />
     <Compile Include="PeriodDto.cs" />
     <Compile Include="PeriodEndDto.cs" />
     <Compile Include="PeriodType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderDto.cs" />
+    <Compile Include="TransactionType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

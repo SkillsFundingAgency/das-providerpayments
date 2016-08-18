@@ -36,5 +36,13 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
                 return InternalServerError();
             }
         }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> GetPayments(string periodCode, string accountId, int pageNumber = 1)
+        {
+            var temp = await Task.FromResult<object>(null);
+
+            return null;
+        }
     }
 }
