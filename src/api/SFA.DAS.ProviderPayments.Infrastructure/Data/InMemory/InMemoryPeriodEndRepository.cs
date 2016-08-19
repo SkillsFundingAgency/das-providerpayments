@@ -31,6 +31,11 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
         {
             var skip = (pageNumber - 1) * PageSize;
             var items = _periodEnds.Skip(skip).Take(PageSize).ToArray();
+            if (items.Length == 0)
+            {
+                return Task.FromResult<PageOfEntities<PeriodEndEntity>>(null);
+            }
+
             var page = new PageOfEntities<PeriodEndEntity>
             {
                 Items = items,

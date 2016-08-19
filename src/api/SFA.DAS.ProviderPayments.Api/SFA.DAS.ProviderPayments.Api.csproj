@@ -198,6 +198,7 @@
     <Compile Include="Orchestrators\NotificationsOrchestrator.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\AccountNotFoundException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\BadRequestException.cs" />
+    <Compile Include="Orchestrators\OrchestratorExceptions\NotFoundException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\PageNotFoundException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\PeriodNotFoundException.cs" />
     <Compile Include="Plumbing\DependencyResolution\DefaultRegistry.cs" />
