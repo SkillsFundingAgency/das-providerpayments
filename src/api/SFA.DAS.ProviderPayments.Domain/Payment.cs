@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SFA.DAS.ProviderPayments.Domain
+﻿namespace SFA.DAS.ProviderPayments.Domain
 {
     public class Payment
     {
@@ -16,11 +10,5 @@ namespace SFA.DAS.ProviderPayments.Domain
         public decimal Amount { get; set; }
         public TransactionType TransactionType { get; set; }
         public FundingType FundingType { get; set; }
-    }
-
-    public class Apprenticeship
-    {
-        public Learner Learner { get; set; }
-        public Course Course { get; set; }
     }
 }

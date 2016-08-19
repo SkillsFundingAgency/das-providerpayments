@@ -12,6 +12,7 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
             {
                 AddPeriodEndMappings(cfg);
                 AddAccountMappings(cfg);
+                AddPaymentMappings(cfg);
             });
         }
 
@@ -31,6 +32,50 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
         private static void AddAccountMappings(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<AccountEntity, Account>();
+        }
+        private static void AddPaymentMappings(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<PaymentEntity, Payment>()
+                .ForMember(dst => dst.Account, opt => opt.Ignore())
+                .ForMember(dst => dst.Provider, opt => opt.Ignore())
+                .ForMember(dst => dst.Apprenticeship, opt => opt.Ignore())
+                .ForMember(dst => dst.ReportedPeriod, opt => opt.Ignore())
+                .ForMember(dst => dst.DeliveryPeriod, opt => opt.Ignore())
+                .AfterMap((source, destination) =>
+                {
+                    destination.Account = new Account
+                    {
+                        Id = source.AccountId
+                    };
+                    destination.Provider = new Provider
+                    {
+                        Ukprn = source.Ukprn
+                    };
+                    destination.Apprenticeship = new Apprenticeship
+                    {
+                        Learner = new Learner
+                        {
+                            Uln = source.Uln
+                        },
+                        Course = new Course
+                        {
+                            StandardCode = source.StandardCode,
+                            PathwayCode = source.PathwayCode,
+                            FrameworkCode = source.FrameworkCode,
+                            ProgrammeType = source.ProgrammeType
+                        }
+                    };
+                    destination.ReportedPeriod = new Period
+                    {
+                        Code = source.ReportedPeriodCode,
+                        PeriodType = PeriodType.CalendarMonth
+                    };
+                    destination.DeliveryPeriod = new Period
+                    {
+                        Code = source.DeliveryPeriodCode,
+                        PeriodType = PeriodType.CalendarMonth
+                    };
+                });
         }
     }
 }
