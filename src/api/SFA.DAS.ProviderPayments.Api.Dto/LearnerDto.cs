@@ -2,6 +2,6 @@
 {
     public class LearnerDto
     {
-        public string Uln { get; set; }
+        public long Uln { get; set; }
     }
 }

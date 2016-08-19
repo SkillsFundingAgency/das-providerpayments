@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\Failures\AccountNotFoundFailure.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryHandler.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequest.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequestValidator.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryRequest.cs" />
     <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryRequestValidator.cs" />
     <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryResponse.cs" />
+    <Compile Include="Account\Rules\AccountIdValidationRule.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandler.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequest.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidator.cs" />

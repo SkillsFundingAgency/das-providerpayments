@@ -58,7 +58,9 @@
   <ItemGroup>
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryHandlerTests\WhenHandlingRequest.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequestValidatorTests\WhenValidating.cs" />
+    <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryHandlerTests\WhenHandling.cs" />
     <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryRequestValidatorTests\WhenValidating.cs" />
+    <Compile Include="Account\Rules\AccountIdValidationRuleTests\WhenValidating.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandlerTests\WhenHandling.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidatorTests\WhenValidating.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

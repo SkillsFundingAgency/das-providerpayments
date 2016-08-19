@@ -32,6 +32,12 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
             };
         }
 
+        public Task<AccountEntity> GetAccountAsync(string accountId)
+        {
+            var account = _accounts.SingleOrDefault(a => a.Id.Equals(accountId, StringComparison.OrdinalIgnoreCase));
+            return Task.FromResult(account);
+        }
+
         public Task<PageOfEntities<AccountEntity>> GetPageOfAccountsAffectedInPeriodAsync(string periodCode, int pageNumber)
         {
             var skip = (pageNumber - 1) * PageSize;

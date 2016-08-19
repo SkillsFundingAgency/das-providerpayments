@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Application.Account.Failures;
 using SFA.DAS.ProviderPayments.Application.Account.GetPaymentsForAccountInPeriodQuery;
+using SFA.DAS.ProviderPayments.Application.Account.Rules;
 using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Application.Validation.Rules;
 
 namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetPaymentsForAccountInPeriodQuery.GetPaymentsForAccountInPeriodQueryRequestValidatorTests
@@ -17,6 +20,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetPaymentsForA
         private const string AccountId = "DasAccountA";
         private Mock<PageNumberValidationRule> _pageNumberValidationRule;
         private Mock<PeriodCodeValidationRule> _periodCodeValidationRule;
+        private Mock<AccountIdValidationRule> _accountIdValidationRule;
         private GetPaymentsForAccountInPeriodQueryRequestValidator _validator;
         private GetPaymentsForAccountInPeriodQueryRequest _request;
 
@@ -31,8 +35,12 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetPaymentsForA
             _periodCodeValidationRule.Setup(r => r.ValidateAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<ValidationFailure>>(new ValidationFailure[0]));
 
+            _accountIdValidationRule = new Mock<AccountIdValidationRule>();
+            _accountIdValidationRule.Setup(r => r.ValidateAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<ValidationFailure>>(new ValidationFailure[0]));
+
             _validator = new GetPaymentsForAccountInPeriodQueryRequestValidator(_pageNumberValidationRule.Object,
-                _periodCodeValidationRule.Object);
+                _periodCodeValidationRule.Object, _accountIdValidationRule.Object);
 
             _request = new GetPaymentsForAccountInPeriodQueryRequest
             {
@@ -54,9 +62,63 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.Account.GetPaymentsForA
         }
 
         [Test]
-        public async Task WithAnInvalidPageNumber()
+        public async Task WithAnInvalidPageNumberThenItShouldReturnInvalidResult()
         {
-            
+            // Arrange
+            _pageNumberValidationRule.Setup(r => r.ValidateAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult<IEnumerable<ValidationFailure>>(new[]
+                {
+                    new PageNotFoundFailure()
+                }));
+
+            // Act
+            var actual = await _validator.ValidateAsync(_request);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsFalse(actual.IsValid());
+            Assert.AreEqual(1, actual.Failures.Count());
+            Assert.IsTrue(actual.Failures.Any(f => f.Code == PageNotFoundFailure.FailureCode && f.Description == PageNotFoundFailure.FailureDescription));
+        }
+
+        [Test]
+        public async Task WithAnInvalidPeriodCodeThenItShouldReturnInvalidResult()
+        {
+            // Arrange
+            _periodCodeValidationRule.Setup(r => r.ValidateAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<ValidationFailure>>(new[]
+                {
+                    new PeriodNotFoundFailure()
+                }));
+
+            // Act
+            var actual = await _validator.ValidateAsync(_request);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsFalse(actual.IsValid());
+            Assert.AreEqual(1, actual.Failures.Count());
+            Assert.IsTrue(actual.Failures.Any(f => f.Code == PeriodNotFoundFailure.FailureCode && f.Description == PeriodNotFoundFailure.FailureDescription));
+        }
+
+        [Test]
+        public async Task WithAnInvalidAccountIdThenItShouldReturnInvalidResult()
+        {
+            // Arrange
+            _accountIdValidationRule.Setup(r => r.ValidateAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<ValidationFailure>>(new[]
+                {
+                    new AccountNotFoundFailure()
+                }));
+
+            // Act
+            var actual = await _validator.ValidateAsync(_request);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsFalse(actual.IsValid());
+            Assert.AreEqual(1, actual.Failures.Count());
+            Assert.IsTrue(actual.Failures.Any(f => f.Code == AccountNotFoundFailure.FailureCode && f.Description == AccountNotFoundFailure.FailureDescription));
         }
     }
 }
