@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex) when (ex is PageNotFoundException || ex is PeriodNotFoundException)
+            catch (NotFoundException)
             {
                 return NotFound();
             }

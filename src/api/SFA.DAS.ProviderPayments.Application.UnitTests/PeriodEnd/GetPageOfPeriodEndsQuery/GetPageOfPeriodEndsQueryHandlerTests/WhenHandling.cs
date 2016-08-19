@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
+using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain.Data;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 using SFA.DAS.ProviderPayments.Domain.Mapping;
@@ -110,6 +111,25 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
             Assert.AreEqual(ExpectedNumberOfPages, actual.TotalNumberOfPages);
             Assert.IsNotNull(actual.Items);
             Assert.IsTrue(actual.Items.Any(x => x.Period.Code == ExpectedPeriodEnd1.Period.Code));
+        }
+
+        [Test]
+        public async Task WithAPageThatDoesNotExistThenItShouldReturnInvalidResponse()
+        {
+            // Arrange
+            _repository.Setup(r => r.GetPageAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult<PageOfEntities<PeriodEndEntity>>(null));
+
+            // Act
+            var actual = await _handler.Handle(new GetPageOfPeriodEndsQueryRequest { PageNumber = 2 });
+
+            // Assert
+            Assert.IsFalse(actual.IsValid);
+            Assert.IsNotNull(actual.ValidationFailures);
+            Assert.AreEqual(1, actual.ValidationFailures.Count());
+
+            var actualFailure = actual.ValidationFailures.First();
+            Assert.IsInstanceOf<PageNotFoundFailure>(actualFailure);
         }
     }
 }

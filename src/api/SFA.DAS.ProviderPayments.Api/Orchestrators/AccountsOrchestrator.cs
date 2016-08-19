@@ -77,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                     }
                 };
             }
-            catch (Exception ex) when (!(ex is BadRequestException))
+            catch (Exception ex) when (!(ex is BadRequestException || ex is NotFoundException))
             {
                 _logger.Error(ex, ex.Message);
                 throw;
