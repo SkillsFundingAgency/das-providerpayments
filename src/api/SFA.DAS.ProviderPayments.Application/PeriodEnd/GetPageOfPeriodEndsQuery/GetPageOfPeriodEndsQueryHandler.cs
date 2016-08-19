@@ -46,6 +46,7 @@ namespace SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuer
 
             return new GetPageOfPeriodEndsQueryResponse
             {
+                IsValid = true,
                 TotalNumberOfItems = entitiesPage.TotalNumberOfItems,
                 TotalNumberOfPages = entitiesPage.TotalNumberOfPages,
                 Items = _mapper.Map<PeriodEndEntity, Domain.PeriodEnd>(entitiesPage.Items)

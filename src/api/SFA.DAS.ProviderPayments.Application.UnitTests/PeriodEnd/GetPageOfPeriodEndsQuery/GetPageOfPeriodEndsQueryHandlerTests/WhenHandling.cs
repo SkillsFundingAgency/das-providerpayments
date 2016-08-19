@@ -66,6 +66,7 @@ namespace SFA.DAS.ProviderPayments.Application.UnitTests.PeriodEnd.GetPageOfPeri
 
             // Assert
             Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.IsValid);
         }
 
         [Test]
