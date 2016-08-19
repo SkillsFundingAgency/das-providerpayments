@@ -25,9 +25,9 @@ namespace SFA.DAS.ProviderPayments.Api.Plumbing.WebApi
         {
             return _urlHelper.Link(AccountListRouteName, new { pageNumber });
         }
-        public string GetAccountPaymentsLink(string periodCode, string accountId)
+        public string GetAccountPaymentsLink(string periodCode, string accountId, int pageNumber)
         {
-            return _urlHelper.Link(AccountPaymentRouteName, new { periodCode, accountId });
+            return _urlHelper.Link(AccountPaymentRouteName, new { periodCode, accountId, pageNumber });
         }
     }
 }

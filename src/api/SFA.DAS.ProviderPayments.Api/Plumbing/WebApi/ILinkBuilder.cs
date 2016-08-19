@@ -5,6 +5,6 @@
         string GetPeriodEndNotificationPageLink(int pageNumber);
 
         string GetPeriodEndAccountsPageLink(int pageNumber);
-        string GetAccountPaymentsLink(string periodCode, string accountId);
+        string GetAccountPaymentsLink(string periodCode, string accountId, int pageNumber);
     }
 }

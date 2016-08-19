@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
             _linkBuilder = new Mock<ILinkBuilder>();
             _linkBuilder.Setup(b => b.GetPeriodEndAccountsPageLink(It.IsAny<int>()))
                 .Returns((int pageNumber) => $"/{pageNumber}");
-            _linkBuilder.Setup(b => b.GetAccountPaymentsLink(PeriodCode, AccountId))
+            _linkBuilder.Setup(b => b.GetAccountPaymentsLink(PeriodCode, AccountId, It.IsAny<int>()))
                 .Returns(AccountPaymentsLink);
 
             _logger = new Mock<ILogger>();
