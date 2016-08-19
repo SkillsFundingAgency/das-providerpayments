@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
-using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain.Data;

@@ -8,7 +8,6 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
-using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
