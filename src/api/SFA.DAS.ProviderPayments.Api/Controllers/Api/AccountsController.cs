@@ -40,9 +40,23 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
         [HttpGet]
         public async Task<IHttpActionResult> GetPayments(string periodCode, string accountId, int pageNumber = 1)
         {
-            var temp = await Task.FromResult<object>(null);
-
-            return null;
+            try
+            {
+                var page = await _accountsOrchestrator.GetPageOfPaymentsForAccountInPeriod(periodCode, accountId, pageNumber);
+                return Ok(page);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
     }
 }
