@@ -14,9 +14,6 @@ using SFA.DAS.ProviderPayments.Application.Account.GetPaymentsForAccountInPeriod
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain;
 using SFA.DAS.ProviderPayments.Domain.Mapping;
-using FundingType = SFA.DAS.ProviderPayments.Api.Dto.FundingType;
-using PeriodType = SFA.DAS.ProviderPayments.Api.Dto.PeriodType;
-using TransactionType = SFA.DAS.ProviderPayments.Api.Dto.TransactionType;
 
 namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 {
