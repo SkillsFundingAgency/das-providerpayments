@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
-using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 
 namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
 {
-    public class AccountsController : ApiController
+    public class AccountsController : ApiControllerBase
     {
         private readonly AccountsOrchestrator _accountsOrchestrator;
 
@@ -18,45 +16,21 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
         [HttpGet]
         public async Task<IHttpActionResult> Get(string periodCode, int pageNumber = 1)
         {
-            try
+            return await ProcessRequest(async () =>
             {
                 var page = await _accountsOrchestrator.GetPageOfAccountsAffectedInPeriod(periodCode, pageNumber);
                 return Ok(page);
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
+            });
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetPayments(string periodCode, string accountId, int pageNumber = 1)
         {
-            try
+            return await ProcessRequest(async () =>
             {
                 var page = await _accountsOrchestrator.GetPageOfPaymentsForAccountInPeriod(periodCode, accountId, pageNumber);
                 return Ok(page);
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
+            });
         }
     }
 }

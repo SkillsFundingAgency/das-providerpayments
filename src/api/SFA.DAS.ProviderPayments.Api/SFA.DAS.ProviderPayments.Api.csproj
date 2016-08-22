@@ -189,6 +189,7 @@
     <Compile Include="App_Start\StructuremapWebApi.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AccountsController.cs" />
+    <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\Api\HealthCheckController.cs" />
     <Compile Include="Controllers\Api\NotificationsController.cs" />
     <Compile Include="Global.asax.cs">
