@@ -17,7 +17,18 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
         {
             _periodEnds = new List<PeriodEndEntity>
             {
-                new PeriodEndEntity { PeriodCode = "201704" }
+                new PeriodEndEntity { PeriodCode = "201704" },
+                new PeriodEndEntity { PeriodCode = "201705" },
+                new PeriodEndEntity { PeriodCode = "201706" },
+                new PeriodEndEntity { PeriodCode = "201707" },
+                new PeriodEndEntity { PeriodCode = "201708" },
+                new PeriodEndEntity { PeriodCode = "201709" },
+                new PeriodEndEntity { PeriodCode = "201710" },
+                new PeriodEndEntity { PeriodCode = "201711" },
+                new PeriodEndEntity { PeriodCode = "201712" },
+                new PeriodEndEntity { PeriodCode = "201801" },
+                new PeriodEndEntity { PeriodCode = "201802" },
+                new PeriodEndEntity { PeriodCode = "201803" }
             };
         }
 
