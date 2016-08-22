@@ -2,6 +2,8 @@
 {
     public enum FundingType
     {
-        LevyCredit
+        LevyCredit,
+        GovermentCoInvestment,
+        EmployerCoInvestment
     }
 }

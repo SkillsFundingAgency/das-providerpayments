@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SFA.DAS.ProviderPayments.Domain;
 using SFA.DAS.ProviderPayments.Domain.Data;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
 
@@ -23,8 +24,8 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
                 BuildPayment(),
                 BuildPayment(),
                 BuildPayment(),
-                BuildPayment(),
-                BuildPayment(),
+                BuildPayment(fundingType: (int)FundingType.GovermentCoInvestment),
+                BuildPayment(fundingType: (int)FundingType.EmployerCoInvestment),
                 BuildPayment(),
                 BuildPayment(),
                 BuildPayment(),
@@ -55,7 +56,8 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
 
         private PaymentEntity BuildPayment(string account = null, string ukprn = null, long uln = 0,
             long standardCode = 0, int pathwayCode = 0, int frameworkCode = 0, int programmeType = 0,
-            string reportedPeriodCode = null, string deliveryPeriodCode = null, decimal amount = 0)
+            string reportedPeriodCode = null, string deliveryPeriodCode = null, decimal amount = 0,
+            int transactionType = 0, int fundingType = 0)
         {
             if (standardCode == 0 && pathwayCode == 0)
             {
