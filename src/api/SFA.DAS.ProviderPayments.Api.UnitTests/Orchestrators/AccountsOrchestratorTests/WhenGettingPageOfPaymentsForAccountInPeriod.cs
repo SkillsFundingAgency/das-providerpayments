@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
@@ -13,6 +15,10 @@ using SFA.DAS.ProviderPayments.Application.Account.GetPaymentsForAccountInPeriod
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
+using FundingType = SFA.DAS.ProviderPayments.Domain.FundingType;
+using PeriodType = SFA.DAS.ProviderPayments.Domain.PeriodType;
+using TransactionType = SFA.DAS.ProviderPayments.Domain.TransactionType;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestratorTests
 {
@@ -32,6 +38,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
         private Mock<ILinkBuilder> _linkBuilder;
         private Mock<ILogger> _logger;
         private AccountsOrchestrator _orchestrator;
+        private Mock<IMapper> _mapper;
 
         [SetUp]
         public void Arrange()
@@ -85,13 +92,54 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
                     }
                 }));
 
+            _mapper = new Mock<IMapper>();
+            _mapper.Setup(m => m.Map<Payment, PaymentDto>(It.IsAny<IEnumerable<Payment>>()))
+                .Returns(new[]
+                {
+                    new PaymentDto
+                    {
+                        Account = new AccountDto
+                        {
+                            Id = AccountId
+                        },
+                        Provider = new ProviderDto
+                        {
+                            Ukprn = Ukprn
+                        },
+                        Apprenticeship = new ApprenticeshipDto
+                        {
+                            Learner = new LearnerDto
+                            {
+                                Uln = Uln
+                            },
+                            Course = new CourseDto
+                            {
+                                StandardCode = StandardCode
+                            }
+                        },
+                        DeliveryPeriod = new PeriodDto
+                        {
+                            Code = PeriodCode,
+                            PeriodType = Dto.PeriodType.CalendarMonth
+                        },
+                        ReportedPeriod = new PeriodDto
+                        {
+                            Code = PeriodCode,
+                            PeriodType = Dto.PeriodType.CalendarMonth
+                        },
+                        Amount = Amount,
+                        TransactionType = Dto.TransactionType.Learning,
+                        FundingType = Dto.FundingType.LevyCredit
+                    }
+                });
+
             _linkBuilder = new Mock<ILinkBuilder>();
             _linkBuilder.Setup(b => b.GetAccountPaymentsLink(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns((string periodCode, string accountId, int pageNumber) => $"/{pageNumber}");
 
             _logger = new Mock<ILogger>();
 
-            _orchestrator = new AccountsOrchestrator(_mediator.Object, _linkBuilder.Object, _logger.Object);
+            _orchestrator = new AccountsOrchestrator(_mediator.Object, _mapper.Object, _linkBuilder.Object, _logger.Object);
         }
 
         [Test]

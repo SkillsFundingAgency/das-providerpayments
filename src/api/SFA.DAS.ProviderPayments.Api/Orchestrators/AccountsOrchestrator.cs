@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
@@ -11,18 +12,25 @@ using SFA.DAS.ProviderPayments.Application.Account.Failures;
 using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.Account.GetPaymentsForAccountInPeriodQuery;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
+using SFA.DAS.ProviderPayments.Domain;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
+using FundingType = SFA.DAS.ProviderPayments.Api.Dto.FundingType;
+using PeriodType = SFA.DAS.ProviderPayments.Api.Dto.PeriodType;
+using TransactionType = SFA.DAS.ProviderPayments.Api.Dto.TransactionType;
 
 namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 {
     public class AccountsOrchestrator
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
         private readonly ILinkBuilder _linkBuilder;
         private readonly ILogger _logger;
 
-        public AccountsOrchestrator(IMediator mediator, ILinkBuilder linkBuilder, ILogger logger)
+        public AccountsOrchestrator(IMediator mediator, IMapper mapper, ILinkBuilder linkBuilder, ILogger logger)
         {
             _mediator = mediator;
+            _mapper = mapper;
             _linkBuilder = linkBuilder;
             _logger = logger;
         }
@@ -59,23 +67,15 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                 {
                     Links = new HalPageLinks
                     {
-                        Next = GetAccountsAffectedPageLink(pageNumber + 1, response.TotalNumberOfPages),
-                        Prev = GetAccountsAffectedPageLink(pageNumber - 1, response.TotalNumberOfPages),
-                        First = GetAccountsAffectedPageLink(1, response.TotalNumberOfPages),
-                        Last = GetAccountsAffectedPageLink(response.TotalNumberOfPages, response.TotalNumberOfPages),
+                        Next = GetAccountsAffectedPageLink(periodCode, pageNumber + 1, response.TotalNumberOfPages),
+                        Prev = GetAccountsAffectedPageLink(periodCode, pageNumber - 1, response.TotalNumberOfPages),
+                        First = GetAccountsAffectedPageLink(periodCode, 1, response.TotalNumberOfPages),
+                        Last = GetAccountsAffectedPageLink(periodCode, response.TotalNumberOfPages, response.TotalNumberOfPages),
                     },
                     Count = response.TotalNumberOfItems,
                     Content = new HalPageItems<AccountDto>
                     {
-                        Items = response.Items.Select(x =>
-                            new AccountDto
-                            {
-                                Id = x.Id,
-                                Links = new PaymentEntityLinks
-                                {
-                                    Payments = new HalLink { Href = _linkBuilder.GetAccountPaymentsLink(periodCode, x.Id, 1) }
-                                }
-                            })
+                        Items = MapAccounts(response.Items, periodCode, response.TotalNumberOfPages)
                     }
                 };
             }
@@ -125,45 +125,7 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                     Count = response.TotalNumberOfItems,
                     Content = new HalPageItems<PaymentDto>
                     {
-                        Items = response.Items.Select(x =>
-                            new PaymentDto
-                            {
-                                Account = new AccountDto
-                                {
-                                    Id = x.Account.Id
-                                },
-                                Provider = new ProviderDto
-                                {
-                                    Ukprn = x.Provider.Ukprn
-                                },
-                                Apprenticeship = new ApprenticeshipDto
-                                {
-                                    Learner = new LearnerDto
-                                    {
-                                        Uln = x.Apprenticeship.Learner.Uln
-                                    },
-                                    Course = new CourseDto
-                                    {
-                                        StandardCode = x.Apprenticeship.Course.StandardCode,
-                                        PathwayCode = x.Apprenticeship.Course.PathwayCode,
-                                        FrameworkCode = x.Apprenticeship.Course.FrameworkCode,
-                                        ProgrammeType = x.Apprenticeship.Course.ProgrammeType
-                                    }
-                                },
-                                DeliveryPeriod = new PeriodDto
-                                {
-                                    Code = x.DeliveryPeriod.Code,
-                                    PeriodType = (PeriodType)(int)x.DeliveryPeriod.PeriodType
-                                },
-                                ReportedPeriod = new PeriodDto
-                                {
-                                    Code = x.ReportedPeriod.Code,
-                                    PeriodType = (PeriodType)(int)x.DeliveryPeriod.PeriodType
-                                },
-                                Amount = x.Amount,
-                                TransactionType = (TransactionType)(int)x.TransactionType,
-                                FundingType = (FundingType)(int)x.FundingType
-                            })
+                        Items = _mapper.Map<Payment,PaymentDto>(response.Items)
                     }
                 };
             }
@@ -175,13 +137,25 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
         }
 
 
-        private HalLink GetAccountsAffectedPageLink(int pageNumber, int numberOfPages)
+        private IEnumerable<AccountDto> MapAccounts(IEnumerable<Account> accounts, string periodCode, int numberOfPages)
+        {
+            var dtos = _mapper.Map<Account, AccountDto>(accounts);
+            foreach (var item in dtos)
+            {
+                item.Links = new PaymentEntityLinks
+                {
+                    Payments = GetPaymentsPageLink(periodCode, item.Id, 1, numberOfPages)
+                };
+            }
+            return dtos;
+        }
+        private HalLink GetAccountsAffectedPageLink(string periodCode, int pageNumber, int numberOfPages)
         {
             if (pageNumber < 1 || pageNumber > numberOfPages)
             {
                 return null;
             }
-            return new HalLink { Href = _linkBuilder.GetPeriodEndAccountsPageLink(pageNumber) };
+            return new HalLink { Href = _linkBuilder.GetPeriodEndAccountsPageLink(periodCode, pageNumber) };
         }
         private HalLink GetPaymentsPageLink(string periodCode, string accountId, int pageNumber, int numberOfPages)
         {

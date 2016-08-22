@@ -74,6 +74,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Api.Dto\SFA.DAS.ProviderPayments.Api.Dto.csproj">
+      <Project>{11223929-2508-4F08-AF69-95DC52A7E9D2}</Project>
+      <Name>SFA.DAS.ProviderPayments.Api.Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Domain\SFA.DAS.ProviderPayments.Domain.csproj">
       <Project>{bd68c151-24fe-4396-99e8-e8acd9b2e799}</Project>
       <Name>SFA.DAS.ProviderPayments.Domain</Name>

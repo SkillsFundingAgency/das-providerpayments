@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Domain;
 using SFA.DAS.ProviderPayments.Domain.Data.Entities;
+using PeriodType = SFA.DAS.ProviderPayments.Domain.PeriodType;
 
 namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
 {
@@ -28,10 +30,17 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
                         PeriodType = (PeriodType)source.PeriodType
                     };
                 });
+
+            cfg.CreateMap<Period, PeriodDto>();
+            cfg.CreateMap<PeriodEnd, PeriodEndDto>()
+                .ForMember(dst => dst.Links, opt => opt.Ignore());
         }
         private static void AddAccountMappings(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<AccountEntity, Account>();
+
+            cfg.CreateMap<Account, AccountDto>()
+                .ForMember(dst => dst.Links, opt => opt.Ignore());
         }
         private static void AddPaymentMappings(IMapperConfigurationExpression cfg)
         {
@@ -76,6 +85,14 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Mapping
                         PeriodType = PeriodType.CalendarMonth
                     };
                 });
+
+
+            cfg.CreateMap<Payment, PaymentDto>();
+            cfg.CreateMap<Provider, ProviderDto>();
+            cfg.CreateMap<Apprenticeship, ApprenticeshipDto>();
+            cfg.CreateMap<Learner, LearnerDto>();
+            cfg.CreateMap<Course, CourseDto>();
+            cfg.CreateMap<Period, PeriodDto>();
         }
     }
 }

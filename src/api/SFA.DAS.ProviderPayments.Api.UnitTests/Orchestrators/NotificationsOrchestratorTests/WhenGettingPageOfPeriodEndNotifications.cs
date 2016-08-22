@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
@@ -12,6 +14,8 @@ using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
+using PeriodType = SFA.DAS.ProviderPayments.Domain.PeriodType;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrchestratorTests
 {
@@ -22,6 +26,8 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
         private Mock<ILinkBuilder> _linkBuilder;
         private Mock<ILogger> _logger;
         private NotificationsOrchestrator _orchestrator;
+        private Mock<IMapper> _mapper;
+        private PeriodEndDto _periodEndDto;
 
         [SetUp]
         public void Arrange()
@@ -38,6 +44,18 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
                 NumberOfEmployers = 92,
                 PaymentRunDate = new DateTime(2017, 05, 05)
             };
+            _periodEndDto = new PeriodEndDto
+            {
+                Period = new PeriodDto
+                {
+                    Code = _periodEnd.Period.Code,
+                    PeriodType = Dto.PeriodType.CalendarMonth
+                },
+                TotalValue = _periodEnd.TotalValue,
+                NumberOfProviders = _periodEnd.NumberOfProviders,
+                NumberOfEmployers = _periodEnd.NumberOfEmployers,
+                PaymentRunDate = _periodEnd.PaymentRunDate
+            };
 
             _mediator = new Mock<IMediator>();
             _mediator.Setup(m => m.SendAsync(It.Is<GetPageOfPeriodEndsQueryRequest>(r => r.PageNumber == 1)))
@@ -52,13 +70,20 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.NotificationsOrch
                     }
                 }));
 
+            _mapper = new Mock<IMapper>();
+            _mapper.Setup(m => m.Map<PeriodEnd, PeriodEndDto>(It.IsAny<IEnumerable<PeriodEnd>>()))
+                .Returns(new[]
+                {
+                    _periodEndDto
+                });
+
             _linkBuilder = new Mock<ILinkBuilder>();
             _linkBuilder.Setup(b => b.GetPeriodEndNotificationPageLink(It.IsAny<int>()))
                 .Returns((int pageNumber) => $"/{pageNumber}");
 
             _logger = new Mock<ILogger>();
 
-            _orchestrator = new NotificationsOrchestrator(_mediator.Object, _linkBuilder.Object, _logger.Object);
+            _orchestrator = new NotificationsOrchestrator(_mediator.Object, _mapper.Object, _linkBuilder.Object, _logger.Object);
         }
 
         [Test]
