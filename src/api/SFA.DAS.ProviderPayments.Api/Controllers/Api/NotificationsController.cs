@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
-using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 
 namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
 {
-    public class NotificationsController : ApiController
+    public class NotificationsController : ApiControllerBase
     {
         private readonly NotificationsOrchestrator _notificationsOrchestrator;
 
@@ -18,23 +16,11 @@ namespace SFA.DAS.ProviderPayments.Api.Controllers.Api
         [HttpGet]
         public async Task<IHttpActionResult> PeriodEnd(int pageNumber = 1)
         {
-            try
+            return await ProcessRequest(async () =>
             {
                 var pageOfResults = await _notificationsOrchestrator.GetPageOfPeriodEndNotifications(pageNumber);
                 return Ok(pageOfResults);
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
+            });
         }
     }
 }

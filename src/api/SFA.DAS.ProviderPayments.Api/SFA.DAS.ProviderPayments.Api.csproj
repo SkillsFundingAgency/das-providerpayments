@@ -189,6 +189,7 @@
     <Compile Include="App_Start\StructuremapWebApi.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AccountsController.cs" />
+    <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\Api\HealthCheckController.cs" />
     <Compile Include="Controllers\Api\NotificationsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,6 +197,7 @@
     </Compile>
     <Compile Include="Orchestrators\AccountsOrchestrator.cs" />
     <Compile Include="Orchestrators\NotificationsOrchestrator.cs" />
+    <Compile Include="Orchestrators\OrchestratorExceptions\AccountNotFoundException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\BadRequestException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\NotFoundException.cs" />
     <Compile Include="Orchestrators\OrchestratorExceptions\PageNotFoundException.cs" />

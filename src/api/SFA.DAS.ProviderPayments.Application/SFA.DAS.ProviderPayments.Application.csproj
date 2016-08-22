@@ -45,20 +45,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\Failures\AccountNotFoundFailure.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryHandler.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequest.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryRequestValidator.cs" />
     <Compile Include="Account\GetAccountsAffectedInPeriodQuery\GetAccountsAffectedInPeriodQueryResponse.cs" />
+    <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryHandler.cs" />
+    <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryRequest.cs" />
+    <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryRequestValidator.cs" />
+    <Compile Include="Account\GetPaymentsForAccountInPeriodQuery\GetPaymentsForAccountInPeriodQueryResponse.cs" />
+    <Compile Include="Account\Rules\AccountIdValidationRule.cs" />
+    <Compile Include="PagedQueryHandler.cs" />
+    <Compile Include="PagedQueryResponse.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryHandler.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequest.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryRequestValidator.cs" />
     <Compile Include="PeriodEnd\GetPageOfPeriodEndsQuery\GetPageOfPeriodEndsQueryResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryResponse.cs" />
     <Compile Include="Validation\Failures\InvalidPeriodCodeFailure.cs" />
     <Compile Include="Validation\Failures\PageNotFoundFailure.cs" />
     <Compile Include="Validation\Failures\PeriodNotFoundFailure.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\Failures\InvalidPageNumberFailure.cs" />
+    <Compile Include="Validation\Rules\IValidationRule.cs" />
+    <Compile Include="Validation\Rules\PageNumberValidationRule.cs" />
+    <Compile Include="Validation\Rules\PeriodCodeValidationRule.cs" />
     <Compile Include="Validation\ValidationFailure.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>

@@ -77,9 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AccountsControllerTests\WhenGettingListOfAccountsForPeriodEnd.cs" />
+    <Compile Include="Controllers\Api\AccountsControllerTests\WhenGettingPaymentsForAccountInPeriod.cs" />
     <Compile Include="Controllers\Api\NotificationsControllerTests\WhenGettingPeriodEnd.cs" />
     <Compile Include="DependencyResolution\StructureMapRegistrationTests\WhenAddingLogging.cs" />
     <Compile Include="Orchestrators\AccountsOrchestratorTests\WhenGetPageOfAccountsAffectedInPeriod.cs" />
+    <Compile Include="Orchestrators\AccountsOrchestratorTests\WhenGettingPageOfPaymentsForAccountInPeriod.cs" />
     <Compile Include="Orchestrators\NotificationsOrchestratorTests\WhenGettingPageOfPeriodEndNotifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions
+﻿namespace SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions
 {
     public class PageNotFoundException : NotFoundException
     {

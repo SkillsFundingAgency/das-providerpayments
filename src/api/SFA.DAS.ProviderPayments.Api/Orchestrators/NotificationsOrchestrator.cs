@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,21 +10,24 @@ using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
 using SFA.DAS.ProviderPayments.Application.PeriodEnd.GetPageOfPeriodEndsQuery;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
 
 namespace SFA.DAS.ProviderPayments.Api.Orchestrators
 {
     public class NotificationsOrchestrator
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
         private readonly ILinkBuilder _linkBuilder;
         private readonly ILogger _logger;
 
         protected NotificationsOrchestrator()
         {
         }
-        public NotificationsOrchestrator(IMediator mediator, ILinkBuilder linkBuilder, ILogger logger)
+        public NotificationsOrchestrator(IMediator mediator, IMapper mapper, ILinkBuilder linkBuilder, ILogger logger)
         {
             _mediator = mediator;
+            _mapper = mapper;
             _linkBuilder = linkBuilder;
             _logger = logger;
         }
@@ -32,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
         {
             try
             {
-                var response = await _mediator.SendAsync(new GetPageOfPeriodEndsQueryRequest {PageNumber = pageNumber});
+                var response = await _mediator.SendAsync(new GetPageOfPeriodEndsQueryRequest { PageNumber = pageNumber });
                 if (!response.IsValid)
                 {
                     if (response.ValidationFailures.Any(f => f is PeriodNotFoundFailure))
@@ -58,18 +62,7 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
                     Count = response.TotalNumberOfItems,
                     Content = new HalPageItems<PeriodEndDto>
                     {
-                        Items = response.Items.Select(x => new PeriodEndDto
-                        {
-                            Period = new PeriodDto
-                            {
-                                Code = x.Period.Code,
-                                PeriodType = (PeriodType) ((int) x.Period.PeriodType)
-                            },
-                            TotalValue = 12345.67m,
-                            NumberOfProviders = 23,
-                            NumberOfEmployers = 93,
-                            PaymentRunDate = new DateTime(2017, 5, 5)
-                        })
+                        Items = MapPeriodEnds(response.Items)
                     }
                 };
             }
@@ -80,6 +73,18 @@ namespace SFA.DAS.ProviderPayments.Api.Orchestrators
             }
         }
 
+        private IEnumerable<PeriodEndDto> MapPeriodEnds(IEnumerable<Domain.PeriodEnd> periodEnds)
+        {
+            var dtos = _mapper.Map<Domain.PeriodEnd, PeriodEndDto>(periodEnds).ToArray();
+            foreach (var item in dtos)
+            {
+                item.Links = new PeriodLinks
+                {
+                    Accounts = new HalLink { Href = _linkBuilder.GetPeriodEndAccountsPageLink(item.Period.Code, 1) }
+                };
+            }
+            return dtos;
+        }
         private HalLink GetPageLink(int pageNumber, int numberOfPages)
         {
             if (pageNumber < 1 || pageNumber > numberOfPages)

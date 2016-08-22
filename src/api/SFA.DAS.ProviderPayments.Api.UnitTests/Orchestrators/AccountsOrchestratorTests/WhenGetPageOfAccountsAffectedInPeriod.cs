@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Api.Dto;
 using SFA.DAS.ProviderPayments.Api.Orchestrators;
 using SFA.DAS.ProviderPayments.Api.Orchestrators.OrchestratorExceptions;
 using SFA.DAS.ProviderPayments.Api.Plumbing.WebApi;
@@ -12,6 +14,7 @@ using SFA.DAS.ProviderPayments.Application.Account.GetAccountsAffectedInPeriodQu
 using SFA.DAS.ProviderPayments.Application.Validation;
 using SFA.DAS.ProviderPayments.Application.Validation.Failures;
 using SFA.DAS.ProviderPayments.Domain;
+using SFA.DAS.ProviderPayments.Domain.Mapping;
 
 namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestratorTests
 {
@@ -26,6 +29,7 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
         private Mock<ILinkBuilder> _linkBuilder;
         private Mock<ILogger> _logger;
         private AccountsOrchestrator _orchestrator;
+        private Mock<IMapper> _mapper;
 
         [SetUp]
         public void Arrange()
@@ -48,15 +52,22 @@ namespace SFA.DAS.ProviderPayments.Api.UnitTests.Orchestrators.AccountsOrchestra
                     }
                 }));
 
+            _mapper = new Mock<IMapper>();
+            _mapper.Setup(m => m.Map<Account, AccountDto>(It.IsAny<IEnumerable<Account>>()))
+                .Returns(new[]
+                {
+                    new AccountDto { Id = AccountId }
+                });
+
             _linkBuilder = new Mock<ILinkBuilder>();
-            _linkBuilder.Setup(b => b.GetPeriodEndAccountsPageLink(It.IsAny<int>()))
-                .Returns((int pageNumber) => $"/{pageNumber}");
-            _linkBuilder.Setup(b => b.GetAccountPaymentsLink(PeriodCode, AccountId))
+            _linkBuilder.Setup(b => b.GetPeriodEndAccountsPageLink(It.IsAny<string>(), It.IsAny<int>()))
+                .Returns((string periodCode, int pageNumber) => $"/{pageNumber}");
+            _linkBuilder.Setup(b => b.GetAccountPaymentsLink(PeriodCode, AccountId, It.IsAny<int>()))
                 .Returns(AccountPaymentsLink);
 
             _logger = new Mock<ILogger>();
 
-            _orchestrator = new AccountsOrchestrator(_mediator.Object, _linkBuilder.Object, _logger.Object);
+            _orchestrator = new AccountsOrchestrator(_mediator.Object, _mapper.Object, _linkBuilder.Object, _logger.Object);
         }
 
         [Test]

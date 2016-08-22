@@ -37,8 +37,8 @@ namespace SFA.DAS.ProviderPayments.Api
 
             config.Routes.MapHttpRoute(
                 name: "AccountPaymentsApi",
-                routeTemplate: "api/periodends/{periodCode}/accounts/{accountId}/payments",
-                defaults: new { controller = "Accounts" }
+                routeTemplate: "api/periodends/{periodCode}/accounts/{accountId}/payments/{pageNumber}",
+                defaults: new { controller = "Accounts", pageNumber = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
