@@ -76,8 +76,8 @@ namespace SFA.DAS.ProviderPayments.Infrastructure.Data.InMemory
                 ReportedPeriodCode = reportedPeriodCode ?? "201704",
                 DeliveryPeriodCode = deliveryPeriodCode ?? "201704",
                 Amount = amount > 0 ? amount : (decimal)Math.Round(_rdm.NextDouble() * _rdm.Next(100, 1000), 2),
-                TransactionType = 0,
-                FundingType = 0
+                TransactionType = transactionType,
+                FundingType = fundingType
             };
         }
     }
