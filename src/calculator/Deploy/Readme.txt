@@ -12,7 +12,7 @@ DAS Levy Calculator Component
   - component\StructureMap.dll
  
  1.2 SQL scripts:
-  - sql\ddl\Ilr.Transient.LevyPayments.DDL.sql:
+  - sql\ddl\Summarisation.Transient.LevyPayments.DDL.sql:
    - database tables that need to be present when the component is executed
   
 -------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ DAS Levy Calculator Component
 -------------------------------------------------------------------------------------
  2.1 Transient database connection string:
   - key: TransientDatabaseConnectionString
-  - value: ILR transient database connection string
+  - value: Summarisation transient database connection string
  2.2 Log level:
   - key: LogLevel
   - value: one of the following is valid: Fatal, Error, Warn, Info, Debug, Trace, Off
