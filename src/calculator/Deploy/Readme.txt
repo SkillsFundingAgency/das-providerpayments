@@ -14,7 +14,10 @@ DAS Levy Calculator Component
  1.2 SQL scripts:
   - sql\ddl\Summarisation.Transient.LevyPayments.DDL.sql:
    - database tables that need to be present when the component is executed
-  
+
+ 1.3 Test results:
+  - test-results\TestResult.xml
+   
 -------------------------------------------------------------------------------------
 2. Expected context properties
 -------------------------------------------------------------------------------------
