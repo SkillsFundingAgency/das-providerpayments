@@ -1,5 +1,4 @@
 ﻿using System;
-using NLog;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution
@@ -12,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution
         {
             _container = new Container(c =>
                 {
-                    c.For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
+                    c.AddRegistry(new CalcRegistry(taskType));
                 }
             );
         }

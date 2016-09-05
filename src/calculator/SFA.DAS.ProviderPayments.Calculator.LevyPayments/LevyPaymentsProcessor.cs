@@ -10,10 +10,19 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
         {
             _logger = logger;
         }
+        protected LevyPaymentsProcessor()
+        {
+            // So we can mock
+        }
 
-        public void Process()
+        public virtual void Process()
         {
             _logger.Info("Started Levy Payments Processor.");
+
+            // Get earnings for account
+            // Draw down levy for learners in account
+            // Output amount paid with levy to db
+
             _logger.Info("Finished Levy Payments Processor.");
         }
     }
