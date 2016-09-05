@@ -2,5 +2,6 @@
 {
     public class Commitment
     {
+        public string Id { get; set; }
     }
 }

@@ -16,18 +16,18 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
 
         private Mock<IDependencyResolver> _dependencyResolver;
         private Mock<ILogger> _logger;
-        private Mock<LevyPaymentsProcessor> _processor;
+        private Mock<LevyPayments.LevyPaymentsProcessor> _processor;
 
         [SetUp]
         public void Arrange()
         {
             _context = new ExternalContextStub();
             _logger = new Mock<ILogger>();
-            _processor = new Mock<LevyPaymentsProcessor>();
+            _processor = new Mock<LevyPayments.LevyPaymentsProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
             _dependencyResolver.Setup(dr => dr.GetInstance<ILogger>()).Returns(_logger.Object);
-            _dependencyResolver.Setup(dr => dr.GetInstance<LevyPaymentsProcessor>()).Returns(_processor.Object);
+            _dependencyResolver.Setup(dr => dr.GetInstance<LevyPayments.LevyPaymentsProcessor>()).Returns(_processor.Object);
 
             _task = new LevyPayments.LevyPaymentsTask(_dependencyResolver.Object);
         }

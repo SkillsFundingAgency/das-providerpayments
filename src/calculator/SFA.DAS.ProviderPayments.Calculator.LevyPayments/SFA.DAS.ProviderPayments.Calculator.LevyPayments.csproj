@@ -56,10 +56,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Accounts\Account.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandRequest.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandResponse.cs" />
     <Compile Include="Application\Accounts\Commitment.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryRequest.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryResponse.cs" />
+    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler.cs" />
+    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryRequest.cs" />
+    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryResponse.cs" />
+    <Compile Include="Application\Earnings\PeriodEarning.cs" />
+    <Compile Include="Application\Payments\FundingSource.cs" />
+    <Compile Include="Application\Payments\Payment.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
     <Compile Include="Context\ContextPropertyKeys.cs" />
     <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />
