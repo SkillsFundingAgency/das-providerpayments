@@ -22,9 +22,9 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
 
         public void Execute(IExternalContext context)
         {
-            _dependencyResolver.Init(typeof(LevyPaymentsProcessor));
-
             var contextWrapper = new ContextWrapper(context);
+
+            _dependencyResolver.Init(typeof(LevyPaymentsProcessor), contextWrapper);
 
             ValidateContext(contextWrapper);
 

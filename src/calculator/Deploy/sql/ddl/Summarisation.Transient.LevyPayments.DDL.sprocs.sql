@@ -8,7 +8,7 @@ END
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='UpdateAccountLevySpend' AND [schema_id] = SCHEMA_ID('LevyPayments'))
 BEGIN
-	DROP TABLE LevyPayments.TaskLog
+	DROP PROCEDURE LevyPayments.UpdateAccountLevySpend
 END
 GO
 
@@ -30,3 +30,30 @@ SET NOCOUNT ON
 			(@AccountId, 0, @AmountToUpdateBy)
 		END
 GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- AddPayment
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='AddPayment' AND [schema_id] = SCHEMA_ID('LevyPayments'))
+BEGIN
+	DROP PROCEDURE LevyPayments.AddPayment
+END
+GO
+
+CREATE PROCEDURE LevyPayments.AddPayment
+	@CommitmentId varchar(50),
+	@LearnRefNumber varchar(12),
+	@AimSeqNumber int,
+	@Ukprn bigint,
+	@Source int,
+	@Amount decimal(15,2),
+	@PaymentId uniqueidentifier OUTPUT
+AS
+SET NOCOUNT ON
+
+	SET @PaymentId = NEWID()
+
+	INSERT INTO LevyPayments.Payments
+	(PaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,Source,Amount)
+	VALUES
+	(@PaymentId, @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@Source,@Amount)

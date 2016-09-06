@@ -33,6 +33,10 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\Lib\CS.Common.External.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
@@ -74,10 +78,16 @@
     <Compile Include="Context\ContextPropertyKeys.cs" />
     <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />
+    <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Exceptions\LevyPaymentsExceptionMessages.cs" />
     <Compile Include="Exceptions\LevyPaymentsInvalidContextException.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsEarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\AccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />

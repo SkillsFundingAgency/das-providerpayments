@@ -1,5 +1,9 @@
-﻿using NLog;
+﻿using System.Collections.Generic;
+using CS.Common.External.Interfaces;
+using Moq;
+using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Context;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.DependencyResolution.TaskDependencyResolver.GetInstance
@@ -11,8 +15,15 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.DependencyR
         [SetUp]
         public void Arrange()
         {
+            var context = new Mock<IExternalContext>();
+            context.Setup(c => c.Properties)
+                .Returns(new Dictionary<string, string>
+                {
+                    {ContextPropertyKeys.TransientDatabaseConnectionString, "TheDb"}
+                });
+
             _dependencyResolver = new LevyPayments.DependencyResolution.TaskDependencyResolver();
-            _dependencyResolver.Init(typeof(TestClass));
+            _dependencyResolver.Init(typeof(TestClass), new LevyPayments.Context.ContextWrapper(context.Object));
         }
 
         [Test]
@@ -34,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.DependencyR
             // Assert
             Assert.IsNotNull(instance);
         }
-        
+
         [Test]
         public void ForNotConfiguredAbstractTypeThenExceptionIsRaised()
         {

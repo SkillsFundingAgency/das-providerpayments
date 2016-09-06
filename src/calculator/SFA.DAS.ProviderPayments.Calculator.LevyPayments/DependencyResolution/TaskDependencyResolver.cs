@@ -1,4 +1,5 @@
 ﻿using System;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Context;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution
@@ -7,10 +8,11 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution
     {
         private IContainer _container;
 
-        public void Init(Type taskType)
+        public void Init(Type taskType, ContextWrapper contextWrapper)
         {
             _container = new Container(c =>
                 {
+                    c.Policies.Add(new DcfsConnectionStringPolicy(contextWrapper));
                     c.AddRegistry(new CalcRegistry(taskType));
                 }
             );
