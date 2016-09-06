@@ -1,6 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments
+﻿namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.Entities
 {
-    public class Payment
+    public class PaymentEntity
     {
         public string Id { get; set; }
 
@@ -10,7 +10,7 @@
 
         public string CommitmentId { get; set; }
 
-        public FundingSource Source { get; set; }
+        public int Source { get; set; }
         public decimal Amount { get; set; }
     }
 }
