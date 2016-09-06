@@ -2,23 +2,20 @@
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application.Accounts.GetNextAccountQuery.Handle
+namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler.Handle
 {
-    public class WhenHandlingRequestWhereNextAccountHasNoCommitments
+    public class WhenHandlingValidRequest
     {
         private const string AccountId = "ACC001";
         private const string AccountName = "Account 1";
-        private static readonly CommitmentEntity[][] _emptyCommitmentListExamples = new[]
-        {
-            (CommitmentEntity[]) null,
-            new CommitmentEntity[0]
-        };
+        private const string CommitmentId = "Commtiment123";
 
         private GetNextAccountQueryRequest _request;
         private Mock<IAccountRepository> _accountRepository;
         private Mock<ICommitmentRepository> _commitmentRepository;
-        private GetNextAccountQueryHandler _handler;
+        private LevyPayments.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler _handler;
 
         [SetUp]
         public void Arrange()
@@ -34,9 +31,13 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application
                 });
 
             _commitmentRepository = new Mock<ICommitmentRepository>();
-            
+            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
+                .Returns(new[]
+                {
+                    new CommitmentEntity { Id = CommitmentId }
+                });
 
-            _handler = new GetNextAccountQueryHandler(_accountRepository.Object, _commitmentRepository.Object);
+            _handler = new LevyPayments.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler(_accountRepository.Object, _commitmentRepository.Object);
         }
 
         [Test]
@@ -61,19 +62,17 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application
             Assert.AreEqual(AccountName, actual.Account.Name);
         }
 
-        [TestCaseSource(nameof(_emptyCommitmentListExamples))]
-        public void ThenTheAccountShouldHaveAnEmptyCommitmentList(CommitmentEntity[] commitments)
+        [Test]
+        public void ThenTheAccountShouldHaveItsCommitments()
         {
-            // Arrange
-            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
-                .Returns(commitments);
-
             // Act
             var actual = _handler.Handle(_request);
 
             // Assert
             Assert.IsNotNull(actual?.Account?.Commitments);
-            Assert.AreEqual(0, actual.Account.Commitments.Length);
+            Assert.AreEqual(1, actual.Account.Commitments.Length);
+            Assert.AreEqual(CommitmentId, actual.Account.Commitments[0].Id);
         }
+
     }
 }

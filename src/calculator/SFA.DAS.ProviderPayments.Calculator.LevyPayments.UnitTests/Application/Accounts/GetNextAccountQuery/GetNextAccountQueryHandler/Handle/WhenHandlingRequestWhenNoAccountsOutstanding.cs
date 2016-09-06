@@ -2,15 +2,16 @@
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application.Accounts.GetNextAccountQuery.Handle
+namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler.Handle
 {
     public class WhenHandlingRequestWhenNoAccountsOutstanding
     {
         private GetNextAccountQueryRequest _request;
         private Mock<IAccountRepository> _accountRepository;
         private Mock<ICommitmentRepository> _commitmentRepository;
-        private GetNextAccountQueryHandler _handler;
+        private LevyPayments.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler _handler;
 
         [SetUp]
         public void Arrange()
@@ -23,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application
 
             _commitmentRepository = new Mock<ICommitmentRepository>();
 
-            _handler = new GetNextAccountQueryHandler(_accountRepository.Object, _commitmentRepository.Object);
+            _handler = new LevyPayments.Application.Accounts.GetNextAccountQuery.GetNextAccountQueryHandler(_accountRepository.Object, _commitmentRepository.Object);
         }
 
         [Test]

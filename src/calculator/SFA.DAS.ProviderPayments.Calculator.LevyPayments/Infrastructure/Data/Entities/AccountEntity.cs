@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data
+﻿namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.Entities
 {
     public class AccountEntity
     {

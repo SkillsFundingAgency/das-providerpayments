@@ -78,10 +78,12 @@
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Exceptions\LevyPaymentsExceptionMessages.cs" />
     <Compile Include="Exceptions\LevyPaymentsInvalidContextException.cs" />
-    <Compile Include="Infrastructure\Data\AccountEntity.cs" />
-    <Compile Include="Infrastructure\Data\CommitmentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AccountEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
     <Compile Include="Infrastructure\Data\IAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\ICommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\IEarningRepository.cs" />
     <Compile Include="LevyPaymentsProcessor.cs" />
     <Compile Include="LevyPaymentsTask.cs" />
     <Compile Include="Logging\LoggingConfig.cs" />

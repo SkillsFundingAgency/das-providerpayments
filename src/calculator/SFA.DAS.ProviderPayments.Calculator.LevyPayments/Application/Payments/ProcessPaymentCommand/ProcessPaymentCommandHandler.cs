@@ -7,6 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments.
     {
         public Unit Handle(ProcessPaymentCommandRequest message)
         {
+            // Write payment detail row
             throw new NotImplementedException();
         }
     }

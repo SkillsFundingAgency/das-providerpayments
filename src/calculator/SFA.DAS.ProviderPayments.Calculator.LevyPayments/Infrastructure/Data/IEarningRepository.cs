@@ -2,8 +2,8 @@
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data
 {
-    public interface IAccountRepository
+    public interface IEarningRepository
     {
-        AccountEntity GetNextAccountRequiringProcessing();
+        EarningEntity GetEarningForCommitment(string commitmentId);
     }
 }
