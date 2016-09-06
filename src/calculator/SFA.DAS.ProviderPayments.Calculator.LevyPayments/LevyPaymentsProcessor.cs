@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                 {
                     var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id });
 
-                    if (earning.Earning.MonthlyInstallmentCapped > 0)
+                    if (earning?.Earning?.MonthlyInstallmentCapped > 0)
                     {
                         MakeLevyPayment(account, commitment, earning.Earning);
                     }

@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments.ProcessPaymentCommand;
@@ -45,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             _mediator.Setup(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()))
                 .Returns(new GetEarningForCommitmentQueryResponse
                 {
-                    Earning = new Application.Earnings.PeriodEarning
+                    Earning = new PeriodEarning
                     {
                         LearnerRefNumber = "Learner1",
                         AimSequenceNumber = 1,
@@ -73,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
                     counter++;
                     return new GetNextAccountQueryResponse
                     {
-                        Account = counter >= 3 ? null : new Application.Accounts.Account { Commitments = new Commitment[0] }
+                        Account = counter >= 3 ? null : new Account { Commitments = new Commitment[0] }
                     };
                 });
 
@@ -112,7 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             _mediator.Setup(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()))
                 .Returns(new GetEarningForCommitmentQueryResponse
                 {
-                    Earning = new Application.Earnings.PeriodEarning
+                    Earning = new PeriodEarning
                     {
                         MonthlyInstallmentCapped = 0m
                     }

@@ -67,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Accounts\GetNextAccountQuery\Handle\WhenHandlingRequestWhenNoAccountsOutstanding.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\Handle\WhenHandlingRequestWhereNextAccountHasNoCommitments.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\Handle\WhenHandlingValidRequest.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithInvalidContext.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithValidContext.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForKnownProperty.cs" />
