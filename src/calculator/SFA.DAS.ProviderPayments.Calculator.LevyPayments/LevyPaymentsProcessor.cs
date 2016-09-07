@@ -29,12 +29,16 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
         public virtual void Process()
         {
             _logger.Info("Started Levy Payments Processor.");
-            
+
             Account account;
             while ((account = _mediator.Send(new GetNextAccountQueryRequest())?.Account) != null)
             {
+                _logger.Info($"Processing account {account.Id}");
+
                 foreach (var commitment in account.Commitments)
                 {
+                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id}");
+
                     var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id })?.Earning;
                     if (earning == null || earning.MonthlyInstallmentCapped <= 0)
                     {
@@ -52,19 +56,26 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                     {
                         MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
                     }
+
+                    _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
                 }
 
-                _mediator.Send(new MarkAccountAsProcessedCommandRequest {AccountId = account.Id});
+                _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = account.Id });
+                _logger.Info($"Finished processing account {account.Id}");
             }
         }
 
         private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount, TransactionType transactionType)
         {
+            _logger.Info($"Levy payment of {amount} for commitment {commitment.Id}, to pay for {transactionType} on {earning.LearnerRefNumber} / {earning.AimSequenceNumber} / {earning.Ukprn}");
+
             var levyAllocation = _mediator.Send(new AllocateLevyCommandRequest
             {
                 Account = account,
                 AmountRequested = amount
             })?.AmountAllocated ?? 0;
+
+            _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {transactionType} on {earning.LearnerRefNumber} / {earning.AimSequenceNumber} / {earning.Ukprn}");
 
             _mediator.Send(new ProcessPaymentCommandRequest
             {
