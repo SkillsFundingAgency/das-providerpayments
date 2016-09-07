@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                 name = id;
             }
 
-            Execute("INSERT INTO Reference.DasAccounts (AccountId, AccountName, LevyBalance) VALUES (@id, @name, @balance)", new { id, name, balance });
+            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, LevyBalance) VALUES (@id, @name, @balance)", new { id, name, balance });
         }
         internal static void AddCommitment(string id, 
                                            string accountId, 
@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                 endDate = startDate.AddYears(1);
             }
 
-            Execute("INSERT INTO Reference.DataLockCommitments " +
+            Execute("INSERT INTO dbo.DasCommitments " +
                     "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
                     "VALUES " +
                     "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
@@ -97,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                   + "(AgreedCost * 0.8) / @numberOfPeriods, "
                   + "AgreedCost * 0.2, "
                   + "AgreedCost * 0.2 "
-                  + "FROM Reference.DataLockCommitments "
+                  + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate });
         }

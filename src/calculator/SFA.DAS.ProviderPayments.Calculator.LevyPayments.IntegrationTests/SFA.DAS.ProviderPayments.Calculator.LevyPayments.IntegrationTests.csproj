@@ -83,7 +83,7 @@
     <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Transient.DataLock.DDL.sql">
+    <Content Include="DbSetupScripts\Ilr.Deds.DataLock.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

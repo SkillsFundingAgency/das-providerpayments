@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                 {
                     // Pre-req scripts
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
-                    RunSqlScript(@"Ilr.Transient.DataLock.DDL.sql", connection);
+                    RunSqlScript(@"Ilr.Deds.DataLock.DDL.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
 
                     // Component scripts
