@@ -36,19 +36,31 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                 foreach (var commitment in account.Commitments)
                 {
                     var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id })?.Earning;
-                    if (earning == null)
+                    if (earning == null || earning.MonthlyInstallmentCapped <= 0)
                     {
                         continue;
                     }
 
-                    if (earning.LearningActualEndDate.HasValue)
-                    {
-                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
-                    }
-                    else if (earning.MonthlyInstallmentCapped > 0)
+                    var isComplete = earning.LearningActualEndDate.HasValue;
+                    var isCompleteOnCensusDate = isComplete && earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
+
+                    if (!isComplete || isCompleteOnCensusDate)
                     {
                         MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped, TransactionType.Learning);
                     }
+                    if (isComplete)
+                    {
+                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
+                    }
+
+                    //if (earning.LearningActualEndDate.HasValue)
+                    //{
+                    //    MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
+                    //}
+                    //else if (earning.MonthlyInstallmentCapped > 0)
+                    //{
+                    //    MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped, TransactionType.Learning);
+                    //}
                 }
 
                 _mediator.Send(new MarkAccountAsProcessedCommandRequest {AccountId = account.Id});
