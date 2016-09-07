@@ -2,6 +2,7 @@ IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='LevyPayments')
 BEGIN
 	EXEC('CREATE SCHEMA LevyPayments')
 END
+GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- UpdateAccountLevySpend
@@ -81,3 +82,4 @@ SET NOCOUNT ON
 	(PaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,Source,Amount)
 	VALUES
 	(NEWID(), @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@Source,@Amount)
+GO

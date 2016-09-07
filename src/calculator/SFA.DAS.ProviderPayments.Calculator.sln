@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{5FDF8704-9E9F-4D84-9327-DE7730600E8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests", "SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests.csproj", "{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,11 +31,16 @@ Global
 		{5FDF8704-9E9F-4D84-9327-DE7730600E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FDF8704-9E9F-4D84-9327-DE7730600E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FDF8704-9E9F-4D84-9327-DE7730600E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{08D3D28B-B618-4346-8515-E93B23BC04D6} = {94E73120-2F75-4234-96D6-82A5A08DF463}
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3} = {94E73120-2F75-4234-96D6-82A5A08DF463}
 	EndGlobalSection
 EndGlobal
