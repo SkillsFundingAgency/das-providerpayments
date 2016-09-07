@@ -41,12 +41,19 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
         private void RunSqlScript(string fileName, SqlConnection connection)
         {
             var path = Path.Combine(GlobalTestContext.Instance.AssemblyDirectory, "DbSetupScripts", fileName);
-            var sql = File.ReadAllText(path);
+            var sql = ReplaceSqlTokens(File.ReadAllText(path));
             var commands = sql.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var command in commands)
             {
                 connection.Execute(command);
             }
+        }
+        private string ReplaceSqlTokens(string sql)
+        {
+            return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.DatabaseName)
+                      .Replace("${ILR_Previous.FQ}", GlobalTestContext.Instance.DatabaseName)
+                      .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.DatabaseName)
+                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.DatabaseName);
         }
     }
 }

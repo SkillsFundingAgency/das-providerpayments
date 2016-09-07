@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Text.RegularExpressions;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
 {
@@ -12,6 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
             try
             {
                 SetupConnectionString();
+                SetupDatabaseName();
                 SetupAsseblyDirectory();
             }
             catch (Exception ex)
@@ -21,6 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
         }
 
         public string ConnectionString { get; private set; }
+        public string DatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
 
 
@@ -32,6 +35,24 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
             {
                 ConnectionString = ConfigurationManager.AppSettings[ConnectionStringKey];
             }
+        }
+        private void SetupDatabaseName()
+        {
+            var match = Regex.Match(ConnectionString, @"database=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                DatabaseName = match.Groups[1].Value;
+                return;
+            }
+
+            match = Regex.Match(ConnectionString, @"initial catalog=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                DatabaseName = match.Groups[1].Value;
+                return;
+            }
+
+            throw new Exception("Cannot extract database name from connection");
         }
         private void SetupAsseblyDirectory()
         {
