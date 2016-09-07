@@ -19,7 +19,7 @@ SELECT
 	acc.AccountId,
 	acc.AccountName,
 	acc.LevyBalance - ISNULL(stat.LevySpent,0) [Balance]
-FROM Reference.DasAccounts acc
+FROM ${DAS_Accounts.FQ}.Reference.DasAccounts acc
 LEFT JOIN LevyPayments.AccountProcessStatus stat
 	ON acc.AccountId = stat.AccountId
 WHERE stat.HasBeenProcessed IS NULL OR stat.HasBeenProcessed = 0
@@ -48,7 +48,7 @@ SELECT
 	ProgrammeType,
 	FrameworkCode,
 	PathwayCode
-FROM Reference.DataLockCommitments
+FROM ${DAS_Commitments.FQ}.Reference.DataLockCommitments
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,8 +81,8 @@ SELECT
 	ld.LearnStartDate,
 	ld.LearnPlanEndDate,
 	ld.LearnActEndDate
-FROM Rulebase.AE_LearningDelivery ld
-INNER JOIN Reference.DataLockCommitments c
+FROM ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery ld
+INNER JOIN ${DAS_Commitments.FQ}.Reference.DataLockCommitments c
 	ON ld.Ukprn = c.Ukprn
 	AND ld.Uln = c.Uln
 	AND (
