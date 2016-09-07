@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments;
 
@@ -89,13 +90,13 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests.Fini
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(2, paymentsMade.Length);
 
-            Assert.AreEqual((int)FundingSource.Levy, paymentsMade[0].Source);
-            Assert.AreEqual((int)TransactionType.Learning, paymentsMade[0].TransactionType);
-            Assert.AreEqual(1000m, paymentsMade[0].Amount);
+            Assert.IsTrue(paymentsMade.Any(p => p.Source == (int) FundingSource.Levy
+                                                && p.TransactionType == (int) TransactionType.Learning
+                                                && p.Amount == 1000m));
 
-            Assert.AreEqual((int)FundingSource.Levy, paymentsMade[1].Source);
-            Assert.AreEqual((int)TransactionType.Completion, paymentsMade[1].TransactionType);
-            Assert.AreEqual(3000m, paymentsMade[1].Amount);
+            Assert.IsTrue(paymentsMade.Any(p => p.Source == (int)FundingSource.Levy
+                                                && p.TransactionType == (int)TransactionType.Completion
+                                                && p.Amount == 3000m));
         }
 
     }
