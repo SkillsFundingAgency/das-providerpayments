@@ -8,6 +8,8 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
 {
     internal static class TestDataHelper
     {
+        private readonly static Random _random = new Random();
+
         internal static void AddAccount(string id, string name = null, decimal balance = 999999999)
         {
             if (name == null)
@@ -31,6 +33,14 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
+            if (uln == 0)
+            {
+                uln = _random.Next(1, int.MaxValue);
+            }
+            if (ukprn == 0)
+            {
+                ukprn = _random.Next(1, int.MaxValue);
+            }
             if (!standardCode.HasValue && !programmeType.HasValue)
             {
                 standardCode = 123456;
@@ -55,7 +65,10 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                                                      int aimSequenceNumber = 1, 
                                                      string niNumber = "XX12345X",
                                                      int numberOfPeriods = 12,
-                                                     int currentPeriod = 1)
+                                                     int currentPeriod = 1,
+                                                     DateTime? startDate = null,
+                                                     DateTime? endDate = null,
+                                                     DateTime? actualEndDate = null)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
@@ -74,10 +87,10 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                   + "FrameworkCode, "
                   + "PathwayCode, "
                   + "AgreedCost, "
-                  + "StartDate, "
+                  + "COALESCE(@startDate, StartDate), "
                   + "NULL, "
-                  + "EndDate, "
-                  + "NULL, "
+                  + "COALESCE(@endDate, EndDate), "
+                  + "@actualEndDate, "
                   + "@numberOfPeriods, "
                   + "@currentPeriod, "
                   + "(AgreedCost * 0.8) / @numberOfPeriods, "
@@ -86,14 +99,15 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests
                   + "AgreedCost * 0.2 "
                   + "FROM Reference.DataLockCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod });
+                new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate });
         }
 
 
         internal static PaymentEntity[] GetPaymentsForCommitment(string commitmentId)
         {
-            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments");
+            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
         }
+
 
         private static void Execute(string command, object param = null)
         {

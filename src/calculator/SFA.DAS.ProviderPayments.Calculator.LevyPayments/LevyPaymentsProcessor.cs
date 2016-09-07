@@ -35,10 +35,18 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                 foreach (var commitment in account.Commitments)
                 {
                     var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id })?.Earning;
-
-                    if (earning?.MonthlyInstallmentCapped > 0)
+                    if (earning == null)
                     {
-                        MakeLevyPayment(account, commitment, earning);
+                        continue;
+                    }
+
+                    if (earning.LearningActualEndDate.HasValue)
+                    {
+                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped);
+                    }
+                    else if (earning.MonthlyInstallmentCapped > 0)
+                    {
+                        MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped);
                     }
                 }
 
@@ -46,12 +54,12 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
             }
         }
 
-        private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning)
+        private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount)
         {
             var levyAllocation = _mediator.Send(new AllocateLevyCommandRequest
             {
                 Account = account,
-                AmountRequested = earning.MonthlyInstallmentCapped
+                AmountRequested = amount
             })?.AmountAllocated ?? 0;
 
             _mediator.Send(new ProcessPaymentCommandRequest

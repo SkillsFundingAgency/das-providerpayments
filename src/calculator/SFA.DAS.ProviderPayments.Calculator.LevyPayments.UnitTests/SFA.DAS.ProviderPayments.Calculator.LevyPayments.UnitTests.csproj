@@ -84,6 +84,7 @@
     <Compile Include="Common\ExternalContextStub.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingCompletionSubmission.cs" />
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNormalMonthlySubmission.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />
