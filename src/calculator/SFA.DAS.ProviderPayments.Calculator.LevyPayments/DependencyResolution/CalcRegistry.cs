@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using MediatR;
 using NLog;
-using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.Dcfs;
 using StructureMap;
