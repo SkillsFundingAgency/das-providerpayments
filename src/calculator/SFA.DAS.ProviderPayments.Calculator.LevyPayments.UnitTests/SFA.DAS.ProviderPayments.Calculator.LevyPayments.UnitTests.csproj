@@ -72,6 +72,7 @@
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhenNoAccountsOutstanding.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhereNextAccountHasNoCommitments.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler\Handle\WhenHandlingAValidRequest.cs" />
     <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingARequestForACommitmentWithNoEarnings.cs" />
     <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingValidRequest.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler\Handle\WhenHandlingValidRequest.cs" />

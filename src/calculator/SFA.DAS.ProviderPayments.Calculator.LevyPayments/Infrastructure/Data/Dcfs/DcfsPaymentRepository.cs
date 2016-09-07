@@ -4,7 +4,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.D
 {
     public class DcfsPaymentRepository : DcfsRepository, IPaymentRepository
     {
-        private const string AddPaymentCommand = "LevyPayments.AddPayment";
+        private const string AddPaymentCommand = "LevyPayments.AddPayment @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @Source, @Amount";
 
         public DcfsPaymentRepository(string connectionString) 
             : base(connectionString)
@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.D
 
         public void AddPayment(PaymentEntity payment)
         {
-            Execute("AddPaymentCommand", new
+            Execute(AddPaymentCommand, new
             {
                 CommitmentId = payment.CommitmentId,
                 LearnRefNumber = payment.LearnerRefNumber,

@@ -3,6 +3,7 @@ using NLog;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments.ProcessPaymentCommand;
@@ -33,13 +34,15 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
             {
                 foreach (var commitment in account.Commitments)
                 {
-                    var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id });
+                    var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id })?.Earning;
 
-                    if (earning?.Earning?.MonthlyInstallmentCapped > 0)
+                    if (earning?.MonthlyInstallmentCapped > 0)
                     {
-                        MakeLevyPayment(account, commitment, earning.Earning);
+                        MakeLevyPayment(account, commitment, earning);
                     }
                 }
+
+                _mediator.Send(new MarkAccountAsProcessedCommandRequest {AccountId = account.Id});
             }
         }
 

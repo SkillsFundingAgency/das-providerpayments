@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Infrastructure.Data.D
     public class DcfsCommitmentRepository : DcfsRepository, ICommitmentRepository
     {
         private const string CommitmentsSource = "LevyPayments.vw_AccountCommitments";
-        private const string CommitmentsColumns = "CommitmentId";
+        private const string CommitmentsColumns = "CommitmentId [Id]";
         private const string SelectCommitments = "SELECT " + CommitmentsColumns + " FROM " + CommitmentsSource;
         private const string SelectCommitmentsForAccount = SelectCommitments + " WHERE AccountId = @AccountId";
 

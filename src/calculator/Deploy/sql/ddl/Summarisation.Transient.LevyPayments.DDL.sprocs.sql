@@ -32,6 +32,33 @@ SET NOCOUNT ON
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
+-- MarkAccountAsProcessed
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='MarkAccountAsProcessed' AND [schema_id] = SCHEMA_ID('LevyPayments'))
+BEGIN
+	DROP PROCEDURE LevyPayments.MarkAccountAsProcessed
+END
+GO
+
+CREATE PROCEDURE LevyPayments.MarkAccountAsProcessed
+	@AccountId varchar(50)
+AS
+SET NOCOUNT ON
+
+	UPDATE LevyPayments.AccountProcessStatus
+	SET HasBeenProcessed = 1
+	WHERE AccountId = @AccountId
+
+	IF (@@ROWCOUNT = 0)
+		BEGIN
+			INSERT INTO LevyPayments.AccountProcessStatus
+			(AccountId, HasBeenProcessed, LevySpent)
+			VALUES
+			(@AccountId, 1, 0)
+		END
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 -- AddPayment
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='AddPayment' AND [schema_id] = SCHEMA_ID('LevyPayments'))
@@ -46,14 +73,11 @@ CREATE PROCEDURE LevyPayments.AddPayment
 	@AimSeqNumber int,
 	@Ukprn bigint,
 	@Source int,
-	@Amount decimal(15,2),
-	@PaymentId uniqueidentifier OUTPUT
+	@Amount decimal(15,2)
 AS
 SET NOCOUNT ON
-
-	SET @PaymentId = NEWID()
 
 	INSERT INTO LevyPayments.Payments
 	(PaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,Source,Amount)
 	VALUES
-	(@PaymentId, @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@Source,@Amount)
+	(NEWID(), @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@Source,@Amount)

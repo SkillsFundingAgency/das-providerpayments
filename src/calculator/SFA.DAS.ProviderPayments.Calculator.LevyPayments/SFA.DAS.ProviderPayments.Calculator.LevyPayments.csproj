@@ -67,6 +67,8 @@
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryRequest.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryResponse.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandRequest.cs" />
     <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler.cs" />
     <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryRequest.cs" />
     <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryResponse.cs" />

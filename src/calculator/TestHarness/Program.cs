@@ -18,7 +18,7 @@ namespace TestHarness
                 {
                     case 1:
                         context = new TestHarnessContext();
-                        Console.WriteLine("Context reset");
+                        WriteLine("Context reset");
                         break;
                     case 2:
                         ExecuteLevyTask(context);
@@ -27,6 +27,8 @@ namespace TestHarness
                         exit = true;
                         break;
                 }
+
+                WriteLine();
             }
         }
 
@@ -34,11 +36,11 @@ namespace TestHarness
         {
             while (true)
             {
-                Console.WriteLine("What would you like to do?");
-                Console.WriteLine("   1. Reset context");
-                Console.WriteLine("   2. Execute levy task");
-                Console.WriteLine("   0. Exit");
-                Console.Write("Selection: ");
+                WriteLine("What would you like to do?");
+                WriteLine("   1. Reset context");
+                WriteLine("   2. Execute levy task");
+                WriteLine("   0. Exit");
+                Write("Selection: ");
 
                 var input = Console.ReadLine()?.Trim();
                 int selection;
@@ -46,8 +48,8 @@ namespace TestHarness
                 {
                     return selection;
                 }
-                Console.WriteLine("Invalid input! Please enter a number between 0 and 1 (inclusive)");
-                Console.WriteLine();
+                WriteErrorLine("Invalid input! Please enter a number between 0 and 1 (inclusive)");
+                WriteLine();
             }
         }
         private static void ExecuteLevyTask(IExternalContext context)
@@ -56,15 +58,32 @@ namespace TestHarness
             {
                 var task = new LevyPaymentsTask();
 
-                Console.WriteLine("Starting task...");
+                WriteLine("Starting task...");
                 task.Execute(context);
 
-                Console.WriteLine("Task completed successfully");
+                WriteLine("Task completed successfully");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR : " + ex.Message);
+                WriteErrorLine("ERROR: " + ex.Message);
             }
+        }
+
+
+        private static void WriteLine(string line = "")
+        {
+            Console.WriteLine(line);
+        }
+        private static void WriteErrorLine(string line = "")
+        {
+            var color = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            WriteLine(line);
+            Console.ForegroundColor = color;
+        }
+        private static void Write(string value)
+        {
+            Console.Write(value);
         }
     }
 }

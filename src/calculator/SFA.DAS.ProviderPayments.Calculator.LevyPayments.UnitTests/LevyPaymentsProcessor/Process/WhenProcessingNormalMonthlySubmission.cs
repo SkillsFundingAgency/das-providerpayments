@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetNextAccountQuery;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments;
@@ -135,6 +136,16 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             // Assert
             _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0], FundingSource.Levy, 123.45m)));
             _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, 123.45m)));
+        }
+
+        [Test]
+        public void ThenItShouldMarkAccountAsProcessed()
+        {
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.Is<MarkAccountAsProcessedCommandRequest>(r => r.AccountId == _account.Id)), Times.Once);
         }
 
 
