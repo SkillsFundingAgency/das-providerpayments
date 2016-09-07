@@ -25,6 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application
                     AimSequenceNumber = 99,
                     Ukprn = 12345,
                     Source = FundingSource.Levy,
+                    TransactionType = TransactionType.Learning,
                     Amount = 987.65m
                 }
             };
@@ -50,7 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.Application
                 && entity.LearnerRefNumber == payment.LearnerRefNumber
                 && entity.AimSequenceNumber == payment.AimSequenceNumber
                 && entity.Ukprn == payment.Ukprn
-                && entity.Source == (int) payment.Source
+                && entity.Source == (int)payment.Source
+                && entity.TransactionType == (int)payment.TransactionType
                 && entity.Amount == payment.Amount;
         }
     }

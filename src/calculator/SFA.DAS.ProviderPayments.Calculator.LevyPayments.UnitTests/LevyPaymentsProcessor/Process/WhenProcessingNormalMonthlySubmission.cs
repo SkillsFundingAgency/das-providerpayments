@@ -148,7 +148,6 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             _mediator.Verify(m => m.Send(It.Is<MarkAccountAsProcessedCommandRequest>(r => r.AccountId == _account.Id)), Times.Once);
         }
 
-
         private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource source, decimal amount)
         {
             return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
@@ -156,6 +155,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
                                                          && r.Payment.AimSequenceNumber == 1
                                                          && r.Payment.Ukprn == 12345
                                                          && r.Payment.Source == source
+                                                         && r.Payment.TransactionType == TransactionType.Learning
                                                          && r.Payment.Amount == amount);
         }
 

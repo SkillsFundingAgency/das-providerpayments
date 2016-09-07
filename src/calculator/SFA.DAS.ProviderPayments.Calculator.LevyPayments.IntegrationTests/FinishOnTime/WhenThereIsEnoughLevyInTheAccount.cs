@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests.Fini
             Assert.AreEqual(1, paymentsMade.Length);
 
             Assert.AreEqual((int)FundingSource.Levy, paymentsMade[0].Source);
+            Assert.AreEqual((int)TransactionType.Learning, paymentsMade[0].TransactionType);
             Assert.AreEqual(1000m, paymentsMade[0].Amount);
         }
 
@@ -59,6 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests.Fini
             Assert.AreEqual(1, paymentsMade.Length);
 
             Assert.AreEqual((int)FundingSource.Levy, paymentsMade[0].Source);
+            Assert.AreEqual((int)TransactionType.Completion, paymentsMade[0].TransactionType);
             Assert.AreEqual(3000m, paymentsMade[0].Amount);
         }
 

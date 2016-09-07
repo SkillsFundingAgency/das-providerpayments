@@ -13,6 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests", "SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calculator.LevyPayments.IntegrationTests.csproj", "{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{D9A85E13-1B19-4529-9E7A-F0369E392B2D}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

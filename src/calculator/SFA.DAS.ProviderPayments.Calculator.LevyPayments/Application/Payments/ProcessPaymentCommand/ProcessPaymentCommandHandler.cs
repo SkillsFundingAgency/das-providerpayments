@@ -20,7 +20,8 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments.
                 LearnerRefNumber = message.Payment.LearnerRefNumber,
                 AimSequenceNumber = message.Payment.AimSequenceNumber,
                 Ukprn = message.Payment.Ukprn,
-                Source = (int) message.Payment.Source,
+                Source = (int)message.Payment.Source,
+                TransactionType = (int)message.Payment.TransactionType,
                 Amount = message.Payment.Amount
             });
 

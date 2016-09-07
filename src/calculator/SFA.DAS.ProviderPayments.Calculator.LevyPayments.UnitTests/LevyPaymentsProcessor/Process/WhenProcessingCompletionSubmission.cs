@@ -90,6 +90,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
                                                          && r.Payment.AimSequenceNumber == 1
                                                          && r.Payment.Ukprn == 12345
                                                          && r.Payment.Source == source
+                                                         && r.Payment.TransactionType == TransactionType.Completion
                                                          && r.Payment.Amount == amount);
         }
     }

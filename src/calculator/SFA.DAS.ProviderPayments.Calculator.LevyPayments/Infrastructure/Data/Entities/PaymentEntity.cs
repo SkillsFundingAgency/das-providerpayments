@@ -11,6 +11,7 @@
         public string CommitmentId { get; set; }
 
         public int Source { get; set; }
+        public int TransactionType { get; set; }
         public decimal Amount { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.GetN
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Application.Payments.ProcessPaymentCommand;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
@@ -42,11 +43,11 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
 
                     if (earning.LearningActualEndDate.HasValue)
                     {
-                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped);
+                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
                     }
                     else if (earning.MonthlyInstallmentCapped > 0)
                     {
-                        MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped);
+                        MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped, TransactionType.Learning);
                     }
                 }
 
@@ -54,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
             }
         }
 
-        private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount)
+        private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount, TransactionType transactionType)
         {
             var levyAllocation = _mediator.Send(new AllocateLevyCommandRequest
             {
@@ -64,13 +65,14 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
 
             _mediator.Send(new ProcessPaymentCommandRequest
             {
-                Payment = new Application.Payments.Payment
+                Payment = new Payment
                 {
                     CommitmentId = commitment.Id,
                     LearnerRefNumber = earning.LearnerRefNumber,
                     AimSequenceNumber = earning.AimSequenceNumber,
                     Ukprn = earning.Ukprn,
-                    Source = Application.Payments.FundingSource.Levy,
+                    Source = FundingSource.Levy,
+                    TransactionType = transactionType,
                     Amount = levyAllocation
                 }
             });
