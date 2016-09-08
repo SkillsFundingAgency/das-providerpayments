@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CS.Common.External.Interfaces;
+﻿using CS.Common.External.Interfaces;
 using SFA.DAS.ProviderPayments.Calculator.Common.Context;
+using SFA.DAS.ProviderPayments.Calculator.Common.Logging;
 
 namespace SFA.DAS.ProviderPayments.Calculator.Common
 {
@@ -16,7 +12,11 @@ namespace SFA.DAS.ProviderPayments.Calculator.Common
             ValidateContext(contextWrapper);
 
             SetupLogging(contextWrapper);
+
+            Execute(contextWrapper);
         }
+
+        protected abstract void Execute(ContextWrapper context);
 
         protected virtual ContextWrapper GetContextWrapper(IExternalContext context)
         {
@@ -37,6 +37,10 @@ namespace SFA.DAS.ProviderPayments.Calculator.Common
 
         protected virtual void SetupLogging(ContextWrapper contextWrapper)
         {
+            LoggingConfig.ConfigureLogging(
+                   contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString),
+                   contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)
+               );
         }
     }
 }
