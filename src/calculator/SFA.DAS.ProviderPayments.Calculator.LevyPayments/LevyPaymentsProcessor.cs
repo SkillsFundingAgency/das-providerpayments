@@ -26,12 +26,13 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
             // So we can mock
         }
 
+
         public virtual void Process()
         {
             _logger.Info("Started Levy Payments Processor.");
 
             Account account;
-            while ((account = _mediator.Send(new GetNextAccountQueryRequest())?.Account) != null)
+            while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
 
@@ -39,14 +40,14 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                 {
                     _logger.Info($"Processing commitment {commitment.Id} for account {account.Id}");
 
-                    var earning = _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitment.Id })?.Earning;
+                    var earning = GetEarningForCommitment(commitment.Id);
                     if (earning == null || earning.MonthlyInstallmentCapped <= 0)
                     {
                         continue;
                     }
 
                     var isComplete = earning.LearningActualEndDate.HasValue;
-                    var isCompleteOnCensusDate = isComplete && earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
+                    var isCompleteOnCensusDate = CompletedOnCensusDate(isComplete, earning);
 
                     if (!isComplete || isCompleteOnCensusDate)
                     {
@@ -60,9 +61,27 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
                 }
 
-                _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = account.Id });
+                MarkAccountAsProcessed(account.Id);
                 _logger.Info($"Finished processing account {account.Id}");
             }
+        }
+
+
+        private void MarkAccountAsProcessed(string accountId)
+        {
+            _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
+        }
+        private bool CompletedOnCensusDate(bool isComplete, PeriodEarning earning)
+        {
+            return isComplete && earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
+        }
+        private PeriodEarning GetEarningForCommitment(string commitmentId)
+        {
+            return _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitmentId })?.Earning;
+        }
+        private Account GetNextAccountRequiringProcessing()
+        {
+            return _mediator.Send(new GetNextAccountQueryRequest())?.Account;
         }
 
         private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount, TransactionType transactionType)
