@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                     }
 
                     var isComplete = earning.LearningActualEndDate.HasValue;
-                    var isCompleteOnCensusDate = CompletedOnCensusDate(isComplete, earning);
+                    var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
 
                     if (!isComplete || isCompleteOnCensusDate)
                     {
@@ -71,9 +71,13 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
         {
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
-        private bool CompletedOnCensusDate(bool isComplete, PeriodEarning earning)
+        private bool HasCompletedOnCensusDate(PeriodEarning earning)
         {
-            return isComplete && earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
+            if (!earning.LearningActualEndDate.HasValue)
+            {
+                return false;
+            }
+            return earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
         }
         private PeriodEarning GetEarningForCommitment(string commitmentId)
         {

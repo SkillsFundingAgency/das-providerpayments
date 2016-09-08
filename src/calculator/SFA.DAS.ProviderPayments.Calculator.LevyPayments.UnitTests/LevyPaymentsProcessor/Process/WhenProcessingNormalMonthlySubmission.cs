@@ -148,6 +148,39 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             _mediator.Verify(m => m.Send(It.Is<MarkAccountAsProcessedCommandRequest>(r => r.AccountId == _account.Id)), Times.Once);
         }
 
+        [Test]
+        public void ThenItShouldNotDoAnythingIfThereAreNoAccounts()
+        {
+            // Arrange
+            _mediator.Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
+                .Returns<GetNextAccountQueryResponse>(null);
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()), Times.Once);
+            _mediator.Verify(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<MarkAccountAsProcessedCommandRequest>()), Times.Never);
+        }
+
+        [Test]
+        public void ThenItShouldNotMakePaymentsIfAccountHasNoCommitments()
+        {
+            // Arrange
+            _account.Commitments = new Commitment[0];
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
+        }
+
         private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource source, decimal amount)
         {
             return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
