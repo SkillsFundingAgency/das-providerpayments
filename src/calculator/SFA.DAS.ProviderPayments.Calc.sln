@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80
 		Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql = Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests.csproj", "{A647DC37-1361-41C1-AB16-C00F6543AC2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A647DC37-1361-41C1-AB16-C00F6543AC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A647DC37-1361-41C1-AB16-C00F6543AC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A647DC37-1361-41C1-AB16-C00F6543AC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A647DC37-1361-41C1-AB16-C00F6543AC2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +95,6 @@ Global
 		{3BB187B5-820C-483B-BAB0-92CB9DD33C5F} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
 		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3} = {3BB187B5-820C-483B-BAB0-92CB9DD33C5F}
 		{682B1A75-A80F-4BBB-8188-E51C50FAFE67} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
+		{A647DC37-1361-41C1-AB16-C00F6543AC2F} = {3BB187B5-820C-483B-BAB0-92CB9DD33C5F}
 	EndGlobalSection
 EndGlobal
