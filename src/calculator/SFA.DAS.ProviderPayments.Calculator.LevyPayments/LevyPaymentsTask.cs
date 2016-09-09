@@ -1,5 +1,4 @@
 ﻿using CS.Common.External.Interfaces;
-using NLog;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Context;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Exceptions;
@@ -23,9 +22,9 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
 
         public void Execute(IExternalContext context)
         {
-            _dependencyResolver.Init(typeof(LevyPaymentsProcessor));
-
             var contextWrapper = new ContextWrapper(context);
+
+            _dependencyResolver.Init(typeof(LevyPaymentsProcessor), contextWrapper);
 
             ValidateContext(contextWrapper);
 
@@ -34,9 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments
                 contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)
             );
 
-            var logger = _dependencyResolver.GetInstance<ILogger>();
-
-            var processor = new LevyPaymentsProcessor(logger);
+            var processor = _dependencyResolver.GetInstance<LevyPaymentsProcessor>();
 
             processor.Process();
         }

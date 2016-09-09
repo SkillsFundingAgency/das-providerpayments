@@ -16,21 +16,24 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
 
         private Mock<IDependencyResolver> _dependencyResolver;
         private Mock<ILogger> _logger;
+        private Mock<LevyPayments.LevyPaymentsProcessor> _processor;
 
         [SetUp]
         public void Arrange()
         {
             _context = new ExternalContextStub();
             _logger = new Mock<ILogger>();
+            _processor = new Mock<LevyPayments.LevyPaymentsProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
             _dependencyResolver.Setup(dr => dr.GetInstance<ILogger>()).Returns(_logger.Object);
+            _dependencyResolver.Setup(dr => dr.GetInstance<LevyPayments.LevyPaymentsProcessor>()).Returns(_processor.Object);
 
             _task = new LevyPayments.LevyPaymentsTask(_dependencyResolver.Object);
         }
 
         [Test]
-        public void ThenLoggingIsDone()
+        public void ThenProcessorIsExecuted()
         {
             // Act
             var properties = new Dictionary<string, string>
@@ -44,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.LevyPayment
             _task.Execute(_context);
 
             // Assert
-            _logger.Verify(l => l.Info(It.IsAny<string>()), Times.Exactly(2));
+            _processor.Verify(p => p.Process(), Times.Once);
         }
     }
 }

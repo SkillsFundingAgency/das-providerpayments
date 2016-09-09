@@ -37,6 +37,10 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\Lib\CS.Common.External.dll</HintPath>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.5.21.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.21\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -63,6 +67,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler\Handle\WhenHandlingRequestForAccountWithEnoughLevy.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler\Handle\WhenHandlingRequestForAccountWithoutEnoughLevy.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhenNoAccountsOutstanding.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhereNextAccountHasNoCommitments.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler\Handle\WhenHandlingAValidRequest.cs" />
+    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingARequestForACommitmentWithNoEarnings.cs" />
+    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler\Handle\WhenHandlingValidRequest.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithInvalidContext.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithValidContext.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForKnownProperty.cs" />
@@ -71,6 +84,8 @@
     <Compile Include="Common\ExternalContextStub.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingCompletionSubmission.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNormalMonthlySubmission.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />
     <Compile Include="Logging\LoggingConfig\ConfigureLogging\WhenCalled.cs" />

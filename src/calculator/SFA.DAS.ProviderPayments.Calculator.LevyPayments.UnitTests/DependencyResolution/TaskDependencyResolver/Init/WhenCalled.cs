@@ -1,5 +1,9 @@
-﻿using NLog;
+﻿using System.Collections.Generic;
+using CS.Common.External.Interfaces;
+using Moq;
+using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calculator.LevyPayments.Context;
 
 namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.DependencyResolution.TaskDependencyResolver.Init
 {
@@ -10,8 +14,15 @@ namespace SFA.DAS.ProviderPayments.Calculator.LevyPayments.UnitTests.DependencyR
         [SetUp]
         public void Arrange()
         {
+            var context = new Mock<IExternalContext>();
+            context.Setup(c => c.Properties)
+                .Returns(new Dictionary<string, string>
+                {
+                    {ContextPropertyKeys.TransientDatabaseConnectionString, "TheDb"}
+                });
+
             _dependencyResolver = new LevyPayments.DependencyResolution.TaskDependencyResolver();
-            _dependencyResolver.Init(typeof(WhenCalled));
+            _dependencyResolver.Init(typeof(WhenCalled), new ContextWrapper(context.Object));
         }
 
         [Test]
