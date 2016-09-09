@@ -1,0 +1,7 @@
+﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities
+{
+    public class CommitmentEntity
+    {
+        public string Id { get; set; }
+    }
+}

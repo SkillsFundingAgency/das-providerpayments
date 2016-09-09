@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments", "SFA.DAS.ProviderPayments.Calc.LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.csproj", "{CA3748B0-C749-444A-BC59-1F03A10436C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{94E73120-2F75-4234-96D6-82A5A08DF463}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests", "SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests\SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.csproj", "{08D3D28B-B618-4346-8515-E93B23BC04D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.csproj", "{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{D9A85E13-1B19-4529-9E7A-F0369E392B2D}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql
+		Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql = Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{8AD3AA7D-FDB8-4FA4-94F3-BF5D7D0BB725}"
+	ProjectSection(SolutionItems) = preProject
+		Build.fsx = Build.fsx
+		RunBuild.bat = RunBuild.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LevyPayments", "LevyPayments", "{216A6DB4-AFA0-4697-9102-0D77487B05EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentSchedule", "PaymentSchedule", "{5490800A-69D0-44DA-8A5D-8B780B05B8AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.csproj", "{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Common", "SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj", "{E8AED497-09E3-417F-89F8-5A45BBADD08F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BB187B5-820C-483B-BAB0-92CB9DD33C5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.csproj", "{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7658ECE8-7140-426E-8273-ADC0709E9F71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80F-4BBB-8188-E51C50FAFE67}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql = Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql
+		Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql = Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08D3D28B-B618-4346-8515-E93B23BC04D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08D3D28B-B618-4346-8515-E93B23BC04D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08D3D28B-B618-4346-8515-E93B23BC04D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08D3D28B-B618-4346-8515-E93B23BC04D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8AED497-09E3-417F-89F8-5A45BBADD08F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8AED497-09E3-417F-89F8-5A45BBADD08F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8AED497-09E3-417F-89F8-5A45BBADD08F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8AED497-09E3-417F-89F8-5A45BBADD08F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA3748B0-C749-444A-BC59-1F03A10436C7} = {216A6DB4-AFA0-4697-9102-0D77487B05EC}
+		{94E73120-2F75-4234-96D6-82A5A08DF463} = {216A6DB4-AFA0-4697-9102-0D77487B05EC}
+		{08D3D28B-B618-4346-8515-E93B23BC04D6} = {94E73120-2F75-4234-96D6-82A5A08DF463}
+		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3} = {94E73120-2F75-4234-96D6-82A5A08DF463}
+		{D9A85E13-1B19-4529-9E7A-F0369E392B2D} = {216A6DB4-AFA0-4697-9102-0D77487B05EC}
+		{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
+		{E8AED497-09E3-417F-89F8-5A45BBADD08F} = {7658ECE8-7140-426E-8273-ADC0709E9F71}
+		{3BB187B5-820C-483B-BAB0-92CB9DD33C5F} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
+		{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3} = {3BB187B5-820C-483B-BAB0-92CB9DD33C5F}
+		{682B1A75-A80F-4BBB-8188-E51C50FAFE67} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
+	EndGlobalSection
+EndGlobal
