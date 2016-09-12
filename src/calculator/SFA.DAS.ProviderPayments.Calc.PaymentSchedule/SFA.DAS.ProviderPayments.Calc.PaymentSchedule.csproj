@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />
     <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
@@ -71,6 +72,10 @@
       <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\" />
+    <Folder Include="Infrastructure\Data\Dcfs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
