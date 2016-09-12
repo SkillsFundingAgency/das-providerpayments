@@ -76,8 +76,6 @@ SELECT
 	ld.MonthlyInstallmentUncapped,
 	ld.CompletionPayment,
 	ld.CompletionPaymentUncapped,
-	ld.CurrentPeriod,
-	ld.NumberOfPeriods,
 	ld.LearnStartDate,
 	ld.LearnPlanEndDate,
 	ld.LearnActEndDate
