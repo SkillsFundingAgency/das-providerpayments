@@ -91,8 +91,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                   + "NULL, "
                   + "COALESCE(@endDate, EndDate), "
                   + "@actualEndDate, "
-                  + "@numberOfPeriods, "
-                  + "@currentPeriod, "
                   + "(AgreedCost * 0.8) / @numberOfPeriods, "
                   + "(AgreedCost * 0.8) / @numberOfPeriods, "
                   + "AgreedCost * 0.2, "

@@ -13,8 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Dcfs
                                               "MonthlyInstallmentUncapped [MonthlyInstallment]," +
                                               "CompletionPayment [CompletionPaymentCapped]," +
                                               "CompletionPaymentUncapped [CompletionPayment]," +
-                                              "CurrentPeriod," +
-                                              "NumberOfPeriods [TotalNumberOfPeriods]," +
                                               "LearnStartDate [LearningStartDate]," +
                                               "LearnPlanEndDate [LearningPlannedEndDate]," +
                                               "LearnActEndDate [LearningActualEndDate]";
