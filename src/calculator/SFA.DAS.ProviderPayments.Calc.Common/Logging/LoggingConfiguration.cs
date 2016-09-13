@@ -7,16 +7,16 @@ using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
 namespace SFA.DAS.ProviderPayments.Calc.Common.Logging
 {
-    public class LoggingConfig
+    public class LoggingConfiguration
     {
-        public static void ConfigureLogging(string connectionString, string logLevel)
+        public static void Configure(string connectionString, string logLevel, string schema)
         {
-            var config = new LoggingConfiguration();
+            var config = new NLog.Config.LoggingConfiguration();
             var sqlServerTarget = new DatabaseTarget("sqlserver");
 
             sqlServerTarget.ConnectionString = connectionString;
 
-            sqlServerTarget.CommandText = @"INSERT INTO [LevyPayments].[TaskLog] (
+            sqlServerTarget.CommandText = $@"INSERT INTO [{schema}].[TaskLog] (
                                         Level, Logger, Message, Exception
                                     ) VALUES (
                                         @level, @logger, @message, @exception

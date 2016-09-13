@@ -51,7 +51,7 @@
     <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="Context\InvalidContextException.cs" />
     <Compile Include="DcfsTask.cs" />
-    <Compile Include="Logging\LoggingConfig.cs" />
+    <Compile Include="Logging\LoggingConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

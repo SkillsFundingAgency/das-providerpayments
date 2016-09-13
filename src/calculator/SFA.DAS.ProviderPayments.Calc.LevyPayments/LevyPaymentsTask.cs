@@ -1,54 +1,35 @@
-﻿using CS.Common.External.Interfaces;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Context;
+﻿using SFA.DAS.ProviderPayments.Calc.Common;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Exceptions;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Logging;
+using ContextWrapper = SFA.DAS.ProviderPayments.Calc.Common.Context.ContextWrapper;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 {
-    public class LevyPaymentsTask : IExternalTask
+    public class LevyPaymentsTask : DcfsTask
     {
+        private const string DatabaseSchema = "LevyPayments";
+
         private readonly IDependencyResolver _dependencyResolver;
 
         public LevyPaymentsTask()
+            : base(DatabaseSchema)
         {
             _dependencyResolver = new TaskDependencyResolver();
         }
 
         internal LevyPaymentsTask(IDependencyResolver dependencyResolver)
+            : base(DatabaseSchema)
         {
             _dependencyResolver = dependencyResolver;
         }
 
-        public void Execute(IExternalContext context)
+
+        protected override void Execute(ContextWrapper context)
         {
-            var contextWrapper = new ContextWrapper(context);
-
-            _dependencyResolver.Init(typeof(LevyPaymentsProcessor), contextWrapper);
-
-            ValidateContext(contextWrapper);
-
-            LoggingConfig.ConfigureLogging(
-                contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString),
-                contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)
-            );
+            _dependencyResolver.Init(typeof(LevyPaymentsTask), context);
 
             var processor = _dependencyResolver.GetInstance<LevyPaymentsProcessor>();
 
             processor.Process();
-        }
-
-        private void ValidateContext(ContextWrapper contextWrapper)
-        {
-            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString)))
-            {
-                throw new LevyPaymentsInvalidContextException(LevyPaymentsExceptionMessages.ContextPropertiesNoConnectionString);
-            }
-
-            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)))
-            {
-                throw new LevyPaymentsInvalidContextException(LevyPaymentsExceptionMessages.ContextPropertiesNoLogLevel);
-            }
         }
     }
 }

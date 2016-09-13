@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Common;
+using SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Tools;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWrapper.GetPropertyValue
+namespace SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Context.ContextWrapper.GetPropertyValue
 {
     public class WhenCalledForUnknownProperty
     {
-        private LevyPayments.Context.ContextWrapper _contextWrapper;
+        private Common.Context.ContextWrapper _contextWrapper;
 
         [SetUp]
         public void Arrange()
@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWr
                 }
             };
 
-            _contextWrapper = new LevyPayments.Context.ContextWrapper(context);
+            _contextWrapper = new Common.Context.ContextWrapper(context);
         }
 
         [Test]

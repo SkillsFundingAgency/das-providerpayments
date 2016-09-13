@@ -6,14 +6,23 @@ namespace SFA.DAS.ProviderPayments.Calc.Common
 {
     public abstract class DcfsTask : IExternalTask
     {
+        private readonly string _databaseSchema;
+
+        protected DcfsTask(string databaseSchema)
+        {
+            _databaseSchema = databaseSchema;
+        }
+
         public virtual void Execute(IExternalContext context)
         {
             var contextWrapper = GetContextWrapper(context);
-            ValidateContext(contextWrapper);
 
-            SetupLogging(contextWrapper);
+            if (IsValidContext(contextWrapper))
+            {
+                SetupLogging(contextWrapper);
 
-            Execute(contextWrapper);
+                Execute(contextWrapper);
+            }
         }
 
         protected abstract void Execute(ContextWrapper context);
@@ -22,7 +31,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Common
         {
             return new ContextWrapper(context);
         }
-        protected virtual void ValidateContext(ContextWrapper contextWrapper)
+
+        protected virtual bool IsValidContext(ContextWrapper contextWrapper)
         {
             if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString)))
             {
@@ -33,13 +43,16 @@ namespace SFA.DAS.ProviderPayments.Calc.Common
             {
                 throw new InvalidContextException(InvalidContextException.ContextPropertiesNoLogLevelMessage);
             }
+
+            return true;
         }
 
         protected virtual void SetupLogging(ContextWrapper contextWrapper)
         {
-            LoggingConfig.ConfigureLogging(
+            LoggingConfiguration.Configure(
                    contextWrapper.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString),
-                   contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel)
+                   contextWrapper.GetPropertyValue(ContextPropertyKeys.LogLevel),
+                   _databaseSchema
                );
         }
     }

@@ -3,7 +3,7 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Context;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.DependencyResolution.TaskDependencyResolver.GetInstance

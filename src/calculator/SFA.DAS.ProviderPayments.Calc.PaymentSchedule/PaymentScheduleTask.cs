@@ -6,13 +6,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
 {
     public class PaymentScheduleTask : DcfsTask
     {
+        private const string DatabaseSchema = "PaymentSchedule";
+
         private readonly IDependencyResolver _dependencyResolver;
 
         public PaymentScheduleTask()
+            : base(DatabaseSchema)
         {
             _dependencyResolver = new TaskDependencyResolver();
         }
+
         internal PaymentScheduleTask(IDependencyResolver dependencyResolver)
+            : base(DatabaseSchema)
         {
             _dependencyResolver = dependencyResolver;
         }

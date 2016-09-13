@@ -3,21 +3,22 @@ using NLog;
 using NLog.Layouts;
 using NLog.Targets;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Exceptions;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Logging.LoggingConfig.ConfigureLogging
+namespace SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Logging.LoggingConfiguration.Configure
 {
     public class WhenCalled
     {
         private readonly string _connectionString = "Ilr.Transient.Connection.String";
         private readonly string _logLevel = "Debug";
         private readonly string _invalidLogLevel = "Debug1";
+        private readonly string _databaseSchema = "Schema";
 
         [Test]
         public void ThenSqlServerTargetIsPresentAndCorrectlyConfigured()
         {
             // Arrange
-            LevyPayments.Logging.LoggingConfig.ConfigureLogging(_connectionString, _logLevel);
+            Common.Logging.LoggingConfiguration.Configure(_connectionString, _logLevel, _databaseSchema);
 
             // Act
             var sqlServerTarget = (DatabaseTarget)LogManager.Configuration.FindTargetByName("sqlserver");
@@ -31,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Logging.LoggingCo
         public void ThenSqlServerRuleIsPresentAndCorrectlyConfigured()
         {
             // Arrange
-            LevyPayments.Logging.LoggingConfig.ConfigureLogging(_connectionString, _logLevel);
+            Common.Logging.LoggingConfiguration.Configure(_connectionString, _logLevel, _databaseSchema);
 
             // Act
             var sqlServerRule = LogManager.Configuration.LoggingRules.FirstOrDefault(lr => lr.Targets.Count(t => t.Name == "sqlserver") == 1);
@@ -44,12 +45,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Logging.LoggingCo
         [Test]
         public void ThenExpectingExceptionForInvalidLogLevelProvided()
         {
-            // Arrange
-            LevyPayments.Logging.LoggingConfig.ConfigureLogging(_connectionString, _logLevel);
-
             // Assert
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => LevyPayments.Logging.LoggingConfig.ConfigureLogging(_connectionString, _invalidLogLevel));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextPropertiesInvalidLogLevel));
+            var ex = Assert.Throws<InvalidContextException>(() => Common.Logging.LoggingConfiguration.Configure(_connectionString, _invalidLogLevel, _databaseSchema));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesInvalidLogLevelMessage));
         }
     }
 }

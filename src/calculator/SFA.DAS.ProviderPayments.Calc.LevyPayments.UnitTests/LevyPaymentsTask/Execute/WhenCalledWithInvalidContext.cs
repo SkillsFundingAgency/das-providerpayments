@@ -3,9 +3,8 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Context;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Exceptions;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Common;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.Execute
@@ -40,8 +39,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
         public void ThenExpectingExceptionForNullContextProvided()
         {
             // Assert
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => _task.Execute(null));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextNull));
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(null));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextNullMessage));
         }
 
         [Test]
@@ -51,8 +50,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             _context.Properties = properties;
 
             // Assert
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => _task.Execute(_context));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextNoProperties));
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextNoPropertiesMessage));
         }
 
         [Test]
@@ -66,8 +65,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             _context.Properties = properties;
 
             // Assert
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => _task.Execute(_context));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextPropertiesNoConnectionString));
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesNoConnectionStringMessage));
         }
 
         [Test]
@@ -81,8 +80,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             _context.Properties = properties;
 
             // Assert
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => _task.Execute(_context));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextPropertiesNoLogLevel));
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesNoLogLevelMessage));
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Common;
+using SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Tools;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWrapper.ContextWrapper
+namespace SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Context.ContextWrapper.ContextWrapper
 {
     public class WhenCalledWithValidContext
     {
@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWr
             };
 
             // Act
-            var contextWrapper = new LevyPayments.Context.ContextWrapper(context);
+            var contextWrapper = new Common.Context.ContextWrapper(context);
 
             // Assert
             Assert.IsNotNull(contextWrapper);

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Context;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using StructureMap;
 using StructureMap.Pipeline;
 

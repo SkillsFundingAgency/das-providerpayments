@@ -78,14 +78,10 @@
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
     <Compile Include="Application\Payments\TransactionType.cs" />
-    <Compile Include="Context\ContextPropertyKeys.cs" />
-    <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />
     <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="Exceptions\LevyPaymentsExceptionMessages.cs" />
-    <Compile Include="Exceptions\LevyPaymentsInvalidContextException.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsEarningRepository.cs" />
@@ -101,7 +97,6 @@
     <Compile Include="Infrastructure\Data\IPaymentRepository.cs" />
     <Compile Include="LevyPaymentsProcessor.cs" />
     <Compile Include="LevyPaymentsTask.cs" />
-    <Compile Include="Logging\LoggingConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +104,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

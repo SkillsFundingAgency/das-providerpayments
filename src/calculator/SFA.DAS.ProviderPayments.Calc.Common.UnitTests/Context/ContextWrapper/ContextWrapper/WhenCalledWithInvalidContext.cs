@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Exceptions;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Common;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Tools;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWrapper.ContextWrapper
+namespace SFA.DAS.ProviderPayments.Calc.Common.UnitTests.Context.ContextWrapper.ContextWrapper
 {
     public class WhenCalledWithInvalidContext
     {
@@ -18,8 +18,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWr
         {
             // Assert
             // ReSharper disable once ObjectCreationAsStatement
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => new LevyPayments.Context.ContextWrapper(null));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextNull));
+            var ex = Assert.Throws<InvalidContextException>(() => new Common.Context.ContextWrapper(null));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextNullMessage));
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Context.ContextWr
 
             // Assert
             // ReSharper disable once ObjectCreationAsStatement
-            var ex = Assert.Throws<LevyPaymentsInvalidContextException>(() => new LevyPayments.Context.ContextWrapper(context));
-            Assert.IsTrue(ex.Message.Contains(LevyPaymentsExceptionMessages.ContextNoProperties));
+            var ex = Assert.Throws<InvalidContextException>(() => new Common.Context.ContextWrapper(context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextNoPropertiesMessage));
         }
     }
 }

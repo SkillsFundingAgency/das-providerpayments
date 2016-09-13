@@ -1,5 +1,5 @@
 ﻿using System;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Context;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution
