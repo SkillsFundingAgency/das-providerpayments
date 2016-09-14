@@ -1,6 +1,6 @@
 ﻿using System;
 using CS.Common.External.Interfaces;
-using SFA.DAS.ProviderPayments.Calculator.LevyPayments;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments;
 
 namespace TestHarness
 {

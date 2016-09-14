@@ -89,7 +89,17 @@ Target "Set Solution Name" (fun _ ->
         else
             shouldPublishSite <- false
 
-        sqlPublishFile <- (@"./"+ projectName + ".Database/" + projectName + ".Database.Publish.xml")
+        let subdirs = FileSystemHelper.directoryInfo(currentDirectory).EnumerateDirectories("*.Database")
+        
+        let mutable databaseDir = ""
+
+        for directs in subdirs do
+            trace directs.Name
+            let dirExists = directs.Name.Contains("Database")
+            if(dirExists) then
+                databaseDir <- directs.Name
+
+        let sqlPublishFile = (@"./"+ databaseDir + "/Database.Publish.xml")
         shouldCreateDbProject <- fileExists(sqlPublishFile)
 
         trace ("Will publish: " + (shouldPublishSite.ToString()))
@@ -234,13 +244,11 @@ Target "Build Database project"(fun _ ->
         let properties = 
                         [
                             ("DebugSymbols", "False");
-                            ("TargetDatabaseName", "SFA.DAS.EmployerApprenticeshipsService.Database");
-                            ("SqlPublishProfilePath", @".\" + projectName + ".Database.Publish.xml");
-                            ("PublishScriptFileName","SFA.DAS.EmployerApprenticeshipsService.Database.sql");
+                            ("SqlPublishProfilePath", @".\Database.Publish.xml");
                             ("ToolsVersion","14");
                         ]
 
-        !! (@"./"+ projectName + ".Database/" + projectName + ".Database.sqlproj")
+        !! (@".\**\*.sqlproj")
             |> MSBuildReleaseExt null properties "Build"
             |> Log "Build-Output: "
     else
@@ -263,15 +271,15 @@ Target "Publish Database project"(fun _ ->
         let properties = 
                         [
                             ("DebugSymbols", "False");
-                            ("TargetDatabaseName", "SFA.DAS.EmployerApprenticeshipsService.Database");
-                            ("SqlPublishProfilePath", @".\" + projectName + ".Database.Publish.xml");
+                            ("TargetDatabaseName", "Database");
+                            ("SqlPublishProfilePath", @".\Database.Publish.xml");
                             ("TargetConnectionString", "Data Source=.;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True");
-                            ("PublishScriptFileName","SFA.DAS.EmployerApprenticeshipsService.Database.sql");
+                            ("PublishScriptFileName","Database.sql");
                             ("ToolsVersion","14");
                             ("PublishToDatabase","true");
                         ]
 
-        !! (@"./"+ projectName + ".Database/" + projectName + ".Database.sqlproj")
+        !! (@".\**\*.sqlproj")
             |> MSBuildReleaseExt null properties "Publish"
             |> Log "Build-Output: "
     else
@@ -335,8 +343,8 @@ Target "Run NUnit Tests" (fun _ ->
 
 Target "Cleaning Integration Tests" (fun _ ->
 
-    trace "Cleaning Acceptance Tests"
-    !! (".\**\*.AcceptanceTests.csproj")
+    trace "Cleaning Integration Tests"
+    !! (".\**\*.IntegrationTests.csproj")
       |> myBuildConfig "" "Clean"
       |> Log "AppBuild-Output: "
 
@@ -345,29 +353,29 @@ Target "Cleaning Integration Tests" (fun _ ->
 Target "Building Integration Tests" (fun _ ->
 
     trace "Building Integration Tests"
-    !! (".\**\*.AcceptanceTests.csproj")
+    !! (".\**\*.IntegrationTests.csproj")
       |> myBuildConfig "" "Rebuild"
       |> Log "AppBuild-Output: "
 
 )
 
-Target "Run Acceptance Tests" (fun _ ->
+Target "Run Integration Tests" (fun _ ->
 
-    trace "Run Acceptance Tests"
+    trace "Run Integration Tests"
     
     let mutable shouldRunTests = false
 
-    let testDlls = !! ("./**/bin/" + testDirectory + "/*.AcceptanceTests.dll") 
+    let testDlls = !! ("./*.IntegrationTests/bin/" + testDirectory + "/*.IntegrationTests.dll") 
     
     for testDll in testDlls do
         shouldRunTests <- true
     
     if shouldRunTests then
-        !! ("./**/bin/" + testDirectory + "/*.AcceptanceTests.dll")  |> Fake.Testing.NUnit3.NUnit3 (fun p ->
+        !! ("./*.IntegrationTests/bin/" + testDirectory + "/*.IntegrationTests.dll")  |> Fake.Testing.NUnit3.NUnit3 (fun p ->
             {p with
                 ToolPath = nUnitToolPath;
                 StopOnError = false;
-                ResultSpecs = [("TestResult.xml;format=" + nunitTestFormat)];
+                ResultSpecs = [("TestResult-Integration.xml;format=" + nunitTestFormat)];
                 })
 )
 
@@ -500,7 +508,7 @@ Target "Create Nuget Package" (fun _ ->
     ==>"Build Acceptance Solution"
     ==>"Cleaning Integration Tests"
     ==>"Building Integration Tests"
-    //==>"Run Acceptance Tests"
+    ==>"Run Integration Tests"
 
 "Set version number"
    ==>"Set Solution Name"
@@ -514,6 +522,9 @@ Target "Create Nuget Package" (fun _ ->
    ==>"Cleaning Unit Tests"
    ==>"Building Unit Tests"
    ==>"Run NUnit Tests"
+   ==>"Cleaning Integration Tests"
+   ==>"Building Integration Tests"
+   ==>"Run Integration Tests"
    ==>"Compile Views"
    ==>"Create Nuget Package"
    ==>"Zip Compiled Source"

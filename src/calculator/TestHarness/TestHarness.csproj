@@ -53,9 +53,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calculator.LevyPayments\SFA.DAS.ProviderPayments.Calculator.LevyPayments.csproj">
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.csproj">
       <Project>{ca3748b0-c749-444a-bc59-1f03a10436c7}</Project>
-      <Name>SFA.DAS.ProviderPayments.Calculator.LevyPayments</Name>
+      <Name>SFA.DAS.ProviderPayments.Calc.LevyPayments</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
