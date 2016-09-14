@@ -62,11 +62,11 @@
     <Compile Include="Tools\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql">
+    <Content Include="..\DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql">
       <Link>DbSetupScripts\Summarisation.Transient.PaymentSchedule.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Deploy\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql">
+    <Content Include="..\DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql">
       <Link>DbSetupScripts\Summarisation.Transient.PaymentSchedule.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

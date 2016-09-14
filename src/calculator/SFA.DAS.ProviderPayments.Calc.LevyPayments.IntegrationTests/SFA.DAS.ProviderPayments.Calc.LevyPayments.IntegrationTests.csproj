@@ -65,15 +65,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql">
+    <Content Include="..\DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql">
       <Link>DbSetupScripts\Summarisation.Transient.LevyPayments.DDL.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql">
+    <Content Include="..\DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql">
       <Link>DbSetupScripts\Summarisation.Transient.LevyPayments.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Deploy\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql">
+    <Content Include="..\DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql">
       <Link>DbSetupScripts\Summarisation.Transient.LevyPayments.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
