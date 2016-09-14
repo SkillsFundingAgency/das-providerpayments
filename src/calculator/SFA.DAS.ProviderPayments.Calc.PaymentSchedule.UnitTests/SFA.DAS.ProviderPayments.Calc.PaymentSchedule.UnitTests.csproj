@@ -37,8 +37,16 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\Lib\CS.Common.External.dll</HintPath>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.5.21.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.21\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -55,9 +63,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
-    <Compile Include="PaymentScheduleTask\WhenExecuting.cs" />
+    <Compile Include="PaymentScheduleProcessor\WhenProcessingInvalidScenario.cs" />
+    <Compile Include="PaymentScheduleProcessor\WhenProcessingValidScenario.cs" />
+    <Compile Include="PaymentScheduleTask\WhenExecutingWithInvalidContext.cs" />
+    <Compile Include="PaymentScheduleTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\ExternalContextStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -75,6 +91,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,10 +12,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.Infrastructure.Data.Enti
         public DateTime LearningPlannedEndDate { get; set; }
         public DateTime? LearningActualEndDate { get; set; }
         public decimal MonthlyInstallment { get; set; }
+        public decimal MonthlyInstallmentUncapped { get; set; }
         public decimal CompletionPayment { get; set; }
-        public decimal MonthlyInstallmentCapped { get; set; }
-        public decimal CompletionPaymentCapped { get; set; }
-        public int TotalNumberOfPeriods { get; set; }
-        public int CurrentPeriod { get; set; }
+        public decimal CompletionPaymentUncapped { get; set; }
     }
 }

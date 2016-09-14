@@ -5,18 +5,12 @@ END
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- TaskLog
+-- vw_CommitmentEarning
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_CommitmentEarning' AND [schema_id] = SCHEMA_ID('PaymentSchedule'))
 BEGIN
-	DROP TABLE PaymentSchedule.vw_CommitmentEarning
+	DROP VIEW PaymentSchedule.vw_CommitmentEarning
 END
-GO
-
-IF EXISTS (SELECT [object_id] FROM sys.views WHERE [name] = 'vw_CommitmentEarning' and [schema_id] = SCHEMA_ID('PaymentSchedule'))
-	BEGIN
-		DROP VIEW LevyPayments.vw_CommitmentEarning
-	END
 GO
 
 CREATE VIEW PaymentSchedule.vw_CommitmentEarning
@@ -35,8 +29,6 @@ SELECT
 	ld.MonthlyInstallmentUncapped,
 	ld.CompletionPayment,
 	ld.CompletionPaymentUncapped,
-	ld.CurrentPeriod,
-	ld.NumberOfPeriods,
 	ld.LearnStartDate,
 	ld.LearnPlanEndDate,
 	ld.LearnActEndDate
@@ -50,4 +42,40 @@ INNER JOIN ${DAS_Commitments.FQ}.dbo.DasCommitments c
 			(ld.StdCode IS NULL AND ld.FworkCode = c.FrameworkCode AND ld.ProgType = c.ProgrammeType AND ld.PwayCode = c.PathwayCode)
 		)
 	AND ld.NegotiatedPrice = c.AgreedCost
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_CollectionPeriods
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_CollectionPeriods' AND [schema_id] = SCHEMA_ID('PaymentSchedule'))
+BEGIN
+	DROP VIEW PaymentSchedule.vw_CollectionPeriods
+END
+GO
+
+CREATE VIEW PaymentSchedule.vw_CollectionPeriods
+AS
+SELECT
+	cp.Period_ID,
+	cp.Period,
+	cp.Calendar_Year,
+	cp.Collection_Open
+FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
+GO
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_Providers
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_Providers' AND [schema_id] = SCHEMA_ID('PaymentSchedule'))
+BEGIN
+	DROP VIEW PaymentSchedule.vw_Providers
+END
+GO
+
+CREATE VIEW PaymentSchedule.vw_Providers
+AS
+SELECT
+	p.UKPRN
+FROM ${ILR_Current.FQ}.Valid.LearningProvider p
 GO

@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.DependencyResolution
             _container = new Container(c =>
                 {
                     c.Policies.Add(new DcfsConnectionStringPolicy(contextWrapper));
-                    c.AddRegistry(new CalcRegistry(taskType));
+                    c.AddRegistry(new SchedulerRegistry(taskType));
                 }
             );
         }

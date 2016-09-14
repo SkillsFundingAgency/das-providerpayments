@@ -86,7 +86,6 @@
     <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsPaymentRepository.cs" />
-    <Compile Include="Infrastructure\Data\Dcfs\DcfsRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\AccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />

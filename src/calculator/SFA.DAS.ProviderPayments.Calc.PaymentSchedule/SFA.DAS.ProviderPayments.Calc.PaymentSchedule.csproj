@@ -55,12 +55,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\CollectionPeriods\CollectionPeriod.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
+    <Compile Include="Application\Earnings\PeriodEarning.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
+    <Compile Include="Application\Providers\Provider.cs" />
+    <Compile Include="Application\QueryResponse.cs" />
+    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler.cs" />
+    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandRequest.cs" />
+    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandResponse.cs" />
+    <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
+    <Compile Include="Application\RequiredPayments\TransactionType.cs" />
+    <Compile Include="Application\Response.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsCollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsEarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsProviderRepository.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsRequiredPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
-    <Compile Include="DependencyResolution\CalcRegistry.cs" />
+    <Compile Include="DependencyResolution\SchedulerRegistry.cs" />
     <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\IEarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
+    <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="PaymentScheduleProcessor.cs" />
+    <Compile Include="PaymentScheduleProcessorException.cs" />
     <Compile Include="PaymentScheduleTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -73,10 +104,7 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Infrastructure\Data\Dcfs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

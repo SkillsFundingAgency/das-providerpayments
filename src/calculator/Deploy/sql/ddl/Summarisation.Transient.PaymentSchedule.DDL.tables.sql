@@ -41,6 +41,6 @@ CREATE TABLE PaymentSchedule.RequiredPayments
 	DeliveryMonth int,
 	DeliveryYear int,
 	TransactionType int,
-	AmountDue decimal(15,2),
-	CONSTRAINT [PK_RequiredPayments] PRIMARY KEY (LearnRefNumber,AimSeqNumber,Ukprn)
+	AmountDue decimal(15,5),
+	CONSTRAINT [PK_RequiredPayments] PRIMARY KEY (LearnRefNumber, AimSeqNumber, Ukprn, DeliveryMonth, DeliveryYear, TransactionType)
 )
