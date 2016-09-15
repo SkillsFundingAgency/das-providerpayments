@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.Application.RequiredPaym
                             Ukprn = p.Ukprn,
                             DeliveryMonth = p.DeliveryMonth,
                             DeliveryYear = p.DeliveryYear,
-                            TransactionType = p.TransactionType,
+                            TransactionType = (int) p.TransactionType,
                             AmountDue = p.AmountDue
                         })
                     .ToArray();

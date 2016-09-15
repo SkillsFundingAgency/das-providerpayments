@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.Application.Re
                 Ukprn = 10007459,
                 DeliveryMonth = 9,
                 DeliveryYear = 2016,
-                TransactionType = (int) TransactionType.Learning,
+                TransactionType = TransactionType.Learning,
                 AmountDue = 1000.00m
             },
             new RequiredPayment
@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.Application.Re
                 Ukprn = 10007459,
                 DeliveryMonth = 9,
                 DeliveryYear = 2016,
-                TransactionType = (int) TransactionType.Completion,
+                TransactionType = TransactionType.Completion,
                 AmountDue = 3000.00m
             }
         };
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.Application.Re
                    entity.Ukprn == payment.Ukprn &&
                    entity.DeliveryMonth == payment.DeliveryMonth &&
                    entity.DeliveryYear == payment.DeliveryYear &&
-                   entity.TransactionType == payment.TransactionType &&
+                   entity.TransactionType == (int) payment.TransactionType &&
                    entity.AmountDue == payment.AmountDue;
         }
     }

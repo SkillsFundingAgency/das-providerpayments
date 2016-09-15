@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.PaymentSchedul
         private static readonly object[] NoProviderEarnings =
         {
             new object[] {null},
-            new object[] {new PeriodEarning[] {}}
+            new object[] {new Earning[] {}}
         };
 
         private PaymentSchedule.PaymentScheduleProcessor _processor;
@@ -67,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.PaymentSchedul
                     IsValid = true,
                     Items = new[]
                     {
-                        new PeriodEarning
+                        new Earning
                         {
                             CommitmentId = "C-001",
                             LearnerRefNumber = "Lrn-001",
@@ -114,7 +114,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.PaymentSchedul
 
         [Test]
         [TestCaseSource(nameof(NoProviderEarnings))]
-        public void ThenExpectingLogEntryForGetProviderEarningsQueryNoItems(PeriodEarning[] items)
+        public void ThenExpectingLogEntryForGetProviderEarningsQueryNoItems(Earning[] items)
         {
             // Arrange
             _mediator

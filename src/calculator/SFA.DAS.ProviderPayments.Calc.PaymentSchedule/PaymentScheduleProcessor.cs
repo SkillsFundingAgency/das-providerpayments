@@ -116,7 +116,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
             _logger.Info("Finished Payment Schedule Processor.");
         }
 
-        private bool ShouldSchedulePayment(CollectionPeriod period, PeriodEarning earning)
+        private bool ShouldSchedulePayment(CollectionPeriod period, Earning earning)
         {
             var periodDate = new DateTime(period.Year, period.Month, 1).LastDayOfMonth();
 
@@ -124,7 +124,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
                 periodDate <= earning.LearningPlannedEndDate;
         }
 
-        private bool HasCompletedOnCensusDate(PeriodEarning earning)
+        private bool HasCompletedOnCensusDate(Earning earning)
         {
             if (!earning.LearningActualEndDate.HasValue)
             {
@@ -134,7 +134,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
             return earning.LearningActualEndDate.Value == earning.LearningActualEndDate.Value.LastDayOfMonth();
         }
 
-        private RequiredPayment SchedulePayment(CollectionPeriod period, PeriodEarning earning, decimal amount, TransactionType transactionType)
+        private RequiredPayment SchedulePayment(CollectionPeriod period, Earning earning, decimal amount, TransactionType transactionType)
         {
             _logger.Info($"Scheduling a payment of {amount} for provider with ukprn {earning.Ukprn} to pay for {transactionType} on learner {earning.LearnerRefNumber} / {earning.AimSequenceNumber} in period {period.Month} / {period.Year}.");
 
@@ -145,7 +145,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
                 Ukprn = earning.Ukprn,
                 DeliveryMonth = period.Month,
                 DeliveryYear = period.Year,
-                TransactionType = (int) transactionType,
+                TransactionType = transactionType,
                 AmountDue = amount
             };
         }
