@@ -26,25 +26,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{8AD3AA7D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LevyPayments", "LevyPayments", "{216A6DB4-AFA0-4697-9102-0D77487B05EC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentSchedule", "PaymentSchedule", "{5490800A-69D0-44DA-8A5D-8B780B05B8AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentsDue", "PaymentsDue", "{5490800A-69D0-44DA-8A5D-8B780B05B8AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.csproj", "{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentsDue", "SFA.DAS.ProviderPayments.Calc.PaymentsDue\SFA.DAS.ProviderPayments.Calc.PaymentsDue.csproj", "{7EA464EC-6EDA-45D9-BE48-47E8AFDAA853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Common", "SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj", "{E8AED497-09E3-417F-89F8-5A45BBADD08F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3BB187B5-820C-483B-BAB0-92CB9DD33C5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.csproj", "{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests", "SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests\SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.csproj", "{392DCE5D-D574-4BDA-A50D-65E8B4E1B4B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7658ECE8-7140-426E-8273-ADC0709E9F71}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80F-4BBB-8188-E51C50FAFE67}"
 	ProjectSection(SolutionItems) = preProject
-		DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql = DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.tables.sql
-		DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql = DeployPaymentSchedule\sql\ddl\Summarisation.Transient.PaymentSchedule.DDL.views.sql
+		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql
+		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests\SFA.DAS.ProviderPayments.Calc.PaymentSchedule.IntegrationTests.csproj", "{A647DC37-1361-41C1-AB16-C00F6543AC2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests\SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.csproj", "{A647DC37-1361-41C1-AB16-C00F6543AC2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Common.UnitTests", "SFA.DAS.ProviderPayments.Calc.Common.UnitTests\SFA.DAS.ProviderPayments.Calc.Common.UnitTests.csproj", "{6D928988-2C2B-45B0-B782-43077A3F8F7D}"
 EndProject
