@@ -2,7 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.Application.Earnings
 {
-    public class PeriodEarning
+    public class Earning
     {
         public string CommitmentId { get; set; }
         public string LearnerRefNumber { get; set; }

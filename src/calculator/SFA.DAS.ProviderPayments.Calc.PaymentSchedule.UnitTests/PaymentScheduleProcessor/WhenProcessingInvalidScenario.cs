@@ -55,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.UnitTests.PaymentSchedul
                     IsValid = true,
                     Items = new[]
                     {
-                        new PeriodEarning
+                        new Earning
                         {
                             CommitmentId = "C-001",
                             LearnerRefNumber = "Lrn-001",

@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.Application.Earnings.Get
                     Items = earningEntities == null
                         ? null
                         : earningEntities.Select(e =>
-                            new PeriodEarning
+                            new Earning
                             {
                                 CommitmentId = e.CommitmentId,
                                 LearnerRefNumber = e.LearnerRefNumber,
