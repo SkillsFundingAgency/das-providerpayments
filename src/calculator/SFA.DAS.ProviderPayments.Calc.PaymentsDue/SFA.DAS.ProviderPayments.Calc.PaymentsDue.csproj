@@ -80,7 +80,7 @@
     <Compile Include="Infrastructure\Data\Repositories\DcfsRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
-    <Compile Include="DependencyResolution\SchedulerRegistry.cs" />
+    <Compile Include="DependencyResolution\PaymentsDueRegistry.cs" />
     <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />

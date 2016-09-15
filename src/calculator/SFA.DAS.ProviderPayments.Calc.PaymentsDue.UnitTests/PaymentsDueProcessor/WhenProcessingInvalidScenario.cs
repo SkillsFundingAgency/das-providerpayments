@@ -3,7 +3,6 @@ using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;

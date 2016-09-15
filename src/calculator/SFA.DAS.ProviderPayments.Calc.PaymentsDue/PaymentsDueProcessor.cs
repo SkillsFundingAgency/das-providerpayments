@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         public virtual void Process()
         {
-            _logger.Info("Started Payment Schedule Processor.");
+            _logger.Info("Started Payments Due Processor.");
 
             var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
 
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 {
                     _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
 
-                    var providerPayments = new List<RequiredPayment>();
+                    var providerDuePayments = new List<RequiredPayment>();
 
                     var providerEarnings = _mediator.Send(new GetProviderEarningsQueryRequest {Ukprn = provider.Ukprn});
 
@@ -75,25 +75,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                     foreach (var earning in providerEarnings.Items)
                     {
-                        if (ShouldSchedulePayment(collectionPeriod.Period, earning))
+                        if (ShouldAddDuePayment(collectionPeriod.Period, earning))
                         {
                             var isComplete = earning.LearningActualEndDate.HasValue;
                             var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
 
                             if (!isComplete || isCompleteOnCensusDate)
                             {
-                                providerPayments.Add(SchedulePayment(collectionPeriod.Period, earning, earning.MonthlyInstallment, TransactionType.Learning));
+                                providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.MonthlyInstallment, TransactionType.Learning));
                             }
                             if (isComplete)
                             {
-                                providerPayments.Add(SchedulePayment(collectionPeriod.Period, earning, earning.CompletionPayment, TransactionType.Completion));
+                                providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.CompletionPayment, TransactionType.Completion));
                             }
                         }
                     }
 
-                    _logger.Info($"Writing {providerPayments.Count} scheduled payments for provider with ukprn {provider.Ukprn}.");
+                    _logger.Info($"Writing {providerDuePayments.Count} due payments for provider with ukprn {provider.Ukprn}.");
 
-                    var writeRequiredPaymentsResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest {Payments = providerPayments.ToArray()});
+                    var writeRequiredPaymentsResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest {Payments = providerDuePayments.ToArray()});
 
                     if (!writeRequiredPaymentsResponse.IsValid)
                     {
@@ -108,10 +108,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 _logger.Info("No providers found to process.");
             }
 
-            _logger.Info("Finished Payment Schedule Processor.");
+            _logger.Info("Finished Payments Due Processor.");
         }
 
-        private bool ShouldSchedulePayment(CollectionPeriod period, Earning earning)
+        private bool ShouldAddDuePayment(CollectionPeriod period, Earning earning)
         {
             var periodDate = new DateTime(period.Year, period.Month, 1).LastDayOfMonth();
 
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             return earning.LearningActualEndDate.Value == earning.LearningActualEndDate.Value.LastDayOfMonth();
         }
 
-        private RequiredPayment SchedulePayment(CollectionPeriod period, Earning earning, decimal amount, TransactionType transactionType)
+        private RequiredPayment DuePayment(CollectionPeriod period, Earning earning, decimal amount, TransactionType transactionType)
         {
             _logger.Info($"Scheduling a payment of {amount} for provider with ukprn {earning.Ukprn} to pay for {transactionType} on learner {earning.LearnerRefNumber} / {earning.AimSequenceNumber} in period {period.Month} / {period.Year}.");
 

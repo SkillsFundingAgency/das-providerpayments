@@ -8,14 +8,14 @@ using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {
-    public class SchedulerRegistry : Registry
+    public class PaymentsDueRegistry : Registry
     {
-        public SchedulerRegistry(Type taskType)
+        public PaymentsDueRegistry(Type taskType)
         {
             Scan(
                scan =>
                {
-                   scan.AssemblyContainingType<SchedulerRegistry>();
+                   scan.AssemblyContainingType<PaymentsDueRegistry>();
 
                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
                });

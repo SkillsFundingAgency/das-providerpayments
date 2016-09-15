@@ -139,7 +139,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             _processor.Process();
 
             // Assert
-            _logger.Verify(l => l.Info(It.Is<string>(p => p.Equals("Finished Payment Schedule Processor."))), Times.Once);
+            _logger.Verify(l => l.Info(It.Is<string>(p => p.Equals("Finished Payments Due Processor."))), Times.Once);
         }
     }
 }
