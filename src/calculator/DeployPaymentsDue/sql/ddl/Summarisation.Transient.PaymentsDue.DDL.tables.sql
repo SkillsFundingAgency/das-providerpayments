@@ -35,6 +35,7 @@ GO
 
 CREATE TABLE PaymentsDue.RequiredPayments
 (
+	CommitmentId varchar(50),
 	LearnRefNumber varchar(12),
 	AimSeqNumber int,
 	Ukprn bigint,

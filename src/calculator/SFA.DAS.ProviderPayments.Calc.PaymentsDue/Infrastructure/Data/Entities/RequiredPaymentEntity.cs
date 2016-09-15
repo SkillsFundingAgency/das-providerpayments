@@ -2,6 +2,7 @@
 {
     public class RequiredPaymentEntity
     {
+        public string CommitmentId { get; set; }
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }
