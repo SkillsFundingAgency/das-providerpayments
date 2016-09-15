@@ -140,6 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule
 
             return new RequiredPayment
             {
+                CommitmentId = earning.CommitmentId,
                 LearnerRefNumber = earning.LearnerRefNumber,
                 AimSequenceNumber = earning.AimSequenceNumber,
                 Ukprn = earning.Ukprn,

@@ -23,6 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentSchedule.Application.RequiredPaym
                     .Select(
                         p => new RequiredPaymentEntity
                         {
+                            CommitmentId = p.CommitmentId,
                             LearnRefNumber = p.LearnerRefNumber,
                             AimSeqNumber = p.AimSequenceNumber,
                             Ukprn = p.Ukprn,
