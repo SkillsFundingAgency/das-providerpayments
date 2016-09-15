@@ -330,14 +330,16 @@ Target "Run NUnit Tests" (fun _ ->
     for testDll in testDlls do
         shouldRunTests <- true
 
-    if shouldRunTests then
-        !! ("./*.UnitTests/bin/" + testDirectory + "/*.UnitTests.dll")  |>
-            Fake.Testing.NUnit3.NUnit3 (fun p ->
+    for testDll in testDlls do 
+        let idx1 = testDll.LastIndexOf("\\") + 1
+        let idx2 = testDll.IndexOf(".UnitTests.dll") - 1
+        let testResultFileName = "TestResult." + testDll.[idx1..idx2] + ".xml"
+        [testDll] |> Fake.Testing.NUnit3.NUnit3 (fun p -> 
             {p with
                 ToolPath = nUnitToolPath;
                 ShadowCopy = false;
                 Framework = Testing.NUnit3.NUnit3Runtime.Net45;
-                ResultSpecs = [("TestResult.xml;format=" + nunitTestFormat)];
+                ResultSpecs = [(testResultFileName + ";format=" + nunitTestFormat)];
                 })
 )
 
@@ -371,11 +373,15 @@ Target "Run Integration Tests" (fun _ ->
         shouldRunTests <- true
     
     if shouldRunTests then
-        !! ("./*.IntegrationTests/bin/" + testDirectory + "/*.IntegrationTests.dll")  |> Fake.Testing.NUnit3.NUnit3 (fun p ->
+        for testDll in testDlls do 
+            let idx1 = testDll.LastIndexOf("\\") + 1
+            let idx2 = testDll.IndexOf(".IntegrationTests.dll") - 1
+            let testResultFileName = "TestResult-Integration." + testDll.[idx1..idx2] + ".xml"
+            [testDll] |> Fake.Testing.NUnit3.NUnit3 (fun p -> 
             {p with
                 ToolPath = nUnitToolPath;
                 StopOnError = false;
-                ResultSpecs = [("TestResult-Integration.xml;format=" + nunitTestFormat)];
+                ResultSpecs = [(testResultFileName + ";format=" + nunitTestFormat)];
                 })
 )
 

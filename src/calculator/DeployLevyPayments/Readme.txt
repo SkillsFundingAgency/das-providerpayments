@@ -24,8 +24,9 @@ DAS Levy Calculator Component
    - transient database stored procedures that need to be present when the component is executed
 
  1.3 Test results:
-  - test-results\TestResult.xml
-  - test-results\TestResult-Integration.xml
+  - test-results\TestResult.SFA.DAS.ProviderPayments.Calc.Common.xml
+  - test-results\TestResult.SFA.DAS.ProviderPayments.Calc.LevyPayments.xml
+  - test-results\TestResult-Integration.SFA.DAS.ProviderPayments.Calc.LevyPayments.xml
    
 -------------------------------------------------------------------------------------
 2. Expected context properties
