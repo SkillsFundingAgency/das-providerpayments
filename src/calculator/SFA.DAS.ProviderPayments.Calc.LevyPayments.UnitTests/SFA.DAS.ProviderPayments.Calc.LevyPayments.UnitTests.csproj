@@ -82,6 +82,7 @@
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingCompletionSubmission.cs" />
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingInvalidScenario.cs" />
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNormalMonthlySubmission.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNotEnoughLevyScenario.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

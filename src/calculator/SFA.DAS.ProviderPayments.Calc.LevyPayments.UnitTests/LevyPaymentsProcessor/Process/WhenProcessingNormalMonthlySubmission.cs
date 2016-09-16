@@ -231,6 +231,5 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                                                          && r.Payment.TransactionType == TransactionType.Learning
                                                          && r.Payment.Amount == amount);
         }
-
     }
 }

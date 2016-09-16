@@ -40,6 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
+                var accountHasFundsForLevy = true;
 
                 foreach (var commitment in account.Commitments)
                 {
@@ -54,10 +55,26 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
                     foreach (var paymentDue in paymentsDue)
                     {
-                        MakeLevyPayment(account, commitment, period, paymentDue);
+                        _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+
+                        var levyAllocation = GetLevyAllocation(account, paymentDue.AmountDue);
+
+                        if (levyAllocation == 0)
+                        {
+                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            accountHasFundsForLevy = false;
+                            break;
+                        }
+
+                        MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
                     }
 
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
+
+                    if (!accountHasFundsForLevy)
+                    {
+                        break;
+                    }
                 }
 
                 MarkAccountAsProcessed(account.Id);
@@ -105,35 +122,36 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             return _mediator.Send(new GetNextAccountQueryRequest())?.Account;
         }
 
-        private void MakeLevyPayment(Account account, Commitment commitment, CollectionPeriod period, PaymentDue paymentDue)
+        private decimal GetLevyAllocation(Account account, decimal amountRequested)
         {
-            _logger.Info($"Levy payment of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-
-            var levyAllocation = _mediator.Send(new AllocateLevyCommandRequest
+            return _mediator.Send(new AllocateLevyCommandRequest
             {
                 Account = account,
-                AmountRequested = paymentDue.AmountDue
+                AmountRequested = amountRequested
             })?.AmountAllocated ?? 0;
+        }
 
-            _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+        private void MakeLevyPayment(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue, decimal levyAllocation)
+        {
+                _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
-            _mediator.Send(new ProcessPaymentCommandRequest
-            {
-                Payment = new Payment
+                _mediator.Send(new ProcessPaymentCommandRequest
                 {
-                    CommitmentId = commitment.Id,
-                    LearnerRefNumber = paymentDue.LearnerRefNumber,
-                    AimSequenceNumber = paymentDue.AimSequenceNumber,
-                    Ukprn = paymentDue.Ukprn,
-                    DeliveryMonth = paymentDue.DeliveryMonth,
-                    DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodMonth = period.Month,
-                    CollectionPeriodYear = period.Year,
-                    Source = FundingSource.Levy,
-                    TransactionType = paymentDue.TransactionType,
-                    Amount = levyAllocation
-                }
-            });
+                    Payment = new Payment
+                    {
+                        CommitmentId = commitment.Id,
+                        LearnerRefNumber = paymentDue.LearnerRefNumber,
+                        AimSequenceNumber = paymentDue.AimSequenceNumber,
+                        Ukprn = paymentDue.Ukprn,
+                        DeliveryMonth = paymentDue.DeliveryMonth,
+                        DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodMonth = period.Month,
+                        CollectionPeriodYear = period.Year,
+                        Source = FundingSource.Levy,
+                        TransactionType = paymentDue.TransactionType,
+                        Amount = levyAllocation
+                    }
+                });
         }
 
     }
