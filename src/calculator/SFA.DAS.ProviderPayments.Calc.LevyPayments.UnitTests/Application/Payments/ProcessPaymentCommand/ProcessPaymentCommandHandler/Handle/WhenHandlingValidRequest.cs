@@ -24,6 +24,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
                     LearnerRefNumber = "LEARNER1",
                     AimSequenceNumber = 99,
                     Ukprn = 12345,
+                    DeliveryMonth = 9,
+                    DeliveryYear = 2016,
+                    CollectionPeriodMonth = 9,
+                    CollectionPeriodYear = 2016,
                     Source = FundingSource.Levy,
                     TransactionType = TransactionType.Learning,
                     Amount = 987.65m
@@ -51,6 +55,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
                 && entity.LearnerRefNumber == payment.LearnerRefNumber
                 && entity.AimSequenceNumber == payment.AimSequenceNumber
                 && entity.Ukprn == payment.Ukprn
+                && entity.DeliveryMonth == payment.DeliveryMonth
+                && entity.DeliveryYear == payment.DeliveryYear
+                && entity.CollectionPeriodMonth == payment.CollectionPeriodMonth
+                && entity.CollectionPeriodYear == payment.CollectionPeriodYear
                 && entity.Source == (int)payment.Source
                 && entity.TransactionType == (int)payment.TransactionType
                 && entity.Amount == payment.Amount;

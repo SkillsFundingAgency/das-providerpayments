@@ -1,10 +1,12 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Dcfs
+namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Repositories
 {
     public class DcfsCollectionPeriodRepository : DcfsRepository, ICollectionPeriodRepository
     {
+        private const int OpenStatus = 1;
+
         private const string CollectionPeriodSource = "LevyPayments.vw_CollectionPeriods";
         private const string CollectionPeriodColumns = "Period_ID [PeriodId]," +
                                               "Period [Month]," +
@@ -19,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Dcfs
 
         public CollectionPeriodEntity GetCurrentCollectionPeriod()
         {
-            return QuerySingle<CollectionPeriodEntity>(SelectOpenCollectionPeriod, new { CollectionOpen = 1 });
+            return QuerySingle<CollectionPeriodEntity>(SelectOpenCollectionPeriod, new { CollectionOpen = OpenStatus });
         }
     }
 }

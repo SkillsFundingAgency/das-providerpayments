@@ -74,13 +74,13 @@
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingValidRequest.cs" />
     <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler\Handle\WhenHandlingAValidRequest.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingARequestForACommitmentWithNoEarnings.cs" />
-    <Compile Include="Application\Earnings\GetEarningForCommitmentQuery\GetEarningForCommitmentQueryHandler\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\Payments\GetPaymentsDueForCommitmentQuery\GetPaymentsDueForCommitmentQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler\Handle\WhenHandlingValidRequest.cs" />
     <Compile Include="Common\ExternalContextStub.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingCompletionSubmission.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingInvalidScenario.cs" />
     <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNormalMonthlySubmission.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
     <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />

@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             var commitmentId = Guid.NewGuid().ToString();
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
 
             var startDate = new DateTime(2017, 4, 1);
             var endDate = startDate.AddYears(1);
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 12, startDate: startDate, endDate: endDate, actualEndDate: endDate);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, currentPeriod: 12, startDate: startDate, endDate: endDate, actualEndDate: endDate);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -77,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
 
             var startDate = new DateTime(2017, 4, 1);
             var endDate = new DateTime(2018, 5, 31);
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 12, startDate: startDate, endDate: endDate, actualEndDate: endDate);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, currentPeriod: 12, startDate: startDate, endDate: endDate, actualEndDate: endDate);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();

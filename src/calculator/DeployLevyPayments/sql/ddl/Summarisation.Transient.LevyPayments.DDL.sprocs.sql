@@ -73,6 +73,10 @@ CREATE PROCEDURE LevyPayments.AddPayment
 	@LearnRefNumber varchar(12),
 	@AimSeqNumber int,
 	@Ukprn bigint,
+	@DeliveryMonth int,
+	@DeliveryYear int,
+	@CollectionPeriodMonth int,
+	@CollectionPeriodYear int,
 	@Source int,
 	@TransactionType int,
 	@Amount decimal(15,2)
@@ -80,7 +84,7 @@ AS
 SET NOCOUNT ON
 
 	INSERT INTO LevyPayments.Payments
-	(PaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,Source,TransactionType,Amount)
+	(PaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,DeliveryMonth,DeliveryYear,CollectionPeriodMonth,CollectionPeriodYear,Source,TransactionType,Amount)
 	VALUES
-	(NEWID(), @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@Source,@TransactionType,@Amount)
+	(NEWID(), @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@DeliveryMonth,@DeliveryYear,@CollectionPeriodMonth,@CollectionPeriodYear,@Source,@TransactionType,@Amount)
 GO

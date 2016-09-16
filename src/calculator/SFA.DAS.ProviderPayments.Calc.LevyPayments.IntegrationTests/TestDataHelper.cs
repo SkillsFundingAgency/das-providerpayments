@@ -19,6 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
 
             Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, LevyBalance) VALUES (@id, @name, @balance)", new { id, name, balance });
         }
+
         internal static void AddCommitment(string id, 
                                            string accountId, 
                                            long uln = 0l, 
@@ -60,7 +61,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
                     new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode });
         }
-        internal static void AddEarningForCommitment(string commitmentId, 
+
+        internal static void AddPaymentDueForCommitment(string commitmentId, 
                                                      string learnerRefNumber = null, 
                                                      int aimSequenceNumber = 1, 
                                                      string niNumber = "XX12345X",
@@ -75,8 +77,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
-            Execute("INSERT INTO Rulebase.AE_LearningDelivery "
+            Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
+                  + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "Ukprn, "
@@ -99,8 +102,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate });
         }
-
-
+        
         internal static PaymentEntity[] GetPaymentsForCommitment(string commitmentId)
         {
             return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
@@ -122,6 +124,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                 }
             }
         }
+
         private static T[] Query<T>(string command, object param = null)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
