@@ -53,11 +53,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
         }
         private string ReplaceSqlTokens(string sql)
         {
-            return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.DatabaseName)
-                      .Replace("${ILR_Previous.FQ}", GlobalTestContext.Instance.DatabaseName)
-                      .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.DatabaseName)
-                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.DatabaseName)
-                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.DatabaseName);
+            return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${ILR_Previous.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }
