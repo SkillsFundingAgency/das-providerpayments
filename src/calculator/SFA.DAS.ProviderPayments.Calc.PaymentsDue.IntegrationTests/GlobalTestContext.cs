@@ -14,6 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
             {
                 SetupConnectionString();
                 SetupDatabaseName();
+                SetupBracketedDatabaseName();
                 SetupAsseblyDirectory();
             }
             catch (Exception ex)
@@ -24,6 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
 
         public string ConnectionString { get; private set; }
         public string DatabaseName { get; private set; }
+        public string BracketedDatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
 
 
@@ -53,6 +55,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
             }
 
             throw new Exception("Cannot extract database name from connection");
+        }
+        private void SetupBracketedDatabaseName()
+        {
+            BracketedDatabaseName = $"[{DatabaseName}]";
         }
         private void SetupAsseblyDirectory()
         {
