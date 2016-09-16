@@ -14,6 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         {
             new RequiredPayment
             {
+                CommitmentId = "C-001",
                 LearnerRefNumber = "Lrn001",
                 AimSequenceNumber = 1,
                 Ukprn = 10007459,
@@ -24,6 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             },
             new RequiredPayment
             {
+                CommitmentId = "C-002",
                 LearnerRefNumber = "Lrn002",
                 AimSequenceNumber = 1,
                 Ukprn = 10007459,
@@ -107,7 +109,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
 
         private bool PaymentsMatch(RequiredPaymentEntity entity, RequiredPayment payment)
         {
-            return entity.LearnRefNumber == payment.LearnerRefNumber &&
+            return entity.CommitmentId == payment.CommitmentId &&
+                   entity.LearnRefNumber == payment.LearnerRefNumber &&
                    entity.AimSeqNumber == payment.AimSequenceNumber &&
                    entity.Ukprn == payment.Ukprn &&
                    entity.DeliveryMonth == payment.DeliveryMonth &&

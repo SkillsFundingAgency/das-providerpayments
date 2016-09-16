@@ -6,9 +6,10 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Earnings;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProcessor.Process
@@ -28,40 +29,76 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _accountCounter = 0;
             _account = new Account
             {
+                Id = "ACC001",
                 Commitments = new[]
                 {
-                    new Commitment { Id = "Commitment1" },
-                    new Commitment { Id = "Commitment2" }
+                    new Commitment { Id = "C-001" },
+                    new Commitment { Id = "C-002" }
                 }
             };
 
             _logger = new Mock<ILogger>();
-
             _mediator = new Mock<IMediator>();
-            _mediator.Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
+
+            _processor = new LevyPayments.LevyPaymentsProcessor(_logger.Object, _mediator.Object);
+
+            InitialMockSetup();
+        }
+
+        private void InitialMockSetup()
+        {
+            _mediator
+               .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
+               .Returns(new GetCurrentCollectionPeriodQueryResponse
+               {
+                   IsValid = true,
+                   Period = new CollectionPeriod { PeriodId = 1, Month = 9, Year = 2016 }
+               });
+
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
                 .Returns(() =>
                 {
                     _accountCounter++;
                     return _accountCounter <= 1 ? new GetNextAccountQueryResponse { Account = _account } : null;
                 });
-            _mediator.Setup(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()))
-                .Returns(new GetEarningForCommitmentQueryResponse
+
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
+                .Returns(new GetPaymentsDueForCommitmentQueryResponse
                 {
-                    Earning = new PeriodEarning
+                    IsValid = true,
+                    Items = new[]
                     {
-                        LearnerRefNumber = "Learner1",
-                        AimSequenceNumber = 1,
-                        Ukprn = 12345,
-                        MonthlyInstallmentCapped = 123.45m
+                        new PaymentDue
+                        {
+                            LearnerRefNumber = "Lrn-001",
+                            AimSequenceNumber = 1,
+                            Ukprn = 10007459,
+                            DeliveryMonth = 8,
+                            DeliveryYear = 2015,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000.00m
+                        }
                     }
                 });
-            _mediator.Setup(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()))
+
+            _mediator
+                .Setup(m => m.Send(It.Is<AllocateLevyCommandRequest>(r => r.Account.Id == _account.Id && r.AmountRequested == 1000.00m)))
                 .Returns(new AllocateLevyCommandResponse
                 {
-                    AmountAllocated = 123.45m
+                    AmountAllocated = 1000.00m
                 });
+        }
 
-            _processor = new LevyPayments.LevyPaymentsProcessor(_logger.Object, _mediator.Object);
+        [Test]
+        public void ThenItShouldGetCurrentCollectionPeriod()
+        {
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()), Times.Once);
         }
 
         [Test]
@@ -87,37 +124,36 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         }
 
         [Test]
-        public void ThenItShouldGetEarningsForEveryCommitment()
+        public void ThenItShouldGetPaymentsDueForEveryCommitment()
         {
             // Act
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.Is<GetEarningForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[0].Id)), Times.Once);
-            _mediator.Verify(m => m.Send(It.Is<GetEarningForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[1].Id)), Times.Once);
+            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[0].Id)), Times.Once);
+            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[1].Id)), Times.Once);
         }
 
         [Test]
-        public void ThenItShouldAttemptToAllocateLevyIfCommitmentHasEarnings()
+        public void ThenItShouldAttemptToAllocateLevyIfCommitmentHasPaymentsDue()
         {
             // Act
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.Is<AllocateLevyCommandRequest>(r => r.Account == _account && r.AmountRequested == 123.45m)), Times.Exactly(2));
+            _mediator.Verify(m => m.Send(It.Is<AllocateLevyCommandRequest>(r => r.Account == _account && r.AmountRequested == 1000.00m)), Times.Exactly(2));
         }
 
         [Test]
-        public void ThenItShouldNotAttemptToAllocateLevyIfCommitmentHasNoEarnings()
+        public void ThenItShouldNotAttemptToAllocateLevyIfCommitmentHasNoPaymentsDue()
         {
             // Arrange
-            _mediator.Setup(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()))
-                .Returns(new GetEarningForCommitmentQueryResponse
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
+                .Returns(new GetPaymentsDueForCommitmentQueryResponse
                 {
-                    Earning = new PeriodEarning
-                    {
-                        MonthlyInstallmentCapped = 0m
-                    }
+                    IsValid = true,
+                    Items = new PaymentDue[] {}
                 });
 
             // Act
@@ -134,8 +170,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0], FundingSource.Levy, 123.45m)));
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, 123.45m)));
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0], FundingSource.Levy, 1000.00m)));
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, 1000.00m)));
         }
 
         [Test]
@@ -160,7 +196,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 
             // Assert
             _mediator.Verify(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()), Times.Once);
-            _mediator.Verify(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<MarkAccountAsProcessedCommandRequest>()), Times.Never);
@@ -176,7 +212,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.IsAny<GetEarningForCommitmentQueryRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
         }
@@ -184,13 +220,16 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource source, decimal amount)
         {
             return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
-                                                         && r.Payment.LearnerRefNumber == "Learner1"
+                                                         && r.Payment.LearnerRefNumber == "Lrn-001"
                                                          && r.Payment.AimSequenceNumber == 1
-                                                         && r.Payment.Ukprn == 12345
+                                                         && r.Payment.Ukprn == 10007459
+                                                         && r.Payment.DeliveryMonth == 8
+                                                         && r.Payment.DeliveryYear == 2015
+                                                         && r.Payment.CollectionPeriodMonth == 9
+                                                         && r.Payment.CollectionPeriodYear == 2016
                                                          && r.Payment.Source == source
                                                          && r.Payment.TransactionType == TransactionType.Learning
                                                          && r.Payment.Amount == amount);
         }
-
     }
 }

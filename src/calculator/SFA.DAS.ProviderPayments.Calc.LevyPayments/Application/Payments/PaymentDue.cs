@@ -1,6 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
+﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
 {
-    public class RequiredPayment
+    public class PaymentDue
     {
         public string CommitmentId { get; set; }
         public string LearnerRefNumber { get; set; }

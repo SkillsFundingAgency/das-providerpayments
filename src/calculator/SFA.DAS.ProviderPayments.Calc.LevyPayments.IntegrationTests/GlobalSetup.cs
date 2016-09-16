@@ -26,6 +26,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
                     RunSqlScript(@"Ilr.Deds.DataLock.DDL.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
+                    RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
+                    RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
+                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
 
                     // Component scripts
                     RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.tables.sql", connection);
@@ -53,7 +56,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
             return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Previous.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
+﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities
 {
-    public class RequiredPaymentEntity
+    public class PaymentDueEntity
     {
         public string CommitmentId { get; set; }
         public string LearnRefNumber { get; set; }

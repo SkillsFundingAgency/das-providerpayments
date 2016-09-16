@@ -1,12 +1,14 @@
-﻿using MediatR;
+﻿using System.Linq;
+using MediatR;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Earnings;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Earnings.GetEarningForCommitmentQuery;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
@@ -31,88 +33,125 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
         {
             _logger.Info("Started Levy Payments Processor.");
 
+            var period = GetCurrentCollectionPeriod();
+
             Account account;
+
             while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
+                var accountHasFundsForLevy = true;
 
                 foreach (var commitment in account.Commitments)
                 {
                     _logger.Info($"Processing commitment {commitment.Id} for account {account.Id}");
 
-                    var earning = GetEarningForCommitment(commitment.Id);
-                    if (earning == null || earning.MonthlyInstallmentCapped <= 0)
+                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id);
+
+                    if (paymentsDue == null || !paymentsDue.Any())
                     {
                         continue;
                     }
 
-                    var isComplete = earning.LearningActualEndDate.HasValue;
-                    var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
+                    foreach (var paymentDue in paymentsDue)
+                    {
+                        _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
-                    if (!isComplete || isCompleteOnCensusDate)
-                    {
-                        MakeLevyPayment(account, commitment, earning, earning.MonthlyInstallmentCapped, TransactionType.Learning);
-                    }
-                    if (isComplete)
-                    {
-                        MakeLevyPayment(account, commitment, earning, earning.CompletionPaymentCapped, TransactionType.Completion);
+                        var levyAllocation = GetLevyAllocation(account, paymentDue.AmountDue);
+
+                        if (levyAllocation == 0)
+                        {
+                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            accountHasFundsForLevy = false;
+                            break;
+                        }
+
+                        MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
                     }
 
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
+
+                    if (!accountHasFundsForLevy)
+                    {
+                        break;
+                    }
                 }
 
                 MarkAccountAsProcessed(account.Id);
+
                 _logger.Info($"Finished processing account {account.Id}");
             }
         }
 
+        private CollectionPeriod GetCurrentCollectionPeriod()
+        {
+            var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
+
+            if (!collectionPeriod.IsValid)
+            {
+                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingCollectionPeriodMessage, collectionPeriod.Exception);
+            }
+
+            if (collectionPeriod.Period == null)
+            {
+                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorNoCollectionPeriodMessage);
+            }
+
+            return collectionPeriod.Period;
+        }
 
         private void MarkAccountAsProcessed(string accountId)
         {
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
-        private bool HasCompletedOnCensusDate(PeriodEarning earning)
+        
+        private PaymentDue[] GetPaymentsDueForCommitment(string commitmentId)
         {
-            if (!earning.LearningActualEndDate.HasValue)
+            var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest {CommitmentId = commitmentId});
+
+            if (!paymentsDue.IsValid)
             {
-                return false;
+                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, paymentsDue.Exception);
             }
-            return earning.LearningActualEndDate.Value.Month != earning.LearningActualEndDate.Value.AddDays(1).Month;
+
+            return paymentsDue.Items;
         }
-        private PeriodEarning GetEarningForCommitment(string commitmentId)
-        {
-            return _mediator.Send(new GetEarningForCommitmentQueryRequest { CommitmentId = commitmentId })?.Earning;
-        }
+
         private Account GetNextAccountRequiringProcessing()
         {
             return _mediator.Send(new GetNextAccountQueryRequest())?.Account;
         }
 
-        private void MakeLevyPayment(Account account, Commitment commitment, PeriodEarning earning, decimal amount, TransactionType transactionType)
+        private decimal GetLevyAllocation(Account account, decimal amountRequested)
         {
-            _logger.Info($"Levy payment of {amount} for commitment {commitment.Id}, to pay for {transactionType} on {earning.LearnerRefNumber} / {earning.AimSequenceNumber} / {earning.Ukprn}");
-
-            var levyAllocation = _mediator.Send(new AllocateLevyCommandRequest
+            return _mediator.Send(new AllocateLevyCommandRequest
             {
                 Account = account,
-                AmountRequested = amount
+                AmountRequested = amountRequested
             })?.AmountAllocated ?? 0;
+        }
 
-            _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {transactionType} on {earning.LearnerRefNumber} / {earning.AimSequenceNumber} / {earning.Ukprn}");
+        private void MakeLevyPayment(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue, decimal levyAllocation)
+        {
+                _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
-            _mediator.Send(new ProcessPaymentCommandRequest
-            {
-                Payment = new Payment
+                _mediator.Send(new ProcessPaymentCommandRequest
                 {
-                    CommitmentId = commitment.Id,
-                    LearnerRefNumber = earning.LearnerRefNumber,
-                    AimSequenceNumber = earning.AimSequenceNumber,
-                    Ukprn = earning.Ukprn,
-                    Source = FundingSource.Levy,
-                    TransactionType = transactionType,
-                    Amount = levyAllocation
-                }
-            });
+                    Payment = new Payment
+                    {
+                        CommitmentId = commitment.Id,
+                        LearnerRefNumber = paymentDue.LearnerRefNumber,
+                        AimSequenceNumber = paymentDue.AimSequenceNumber,
+                        Ukprn = paymentDue.Ukprn,
+                        DeliveryMonth = paymentDue.DeliveryMonth,
+                        DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodMonth = period.Month,
+                        CollectionPeriodYear = period.Year,
+                        Source = FundingSource.Levy,
+                        TransactionType = paymentDue.TransactionType,
+                        Amount = levyAllocation
+                    }
+                });
         }
 
     }

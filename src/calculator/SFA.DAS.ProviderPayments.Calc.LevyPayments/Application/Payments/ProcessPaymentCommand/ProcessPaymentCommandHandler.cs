@@ -20,6 +20,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.Proces
                 LearnerRefNumber = message.Payment.LearnerRefNumber,
                 AimSequenceNumber = message.Payment.AimSequenceNumber,
                 Ukprn = message.Payment.Ukprn,
+                DeliveryMonth = message.Payment.DeliveryMonth,
+                DeliveryYear = message.Payment.DeliveryYear,
+                CollectionPeriodMonth = message.Payment.CollectionPeriodMonth,
+                CollectionPeriodYear = message.Payment.CollectionPeriodYear,
                 Source = (int)message.Payment.Source,
                 TransactionType = (int)message.Payment.TransactionType,
                 Amount = message.Payment.Amount

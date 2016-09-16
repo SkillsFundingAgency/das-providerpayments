@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Dcfs;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Repositories;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution
@@ -23,9 +23,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
             // TODO: Fix so can be registered with convention
+            For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
             For<IAccountRepository>().Use<DcfsAccountRepository>();
             For<ICommitmentRepository>().Use<DcfsCommitmentRepository>();
-            For<IEarningRepository>().Use<DcfsEarningRepository>();
+            For<IPaymentDueRepository>().Use<DcfsPaymentDueRepository>();
             For<IPaymentRepository>().Use<DcfsPaymentRepository>();
 
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => GetInstance(ctx, t));
