@@ -4,19 +4,19 @@ using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {
-    public class CoInvestmentPaymentsTask : DcfsTask
+    public class CoInvestedPaymentsTask : DcfsTask
     {
         private const string DatabaseSchema = "CoInvestedPayments";
 
         private readonly IDependencyResolver _dependencyResolver;
 
-        public CoInvestmentPaymentsTask()
+        public CoInvestedPaymentsTask()
             : base(DatabaseSchema)
         {
             _dependencyResolver = new TaskDependencyResolver();
         }
 
-        internal CoInvestmentPaymentsTask(IDependencyResolver dependencyResolver)
+        internal CoInvestedPaymentsTask(IDependencyResolver dependencyResolver)
             : base(DatabaseSchema)
         {
             _dependencyResolver = dependencyResolver;
@@ -24,9 +24,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         protected override void Execute(ContextWrapper context)
         {
-            _dependencyResolver.Init(typeof(CoInvestmentPaymentsPassThroughProcessor), context);
+            _dependencyResolver.Init(typeof(CoInvestedPaymentsPassThroughProcessor), context);
 
-            var processor = _dependencyResolver.GetInstance<CoInvestmentPaymentsPassThroughProcessor>();
+            var processor = _dependencyResolver.GetInstance<CoInvestedPaymentsPassThroughProcessor>();
 
             processor.Process();
         }

@@ -55,8 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoInvestmentPaymentsPassThroughProcessor.cs" />
-    <Compile Include="CoInvestmentPaymentsTask.cs" />
+    <Compile Include="CoInvestedPaymentsPassThroughProcessor.cs" />
+    <Compile Include="CoInvestedPaymentsTask.cs" />
     <Compile Include="DependencyResolution\CoInvestedPaymentsRegistry.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />

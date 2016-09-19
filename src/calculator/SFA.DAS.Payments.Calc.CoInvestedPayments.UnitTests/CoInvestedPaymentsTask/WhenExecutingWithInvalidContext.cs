@@ -7,7 +7,7 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Tools;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
-namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestmentPaymentsTask
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsTask
 {
     public class WhenExecutingWithInvalidContext
     {
@@ -32,7 +32,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestmentPayment
             _dependencyResolver = new Mock<IDependencyResolver>();
             _dependencyResolver.Setup(dr => dr.GetInstance<ILogger>()).Returns(_logger.Object);
 
-            _task = new CoInvestedPayments.CoInvestmentPaymentsTask(_dependencyResolver.Object);
+            _task = new CoInvestedPayments.CoInvestedPaymentsTask(_dependencyResolver.Object);
         }
 
         [Test]

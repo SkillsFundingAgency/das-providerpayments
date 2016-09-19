@@ -63,9 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoInvestmentPaymentsPassThroughProcessor\WhenProcessing.cs" />
-    <Compile Include="CoInvestmentPaymentsTask\WhenExecutingWithInvalidContext.cs" />
-    <Compile Include="CoInvestmentPaymentsTask\WhenExecutingWithValidContext.cs" />
+    <Compile Include="CoInvestedPaymentsPassThroughProcessor\WhenProcessing.cs" />
+    <Compile Include="CoInvestedPaymentsTask\WhenExecutingWithInvalidContext.cs" />
+    <Compile Include="CoInvestedPaymentsTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
