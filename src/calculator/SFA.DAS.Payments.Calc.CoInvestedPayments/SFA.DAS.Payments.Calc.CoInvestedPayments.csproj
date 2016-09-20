@@ -37,6 +37,10 @@
       <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -55,11 +59,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\CollectionPeriods\CollectionPeriod.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
+    <Compile Include="Application\Earnings\Earning.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
+    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
+    <Compile Include="Application\Payments\Payment.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
+    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
+    <Compile Include="Application\Providers\Provider.cs" />
+    <Compile Include="Application\QueryResponse.cs" />
+    <Compile Include="Application\Response.cs" />
     <Compile Include="CoInvestedPaymentsPassThroughProcessor.cs" />
+    <Compile Include="CoInvestedPaymentsProcessor.cs" />
     <Compile Include="CoInvestedPaymentsTask.cs" />
     <Compile Include="DependencyResolution\CoInvestedPaymentsRegistry.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
+    <Compile Include="Infrastructure\Data\IPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\PaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\EarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
+    <Compile Include="Infrastructure\Data\IEarningRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +102,7 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

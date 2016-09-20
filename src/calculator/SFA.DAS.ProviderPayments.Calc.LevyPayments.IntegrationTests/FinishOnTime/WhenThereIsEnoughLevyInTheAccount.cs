@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools;
 

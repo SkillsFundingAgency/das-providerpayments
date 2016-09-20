@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
+namespace SFA.DAS.ProviderPayments.Calc.Common.Application
 {
     public abstract class Response
     {

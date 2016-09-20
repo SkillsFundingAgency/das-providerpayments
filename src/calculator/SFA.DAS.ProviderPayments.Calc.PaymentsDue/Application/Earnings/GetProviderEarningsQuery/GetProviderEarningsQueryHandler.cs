@@ -23,23 +23,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 return new GetProviderEarningsQueryResponse
                 {
                     IsValid = true,
-                    Items = earningEntities == null
-                        ? null
-                        : earningEntities.Select(e =>
-                            new Earning
-                            {
-                                CommitmentId = e.CommitmentId,
-                                LearnerRefNumber = e.LearnerRefNumber,
-                                AimSequenceNumber = e.AimSequenceNumber,
-                                Ukprn = e.Ukprn,
-                                LearningStartDate = e.LearningStartDate,
-                                LearningPlannedEndDate = e.LearningPlannedEndDate,
-                                LearningActualEndDate = e.LearningActualEndDate,
-                                MonthlyInstallment = e.MonthlyInstallment,
-                                MonthlyInstallmentUncapped = e.MonthlyInstallmentUncapped,
-                                CompletionPayment = e.CompletionPayment,
-                                CompletionPaymentUncapped = e.CompletionPaymentUncapped
-                            }).ToArray()
+                    Items = earningEntities?.Select(e =>
+                        new Earning
+                        {
+                            CommitmentId = e.CommitmentId,
+                            LearnerRefNumber = e.LearnerRefNumber,
+                            AimSequenceNumber = e.AimSequenceNumber,
+                            Ukprn = e.Ukprn,
+                            LearningStartDate = e.LearningStartDate,
+                            LearningPlannedEndDate = e.LearningPlannedEndDate,
+                            LearningActualEndDate = e.LearningActualEndDate,
+                            MonthlyInstallment = e.MonthlyInstallment,
+                            MonthlyInstallmentUncapped = e.MonthlyInstallmentUncapped,
+                            CompletionPayment = e.CompletionPayment,
+                            CompletionPaymentUncapped = e.CompletionPaymentUncapped
+                        }).ToArray()
                 };
             }
             catch (Exception ex)

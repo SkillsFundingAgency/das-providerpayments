@@ -67,13 +67,11 @@
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
     <Compile Include="Application\Providers\Provider.cs" />
-    <Compile Include="Application\QueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandRequest.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Application\RequiredPayments\TransactionType.cs" />
-    <Compile Include="Application\Response.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />

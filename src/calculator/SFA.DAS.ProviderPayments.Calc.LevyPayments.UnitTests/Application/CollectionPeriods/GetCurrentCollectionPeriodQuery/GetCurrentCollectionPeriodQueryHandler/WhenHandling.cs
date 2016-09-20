@@ -1,8 +1,8 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler

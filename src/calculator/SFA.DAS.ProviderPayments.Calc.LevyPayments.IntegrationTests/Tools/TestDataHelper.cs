@@ -65,8 +65,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
         internal static void AddPaymentDueForCommitment(string commitmentId, 
                                                      string learnerRefNumber = null, 
-                                                     int aimSequenceNumber = 1, 
-                                                     TransactionType transactionType = TransactionType.Learning,
+                                                     int aimSequenceNumber = 1,
+                                                     Common.Application.TransactionType transactionType = Common.Application.TransactionType.Learning,
                                                      decimal amountDue = 1000.00m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
