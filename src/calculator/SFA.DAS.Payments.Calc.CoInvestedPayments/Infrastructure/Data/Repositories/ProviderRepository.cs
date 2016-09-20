@@ -5,7 +5,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class DcfsProviderRepository : DcfsRepository, IProviderRepository
     {
-        private const string ProviderSource = "PaymentsDue.vw_Providers";
+        private const string ProviderSource = "CoInvestedPayments.vw_Providers";
         private const string ProviderColumns = "UKPRN [Ukprn]";
         private const string SelectProviders = "SELECT " + ProviderColumns + " FROM " + ProviderSource;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery
 {

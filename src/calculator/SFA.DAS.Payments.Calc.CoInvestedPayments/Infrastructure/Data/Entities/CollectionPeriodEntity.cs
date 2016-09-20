@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities
+﻿namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities
 {
     public class CollectionPeriodEntity
     {

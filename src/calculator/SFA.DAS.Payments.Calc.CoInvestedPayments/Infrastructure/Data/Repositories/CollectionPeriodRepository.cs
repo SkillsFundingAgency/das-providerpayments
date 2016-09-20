@@ -1,20 +1,20 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Repositories
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories
 {
-    public class DcfsCollectionPeriodRepository : DcfsRepository, ICollectionPeriodRepository
+    public class CollectionPeriodRepository : DcfsRepository, ICollectionPeriodRepository
     {
         private const int OpenStatus = 1;
 
-        private const string CollectionPeriodSource = "LevyPayments.vw_CollectionPeriods";
+        private const string CollectionPeriodSource = "CoInvestedPayments.vw_CollectionPeriods";
         private const string CollectionPeriodColumns = "Period_ID [PeriodId]," +
                                               "Period [Month]," +
                                               "Calendar_Year [Year]";
         private const string SelectCollectionPeriods = "SELECT " + CollectionPeriodColumns + " FROM " + CollectionPeriodSource;
         private const string SelectOpenCollectionPeriod = SelectCollectionPeriods + " WHERE Collection_Open = @CollectionOpen";
 
-        public DcfsCollectionPeriodRepository(string connectionString)
+        public CollectionPeriodRepository(string connectionString)
             : base(connectionString)
         {
         }

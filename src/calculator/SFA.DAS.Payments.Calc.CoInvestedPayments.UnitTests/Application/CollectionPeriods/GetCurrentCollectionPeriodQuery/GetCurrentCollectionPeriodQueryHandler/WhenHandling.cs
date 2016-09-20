@@ -1,11 +1,11 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler
 {
     public class WhenHandling
     {
@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Colle
 
         private Mock<ICollectionPeriodRepository> _repository;
         private GetCurrentCollectionPeriodQueryRequest _request;
-        private LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler _handler;
+        private CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler _handler;
 
         [SetUp]
         public void Arrange()
@@ -33,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Colle
 
             _repository = new Mock<ICollectionPeriodRepository>();
 
-            _handler = new LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler(_repository.Object);
+            _handler = new CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery.GetCurrentCollectionPeriodQueryHandler(_repository.Object);
         }
 
         [Test]

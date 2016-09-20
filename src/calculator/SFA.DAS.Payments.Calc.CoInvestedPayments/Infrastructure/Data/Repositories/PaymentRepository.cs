@@ -5,7 +5,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class PaymentRepository : DcfsRepository, IPaymentRepository
     {
-        private const string AddPaymentCommand = "LevyPayments.AddPayment @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @Source, @TransactionType, @Amount";
+        private const string AddPaymentCommand = "CoInvestedPayments.AddPayment @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
 
         public PaymentRepository(string connectionString) 
             : base(connectionString)
@@ -24,7 +24,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
                 DeliveryYear = payment.DeliveryYear,
                 CollectionPeriodMonth = payment.CollectionPeriodMonth,
                 CollectionPeriodYear = payment.CollectionPeriodYear,
-                Source = payment.Source,
+                FundingSource = payment.FundingSource,
                 TransactionType = payment.TransactionType,
                 Amount = payment.Amount
             });

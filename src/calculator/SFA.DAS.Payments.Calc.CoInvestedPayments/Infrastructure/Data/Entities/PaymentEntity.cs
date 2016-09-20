@@ -15,7 +15,7 @@
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
 
-        public int Source { get; set; }
+        public int FundingSource { get; set; }
         public int TransactionType { get; set; }
         public decimal Amount { get; set; }
     }

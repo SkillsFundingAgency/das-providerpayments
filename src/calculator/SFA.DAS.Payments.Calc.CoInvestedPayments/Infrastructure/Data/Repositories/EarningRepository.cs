@@ -5,7 +5,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class EarningRepository : DcfsRepository, IEarningRepository
     {
-        private const string EarningSource = "PaymentsDue.vw_CommitmentEarning";
+        private const string EarningSource = "CoInvestedPayments.vw_CommitmentEarning";
         private const string EarningColumns = "CommitmentId," +
                                               "LearnRefNumber [LearnerRefNumber]," +
                                               "AimSeqNumber [AimSequenceNumber]," +

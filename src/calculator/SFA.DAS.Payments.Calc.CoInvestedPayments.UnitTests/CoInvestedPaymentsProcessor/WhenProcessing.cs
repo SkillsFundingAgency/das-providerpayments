@@ -2,7 +2,6 @@
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.Payments.Calc.CoInvestedPayments;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsProcessor
 {

@@ -145,7 +145,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     //DeliveryYear = paymentDue.DeliveryYear,
                     CollectionPeriodMonth = period.Month,
                     CollectionPeriodYear = period.Year,
-                    Source = FundingSource.CoInvestedEmployer,
+                    FundingSource = FundingSource.CoInvestedEmployer,
                     TransactionType = TransactionType.Learning,
                     Amount = 10000000
                 }
