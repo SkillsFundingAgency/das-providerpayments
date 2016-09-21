@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods;
@@ -9,6 +8,8 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Earnings;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentCommand;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.Common.Tools.Extensions;
@@ -19,6 +20,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private const decimal CoInvestedSfaRatio = 0.9m;
+
 
         public CoInvestedPaymentsProcessor(ILogger logger, IMediator mediator)
         {
@@ -35,61 +38,33 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         {
             _logger.Info("Started Co-Invested Payments Processor.");
 
-            //var period = GetCurrentCollectionPeriod();
+            var collectionPeriod = ReturnCurrentCollectionPeriodOrThrow();
+            var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 
-            // For each DAS entry in the ILR that has passed Data Lock, for this employer then split it out in to SFA and E lines in the Paymemts table...
-
-            // Foreach Provider...
-
-            //
-            var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
-
-            if (!collectionPeriod.IsValid)
+            if (providersQueryResponse.HasAnyItems())
             {
-                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.NotDefined, collectionPeriod.Exception);
-            }
-
-            if (collectionPeriod.Period == null)
-            {
-                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.NotDefined);
-            }
-
-            var providers = _mediator.Send(new GetProvidersQueryRequest());
-
-            if (!providers.IsValid)
-            {
-                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.NotDefined, providers.Exception);
-            }
-
-            if (providers.Items != null && providers.Items.Any())
-            {
-                foreach (var provider in providers.Items)
+                foreach (var provider in providersQueryResponse.Items)
                 {
                     _logger.Info($"Processing co-invested payments for provider with ukprn {provider.Ukprn}.");
 
-                    //var providerDuePayments = new List<RequiredPayment>();
+                    //var providerEarningsQueryResponse = ReturnValidGetProviderEarningsQueryResponseOrThrow(provider.Ukprn);
+                    var providerPaymentsDueQueryResponse = ReturnValidGetPaymentsDueForUkprnQueryResponseOrThrow(provider.Ukprn);
 
-                    var providerEarnings = _mediator.Send(new GetProviderEarningsQueryRequest { Ukprn = provider.Ukprn });
-
-                    if (!providerEarnings.IsValid)
+                    if (!providerPaymentsDueQueryResponse.DoesHavePaymentsDue())
                     {
-                        throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.NotDefined, providerEarnings.Exception);
-                    }
-
-                    if (!providerEarnings.DoesHaveEarnings())
-                    {
-                        _logger.Info($"No earnings found for provider with ukprn {provider.Ukprn}.");
+                        _logger.Info($"No payments due for found for provider with ukprn {provider.Ukprn}.");
                         continue;
                     }
 
                     var learnerLevelPaymentsForProvider = new List<Payment>();
 
-                    foreach (var earning in providerEarnings.Items)
+                    _logger.Info($"Provider {provider.Ukprn} has {providerPaymentsDueQueryResponse.Items.Length} payments due.");
+
+                    _logger.Info($"Building payments from payments due for {provider.Ukprn}.");
+
+                    foreach (var paymentDue in providerPaymentsDueQueryResponse.Items)
                     {
-                        if (ShouldPayProviderUsingCoInvested(collectionPeriod.Period, earning))
-                        {
-                            AddCoInvestedPaymentsForLearner(learnerLevelPaymentsForProvider, collectionPeriod.Period, earning);  // Add to learnerLevelPaymentsForProvider
-                        }
+                        AddCoInvestedPaymentsForLearner(learnerLevelPaymentsForProvider, collectionPeriod, paymentDue);
                     }
 
                     WriteCoInvestedPaymentsForProvider(provider.Ukprn, learnerLevelPaymentsForProvider);
@@ -101,6 +76,45 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             }
 
             _logger.Info("Finished Co-Invested Payments Processor.");
+        }
+
+        private GetPaymentsDueForUkprnQueryResponse ReturnValidGetPaymentsDueForUkprnQueryResponseOrThrow(long ukprn)
+        {
+            var response = _mediator.Send(new GetPaymentsDueForUkprnQueryRequest { Ukprn = ukprn });
+
+            if (!response.IsValid)
+            {
+                throw new CoInvestedPaymentsProcessorException(
+                    CoInvestedPaymentsProcessorException.ErrorReadingPaymentsDueForUkprn,
+                    response.Exception);
+            }
+            return response;
+        }
+
+        private GetProvidersQueryResponse ReturnValidGetProvidersQueryResponseOrThrow()
+        {
+            var providersQueryResponse = _mediator.Send(new GetProvidersQueryRequest());
+
+            if (!providersQueryResponse.IsValid)
+            {
+                throw new CoInvestedPaymentsProcessorException(
+                    CoInvestedPaymentsProcessorException.ErrorReadingProviders,
+                    providersQueryResponse.Exception);
+            }
+            return providersQueryResponse;
+        }
+
+        private GetProviderEarningsQueryResponse ReturnValidGetProviderEarningsQueryResponseOrThrow(long ukprn)
+        {
+            var providerEarningsQueryResponse = _mediator.Send(new GetProviderEarningsQueryRequest {Ukprn = ukprn });
+
+            if (!providerEarningsQueryResponse.IsValid)
+            {
+                throw new CoInvestedPaymentsProcessorException(
+                    CoInvestedPaymentsProcessorException.ErrorReadingProviderEarnings, providerEarningsQueryResponse.Exception);
+            }
+
+            return providerEarningsQueryResponse;
         }
 
         private void WriteCoInvestedPaymentsForProvider(long ukprn, IReadOnlyCollection<Payment> payments)
@@ -116,124 +130,99 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     });
             }
 
-            _logger.Info($"Finished writing learner co-invested payment entries for provider with ukprn {ukprn}.");
         }
 
-        private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod period, Earning earning)
+        private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
-            var isComplete = earning.LearningActualEndDate.HasValue;
-            var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
+            //var isComplete = paymentDue. LearningActualEndDate.HasValue;
 
-            //if (!isComplete || isCompleteOnCensusDate)
+            //var transactionType = TransactionType.Learning;
+
+            //decimal amountEarnt = 0;
+
+            //if (!isComplete || HasCompletedOnCensusDate(earning))
             //{
-            //    providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.MonthlyInstallment, TransactionType.Learning));
+            //    amountEarnt = earning.MonthlyInstallment;
             //}
+
             //if (isComplete)
             //{
-            //    providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.CompletionPayment, TransactionType.Completion));
+            //    transactionType = TransactionType.Completion;
+            //    amountEarnt = earning.CompletionPayment;
             //}
 
-            _logger.Info($"WIP");
             payments.Add(
                 new Payment
                 {
-                    CommitmentId = earning.CommitmentId,
-                    LearnerRefNumber = earning.LearnerRefNumber,
-                    AimSequenceNumber = earning.AimSequenceNumber,
-                    Ukprn = earning.Ukprn,
-                    //DeliveryMonth = paymentDue.DeliveryMonth,
-                    //DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodMonth = period.Month,
-                    CollectionPeriodYear = period.Year,
+                    CommitmentId = paymentDue.CommitmentId,
+                    LearnerRefNumber = paymentDue.LearnerRefNumber,
+                    AimSequenceNumber = paymentDue.AimSequenceNumber,
+                    Ukprn = paymentDue.Ukprn,
+                    DeliveryMonth = paymentDue.DeliveryMonth,
+                    DeliveryYear = paymentDue.DeliveryYear,
+                    CollectionPeriodMonth = currentPeriod.Month,
+                    CollectionPeriodYear = currentPeriod.Year,
+                    FundingSource = FundingSource.CoInvestedSfa,
+                    TransactionType = paymentDue.TransactionType,
+                    Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
+                }
+                );
+
+            payments.Add(
+                new Payment
+                {
+                    CommitmentId = paymentDue.CommitmentId,
+                    LearnerRefNumber = paymentDue.LearnerRefNumber,
+                    AimSequenceNumber = paymentDue.AimSequenceNumber,
+                    Ukprn = paymentDue.Ukprn,
+                    DeliveryMonth = paymentDue.DeliveryMonth,
+                    DeliveryYear = paymentDue.DeliveryYear,
+                    CollectionPeriodMonth = currentPeriod.Month,
+                    CollectionPeriodYear = currentPeriod.Year,
                     FundingSource = FundingSource.CoInvestedEmployer,
-                    TransactionType = TransactionType.Learning,
-                    Amount = 10000000
+                    TransactionType = paymentDue.TransactionType,
+                    Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.AmountDue)
                 }
                 );
         }
 
-        private bool ShouldPayProviderUsingCoInvested(CollectionPeriod period, Earning earning)
+        private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal amountToPay)
         {
-            return true;
+            switch (fundingSource)
+            {
+                case FundingSource.CoInvestedSfa:
+                {
+                    return amountToPay * CoInvestedSfaRatio;
+                }
+                case FundingSource.CoInvestedEmployer:
+                {
+                    return amountToPay * (1 - CoInvestedSfaRatio);
+                }
+                default:
+                {
+                    throw new ArgumentOutOfRangeException(nameof(fundingSource), fundingSource.ToString());
+                }
+            }
         }
 
-        private void MakeCoInvestedPayment()
-        {
-            
-
-        }
-
-        private CollectionPeriod GetCurrentCollectionPeriod()
+        private CollectionPeriod ReturnCurrentCollectionPeriodOrThrow()
         {
             var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
 
             if (!collectionPeriod.IsValid)
             {
-                //throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorReadingCollectionPeriodMessage, collectionPeriod.Exception);
+                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorReadingCollectionPeriodMessage, collectionPeriod.Exception);
             }
 
             if (collectionPeriod.Period == null)
             {
-                //throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorNoCollectionPeriodMessage);
+                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorNoCollectionPeriodMessage);
             }
 
             return collectionPeriod.Period;
         }
 
-        //private void MarkAccountAsProcessed(string accountId)
-        //{
-        //    _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
-        //}
-
-        //private PaymentDue[] GetPaymentsDueForCommitment(string commitmentId)
-        //{
-        //    var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest { CommitmentId = commitmentId });
-
-        //    if (!paymentsDue.IsValid)
-        //    {
-        //        throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, paymentsDue.Exception);
-        //    }
-
-        //    return paymentsDue.Items;
-        //}
-
-        //private Account GetNextAccountRequiringProcessing()
-        //{
-        //    return _mediator.Send(new GetNextAccountQueryRequest())?.Account;
-        //}
-
-        //private decimal GetLevyAllocation(Account account, decimal amountRequested)
-        //{
-        //    return _mediator.Send(new AllocateLevyCommandRequest
-        //    {
-        //        Account = account,
-        //        AmountRequested = amountRequested
-        //    })?.AmountAllocated ?? 0;
-        //}
-
-        //private void MakeLevyPayment(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue, decimal levyAllocation)
-        //{
-        //    _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-
-        //    _mediator.Send(new ProcessPaymentCommandRequest
-        //    {
-        //        Payment = new Payment
-        //        {
-        //            CommitmentId = commitment.Id,
-        //            LearnerRefNumber = paymentDue.LearnerRefNumber,
-        //            AimSequenceNumber = paymentDue.AimSequenceNumber,
-        //            Ukprn = paymentDue.Ukprn,
-        //            DeliveryMonth = paymentDue.DeliveryMonth,
-        //            DeliveryYear = paymentDue.DeliveryYear,
-        //            CollectionPeriodMonth = period.Month,
-        //            CollectionPeriodYear = period.Year,
-        //            Source = FundingSource.Levy,
-        //            TransactionType = paymentDue.TransactionType,
-        //            Amount = levyAllocation
-        //        }
-        //    });
-        //}
-        private bool HasCompletedOnCensusDate(Earning earning)
+        private static bool HasCompletedOnCensusDate(Earning earning)
         {
             if (!earning.LearningActualEndDate.HasValue)
             {
@@ -241,21 +230,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             }
 
             return earning.LearningActualEndDate.Value == earning.LearningActualEndDate.Value.LastDayOfMonth();
-        }
-    }
-
-    public class CoInvestedPaymentsProcessorException : Exception
-    {
-        public static string NotDefined = "NotDefined";
-
-        public CoInvestedPaymentsProcessorException(string message)
-            : base(message)
-        {
-        }
-
-        public CoInvestedPaymentsProcessorException(string message, Exception ex)
-            : base(message, ex)
-        {
         }
     }
 }

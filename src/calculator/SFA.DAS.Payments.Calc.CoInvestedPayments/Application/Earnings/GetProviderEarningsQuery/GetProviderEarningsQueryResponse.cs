@@ -6,7 +6,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Earnings.GetProvi
     {
         public bool DoesHaveEarnings()
         {
-            return Items == null || !Items.Any();
+            return Items != null && Items.Any();
         }
     }
 }

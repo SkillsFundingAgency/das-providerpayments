@@ -2,9 +2,8 @@
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data
 {
-    public interface IPaymentRepository
+    public interface IPaymentDueRepository
     {
-        void AddPayment(PaymentEntity payment);
-        void AddPayments(PaymentEntity[] payments);
+        PaymentDueEntity[] GetPaymentsDueByUkprn(long ukprn);
     }
 }

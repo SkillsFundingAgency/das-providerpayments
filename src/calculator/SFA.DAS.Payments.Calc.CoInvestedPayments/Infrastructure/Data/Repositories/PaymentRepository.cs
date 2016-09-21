@@ -5,11 +5,16 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class PaymentRepository : DcfsRepository, IPaymentRepository
     {
-        private const string AddPaymentCommand = "CoInvestedPayments.AddPayment @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
+        private const string PaymentsDestination = "CoInvestedPayments.AddPayment";
+        private const string AddPaymentCommand = PaymentsDestination + " @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
 
         public PaymentRepository(string connectionString) 
             : base(connectionString)
         {
+        }
+        public void AddPayments(PaymentEntity[] payments)
+        {
+            ExecuteBatch(payments, AddPaymentCommand);
         }
 
         public void AddPayment(PaymentEntity payment)
