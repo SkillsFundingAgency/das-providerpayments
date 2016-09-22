@@ -147,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator.Verify(m => m.Send(It.Is<MarkAccountAsProcessedCommandRequest>(r => r.AccountId == _account.Id)), Times.Once);
         }
 
-        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, string learner, FundingSource source, decimal amount)
+        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, string learner, FundingSource fundingSource, decimal amount)
         {
             return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
                                                          && r.Payment.LearnerRefNumber == learner
@@ -157,7 +157,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                                                          && r.Payment.DeliveryYear == 2015
                                                          && r.Payment.CollectionPeriodMonth == 9
                                                          && r.Payment.CollectionPeriodYear == 2016
-                                                         && r.Payment.Source == source
+                                                         && r.Payment.FundingSource == fundingSource
                                                          && r.Payment.TransactionType == TransactionType.Learning
                                                          && r.Payment.Amount == amount);
         }

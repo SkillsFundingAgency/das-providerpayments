@@ -7,7 +7,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
     {
         private const string ProviderSource = "PaymentsDue.RequiredPayments";
         private const string ProviderColumns = "UKPRN [Ukprn]";
-        private const string SelectProviders = "SELECT " + ProviderColumns + " FROM " + ProviderSource;
+        private const string SelectProviders = "SELECT DISTINCT " + ProviderColumns + " FROM " + ProviderSource;
 
         public ProviderRepository(string connectionString)
             : base(connectionString)

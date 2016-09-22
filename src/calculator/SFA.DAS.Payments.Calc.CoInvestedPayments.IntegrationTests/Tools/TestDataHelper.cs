@@ -126,7 +126,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                         FROM sys.objects o WITH (NOWAIT)
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
-                            AND s.name IN ('dbo', 'PaymentsDue', 'LevyPayments')
+                            AND s.name IN ('dbo', 'PaymentsDue', 'CoInvestedPayments')
                             AND o.name NOT IN ('Collection_Period_Mapping')
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 

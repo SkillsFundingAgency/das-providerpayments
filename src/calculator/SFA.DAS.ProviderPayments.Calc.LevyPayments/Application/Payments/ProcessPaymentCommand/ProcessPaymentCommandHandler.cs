@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.Proces
                 DeliveryYear = message.Payment.DeliveryYear,
                 CollectionPeriodMonth = message.Payment.CollectionPeriodMonth,
                 CollectionPeriodYear = message.Payment.CollectionPeriodYear,
-                Source = (int)message.Payment.Source,
+                FundingSource = (int)message.Payment.FundingSource,
                 TransactionType = (int)message.Payment.TransactionType,
                 Amount = message.Payment.Amount
             });

@@ -148,7 +148,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                         DeliveryYear = paymentDue.DeliveryYear,
                         CollectionPeriodMonth = period.Month,
                         CollectionPeriodYear = period.Year,
-                        Source = FundingSource.Levy,
+                        FundingSource = FundingSource.Levy,
                         TransactionType = paymentDue.TransactionType,
                         Amount = levyAllocation
                     }

@@ -102,12 +102,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, TransactionType.Completion, 3000.00m)), Times.Once);
         }
 
-        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource source, TransactionType transactionType, decimal amount)
+        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource fundingSource, TransactionType transactionType, decimal amount)
         {
-            return It.Is<ProcessPaymentCommandRequest>(r => IsCorrectPayment(r, commitment, source, transactionType, amount));
+            return It.Is<ProcessPaymentCommandRequest>(r => IsCorrectPayment(r, commitment, fundingSource, transactionType, amount));
         }
 
-        private bool IsCorrectPayment(ProcessPaymentCommandRequest request, Commitment commitment, FundingSource source, TransactionType transactionType, decimal amount)
+        private bool IsCorrectPayment(ProcessPaymentCommandRequest request, Commitment commitment, FundingSource fundingSource, TransactionType transactionType, decimal amount)
         {
             return request.Payment.CommitmentId == commitment.Id
                 && request.Payment.LearnerRefNumber == "Lrn-001"
@@ -117,7 +117,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 && request.Payment.DeliveryYear == 2015
                 && request.Payment.CollectionPeriodMonth == 9
                 && request.Payment.CollectionPeriodYear == 2016
-                && request.Payment.Source == source
+                && request.Payment.FundingSource == fundingSource
                 && request.Payment.TransactionType == transactionType
                 && request.Payment.Amount == amount;
         }
