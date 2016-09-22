@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{52AE74DC-AD2
 		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests", "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests\SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.csproj", "{D2948742-339F-4D56-8C40-437A0AE79027}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2948742-339F-4D56-8C40-437A0AE79027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2948742-339F-4D56-8C40-437A0AE79027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2948742-339F-4D56-8C40-437A0AE79027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2948742-339F-4D56-8C40-437A0AE79027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +140,6 @@ Global
 		{F70E5D61-5021-49A8-A610-82058E70851E} = {92AA8114-4F64-4478-B263-74E1786D1071}
 		{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F} = {F70E5D61-5021-49A8-A610-82058E70851E}
 		{52AE74DC-AD2F-4B38-8988-94450FA6137C} = {92AA8114-4F64-4478-B263-74E1786D1071}
+		{D2948742-339F-4D56-8C40-437A0AE79027} = {F70E5D61-5021-49A8-A610-82058E70851E}
 	EndGlobalSection
 EndGlobal

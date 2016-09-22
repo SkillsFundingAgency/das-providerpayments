@@ -14,7 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsProcessor
 {
-    public class WhenProcessCalledWithAProviderAnd1PaymentDueReturnedWithDifferntTransactionType
+    public class WhenProcessCalledWithAProviderAnd1PaymentDueReturnedWithDifferentTransactionType
     {
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
