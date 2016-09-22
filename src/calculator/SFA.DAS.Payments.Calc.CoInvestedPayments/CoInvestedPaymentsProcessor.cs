@@ -47,7 +47,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 {
                     _logger.Info($"Processing co-invested payments for provider with ukprn {provider.Ukprn}.");
 
-                    //var providerEarningsQueryResponse = ReturnValidGetProviderEarningsQueryResponseOrThrow(provider.Ukprn);
                     var providerPaymentsDueQueryResponse = ReturnValidGetPaymentsDueForUkprnQueryResponseOrThrow(provider.Ukprn);
 
                     if (!providerPaymentsDueQueryResponse.DoesHavePaymentsDue())
@@ -104,19 +103,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             return providersQueryResponse;
         }
 
-        private GetProviderEarningsQueryResponse ReturnValidGetProviderEarningsQueryResponseOrThrow(long ukprn)
-        {
-            var providerEarningsQueryResponse = _mediator.Send(new GetProviderEarningsQueryRequest {Ukprn = ukprn });
-
-            if (!providerEarningsQueryResponse.IsValid)
-            {
-                throw new CoInvestedPaymentsProcessorException(
-                    CoInvestedPaymentsProcessorException.ErrorReadingProviderEarnings, providerEarningsQueryResponse.Exception);
-            }
-
-            return providerEarningsQueryResponse;
-        }
-
         private void WriteCoInvestedPaymentsForProvider(long ukprn, IReadOnlyCollection<Payment> payments)
         {
             _logger.Info($"Writing {payments.Count} learner co-invested payment entries for provider with ukprn {ukprn}.");
@@ -134,23 +120,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
-            //var isComplete = paymentDue. LearningActualEndDate.HasValue;
-
-            //var transactionType = TransactionType.Learning;
-
-            //decimal amountEarnt = 0;
-
-            //if (!isComplete || HasCompletedOnCensusDate(earning))
-            //{
-            //    amountEarnt = earning.MonthlyInstallment;
-            //}
-
-            //if (isComplete)
-            //{
-            //    transactionType = TransactionType.Completion;
-            //    amountEarnt = earning.CompletionPayment;
-            //}
-
             payments.Add(
                 new Payment
                 {

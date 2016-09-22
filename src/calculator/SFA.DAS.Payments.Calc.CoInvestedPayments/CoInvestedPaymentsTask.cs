@@ -24,9 +24,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         protected override void Execute(ContextWrapper context)
         {
-            _dependencyResolver.Init(typeof(CoInvestedPaymentsPassThroughProcessor), context);
+            _dependencyResolver.Init(typeof(CoInvestedPaymentsProcessor), context);
 
-            var processor = _dependencyResolver.GetInstance<CoInvestedPaymentsPassThroughProcessor>();
+            var processor = _dependencyResolver.GetInstance<CoInvestedPaymentsProcessor>();
 
             processor.Process();
         }

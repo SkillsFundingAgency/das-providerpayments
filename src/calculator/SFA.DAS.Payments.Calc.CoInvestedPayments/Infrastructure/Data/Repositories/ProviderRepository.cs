@@ -3,13 +3,13 @@ using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories
 {
-    public class DcfsProviderRepository : DcfsRepository, IProviderRepository
+    public class ProviderRepository : DcfsRepository, IProviderRepository
     {
-        private const string ProviderSource = "CoInvestedPayments.vw_Providers";
+        private const string ProviderSource = "PaymentsDue.RequiredPayments";
         private const string ProviderColumns = "UKPRN [Ukprn]";
         private const string SelectProviders = "SELECT " + ProviderColumns + " FROM " + ProviderSource;
 
-        public DcfsProviderRepository(string connectionString)
+        public ProviderRepository(string connectionString)
             : base(connectionString)
         {
         }

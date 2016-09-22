@@ -11,9 +11,10 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution
         public void Init(Type taskType, ContextWrapper contextWrapper)
         {
             _container = new Container(c =>
-                {
-                    c.AddRegistry(new CoInvestedPaymentsRegistry(taskType));
-                }
+            {
+                c.Policies.Add(new ConnectionStringPolicy(contextWrapper));
+                c.AddRegistry(new CoInvestedPaymentsRegistry(taskType));
+            }
             );
         }
 

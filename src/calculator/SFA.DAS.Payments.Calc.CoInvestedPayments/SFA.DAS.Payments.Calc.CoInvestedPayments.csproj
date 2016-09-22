@@ -83,6 +83,7 @@
     <Compile Include="CoInvestedPaymentsProcessorException.cs" />
     <Compile Include="CoInvestedPaymentsTask.cs" />
     <Compile Include="DependencyResolution\CoInvestedPaymentsRegistry.cs" />
+    <Compile Include="DependencyResolution\ConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />

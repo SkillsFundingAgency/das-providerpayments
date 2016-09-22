@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Linq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 {
-    public class WhenNoPaymentsAreDue
+    public class WhenPaymentsAreDueForThisPeriod
     {
         private static readonly object[] PaymentsDue =
         {
+            new PaymentDue
+            {
+
+                
+            } 
         };
 
         private CoInvestedPaymentsTask _uut;
@@ -26,19 +31,21 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var commitmentId = Guid.NewGuid().ToString();
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
+            TestDataHelper.AddPaymentDueForProvider(commitmentId, 1,  amountDue: 1000, transactionType: TransactionType.Learning);
+
             _taskContext = new IntegrationTaskContext();
             _uut = new CoInvestedPaymentsTask();
         }
 
         [Test]
-        public void ThenNoLevyPaymentsAreMadeWhenNoPaymentsAreDue()
+        public void TheTwoPaymentsAreMade()
         {
             Act();
 
             // Assert
             var paymentsCount = TestDataHelper.GetPaymentsCount();
             Assert.IsNotNull(paymentsCount);
-            Assert.AreEqual(0, paymentsCount);
+            Assert.AreEqual(2, paymentsCount);
         }
 
         private void Act()
@@ -102,5 +109,45 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         //    Assert.AreEqual(1, paymentsMade.Count(p => p.Source == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == 575.00m));
         //    Assert.AreEqual(1, paymentsMade.Count(p => p.Source == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == 1725.00m));
         //}
+    }
+    public class WhenNoPaymentsAreDue
+    {
+        private static readonly object[] PaymentsDue =
+        {
+        };
+
+        private CoInvestedPaymentsTask _uut;
+        private IntegrationTaskContext _taskContext;
+
+        [SetUp]
+        public void Arrange()
+        {
+            TestDataHelper.Clean();
+
+            var accountId = Guid.NewGuid().ToString();
+            TestDataHelper.AddAccount(accountId);
+
+            var commitmentId = Guid.NewGuid().ToString();
+            TestDataHelper.AddCommitment(commitmentId, accountId);
+
+            _taskContext = new IntegrationTaskContext();
+            _uut = new CoInvestedPaymentsTask();
+        }
+
+        [Test]
+        public void ThenNoPaymentsAreMade()
+        {
+            Act();
+
+            // Assert
+            var paymentsCount = TestDataHelper.GetPaymentsCount();
+            Assert.IsNotNull(paymentsCount);
+            Assert.AreEqual(0, paymentsCount);
+        }
+
+        private void Act()
+        {
+            _uut.Execute(_taskContext);
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
     public class WhenExecutingWithValidContext
     {
         private Mock<IExternalContext> _context;
-        private Mock<CoInvestedPayments.CoInvestedPaymentsPassThroughProcessor> _processor;
+        private Mock<CoInvestedPayments.CoInvestedPaymentsProcessor> _processor;
         private Mock<IDependencyResolver> _dependencyResolver;
         private CoInvestedPayments.CoInvestedPaymentsTask _task;
 
@@ -20,10 +20,10 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
         {
             _context = ContextMother.CreateContext();
 
-            _processor = new Mock<CoInvestedPayments.CoInvestedPaymentsPassThroughProcessor>();
+            _processor = new Mock<CoInvestedPayments.CoInvestedPaymentsProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
-            _dependencyResolver.Setup(dr => dr.GetInstance<CoInvestedPayments.CoInvestedPaymentsPassThroughProcessor>())
+            _dependencyResolver.Setup(dr => dr.GetInstance<CoInvestedPayments.CoInvestedPaymentsProcessor>())
                 .Returns(_processor.Object);
 
             _task = new CoInvestedPayments.CoInvestedPaymentsTask(_dependencyResolver.Object);
@@ -36,7 +36,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
             _task.Execute(_context.Object);
 
             // Assert
-            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(CoInvestedPayments.CoInvestedPaymentsPassThroughProcessor)), It.IsAny<ContextWrapper>()), Times.Once);
+            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(CoInvestedPayments.CoInvestedPaymentsProcessor)), It.IsAny<ContextWrapper>()), Times.Once);
         }
 
         [Test]
