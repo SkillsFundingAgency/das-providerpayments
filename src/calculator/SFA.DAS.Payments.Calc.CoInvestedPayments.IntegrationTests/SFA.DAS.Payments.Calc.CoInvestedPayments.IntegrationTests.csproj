@@ -77,7 +77,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FinishOnTime\WhenThereIs.cs" />
+    <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario1.cs" />
+    <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario2.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
