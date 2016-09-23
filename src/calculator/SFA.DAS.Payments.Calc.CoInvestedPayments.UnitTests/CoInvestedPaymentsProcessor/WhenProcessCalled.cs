@@ -14,6 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsProcessor
 {
+    // ACCEPTANCE TEST FOR DPP-195 SCENARIO 2
     public class WhenDpp195AcceptanceScenario2
     {
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
@@ -227,6 +228,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _processor.Process();
         }
     }
+    // ACCEPTANCE TEST FOR DPP-195 SCENARIO 1
     public class WhenDpp195AcceptanceScenario1
     {
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
