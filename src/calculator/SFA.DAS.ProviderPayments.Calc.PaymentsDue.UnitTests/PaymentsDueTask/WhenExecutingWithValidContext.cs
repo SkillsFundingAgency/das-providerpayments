@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
     public class WhenExecutingWithValidContext
     {
         private Mock<IExternalContext> _context;
-        private Mock<PaymentsDue.PaymentsDueProcessor> _processor;
+        private Mock<PaymentsDue.PaymentsDuePassThroughProcessor> _processor;
         private Mock<IDependencyResolver> _dependencyResolver;
         private PaymentsDue.PaymentsDueTask _task;
 
@@ -19,10 +19,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
         {
             _context = ContextMother.CreateContext();
 
-            _processor = new Mock<PaymentsDue.PaymentsDueProcessor>();
+            _processor = new Mock<PaymentsDue.PaymentsDuePassThroughProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
-            _dependencyResolver.Setup(dr => dr.GetInstance<PaymentsDue.PaymentsDueProcessor>())
+            _dependencyResolver.Setup(dr => dr.GetInstance<PaymentsDue.PaymentsDuePassThroughProcessor>())
                 .Returns(_processor.Object);
 
             _task = new PaymentsDue.PaymentsDueTask(_dependencyResolver.Object);
@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
             _task.Execute(_context.Object);
 
             // Assert
-            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(PaymentsDue.PaymentsDueProcessor)), It.IsAny<ContextWrapper>()), Times.Once);
+            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(PaymentsDue.PaymentsDuePassThroughProcessor)), It.IsAny<ContextWrapper>()), Times.Once);
         }
 
         [Test]
