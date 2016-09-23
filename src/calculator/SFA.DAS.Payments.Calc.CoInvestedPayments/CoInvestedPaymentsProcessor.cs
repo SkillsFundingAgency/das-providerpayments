@@ -154,21 +154,27 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal amountToPay)
         {
+            decimal result;
+
             switch (fundingSource)
             {
                 case FundingSource.CoInvestedSfa:
                 {
-                    return amountToPay * CoInvestedSfaRatio;
+                    result =  amountToPay * CoInvestedSfaRatio;
+                    break;
                 }
                 case FundingSource.CoInvestedEmployer:
                 {
-                    return amountToPay * (1 - CoInvestedSfaRatio);
+                    result =  amountToPay * (1 - CoInvestedSfaRatio);
+                    break;
                 }
                 default:
                 {
                     throw new ArgumentOutOfRangeException(nameof(fundingSource), fundingSource.ToString());
                 }
             }
+
+            return decimal.Round(result, 5);
         }
 
         private CollectionPeriod ReturnCurrentCollectionPeriodOrThrow()

@@ -14,13 +14,11 @@ using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsProcessor
 {
-    public class WhenProcessCalledWithAProviderAnd1PaymentDueReturnedWithDifferentTransactionType
+    public class WhenDpp195AcceptanceScenario2
     {
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
-        private PaymentDue _paymentDue;
-        private CollectionPeriod _period;
 
         [SetUp]
         public void Arrange()
@@ -30,7 +28,428 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
 
-            _period = new CollectionPeriod();
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
+                new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod()
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>())).Returns(
+                new GetProvidersQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new Provider
+                        {
+                            Ukprn = 1
+                        }
+                    }
+                });
+
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
+                new GetPaymentsDueForUkprnQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 10,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 11,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 12,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 1,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 2,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 3,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 4,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 5,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 6,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 7,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 8,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 9,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 923.07692m
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 10,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 3923.07692m
+                        }
+                    }
+                });
+        }
+
+        [Test]
+        public void The26PaymentsAreMade()
+        {
+            Act();
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.Ukprn == 1
+                        )),
+                Times.Exactly(26));
+        }
+        [Test]
+        public void ThenResultShouldBe_()
+        {
+            Act();
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 830.76923m
+                        )),
+                Times.Exactly(12));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 92.30769m
+                        )),
+                Times.Exactly(12));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 3530.76923m
+                        )),
+                Times.Exactly(1));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 392.30769m
+                        )),
+                Times.Exactly(1));
+        }
+
+        private void Act()
+        {
+            _processor.Process();
+        }
+    }
+    public class WhenDpp195AcceptanceScenario1
+    {
+        private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
+        private Mock<ILogger> _logger;
+        private Mock<IMediator> _mediator;
+
+        [SetUp]
+        public void Arrange()
+        {
+            _logger = new Mock<ILogger>();
+            _mediator = new Mock<IMediator>();
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
+                new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod()
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>())).Returns(
+                new GetProvidersQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new Provider
+                        {
+                            Ukprn = 1
+                        }
+                    }
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
+                new GetPaymentsDueForUkprnQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 10,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 11,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 12,
+                            DeliveryYear = 17,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 1,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 2,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 3,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 4,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 5,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 6,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 7,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 8,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 9,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 1000
+                        },
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            Ukprn = 1,
+                            DeliveryMonth = 10,
+                            DeliveryYear = 18,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 3000
+                        }
+                    }
+                });
+        }
+
+        [Test]
+        public void The26PaymentsAreMade()
+        {
+            Act();
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.Ukprn == 1
+                        )),
+                Times.Exactly(26));
+        }
+        [Test]
+        public void ThenResultShouldBe_()
+        {
+            Act();
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 900
+                        )),
+                Times.Exactly(12));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 100
+                        )),
+                Times.Exactly(12));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 2700
+                        )),
+                Times.Exactly(1));
+
+            _mediator.Verify(
+                m => m.Send(
+                    It.Is<ProcessPaymentCommandRequest>(
+                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 300
+                        )),
+                Times.Exactly(1));
+        }
+        private void Act()
+        {
+            _processor.Process();
+        }
+    }
+    public class WhenProcessCalledWithAProviderAnd1PaymentDueReturnedWithDifferentTransactionType
+    {
+        private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
+        private Mock<ILogger> _logger;
+        private Mock<IMediator> _mediator;
+        private PaymentDue _paymentDue;
+
+        [SetUp]
+        public void Arrange()
+        {
+            _logger = new Mock<ILogger>();
+            _mediator = new Mock<IMediator>();
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -346,7 +765,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             }
 
             _logger.Verify(l => l.Info(It.IsRegex("Started")), Times.Once);
-            //_logger.Verify(l => l.Info(It.IsRegex("Finished")), Times.Once);
             _logger.Verify(l => l.Info(It.IsAny<string>()), Times.Exactly(2));
         }
 
