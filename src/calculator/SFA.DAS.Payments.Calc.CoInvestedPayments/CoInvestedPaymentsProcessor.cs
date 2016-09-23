@@ -4,15 +4,12 @@ using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Earnings;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.Common.Application;
-using SFA.DAS.ProviderPayments.Calc.Common.Tools.Extensions;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {
@@ -189,16 +186,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             }
 
             return collectionPeriod.Period;
-        }
-
-        private static bool HasCompletedOnCensusDate(Earning earning)
-        {
-            if (!earning.LearningActualEndDate.HasValue)
-            {
-                return false;
-            }
-
-            return earning.LearningActualEndDate.Value == earning.LearningActualEndDate.Value.LastDayOfMonth();
         }
     }
 }

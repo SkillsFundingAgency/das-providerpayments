@@ -25,7 +25,7 @@ CREATE PROCEDURE CoInvestedPayments.AddPayment
 	@CollectionPeriodYear int,
 	@FundingSource int,
 	@TransactionType int,
-	@Amount decimal(15,2)
+	@Amount decimal(15,5)
 AS
 SET NOCOUNT ON
 
