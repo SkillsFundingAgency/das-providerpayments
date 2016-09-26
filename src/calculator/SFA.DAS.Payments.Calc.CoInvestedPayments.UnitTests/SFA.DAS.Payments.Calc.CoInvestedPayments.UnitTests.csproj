@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler\Handle\WhenHandlingValidRequest.cs" />
     <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
     <Compile Include="CoInvestedPaymentsProcessor\WhenProcessCalled.cs" />
