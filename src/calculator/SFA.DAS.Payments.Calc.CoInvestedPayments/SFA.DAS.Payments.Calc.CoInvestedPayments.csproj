@@ -70,6 +70,9 @@
     <Compile Include="Application\Payments\Payment.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandHandler.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandRequest.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandResponse.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />

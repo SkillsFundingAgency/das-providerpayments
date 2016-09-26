@@ -54,8 +54,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
         private bool PaymentsAreSame(PaymentEntity entity, Payment payment)
         {
             return entity.CommitmentId == payment.CommitmentId
-                && entity.LearnerRefNumber == payment.LearnerRefNumber
-                && entity.AimSequenceNumber == payment.AimSequenceNumber
+                && entity.LearnRefNumber == payment.LearnerRefNumber
+                && entity.AimSeqNumber == payment.AimSequenceNumber
                 && entity.Ukprn == payment.Ukprn
                 && entity.DeliveryMonth == payment.DeliveryMonth
                 && entity.DeliveryYear == payment.DeliveryYear

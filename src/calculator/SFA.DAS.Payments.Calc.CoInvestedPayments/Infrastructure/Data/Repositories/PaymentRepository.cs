@@ -5,8 +5,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class PaymentRepository : DcfsRepository, IPaymentRepository
     {
-        private const string PaymentsDestination = "CoInvestedPayments.AddPayment";
-        private const string AddPaymentCommand = PaymentsDestination + " @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
+        private const string PaymentsDestination = "CoInvestedPayments.Payments";
+        private const string PaymentsAddStoredProcedure = "CoInvestedPayments.AddPayment";
+        private const string AddPaymentCommand = PaymentsAddStoredProcedure + " @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
 
         public PaymentRepository(string connectionString) 
             : base(connectionString)
@@ -14,7 +15,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
         }
         public void AddPayments(PaymentEntity[] payments)
         {
-            ExecuteBatch(payments, AddPaymentCommand);
+            ExecuteBatch(payments, PaymentsDestination);
         }
 
         public void AddPayment(PaymentEntity payment)
@@ -22,8 +23,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
             Execute(AddPaymentCommand, new
             {
                 CommitmentId = payment.CommitmentId,
-                LearnRefNumber = payment.LearnerRefNumber,
-                AimSeqNumber = payment.AimSequenceNumber,
+                LearnRefNumber = payment.LearnRefNumber,
+                AimSeqNumber = payment.AimSeqNumber,
                 Ukprn = payment.Ukprn,
                 DeliveryMonth = payment.DeliveryMonth,
                 DeliveryYear = payment.DeliveryYear,

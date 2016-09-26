@@ -4,7 +4,6 @@ using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using StructureMap;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution

@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools

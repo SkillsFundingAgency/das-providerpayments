@@ -2,10 +2,8 @@
 {
     public class PaymentEntity
     {
-        public string Id { get; set; }
-
-        public string LearnerRefNumber { get; set; }
-        public int AimSequenceNumber { get; set; }
+        public string LearnRefNumber { get; set; }
+        public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }
 
         public string CommitmentId { get; set; }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentCommand;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentsCommand;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers;
@@ -48,7 +49,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         }
                     }
                 });
-
 
             _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
                 new GetPaymentsDueForUkprnQueryResponse
@@ -175,6 +175,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         }
                     }
                 });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
         }
 
         [Test]
@@ -183,11 +189,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             Act();
 
             _mediator.Verify(
-                m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.Ukprn == 1
-                        )),
-                Times.Exactly(26));
+               m => m.Send(
+                   It.Is<ProcessPaymentsCommandRequest>(
+                       it => it.Payments.Count(p => p.Ukprn == 1) == 26
+                       )),
+               Times.Once);
         }
         [Test]
         public void ThenResultShouldBe_()
@@ -196,31 +202,31 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 830.76923m
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == 830.76923m) == 12
                         )),
-                Times.Exactly(12));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 92.30769m
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == 92.30769m) == 12
                         )),
-                Times.Exactly(12));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 3530.76923m
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == 3530.76923m) == 1
                         )),
-                Times.Exactly(1));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 392.30769m
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == 392.30769m) == 1
                         )),
-                Times.Exactly(1));
+                Times.Once);
         }
 
         private void Act()
@@ -387,6 +393,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         }
                     }
                 });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
         }
 
         [Test]
@@ -395,11 +407,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             Act();
 
             _mediator.Verify(
-                m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.Ukprn == 1
-                        )),
-                Times.Exactly(26));
+               m => m.Send(
+                   It.Is<ProcessPaymentsCommandRequest>(
+                       it => it.Payments.Count(p => p.Ukprn == 1) == 26
+                       )),
+               Times.Once);
         }
         [Test]
         public void ThenResultShouldBe_()
@@ -408,31 +420,31 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 900
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == 900) == 12
                         )),
-                Times.Exactly(12));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 100
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == 100) == 12
                         )),
-                Times.Exactly(12));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedSfa && it.Payment.Amount == 2700
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == 2700) == 1
                         )),
-                Times.Exactly(1));
+                Times.Once);
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.FundingSource == FundingSource.CoInvestedEmployer && it.Payment.Amount == 300
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == 300) == 1
                         )),
-                Times.Exactly(1));
+                Times.Once);
         }
         private void Act()
         {
@@ -469,6 +481,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         new Provider()
                     }
                 });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
         }
 
         [TestCase(TransactionType.Completion)]
@@ -501,10 +519,10 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.TransactionType == _paymentDue.TransactionType
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.TransactionType == _paymentDue.TransactionType) == 2
                         )),
-                Times.Exactly(2));
+                Times.Once);
         }
 
         private void Act()
@@ -568,45 +586,50 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         _paymentDue
                     }
                 });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
         }
 
         [Test]
-        public void ShouldCallProcessPaymentCommandTwice()
+        public void ShouldCallProcessPaymentsCommandOnce()
         {
             Act();
 
-            _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Exactly(2));
+            _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>()), Times.Once);
         }
         [TestCase(FundingSource.CoInvestedSfa, 9000)]
         [TestCase(FundingSource.CoInvestedEmployer, 1000)]
-        public void ShouldCallProcessPaymentCommandWithCoInvestedFundingSourceOf_AndValueOf_(FundingSource fundingSource, decimal paymentAmount)
+        public void ShouldCallProcessPaymentsCommandWithCoInvestedFundingSourceOf_AndValueOf_(FundingSource fundingSource, decimal paymentAmount)
         {
             Act();
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(it => it.Payment.FundingSource == fundingSource && it.Payment.Amount == paymentAmount)),
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == fundingSource && p.Amount == paymentAmount) == 1)),
                 Times.Once);
         }
         [Test]
-        public void ShouldCallProcessPaymentCommandWithCoInvestedGeneralPropertiesTwice()
+        public void ShouldCallProcessPaymentsCommandWithCoInvestedGeneralPropertiesOnTwoPayments()
         {
             Act();
 
             _mediator.Verify(
                 m => m.Send(
-                    It.Is<ProcessPaymentCommandRequest>(
-                        it => it.Payment.AimSequenceNumber == _paymentDue.AimSequenceNumber &&
-                        it.Payment.CollectionPeriodMonth == _period.Month &&
-                        it.Payment.CollectionPeriodYear == _period.Year &&
-                        it.Payment.DeliveryMonth == _paymentDue.DeliveryMonth &&
-                        it.Payment.DeliveryYear == _paymentDue.DeliveryYear &&
-                        it.Payment.Ukprn == _paymentDue.Ukprn &&
-                        it.Payment.CommitmentId == _paymentDue.CommitmentId &&
-                        it.Payment.LearnerRefNumber == _paymentDue.LearnerRefNumber &&
-                        it.Payment.TransactionType == _paymentDue.TransactionType
-                        )),
-                Times.Exactly(2));
+                    It.Is<ProcessPaymentsCommandRequest>(
+                        it => it.Payments.Count(p => p.AimSequenceNumber == _paymentDue.AimSequenceNumber &&
+                                                     p.CollectionPeriodMonth == _period.Month &&
+                                                     p.CollectionPeriodYear == _period.Year &&
+                                                     p.DeliveryMonth == _paymentDue.DeliveryMonth &&
+                                                     p.DeliveryYear == _paymentDue.DeliveryYear &&
+                                                     p.Ukprn == _paymentDue.Ukprn &&
+                                                     p.CommitmentId == _paymentDue.CommitmentId &&
+                                                     p.LearnerRefNumber == _paymentDue.LearnerRefNumber &&
+                                                     p.TransactionType == _paymentDue.TransactionType) == 2)),
+                Times.Once);
         }
 
         [Test]
@@ -1085,6 +1108,108 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _logger.Verify(l => l.Info(It.IsAny<string>()), Times.Once);
             _logger.Verify(l => l.Info(It.IsRegex("Started")), Times.Once);
+        }
+    }
+    public class WhenProcessCalledWithInvalidProcessPaymentsCommand
+    {
+        private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
+        private Mock<ILogger> _logger;
+        private Mock<IMediator> _mediator;
+
+        [SetUp]
+        public void Arrange()
+        {
+            _logger = new Mock<ILogger>();
+            _mediator = new Mock<IMediator>();
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
+                new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod()
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>())).Returns(
+                new GetProvidersQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new Provider()
+                    }
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
+                new GetPaymentsDueForUkprnQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new PaymentDue
+                        {
+                            CommitmentId = "1",
+                            AimSequenceNumber = 2,
+                            DeliveryMonth = 3,
+                            DeliveryYear = 4,
+                            LearnerRefNumber = "5",
+                            Ukprn = 6,
+                            TransactionType = TransactionType.Learning,
+                            AmountDue = 10000
+                        }
+                    }
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = false
+                });
+        }
+
+        [Test]
+        public void ShouldThrowExceptionWithSpecificMessage()
+        {
+            var ex = Assert.Throws<CoInvestedPaymentsProcessorException>(Act);
+            Assert.That(ex.Message, Is.EqualTo(CoInvestedPaymentsProcessorException.ErrorWritingPaymentsForUkprn));
+        }
+
+        [Test]
+        public void ThenShouldMakeProcessPaymentsCommandRequest()
+        {
+            try
+            {
+                Act();
+            }
+            catch (Exception)
+            {
+            }
+
+            _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>()), Times.Once);
+        }
+
+        [Test]
+        public void ThenOutputsLogMessageThatStartedOnly()
+        {
+            try
+            {
+                Act();
+            }
+            catch (Exception)
+            {
+            }
+
+            _logger.Verify(l => l.Info(It.IsRegex("Started")), Times.Once);
+            _logger.Verify(l => l.Info(It.IsRegex("Processing co-invested payments for provider with ukprn")), Times.Once);
+            _logger.Verify(l => l.Info(It.IsRegex("learner co-invested payment entries for provider with ukprn")), Times.Once);
+            _logger.Verify(l => l.Info(It.IsAny<string>()), Times.Exactly(5));
+
+            _logger.Verify(l => l.Info(It.IsRegex("No payments due for found for provider with ukprn")), Times.Never);
+        }
+
+        private void Act()
+        {
+            _processor.Process();
         }
     }
 }

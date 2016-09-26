@@ -8,7 +8,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         public const string ErrorNoCollectionPeriodMessage = "Could not find the current collection period.";
         public const string ErrorReadingProviders = "Error while reading the providers";
         public const string ErrorReadingProviderEarnings = "Error while reading the provider earnings";
-        public const string ErrorReadingPaymentsDueForUkprn = "Error while reading payments due for UKPRN";
+        public const string ErrorReadingPaymentsDueForUkprn = "Error while reading payments due for UKPRN.";
+        public const string ErrorWritingPaymentsForUkprn = "Error while writing co-invested payments for UKPRN.";
 
         public CoInvestedPaymentsProcessorException(string message)
             : base(message)

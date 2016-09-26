@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentCommand;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentsCommand;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
@@ -63,7 +64,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                         AddCoInvestedPaymentsForLearner(learnerLevelPaymentsForProvider, collectionPeriod, paymentDue);
                     }
 
-                    WriteCoInvestedPaymentsForProvider(provider.Ukprn, learnerLevelPaymentsForProvider);
+                    WriteCoInvestedPaymentsForProviderOrThrow(provider.Ukprn, learnerLevelPaymentsForProvider);
                 }
             }
             else
@@ -100,19 +101,20 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             return providersQueryResponse;
         }
 
-        private void WriteCoInvestedPaymentsForProvider(long ukprn, IReadOnlyCollection<Payment> payments)
+        private void WriteCoInvestedPaymentsForProviderOrThrow(long ukprn, IReadOnlyCollection<Payment> payments)
         {
             _logger.Info($"Writing {payments.Count} learner co-invested payment entries for provider with ukprn {ukprn}.");
 
-            foreach (var payment in payments)
-            {
-                _mediator.Send(
-                    new ProcessPaymentCommandRequest
-                    {
-                        Payment = payment
-                    });
-            }
+            var writeCommandResult = _mediator.Send(
+                new ProcessPaymentsCommandRequest
+                {
+                    Payments = payments.ToArray()
+                });
 
+            if (!writeCommandResult.IsValid)
+            {
+                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorWritingPaymentsForUkprn, writeCommandResult.Exception);
+            }
         }
 
         private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
