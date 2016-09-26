@@ -41,6 +41,10 @@
       <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.7\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -55,13 +59,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\FundingSource.cs" />
+    <Compile Include="Application\QueryResponse.cs" />
+    <Compile Include="Application\Response.cs" />
+    <Compile Include="Application\TransactionType.cs" />
     <Compile Include="Context\ContextPropertyKeys.cs" />
     <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="Context\InvalidContextException.cs" />
     <Compile Include="DcfsTask.cs" />
+    <Compile Include="Infrastructure\Data\CollectionPeriodEntity.cs" />
+    <Compile Include="Infrastructure\Data\CollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\DcfsRepository.cs" />
+    <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
+    <Compile Include="Interfaces\IDateTimeProvider.cs" />
     <Compile Include="Logging\LoggingConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\DateTimeProvider.cs" />
     <Compile Include="Tools\Extensions\DateTimeDayOfMonthExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

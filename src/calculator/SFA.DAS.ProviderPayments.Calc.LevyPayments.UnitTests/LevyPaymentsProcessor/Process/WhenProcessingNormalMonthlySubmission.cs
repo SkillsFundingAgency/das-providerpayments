@@ -2,6 +2,7 @@
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
@@ -217,7 +218,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
         }
 
-        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource source, decimal amount)
+        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource fundingSource, decimal amount)
         {
             return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
                                                          && r.Payment.LearnerRefNumber == "Lrn-001"
@@ -227,7 +228,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                                                          && r.Payment.DeliveryYear == 2015
                                                          && r.Payment.CollectionPeriodMonth == 9
                                                          && r.Payment.CollectionPeriodYear == 2016
-                                                         && r.Payment.Source == source
+                                                         && r.Payment.FundingSource == fundingSource
                                                          && r.Payment.TransactionType == TransactionType.Learning
                                                          && r.Payment.Amount == amount);
         }

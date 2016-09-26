@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MediatR;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
@@ -147,7 +148,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                         DeliveryYear = paymentDue.DeliveryYear,
                         CollectionPeriodMonth = period.Month,
                         CollectionPeriodYear = period.Year,
-                        Source = FundingSource.Levy,
+                        FundingSource = FundingSource.Levy,
                         TransactionType = paymentDue.TransactionType,
                         Amount = levyAllocation
                     }

@@ -1,4 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
+﻿using SFA.DAS.ProviderPayments.Calc.Common.Application;
+
+namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
 {
     public class PaymentDue
     {

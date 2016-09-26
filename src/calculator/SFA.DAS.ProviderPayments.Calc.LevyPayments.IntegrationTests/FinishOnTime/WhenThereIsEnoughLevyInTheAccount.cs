@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTime
@@ -66,7 +66,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(1, paymentsMade.Length);
 
-            Assert.AreEqual((int)FundingSource.Levy, paymentsMade[0].Source);
+            Assert.AreEqual((int)FundingSource.Levy, paymentsMade[0].FundingSource);
             Assert.AreEqual((int)transactionType, paymentsMade[0].TransactionType);
             Assert.AreEqual(amountDue, paymentsMade[0].Amount);
         }
@@ -95,8 +95,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(2, paymentsMade.Length);
 
-            Assert.AreEqual(1, paymentsMade.Count(p => p.Source == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == 575.00m));
-            Assert.AreEqual(1, paymentsMade.Count(p => p.Source == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == 1725.00m));
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == 575.00m));
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == 1725.00m));
         }
     }
 }

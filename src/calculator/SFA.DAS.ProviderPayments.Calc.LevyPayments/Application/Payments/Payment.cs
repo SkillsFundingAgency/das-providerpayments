@@ -1,4 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
+﻿using SFA.DAS.ProviderPayments.Calc.Common.Application;
+
+namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
 {
     public class Payment
     {
@@ -15,7 +17,7 @@
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
 
-        public FundingSource Source { get; set; }
+        public FundingSource FundingSource { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal Amount { get; set; }
     }
