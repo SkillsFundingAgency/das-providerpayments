@@ -94,9 +94,6 @@
     <Compile Include="Infrastructure\Data\Repositories\PaymentDueRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\EarningRepository.cs" />
-    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
-    <Compile Include="Infrastructure\Data\IEarningRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
