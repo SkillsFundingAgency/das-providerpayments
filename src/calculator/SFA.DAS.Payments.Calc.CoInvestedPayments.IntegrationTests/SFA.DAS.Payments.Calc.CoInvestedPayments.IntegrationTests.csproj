@@ -103,6 +103,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql">
+      <Link>DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql">
+      <Link>DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql">
+      <Link>DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.views.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -116,15 +128,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DML.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\Summarisation.Transient.CoInvestedPayments.DDL.views.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Summarisation.Transient.PaymentsDue.DDL.tables.sql">

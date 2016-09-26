@@ -63,10 +63,6 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
-    <Compile Include="Application\Earnings\Earning.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryHandler.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryRequest.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryResponse.cs" />
