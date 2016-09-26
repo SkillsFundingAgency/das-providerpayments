@@ -24,9 +24,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         protected override void Execute(ContextWrapper context)
         {
-            _dependencyResolver.Init(typeof(PaymentsDueProcessor), context);
+            _dependencyResolver.Init(typeof(PaymentsDuePassThroughProcessor), context);
 
-            var processor = _dependencyResolver.GetInstance<PaymentsDueProcessor>();
+            var processor = _dependencyResolver.GetInstance<PaymentsDuePassThroughProcessor>();
 
             processor.Process();
         }
