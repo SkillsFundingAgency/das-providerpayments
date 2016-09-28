@@ -5,26 +5,6 @@ END
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- TaskLog
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='TaskLog' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
-BEGIN
-	DROP TABLE PaymentsDue.TaskLog
-END
-GO
-
-CREATE TABLE PaymentsDue.TaskLog
-(
-	[TaskLogId] uniqueidentifier NOT NULL DEFAULT(NEWID()),
-	[DateTime] datetime NOT NULL DEFAULT(GETDATE()),
-	[Level] nvarchar(10) NOT NULL,
-	[Logger] nvarchar(512) NOT NULL,
-	[Message] nvarchar(1024) NOT NULL,
-	[Exception] nvarchar(max) NULL
-)
-GO
-
------------------------------------------------------------------------------------------------------------------------------------------------
 -- RequiredPayments
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='RequiredPayments' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
@@ -42,6 +22,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	Ukprn bigint,
 	DeliveryMonth int,
 	DeliveryYear int,
+	CollectionPeriodMonth int NOT NULL,
+	CollectionPeriodYear int NOT NULL,
 	TransactionType int,
 	AmountDue decimal(15,5)
 )

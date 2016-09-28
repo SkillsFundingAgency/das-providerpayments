@@ -1,7 +1,11 @@
-﻿namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities
+﻿using System;
+
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities
 {
     public class PaymentEntity
     {
+        public Guid RequiredPaymentId { get; set; }
+
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }

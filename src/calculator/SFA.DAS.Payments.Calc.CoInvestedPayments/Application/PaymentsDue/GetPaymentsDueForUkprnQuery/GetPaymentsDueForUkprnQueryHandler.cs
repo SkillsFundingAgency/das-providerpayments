@@ -28,6 +28,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPa
                         ? null
                         : paymentsDue.Select(p => new PaymentDue
                         {
+                            Id = p.Id,
                             CommitmentId = p.CommitmentId,
                             LearnerRefNumber = p.LearnRefNumber,
                             AimSequenceNumber = p.AimSeqNumber,

@@ -130,6 +130,9 @@
     <Content Include="DbSetupScripts\Summarisation.Deds.DML.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\Summarisation.Transient.LevyPayments.DDL.tables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\Summarisation.Transient.PaymentsDue.DDL.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

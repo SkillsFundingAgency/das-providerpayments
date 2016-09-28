@@ -77,6 +77,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
+                  + "NEWID(), "
                   + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
@@ -106,6 +107,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
+                  + "NEWID(), "
                   + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
@@ -132,6 +134,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
+                  + "NEWID(), "
                   + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
