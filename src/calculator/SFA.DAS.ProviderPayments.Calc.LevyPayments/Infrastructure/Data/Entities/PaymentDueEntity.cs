@@ -1,7 +1,10 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities
+﻿using System;
+
+namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities
 {
     public class PaymentDueEntity
     {
+        public Guid Id { get; set; }
         public string CommitmentId { get; set; }
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }

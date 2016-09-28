@@ -35,6 +35,7 @@ GO
 
 CREATE TABLE PaymentsDue.RequiredPayments
 (
+	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 	CommitmentId varchar(50),
 	LearnRefNumber varchar(12),
 	AimSeqNumber int,
@@ -42,6 +43,5 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	DeliveryMonth int,
 	DeliveryYear int,
 	TransactionType int,
-	AmountDue decimal(15,5),
-	CONSTRAINT [PK_RequiredPayments] PRIMARY KEY (LearnRefNumber, AimSeqNumber, Ukprn, DeliveryMonth, DeliveryYear, TransactionType)
+	AmountDue decimal(15,5)
 )
