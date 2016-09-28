@@ -5,16 +5,17 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
 {
     public class PaymentDueRepository : DcfsRepository, IPaymentDueRepository
     {
-        private const string DuePaymentsSource = "PaymentsDue.RequiredPayments";
+        private const string DuePaymentsSource = "CoInvestedPayments.vw_RequiredPayments";
 
-        private const string DuePaymentsColumns = "CommitmentId," +
-                                                       "LearnRefNumber," +
-                                                       "AimSeqNumber," +
-                                                       "Ukprn," +
-                                                       "DeliveryMonth," +
-                                                       "DeliveryYear," +
-                                                       "TransactionType," +
-                                                       "AmountDue";
+        private const string DuePaymentsColumns = "Id," +
+                                                  "CommitmentId," +
+                                                  "LearnRefNumber," +
+                                                  "AimSeqNumber," +
+                                                  "Ukprn," +
+                                                  "DeliveryMonth," +
+                                                  "DeliveryYear," +
+                                                  "TransactionType," +
+                                                  "AmountDue";
         private const string SelectDuePayments = "SELECT " + DuePaymentsColumns + " FROM " + DuePaymentsSource;
         private const string SelectDuePaymentsByUkprn = SelectDuePayments + " WHERE Ukprn = @Ukprn";
 

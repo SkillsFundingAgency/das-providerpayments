@@ -13,6 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{D9A85E13-1B19-4529-9E7A-F0369E392B2D}"
 	ProjectSection(SolutionItems) = preProject
+		DeployLevyPayments\sql\ddl\Summarisation.Deds.LevyPayments.DDL.tables.sql = DeployLevyPayments\sql\ddl\Summarisation.Deds.LevyPayments.DDL.tables.sql
 		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql
 		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql
 		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql
@@ -40,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7658EC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80F-4BBB-8188-E51C50FAFE67}"
 	ProjectSection(SolutionItems) = preProject
+		DeployPaymentsDue\sql\ddl\Summarisation.Deds.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\Summarisation.Deds.PaymentsDue.DDL.tables.sql
 		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql
 		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql
 	EndProjectSection
@@ -60,6 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{52AE74DC-AD2F-4B38-8988-94450FA6137C}"
 	ProjectSection(SolutionItems) = preProject
+		DeployCoInvestedPayments\sql\ddl\Summarisation.Deds.CoInvestedPayments.DDL.tables.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Deds.CoInvestedPayments.DDL.tables.sql
 		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql
 		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql
 		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql

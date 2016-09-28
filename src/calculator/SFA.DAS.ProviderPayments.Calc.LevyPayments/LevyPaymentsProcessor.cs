@@ -140,6 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 {
                     Payment = new Payment
                     {
+                        RequiredPaymentId = paymentDue.Id,
                         CommitmentId = commitment.Id,
                         LearnerRefNumber = paymentDue.LearnerRefNumber,
                         AimSequenceNumber = paymentDue.AimSequenceNumber,

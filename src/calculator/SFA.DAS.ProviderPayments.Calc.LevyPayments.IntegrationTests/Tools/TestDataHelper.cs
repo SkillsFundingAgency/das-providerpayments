@@ -75,6 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
+                  + "NEWID(), "
                   + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "

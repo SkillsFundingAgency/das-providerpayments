@@ -1,9 +1,11 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common.Application;
+﻿using System;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue
 {
     public class PaymentDue
     {
+        public Guid Id { get; set; }
         public string CommitmentId { get; set; }
         public string LearnerRefNumber { get; set; }
         public int AimSequenceNumber { get; set; }

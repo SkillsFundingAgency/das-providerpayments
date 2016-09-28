@@ -122,6 +122,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             payments.Add(
                 new Payment
                 {
+                    RequiredPaymentId = paymentDue.Id,
                     CommitmentId = paymentDue.CommitmentId,
                     LearnerRefNumber = paymentDue.LearnerRefNumber,
                     AimSequenceNumber = paymentDue.AimSequenceNumber,
@@ -139,6 +140,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             payments.Add(
                 new Payment
                 {
+                    RequiredPaymentId = paymentDue.Id,
                     CommitmentId = paymentDue.CommitmentId,
                     LearnerRefNumber = paymentDue.LearnerRefNumber,
                     AimSequenceNumber = paymentDue.AimSequenceNumber,

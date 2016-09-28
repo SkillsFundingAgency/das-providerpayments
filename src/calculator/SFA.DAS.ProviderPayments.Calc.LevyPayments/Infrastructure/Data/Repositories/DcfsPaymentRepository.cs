@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
 {
     public class DcfsPaymentRepository : DcfsRepository, IPaymentRepository
     {
-        private const string AddPaymentCommand = "LevyPayments.AddPayment @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
+        private const string AddPaymentCommand = "LevyPayments.AddPayment @RequiredPaymentId, @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount";
 
         public DcfsPaymentRepository(string connectionString) 
             : base(connectionString)
@@ -16,6 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         {
             Execute(AddPaymentCommand, new
             {
+                RequiredPaymentId = payment.RequiredPaymentId,
                 CommitmentId = payment.CommitmentId,
                 LearnRefNumber = payment.LearnerRefNumber,
                 AimSeqNumber = payment.AimSequenceNumber,
