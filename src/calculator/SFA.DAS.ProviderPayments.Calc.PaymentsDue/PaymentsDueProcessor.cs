@@ -75,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                     foreach (var earning in providerEarnings.Items)
                     {
-                        if (ShouldAddDuePayment(collectionPeriod.Period, earning))
+                        if (ShouldAddPaymentDue(collectionPeriod.Period, earning))
                         {
                             var isComplete = earning.LearningActualEndDate.HasValue;
                             var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
@@ -111,12 +111,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info("Finished Payments Due Processor.");
         }
 
-        private bool ShouldAddDuePayment(CollectionPeriod period, Earning earning)
+        private bool ShouldAddPaymentDue(CollectionPeriod period, Earning earning)
+        {
+            return SummarisationPeriodIsAfterLearningStartDate(period, earning.LearningStartDate) &&
+                   SummarisationPeriodIsBeforeLearningEndDate(period, earning.LearningPlannedEndDate);
+        }
+
+        private bool SummarisationPeriodIsAfterLearningStartDate(CollectionPeriod period, DateTime learningStartDate)
         {
             var periodDate = new DateTime(period.Year, period.Month, 1).LastDayOfMonth();
 
-            return earning.LearningStartDate <= periodDate &&
-                periodDate <= earning.LearningPlannedEndDate;
+            return learningStartDate <= periodDate;
+        }
+
+        private bool SummarisationPeriodIsBeforeLearningEndDate(CollectionPeriod period, DateTime learningEndDate)
+        {
+            var periodDate = new DateTime(period.Year, period.Month, 1);
+
+            return periodDate <= learningEndDate;
         }
 
         private bool HasCompletedOnCensusDate(Earning earning)
