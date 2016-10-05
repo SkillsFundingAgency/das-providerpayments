@@ -10,17 +10,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
     {
         private static readonly Random Random = new Random();
 
-        internal static void AddProvider(long ukprn)
+        internal static long AddProvider(long ukprn)
         {
             Execute("INSERT INTO Valid.LearningProvider" +
                     "(UKPRN) " +
                     "VALUES " +
                     "(@ukprn)",
                 new {ukprn});
+
+            return ukprn;
         }
 
         internal static void AddCommitment(string id,
-                                           long ukprn = 10007459,
+                                           long ukprn,
                                            long uln = 0L,
                                            DateTime startDate = default(DateTime),
                                            DateTime endDate = default(DateTime),
@@ -97,6 +99,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate });
+
+            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+                  + "SELECT "
+                  + "Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "CASE WHEN @numberOfPeriods >= 1 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 1 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 2 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 2 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 3 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 3 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 4 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 4 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 5 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 5 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 6 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 6 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 7 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 7 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 8 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 8 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 9 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 9 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 10 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 10 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 11 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 11 THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN @numberOfPeriods >= 12 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 12 THEN AgreedCost * 0.2 ELSE 0 END "
+                  + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods });
+        }
+
+        internal static void SetOpenCollection(int periodNumber)
+        {
+            Execute("UPDATE Collection_Period_Mapping "
+                    + "SET Collection_Open = 0");
+
+            Execute("UPDATE Collection_Period_Mapping "
+                    + "SET Collection_Open = 1"
+                    + $"WHERE Collection_Period = 'R{periodNumber:00}'");
         }
 
 

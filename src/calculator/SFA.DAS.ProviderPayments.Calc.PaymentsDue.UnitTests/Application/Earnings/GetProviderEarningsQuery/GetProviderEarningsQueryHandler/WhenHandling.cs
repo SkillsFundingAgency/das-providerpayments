@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -11,20 +13,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
     {
         private const long Ukprn = 10007459;
 
-        private static readonly EarningEntity[] EarningEntities = {
+        private readonly EarningEntity[] EarningEntities = {
             new EarningEntity
             {
                 CommitmentId = "C-001",
                 LearnerRefNumber = "Lrn-001",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
-                LearningStartDate = new DateTime(2016, 8, 1),
-                LearningPlannedEndDate = new DateTime(2017, 7, 31),
-                LearningActualEndDate = null,
                 MonthlyInstallment = 1000.00m,
-                MonthlyInstallmentUncapped = 1000.00m,
                 CompletionPayment = 3000.00m,
-                CompletionPaymentUncapped = 3000.00m
+                Period1 = 1000m,
+                Period2 = 1000m,
+                Period3 = 1000m,
+                Period4 = 1000m,
+                Period5 = 1000m,
+                Period6 = 1000m,
+                Period7 = 1000m,
+                Period8 = 0,
+                Period9 = 0,
+                Period10 = 0,
+                Period11 = 0,
+                Period12 = 0
             },
             new EarningEntity
             {
@@ -32,20 +41,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 LearnerRefNumber = "Lrn-002",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
-                LearningStartDate = new DateTime(2016, 8, 1),
-                LearningPlannedEndDate = new DateTime(2017, 7, 31),
-                LearningActualEndDate = null,
                 MonthlyInstallment = 1000.00m,
-                MonthlyInstallmentUncapped = 1000.00m,
                 CompletionPayment = 3000.00m,
-                CompletionPaymentUncapped = 3000.00m
+                Period1 = 1000m,
+                Period2 = 1000m,
+                Period3 = 1000m,
+                Period4 = 1000m,
+                Period5 = 1000m,
+                Period6 = 1000m,
+                Period7 = 1000m,
+                Period8 = 1000m,
+                Period9 = 1000m,
+                Period10 = 0,
+                Period11 = 0,
+                Period12 = 0
             }
-        };
-
-        private static readonly object[] RepositoryResponses =
-        {
-            new object[] {EarningEntities},
-            new object[] {null}
         };
 
         private Mock<IEarningRepository> _repository;
@@ -57,68 +67,110 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         {
             _request = new GetProviderEarningsQueryRequest
             {
-                Ukprn = Ukprn
+                Ukprn = Ukprn,
+                AcademicYear = "1718"
             };
 
             _repository = new Mock<IEarningRepository>();
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(EarningEntities);
 
             _handler = new PaymentsDue.Application.Earnings.GetProviderEarningsQuery.GetProviderEarningsQueryHandler(_repository.Object);
         }
 
         [Test]
-        [TestCaseSource(nameof(RepositoryResponses))]
-        public void ThenValidGetProviderEarningsQueryResponseReturnedForValidRepositoryResponse(EarningEntity[] earnings)
+        public void ThenItShouldReturnAnEarningRowForEachPeriodThatHasAnEarning()
         {
-            // Arrange
-            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(earnings);
-
             // Act
-            var response = _handler.Handle(_request);
+            var actual = _handler.Handle(_request);
 
             // Assert
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.IsValid);
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.IsValid);
+            Assert.IsNotNull(actual.Items);
+            Assert.AreEqual(16, actual.Items.Length);
+
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 1 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 2 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 3 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 4 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 5 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 6 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 7 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-001"));
+
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 1 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 2 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 3 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 4 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 5 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 6 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 7 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 8 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
+            Assert.IsTrue(actual.Items.Any(e => e.CollectionPeriodNumber == 9 && e.CollectionAcademicYear == "1718" && e.CommitmentId == "C-002"));
         }
 
         [Test]
-        public void ThenEarningsShouldBeInTheGetProviderEarningsQueryResponse()
+        public void ThenItShouldReturnALearningAndACompletionEarningWhenBothOccurInAPeriod()
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(EarningEntities);
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = "C-001",
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        MonthlyInstallment = 1000.00m,
+                        CompletionPayment = 3000.00m,
+                        Period1 = 1000m,
+                        Period2 = 1000m,
+                        Period3 = 1000m,
+                        Period4 = 1000m,
+                        Period5 = 1000m,
+                        Period6 = 1000m,
+                        Period7 = 4000m,
+                        Period8 = 0,
+                        Period9 = 0,
+                        Period10 = 0,
+                        Period11 = 0,
+                        Period12 = 0
+                    }
+                });
 
             // Act
-            var response = _handler.Handle(_request);
+            var actual = _handler.Handle(_request);
 
             // Assert
-            Assert.IsNotNull(response?.Items);
-            Assert.AreEqual(EarningEntities[0].CommitmentId, response.Items[0].CommitmentId);
-            Assert.AreEqual(EarningEntities[0].LearnerRefNumber, response.Items[0].LearnerRefNumber);
-            Assert.AreEqual(EarningEntities[0].AimSequenceNumber, response.Items[0].AimSequenceNumber);
-            Assert.AreEqual(EarningEntities[0].Ukprn, response.Items[0].Ukprn);
-            Assert.AreEqual(EarningEntities[0].LearningStartDate, response.Items[0].LearningStartDate);
-            Assert.AreEqual(EarningEntities[0].LearningPlannedEndDate, response.Items[0].LearningPlannedEndDate);
-            Assert.AreEqual(EarningEntities[0].LearningActualEndDate, response.Items[0].LearningActualEndDate);
-            Assert.AreEqual(EarningEntities[0].MonthlyInstallment, response.Items[0].MonthlyInstallment);
-            Assert.AreEqual(EarningEntities[0].MonthlyInstallmentUncapped, response.Items[0].MonthlyInstallmentUncapped);
-            Assert.AreEqual(EarningEntities[0].CompletionPayment, response.Items[0].CompletionPayment);
-            Assert.AreEqual(EarningEntities[0].CompletionPaymentUncapped, response.Items[0].CompletionPaymentUncapped);
-            Assert.AreEqual(EarningEntities[1].CommitmentId, response.Items[1].CommitmentId);
-            Assert.AreEqual(EarningEntities[1].LearnerRefNumber, response.Items[1].LearnerRefNumber);
-            Assert.AreEqual(EarningEntities[1].AimSequenceNumber, response.Items[1].AimSequenceNumber);
-            Assert.AreEqual(EarningEntities[1].Ukprn, response.Items[1].Ukprn);
-            Assert.AreEqual(EarningEntities[1].LearningStartDate, response.Items[1].LearningStartDate);
-            Assert.AreEqual(EarningEntities[1].LearningPlannedEndDate, response.Items[1].LearningPlannedEndDate);
-            Assert.AreEqual(EarningEntities[1].LearningActualEndDate, response.Items[1].LearningActualEndDate);
-            Assert.AreEqual(EarningEntities[1].MonthlyInstallment, response.Items[1].MonthlyInstallment);
-            Assert.AreEqual(EarningEntities[1].MonthlyInstallmentUncapped, response.Items[1].MonthlyInstallmentUncapped);
-            Assert.AreEqual(EarningEntities[1].CompletionPayment, response.Items[1].CompletionPayment);
-            Assert.AreEqual(EarningEntities[1].CompletionPaymentUncapped, response.Items[1].CompletionPaymentUncapped);
+            var period7Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 7).OrderBy(e => (int)e.Type).ToArray();
+            Assert.AreEqual(2, period7Earnings.Length);
+
+            Assert.AreEqual(EarningEntities[0].MonthlyInstallment, period7Earnings[0].EarnedValue);
+            Assert.AreEqual(TransactionType.Learning, period7Earnings[0].Type);
+
+            Assert.AreEqual(EarningEntities[0].CompletionPayment, period7Earnings[1].EarnedValue);
+            Assert.AreEqual(TransactionType.Completion, period7Earnings[1].Type);
         }
 
         [Test]
-        public void ThenInvalidGetProviderEarningsQueryResponseReturnedForInvalidRepositoryResponse()
+        public void ThenItShouldReturnAResponseWithNoItemsIfNoEarningsInRepository()
+        {
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns<EarningEntity[]>(null);
+
+            // Act
+            var actual = _handler.Handle(_request);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.IsValid);
+            Assert.IsNotNull(actual.Items);
+            Assert.AreEqual(0, actual.Items.Length);
+        }
+
+        [Test]
+        public void ThenIsShouldReturnAnInvalidResponseWithErrorIfRepositoryThrowsException()
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))

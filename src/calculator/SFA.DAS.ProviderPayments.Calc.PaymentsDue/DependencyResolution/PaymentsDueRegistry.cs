@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using StructureMap;
@@ -10,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {
     public class PaymentsDueRegistry : Registry
     {
-        public PaymentsDueRegistry(Type taskType)
+        public PaymentsDueRegistry(Type taskType, ContextWrapper contextWrapper)
         {
             Scan(
                scan =>
@@ -19,6 +20,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 
                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
                });
+
+            For<ContextWrapper>().Use(contextWrapper);
 
             // TODO: Fix so can be registered with convention
             For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();

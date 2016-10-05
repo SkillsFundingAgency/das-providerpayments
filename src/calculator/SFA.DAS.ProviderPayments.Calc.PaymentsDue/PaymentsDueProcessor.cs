@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.Common.Tools.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
@@ -18,11 +20,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private readonly ContextWrapper _context;
 
-        public PaymentsDueProcessor(ILogger logger, IMediator mediator)
+        public PaymentsDueProcessor(ILogger logger, IMediator mediator, ContextWrapper context)
         {
             _logger = logger;
             _mediator = mediator;
+            _context = context;
         }
         protected PaymentsDueProcessor()
         {
@@ -56,51 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 foreach (var provider in providers.Items)
                 {
-                    _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-
-                    var providerDuePayments = new List<RequiredPayment>();
-
-                    var providerEarnings = _mediator.Send(new GetProviderEarningsQueryRequest {Ukprn = provider.Ukprn});
-
-                    if (!providerEarnings.IsValid)
-                    {
-                        throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage, providerEarnings.Exception);
-                    }
-
-                    if (providerEarnings.Items == null || !providerEarnings.Items.Any())
-                    {
-                        _logger.Info($"No earnings found for provider with ukprn {provider.Ukprn}.");
-                        continue;
-                    }
-
-                    foreach (var earning in providerEarnings.Items)
-                    {
-                        if (ShouldAddPaymentDue(collectionPeriod.Period, earning))
-                        {
-                            var isComplete = earning.LearningActualEndDate.HasValue;
-                            var isCompleteOnCensusDate = HasCompletedOnCensusDate(earning);
-
-                            if (!isComplete || isCompleteOnCensusDate)
-                            {
-                                providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.MonthlyInstallment, TransactionType.Learning));
-                            }
-                            if (isComplete)
-                            {
-                                providerDuePayments.Add(DuePayment(collectionPeriod.Period, earning, earning.CompletionPayment, TransactionType.Completion));
-                            }
-                        }
-                    }
-
-                    _logger.Info($"Writing {providerDuePayments.Count} due payments for provider with ukprn {provider.Ukprn}.");
-
-                    var writeRequiredPaymentsResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest {Payments = providerDuePayments.ToArray()});
-
-                    if (!writeRequiredPaymentsResponse.IsValid)
-                    {
-                        throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage, writeRequiredPaymentsResponse.Exception);
-                    }
-
-                    _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
+                    ProcessProvider(provider, collectionPeriod.Period);
                 }
             }
             else
@@ -111,11 +71,67 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info("Finished Payments Due Processor.");
         }
 
-        private bool ShouldAddPaymentDue(CollectionPeriod period, Earning earning)
+
+
+
+        private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
-            return SummarisationPeriodIsAfterLearningStartDate(period, earning.LearningStartDate) &&
-                   SummarisationPeriodIsBeforeLearningEndDate(period, earning.LearningPlannedEndDate);
+            _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
+
+            int period1Month = currentPeriod.Month - (currentPeriod.PeriodNumber - 1);
+            int period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
+            if (period1Month < 1)
+            {
+                period1Month = 12 - period1Month;
+            }
+
+            var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
+            {
+                Ukprn = provider.Ukprn,
+                Period1Month = period1Month,
+                Period1Year = period1Year,
+                AcademicYear = _context.GetPropertyValue(ContextPropertyKeys.YearOfCollection)
+            });
+            if (!earningResponse.IsValid)
+            {
+                throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage, earningResponse.Exception);
+            }
+
+            var paymentsDue = new List<RequiredPayment>();
+            foreach (var earning in earningResponse.Items)
+            {
+                if (earning.CalendarYear > currentPeriod.Year
+                    || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                {
+                    continue;
+                }
+
+                paymentsDue.Add(new RequiredPayment
+                {
+                    CommitmentId = earning.CommitmentId,
+                    Ukprn = earning.Ukprn,
+                    LearnerRefNumber = earning.LearnerReferenceNumber,
+                    AimSequenceNumber = earning.AimSequenceNumber,
+                    DeliveryMonth = earning.CalendarMonth,
+                    DeliveryYear = earning.CalendarYear,
+                    AmountDue = earning.EarnedValue,
+                    TransactionType = (TransactionType)(int)earning.Type
+                });
+            }
+
+            if (paymentsDue.Any())
+            {
+                var addPaymentsDueResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest { Payments = paymentsDue.ToArray() });
+                if (!addPaymentsDueResponse.IsValid)
+                {
+                    throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage, addPaymentsDueResponse.Exception);
+                }
+            }
+
+            _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
         }
+
+
 
         private bool SummarisationPeriodIsAfterLearningStartDate(CollectionPeriod period, DateTime learningStartDate)
         {
@@ -129,33 +145,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             var periodDate = new DateTime(period.Year, period.Month, 1);
 
             return periodDate <= learningEndDate;
-        }
-
-        private bool HasCompletedOnCensusDate(Earning earning)
-        {
-            if (!earning.LearningActualEndDate.HasValue)
-            {
-                return false;
-            }
-
-            return earning.LearningActualEndDate.Value == earning.LearningActualEndDate.Value.LastDayOfMonth();
-        }
-
-        private RequiredPayment DuePayment(CollectionPeriod period, Earning earning, decimal amount, TransactionType transactionType)
-        {
-            _logger.Info($"Scheduling a payment of {amount} for provider with ukprn {earning.Ukprn} to pay for {transactionType} on learner {earning.LearnerRefNumber} / {earning.AimSequenceNumber} in period {period.Month} / {period.Year}.");
-
-            return new RequiredPayment
-            {
-                CommitmentId = earning.CommitmentId,
-                LearnerRefNumber = earning.LearnerRefNumber,
-                AimSequenceNumber = earning.AimSequenceNumber,
-                Ukprn = earning.Ukprn,
-                DeliveryMonth = period.Month,
-                DeliveryYear = period.Year,
-                TransactionType = transactionType,
-                AmountDue = amount
-            };
         }
     }
 }

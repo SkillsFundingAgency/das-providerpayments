@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using CS.Common.External.Interfaces;
 using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
@@ -18,14 +21,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         private PaymentsDue.PaymentsDueProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private Mock<IExternalContext> _externalContext;
 
         [SetUp]
         public void Arrange()
         {
             _logger = new Mock<ILogger>();
+
             _mediator = new Mock<IMediator>();
 
-            _processor = new PaymentsDue.PaymentsDueProcessor(_logger.Object, _mediator.Object);
+            _externalContext = new Mock<IExternalContext>();
+            _externalContext.Setup(c => c.Properties)
+                .Returns(new Dictionary<string, string>
+                {
+                    { ContextPropertyKeys.TransientDatabaseConnectionString, "" },
+                    { ContextPropertyKeys.LogLevel, "DEBUG" },
+                    { ContextPropertyKeys.YearOfCollection, "1718" }
+                });
+
+            _processor = new PaymentsDue.PaymentsDueProcessor(_logger.Object, _mediator.Object, new ContextWrapper(_externalContext.Object));
 
             InitialMockSetup();
         }
@@ -37,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 .Returns(new GetCurrentCollectionPeriodQueryResponse
                 {
                     IsValid = true,
-                    Period = new CollectionPeriod {PeriodId = 1, Month = 9, Year = 2016}
+                    Period = new CollectionPeriod { PeriodId = 1, Month = 9, Year = 2017 }
                 });
 
             _mediator
@@ -45,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 .Returns(new GetProvidersQueryResponse
                 {
                     IsValid = true,
-                    Items = new[] {new Provider {Ukprn = 10007459}}
+                    Items = new[] { new Provider { Ukprn = 10007459 } }
                 });
 
             _mediator
@@ -55,19 +69,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     IsValid = true,
                     Items = new[]
                     {
-                        new Earning
+                        new PeriodEarning
                         {
-                            CommitmentId = "C-001",
-                            LearnerRefNumber = "Lrn-001",
+                            CommitmentId = "COMMITMENT-1",
+                            Ukprn = 1,
+                            LearnerReferenceNumber = "LEARNER-1",
                             AimSequenceNumber = 1,
-                            Ukprn = 10007459,
-                            LearningStartDate = new DateTime(2016, 8, 1),
-                            LearningPlannedEndDate = new DateTime(2017, 7, 31),
-                            LearningActualEndDate = new DateTime(2017, 7, 31),
-                            MonthlyInstallment = 1000.00m,
-                            MonthlyInstallmentUncapped = 1000.00m,
-                            CompletionPayment = 3000.00m,
-                            CompletionPaymentUncapped = 3000.00m
+                            CollectionPeriodNumber = 1,
+                            CollectionAcademicYear = "1718",
+                            CalendarMonth = 8,
+                            CalendarYear = 2017,
+                            EarnedValue = 1000m,
+                            Type = Common.Application.TransactionType.Learning
                         }
                     }
                 });

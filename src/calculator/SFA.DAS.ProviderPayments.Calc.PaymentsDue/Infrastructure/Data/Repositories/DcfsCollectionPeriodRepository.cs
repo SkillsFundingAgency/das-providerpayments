@@ -10,7 +10,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         private const string CollectionPeriodSource = "PaymentsDue.vw_CollectionPeriods";
         private const string CollectionPeriodColumns = "Period_ID [PeriodId]," +
                                               "Period [Month]," +
-                                              "Calendar_Year [Year]";
+                                              "Calendar_Year [Year]," +
+                                              "Collection_Period PeriodName";
         private const string SelectCollectionPeriods = "SELECT " + CollectionPeriodColumns + " FROM " + CollectionPeriodSource;
         private const string SelectOpenCollectionPeriod = SelectCollectionPeriods + " WHERE Collection_Open = @CollectionOpen";
 
