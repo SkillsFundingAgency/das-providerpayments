@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using NLog;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
-using SFA.DAS.ProviderPayments.Calc.Common.Tools.Extensions;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
@@ -91,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 Ukprn = provider.Ukprn,
                 Period1Month = period1Month,
                 Period1Year = period1Year,
-                AcademicYear = _context.GetPropertyValue(ContextPropertyKeys.YearOfCollection)
+                AcademicYear = _context.GetPropertyValue(Common.Context.ContextPropertyKeys.YearOfCollection)
             });
             if (!earningResponse.IsValid)
             {

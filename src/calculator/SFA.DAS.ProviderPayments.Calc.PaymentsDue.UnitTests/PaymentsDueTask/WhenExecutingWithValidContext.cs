@@ -2,6 +2,7 @@
 using CS.Common.External.Interfaces;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution;
 
@@ -35,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
             _task.Execute(_context.Object);
 
             // Assert
-            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(PaymentsDue.PaymentsDueProcessor)), It.IsAny<ContextWrapper>()), Times.Once);
+            _dependencyResolver.Verify(dr => dr.Init(It.Is<Type>(t=>t==typeof(PaymentsDue.PaymentsDueProcessor)), It.IsAny<Payments.DCFS.Context.ContextWrapper>()), Times.Once);
         }
 
         [Test]

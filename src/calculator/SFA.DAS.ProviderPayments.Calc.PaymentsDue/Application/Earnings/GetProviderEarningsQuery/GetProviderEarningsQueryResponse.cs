@@ -1,4 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common.Application;
+﻿using SFA.DAS.Payments.DCFS.Application;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery
 {

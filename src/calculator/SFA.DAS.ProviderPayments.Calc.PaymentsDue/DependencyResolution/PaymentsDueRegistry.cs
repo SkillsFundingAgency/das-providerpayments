@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 using NLog;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using StructureMap;
