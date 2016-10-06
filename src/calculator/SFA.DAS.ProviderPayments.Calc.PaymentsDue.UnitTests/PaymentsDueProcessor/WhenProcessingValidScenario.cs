@@ -15,6 +15,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -48,6 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             ArrangeCurrentCollectionPeriod();
             ArrangeProviders();
             ArrangeProviderEarnings();
+            ArrangePaymentHistory();
             _mediator.Setup(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()))
                 .Returns(new AddRequiredPaymentsCommandResponse { IsValid = true });
 
@@ -123,6 +125,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     }
                 });
         }
+        private void ArrangePaymentHistory()
+        {
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = true,
+                    Items = new RequiredPayment[0]
+                });
+        }
 
 
         [Test]
@@ -135,9 +146,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Length == 2)), Times.Once, "Expected only 2 payments");
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
-                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1)))), Times.Once, "Expected a payment for earning 1");
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1, _periodEarning1.EarnedValue)))), Times.Once, "Expected a payment for earning 1");
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
-                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2)))), Times.Once, "Expected a payment for earning 2");
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2, _periodEarning2.EarnedValue)))), Times.Once, "Expected a payment for earning 2");
         }
 
         [Test]
@@ -177,9 +188,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Length == 1)), Times.Once, "Expected only 1 payment");
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
-                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1)))), Times.Once, "Expected a payment for earning 1");
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1, _periodEarning1.EarnedValue)))), Times.Once, "Expected a payment for earning 1");
             _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
-                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2)))), Times.Never, "Expected not to have a payment for earning 2");
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2, _periodEarning2.EarnedValue)))), Times.Never, "Expected not to have a payment for earning 2");
         }
 
         [TestCase(1, 8, 2017, 8, 2017)]
@@ -204,11 +215,81 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             // Assert
             _mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == expectedPeriod1Month && r.Period1Year == expectedPeriod1Year)), Times.Once);
         }
-        
+
+        [Test]
+        public void ThenItShouldNotOuputPaymentsDueForEarningsThatHaveBeenFullyPaidInPreviousRuns()
+        {
+            // Arrange
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new RequiredPayment
+                        {
+                            CommitmentId = _periodEarning1.CommitmentId,
+                            Ukprn = _periodEarning1.Ukprn,
+                            LearnerRefNumber = _periodEarning1.LearnerReferenceNumber,
+                            AimSequenceNumber = _periodEarning1.AimSequenceNumber,
+                            DeliveryMonth = _periodEarning1.CalendarMonth,
+                            DeliveryYear = _periodEarning1.CalendarYear,
+                            AmountDue = _periodEarning1.EarnedValue
+                        }
+                    }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Length == 1)), Times.Once, "Expected only 1 payment");
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1, _periodEarning1.EarnedValue)))), Times.Never, "Expected no payment for earning 1");
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2, _periodEarning2.EarnedValue)))), Times.Once, "Expected a payment for earning 2");
+        }
+
+        [Test]
+        public void ThenItShouldOutputPartPaymentsDueForEarningsThatHavePaymentsThatDoNotCoverTheFullAmountInPreviousRuns()
+        {
+            // Arrange
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new RequiredPayment
+                        {
+                            CommitmentId = _periodEarning1.CommitmentId,
+                            Ukprn = _periodEarning1.Ukprn,
+                            LearnerRefNumber = _periodEarning1.LearnerReferenceNumber,
+                            AimSequenceNumber = _periodEarning1.AimSequenceNumber,
+                            DeliveryMonth = _periodEarning1.CalendarMonth,
+                            DeliveryYear = _periodEarning1.CalendarYear,
+                            AmountDue = _periodEarning1.EarnedValue - 100
+                        }
+                    }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Length == 2)), Times.Once, "Expected only 2 payments");
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning1, 100m)))), Times.Once, "Expected a payment for earning 1");
+            _mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2, _periodEarning2.EarnedValue)))), Times.Once, "Expected a payment for earning 2");
+        }
 
 
 
-        private bool PaymentForEarning(RequiredPayment payment, PeriodEarning earning)
+
+        private bool PaymentForEarning(RequiredPayment payment, PeriodEarning earning, decimal expectedAmountDue)
         {
             if (payment.CommitmentId != earning.CommitmentId
                 || payment.Ukprn != earning.Ukprn
@@ -216,7 +297,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 || payment.AimSequenceNumber != earning.AimSequenceNumber
                 || payment.DeliveryMonth != earning.CalendarMonth
                 || payment.DeliveryYear != earning.CalendarYear
-                || payment.AmountDue != earning.EarnedValue
+                || payment.AmountDue != expectedAmountDue
                 || (int)payment.TransactionType != (int)earning.Type)
             {
                 return false;

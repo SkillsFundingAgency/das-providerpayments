@@ -13,6 +13,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -82,7 +83,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             int period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
             if (period1Month < 1)
             {
-                period1Month = 12 - period1Month;
+                period1Month = period1Month + 12;
             }
 
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
@@ -97,6 +98,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage, earningResponse.Exception);
             }
 
+            var paymentHistory = new List<RequiredPayment>();
+            var commitmentIds = earningResponse.Items.Select(e => e.CommitmentId).Distinct().ToArray();
+            foreach (var commitmentId in commitmentIds)
+            {
+                var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
+                {
+                    Ukprn = provider.Ukprn,
+                    CommitmentId = commitmentId
+                });
+                if (!historyResponse.IsValid)
+                {
+                    throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
+                }
+                paymentHistory.AddRange(historyResponse.Items);
+            }
+
             var paymentsDue = new List<RequiredPayment>();
             foreach (var earning in earningResponse.Items)
             {
@@ -106,17 +123,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                paymentsDue.Add(new RequiredPayment
+                var amountEarned = earning.EarnedValue;
+                var alreadyPaid = paymentHistory
+                    .Where(p => p.CommitmentId == earning.CommitmentId && p.DeliveryMonth == earning.CalendarMonth && p.DeliveryYear == earning.CalendarYear)
+                    .Sum(p => p.AmountDue);
+                var amountDue = amountEarned - alreadyPaid;
+
+                if (amountDue > 0)
                 {
-                    CommitmentId = earning.CommitmentId,
-                    Ukprn = earning.Ukprn,
-                    LearnerRefNumber = earning.LearnerReferenceNumber,
-                    AimSequenceNumber = earning.AimSequenceNumber,
-                    DeliveryMonth = earning.CalendarMonth,
-                    DeliveryYear = earning.CalendarYear,
-                    AmountDue = earning.EarnedValue,
-                    TransactionType = (TransactionType)(int)earning.Type
-                });
+                    paymentsDue.Add(new RequiredPayment
+                    {
+                        CommitmentId = earning.CommitmentId,
+                        Ukprn = earning.Ukprn,
+                        LearnerRefNumber = earning.LearnerReferenceNumber,
+                        AimSequenceNumber = earning.AimSequenceNumber,
+                        DeliveryMonth = earning.CalendarMonth,
+                        DeliveryYear = earning.CalendarYear,
+                        AmountDue = amountDue,
+                        TransactionType = (TransactionType)(int)earning.Type
+                    });
+                }
             }
 
             if (paymentsDue.Any())

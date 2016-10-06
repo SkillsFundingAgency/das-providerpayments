@@ -67,6 +67,7 @@
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
+    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />

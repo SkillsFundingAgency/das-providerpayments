@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "(UKPRN) " +
                     "VALUES " +
                     "(@ukprn)",
-                new {ukprn});
+                new {ukprn}, false);
 
             return ukprn;
         }
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
                     "VALUES " +
                     "(@id, 'Ac-001', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
-                    new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode });
+                    new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
         }
 
         internal static void AddEarningForCommitment(string commitmentId,
@@ -98,7 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "AgreedCost * 0.2 "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate });
+                new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate }, false);
 
             Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
                   + "SELECT "
@@ -119,23 +119,43 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN @numberOfPeriods >= 12 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 12 THEN AgreedCost * 0.2 ELSE 0 END "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods });
+                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods }, false);
+        }
+
+        internal static void AddPaymentForCommitment(string commitmentId, int month, int year, int transactionType, decimal amount)
+        {
+            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+                  + "SELECT "
+                  + "NEWID(), "
+                  + "CommitmentId, "
+                  + "'', "
+                  + "0, "
+                  + "Ukprn, "
+                  + "@month, "
+                  + "@year, "
+                  + "@month, "
+                  + "@year, "
+                  + "@transactionType, "
+                  + "@amount "
+                  + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                  new { month, year, transactionType, amount, commitmentId }, false);
         }
 
         internal static void SetOpenCollection(int periodNumber)
         {
             Execute("UPDATE Collection_Period_Mapping "
-                    + "SET Collection_Open = 0");
+                    + "SET Collection_Open = 0", null, false);
 
             Execute("UPDATE Collection_Period_Mapping "
-                    + "SET Collection_Open = 1"
-                    + $"WHERE Collection_Period = 'R{periodNumber:00}'");
+                    + "SET Collection_Open = 1 "
+                    + $"WHERE Collection_Period = 'R{periodNumber:00}'", null, false);
         }
 
 
         internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn)
         {
-            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn", new { ukprn });
+            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
         }
 
         public static void Clean()
@@ -154,11 +174,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
                     EXEC sys.sp_executesql @SQL                
                 ");
+
+            Execute(@"
+                    DECLARE @SQL NVARCHAR(MAX) = ''
+
+                    SELECT @SQL = (
+                        SELECT 'TRUNCATE TABLE [' + s.name + '].[' + o.name + ']' + CHAR(13)
+                        FROM sys.objects o WITH (NOWAIT)
+                        JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
+                        WHERE o.[type] = 'U'
+                            AND s.name IN ('dbo', 'Valid', 'Rulebase', 'PaymentsDue')
+                            AND o.name NOT IN ('Collection_Period_Mapping')
+                        FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
+
+                    EXEC sys.sp_executesql @SQL                
+                ", null, false);
         }
 
-        private static void Execute(string command, object param = null)
+
+
+
+
+        private static void Execute(string command, object param = null, bool inTransient = true)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            var connectionString = inTransient
+                ? GlobalTestContext.Instance.TransientConnectionString
+                : GlobalTestContext.Instance.DedsConnectionString; 
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 try
@@ -174,7 +216,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
         private static T[] Query<T>(string command, object param = null)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
                 connection.Open();
                 try

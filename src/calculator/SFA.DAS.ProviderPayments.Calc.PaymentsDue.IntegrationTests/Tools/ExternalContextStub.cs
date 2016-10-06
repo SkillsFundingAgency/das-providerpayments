@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         {
             Properties = new Dictionary<string, string>
             {
-                {ContextPropertyKeys.TransientDatabaseConnectionString, GlobalTestContext.Instance.ConnectionString},
+                {ContextPropertyKeys.TransientDatabaseConnectionString, GlobalTestContext.Instance.TransientConnectionString},
                 {ContextPropertyKeys.LogLevel, "DEBUG"},
                 {ContextPropertyKeys.YearOfCollection, "1718"}
             };

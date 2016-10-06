@@ -71,6 +71,9 @@
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandRequest.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandResponse.cs" />
+    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler.cs" />
+    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryRequest.cs" />
+    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Application\RequiredPayments\TransactionType.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />

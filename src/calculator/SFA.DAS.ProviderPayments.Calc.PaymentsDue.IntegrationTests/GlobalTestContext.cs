@@ -6,13 +6,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
 {
     internal class GlobalTestContext
     {
-        private const string ConnectionStringKey = "TransientConnectionString";
+        private const string TransientConnectionStringKey = "TransientConnectionString";
+        private const string DedsConnectionStringKey = "DedsConnectionString";
 
         private GlobalTestContext()
         {
             try
             {
-                SetupConnectionString();
+                SetupConnectionStrings();
                 SetupDatabaseName();
                 SetupBracketedDatabaseName();
                 SetupAsseblyDirectory();
@@ -23,31 +24,38 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
             }
         }
 
-        public string ConnectionString { get; private set; }
+        public string TransientConnectionString { get; private set; }
+        public string DedsConnectionString { get; private set; }
         public string DatabaseName { get; private set; }
         public string BracketedDatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
 
 
 
-        private void SetupConnectionString()
+        private void SetupConnectionStrings()
         {
-            ConnectionString = Environment.GetEnvironmentVariable(ConnectionStringKey);
-            if (string.IsNullOrEmpty(ConnectionString))
+            TransientConnectionString = Environment.GetEnvironmentVariable(TransientConnectionStringKey);
+            if (string.IsNullOrEmpty(TransientConnectionString))
             {
-                ConnectionString = ConfigurationManager.AppSettings[ConnectionStringKey];
+                TransientConnectionString = ConfigurationManager.AppSettings[TransientConnectionStringKey];
+            }
+
+            DedsConnectionString = Environment.GetEnvironmentVariable(DedsConnectionStringKey);
+            if (string.IsNullOrEmpty(DedsConnectionString))
+            {
+                DedsConnectionString = ConfigurationManager.AppSettings[DedsConnectionStringKey];
             }
         }
         private void SetupDatabaseName()
         {
-            var match = Regex.Match(ConnectionString, @"database=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            var match = Regex.Match(DedsConnectionString, @"database=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 DatabaseName = match.Groups[1].Value;
                 return;
             }
 
-            match = Regex.Match(ConnectionString, @"initial catalog=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            match = Regex.Match(DedsConnectionString, @"initial catalog=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 DatabaseName = match.Groups[1].Value;

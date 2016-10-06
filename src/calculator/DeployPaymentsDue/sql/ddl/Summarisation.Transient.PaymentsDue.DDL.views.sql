@@ -86,3 +86,30 @@ SELECT
 	p.UKPRN
 FROM ${ILR_Current.FQ}.Valid.LearningProvider p
 GO
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_PaymentHistory
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PaymentHistory' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP VIEW PaymentsDue.vw_PaymentHistory
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_PaymentHistory
+AS
+SELECT
+	CommitmentId,
+	LearnRefNumber,
+	AimSeqNumber,
+	Ukprn,
+	DeliveryMonth,
+	DeliveryYear,
+	CollectionPeriodMonth,
+	CollectionPeriodYear,
+	AmountDue ,
+	TransactionType 
+FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
+GO

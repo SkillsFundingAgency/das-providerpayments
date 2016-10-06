@@ -12,7 +12,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -46,6 +48,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
 
         private void InitialMockSetup()
         {
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = true,
+                    Items = new RequiredPayment[0]
+                });
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
                 .Returns(new GetCurrentCollectionPeriodQueryResponse
@@ -152,6 +160,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             // Assert
             var ex = Assert.Throws<PaymentsDueProcessorException>(() => _processor.Process());
             Assert.IsTrue(ex.Message.Contains(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage));
+        }
+
+        [Test]
+        public void ThenExpectingExceptionForGetPaymentHistoryQueryFailure()
+        {
+            // Arrange
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = false,
+                    Exception = new Exception("Exception.")
+                });
+
+            // Assert
+            var ex = Assert.Throws<PaymentsDueProcessorException>(() => _processor.Process());
+            Assert.IsTrue(ex.Message.Contains(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage));
         }
 
         [Test]
