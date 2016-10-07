@@ -17,22 +17,28 @@ CREATE VIEW PaymentsDue.vw_CommitmentEarning
 AS
 SELECT
 	c.CommitmentId,
-	ld.LearnRefNumber,
-	ld.AimSeqNumber,
-	ld.Ukprn,
-	ld.Uln,
-	ld.StdCode,
-	ld.FworkCode,
-	ld.ProgType,
-	ld.PwayCode,
 	ld.MonthlyInstallment,
-	ld.MonthlyInstallmentUncapped,
 	ld.CompletionPayment,
-	ld.CompletionPaymentUncapped,
-	ld.LearnStartDate,
-	ld.LearnPlanEndDate,
-	ld.LearnActEndDate
+	pv.Ukprn,
+	pv.LearnRefNumber,
+	pv.AimSeqNumber,
+	pv.Period_1,
+	pv.Period_2,
+	pv.Period_3,
+	pv.Period_4,
+	pv.Period_5,
+	pv.Period_6,
+	pv.Period_7,
+	pv.Period_8,
+	pv.Period_9,
+	pv.Period_10,
+	pv.Period_11,
+	pv.Period_12
 FROM ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery ld
+INNER JOIN ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv
+	ON ld.Ukprn = pv.Ukprn
+	AND ld.LearnRefNumber = pv.LearnRefNumber
+	AND ld.AimSeqNumber = pv.AimSeqNumber
 INNER JOIN ${DAS_Commitments.FQ}.dbo.DasCommitments c
 	ON ld.Ukprn = c.Ukprn
 	AND ld.Uln = c.Uln
@@ -59,7 +65,8 @@ SELECT
 	cp.Period_ID,
 	cp.Period,
 	cp.Calendar_Year,
-	cp.Collection_Open
+	cp.Collection_Open,
+	cp.Collection_Period
 FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
 GO
 
@@ -78,4 +85,31 @@ AS
 SELECT
 	p.UKPRN
 FROM ${ILR_Current.FQ}.Valid.LearningProvider p
+GO
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_PaymentHistory
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PaymentHistory' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP VIEW PaymentsDue.vw_PaymentHistory
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_PaymentHistory
+AS
+SELECT
+	CommitmentId,
+	LearnRefNumber,
+	AimSeqNumber,
+	Ukprn,
+	DeliveryMonth,
+	DeliveryYear,
+	CollectionPeriodMonth,
+	CollectionPeriodYear,
+	AmountDue ,
+	TransactionType 
+FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
 GO

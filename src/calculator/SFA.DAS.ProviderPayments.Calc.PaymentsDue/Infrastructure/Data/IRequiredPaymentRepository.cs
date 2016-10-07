@@ -5,5 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data
     public interface IRequiredPaymentRepository
     {
         void AddRequiredPayments(RequiredPaymentEntity[] payments);
+
+        RequiredPaymentEntity[] GetPreviousPaymentsForCommitment(long ukprn, string commitmentId);
     }
 }

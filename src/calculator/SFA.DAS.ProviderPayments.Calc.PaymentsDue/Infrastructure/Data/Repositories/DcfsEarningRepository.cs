@@ -1,4 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
@@ -6,17 +6,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
     public class DcfsEarningRepository : DcfsRepository, IEarningRepository
     {
         private const string EarningSource = "PaymentsDue.vw_CommitmentEarning";
-        private const string EarningColumns = "CommitmentId," +
-                                              "LearnRefNumber [LearnerRefNumber]," +
-                                              "AimSeqNumber [AimSequenceNumber]," +
-                                              "Ukprn," +
-                                              "MonthlyInstallment," +
-                                              "MonthlyInstallmentUncapped," +
-                                              "CompletionPayment," +
-                                              "CompletionPaymentUncapped," +
-                                              "LearnStartDate [LearningStartDate]," +
-                                              "LearnPlanEndDate [LearningPlannedEndDate]," +
-                                              "LearnActEndDate [LearningActualEndDate]";
+        private const string EarningColumns = "CommitmentId, "
+                                            + "MonthlyInstallment, "
+                                            + "CompletionPayment, "
+                                            + "Ukprn, "
+                                            + "LearnRefNumber [LearnerRefNumber], "
+                                            + "AimSeqNumber [AimSequenceNumber], "
+                                            + "Period_1 [Period1], "
+                                            + "Period_2 [Period2], "
+                                            + "Period_3 [Period3], "
+                                            + "Period_4 [Period4], "
+                                            + "Period_5 [Period5], "
+                                            + "Period_6 [Period6], "
+                                            + "Period_7 [Period7], "
+                                            + "Period_8 [Period8], "
+                                            + "Period_9 [Period9], "
+                                            + "Period_10 [Period10], "
+                                            + "Period_11 [Period11], "
+                                            + "Period_12 [Period12]";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

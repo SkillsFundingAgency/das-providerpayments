@@ -5,5 +5,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
     public class GetProviderEarningsQueryRequest : IRequest<GetProviderEarningsQueryResponse>
     {
         public long Ukprn { get; set; }
+        public int Period1Month { get; set; }
+        public int Period1Year { get; set; }
+        public string AcademicYear { get; set; }
     }
 }

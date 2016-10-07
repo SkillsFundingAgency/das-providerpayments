@@ -17,26 +17,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
 
         private void SetupDatabase()
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            using (var transientConnection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
+            using (var dedsConnection = new SqlConnection(GlobalTestContext.Instance.DedsConnectionString))
             {
-                connection.Open();
+                transientConnection.Open();
+                dedsConnection.Open();
 
                 try
                 {
                     // Pre-req scripts
-                    RunSqlScript(@"Ilr.Deds.DDL.sql", connection);
-                    RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
-                    RunSqlScript(@"DasCommitments.Deds.DDL.sql", connection);
-                    RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
-                    RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
+                    RunSqlScript(@"Ilr.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", dedsConnection);
+                    RunSqlScript(@"DasCommitments.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
 
                     // Component scripts
-                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.views.sql", connection);
+                    RunSqlScript(@"Summarisation.Deds.PaymentsDue.DDL.tables.sql", dedsConnection);
+                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
+                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.views.sql", transientConnection);
                 }
                 finally
                 {
-                    connection.Close();
+                    transientConnection.Close();
                 }
             }
         }
@@ -57,7 +60,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
         {
             return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+﻿using SFA.DAS.Payments.DCFS;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _dependencyResolver = dependencyResolver;
         }
 
-        protected override void Execute(ContextWrapper context)
+        protected override void Execute(Payments.DCFS.Context.ContextWrapper context)
         {
             _dependencyResolver.Init(typeof(PaymentsDueProcessor), context);
 

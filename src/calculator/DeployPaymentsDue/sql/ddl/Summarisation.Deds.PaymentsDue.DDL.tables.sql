@@ -22,6 +22,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	Ukprn bigint,
 	DeliveryMonth int,
 	DeliveryYear int,
+	CollectionPeriodName varchar(3) NOT NULL,
 	CollectionPeriodMonth int NOT NULL,
 	CollectionPeriodYear int NOT NULL,
 	TransactionType int,

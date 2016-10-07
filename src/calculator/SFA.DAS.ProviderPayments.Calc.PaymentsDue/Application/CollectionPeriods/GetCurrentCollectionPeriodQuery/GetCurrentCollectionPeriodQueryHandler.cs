@@ -28,7 +28,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriod
                         {
                             PeriodId = periodEntity.PeriodId,
                             Month = periodEntity.Month,
-                            Year = periodEntity.Year
+                            Year = periodEntity.Year,
+                            PeriodNumber = int.Parse(periodEntity.PeriodName.Substring(1))
                         }
                 };
 
