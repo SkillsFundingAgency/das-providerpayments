@@ -16,7 +16,7 @@ GO
 CREATE VIEW PaymentsDue.vw_CommitmentEarning
 AS
 SELECT
-	c.CommitmentId,
+	lc.CommitmentId,
 	ld.MonthlyInstallment,
 	ld.CompletionPayment,
 	pv.Ukprn,
@@ -39,15 +39,10 @@ INNER JOIN ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv
 	ON ld.Ukprn = pv.Ukprn
 	AND ld.LearnRefNumber = pv.LearnRefNumber
 	AND ld.AimSeqNumber = pv.AimSeqNumber
-INNER JOIN ${DAS_Commitments.FQ}.dbo.DasCommitments c
-	ON ld.Ukprn = c.Ukprn
-	AND ld.Uln = c.Uln
-	AND (
-			(ld.StdCode IS NOT NULL AND ld.StdCode = c.StandardCode)
-			OR
-			(ld.StdCode IS NULL AND ld.FworkCode = c.FrameworkCode AND ld.ProgType = c.ProgrammeType AND ld.PwayCode = c.PathwayCode)
-		)
-	AND ld.NegotiatedPrice = c.AgreedCost
+INNER JOIN DataLock.DasLearnerCommitment lc
+	ON pv.Ukprn = lc.Ukprn
+	AND ld.LearnRefNumber = lc.LearnRefNumber
+	AND ld.AimSeqNumber = lc.AimSeqNumber
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

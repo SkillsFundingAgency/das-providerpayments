@@ -24,16 +24,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             // Arrange
             var ukprn = 863145;
-            TestDataHelper.AddProvider(ukprn);
-
             var commitmentId = Guid.NewGuid().ToString();
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
-            TestDataHelper.AddCommitment(commitmentId, ukprn, startDate: startDate, endDate: plannedEndDate);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 5);
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
 
             // Act
@@ -81,16 +83,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             // Arrange
             var ukprn = 863145;
-            TestDataHelper.AddProvider(ukprn);
-
             var commitmentId = Guid.NewGuid().ToString();
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
-            TestDataHelper.AddCommitment(commitmentId, ukprn, startDate: startDate, endDate: plannedEndDate);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 5);
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
             TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
 
@@ -111,16 +115,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             // Arrange
             var ukprn = 863145;
-            TestDataHelper.AddProvider(ukprn);
-
             var commitmentId = Guid.NewGuid().ToString();
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
-            TestDataHelper.AddCommitment(commitmentId, ukprn, startDate: startDate, endDate: plannedEndDate);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 5);
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
             TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500);
 
@@ -144,16 +150,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             // Arrange
             var ukprn = 863145;
-            TestDataHelper.AddProvider(ukprn);
-
             var commitmentId = Guid.NewGuid().ToString();
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
-            TestDataHelper.AddCommitment(commitmentId, ukprn, startDate: startDate, endDate: plannedEndDate);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
 
             TestDataHelper.SetOpenCollection(12);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId, currentPeriod: 12);
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
 
 
             // Act
