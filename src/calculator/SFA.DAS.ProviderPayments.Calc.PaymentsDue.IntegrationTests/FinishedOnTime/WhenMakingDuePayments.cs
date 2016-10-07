@@ -183,5 +183,34 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(3000, period12Payments[1].AmountDue);
         }
 
+        [Test]
+        public void ThenItShouldNotMakePaymentsIfDoesNotPassDataLock()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = Guid.NewGuid().ToString();
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate, passedDataLock: false);
+
+            TestDataHelper.SetOpenCollection(5);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
+
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(0, duePayments.Length);
+        }
+
     }
 }
