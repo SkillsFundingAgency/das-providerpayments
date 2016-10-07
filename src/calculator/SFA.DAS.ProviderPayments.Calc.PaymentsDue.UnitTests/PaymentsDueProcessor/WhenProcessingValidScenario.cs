@@ -286,6 +286,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 request => request.Payments.Any(p => PaymentForEarning(p, _periodEarning2, _periodEarning2.EarnedValue)))), Times.Once, "Expected a payment for earning 2");
         }
 
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        public void ThenItShouldCorrectCalculateTheFirstPeriod(int periodNumber)
+        {
+            //Arrange
+            var date = (new DateTime(2016, 8, 1)).AddMonths((periodNumber <= 12 ? periodNumber : 12) - 1);
+
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
+                .Returns(new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod { PeriodId = 1, Month = date.Month, Year = date.Year, PeriodNumber = periodNumber }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == 8 && r.Period1Year == 2016)), Times.Once);
+        }
 
 
 

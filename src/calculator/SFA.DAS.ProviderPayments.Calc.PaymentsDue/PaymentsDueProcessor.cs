@@ -79,7 +79,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
 
-            int period1Month = currentPeriod.Month - (currentPeriod.PeriodNumber - 1);
+            var periodNumber = currentPeriod.PeriodNumber > 12 ? 12 : currentPeriod.PeriodNumber;
+            int period1Month = currentPeriod.Month - (periodNumber - 1);
             int period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
             if (period1Month < 1)
             {
