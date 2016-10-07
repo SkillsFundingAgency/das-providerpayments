@@ -7,7 +7,6 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
@@ -156,22 +155,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
-        }
-
-
-
-        private bool SummarisationPeriodIsAfterLearningStartDate(CollectionPeriod period, DateTime learningStartDate)
-        {
-            var periodDate = new DateTime(period.Year, period.Month, 1).LastDayOfMonth();
-
-            return learningStartDate <= periodDate;
-        }
-
-        private bool SummarisationPeriodIsBeforeLearningEndDate(CollectionPeriod period, DateTime learningEndDate)
-        {
-            var periodDate = new DateTime(period.Year, period.Month, 1);
-
-            return periodDate <= learningEndDate;
         }
     }
 }

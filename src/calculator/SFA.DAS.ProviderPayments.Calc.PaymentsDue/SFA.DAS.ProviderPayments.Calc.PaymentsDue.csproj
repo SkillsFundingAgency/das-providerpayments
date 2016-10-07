@@ -79,7 +79,6 @@
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
-    <Compile Include="Application\Earnings\Earning.cs" />
     <Compile Include="Application\Earnings\PeriodEarning.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />

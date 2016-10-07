@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+﻿using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 {

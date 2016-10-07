@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
+﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class EarningEntity
     {

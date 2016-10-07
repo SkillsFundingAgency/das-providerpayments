@@ -133,6 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "Ukprn, "
                   + "@month, "
                   + "@year, "
+                  + "'R01', "
                   + "@month, "
                   + "@year, "
                   + "@transactionType, "

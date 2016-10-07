@@ -3,8 +3,6 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
 {

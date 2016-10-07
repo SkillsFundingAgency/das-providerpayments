@@ -21,18 +21,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
 {
     public class WhenProcessingValidScenario
     {
-        private static readonly object[] NoProviders =
-        {
-            new object[] {null},
-            new object[] {new Provider[] {}}
-        };
-
-        private static readonly object[] NoProviderEarnings =
-        {
-            new object[] {null},
-            new object[] {new Earning[] {}}
-        };
-
         private PaymentsDue.PaymentsDueProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
