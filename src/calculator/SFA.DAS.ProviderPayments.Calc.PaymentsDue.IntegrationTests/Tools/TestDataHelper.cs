@@ -16,13 +16,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "(UKPRN) " +
                     "VALUES " +
                     "(@ukprn)",
-                new {ukprn}, false);
+                new { ukprn }, false);
 
             return ukprn;
         }
 
         internal static void AddCommitment(string id,
                                            long ukprn,
+                                           string learnerRefNumber,
+                                           int aimSequenceNumber = 1,
                                            long uln = 0L,
                                            DateTime startDate = default(DateTime),
                                            DateTime endDate = default(DateTime),
@@ -30,7 +32,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            long? standardCode = null,
                                            int? programmeType = null,
                                            int? frameworkCode = null,
-                                           int? pathwayCode = null)
+                                           int? pathwayCode = null,
+                                           bool passedDataLock = true)
         {
             var minStartDate = new DateTime(2016, 8, 1);
 
@@ -59,10 +62,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "VALUES " +
                     "(@id, 'Ac-001', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
+
+            if (passedDataLock)
+            {
+                Execute("INSERT INTO DataLock.DasLearnerCommitment "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId) "
+                      + "VALUES "
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber });
+            }
         }
 
         internal static void AddEarningForCommitment(string commitmentId,
-                                                     string learnerRefNumber = null,
+                                                     string learnerRefNumber,
                                                      int aimSequenceNumber = 1,
                                                      string niNumber = "XX12345X",
                                                      int numberOfPeriods = 12,
@@ -71,11 +83,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                      DateTime? endDate = null,
                                                      DateTime? actualEndDate = null)
         {
-            if (string.IsNullOrEmpty(learnerRefNumber))
-            {
-                learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
-            }
-
             Execute("INSERT INTO Rulebase.AE_LearningDelivery "
                   + "SELECT "
                   + "@learnerRefNumber, "
@@ -200,7 +207,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         {
             var connectionString = inTransient
                 ? GlobalTestContext.Instance.TransientConnectionString
-                : GlobalTestContext.Instance.DedsConnectionString; 
+                : GlobalTestContext.Instance.DedsConnectionString;
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();

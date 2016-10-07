@@ -31,6 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"DasCommitments.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
+                    RunSqlScript(@"DataLock.Transient.DDL.sql", transientConnection);
 
                     // Component scripts
                     RunSqlScript(@"Summarisation.Deds.PaymentsDue.DDL.tables.sql", dedsConnection);
