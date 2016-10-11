@@ -57,6 +57,7 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="FinishOnTime\WhenThereIsEnoughLevyInTheAccount.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCommitmentRepository\WhenGettingCommitmentsForAccount.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsPaymentDueRepository\WhenGettingPaymentsDueForCommitment.cs" />
     <Compile Include="Tools\IntegrationTaskContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\TestDataHelper.cs" />
