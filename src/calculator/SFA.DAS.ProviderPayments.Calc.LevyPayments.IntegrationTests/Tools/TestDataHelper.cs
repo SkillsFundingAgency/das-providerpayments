@@ -30,7 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                                            long? standardCode = null,
                                            int? programmeType = null,
                                            int? frameworkCode = null,
-                                           int? pathwayCode = null)
+                                           int? pathwayCode = null,
+                                           int priority = 1)
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
@@ -56,10 +57,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO dbo.DasCommitments " +
-                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
+                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,Priority) " +
                     "VALUES " +
-                    "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
-                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode });
+                    "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, @priority)",
+                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority });
         }
 
         internal static void AddPaymentDueForCommitment(string commitmentId, 

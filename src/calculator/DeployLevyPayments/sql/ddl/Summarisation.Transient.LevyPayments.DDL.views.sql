@@ -47,7 +47,8 @@ SELECT
 	StandardCode,
 	ProgrammeType,
 	FrameworkCode,
-	PathwayCode
+	PathwayCode,
+	Priority
 FROM ${DAS_Commitments.FQ}.dbo.DasCommitments
 GO
 
