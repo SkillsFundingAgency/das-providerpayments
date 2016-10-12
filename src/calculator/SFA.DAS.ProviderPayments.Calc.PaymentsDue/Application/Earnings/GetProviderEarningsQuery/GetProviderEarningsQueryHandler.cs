@@ -119,10 +119,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 return new PeriodEarning[0];
             }
 
-            var learningValue = value > entity.MonthlyInstallment ? entity.MonthlyInstallment : value;
-            var completionValue = value - learningValue;
+            var learningValue = 0.00m;
+            var completionValue = 0.00m;
 
-            var learningEarning = new PeriodEarning
+            if (value == entity.MonthlyInstallment)
+            {
+                learningValue = entity.MonthlyInstallment;
+            }
+            else if (value == entity.CompletionPayment)
+            {
+                completionValue = entity.CompletionPayment;
+            }
+            else if (value == entity.MonthlyInstallment + entity.CompletionPayment)
+            {
+                learningValue = entity.MonthlyInstallment;
+                completionValue = entity.CompletionPayment;
+            }
+            else
+            {
+                learningValue = entity.MonthlyInstallment;
+                completionValue = value - entity.MonthlyInstallment;
+            }
+
+            var learningEarning = learningValue <= 0 ? null : new PeriodEarning
             {
                 CommitmentId = entity.CommitmentId,
                 Ukprn = entity.Ukprn,
@@ -149,9 +168,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 Type = Common.Application.TransactionType.Completion
             };
 
-            return completionEarning == null
-                ? new[] { learningEarning }
-                : new[] { learningEarning, completionEarning };
+            var earnings = new List<PeriodEarning>();
+
+            if (learningEarning != null)
+            {
+                earnings.Add(learningEarning);
+            }
+
+            if (completionEarning != null)
+            {
+                earnings.Add(completionEarning);
+            }
+
+            return earnings.ToArray();
         }
     }
 }

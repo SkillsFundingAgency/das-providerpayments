@@ -113,6 +113,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         public void ThenItShouldReturnALearningAndACompletionEarningWhenBothOccurInAPeriod()
         {
             // Arrange
+            var monthlyInstallment = 1000.00m;
+            var completionPayment = 3000.00m;
+
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
                 .Returns(new[]
                 {
@@ -122,15 +125,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
-                        MonthlyInstallment = 1000.00m,
-                        CompletionPayment = 3000.00m,
-                        Period1 = 1000m,
-                        Period2 = 1000m,
-                        Period3 = 1000m,
-                        Period4 = 1000m,
-                        Period5 = 1000m,
-                        Period6 = 1000m,
-                        Period7 = 4000m,
+                        MonthlyInstallment = monthlyInstallment,
+                        CompletionPayment = completionPayment,
+                        Period1 = monthlyInstallment,
+                        Period2 = monthlyInstallment,
+                        Period3 = monthlyInstallment,
+                        Period4 = monthlyInstallment,
+                        Period5 = monthlyInstallment,
+                        Period6 = monthlyInstallment,
+                        Period7 = monthlyInstallment + completionPayment,
                         Period8 = 0,
                         Period9 = 0,
                         Period10 = 0,
@@ -146,11 +149,102 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             var period7Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 7).OrderBy(e => (int)e.Type).ToArray();
             Assert.AreEqual(2, period7Earnings.Length);
 
-            Assert.AreEqual(EarningEntities[0].MonthlyInstallment, period7Earnings[0].EarnedValue);
+            Assert.AreEqual(monthlyInstallment, period7Earnings[0].EarnedValue);
             Assert.AreEqual(TransactionType.Learning, period7Earnings[0].Type);
 
-            Assert.AreEqual(EarningEntities[0].CompletionPayment, period7Earnings[1].EarnedValue);
+            Assert.AreEqual(completionPayment, period7Earnings[1].EarnedValue);
             Assert.AreEqual(TransactionType.Completion, period7Earnings[1].Type);
+        }
+
+        [Test]
+        public void ThenItShouldReturnACompletionEarningWhenThePeriodOnlyContainsIt()
+        {
+            // Arrange
+            var monthlyInstallment = 1000.00m;
+            var completionPayment = 3000.00m;
+
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = "C-001",
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        MonthlyInstallment = monthlyInstallment,
+                        CompletionPayment = completionPayment,
+                        Period1 = monthlyInstallment,
+                        Period2 = monthlyInstallment,
+                        Period3 = monthlyInstallment,
+                        Period4 = monthlyInstallment,
+                        Period5 = monthlyInstallment,
+                        Period6 = monthlyInstallment,
+                        Period7 = 0,
+                        Period8 = completionPayment,
+                        Period9 = 0,
+                        Period10 = 0,
+                        Period11 = 0,
+                        Period12 = 0
+                    }
+                });
+
+            // Act
+            var actual = _handler.Handle(_request);
+
+            // Assert
+            var period8Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 8).OrderBy(e => (int)e.Type).ToArray();
+            Assert.AreEqual(1, period8Earnings.Length);
+
+            Assert.AreEqual(completionPayment, period8Earnings[0].EarnedValue);
+            Assert.AreEqual(TransactionType.Completion, period8Earnings[0].Type);
+        }
+
+        [Test]
+        public void ThenItShouldReturnALearningAndACompletionEarningWhenBothOccurInAPeriodWithAValueThatIsNotTheExactSumOfThem()
+        {
+            // Arrange
+            var monthlyInstallment = 1000.00m;
+            var completionPayment = 3000.00m;
+
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = "C-001",
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        MonthlyInstallment = monthlyInstallment,
+                        CompletionPayment = 3000.00m,
+                        Period1 = monthlyInstallment,
+                        Period2 = monthlyInstallment,
+                        Period3 = monthlyInstallment,
+                        Period4 = monthlyInstallment,
+                        Period5 = monthlyInstallment,
+                        Period6 = monthlyInstallment,
+                        Period7 = 0,
+                        Period8 = completionPayment + 750.00m,
+                        Period9 = 0,
+                        Period10 = 0,
+                        Period11 = 0,
+                        Period12 = 0
+                    }
+                });
+
+            // Act
+            var actual = _handler.Handle(_request);
+
+            // Assert
+            var period8Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 8).OrderBy(e => (int)e.Type).ToArray();
+            Assert.AreEqual(2, period8Earnings.Length);
+
+            Assert.AreEqual(monthlyInstallment, period8Earnings[0].EarnedValue);
+            Assert.AreEqual(TransactionType.Learning, period8Earnings[0].Type);
+
+            Assert.AreEqual(completionPayment - 250.00m, period8Earnings[1].EarnedValue);
+            Assert.AreEqual(TransactionType.Completion, period8Earnings[1].Type);
         }
 
         [Test]
