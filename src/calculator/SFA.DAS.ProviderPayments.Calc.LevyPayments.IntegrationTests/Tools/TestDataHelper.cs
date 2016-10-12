@@ -30,7 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                                            long? standardCode = null,
                                            int? programmeType = null,
                                            int? frameworkCode = null,
-                                           int? pathwayCode = null)
+                                           int? pathwayCode = null,
+                                           int priority = 1)
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
@@ -56,21 +57,33 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO dbo.DasCommitments " +
-                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
+                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,Priority) " +
                     "VALUES " +
-                    "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
-                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode });
+                    "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, @priority)",
+                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority });
         }
 
         internal static void AddPaymentDueForCommitment(string commitmentId, 
                                                      string learnerRefNumber = null, 
                                                      int aimSequenceNumber = 1,
                                                      Common.Application.TransactionType transactionType = Common.Application.TransactionType.Learning,
-                                                     decimal amountDue = 1000.00m)
+                                                     decimal amountDue = 1000.00m,
+                                                     int deliveryMonth = 0,
+                                                     int deliveryYear = 0)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+            }
+
+            if (deliveryMonth == 0)
+            {
+                deliveryMonth = Query<int>("SELECT Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+            }
+
+            if (deliveryYear == 0)
+            {
+                deliveryYear = Query<int>("SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
             }
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
@@ -80,13 +93,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "Ukprn, "
-                  + "(SELECT Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
-                  + "(SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
+                  + "@deliveryMonth, "
+                  + "@deliveryYear, "
                   + "@transactionType, "
                   + "@amountDue "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue });
+                new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear });
         }
 
         internal static void Clean()

@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
                                                   "TransactionType," +
                                                   "AmountDue";
         private const string SelectDuePayments = "SELECT " + DuePaymentsColumns + " FROM " + DuePaymentsSource;
-        private const string SelectDuePaymentsForCommitment = SelectDuePayments + " WHERE CommitmentId = @CommitmentId";
+        private const string SelectDuePaymentsForCommitment = SelectDuePayments + " WHERE CommitmentId = @CommitmentId ORDER BY DeliveryYear, DeliveryMonth ASC";
 
         public DcfsPaymentDueRepository(string connectionString)
             : base(connectionString)
