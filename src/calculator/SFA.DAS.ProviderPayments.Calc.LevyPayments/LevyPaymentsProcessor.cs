@@ -147,6 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                         Ukprn = paymentDue.Ukprn,
                         DeliveryMonth = paymentDue.DeliveryMonth,
                         DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodName = period.Name,
                         CollectionPeriodMonth = period.Month,
                         CollectionPeriodYear = period.Year,
                         FundingSource = FundingSource.Levy,
