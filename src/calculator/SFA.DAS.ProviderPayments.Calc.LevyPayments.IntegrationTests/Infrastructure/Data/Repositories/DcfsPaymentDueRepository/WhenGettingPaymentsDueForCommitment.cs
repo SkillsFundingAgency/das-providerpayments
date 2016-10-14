@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId = Guid.NewGuid().ToString();
+            var commitmentId = 1;
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
             foreach (var paymentDue in PaymentsDue)

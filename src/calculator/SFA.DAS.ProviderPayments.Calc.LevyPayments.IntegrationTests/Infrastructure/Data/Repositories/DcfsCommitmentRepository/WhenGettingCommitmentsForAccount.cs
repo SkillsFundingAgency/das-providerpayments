@@ -24,8 +24,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId1 = Guid.NewGuid().ToString();
-            var commitmentId2 = Guid.NewGuid().ToString();
+            var commitmentId1 = 1L;
+            var commitmentId2 = 2L;
 
             TestDataHelper.AddCommitment(commitmentId1, accountId, priority: 5);
             TestDataHelper.AddCommitment(commitmentId2, accountId, priority: 2);

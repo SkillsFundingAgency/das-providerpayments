@@ -106,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
         
-        private PaymentDue[] GetPaymentsDueForCommitment(string commitmentId)
+        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId)
         {
             var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest {CommitmentId = commitmentId});
 

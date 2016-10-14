@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
     {
         private const string AccountId = "ACC001";
         private const string AccountName = "Account 1";
-        private const string CommitmentId = "Commtiment123";
+        private const long CommitmentId = 123;
 
         private GetNextAccountQueryRequest _request;
         private Mock<IAccountRepository> _accountRepository;

@@ -16,7 +16,7 @@ GO
 CREATE TABLE PaymentsDue.RequiredPayments
 (
 	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
-	CommitmentId varchar(50),
+	CommitmentId bigint,
 	LearnRefNumber varchar(12),
 	AimSeqNumber int,
 	Ukprn bigint,

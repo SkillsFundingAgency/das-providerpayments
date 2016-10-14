@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         {
         }
 
-        public PaymentDueEntity[] GetPaymentsDueForCommitment(string commitmentId)
+        public PaymentDueEntity[] GetPaymentsDueForCommitment(long commitmentId)
         {
             return Query<PaymentDueEntity>(SelectDuePaymentsForCommitment, new {commitmentId});
         }

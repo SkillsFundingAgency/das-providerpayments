@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         {
             new RequiredPayment
             {
-                CommitmentId = "C-001",
+                CommitmentId = 1,
                 LearnerRefNumber = "Lrn001",
                 AimSequenceNumber = 1,
                 Ukprn = 10007459,
@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             },
             new RequiredPayment
             {
-                CommitmentId = "C-002",
+                CommitmentId = 2,
                 LearnerRefNumber = "Lrn002",
                 AimSequenceNumber = 1,
                 Ukprn = 10007459,

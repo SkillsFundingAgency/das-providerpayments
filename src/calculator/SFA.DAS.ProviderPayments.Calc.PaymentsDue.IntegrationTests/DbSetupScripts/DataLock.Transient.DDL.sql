@@ -56,6 +56,6 @@ CREATE TABLE DataLock.DasLearnerCommitment
 	[Ukprn] bigint NOT NULL,
 	[LearnRefNumber] varchar(100) NOT NULL,
 	[AimSeqNumber] bigint NOT NULL,
-	[CommitmentId] varchar(50) NOT NULL
+	[CommitmentId] bigint NOT NULL
 )
 GO

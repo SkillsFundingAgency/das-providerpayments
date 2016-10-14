@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             return ukprn;
         }
 
-        internal static void AddCommitment(string id,
+        internal static void AddCommitment(long id,
                                            long ukprn,
                                            string learnerRefNumber,
                                            int aimSequenceNumber = 1,
@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
         }
 
-        internal static void AddEarningForCommitment(string commitmentId,
+        internal static void AddEarningForCommitment(long commitmentId,
                                                      string learnerRefNumber,
                                                      int aimSequenceNumber = 1,
                                                      string niNumber = "XX12345X",
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods }, false);
         }
 
-        internal static void AddPaymentForCommitment(string commitmentId, int month, int year, int transactionType, decimal amount)
+        internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)
         {
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "

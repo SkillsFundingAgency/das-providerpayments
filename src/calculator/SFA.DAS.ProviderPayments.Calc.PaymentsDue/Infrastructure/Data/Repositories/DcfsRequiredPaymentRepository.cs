@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPaymentsForCommitment(long ukprn, string commitmentId)
+        public RequiredPaymentEntity[] GetPreviousPaymentsForCommitment(long ukprn, long commitmentId)
         {
             return Query<RequiredPaymentEntity>(SelectPaymentsForCommitment, new {ukprn, commitmentId});
         }

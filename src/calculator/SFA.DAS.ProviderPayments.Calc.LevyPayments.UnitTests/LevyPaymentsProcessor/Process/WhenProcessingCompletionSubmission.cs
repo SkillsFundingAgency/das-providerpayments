@@ -32,8 +32,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 Id = "ACC001",
                 Commitments = new[]
                 {
-                    new Commitment { Id = "C-001" },
-                    new Commitment { Id = "C-002" }
+                    new Commitment { Id = 1 },
+                    new Commitment { Id = 2 }
                 }
             };
 

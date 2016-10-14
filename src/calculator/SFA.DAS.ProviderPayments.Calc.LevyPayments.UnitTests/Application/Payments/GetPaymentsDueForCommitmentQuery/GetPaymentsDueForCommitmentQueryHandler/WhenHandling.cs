@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
 {
     public class WhenHandling
     {
-        private const string CommitmentId = "C-001";
+        private const long CommitmentId = 1;
 
         private static readonly PaymentDueEntity[] PaymentDueEntities = 
         {

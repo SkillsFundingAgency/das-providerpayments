@@ -20,7 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, LevyBalance) VALUES (@id, @name, @balance)", new { id, name, balance });
         }
 
-        internal static void AddCommitment(string id, 
+        internal static void AddCommitment(long id, 
                                            string accountId, 
                                            long uln = 0l, 
                                            long ukprn = 0l, 
@@ -63,13 +63,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                     new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority });
         }
 
-        internal static void AddPaymentDueForCommitment(string commitmentId, 
-                                                     string learnerRefNumber = null, 
-                                                     int aimSequenceNumber = 1,
-                                                     Common.Application.TransactionType transactionType = Common.Application.TransactionType.Learning,
-                                                     decimal amountDue = 1000.00m,
-                                                     int deliveryMonth = 0,
-                                                     int deliveryYear = 0)
+        internal static void AddPaymentDueForCommitment(long commitmentId, 
+                                                        string learnerRefNumber = null, 
+                                                        int aimSequenceNumber = 1,
+                                                        Common.Application.TransactionType transactionType = Common.Application.TransactionType.Learning,
+                                                        decimal amountDue = 1000.00m,
+                                                        int deliveryMonth = 0,
+                                                        int deliveryYear = 0)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
@@ -120,7 +120,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 ");
         }
 
-        internal static PaymentEntity[] GetPaymentsForCommitment(string commitmentId)
+        internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
             return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
         }

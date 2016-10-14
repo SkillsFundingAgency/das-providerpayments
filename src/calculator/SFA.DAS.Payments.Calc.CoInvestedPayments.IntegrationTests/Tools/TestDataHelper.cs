@@ -20,7 +20,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, LevyBalance) VALUES (@id, @name, @balance)", new { id, name, balance });
         }
 
-        internal static void AddCommitment(string id, 
+        internal static void AddCommitment(long id, 
                                            string accountId, 
                                            long uln = 0l, 
                                            long ukprn = 0l, 
@@ -63,7 +63,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         }
 
         internal static void AddPaymentDueForProvider(
-            string commitmentId,
+            long commitmentId,
             long ukprn,
             string learnerRefNumber = null,
             int aimSequenceNumber = 1,
@@ -91,7 +91,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue });
         }
         internal static void AddPaymentDueForProvider2(
-            string commitmentId,
+            long commitmentId,
             long ukprn,
             int deliveryMonth,
             int deliveryYear,
@@ -121,7 +121,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 new { commitmentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue });
         }
 
-        internal static void AddPaymentDueForCommitment(string commitmentId, 
+        internal static void AddPaymentDueForCommitment(long commitmentId, 
                                                      string learnerRefNumber = null, 
                                                      int aimSequenceNumber = 1,
                                                      ProviderPayments.Calc.Common.Application.TransactionType transactionType = ProviderPayments.Calc.Common.Application.TransactionType.Learning,
@@ -166,7 +166,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 ");
         }
 
-        internal static PaymentEntity[] GetPaymentsForCommitment(string commitmentId)
+        internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
             return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
         }

@@ -4,6 +4,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data
 {
     public interface IPaymentDueRepository
     {
-        PaymentDueEntity[] GetPaymentsDueForCommitment(string commitmentId);
+        PaymentDueEntity[] GetPaymentsDueForCommitment(long commitmentId);
     }
 }
