@@ -34,8 +34,8 @@ SELECT
 	pv.Period_10,
 	pv.Period_11,
 	pv.Period_12
-FROM ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery ld
-INNER JOIN ${ILR_Current.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv
+FROM ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery ld
+INNER JOIN ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv
 	ON ld.Ukprn = pv.Ukprn
 	AND ld.LearnRefNumber = pv.LearnRefNumber
 	AND ld.AimSeqNumber = pv.AimSeqNumber
@@ -79,10 +79,8 @@ CREATE VIEW PaymentsDue.vw_Providers
 AS
 SELECT
 	p.UKPRN
-FROM ${ILR_Current.FQ}.Valid.LearningProvider p
+FROM ${ILR_Deds.FQ}.Valid.LearningProvider p
 GO
-
-
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- vw_PaymentHistory
@@ -107,4 +105,31 @@ SELECT
 	AmountDue ,
 	TransactionType 
 FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_RequiredPayments
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_RequiredPayments' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP VIEW PaymentsDue.vw_RequiredPayments
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_RequiredPayments
+AS
+SELECT
+    Id,
+	CommitmentId,
+	LearnRefNumber,
+	AimSeqNumber,
+	Ukprn,
+	DeliveryMonth,
+	DeliveryYear,
+	(SELECT MAX([Collection_Period]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodName,
+	(SELECT MAX([Period]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodMonth,
+	(SELECT MAX([Calendar_Year]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodYear,
+	AmountDue,
+	TransactionType 
+FROM PaymentsDue.RequiredPayments
 GO

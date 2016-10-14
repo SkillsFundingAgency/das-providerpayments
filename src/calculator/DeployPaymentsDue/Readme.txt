@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------
-DAS Payment Schedule Component
+DAS Payments Due Component
 -------------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------------
@@ -11,6 +11,8 @@ DAS Payment Schedule Component
   - component\FastMember.dll
   - component\MediatR.dll
   - component\NLog.dll
+  - component\SFA.DAS.Payments.DCFS.dll
+  - component\SFA.DAS.Payments.DCFS.StructureMap.dll
   - component\SFA.DAS.ProviderPayments.Calc.Common.dll
   - component\SFA.DAS.ProviderPayments.Calc.PaymentsDue.dll
   - component\StructureMap.dll
@@ -18,10 +20,20 @@ DAS Payment Schedule Component
  1.2 SQL scripts:
   - sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql:
    - transient database tables that need to be present when the component is executed
-  - Summarisation.Transient.PaymentsDue.DDL.views.sql:
+  - sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql:
    - transient database views that need to be present when the component is executed
+  - sql\ddl\Summarisation.Deds.PaymentsDue.DDL.tables.sql:
+   - deds database tables that need to be present when the component is executed
+  - sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql:
+   - deds database cleanup script that needs to be executed before copying from the transient database to the deds database
 
- 1.3 Test results:
+ 1.3 Copy to deds mapping xml:
+  - copy mappings\DasPaymentsDueCopyToDedsMapping.xml:
+   - sql bulk copy binary task configuration file that copies payments due results from transient to deds
+   - SourceConnectionString: transient connection string
+   - DestinationConnectionString: deds das period end connection string
+ 
+ 1.4 Test results:
   - test-results\TestResult.SFA.DAS.ProviderPayments.Calc.Common.xml
   - test-results\TestResult.SFA.DAS.ProviderPayments.Calc.PaymentsDue.xml
   - test-results\TestResult-Integration.SFA.DAS.ProviderPayments.Calc.PaymentsDue.xml
@@ -40,5 +52,14 @@ DAS Payment Schedule Component
 3. Expected data set keys in the manifest that runs the component
 -------------------------------------------------------------------------------------
  3.1 DAS Commitments Reference Data Collection: ${DAS_Commitments.FQ}
- 3.2 Current ILR Collection: ${ILR_Current.FQ}
+ 3.2 Current ILR Collection: ${ILR_Deds.FQ}
  3.3 Current DC Summarisation Collection: ${ILR_Summarisation.FQ}
+ 3.4 DAS Period End Collection: ${DAS_PeriodEnd.FQ}
+
+-------------------------------------------------------------------------------------
+4. Expected manifest steps for the das period end process - payments due
+-------------------------------------------------------------------------------------
+ 4.1 Build the transient database.
+ 4.2 Execute the 'DAS Payments Due' component
+ 4.3 Cleanup the deds payments due results using the 'PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql' sql script
+ 4.4 Bulk copy the payments due results from transient to deds
