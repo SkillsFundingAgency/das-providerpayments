@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
     public class GetPaymentHistoryQueryRequest : IRequest<GetPaymentHistoryQueryResponse>
     {
         public long Ukprn { get; set; }
-        public string CommitmentId { get; set; }
+        public long CommitmentId { get; set; }
     }
 }

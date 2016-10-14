@@ -58,7 +58,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
@@ -67,7 +67,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
@@ -76,7 +76,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
@@ -85,7 +85,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
@@ -94,7 +94,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
@@ -103,7 +103,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
@@ -112,7 +112,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
@@ -121,7 +121,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
@@ -130,7 +130,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
@@ -139,7 +139,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
@@ -148,7 +148,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
@@ -157,7 +157,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
@@ -166,7 +166,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
@@ -276,7 +276,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
@@ -285,7 +285,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
@@ -294,7 +294,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
@@ -303,7 +303,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
@@ -312,7 +312,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
@@ -321,7 +321,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
@@ -330,7 +330,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
@@ -339,7 +339,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
@@ -348,7 +348,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
@@ -357,7 +357,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
@@ -366,7 +366,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
@@ -375,7 +375,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
@@ -384,7 +384,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             Ukprn = 1,
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
@@ -495,7 +495,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         {
             _paymentDue = new PaymentDue
             {
-                CommitmentId = "1",
+                CommitmentId = 1,
                 AimSequenceNumber = 2,
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
@@ -567,7 +567,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _paymentDue = new PaymentDue
             {
-                CommitmentId = "1",
+                CommitmentId = 1,
                 AimSequenceNumber = 2,
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
@@ -1148,7 +1148,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = "1",
+                            CommitmentId = 1,
                             AimSequenceNumber = 2,
                             DeliveryMonth = 3,
                             DeliveryYear = 4,

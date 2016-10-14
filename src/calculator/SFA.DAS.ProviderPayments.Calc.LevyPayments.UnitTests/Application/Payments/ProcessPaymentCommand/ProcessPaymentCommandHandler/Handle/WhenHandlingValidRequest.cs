@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
             {
                 Payment = new Payment
                 {
-                    CommitmentId = "Commitment1",
+                    CommitmentId = 1,
                     LearnerRefNumber = "LEARNER1",
                     AimSequenceNumber = 99,
                     Ukprn = 12345,

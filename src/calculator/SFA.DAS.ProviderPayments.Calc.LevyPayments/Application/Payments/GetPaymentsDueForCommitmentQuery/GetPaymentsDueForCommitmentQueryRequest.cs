@@ -4,6 +4,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPay
 {
     public class GetPaymentsDueForCommitmentQueryRequest : IRequest<GetPaymentsDueForCommitmentQueryResponse>
     {
-         public string CommitmentId { get; set; }
+         public long CommitmentId { get; set; }
     }
 }

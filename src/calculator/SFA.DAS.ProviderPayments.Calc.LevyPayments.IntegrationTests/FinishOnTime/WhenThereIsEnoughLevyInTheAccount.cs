@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId = Guid.NewGuid().ToString();
+            var commitmentId = 1L;
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
             var taskContext = new IntegrationTaskContext();
@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId = Guid.NewGuid().ToString();
+            var commitmentId = 1L;
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: amountDue, transactionType: transactionType);
@@ -80,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId = Guid.NewGuid().ToString();
+            var commitmentId = 1L;
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 575.12345m);

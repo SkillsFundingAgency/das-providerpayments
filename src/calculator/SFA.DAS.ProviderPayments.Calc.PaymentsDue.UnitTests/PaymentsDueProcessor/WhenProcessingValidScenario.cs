@@ -77,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         {
             _periodEarning1 = new PeriodEarning
             {
-                CommitmentId = "COMMITMENT-1",
+                CommitmentId = 1,
                 Ukprn = 1,
                 LearnerReferenceNumber = "LEARNER-1",
                 AimSequenceNumber = 1,
@@ -90,7 +90,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             };
             _periodEarning2 = new PeriodEarning
             {
-                CommitmentId = "COMMITMENT-1",
+                CommitmentId = 1,
                 Ukprn = 1,
                 LearnerReferenceNumber = "LEARNER-1",
                 AimSequenceNumber = 1,

@@ -10,7 +10,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
     {
         private CoInvestedPaymentsTask _uut;
         private IntegrationTaskContext _taskContext;
-        private string _commitmentId;
+        private long _commitmentId;
 
         [SetUp]
         public void Arrange()
@@ -20,7 +20,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var accountId = Guid.NewGuid().ToString();
             TestDataHelper.AddAccount(accountId);
 
-            _commitmentId = Guid.NewGuid().ToString();
+            _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
             TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 10, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);

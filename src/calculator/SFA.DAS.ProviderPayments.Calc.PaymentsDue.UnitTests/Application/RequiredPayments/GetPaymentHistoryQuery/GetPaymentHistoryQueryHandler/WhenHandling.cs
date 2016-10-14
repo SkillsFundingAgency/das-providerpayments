@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
 {
     public class WhenHandling
     {
-        private const string CommitmentId = "COMMITMENT-1";
+        private const long CommitmentId = 1;
         private const long Ukprn = 123456;
         private const string LearnRefNumber = "LEARNER-1";
         private const int AimSequenceNumber = 1;

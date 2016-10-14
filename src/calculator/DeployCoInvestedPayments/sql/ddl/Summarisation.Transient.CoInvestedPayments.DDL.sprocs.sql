@@ -16,7 +16,7 @@ GO
 
 CREATE PROCEDURE CoInvestedPayments.AddPayment
 	@RequiredPaymentId uniqueidentifier,
-	@CommitmentId varchar(50),
+	@CommitmentId bigint,
 	@LearnRefNumber varchar(12),
 	@AimSeqNumber int,
 	@Ukprn bigint,
