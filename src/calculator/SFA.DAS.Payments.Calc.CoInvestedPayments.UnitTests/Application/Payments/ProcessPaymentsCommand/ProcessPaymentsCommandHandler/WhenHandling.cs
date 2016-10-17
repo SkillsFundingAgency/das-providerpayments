@@ -21,6 +21,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
                 CommitmentId = 1,
                 DeliveryMonth = 12,
                 DeliveryYear = 2015,
+                CollectionPeriodName = "R02",
                 CollectionPeriodMonth = 9,
                 CollectionPeriodYear = 2016,
                 FundingSource = FundingSource.CoInvestedSfa,
@@ -35,6 +36,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
                 CommitmentId = 1,
                 DeliveryMonth = 12,
                 DeliveryYear = 2015,
+                CollectionPeriodName = "R02",
                 CollectionPeriodMonth = 9,
                 CollectionPeriodYear = 2016,
                 FundingSource = FundingSource.CoInvestedEmployer,
@@ -122,6 +124,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
                    entity.CommitmentId == payment.CommitmentId &&
                    entity.DeliveryMonth == payment.DeliveryMonth &&
                    entity.DeliveryYear == payment.DeliveryYear &&
+                   entity.CollectionPeriodName == payment.CollectionPeriodName &&
                    entity.CollectionPeriodMonth == payment.CollectionPeriodMonth &&
                    entity.CollectionPeriodYear == payment.CollectionPeriodYear &&
                    entity.FundingSource == (int) payment.FundingSource &&

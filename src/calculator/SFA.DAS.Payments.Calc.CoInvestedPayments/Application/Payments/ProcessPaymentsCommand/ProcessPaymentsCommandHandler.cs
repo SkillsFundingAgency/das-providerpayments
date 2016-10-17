@@ -29,6 +29,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessP
                         Ukprn = p.Ukprn,
                         DeliveryMonth = p.DeliveryMonth,
                         DeliveryYear = p.DeliveryYear,
+                        CollectionPeriodName = p.CollectionPeriodName,
                         CollectionPeriodMonth = p.CollectionPeriodMonth,
                         CollectionPeriodYear = p.CollectionPeriodYear,
                         FundingSource = (int)p.FundingSource,

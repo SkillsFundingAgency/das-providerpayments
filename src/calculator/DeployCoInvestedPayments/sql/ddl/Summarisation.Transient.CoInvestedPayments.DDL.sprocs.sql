@@ -26,12 +26,13 @@ CREATE PROCEDURE CoInvestedPayments.AddPayment
 	@CollectionPeriodYear int,
 	@FundingSource int,
 	@TransactionType int,
-	@Amount decimal(15,5)
+	@Amount decimal(15,5),
+	@CollectionPeriodName varchar(3)
 AS
 SET NOCOUNT ON
 
 	INSERT INTO CoInvestedPayments.Payments
-	(PaymentId, RequiredPaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,DeliveryMonth,DeliveryYear,CollectionPeriodMonth,CollectionPeriodYear,FundingSource,TransactionType,Amount)
+	(PaymentId, RequiredPaymentId, CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,DeliveryMonth,DeliveryYear,CollectionPeriodMonth,CollectionPeriodYear,FundingSource,TransactionType,Amount,CollectionPeriodName)
 	VALUES
-	(NEWID(), @RequiredPaymentId, @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@DeliveryMonth,@DeliveryYear,@CollectionPeriodMonth,@CollectionPeriodYear,@FundingSource,@TransactionType,@Amount)
+	(NEWID(), @RequiredPaymentId, @CommitmentId,@LearnRefNumber,@AimSeqNumber,@Ukprn,@DeliveryMonth,@DeliveryYear,@CollectionPeriodMonth,@CollectionPeriodYear,@FundingSource,@TransactionType,@Amount,@CollectionPeriodName)
 GO

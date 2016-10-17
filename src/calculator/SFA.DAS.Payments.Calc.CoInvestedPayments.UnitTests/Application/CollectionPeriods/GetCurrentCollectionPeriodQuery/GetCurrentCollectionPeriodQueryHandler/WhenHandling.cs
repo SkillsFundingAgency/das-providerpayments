@@ -13,7 +13,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Collect
         {
             PeriodId = 1,
             Month = 8,
-            Year = 2016
+            Year = 2016,
+            Name = "R01"
         };
 
         private static readonly object[] RepositoryResponses =
@@ -67,7 +68,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Collect
             Assert.AreEqual(PeriodEntity.PeriodId, response.Period.PeriodId);
             Assert.AreEqual(PeriodEntity.Month, response.Period.Month);
             Assert.AreEqual(PeriodEntity.Year, response.Period.Year);
-
+            Assert.AreEqual(PeriodEntity.Name, response.Period.Name);
         }
 
         [Test]
