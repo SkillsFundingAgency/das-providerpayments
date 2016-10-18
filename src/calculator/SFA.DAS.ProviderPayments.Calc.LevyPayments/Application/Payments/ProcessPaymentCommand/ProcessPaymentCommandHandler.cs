@@ -23,6 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.Proces
                 Ukprn = message.Payment.Ukprn,
                 DeliveryMonth = message.Payment.DeliveryMonth,
                 DeliveryYear = message.Payment.DeliveryYear,
+                CollectionPeriodName = message.Payment.CollectionPeriodName,
                 CollectionPeriodMonth = message.Payment.CollectionPeriodMonth,
                 CollectionPeriodYear = message.Payment.CollectionPeriodYear,
                 FundingSource = (int)message.Payment.FundingSource,

@@ -9,8 +9,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
 
         private const string CollectionPeriodSource = "LevyPayments.vw_CollectionPeriods";
         private const string CollectionPeriodColumns = "Period_ID [PeriodId]," +
-                                              "Period [Month]," +
-                                              "Calendar_Year [Year]";
+                                                       "Period [Month]," +
+                                                       "Calendar_Year [Year]," +
+                                                       "Collection_Period [Name]";
         private const string SelectCollectionPeriods = "SELECT " + CollectionPeriodColumns + " FROM " + CollectionPeriodSource;
         private const string SelectOpenCollectionPeriod = SelectCollectionPeriods + " WHERE Collection_Open = @CollectionOpen";
 

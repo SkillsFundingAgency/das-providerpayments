@@ -19,7 +19,8 @@ SELECT
 	cp.Period_ID,
 	cp.Period,
 	cp.Calendar_Year,
-	cp.Collection_Open
+	cp.Collection_Open,
+    cp.Collection_Period
 FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
 GO
 

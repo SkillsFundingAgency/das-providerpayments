@@ -28,7 +28,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPerio
                         {
                             PeriodId = periodEntity.PeriodId,
                             Month = periodEntity.Month,
-                            Year = periodEntity.Year
+                            Year = periodEntity.Year,
+                            Name = periodEntity.Name
                         }
                 };
 

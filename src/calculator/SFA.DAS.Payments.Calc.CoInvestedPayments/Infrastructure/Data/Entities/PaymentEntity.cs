@@ -14,6 +14,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities
 
         public int DeliveryMonth { get; set; }
         public int DeliveryYear { get; set; }
+        public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
 

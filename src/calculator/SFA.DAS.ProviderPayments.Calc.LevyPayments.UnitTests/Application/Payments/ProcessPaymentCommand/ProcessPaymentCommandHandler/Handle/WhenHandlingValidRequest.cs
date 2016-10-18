@@ -27,6 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
                     Ukprn = 12345,
                     DeliveryMonth = 9,
                     DeliveryYear = 2016,
+                    CollectionPeriodName = "R02",
                     CollectionPeriodMonth = 9,
                     CollectionPeriodYear = 2016,
                     FundingSource = FundingSource.Levy,
@@ -58,6 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
                 && entity.Ukprn == payment.Ukprn
                 && entity.DeliveryMonth == payment.DeliveryMonth
                 && entity.DeliveryYear == payment.DeliveryYear
+                && entity.CollectionPeriodName == payment.CollectionPeriodName
                 && entity.CollectionPeriodMonth == payment.CollectionPeriodMonth
                 && entity.CollectionPeriodYear == payment.CollectionPeriodYear
                 && entity.FundingSource == (int)payment.FundingSource
