@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 {
     public class WhenHandlingAValidRequest
     {
-        private const string AccountId = "ACC001";
+        private const long AccountId = 1;
 
         private MarkAccountAsProcessedCommandRequest _request;
         private Mock<IAccountRepository> _accountRepository;
@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
         [SetUp]
         public void Arrange()
         {
-            _request = new MarkAccountAsProcessedCommandRequest { AccountId = AccountId };
+            _request = new MarkAccountAsProcessedCommandRequest { AccountId = AccountId.ToString() };
 
             _accountRepository = new Mock<IAccountRepository>();
 

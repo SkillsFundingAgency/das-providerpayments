@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 {
     public class WhenHandlingRequestForAccountWithEnoughLevy
     {
-        private const string AccountId = "ACC01";
+        private const long AccountId = 1;
         private const int AmountRequested = 12345;
 
         private AllocateLevyCommandRequest _request;
@@ -23,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
             {
                 Account = new Account
                 {
-                    Id = AccountId
+                    Id = AccountId.ToString()
                 },
                 AmountRequested = AmountRequested
             };

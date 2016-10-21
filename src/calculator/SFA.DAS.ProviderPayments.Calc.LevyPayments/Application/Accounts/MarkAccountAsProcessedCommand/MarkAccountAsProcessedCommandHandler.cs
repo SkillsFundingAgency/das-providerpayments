@@ -14,7 +14,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.MarkAc
 
         public Unit Handle(MarkAccountAsProcessedCommandRequest message)
         {
-            _accountRepository.MarkAccountAsProcessed(message.AccountId);
+            long accountId;
+            if (!long.TryParse(message.AccountId, out accountId))
+            {
+                throw new InvalidRequestException($"Invalid account id. {message.AccountId} is not a valid number");
+            }
+
+            _accountRepository.MarkAccountAsProcessed(accountId);
             return Unit.Value;
         }
     }

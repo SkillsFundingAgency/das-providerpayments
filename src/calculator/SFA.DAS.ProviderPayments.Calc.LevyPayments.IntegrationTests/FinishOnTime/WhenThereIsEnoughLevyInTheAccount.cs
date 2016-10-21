@@ -26,11 +26,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         public void ThenNoLevyPaymentsAreMadeWhenNoPaymentsAreDue()
         {
             // Arrange
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 1;
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId);
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -49,11 +49,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         public void ThenASingleLevyPaymentIsMadeWhenASinglePaymentIsDue(TransactionType transactionType, decimal amountDue)
         {
             // Arrange
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 1;
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId);
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: amountDue, transactionType: transactionType);
 
@@ -77,11 +77,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         public void ThenMultipleLevyPaymentsAreMadeWhenMultiplePaymentsAreDue()
         {
             // Arrange
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 1;
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId);
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 575.12345m);
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 1725.54321m, transactionType: TransactionType.Completion);

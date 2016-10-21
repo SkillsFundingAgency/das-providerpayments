@@ -21,17 +21,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
         public void ThenTheCommitmentsAreOrderedByPriority()
         {
             // Arrange
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 1;
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId1 = 1L;
             var commitmentId2 = 2L;
 
-            TestDataHelper.AddCommitment(commitmentId1, accountId, priority: 5);
-            TestDataHelper.AddCommitment(commitmentId2, accountId, priority: 2);
+            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), priority: 5);
+            TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), priority: 2);
 
             // Act
-            var commitments = _repository.GetCommitmentsForAccount(accountId);
+            var commitments = _repository.GetCommitmentsForAccount(accountId.ToString());
 
             // Assert
             Assert.IsNotNull(commitments);

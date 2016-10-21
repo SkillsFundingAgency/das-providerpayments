@@ -2,7 +2,7 @@
 {
     public class AccountEntity
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public decimal Balance { get; set; }
     }
