@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 {
     public class WhenHandlingRequestWhereNextAccountHasNoCommitments
     {
-        private const string AccountId = "ACC001";
+        private const long AccountId = 1;
         private const string AccountName = "Account 1";
         private static readonly CommitmentEntity[][] _emptyCommitmentListExamples = new[]
         {
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 
             // Assert
             Assert.IsNotNull(actual.Account);
-            Assert.AreEqual(AccountId, actual.Account.Id);
+            Assert.AreEqual(AccountId.ToString(), actual.Account.Id);
             Assert.AreEqual(AccountName, actual.Account.Name);
         }
 
@@ -66,7 +66,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
         public void ThenTheAccountShouldHaveAnEmptyCommitmentList(CommitmentEntity[] commitments)
         {
             // Arrange
-            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
+            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId.ToString()))
                 .Returns(commitments);
 
             // Act

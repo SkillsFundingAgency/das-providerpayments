@@ -28,11 +28,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
         public void ThenThePaymentsAreOrderedByDeliveryYearAndDeliveryMonth()
         {
             // Arrange
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 1;
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1;
-            TestDataHelper.AddCommitment(commitmentId, accountId);
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
 
             foreach (var paymentDue in PaymentsDue)
             {

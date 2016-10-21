@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 {
     public class WhenHandlingValidRequest
     {
-        private const string AccountId = "ACC001";
+        private const long AccountId = 1;
         private const string AccountName = "Account 1";
         private const long CommitmentId = 123;
 
@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
                 });
 
             _commitmentRepository = new Mock<ICommitmentRepository>();
-            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
+            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId.ToString()))
                 .Returns(new[]
                 {
                     new CommitmentEntity { Id = CommitmentId }
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
 
             // Assert
             Assert.IsNotNull(actual.Account);
-            Assert.AreEqual(AccountId, actual.Account.Id);
+            Assert.AreEqual(AccountId.ToString(), actual.Account.Id);
             Assert.AreEqual(AccountName, actual.Account.Name);
         }
 

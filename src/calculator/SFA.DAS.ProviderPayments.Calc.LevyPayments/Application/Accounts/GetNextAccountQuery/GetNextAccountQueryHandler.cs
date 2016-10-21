@@ -24,13 +24,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNex
                 return new GetNextAccountQueryResponse();
             }
 
-            var commitmentEntities = _commitmentRepositoryObject.GetCommitmentsForAccount(accountEntity.Id) ?? new CommitmentEntity[0];
+            var commitmentEntities = _commitmentRepositoryObject.GetCommitmentsForAccount(accountEntity.Id.ToString()) ?? new CommitmentEntity[0];
 
             return new GetNextAccountQueryResponse
             {
                 Account = new Account
                 {
-                    Id = accountEntity.Id,
+                    Id = accountEntity.Id.ToString(),
                     Name = accountEntity.Name,
                     Commitments = commitmentEntities.Select(e => new Commitment { Id = e.Id }).ToArray()
                 }

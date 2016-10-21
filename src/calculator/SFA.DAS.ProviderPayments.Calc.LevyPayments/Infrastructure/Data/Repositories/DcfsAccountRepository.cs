@@ -22,17 +22,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
             return QuerySingle<AccountEntity>(SelectNextAccountForProcessing);
         }
 
-        public AccountEntity GetAccountById(string id)
+        public AccountEntity GetAccountById(long id)
         {
             return QuerySingle<AccountEntity>(SelectAccountById, new { AccountId = id });
         }
 
-        public void SpendLevy(string accountId, decimal amount)
+        public void SpendLevy(long accountId, decimal amount)
         {
             Execute(UpdateLevySpentCommand, new { AccountId = accountId, AmountToUpdateBy = amount });
         }
 
-        public void MarkAccountAsProcessed(string accountId)
+        public void MarkAccountAsProcessed(long accountId)
         {
             Execute(MarkAccountAsProcessedCommand, new { AccountId = accountId });
         }

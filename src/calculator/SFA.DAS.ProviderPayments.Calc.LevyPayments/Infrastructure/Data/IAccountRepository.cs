@@ -5,9 +5,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data
     public interface IAccountRepository
     {
         AccountEntity GetNextAccountRequiringProcessing();
-        AccountEntity GetAccountById(string id);
+        AccountEntity GetAccountById(long id);
 
-        void SpendLevy(string accountId, decimal amount);
-        void MarkAccountAsProcessed(string accountId);
+        void SpendLevy(long accountId, decimal amount);
+        void MarkAccountAsProcessed(long accountId);
     }
 }

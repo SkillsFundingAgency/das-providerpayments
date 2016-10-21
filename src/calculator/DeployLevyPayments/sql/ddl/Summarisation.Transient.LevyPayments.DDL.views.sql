@@ -18,7 +18,7 @@ AS
 SELECT
 	acc.AccountId,
 	acc.AccountName,
-	acc.LevyBalance - ISNULL(stat.LevySpent,0) [Balance]
+	acc.Balance - ISNULL(stat.LevySpent,0) [Balance]
 FROM ${DAS_Accounts.FQ}.dbo.DasAccounts acc
 LEFT JOIN LevyPayments.AccountProcessStatus stat
 	ON acc.AccountId = stat.AccountId

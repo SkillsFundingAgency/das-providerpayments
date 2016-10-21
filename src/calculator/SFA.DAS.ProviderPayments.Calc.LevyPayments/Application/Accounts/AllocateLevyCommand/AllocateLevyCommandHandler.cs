@@ -14,14 +14,20 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.Alloca
 
         public AllocateLevyCommandResponse Handle(AllocateLevyCommandRequest message)
         {
-            var account = _accountRepository.GetAccountById(message.Account.Id);
+            long accountId;
+            if (!long.TryParse(message.Account.Id, out accountId))
+            {
+                throw new InvalidRequestException($"Invalid account id. {message.Account.Id} is not a valid number");
+            }
+
+            var account = _accountRepository.GetAccountById(accountId);
             var amountToSpend = message.AmountRequested > account.Balance ? account.Balance : message.AmountRequested;
             if (amountToSpend < 0)
             {
                 amountToSpend = 0;
             }
 
-            _accountRepository.SpendLevy(message.Account.Id, amountToSpend);
+            _accountRepository.SpendLevy(accountId, amountToSpend);
 
             return new AllocateLevyCommandResponse
             {

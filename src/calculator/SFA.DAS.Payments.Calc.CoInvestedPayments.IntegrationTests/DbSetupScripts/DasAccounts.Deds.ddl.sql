@@ -10,6 +10,6 @@ GO
 CREATE TABLE [dbo].[DasAccounts](
 	[AccountId] [varchar](50) NOT NULL PRIMARY KEY,
 	[AccountName] [varchar](125) NOT NULL,
-	[LevyBalance] [decimal](15, 2) NULL
+	[Balance] [decimal](15, 2) NULL
 )
 GO
