@@ -22,21 +22,26 @@ DAS Payments Due Component
    - transient database tables that need to be present when the component is executed
   - sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql:
    - transient database views that need to be present when the component is executed
-  - sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql:
-   - transient database tables that need to be present when the component is executed
 
-   - sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql:
+  - sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+
+  - sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql:
    - deds database tables that need to be present when the component is executed
-   - sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql:
+  - sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql:
    - deds database cleanup script that needs to be executed before copying from the transient database to the deds database
 
-  - sql\dml\01 PeriodEnd.PaymentsDue.Populate.Reference.CollectionPeriods.dml.sql:
+  - sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql:
    - populate collection periods mapping reference data (from deds to transient) needed to run payments due
-  - sql\dml\02 PeriodEnd.PaymentsDue.Populate.Reference.Providers.dml.sql:
+  - sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql:
    - populate learning providers reference data (from deds to transient) needed to run payments due
-  - sql\dml\03 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql:
+  - sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql:
    - populate apprenticeship earnings reference data (from deds to transient) needed to run payments due
-  - sql\dml\04 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql:
+  - sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql:
    - populate required payments history reference data (from deds to transient) needed to run payments due
    
  1.3 Copy to deds mapping xml:
