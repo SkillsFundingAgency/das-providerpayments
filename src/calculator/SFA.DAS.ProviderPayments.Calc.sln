@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80
 	ProjectSection(SolutionItems) = preProject
 		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
 		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql
-		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.DDL.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.DDL.tables.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests\SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.csproj", "{A647DC37-1361-41C1-AB16-C00F6543AC2F}"

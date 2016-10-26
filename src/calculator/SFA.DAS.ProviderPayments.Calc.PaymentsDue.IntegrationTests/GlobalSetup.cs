@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
 
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", dedsConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.DDL.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.views.sql", transientConnection);
                 }
