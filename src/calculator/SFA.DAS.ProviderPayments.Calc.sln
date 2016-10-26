@@ -67,10 +67,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{52AE74DC-AD2F-4B38-8988-94450FA6137C}"
 	ProjectSection(SolutionItems) = preProject
-		DeployCoInvestedPayments\sql\ddl\Summarisation.Deds.CoInvestedPayments.DDL.tables.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Deds.CoInvestedPayments.DDL.tables.sql
-		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql
-		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql
-		DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql = DeployCoInvestedPayments\sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests", "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests\SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.csproj", "{D2948742-339F-4D56-8C40-437A0AE79027}"

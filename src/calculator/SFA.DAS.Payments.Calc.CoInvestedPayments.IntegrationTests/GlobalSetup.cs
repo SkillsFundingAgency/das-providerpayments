@@ -32,9 +32,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.tables.sql", connection);
 
                     // Component scripts
-                    RunSqlScript(@"Summarisation.Transient.CoInvestedPayments.DDL.tables.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.CoInvestedPayments.DDL.views.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.views.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.sprocs.sql", connection);
                 }
                 finally
                 {
