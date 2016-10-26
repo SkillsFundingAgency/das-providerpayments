@@ -11,10 +11,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
     {
         private static readonly string[] PeriodEndCopyReferenceDataScripts =
         {
-            "01 PeriodEnd.PaymentsDue.Populate.Reference.CollectionPeriods.dml.sql",
-            "02 PeriodEnd.PaymentsDue.Populate.Reference.Providers.dml.sql",
-            "03 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
-            "04 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql"
+            "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
+            "02 PeriodEnd.Populate.Reference.Providers.dml.sql",
+            "05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
+            "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql"
         };
 
         private static readonly Random Random = new Random();
@@ -67,9 +67,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO dbo.DasCommitments " +
-                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
+                    "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,Priority,VersionId) " +
                     "VALUES " +
-                    "(@id, 'Ac-001', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
+                    "(@id, 'Ac-001', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, '1')",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
 
             if (passedDataLock)

@@ -90,20 +90,28 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.PaymentsDue.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.PaymentsDue.Populate.Reference.CollectionPeriods.dml.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\02 PeriodEnd.PaymentsDue.Populate.Reference.Providers.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\02 PeriodEnd.PaymentsDue.Populate.Reference.Providers.dml.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\03 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\03 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+      <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\04 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\04 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
+      <Link>Tools\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql">
+      <Link>Tools\Sql\Copy Reference Data\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql">
+      <Link>Tools\Sql\Copy Reference Data\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasCommitments.Deds.DDL.sql">
