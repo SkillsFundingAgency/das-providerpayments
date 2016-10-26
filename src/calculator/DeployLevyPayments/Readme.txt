@@ -75,6 +75,7 @@ DAS Levy Calculator Component
 4. Expected manifest steps for the das period end process - levy payments calculator
 -------------------------------------------------------------------------------------
  4.1 Build the transient database.
- 4.2 Execute the 'DAS Levy Calculator' component
- 4.3 Cleanup the deds levy payments results using the 'PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql' sql script
- 4.4 Bulk copy the levy payments results from transient to deds
+ 4.2 Copy reference data from deds to transient using the provided scripts in the 01 - 04 order
+ 4.3 Execute the 'DAS Levy Calculator' component
+ 4.4 Cleanup the deds levy payments results using the 'PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql' sql script
+ 4.5 Bulk copy the levy payments results from transient to deds

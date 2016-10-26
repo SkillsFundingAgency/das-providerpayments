@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
@@ -8,6 +9,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 {
     internal static class TestDataHelper
     {
+        private static readonly string[] PeriodEndCopyReferenceDataScripts =
+        {
+            "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql"
+        };
+
         private readonly static Random _random = new Random();
 
         internal static void AddAccount(string id, string name = null, decimal balance = 999999999)
@@ -174,7 +180,21 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         {
             return Count("CoInvestedPayments.Payments");
         }
+        
+        internal static void CopyReferenceData()
+        {
+            foreach (var script in PeriodEndCopyReferenceDataScripts)
+            {
+                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\{script}");
 
+                var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var command in commands)
+                {
+                    Execute(command);
+                }
+            }
+        }
 
         private static int Count(string tablename)
         {
@@ -221,6 +241,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                     connection.Close();
                 }
             }
+        }
+
+        private static string ReplaceSqlTokens(string sql)
+        {
+            return sql.Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }

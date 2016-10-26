@@ -16,12 +16,12 @@ GO
 CREATE VIEW CoInvestedPayments.vw_CollectionPeriods
 AS
 SELECT
-	cp.Period_ID,
-	cp.Period,
-	cp.Calendar_Year,
-	cp.Collection_Open,
-    cp.Collection_Period
-FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
+	[Id] AS [Period_ID],
+	[Name] AS [Collection_Period],
+	[CalendarMonth] AS [Period],
+	[CalendarYear] AS [Calendar_Year],
+	[Open] AS [Collection_Open]
+FROM Reference.CollectionPeriods
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
