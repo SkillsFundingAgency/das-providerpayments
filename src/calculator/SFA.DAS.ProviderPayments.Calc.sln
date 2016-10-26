@@ -41,9 +41,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7658EC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{682B1A75-A80F-4BBB-8188-E51C50FAFE67}"
 	ProjectSection(SolutionItems) = preProject
-		DeployPaymentsDue\sql\ddl\Summarisation.Deds.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\Summarisation.Deds.PaymentsDue.DDL.tables.sql
-		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.tables.sql
-		DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql = DeployPaymentsDue\sql\ddl\Summarisation.Transient.PaymentsDue.DDL.views.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests\SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.csproj", "{A647DC37-1361-41C1-AB16-C00F6543AC2F}"

@@ -17,32 +17,27 @@ CREATE VIEW PaymentsDue.vw_CommitmentEarning
 AS
 SELECT
 	lc.CommitmentId,
-	ld.MonthlyInstallment,
-	ld.CompletionPayment,
-	pv.Ukprn,
-	pv.LearnRefNumber,
-	pv.AimSeqNumber,
-	pv.Period_1,
-	pv.Period_2,
-	pv.Period_3,
-	pv.Period_4,
-	pv.Period_5,
-	pv.Period_6,
-	pv.Period_7,
-	pv.Period_8,
-	pv.Period_9,
-	pv.Period_10,
-	pv.Period_11,
-	pv.Period_12
-FROM ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery ld
-INNER JOIN ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv
-	ON ld.Ukprn = pv.Ukprn
-	AND ld.LearnRefNumber = pv.LearnRefNumber
-	AND ld.AimSeqNumber = pv.AimSeqNumber
-INNER JOIN DataLock.DasLearnerCommitment lc
-	ON pv.Ukprn = lc.Ukprn
-	AND ld.LearnRefNumber = lc.LearnRefNumber
-	AND ld.AimSeqNumber = lc.AimSeqNumber
+	ae.MonthlyInstallment,
+	ae.CompletionPayment,
+	ae.Ukprn,
+	ae.LearnRefNumber,
+	ae.AimSeqNumber,
+	ae.Period_1,
+	ae.Period_2,
+	ae.Period_3,
+	ae.Period_4,
+	ae.Period_5,
+	ae.Period_6,
+	ae.Period_7,
+	ae.Period_8,
+	ae.Period_9,
+	ae.Period_10,
+	ae.Period_11,
+	ae.Period_12
+FROM Reference.ApprenticeshipEarnings ae
+    INNER JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
+        AND ae.LearnRefNumber = lc.LearnRefNumber
+        AND ae.AimSeqNumber = lc.AimSeqNumber
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,12 +52,12 @@ GO
 CREATE VIEW PaymentsDue.vw_CollectionPeriods
 AS
 SELECT
-	cp.Period_ID,
-	cp.Period,
-	cp.Calendar_Year,
-	cp.Collection_Open,
-	cp.Collection_Period
-FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
+	[Id] AS [Period_ID],
+	[Name] AS [Collection_Period],
+	[CalendarMonth] AS [Period],
+	[CalendarYear] AS [Calendar_Year],
+	[Open] AS [Collection_Open]
+FROM Reference.CollectionPeriods
 GO
 
 
@@ -78,8 +73,8 @@ GO
 CREATE VIEW PaymentsDue.vw_Providers
 AS
 SELECT
-	p.UKPRN
-FROM ${ILR_Deds.FQ}.Valid.LearningProvider p
+	p.Ukprn
+FROM Reference.Providers p
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,9 +97,9 @@ SELECT
 	DeliveryYear,
 	CollectionPeriodMonth,
 	CollectionPeriodYear,
-	AmountDue ,
+	AmountDue,
 	TransactionType 
-FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
+FROM Reference.RequiredPaymentsHistory
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -126,9 +121,9 @@ SELECT
 	Ukprn,
 	DeliveryMonth,
 	DeliveryYear,
-	(SELECT MAX([Collection_Period]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodName,
-	(SELECT MAX([Period]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodMonth,
-	(SELECT MAX([Calendar_Year]) FROM [PaymentsDue].[vw_CollectionPeriods] WHERE [Collection_Open] = 1) AS CollectionPeriodYear,
+	(SELECT MAX([Name]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodName,
+	(SELECT MAX([CalendarMonth]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodMonth,
+	(SELECT MAX([CalendarYear]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodYear,
 	AmountDue,
 	TransactionType 
 FROM PaymentsDue.RequiredPayments

@@ -45,3 +45,4 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	TransactionType int,
 	AmountDue decimal(15,5)
 )
+GO

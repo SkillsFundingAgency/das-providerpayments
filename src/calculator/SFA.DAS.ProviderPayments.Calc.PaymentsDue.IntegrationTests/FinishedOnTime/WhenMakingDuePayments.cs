@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using CS.Common.External.Interfaces;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
@@ -9,10 +8,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 {
     public class WhenMakingDuePayments
     {
-        private readonly IExternalTask _task = new PaymentsDueTask();
-
-        private IExternalContext _context;
-
         [SetUp]
         public void Arrange()
         {
@@ -37,6 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
+            TestDataHelper.CopyReferenceData();
 
             // Act
             var context = new ExternalContextStub();
@@ -98,6 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
 
+            TestDataHelper.CopyReferenceData();
 
             // Act
             var context = new ExternalContextStub();
@@ -130,6 +127,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500);
 
+            TestDataHelper.CopyReferenceData();
 
             // Act
             var context = new ExternalContextStub();
@@ -163,6 +161,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
 
+            TestDataHelper.CopyReferenceData();
 
             // Act
             var context = new ExternalContextStub();
@@ -201,6 +200,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
+            TestDataHelper.CopyReferenceData();
 
             // Act
             var context = new ExternalContextStub();
