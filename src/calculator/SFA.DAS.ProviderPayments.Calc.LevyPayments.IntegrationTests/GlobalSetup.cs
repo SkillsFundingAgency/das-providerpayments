@@ -31,9 +31,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
 
                     // Component scripts
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.tables.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.views.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.sprocs.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
                 }
                 finally
                 {

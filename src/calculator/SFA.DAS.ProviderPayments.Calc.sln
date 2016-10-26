@@ -13,10 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{D9A85E13-1B19-4529-9E7A-F0369E392B2D}"
 	ProjectSection(SolutionItems) = preProject
-		DeployLevyPayments\sql\ddl\Summarisation.Deds.LevyPayments.DDL.tables.sql = DeployLevyPayments\sql\ddl\Summarisation.Deds.LevyPayments.DDL.tables.sql
-		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.sprocs.sql
-		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.tables.sql
-		DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql = DeployLevyPayments\sql\ddl\Summarisation.Transient.LevyPayments.DDL.views.sql
+		DeployLevyPayments\sql\ddl\PeriodEnd.Deds.LevyPayments.ddl.tables.sql = DeployLevyPayments\sql\ddl\PeriodEnd.Deds.LevyPayments.ddl.tables.sql
+		DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql = DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql
+		DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql = DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql
+		DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql = DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{8AD3AA7D-FDB8-4FA4-94F3-BF5D7D0BB725}"
