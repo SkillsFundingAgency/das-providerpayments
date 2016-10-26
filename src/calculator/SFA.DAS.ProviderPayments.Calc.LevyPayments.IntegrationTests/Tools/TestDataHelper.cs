@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
@@ -8,6 +9,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 {
     internal static class TestDataHelper
     {
+        private static readonly string[] PeriodEndCopyReferenceDataScripts =
+        {
+            "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
+            "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
+            "04 PeriodEnd.Populate.Reference.Accounts.dml.sql"
+        };
+
         private readonly static Random _random = new Random();
 
         internal static void AddAccount(long id, string name = null, decimal balance = 999999999)
@@ -125,6 +133,21 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
         }
 
+        internal static void CopyReferenceData()
+        {
+            foreach (var script in PeriodEndCopyReferenceDataScripts)
+            {
+                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\{script}");
+
+                var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var command in commands)
+                {
+                    Execute(command);
+                }
+            }
+        }
+
 
         private static void Execute(string command, object param = null)
         {
@@ -156,6 +179,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                     connection.Close();
                 }
             }
+        }
+        private static string ReplaceSqlTokens(string sql)
+        {
+            return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }

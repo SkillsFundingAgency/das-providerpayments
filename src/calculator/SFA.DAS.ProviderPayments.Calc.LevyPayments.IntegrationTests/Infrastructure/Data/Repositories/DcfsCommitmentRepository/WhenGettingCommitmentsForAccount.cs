@@ -30,6 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), priority: 5);
             TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), priority: 2);
 
+            TestDataHelper.CopyReferenceData();
+
             // Act
             var commitments = _repository.GetCommitmentsForAccount(accountId.ToString());
 
