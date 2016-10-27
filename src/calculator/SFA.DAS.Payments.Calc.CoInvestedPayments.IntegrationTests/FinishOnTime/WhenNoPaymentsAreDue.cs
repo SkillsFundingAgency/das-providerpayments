@@ -26,6 +26,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1500, transactionType: TransactionType.Learning);
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1000, transactionType: TransactionType.Learning);
 
+            TestDataHelper.CopyReferenceData();
+
             _taskContext = new IntegrationTaskContext();
             _uut = new CoInvestedPaymentsTask();
         }
@@ -101,6 +103,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1500, transactionType: TransactionType.Learning);
+
+            TestDataHelper.CopyReferenceData();
 
             _taskContext = new IntegrationTaskContext();
             _uut = new CoInvestedPaymentsTask();

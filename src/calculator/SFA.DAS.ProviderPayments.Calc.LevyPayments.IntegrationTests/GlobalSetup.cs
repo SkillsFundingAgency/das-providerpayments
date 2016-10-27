@@ -31,9 +31,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
 
                     // Component scripts
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.tables.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.views.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.sprocs.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection);
+
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
                 }
                 finally
                 {
@@ -53,9 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
         }
         private string ReplaceSqlTokens(string sql)
         {
-            return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${ILR_Previous.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+            return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }

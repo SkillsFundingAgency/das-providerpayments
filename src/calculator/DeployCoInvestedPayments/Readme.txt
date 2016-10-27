@@ -16,16 +16,23 @@ DAS Co Invested Payments Component
   - component\StructureMap.dll
  
  1.2 SQL scripts:
-  - sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.tables.sql:
+  - sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql:
    - transient database tables that need to be present when the component is executed
-  - sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.views.sql:
+  - sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql:
    - transient database views that need to be present when the component is executed
-  - sql\ddl\Summarisation.Transient.CoInvestedPayments.DDL.sprocs.sql:
+  - sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql:
    - transient database stored procedures that need to be present when the component is executed
-  - sql\ddl\Summarisation.Deds.CoInvestedPayments.DDL.tables.sql:
+  
+  - sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+
+  - sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql:
    - deds database tables that need to be present when the component is executed
   - sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql:
    - deds database cleanup script that needs to be executed before copying from the transient database to the deds database
+
+  - sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql:
+   - populate collection periods mapping reference data (from deds to transient) needed to run co invested payments
 
  1.3 Copy to deds mapping xml:
   - copy mappings\DasCoInvestedPaymentsCopyToDedsMapping.xml:
@@ -58,7 +65,8 @@ DAS Co Invested Payments Component
 4. Expected manifest steps for the das period end process - co-invested payments calculator
 -------------------------------------------------------------------------------------
  4.1 Build the transient database.
- 4.2 Execute the 'DAS Co Invested Payments' component
- 4.3 Cleanup the deds co-invested payments results using the 'PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql' sql script
- 4.4 Bulk copy the co-invested payments results from transient to deds
+ 4.2 Copy reference data from deds to transient using the provided script
+ 4.3 Execute the 'DAS Co Invested Payments' component
+ 4.4 Cleanup the deds co-invested payments results using the 'PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql' sql script
+ 4.5 Bulk copy the co-invested payments results from transient to deds
 

@@ -19,7 +19,7 @@ SELECT
 	acc.AccountId,
 	acc.AccountName,
 	acc.Balance - ISNULL(stat.LevySpent,0) [Balance]
-FROM ${DAS_Accounts.FQ}.dbo.DasAccounts acc
+FROM Reference.DasAccounts acc
 LEFT JOIN LevyPayments.AccountProcessStatus stat
 	ON acc.AccountId = stat.AccountId
 WHERE stat.HasBeenProcessed IS NULL OR stat.HasBeenProcessed = 0
@@ -37,19 +37,20 @@ GO
 CREATE VIEW LevyPayments.vw_AccountCommitments
 AS
 SELECT
-	CommitmentId,
-	Uln,
-	Ukprn,
-	AccountId,
-	StartDate,
-	EndDate,
-	AgreedCost,
-	StandardCode,
-	ProgrammeType,
-	FrameworkCode,
-	PathwayCode,
-	Priority
-FROM ${DAS_Commitments.FQ}.dbo.DasCommitments
+	[CommitmentId],
+	[Uln],
+	[Ukprn],
+	[AccountId],
+	[StartDate],
+	[EndDate],
+	[AgreedCost],
+	[StandardCode],
+	[ProgrammeType],
+	[FrameworkCode],
+	[PathwayCode],
+	[Priority],
+	[VersionId]
+FROM Reference.DasCommitments
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -64,10 +65,10 @@ GO
 CREATE VIEW LevyPayments.vw_CollectionPeriods
 AS
 SELECT
-	cp.Period_ID,
-	cp.Period,
-	cp.Calendar_Year,
-	cp.Collection_Open,
-    cp.Collection_Period
-FROM ${ILR_Summarisation.FQ}.dbo.Collection_Period_Mapping cp
+	[Id] AS [Period_ID],
+	[Name] AS [Collection_Period],
+	[CalendarMonth] AS [Period],
+	[CalendarYear] AS [Calendar_Year],
+	[Open] AS [Collection_Open]
+FROM Reference.CollectionPeriods
 GO
