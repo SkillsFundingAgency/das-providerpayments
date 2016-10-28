@@ -29,6 +29,10 @@ DAS Payments Due Component
    - transient database reference tables that need to be present when the component is executed
   - sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql:
    - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
 
   - sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql:
    - deds database tables that need to be present when the component is executed
@@ -39,6 +43,10 @@ DAS Payments Due Component
    - populate collection periods mapping reference data (from deds to transient) needed to run payments due
   - sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql:
    - populate learning providers reference data (from deds to transient) needed to run payments due
+  - sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql:
+   - populate commitments reference data (from deds to transient) needed to run levy payments
+  - sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql:
+   - populate accounts reference data (from deds to transient) needed to run levy payments
   - sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql:
    - populate apprenticeship earnings reference data (from deds to transient) needed to run payments due
   - sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql:
