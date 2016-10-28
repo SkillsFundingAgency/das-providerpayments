@@ -5,7 +5,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
     public class PeriodEarning
     {
         public long CommitmentId { get; set; }
+        public string CommitmentVersionId { get; set; }
+        public string AccountId { get; set; }
+        public string AccountVersionId { get; set; }
         public long Ukprn { get; set; }
+        public long Uln { get; set; }
         public string LearnerReferenceNumber { get; set; }
         public int AimSequenceNumber { get; set; }
 

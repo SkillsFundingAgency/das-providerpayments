@@ -29,15 +29,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"Ilr.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", dedsConnection);
                     RunSqlScript(@"DasCommitments.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"DasAccounts.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
                     RunSqlScript(@"DataLock.Transient.DDL.sql", transientConnection);
+                    RunSqlScript(@"SeedReferenceData.sql", dedsConnection);
 
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", dedsConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.views.sql", transientConnection);
                 }

@@ -17,6 +17,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
                 LearnerRefNumber = "Lrn-001",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
@@ -38,6 +42,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
                 LearnerRefNumber = "Lrn-002",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
@@ -122,6 +130,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     new EarningEntity
                     {
                         CommitmentId = 1,
+                        CommitmentVersionId = "C1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
@@ -169,6 +181,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     new EarningEntity
                     {
                         CommitmentId = 1,
+                        CommitmentVersionId = "C1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
@@ -213,6 +229,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     new EarningEntity
                     {
                         CommitmentId = 1,
+                        CommitmentVersionId = "C1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,

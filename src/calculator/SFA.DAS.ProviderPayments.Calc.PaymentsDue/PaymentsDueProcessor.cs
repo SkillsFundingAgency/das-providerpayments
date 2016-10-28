@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using NLog;
@@ -69,9 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info("Finished Payments Due Processor.");
         }
 
-
-
-
+        
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
@@ -132,6 +131,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     paymentsDue.Add(new RequiredPayment
                     {
                         CommitmentId = earning.CommitmentId,
+                        CommitmentVersionId = earning.CommitmentVersionId, //Earning
+                        AccountId = earning.AccountId, //Earning
+                        AccountVersionId = earning.AccountVersionId, //Earning
+                        Uln = earning.Uln, //Earning
+                        IlrSubmissionDateTime = provider.IlrSubmissionDateTime, //Provider
                         Ukprn = earning.Ukprn,
                         LearnerRefNumber = earning.LearnerReferenceNumber,
                         AimSequenceNumber = earning.AimSequenceNumber,

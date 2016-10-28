@@ -11,8 +11,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Provid
     {
         private static readonly ProviderEntity[] ProviderEntities =
         {
-            new ProviderEntity {Ukprn = 10007459},
-            new ProviderEntity {Ukprn = 10007460}
+            new ProviderEntity {Ukprn = 10007459, IlrSubmissionDateTime = new DateTime(2017, 5, 1)},
+            new ProviderEntity {Ukprn = 10007460, IlrSubmissionDateTime = new DateTime(2017, 5, 2)}
         };
 
         private static readonly object[] RepositoryResponses =
@@ -65,7 +65,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Provid
             // Assert
             Assert.IsNotNull(response?.Items);
             Assert.AreEqual(ProviderEntities[0].Ukprn, response.Items[0].Ukprn);
+            Assert.AreEqual(ProviderEntities[0].IlrSubmissionDateTime, response.Items[0].IlrSubmissionDateTime);
             Assert.AreEqual(ProviderEntities[1].Ukprn, response.Items[1].Ukprn);
+            Assert.AreEqual(ProviderEntities[1].IlrSubmissionDateTime, response.Items[1].IlrSubmissionDateTime);
         }
 
         [Test]

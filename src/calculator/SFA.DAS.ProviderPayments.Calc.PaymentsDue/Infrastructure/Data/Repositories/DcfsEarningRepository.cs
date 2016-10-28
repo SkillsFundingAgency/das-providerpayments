@@ -7,9 +7,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
     {
         private const string EarningSource = "PaymentsDue.vw_CommitmentEarning";
         private const string EarningColumns = "CommitmentId, "
+                                            + "CommitmentVersionId, "
+                                            + "AccountId, "
+                                            + "AccountVersionId, "
                                             + "MonthlyInstallment, "
                                             + "CompletionPayment, "
                                             + "Ukprn, "
+                                            + "Uln, "
                                             + "LearnRefNumber [LearnerRefNumber], "
                                             + "AimSeqNumber [AimSequenceNumber], "
                                             + "Period_1 [Period1], "

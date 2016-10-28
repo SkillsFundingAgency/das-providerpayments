@@ -28,7 +28,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetPro
                         : providerEntities.Select(p =>
                             new Provider
                             {
-                                Ukprn = p.Ukprn
+                                Ukprn = p.Ukprn,
+                                IlrSubmissionDateTime = p.IlrSubmissionDateTime
                             }).ToArray()
                 };
             }

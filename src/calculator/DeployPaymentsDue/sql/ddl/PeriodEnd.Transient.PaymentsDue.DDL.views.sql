@@ -15,29 +15,38 @@ GO
 
 CREATE VIEW PaymentsDue.vw_CommitmentEarning
 AS
-SELECT
-	lc.CommitmentId,
-	ae.MonthlyInstallment,
-	ae.CompletionPayment,
-	ae.Ukprn,
-	ae.LearnRefNumber,
-	ae.AimSeqNumber,
-	ae.Period_1,
-	ae.Period_2,
-	ae.Period_3,
-	ae.Period_4,
-	ae.Period_5,
-	ae.Period_6,
-	ae.Period_7,
-	ae.Period_8,
-	ae.Period_9,
-	ae.Period_10,
-	ae.Period_11,
-	ae.Period_12
-FROM Reference.ApprenticeshipEarnings ae
-    INNER JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
-        AND ae.LearnRefNumber = lc.LearnRefNumber
-        AND ae.AimSeqNumber = lc.AimSeqNumber
+	SELECT
+		lc.CommitmentId,
+		c.VersionId CommitmentVersionId,
+		a.AccountId,
+		a.VersionId AccountVersionId,
+		ae.MonthlyInstallment,
+		ae.CompletionPayment,
+		ae.Ukprn,
+		ae.Uln,
+		ae.LearnRefNumber,
+		ae.AimSeqNumber,
+		ae.Period_1,
+		ae.Period_2,
+		ae.Period_3,
+		ae.Period_4,
+		ae.Period_5,
+		ae.Period_6,
+		ae.Period_7,
+		ae.Period_8,
+		ae.Period_9,
+		ae.Period_10,
+		ae.Period_11,
+		ae.Period_12
+	FROM Reference.ApprenticeshipEarnings ae
+	INNER JOIN DataLock.DasLearnerCommitment lc 
+		ON ae.Ukprn = lc.Ukprn
+		AND ae.LearnRefNumber = lc.LearnRefNumber
+		AND ae.AimSeqNumber = lc.AimSeqNumber
+	INNER JOIN Reference.DasCommitments c
+		ON c.CommitmentId = lc.CommitmentId
+	INNER JOIN Reference.DasAccounts a
+		ON c.AccountId = a.AccountId
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
