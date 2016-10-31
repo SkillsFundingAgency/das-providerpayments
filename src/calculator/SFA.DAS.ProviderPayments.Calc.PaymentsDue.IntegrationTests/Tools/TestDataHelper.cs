@@ -153,18 +153,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         {
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
-                  + "NEWID(), "
-                  + "CommitmentId, "
-                  + "'', "
-                  + "0, "
-                  + "Ukprn, "
-                  + "@month, "
-                  + "@year, "
-                  + "'R01', "
-                  + "@month, "
-                  + "@year, "
-                  + "@transactionType, "
-                  + "@amount "
+                  + "NEWID(), " // Id
+                  + "CommitmentId, " // CommitmentId
+                  + "VersionId, " // CommitmentVersionId
+                  + "AccountId, " // AccountId
+                  + "'NA', " // AccountVersionId
+                  + "Uln, " // Uln
+                  + "1, " // LearnRefNumber
+                  + "1, " // AimSeqNumber
+                  + "Ukprn, " // Ukprn
+                  + "GETDATE(), " // IlrSubmissionDateTime
+                  + "@month, " // DeliveryMonth
+                  + "@year, " // DeliveryYear
+                  + "'R01', " // CollectionPeriodName
+                  + "@month, " // CollectionPeriodMonth
+                  + "@year, " // CollectionPeriodYear
+                  + "@transactionType, " // TransactionType
+                  + "@amount " // AmountDue
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { month, year, transactionType, amount, commitmentId }, false);

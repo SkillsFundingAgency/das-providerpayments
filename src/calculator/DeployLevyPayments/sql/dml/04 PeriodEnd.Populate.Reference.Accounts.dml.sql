@@ -4,7 +4,9 @@ GO
 INSERT INTO [Reference].[DasAccounts]
     SELECT
         [AccountId],
+		[AccountHashId],
         [AccountName],
-        [Balance]
+        [Balance],
+		[VersionId]
 	FROM ${DAS_Accounts.FQ}.[dbo].[DasAccounts]
 GO

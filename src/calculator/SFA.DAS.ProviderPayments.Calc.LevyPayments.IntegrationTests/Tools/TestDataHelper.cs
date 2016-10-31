@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 name = id.ToString();
             }
 
-            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, Balance) VALUES (@id, @name, @balance)", new { id, name, balance });
+            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountHashId, AccountName, Balance,VersionId) VALUES (@id, @id, @name, @balance, '1')", new { id, name, balance });
         }
 
         internal static void AddCommitment(long id, 
