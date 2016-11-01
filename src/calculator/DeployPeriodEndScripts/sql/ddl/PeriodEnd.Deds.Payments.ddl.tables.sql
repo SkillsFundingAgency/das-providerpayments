@@ -11,16 +11,11 @@ IF EXISTS (SELECT [object_id] FROM sys.tables WHERE [name] = 'Periods' AND [sche
 GO
 
 CREATE TABLE [Payments].[Periods](
-	[PeriodName] [char](8) NOT NULL,
+	[PeriodName] [char](8) NOT NULL PRIMARY KEY,
 	[CalendarMonth] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[AccountDataValidAt] [datetime] NOT NULL,
 	[CommitmentDataValidAt] [datetime] NOT NULL,
-	[CompletionDateTime] [datetime] NOT NULL,
-	PRIMARY KEY CLUSTERED 
-	(
-		[CalendarYear],
-		[CalendarMonth]
-	)
+	[CompletionDateTime] [datetime] NOT NULL
 )
 GO
