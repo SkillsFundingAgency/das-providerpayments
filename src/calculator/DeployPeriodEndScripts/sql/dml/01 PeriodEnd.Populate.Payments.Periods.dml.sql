@@ -7,7 +7,7 @@ GO
 
 INSERT INTO ${DAS_PeriodEnd.FQ}.Payments.Periods
 SELECT 
-	${ILR_AcademicYear} + '-' + name, 
+	'${ILR_AcademicYear}-' + name, 
 	CalendarMonth, 
 	CalendarYear, 
 	(SELECT MAX(ReadDateTime) FROM ${DAS_Accounts.FQ}.dbo.DasAccountsAudit) AccountDataValidAt, 
