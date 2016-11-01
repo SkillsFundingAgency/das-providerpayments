@@ -79,12 +79,14 @@ DAS Payments Due Component
  3.1 Current ILR Collection: ${ILR_Deds.FQ}
  3.2 Current DC Summarisation Collection: ${ILR_Summarisation.FQ}
  3.3 DAS Period End Collection: ${DAS_PeriodEnd.FQ}
+ 3.4 DAS Commitments Reference Data Collection: ${DAS_Commitments.FQ}
+ 3.5 DAS Accounts Reference Data Collection: ${DAS_Accounts.FQ}
 
 -------------------------------------------------------------------------------------
 4. Expected manifest steps for the das period end process - payments due
 -------------------------------------------------------------------------------------
  4.1 Build the transient database
- 4.2 Copy reference data from deds to transient using the provided scripts in the 01 - 04 order
+ 4.2 Copy reference data from deds to transient using the provided scripts in the 01 - 06 order
  4.3 Execute the 'DAS Payments Due' component
  4.4 Cleanup the deds payments due results using the 'PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql' sql script
  4.5 Bulk copy the payments due results from transient to deds
