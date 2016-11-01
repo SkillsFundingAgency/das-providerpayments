@@ -3,6 +3,7 @@ FROM ${DAS_PeriodEnd.FQ}.Payments.Periods p
 INNER JOIN Reference.CollectionPeriods cp
 	ON p.CalendarMonth = cp.CalendarMonth
 	AND p.CalendarYear = cp.CalendarYear
+	AND p.PeriodName = cp.PeriodName
 GO
 
 INSERT INTO ${DAS_PeriodEnd.FQ}.Payments.Periods
