@@ -9,6 +9,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string PaymentHistorySource = "PaymentsDue.vw_PaymentHistory";
         private const string PaymentHistoryColumns = "CommitmentId, "
+                                                   //+ "CommitmentVersionId, "
+                                                   //+ "AccountId, "
+                                                   //+ "AccountVersionId, "
+                                                   //+ "Uln, "
                                                    + "LearnRefNumber, "
                                                    + "AimSeqNumber, "
                                                    + "Ukprn, "

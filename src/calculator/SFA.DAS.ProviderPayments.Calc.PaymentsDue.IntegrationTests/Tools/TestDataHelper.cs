@@ -13,6 +13,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         {
             "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
             "02 PeriodEnd.Populate.Reference.Providers.dml.sql",
+            "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
+            "04 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
             "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql"
         };
@@ -26,6 +28,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "VALUES " +
                     "(@ukprn)",
                 new { ukprn }, false);
+
+            Execute("INSERT INTO dbo.FileDetails (UKPRN,SubmittedTime) VALUES (@ukprn, @submissionDate)",
+                new { ukprn, submissionDate = DateTime.Today }, false);
 
             return ukprn;
         }
@@ -69,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO dbo.DasCommitments " +
                     "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,Priority,VersionId) " +
                     "VALUES " +
-                    "(@id, 'Ac-001', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, '1')",
+                    "(@id, '123', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, '1')",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
 
             if (passedDataLock)
@@ -136,24 +141,35 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods }, false);
+
+            Execute("INSERT INTO Valid.Learner "
+                    + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
+                    + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                new {commitmentId, learnerRefNumber}, false);
         }
 
         internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)
         {
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
-                  + "NEWID(), "
-                  + "CommitmentId, "
-                  + "'', "
-                  + "0, "
-                  + "Ukprn, "
-                  + "@month, "
-                  + "@year, "
-                  + "'R01', "
-                  + "@month, "
-                  + "@year, "
-                  + "@transactionType, "
-                  + "@amount "
+                  + "NEWID(), " // Id
+                  + "CommitmentId, " // CommitmentId
+                  + "VersionId, " // CommitmentVersionId
+                  + "AccountId, " // AccountId
+                  + "'NA', " // AccountVersionId
+                  + "Uln, " // Uln
+                  + "1, " // LearnRefNumber
+                  + "1, " // AimSeqNumber
+                  + "Ukprn, " // Ukprn
+                  + "GETDATE(), " // IlrSubmissionDateTime
+                  + "@month, " // DeliveryMonth
+                  + "@year, " // DeliveryYear
+                  + "'R01', " // CollectionPeriodName
+                  + "@month, " // CollectionPeriodMonth
+                  + "@year, " // CollectionPeriodYear
+                  + "@transactionType, " // TransactionType
+                  + "@amount " // AmountDue
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { month, year, transactionType, amount, commitmentId }, false);
@@ -186,7 +202,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
                             AND s.name IN ('dbo', 'Valid', 'Rulebase', 'PaymentsDue')
-                            AND o.name NOT IN ('Collection_Period_Mapping')
+                            AND o.name NOT IN ('Collection_Period_Mapping', 'DasAccounts')
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 
                     EXEC sys.sp_executesql @SQL                
@@ -201,7 +217,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
                             AND s.name IN ('dbo', 'Valid', 'Rulebase', 'PaymentsDue')
-                            AND o.name NOT IN ('Collection_Period_Mapping')
+                            AND o.name NOT IN ('Collection_Period_Mapping', 'DasAccounts')
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 
                     EXEC sys.sp_executesql @SQL                
@@ -263,6 +279,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             return sql.Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }

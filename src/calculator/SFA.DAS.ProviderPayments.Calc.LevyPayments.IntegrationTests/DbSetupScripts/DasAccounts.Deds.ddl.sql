@@ -9,7 +9,9 @@ GO
 
 CREATE TABLE [dbo].[DasAccounts](
 	[AccountId] bigint NOT NULL PRIMARY KEY,
+	[AccountHashId] varchar(50) NOT NULL,
 	[AccountName] [varchar](125) NOT NULL,
-	[Balance] [decimal](15, 2) NULL
+	[Balance] [decimal](15, 2) NULL,
+	[VersionId] varchar(50) NOT NULL
 )
 GO

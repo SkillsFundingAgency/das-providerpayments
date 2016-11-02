@@ -24,13 +24,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                         p => new RequiredPaymentEntity
                         {
                             CommitmentId = p.CommitmentId,
+                            CommitmentVersionId = p.CommitmentVersionId,
+                            AccountId = p.AccountId,
+                            AccountVersionId = p.AccountVersionId,
+                            Uln = p.Uln,
                             LearnRefNumber = p.LearnerRefNumber,
                             AimSeqNumber = p.AimSequenceNumber,
                             Ukprn = p.Ukprn,
                             DeliveryMonth = p.DeliveryMonth,
                             DeliveryYear = p.DeliveryYear,
                             TransactionType = (int) p.TransactionType,
-                            AmountDue = p.AmountDue
+                            AmountDue = p.AmountDue,
+                            IlrSubmissionDateTime = p.IlrSubmissionDateTime
                         })
                     .ToArray();
 

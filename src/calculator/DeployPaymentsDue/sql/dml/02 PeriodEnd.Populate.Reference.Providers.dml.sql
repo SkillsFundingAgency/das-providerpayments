@@ -3,6 +3,11 @@ GO
 
 INSERT INTO [Reference].[Providers]
     SELECT
-        [UKPRN] AS [Ukprn]
-	FROM ${ILR_Deds.FQ}.[Valid].[LearningProvider]
+        [p].[UKPRN] AS [Ukprn],
+		MAX([fd].[SubmittedTime]) AS [IlrSubmissionDateTime]
+	FROM ${ILR_Deds.FQ}.[Valid].[LearningProvider] p
+	INNER JOIN ${ILR_Deds.FQ}.[dbo].[FileDetails] fd
+		ON p.UKPRN = fd.UKPRN
+	GROUP BY
+		[p].[UKPRN]
 GO

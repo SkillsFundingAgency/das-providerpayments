@@ -15,6 +15,51 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
         [Test]
+        public void ThenItShouldWriteCorrectDetailsForPaymentsDue()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var uln = 834734;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, uln: uln, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(1);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 1);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(1, duePayments.Length);
+
+            Assert.AreEqual(commitmentId, duePayments[0].CommitmentId);
+            Assert.AreEqual("1", duePayments[0].CommitmentVersionId);
+            Assert.AreEqual("123", duePayments[0].AccountId);
+            Assert.AreEqual("20170401", duePayments[0].AccountVersionId);
+            Assert.AreEqual(uln, duePayments[0].Uln);
+            Assert.AreEqual(learnerRefNumber, duePayments[0].LearnRefNumber);
+            Assert.AreEqual(1, duePayments[0].AimSeqNumber);
+            Assert.AreEqual(ukprn, duePayments[0].Ukprn);
+            Assert.AreEqual(DateTime.Today, duePayments[0].IlrSubmissionDateTime);
+            Assert.AreEqual(8, duePayments[0].DeliveryMonth);
+            Assert.AreEqual(2016, duePayments[0].DeliveryYear);
+            Assert.AreEqual((int)TransactionType.Learning, duePayments[0].TransactionType);
+            Assert.AreEqual(1000, duePayments[0].AmountDue);
+        }
+
+        [Test]
         public void ThenItShouldMakePaymentsForEachPeriodUptoAndIncludingTheCurrent()
         {
             // Arrange

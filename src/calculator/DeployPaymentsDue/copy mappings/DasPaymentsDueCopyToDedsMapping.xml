@@ -17,6 +17,22 @@
           <Destination>CommitmentId</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>CommitmentVersionId</Source>
+          <Destination>CommitmentVersionId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountId</Source>
+          <Destination>AccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountVersionId</Source>
+          <Destination>AccountVersionId</Destination>
+        </ColumnMapping>>
+        <ColumnMapping>
+          <Source>Uln</Source>
+          <Destination>Uln</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>LearnRefNumber</Source>
           <Destination>LearnRefNumber</Destination>
         </ColumnMapping>
@@ -27,6 +43,10 @@
         <ColumnMapping>
           <Source>Ukprn</Source>
           <Destination>Ukprn</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>IlrSubmissionDateTime</Source>
+          <Destination>IlrSubmissionDateTime</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>DeliveryMonth</Source>

@@ -29,6 +29,10 @@ DAS Payments Due Component
    - transient database reference tables that need to be present when the component is executed
   - sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql:
    - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql:
+   - transient database reference tables that need to be present when the component is executed
 
   - sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql:
    - deds database tables that need to be present when the component is executed
@@ -39,6 +43,10 @@ DAS Payments Due Component
    - populate collection periods mapping reference data (from deds to transient) needed to run payments due
   - sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql:
    - populate learning providers reference data (from deds to transient) needed to run payments due
+  - sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql:
+   - populate commitments reference data (from deds to transient) needed to run levy payments
+  - sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql:
+   - populate accounts reference data (from deds to transient) needed to run levy payments
   - sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql:
    - populate apprenticeship earnings reference data (from deds to transient) needed to run payments due
   - sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql:
@@ -71,12 +79,14 @@ DAS Payments Due Component
  3.1 Current ILR Collection: ${ILR_Deds.FQ}
  3.2 Current DC Summarisation Collection: ${ILR_Summarisation.FQ}
  3.3 DAS Period End Collection: ${DAS_PeriodEnd.FQ}
+ 3.4 DAS Commitments Reference Data Collection: ${DAS_Commitments.FQ}
+ 3.5 DAS Accounts Reference Data Collection: ${DAS_Accounts.FQ}
 
 -------------------------------------------------------------------------------------
 4. Expected manifest steps for the das period end process - payments due
 -------------------------------------------------------------------------------------
  4.1 Build the transient database
- 4.2 Copy reference data from deds to transient using the provided scripts in the 01 - 04 order
+ 4.2 Copy reference data from deds to transient using the provided scripts in the 01 - 06 order
  4.3 Execute the 'DAS Payments Due' component
  4.4 Cleanup the deds payments due results using the 'PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql' sql script
  4.5 Bulk copy the payments due results from transient to deds

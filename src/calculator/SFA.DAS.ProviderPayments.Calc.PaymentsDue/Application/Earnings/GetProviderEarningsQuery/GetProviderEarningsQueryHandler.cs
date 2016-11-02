@@ -144,6 +144,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             var learningEarning = learningValue <= 0 ? null : new PeriodEarning
             {
                 CommitmentId = entity.CommitmentId,
+                CommitmentVersionId = entity.CommitmentVersionId,
+                AccountId = entity.AccountId,
+                AccountVersionId = entity.AccountVersionId,
+                Uln = entity.Uln,
                 Ukprn = entity.Ukprn,
                 LearnerReferenceNumber = entity.LearnerRefNumber,
                 AimSequenceNumber = entity.AimSequenceNumber,
@@ -157,6 +161,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             var completionEarning = completionValue <= 0 ? null : new PeriodEarning
             {
                 CommitmentId = entity.CommitmentId,
+                CommitmentVersionId = entity.CommitmentVersionId,
+                AccountId = entity.AccountId,
+                AccountVersionId = entity.AccountVersionId,
+                Uln = entity.Uln,
                 Ukprn = entity.Ukprn,
                 LearnerReferenceNumber = entity.LearnerRefNumber,
                 AimSequenceNumber = entity.AimSequenceNumber,

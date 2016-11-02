@@ -4,6 +4,7 @@ GO
 INSERT INTO [Reference].[ApprenticeshipEarnings]
     SELECT
         pv.Ukprn,
+		l.Uln,
         pv.LearnRefNumber,
         pv.AimSeqNumber,
         ld.MonthlyInstallment,
@@ -21,8 +22,12 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
         pv.Period_11,
         pv.Period_12
     FROM ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery ld
-        INNER JOIN ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv ON ld.Ukprn = pv.Ukprn
-            AND ld.LearnRefNumber = pv.LearnRefNumber
-            AND ld.AimSeqNumber = pv.AimSeqNumber
+    INNER JOIN ${ILR_Deds.FQ}.Rulebase.AE_LearningDelivery_PeriodisedValues pv 
+		ON ld.Ukprn = pv.Ukprn
+        AND ld.LearnRefNumber = pv.LearnRefNumber
+        AND ld.AimSeqNumber = pv.AimSeqNumber
+	INNER JOIN ${ILR_Deds.FQ}.Valid.Learner l
+		ON l.Ukprn = ld.Ukprn
+		AND l.LearnRefNumber = ld.LearnRefNumber
     WHERE ld.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 GO
