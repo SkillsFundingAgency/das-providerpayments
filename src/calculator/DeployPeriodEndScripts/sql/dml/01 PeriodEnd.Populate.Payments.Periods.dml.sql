@@ -1,7 +1,7 @@
 DELETE ${DAS_PeriodEnd.FQ}.Payments.Periods
 FROM ${DAS_PeriodEnd.FQ}.Payments.Periods p
 INNER JOIN Reference.CollectionPeriods cp
-	ON p.PeriodName = cp.Name
+	ON p.PeriodName = '${ILR_AcademicYear}-' + cp.Name
 GO
 
 INSERT INTO ${DAS_PeriodEnd.FQ}.Payments.Periods
