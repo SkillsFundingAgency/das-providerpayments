@@ -26,6 +26,7 @@ AS
 		ae.Uln,
 		ae.LearnRefNumber,
 		ae.AimSeqNumber,
+		ae.AttributeName,
 		ae.Period_1,
 		ae.Period_2,
 		ae.Period_3,

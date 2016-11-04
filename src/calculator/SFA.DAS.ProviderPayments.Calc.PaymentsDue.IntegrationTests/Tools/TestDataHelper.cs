@@ -95,7 +95,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                      int currentPeriod = 1,
                                                      DateTime? startDate = null,
                                                      DateTime? endDate = null,
-                                                     DateTime? actualEndDate = null)
+                                                     DateTime? actualEndDate = null,
+                                                     bool earlyFinisher = false)
         {
             Execute("INSERT INTO Rulebase.AE_LearningDelivery "
                   + "SELECT "
@@ -126,21 +127,66 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "CASE WHEN @numberOfPeriods >= 1 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 1 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 2 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 2 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 3 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 3 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 4 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 4 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 5 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 5 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 6 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 6 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 7 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 7 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 8 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 8 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 9 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 9 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 10 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 10 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 11 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 11 THEN AgreedCost * 0.2 ELSE 0 END, "
-                  + "CASE WHEN @numberOfPeriods >= 12 THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END + CASE WHEN @numberOfPeriods = 12 THEN AgreedCost * 0.2 ELSE 0 END "
+                  + "'ProgrammeAimOnProgPayment', "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 1) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 2) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 3) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 4) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 4) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 5) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 5) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 6) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 6) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 7) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 7) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 8) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 8) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 9) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 9) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 10) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 10) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 11) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 12) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods }, false);
+                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+
+            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+                  + "SELECT "
+                  + "Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "'ProgrammeAimCompletionPayment', "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 1) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 2) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 3) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 4) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 4) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 5) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 5) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 6) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 6) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 7) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 7) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 8) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 8) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 9) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 9) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 10) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 10) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 11) THEN AgreedCost * 0.2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 12) THEN AgreedCost * 0.2 ELSE 0 END "
+                  + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+
+            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+                  + "SELECT "
+                  + "Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "'ProgrammeAimBalPayment', "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 1 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 1) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 2 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 2) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 3 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 3) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 4 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 4) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 5 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 5) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 6 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 6) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 7 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 7) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 8 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 8) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 9 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 9) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 10 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 10) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 11 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 11) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 12 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 12) ELSE 0 END "
+                  + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Valid.Learner "
                     + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "

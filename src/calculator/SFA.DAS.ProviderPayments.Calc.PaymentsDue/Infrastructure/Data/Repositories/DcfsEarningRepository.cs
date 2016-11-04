@@ -16,6 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                             + "Uln, "
                                             + "LearnRefNumber [LearnerRefNumber], "
                                             + "AimSeqNumber [AimSequenceNumber], "
+                                            + "AttributeName [EarningType], "
                                             + "Period_1 [Period1], "
                                             + "Period_2 [Period2], "
                                             + "Period_3 [Period3], "

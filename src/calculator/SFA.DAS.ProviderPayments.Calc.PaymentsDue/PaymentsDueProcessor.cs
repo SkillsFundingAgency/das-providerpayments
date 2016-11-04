@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using NLog;
@@ -122,7 +121,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var amountEarned = earning.EarnedValue;
                 var alreadyPaid = paymentHistory
-                    .Where(p => p.CommitmentId == earning.CommitmentId && p.DeliveryMonth == earning.CalendarMonth && p.DeliveryYear == earning.CalendarYear)
+                    .Where(p => p.CommitmentId == earning.CommitmentId && p.DeliveryMonth == earning.CalendarMonth && p.DeliveryYear == earning.CalendarYear && p.TransactionType == earning.Type)
                     .Sum(p => p.AmountDue);
                 var amountDue = amountEarned - alreadyPaid;
 
@@ -142,7 +141,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         DeliveryMonth = earning.CalendarMonth,
                         DeliveryYear = earning.CalendarYear,
                         AmountDue = amountDue,
-                        TransactionType = (TransactionType)(int)earning.Type
+                        TransactionType = earning.Type
                     });
                 }
             }

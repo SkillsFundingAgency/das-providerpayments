@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
@@ -119,29 +120,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 return new PeriodEarning[0];
             }
 
-            var learningValue = 0.00m;
-            var completionValue = 0.00m;
 
-            if (value == entity.MonthlyInstallment)
-            {
-                learningValue = entity.MonthlyInstallment;
-            }
-            else if (value == entity.CompletionPayment)
-            {
-                completionValue = entity.CompletionPayment;
-            }
-            else if (value == entity.MonthlyInstallment + entity.CompletionPayment)
-            {
-                learningValue = entity.MonthlyInstallment;
-                completionValue = entity.CompletionPayment;
-            }
-            else
-            {
-                learningValue = entity.MonthlyInstallment;
-                completionValue = value - entity.MonthlyInstallment;
-            }
-
-            var learningEarning = learningValue <= 0 ? null : new PeriodEarning
+            return new[] {new PeriodEarning
             {
                 CommitmentId = entity.CommitmentId,
                 CommitmentVersionId = entity.CommitmentVersionId,
@@ -155,40 +135,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 CollectionAcademicYear = academicYear,
                 CalendarMonth = month,
                 CalendarYear = year,
-                EarnedValue = learningValue,
-                Type = Common.Application.TransactionType.Learning
-            };
-            var completionEarning = completionValue <= 0 ? null : new PeriodEarning
-            {
-                CommitmentId = entity.CommitmentId,
-                CommitmentVersionId = entity.CommitmentVersionId,
-                AccountId = entity.AccountId,
-                AccountVersionId = entity.AccountVersionId,
-                Uln = entity.Uln,
-                Ukprn = entity.Ukprn,
-                LearnerReferenceNumber = entity.LearnerRefNumber,
-                AimSequenceNumber = entity.AimSequenceNumber,
-                CollectionPeriodNumber = periodNumber,
-                CollectionAcademicYear = academicYear,
-                CalendarMonth = month,
-                CalendarYear = year,
-                EarnedValue = completionValue,
-                Type = Common.Application.TransactionType.Completion
-            };
+                EarnedValue = value,
+                Type = TranslateEarningTypeToTransactionType(entity.EarningType)
+            }};
+        }
 
-            var earnings = new List<PeriodEarning>();
-
-            if (learningEarning != null)
+        private TransactionType TranslateEarningTypeToTransactionType(string earningType)
+        {
+            switch (earningType)
             {
-                earnings.Add(learningEarning);
+                case EarningTypes.Learning:
+                    return TransactionType.Learning;
+                case EarningTypes.Completion:
+                    return TransactionType.Completion;
+                case EarningTypes.Balancing:
+                    return TransactionType.Balancing;
+                default:
+                    throw new InvalidEarningTypeException(earningType);
             }
-
-            if (completionEarning != null)
-            {
-                earnings.Add(completionEarning);
-            }
-
-            return earnings.ToArray();
         }
     }
 }

@@ -16,6 +16,7 @@
         public decimal CompletionPayment { get; set; }
 
 
+        public string EarningType { get; set; }
         public decimal Period1 { get; set; }
         public decimal Period2 { get; set; }
         public decimal Period3 { get; set; }

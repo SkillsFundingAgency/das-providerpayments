@@ -3,6 +3,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -13,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
     {
         private const long Ukprn = 10007459;
 
-        private readonly EarningEntity[] EarningEntities = {
+        private static readonly EarningEntity[] EarningEntities = {
             new EarningEntity
             {
                 CommitmentId = 1,
@@ -26,6 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 MonthlyInstallment = 1000.00m,
                 CompletionPayment = 3000.00m,
+                EarningType = EarningTypes.Learning,
                 Period1 = 1000m,
                 Period2 = 1000m,
                 Period3 = 1000m,
@@ -51,6 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 MonthlyInstallment = 1000.00m,
                 CompletionPayment = 3000.00m,
+                EarningType = EarningTypes.Learning,
                 Period1 = 1000m,
                 Period2 = 1000m,
                 Period3 = 1000m,
@@ -64,6 +67,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Period11 = 0,
                 Period12 = 0
             }
+        };
+
+        private static readonly object[] EarningTypesWithExpectedTransactionTypes =
+        {
+            new object[] {EarningTypes.Learning, TransactionType.Learning},
+            new object[] {EarningTypes.Completion, TransactionType.Completion},
+            new object[] {EarningTypes.Balancing, TransactionType.Balancing}
         };
 
         private Mock<IEarningRepository> _repository;
@@ -118,12 +128,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         }
 
         [Test]
-        public void ThenItShouldReturnALearningAndACompletionEarningWhenBothOccurInAPeriod()
+        [TestCaseSource(nameof(EarningTypesWithExpectedTransactionTypes))]
+        public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(string earningType, TransactionType transactionType)
         {
             // Arrange
-            var monthlyInstallment = 1000.00m;
-            var completionPayment = 3000.00m;
-
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
                 .Returns(new[]
                 {
@@ -137,15 +145,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
-                        MonthlyInstallment = monthlyInstallment,
-                        CompletionPayment = completionPayment,
-                        Period1 = monthlyInstallment,
-                        Period2 = monthlyInstallment,
-                        Period3 = monthlyInstallment,
-                        Period4 = monthlyInstallment,
-                        Period5 = monthlyInstallment,
-                        Period6 = monthlyInstallment,
-                        Period7 = monthlyInstallment + completionPayment,
+                        MonthlyInstallment = 1000.00m,
+                        CompletionPayment = 1000.00m,
+                        EarningType = earningType,
+                        Period1 = 0,
+                        Period2 = 0,
+                        Period3 = 0,
+                        Period4 = 0,
+                        Period5 = 0,
+                        Period6 = 1000.00m,
+                        Period7 = 0,
                         Period8 = 0,
                         Period9 = 0,
                         Period10 = 0,
@@ -158,113 +167,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             var actual = _handler.Handle(_request);
 
             // Assert
-            var period7Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 7).OrderBy(e => (int)e.Type).ToArray();
-            Assert.AreEqual(2, period7Earnings.Length);
+            var period6Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 6).OrderBy(e => (int)e.Type).ToArray();
+            Assert.AreEqual(1, period6Earnings.Length);
 
-            Assert.AreEqual(monthlyInstallment, period7Earnings[0].EarnedValue);
-            Assert.AreEqual(TransactionType.Learning, period7Earnings[0].Type);
-
-            Assert.AreEqual(completionPayment, period7Earnings[1].EarnedValue);
-            Assert.AreEqual(TransactionType.Completion, period7Earnings[1].Type);
-        }
-
-        [Test]
-        public void ThenItShouldReturnACompletionEarningWhenThePeriodOnlyContainsIt()
-        {
-            // Arrange
-            var monthlyInstallment = 1000.00m;
-            var completionPayment = 3000.00m;
-
-            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(new[]
-                {
-                    new EarningEntity
-                    {
-                        CommitmentId = 1,
-                        CommitmentVersionId = "C1",
-                        AccountId = "1",
-                        AccountVersionId = "A1",
-                        Uln = 1,
-                        LearnerRefNumber = "Lrn-001",
-                        AimSequenceNumber = 1,
-                        Ukprn = Ukprn,
-                        MonthlyInstallment = monthlyInstallment,
-                        CompletionPayment = completionPayment,
-                        Period1 = monthlyInstallment,
-                        Period2 = monthlyInstallment,
-                        Period3 = monthlyInstallment,
-                        Period4 = monthlyInstallment,
-                        Period5 = monthlyInstallment,
-                        Period6 = monthlyInstallment,
-                        Period7 = 0,
-                        Period8 = completionPayment,
-                        Period9 = 0,
-                        Period10 = 0,
-                        Period11 = 0,
-                        Period12 = 0
-                    }
-                });
-
-            // Act
-            var actual = _handler.Handle(_request);
-
-            // Assert
-            var period8Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 8).OrderBy(e => (int)e.Type).ToArray();
-            Assert.AreEqual(1, period8Earnings.Length);
-
-            Assert.AreEqual(completionPayment, period8Earnings[0].EarnedValue);
-            Assert.AreEqual(TransactionType.Completion, period8Earnings[0].Type);
-        }
-
-        [Test]
-        public void ThenItShouldReturnALearningAndACompletionEarningWhenBothOccurInAPeriodWithAValueThatIsNotTheExactSumOfThem()
-        {
-            // Arrange
-            var monthlyInstallment = 1000.00m;
-            var completionPayment = 3000.00m;
-
-            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(new[]
-                {
-                    new EarningEntity
-                    {
-                        CommitmentId = 1,
-                        CommitmentVersionId = "C1",
-                        AccountId = "1",
-                        AccountVersionId = "A1",
-                        Uln = 1,
-                        LearnerRefNumber = "Lrn-001",
-                        AimSequenceNumber = 1,
-                        Ukprn = Ukprn,
-                        MonthlyInstallment = monthlyInstallment,
-                        CompletionPayment = 3000.00m,
-                        Period1 = monthlyInstallment,
-                        Period2 = monthlyInstallment,
-                        Period3 = monthlyInstallment,
-                        Period4 = monthlyInstallment,
-                        Period5 = monthlyInstallment,
-                        Period6 = monthlyInstallment,
-                        Period7 = 0,
-                        Period8 = completionPayment + 750.00m,
-                        Period9 = 0,
-                        Period10 = 0,
-                        Period11 = 0,
-                        Period12 = 0
-                    }
-                });
-
-            // Act
-            var actual = _handler.Handle(_request);
-
-            // Assert
-            var period8Earnings = actual.Items.Where(e => e.CollectionPeriodNumber == 8).OrderBy(e => (int)e.Type).ToArray();
-            Assert.AreEqual(2, period8Earnings.Length);
-
-            Assert.AreEqual(monthlyInstallment, period8Earnings[0].EarnedValue);
-            Assert.AreEqual(TransactionType.Learning, period8Earnings[0].Type);
-
-            Assert.AreEqual(completionPayment - 250.00m, period8Earnings[1].EarnedValue);
-            Assert.AreEqual(TransactionType.Completion, period8Earnings[1].Type);
+            Assert.AreEqual(transactionType, period6Earnings[0].Type);
         }
 
         [Test]
@@ -297,6 +203,53 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             Assert.IsFalse(response.IsValid);
             Assert.IsNull(response.Items);
             Assert.IsNotNull(response.Exception);
+        }
+
+        [Test]
+        public void ThenItShouldReturnAnInvalidResponseWithErrorIfAnInvalidEarningTypeIsFound()
+        {
+            // Arrange
+            var invalidEarningType = "InvalidEarningType";
+
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = 1,
+                        CommitmentVersionId = "C1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        MonthlyInstallment = 1000.00m,
+                        CompletionPayment = 1000.00m,
+                        EarningType = invalidEarningType,
+                        Period1 = 0,
+                        Period2 = 0,
+                        Period3 = 0,
+                        Period4 = 0,
+                        Period5 = 0,
+                        Period6 = 1000.00m,
+                        Period7 = 0,
+                        Period8 = 0,
+                        Period9 = 0,
+                        Period10 = 0,
+                        Period11 = 0,
+                        Period12 = 0
+                    }
+                });
+            
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.IsFalse(response.IsValid);
+            Assert.IsNull(response.Items);
+            Assert.IsNotNull(response.Exception);
+            Assert.AreEqual(typeof(InvalidEarningTypeException), response.Exception.GetType());
         }
     }
 }

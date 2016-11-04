@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
+using SFA.DAS.ProviderPayments.Calc.Common.Application;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.SetOpenCollection(1);
 
-            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 1);
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -257,5 +257,46 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(0, duePayments.Length);
         }
 
+        [Test]
+        public void ThenItShouldMakePaymentsForLearningCompletionAndBalancingForAnEarlyCompletion()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(10);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 10, earlyFinisher: true);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var period10Payments = duePayments.Where(p => p.DeliveryMonth == 5 && p.DeliveryYear == 2017)
+                                              .OrderBy(p => p.TransactionType)
+                                              .ToArray();
+            Assert.AreEqual(3, period10Payments.Length);
+
+            Assert.AreEqual((int)TransactionType.Learning, period10Payments[0].TransactionType);
+            Assert.AreEqual(1000, period10Payments[0].AmountDue);
+
+            Assert.AreEqual((int)TransactionType.Completion, period10Payments[1].TransactionType);
+            Assert.AreEqual(3000, period10Payments[1].AmountDue);
+
+            Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
+            Assert.AreEqual(2000, period10Payments[2].AmountDue);
+        }
     }
 }
