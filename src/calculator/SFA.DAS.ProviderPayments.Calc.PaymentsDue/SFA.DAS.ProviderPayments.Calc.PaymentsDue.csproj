@@ -76,9 +76,11 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
+    <Compile Include="Application\Earnings\EarningTypes.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
+    <Compile Include="Application\Earnings\InvalidEarningTypeException.cs" />
     <Compile Include="Application\Earnings\PeriodEarning.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryRequest.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
-    <Compile Include="Application\RequiredPayments\TransactionType.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />

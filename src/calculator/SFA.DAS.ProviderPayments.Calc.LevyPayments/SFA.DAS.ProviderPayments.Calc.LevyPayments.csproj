@@ -82,7 +82,6 @@
     <Compile Include="Application\Payments\Payment.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
     <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
-    <Compile Include="Application\Payments\TransactionType.cs" />
     <Compile Include="Application\QueryResponse.cs" />
     <Compile Include="Application\Response.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />

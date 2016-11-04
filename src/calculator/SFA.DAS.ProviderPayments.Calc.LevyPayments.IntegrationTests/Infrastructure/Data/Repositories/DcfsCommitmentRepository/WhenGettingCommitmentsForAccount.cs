@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools;
 

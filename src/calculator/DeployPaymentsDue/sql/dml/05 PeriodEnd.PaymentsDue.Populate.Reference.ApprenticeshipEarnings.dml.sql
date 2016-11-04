@@ -7,6 +7,7 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		l.Uln,
         pv.LearnRefNumber,
         pv.AimSeqNumber,
+		pv.AttributeName,
         ld.MonthlyInstallment,
         ld.CompletionPayment,
         pv.Period_1,
