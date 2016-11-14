@@ -14,8 +14,8 @@ CREATE TABLE [Payments].[Periods](
 	[PeriodName] [char](8) NOT NULL PRIMARY KEY,
 	[CalendarMonth] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
-	[AccountDataValidAt] [datetime] NOT NULL,
-	[CommitmentDataValidAt] [datetime] NOT NULL,
+	[AccountDataValidAt] [datetime] NULL,
+	[CommitmentDataValidAt] [datetime] NULL,
 	[CompletionDateTime] [datetime] NOT NULL
 )
 GO
