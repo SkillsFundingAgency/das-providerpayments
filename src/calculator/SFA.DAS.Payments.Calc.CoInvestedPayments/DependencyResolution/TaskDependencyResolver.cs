@@ -13,6 +13,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution
             _container = new Container(c =>
             {
                 c.Policies.Add(new ConnectionStringPolicy(contextWrapper));
+                c.Policies.Add(new YearOfCollectionPolicy(contextWrapper));
                 c.AddRegistry(new CoInvestedPaymentsRegistry(taskType));
             }
             );

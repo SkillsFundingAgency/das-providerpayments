@@ -83,6 +83,7 @@
     <Compile Include="DependencyResolution\ConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentDueEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />

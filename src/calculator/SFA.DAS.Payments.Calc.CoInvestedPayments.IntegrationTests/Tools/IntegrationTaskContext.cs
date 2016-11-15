@@ -11,7 +11,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             Properties = new Dictionary<string, string>
             {
                 {ContextPropertyKeys.TransientDatabaseConnectionString, GlobalTestContext.Instance.ConnectionString},
-                {ContextPropertyKeys.LogLevel, "DEBUG"}
+                {ContextPropertyKeys.LogLevel, "DEBUG"},
+                {ContextPropertyKeys.YearOfCollection, "1617"}
             };
         }
 

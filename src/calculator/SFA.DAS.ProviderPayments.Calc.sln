@@ -50,13 +50,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests", "SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests\SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.csproj", "{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{52AE74DC-AD2F-4B38-8988-94450FA6137C}"
-	ProjectSection(SolutionItems) = preProject
-		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql
-		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql
-		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql
-		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql
-		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests", "SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests\SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.csproj", "{D2948742-339F-4D56-8C40-437A0AE79027}"
 EndProject
@@ -100,6 +93,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{25382534-4F2
 		DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 		DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
 		DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql = DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{BE22C543-12AB-4C4C-B45F-1630A8A4F3C8}"
+	ProjectSection(SolutionItems) = preProject
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Deds.CoInvestedPayments.ddl.tables.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql
+		DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{AA8E660B-396B-46AF-B355-289DCCBD6A0C}"
+	ProjectSection(SolutionItems) = preProject
+		DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql = DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
 Global
@@ -182,5 +190,7 @@ Global
 		{C7F29E92-3CD0-4EB2-9A5B-6E11213EF8F6} = {682B1A75-A80F-4BBB-8188-E51C50FAFE67}
 		{E954BCB2-11FB-4BBD-AEC6-E9BC9DA7437C} = {D9A85E13-1B19-4529-9E7A-F0369E392B2D}
 		{25382534-4F23-4B89-A057-63212317C975} = {D9A85E13-1B19-4529-9E7A-F0369E392B2D}
+		{BE22C543-12AB-4C4C-B45F-1630A8A4F3C8} = {52AE74DC-AD2F-4B38-8988-94450FA6137C}
+		{AA8E660B-396B-46AF-B355-289DCCBD6A0C} = {52AE74DC-AD2F-4B38-8988-94450FA6137C}
 	EndGlobalSection
 EndGlobal

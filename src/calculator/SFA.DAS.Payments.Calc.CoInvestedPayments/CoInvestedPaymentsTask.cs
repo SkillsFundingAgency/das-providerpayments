@@ -30,5 +30,32 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
             processor.Process();
         }
+
+        protected override bool IsValidContext(ContextWrapper contextWrapper)
+        {
+            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection)))
+            {
+                throw new InvalidContextException(InvalidContextException.ContextPropertiesNoYearOfCollectionMessage);
+            }
+
+            return IsValidYearOfCollection(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection))
+                   && base.IsValidContext(contextWrapper);
+        }
+
+        private bool IsValidYearOfCollection(string yearOfCollection)
+        {
+            int year1;
+            int year2;
+
+            if (yearOfCollection.Length != 4 ||
+                !int.TryParse(yearOfCollection.Substring(0, 2), out year1) ||
+                !int.TryParse(yearOfCollection.Substring(2, 2), out year2) ||
+                (year2 != year1 + 1))
+            {
+                throw new InvalidContextException(InvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage);
+            }
+
+            return true;
+        }
     }
 }

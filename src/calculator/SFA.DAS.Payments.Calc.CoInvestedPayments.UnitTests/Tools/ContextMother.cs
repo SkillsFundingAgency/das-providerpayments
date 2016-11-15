@@ -15,7 +15,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Tools
                 .Returns(new Dictionary<string, string>
                 {
                     {ContextPropertyKeys.TransientDatabaseConnectionString, "DbConnection"},
-                    {ContextPropertyKeys.LogLevel, "DEBUG"}
+                    {ContextPropertyKeys.LogLevel, "DEBUG"},
+                    {ContextPropertyKeys.YearOfCollection, "1617"}
                 });
 
             return context;
