@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql"
         };
 
-        private readonly static Random _random = new Random();
+        private static readonly Random Random = new Random();
 
         internal static void AddAccount(long id, string name = null, decimal balance = 999999999)
         {
@@ -30,8 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
         internal static void AddCommitment(long id, 
                                            string accountId, 
-                                           long uln = 0l, 
-                                           long ukprn = 0l, 
+                                           long uln = 0L, 
+                                           long ukprn = 0L, 
                                            DateTime startDate = default(DateTime), 
                                            DateTime endDate = default(DateTime),
                                            decimal agreedCost = 15000m,
@@ -45,11 +45,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
             if (uln == 0)
             {
-                uln = _random.Next(1, int.MaxValue);
+                uln = Random.Next(1, int.MaxValue);
             }
             if (ukprn == 0)
             {
-                ukprn = _random.Next(1, int.MaxValue);
+                ukprn = Random.Next(1, int.MaxValue);
             }
             if (!standardCode.HasValue && !programmeType.HasValue)
             {

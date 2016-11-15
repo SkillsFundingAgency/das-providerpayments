@@ -18,11 +18,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private readonly string _yearOfCollection;
 
-        public LevyPaymentsProcessor(ILogger logger, IMediator mediator)
+        public LevyPaymentsProcessor(ILogger logger, IMediator mediator, string yearOfCollection)
         {
             _logger = logger;
             _mediator = mediator;
+            _yearOfCollection = yearOfCollection;
         }
         protected LevyPaymentsProcessor()
         {
@@ -147,7 +149,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                         Ukprn = paymentDue.Ukprn,
                         DeliveryMonth = paymentDue.DeliveryMonth,
                         DeliveryYear = paymentDue.DeliveryYear,
-                        CollectionPeriodName = period.Name,
+                        CollectionPeriodName = $"{_yearOfCollection}-{period.Name}",
                         CollectionPeriodMonth = period.Month,
                         CollectionPeriodYear = period.Year,
                         FundingSource = FundingSource.Levy,

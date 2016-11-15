@@ -39,7 +39,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             var properties = new Dictionary<string, string>
             {
                 { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
-                { ContextPropertyKeys.LogLevel, "Info" }
+                { ContextPropertyKeys.LogLevel, "Info" },
+                { ContextPropertyKeys.YearOfCollection, "1617" }
             };
 
             _context.Properties = properties;

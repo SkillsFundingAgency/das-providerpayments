@@ -13,6 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution
             _container = new Container(c =>
                 {
                     c.Policies.Add(new DcfsConnectionStringPolicy(contextWrapper));
+                    c.Policies.Add(new YearOfCollectionPolicy(contextWrapper));
                     c.AddRegistry(new CalcRegistry(taskType));
                 }
             );

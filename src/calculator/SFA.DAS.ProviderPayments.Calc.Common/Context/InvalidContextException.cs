@@ -9,6 +9,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Common.Context
         public const string ContextPropertiesNoConnectionStringMessage = "The context does not contain the transient database connection string property.";
         public const string ContextPropertiesNoLogLevelMessage = "The context does not contain the logging level property.";
         public const string ContextPropertiesInvalidLogLevelMessage = "The context does not contain a valid logging level.";
+        public const string ContextPropertiesNoYearOfCollectionMessage = "The context does not contain the year of collection property.";
+        public const string ContextPropertiesInvalidYearOfCollectionMessage = "The context does not contain a valid year of collection property.";
 
         public InvalidContextException(string message)
             : base(message)

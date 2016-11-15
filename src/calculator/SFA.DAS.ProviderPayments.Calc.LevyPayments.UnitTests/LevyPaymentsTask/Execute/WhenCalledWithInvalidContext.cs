@@ -59,6 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
         {
             var properties = new Dictionary<string, string>
             {
+                { ContextPropertyKeys.YearOfCollection, "1617" },
                 { ContextPropertyKeys.LogLevel, "Info" }
             };
 
@@ -74,7 +75,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
         {
             var properties = new Dictionary<string, string>
             {
-                { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" }
+                { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
+                { ContextPropertyKeys.YearOfCollection, "1617" }
             };
 
             _context.Properties = properties;
@@ -82,6 +84,45 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             // Assert
             var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
             Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesNoLogLevelMessage));
+        }
+
+        [Test]
+        public void ThenExpectingExceptionForNoYearOfCollectionProvided()
+        {
+            var properties = new Dictionary<string, string>
+            {
+                { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
+                { ContextPropertyKeys.LogLevel, "Info" }
+            };
+
+            _context.Properties = properties;
+
+            // Assert
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesNoYearOfCollectionMessage));
+        }
+
+        [Test]
+        [TestCase("abcd")]
+        [TestCase("1618")]
+        [TestCase("16-17")]
+        [TestCase("16 18")]
+        [TestCase("16/17")]
+        [TestCase("16170")]
+        public void ThenExpectingExceptionForInvalidYearOfCollectionProvided(string yearOfCollection)
+        {
+            var properties = new Dictionary<string, string>
+            {
+                { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
+                { ContextPropertyKeys.LogLevel, "Info" },
+                { ContextPropertyKeys.YearOfCollection, yearOfCollection }
+            };
+
+            _context.Properties = properties;
+
+            // Assert
+            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage));
         }
     }
 }

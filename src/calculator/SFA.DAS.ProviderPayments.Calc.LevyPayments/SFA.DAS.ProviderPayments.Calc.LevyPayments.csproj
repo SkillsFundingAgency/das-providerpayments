@@ -88,6 +88,7 @@
     <Compile Include="DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="DependencyResolution\IDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCommitmentRepository.cs" />
