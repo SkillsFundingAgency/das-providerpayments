@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CS.Common.External.Interfaces;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
@@ -12,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             {
                 {ContextPropertyKeys.TransientDatabaseConnectionString, GlobalTestContext.Instance.ConnectionString},
                 {ContextPropertyKeys.LogLevel, "DEBUG"},
-                {ContextPropertyKeys.YearOfCollection, "1617"}
+                {PaymentsContextPropertyKeys.YearOfCollection, "1617"}
             };
         }
 

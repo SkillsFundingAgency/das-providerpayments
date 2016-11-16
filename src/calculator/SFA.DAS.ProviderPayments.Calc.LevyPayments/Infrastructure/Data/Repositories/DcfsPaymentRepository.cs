@@ -1,4 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Repositories

@@ -3,7 +3,7 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.Payments.DCFS.Context;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.DependencyResolution.TaskDependencyResolver.Init
 {

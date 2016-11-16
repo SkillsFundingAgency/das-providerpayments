@@ -1,5 +1,7 @@
 ﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.Common;
+using SFA.DAS.Payments.DCFS;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
@@ -33,12 +35,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         protected override bool IsValidContext(ContextWrapper contextWrapper)
         {
-            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection)))
+            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(PaymentsContextPropertyKeys.YearOfCollection)))
             {
-                throw new InvalidContextException(InvalidContextException.ContextPropertiesNoYearOfCollectionMessage);
+                throw new PaymentsInvalidContextException(PaymentsInvalidContextException.ContextPropertiesNoYearOfCollectionMessage);
             }
 
-            return IsValidYearOfCollection(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection))
+            return IsValidYearOfCollection(contextWrapper.GetPropertyValue(PaymentsContextPropertyKeys.YearOfCollection))
                    && base.IsValidContext(contextWrapper);
         }
 
@@ -52,7 +54,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 !int.TryParse(yearOfCollection.Substring(2, 2), out year2) ||
                 (year2 != year1 + 1))
             {
-                throw new InvalidContextException(InvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage);
+                throw new PaymentsInvalidContextException(PaymentsInvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage);
             }
 
             return true;

@@ -3,8 +3,9 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Tools;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsTask
@@ -59,7 +60,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
         {
             var properties = new Dictionary<string, string>
             {
-                { ContextPropertyKeys.YearOfCollection, "1617" },
+                { PaymentsContextPropertyKeys.YearOfCollection, "1617" },
                 { ContextPropertyKeys.LogLevel, "Info" }
             };
 
@@ -76,7 +77,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
             var properties = new Dictionary<string, string>
             {
                 { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
-                { ContextPropertyKeys.YearOfCollection, "1617" }
+                { PaymentsContextPropertyKeys.YearOfCollection, "1617" }
             };
 
             _context.Properties = properties;
@@ -98,8 +99,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
             _context.Properties = properties;
 
             // Assert
-            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
-            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesNoYearOfCollectionMessage));
+            var ex = Assert.Throws<PaymentsInvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(PaymentsInvalidContextException.ContextPropertiesNoYearOfCollectionMessage));
         }
 
         [Test]
@@ -115,14 +116,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsT
             {
                 { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
                 { ContextPropertyKeys.LogLevel, "Info" },
-                { ContextPropertyKeys.YearOfCollection, yearOfCollection }
+                { PaymentsContextPropertyKeys.YearOfCollection, yearOfCollection }
             };
 
             _context.Properties = properties;
 
             // Assert
-            var ex = Assert.Throws<InvalidContextException>(() => _task.Execute(_context));
-            Assert.IsTrue(ex.Message.Contains(InvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage));
+            var ex = Assert.Throws<PaymentsInvalidContextException>(() => _task.Execute(_context));
+            Assert.IsTrue(ex.Message.Contains(PaymentsInvalidContextException.ContextPropertiesInvalidYearOfCollectionMessage));
         }
     }
 }

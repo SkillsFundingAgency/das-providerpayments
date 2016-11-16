@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using StructureMap;
 using StructureMap.Pipeline;
 
-namespace SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution
+namespace SFA.DAS.ProviderPayments.Calc.Common.DependencyResolution
 {
     public class YearOfCollectionPolicy : ConfiguredInstancePolicy
     {
@@ -21,7 +22,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution
 
             if (parameter != null)
             {
-                var yearOfCollection = _contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection);
+                var yearOfCollection = _contextWrapper.GetPropertyValue(PaymentsContextPropertyKeys.YearOfCollection);
                 instance.Dependencies.AddForConstructorParameter(parameter, yearOfCollection);
             }
         }

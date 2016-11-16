@@ -3,8 +3,9 @@ using CS.Common.External.Interfaces;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Common;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.Execute
@@ -40,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsTask.
             {
                 { ContextPropertyKeys.TransientDatabaseConnectionString, "Ilr.Transient.Connection.String" },
                 { ContextPropertyKeys.LogLevel, "Info" },
-                { ContextPropertyKeys.YearOfCollection, "1617" }
+                { PaymentsContextPropertyKeys.YearOfCollection, "1617" }
             };
 
             _context.Properties = properties;
