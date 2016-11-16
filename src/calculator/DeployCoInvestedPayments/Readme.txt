@@ -12,6 +12,8 @@ DAS Co Invested Payments Component
   - component\MediatR.dll
   - component\NLog.dll
   - component\SFA.DAS.Payments.Calc.CoInvestedPayments.dll
+  - component\SFA.DAS.Payments.DCFS.dll
+  - component\SFA.DAS.Payments.DCFS.StructureMap.dll
   - component\SFA.DAS.ProviderPayments.Calc.Common.dll
   - component\StructureMap.dll
  
@@ -54,6 +56,9 @@ DAS Co Invested Payments Component
  2.2 Log level:
   - key: LogLevel
   - value: one of the following is valid: Fatal, Error, Warn, Info, Debug, Trace, Off
+ 2.3 ILR Collection Year:
+  - key: YearOfCollection
+  - value: 4 characters long string representing the academic year of the ILR connection: 1617, 1718, etc.
 
 -------------------------------------------------------------------------------------
 3. Expected data set keys
