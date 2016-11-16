@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CS.Common.External.Interfaces;
 using Moq;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.Payments.DCFS.Context;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 {

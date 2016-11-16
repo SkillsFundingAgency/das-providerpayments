@@ -24,6 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
         private LevyPayments.LevyPaymentsProcessor _processor;
 
         [SetUp]
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new LevyPayments.LevyPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new LevyPayments.LevyPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             InitialMockSetup();
         }

@@ -5,6 +5,7 @@ using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.Common.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
@@ -38,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 {
                     { ContextPropertyKeys.TransientDatabaseConnectionString, "" },
                     { ContextPropertyKeys.LogLevel, "DEBUG" },
-                    { ContextPropertyKeys.YearOfCollection, "1718" }
+                    { PaymentsContextPropertyKeys.YearOfCollection, "1718" }
                 });
 
             _processor = new PaymentsDue.PaymentsDueProcessor(_logger.Object, _mediator.Object, new Payments.DCFS.Context.ContextWrapper(_externalContext.Object));

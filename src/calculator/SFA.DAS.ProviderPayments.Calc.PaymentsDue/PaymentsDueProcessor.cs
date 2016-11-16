@@ -87,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 Ukprn = provider.Ukprn,
                 Period1Month = period1Month,
                 Period1Year = period1Year,
-                AcademicYear = _context.GetPropertyValue(Common.Context.ContextPropertyKeys.YearOfCollection)
+                AcademicYear = _context.GetPropertyValue(Common.Context.PaymentsContextPropertyKeys.YearOfCollection)
             });
             if (!earningResponse.IsValid)
             {

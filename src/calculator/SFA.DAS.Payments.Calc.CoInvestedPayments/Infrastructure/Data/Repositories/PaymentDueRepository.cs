@@ -1,5 +1,5 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Common.Infrastructure.Data;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories
 {

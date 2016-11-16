@@ -18,13 +18,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private readonly string _yearOfCollection;
         private const decimal CoInvestedSfaRatio = 0.9m;
 
-
-        public CoInvestedPaymentsProcessor(ILogger logger, IMediator mediator)
+        public CoInvestedPaymentsProcessor(ILogger logger, IMediator mediator, string yearOfCollection)
         {
             _logger = logger;
             _mediator = mediator;
+            _yearOfCollection = yearOfCollection;
         }
         protected CoInvestedPaymentsProcessor()
         {
@@ -129,7 +130,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     Ukprn = paymentDue.Ukprn,
                     DeliveryMonth = paymentDue.DeliveryMonth,
                     DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodName = currentPeriod.Name,
+                    CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
                     CollectionPeriodMonth = currentPeriod.Month,
                     CollectionPeriodYear = currentPeriod.Year,
                     FundingSource = FundingSource.CoInvestedSfa,
@@ -148,7 +149,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     Ukprn = paymentDue.Ukprn,
                     DeliveryMonth = paymentDue.DeliveryMonth,
                     DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodName = currentPeriod.Name,
+                    CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
                     CollectionPeriodMonth = currentPeriod.Month,
                     CollectionPeriodYear = currentPeriod.Year,
                     FundingSource = FundingSource.CoInvestedEmployer,

@@ -2,9 +2,9 @@
 using CS.Common.External.Interfaces;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.DependencyResolution;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Tools;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsTask
 {

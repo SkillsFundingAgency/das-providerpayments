@@ -1,12 +1,12 @@
 DELETE ${DAS_PeriodEnd.FQ}.Payments.Periods
 FROM ${DAS_PeriodEnd.FQ}.Payments.Periods p
 INNER JOIN Reference.CollectionPeriods cp
-	ON p.PeriodName = '${ILR_AcademicYear}-' + cp.Name
+	ON p.PeriodName = '${YearOfCollection}-' + cp.Name
 GO
 
 INSERT INTO ${DAS_PeriodEnd.FQ}.Payments.Periods
 SELECT 
-	'${ILR_AcademicYear}-' + name, 
+	'${YearOfCollection}-' + name, 
 	CalendarMonth, 
 	CalendarYear, 
 	(SELECT MAX(ReadDateTime) FROM ${DAS_Accounts.FQ}.dbo.DasAccountsAudit) AccountDataValidAt, 

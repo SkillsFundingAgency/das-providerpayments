@@ -21,6 +21,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -28,7 +29,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -240,13 +241,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
         {
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -457,13 +459,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
         private PaymentDue _paymentDue;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
         {
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -535,6 +538,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
         private PaymentDue _paymentDue;
         private CollectionPeriod _period;
 
@@ -544,7 +548,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _period = new CollectionPeriod();
 
@@ -669,6 +673,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -676,7 +681,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -737,6 +742,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -744,7 +750,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -804,6 +810,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -811,7 +818,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -860,6 +867,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -867,7 +875,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -930,6 +938,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -937,7 +946,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -985,6 +994,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -992,7 +1002,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -1053,6 +1063,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
@@ -1060,7 +1071,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
 
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse
@@ -1115,13 +1126,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
 
         [SetUp]
         public void Arrange()
         {
             _logger = new Mock<ILogger>();
             _mediator = new Mock<IMediator>();
-            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
                 new GetCurrentCollectionPeriodQueryResponse

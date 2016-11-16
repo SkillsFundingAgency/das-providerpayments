@@ -1,26 +1,22 @@
 ﻿using System;
-using SFA.DAS.ProviderPayments.Calc.Common.Context;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.StructureMap.Infrastructure.DependencyResolution;
+using SFA.DAS.ProviderPayments.Calc.Common.DependencyResolution;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.DependencyResolution
 {
-    public class TaskDependencyResolver : IDependencyResolver
+    public class TaskDependencyResolver : StructureMapDependencyResolver
     {
-        private IContainer _container;
-
-        public void Init(Type taskType, ContextWrapper contextWrapper)
+        protected override Registry CreateRegistry(Type taskType, ContextWrapper contextWrapper)
         {
-            _container = new Container(c =>
-                {
-                    c.Policies.Add(new DcfsConnectionStringPolicy(contextWrapper));
-                    c.AddRegistry(new CalcRegistry(taskType));
-                }
-            );
+            return new CalcRegistry(taskType);
         }
 
-        public T GetInstance<T>()
+        protected override void AddPolicies(ConfigurationExpression config, Type taskType, ContextWrapper contextWrapper)
         {
-            return _container.GetInstance<T>();
+            base.AddPolicies(config, taskType, contextWrapper);
+            config.Policies.Add(new YearOfCollectionPolicy(contextWrapper));
         }
     }
 }
