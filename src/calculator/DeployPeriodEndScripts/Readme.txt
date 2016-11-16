@@ -12,9 +12,9 @@ DAS Payments Due Component
    - populates deds tables for payments
    
 -------------------------------------------------------------------------------------
-2. Expected data set keys in the manifest that runs the component
+2. Expected data set keys / properties in the manifest that runs the component
 -------------------------------------------------------------------------------------
- 2.1 Academic year of current ILR Collection: ${ILR_AcademicYear}
+ 2.1 Academic year of current ILR Collection: ${YearOfCollection}
  2.2 Das account collection: ${DAS_Accounts.FQ}
  2.3 Das commitment collection: ${DAS_Commitments.FQ}
 
