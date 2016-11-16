@@ -74,13 +74,14 @@ DAS Payments Due Component
   - value: one of the following is valid: Fatal, Error, Warn, Info, Debug, Trace, Off
 
 -------------------------------------------------------------------------------------
-3. Expected data set keys in the manifest that runs the component
+3. Expected data set keys / properties in the manifest that runs the component
 -------------------------------------------------------------------------------------
  3.1 Current ILR Collection: ${ILR_Deds.FQ}
  3.2 Current DC Summarisation Collection: ${ILR_Summarisation.FQ}
  3.3 DAS Period End Collection: ${DAS_PeriodEnd.FQ}
  3.4 DAS Commitments Reference Data Collection: ${DAS_Commitments.FQ}
  3.5 DAS Accounts Reference Data Collection: ${DAS_Accounts.FQ}
+ 3.6 Academic year of current ILR Collection: ${YearOfCollection}
 
 -------------------------------------------------------------------------------------
 4. Expected manifest steps for the das period end process - payments due

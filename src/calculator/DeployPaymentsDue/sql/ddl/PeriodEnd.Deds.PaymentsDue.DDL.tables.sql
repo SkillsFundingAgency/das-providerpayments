@@ -27,7 +27,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	IlrSubmissionDateTime datetime,
 	DeliveryMonth int,
 	DeliveryYear int,
-	CollectionPeriodName varchar(3) NOT NULL,
+	CollectionPeriodName varchar(8) NOT NULL,
 	CollectionPeriodMonth int NOT NULL,
 	CollectionPeriodYear int NOT NULL,
 	TransactionType int,
