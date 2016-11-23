@@ -28,7 +28,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                             + "Period_9 [Period9], "
                                             + "Period_10 [Period10], "
                                             + "Period_11 [Period11], "
-                                            + "Period_12 [Period12]";
+                                            + "Period_12 [Period12], "
+                                            + "StandardCode, "
+                                            + "ProgrammeType, "
+                                            + "FrameworkCode, "
+                                            + "PathwayCode";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

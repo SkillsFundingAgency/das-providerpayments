@@ -22,7 +22,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 DeliveryMonth = 9,
                 DeliveryYear = 2016,
                 TransactionType = TransactionType.Learning,
-                AmountDue = 1000.00m
+                AmountDue = 1000.00m,
+                StandardCode = 25
             },
             new RequiredPayment
             {
@@ -33,7 +34,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 DeliveryMonth = 9,
                 DeliveryYear = 2016,
                 TransactionType = TransactionType.Completion,
-                AmountDue = 3000.00m
+                AmountDue = 3000.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
             }
         };
 
@@ -117,7 +121,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                    entity.DeliveryMonth == payment.DeliveryMonth &&
                    entity.DeliveryYear == payment.DeliveryYear &&
                    entity.TransactionType == (int) payment.TransactionType &&
-                   entity.AmountDue == payment.AmountDue;
+                   entity.AmountDue == payment.AmountDue &&
+                   entity.StandardCode == payment.StandardCode &&
+                   entity.FrameworkCode == payment.FrameworkCode &&
+                   entity.ProgrammeType == payment.ProgrammeType &&
+                   entity.PathwayCode == payment.PathwayCode;
         }
     }
 }

@@ -39,7 +39,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Period9 = 0,
                 Period10 = 0,
                 Period11 = 0,
-                Period12 = 0
+                Period12 = 0,
+                StandardCode = 25
             },
             new EarningEntity
             {
@@ -65,7 +66,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Period9 = 1000m,
                 Period10 = 0,
                 Period11 = 0,
-                Period12 = 0
+                Period12 = 0,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
             }
         };
 
@@ -159,7 +163,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         Period9 = 0,
                         Period10 = 0,
                         Period11 = 0,
-                        Period12 = 0
+                        Period12 = 0,
+                        StandardCode = 25
                     }
                 });
 
@@ -238,7 +243,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         Period9 = 0,
                         Period10 = 0,
                         Period11 = 0,
-                        Period12 = 0
+                        Period12 = 0,
+                        StandardCode = 25
                     }
                 });
             
@@ -250,6 +256,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             Assert.IsNull(response.Items);
             Assert.IsNotNull(response.Exception);
             Assert.AreEqual(typeof(InvalidEarningTypeException), response.Exception.GetType());
+        }
+
+        [Test]
+        public void ThenItShouldReturnTheCorrectCourseInformation()
+        {
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.IsNotNull(response);
+            Assert.IsTrue(response.IsValid);
+            Assert.IsNotNull(response.Items);
+            Assert.AreEqual(16, response.Items.Length);
+
+            Assert.AreEqual(7,
+                response.Items.Count(
+                    e =>
+                        e.StandardCode == EarningEntities[0].StandardCode &&
+                        e.FrameworkCode == EarningEntities[0].FrameworkCode &&
+                        e.ProgrammeType == EarningEntities[0].ProgrammeType &&
+                        e.PathwayCode == EarningEntities[0].PathwayCode &&
+                        e.CommitmentId == EarningEntities[0].CommitmentId));
+
+            Assert.AreEqual(9,
+                response.Items.Count(
+                    e =>
+                        e.StandardCode == EarningEntities[1].StandardCode &&
+                        e.FrameworkCode == EarningEntities[1].FrameworkCode &&
+                        e.ProgrammeType == EarningEntities[1].ProgrammeType &&
+                        e.PathwayCode == EarningEntities[1].PathwayCode &&
+                        e.CommitmentId == EarningEntities[1].CommitmentId));
         }
     }
 }

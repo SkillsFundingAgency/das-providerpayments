@@ -88,7 +88,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 CalendarMonth = 8,
                 CalendarYear = 2017,
                 EarnedValue = 1000m,
-                Type = Common.Application.TransactionType.Learning
+                Type = Common.Application.TransactionType.Learning,
+                StandardCode = 25
             };
             _periodEarning2 = new PeriodEarning
             {
@@ -101,7 +102,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 CalendarMonth = 9,
                 CalendarYear = 2017,
                 EarnedValue = 3000m,
-                Type = Common.Application.TransactionType.Completion
+                Type = Common.Application.TransactionType.Completion,
+                StandardCode = 25
             };
             _periodEarning3 = new PeriodEarning
             {
@@ -114,7 +116,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 CalendarMonth = 9,
                 CalendarYear = 2017,
                 EarnedValue = 2000m,
-                Type = Common.Application.TransactionType.Balancing
+                Type = Common.Application.TransactionType.Balancing,
+                StandardCode = 25
             };
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
@@ -339,7 +342,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 || payment.DeliveryMonth != earning.CalendarMonth
                 || payment.DeliveryYear != earning.CalendarYear
                 || payment.AmountDue != expectedAmountDue
-                || (int)payment.TransactionType != (int)earning.Type)
+                || (int)payment.TransactionType != (int)earning.Type
+                || payment.StandardCode != earning.StandardCode
+                || payment.FrameworkCode != earning.FrameworkCode
+                || payment.ProgrammeType != earning.ProgrammeType
+                || payment.PathwayCode != earning.PathwayCode)
             {
                 return false;
             }

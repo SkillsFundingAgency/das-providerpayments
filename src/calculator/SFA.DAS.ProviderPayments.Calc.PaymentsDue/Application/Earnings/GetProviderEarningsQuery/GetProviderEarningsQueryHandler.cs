@@ -136,7 +136,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 CalendarMonth = month,
                 CalendarYear = year,
                 EarnedValue = value,
-                Type = TranslateEarningTypeToTransactionType(entity.EarningType)
+                Type = TranslateEarningTypeToTransactionType(entity.EarningType),
+                StandardCode = entity.StandardCode,
+                FrameworkCode = entity.FrameworkCode,
+                ProgrammeType = entity.ProgrammeType,
+                PathwayCode = entity.PathwayCode
             }};
         }
 

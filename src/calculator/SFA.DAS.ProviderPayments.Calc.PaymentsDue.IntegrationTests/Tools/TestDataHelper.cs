@@ -209,6 +209,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "1, " // AimSeqNumber
                   + "Ukprn, " // Ukprn
                   + "GETDATE(), " // IlrSubmissionDateTime
+                  + "StandardCode, " // StandardCode
+                  + "ProgrammeType, " // ProgrammeType
+                  + "FrameworkCode, " // FrameworkCode
+                  + "PathwayCode, " // PathwayCode
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
                   + "'R01', " // CollectionPeriodName

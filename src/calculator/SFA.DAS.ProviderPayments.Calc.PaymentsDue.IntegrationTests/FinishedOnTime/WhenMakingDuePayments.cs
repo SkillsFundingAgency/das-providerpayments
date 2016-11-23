@@ -15,7 +15,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
         [Test]
-        public void ThenItShouldWriteCorrectDetailsForPaymentsDue()
+        [TestCase(25L, null, null, null)]
+        [TestCase(null, 550, 20, 6)]
+        public void ThenItShouldWriteCorrectDetailsForPaymentsDue(long? standardCode, int? frameworkCode, int? programmeType, int? pathwayCode)
         {
             // Arrange
             var ukprn = 863145;
@@ -27,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddProvider(ukprn);
 
-            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, uln: uln, startDate: startDate, endDate: plannedEndDate);
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, uln: uln, startDate: startDate, endDate: plannedEndDate, standardCode: standardCode, frameworkCode: frameworkCode, programmeType: programmeType, pathwayCode: pathwayCode);
 
             TestDataHelper.SetOpenCollection(1);
 
@@ -57,6 +59,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(2016, duePayments[0].DeliveryYear);
             Assert.AreEqual((int)TransactionType.Learning, duePayments[0].TransactionType);
             Assert.AreEqual(1000, duePayments[0].AmountDue);
+
+            Assert.AreEqual(standardCode, duePayments[0].StandardCode);
+            Assert.AreEqual(frameworkCode, duePayments[0].FrameworkCode);
+            Assert.AreEqual(programmeType, duePayments[0].ProgrammeType);
+            Assert.AreEqual(pathwayCode, duePayments[0].PathwayCode);
         }
 
         [Test]
