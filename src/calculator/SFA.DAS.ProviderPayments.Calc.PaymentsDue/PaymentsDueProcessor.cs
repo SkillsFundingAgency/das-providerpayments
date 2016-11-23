@@ -130,10 +130,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     paymentsDue.Add(new RequiredPayment
                     {
                         CommitmentId = earning.CommitmentId,
-                        CommitmentVersionId = earning.CommitmentVersionId, //Earning
-                        AccountId = earning.AccountId, //Earning
-                        AccountVersionId = earning.AccountVersionId, //Earning
-                        Uln = earning.Uln, //Earning
+                        CommitmentVersionId = earning.CommitmentVersionId,
+                        AccountId = earning.AccountId,
+                        AccountVersionId = earning.AccountVersionId,
+                        Uln = earning.Uln,
                         IlrSubmissionDateTime = provider.IlrSubmissionDateTime, //Provider
                         Ukprn = earning.Ukprn,
                         LearnerRefNumber = earning.LearnerReferenceNumber,
@@ -141,7 +141,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         DeliveryMonth = earning.CalendarMonth,
                         DeliveryYear = earning.CalendarYear,
                         AmountDue = amountDue,
-                        TransactionType = earning.Type
+                        TransactionType = earning.Type,
+                        StandardCode = earning.StandardCode,
+                        FrameworkCode = earning.FrameworkCode,
+                        ProgrammeType = earning.ProgrammeType,
+                        PathwayCode = earning.PathwayCode
                     });
                 }
             }

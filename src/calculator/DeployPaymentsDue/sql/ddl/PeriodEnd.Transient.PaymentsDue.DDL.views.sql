@@ -38,7 +38,11 @@ AS
 		ae.Period_9,
 		ae.Period_10,
 		ae.Period_11,
-		ae.Period_12
+		ae.Period_12,
+		c.StandardCode,
+		c.ProgrammeType,
+		c.FrameworkCode,
+		c.PathwayCode
 	FROM Reference.ApprenticeshipEarnings ae
 	INNER JOIN DataLock.DasLearnerCommitment lc 
 		ON ae.Ukprn = lc.Ukprn
@@ -134,6 +138,10 @@ SELECT
 	AimSeqNumber,
 	Ukprn,
     IlrSubmissionDateTime,
+	StandardCode,
+	ProgrammeType,
+	FrameworkCode,
+	PathwayCode,
 	DeliveryMonth,
 	DeliveryYear,
 	(SELECT MAX('${YearOfCollection}-' + [Name]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodName,

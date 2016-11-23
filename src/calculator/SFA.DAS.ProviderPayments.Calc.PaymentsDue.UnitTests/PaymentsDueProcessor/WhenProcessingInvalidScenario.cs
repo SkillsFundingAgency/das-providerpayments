@@ -89,7 +89,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             CalendarMonth = 8,
                             CalendarYear = 2017,
                             EarnedValue = 1000m,
-                            Type = Common.Application.TransactionType.Learning
+                            Type = Common.Application.TransactionType.Learning,
+                            StandardCode = 25
                         }
                     }
                 });

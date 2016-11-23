@@ -29,5 +29,10 @@
         public decimal Period10 { get; set; }
         public decimal Period11 { get; set; }
         public decimal Period12 { get; set; }
+
+        public long? StandardCode { get; set; }
+        public int? ProgrammeType { get; set; }
+        public int? FrameworkCode { get; set; }
+        public int? PathwayCode { get; set; }
     }
 }

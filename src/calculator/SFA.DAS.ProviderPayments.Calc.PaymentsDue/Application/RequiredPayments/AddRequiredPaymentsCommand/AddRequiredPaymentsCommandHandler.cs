@@ -35,7 +35,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             DeliveryYear = p.DeliveryYear,
                             TransactionType = (int) p.TransactionType,
                             AmountDue = p.AmountDue,
-                            IlrSubmissionDateTime = p.IlrSubmissionDateTime
+                            IlrSubmissionDateTime = p.IlrSubmissionDateTime,
+                            StandardCode = p.StandardCode,
+                            FrameworkCode = p.FrameworkCode,
+                            ProgrammeType = p.ProgrammeType,
+                            PathwayCode = p.PathwayCode
                         })
                     .ToArray();
 

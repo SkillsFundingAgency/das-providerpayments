@@ -17,5 +17,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int DeliveryYear { get; set; }
         public int TransactionType { get; set; }
         public decimal AmountDue { get; set; }
+
+        public long? StandardCode { get; set; }
+        public int? ProgrammeType { get; set; }
+        public int? FrameworkCode { get; set; }
+        public int? PathwayCode { get; set; }
     }
 }
