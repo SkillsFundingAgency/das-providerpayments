@@ -122,7 +122,7 @@
     <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\DasCommitments.Deds.DDL.sql">
+    <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DDL.sql">

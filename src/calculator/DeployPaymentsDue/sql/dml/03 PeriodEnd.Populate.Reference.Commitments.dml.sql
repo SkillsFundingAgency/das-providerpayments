@@ -14,7 +14,10 @@ INSERT INTO [Reference].[DasCommitments]
         [ProgrammeType],
         [FrameworkCode],
         [PathwayCode],
-		[Priority],
-		[VersionId]
-	FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
+        [PaymentStatus],
+        [PaymentStatusDescription],
+        [Payable],
+        [Priority],
+        [VersionId]
+    FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
 GO
