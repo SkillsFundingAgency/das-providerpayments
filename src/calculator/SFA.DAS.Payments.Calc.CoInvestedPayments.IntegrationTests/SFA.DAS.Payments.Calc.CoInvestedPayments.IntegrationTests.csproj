@@ -135,7 +135,7 @@
     <Content Include="DbSetupScripts\DasAccounts.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Deds.DataLock.DDL.sql">
+    <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.sql">

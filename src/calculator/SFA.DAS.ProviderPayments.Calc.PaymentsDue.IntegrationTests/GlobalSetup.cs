@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     // Pre-req scripts
                     RunSqlScript(@"Ilr.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", dedsConnection);
-                    RunSqlScript(@"DasCommitments.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", dedsConnection);
                     RunSqlScript(@"DasAccounts.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
