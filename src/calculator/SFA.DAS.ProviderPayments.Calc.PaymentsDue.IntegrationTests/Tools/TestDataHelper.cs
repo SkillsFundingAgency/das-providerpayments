@@ -79,55 +79,63 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
             if (passedDataLock)
             {
+                var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
+
                 Execute("INSERT INTO DataLock.DasLearnerCommitment "
-                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId) "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,EpisodeStartDate) "
                       + "VALUES "
-                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id)",
-                      new { id, ukprn, learnerRefNumber, aimSequenceNumber });
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier,@episodeStartDate)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, episodeStartDate = startDate });
             }
         }
 
         internal static void AddEarningForCommitment(long commitmentId,
                                                      string learnerRefNumber,
                                                      int aimSequenceNumber = 1,
-                                                     string niNumber = "XX12345X",
                                                      int numberOfPeriods = 12,
                                                      int currentPeriod = 1,
-                                                     DateTime? startDate = null,
-                                                     DateTime? endDate = null,
-                                                     DateTime? actualEndDate = null,
                                                      bool earlyFinisher = false)
         {
-            Execute("INSERT INTO Rulebase.AE_LearningDelivery "
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                   + "SELECT "
+                  + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "Ukprn, "
-                  + "Uln, "
-                  + "@niNumber, "
-                  + "StandardCode, "
-                  + "ProgrammeType, "
-                  + "FrameworkCode, "
-                  + "PathwayCode, "
-                  + "AgreedCost, "
-                  + "COALESCE(@startDate, StartDate), "
+                  + "StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "NULL, "
-                  + "COALESCE(@endDate, EndDate), "
-                  + "@actualEndDate, "
-                  + "(AgreedCost * 0.8) / @numberOfPeriods, "
-                  + "(AgreedCost * 0.8) / @numberOfPeriods, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "AgreedCost, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "AgreedCost * 0.8, "
                   + "AgreedCost * 0.2, "
-                  + "AgreedCost * 0.2 "
+                  + "NULL, "
+                  + "NULL "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, niNumber, numberOfPeriods, currentPeriod, startDate, endDate, actualEndDate }, false);
+                new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
 
-            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "'ProgrammeAimOnProgPayment', "
+                  + "StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
+                  + "'PriceEpisodeOnProgPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 1) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 2) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 3) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
@@ -144,12 +152,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "WHERE CommitmentId = @commitmentId",
                   new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
-            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "'ProgrammeAimCompletionPayment', "
+                  + "StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
+                  + "'PriceEpisodeCompletionPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 1) THEN AgreedCost * 0.2 ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 2) THEN AgreedCost * 0.2 ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 3) THEN AgreedCost * 0.2 ELSE 0 END, "
@@ -166,12 +176,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "WHERE CommitmentId = @commitmentId",
                   new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
-            Execute("INSERT INTO Rulebase.AE_LearningDelivery_PeriodisedValues "
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "'ProgrammeAimBalPayment', "
+                  + "StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
+                  + "'PriceEpisodeBalancePayment', "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 1 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 1) ELSE 0 END, "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 2 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 2) ELSE 0 END, "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 3 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 3) ELSE 0 END, "

@@ -10,8 +10,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                             + "CommitmentVersionId, "
                                             + "AccountId, "
                                             + "AccountVersionId, "
-                                            + "MonthlyInstallment, "
-                                            + "CompletionPayment, "
                                             + "Ukprn, "
                                             + "Uln, "
                                             + "LearnRefNumber [LearnerRefNumber], "
