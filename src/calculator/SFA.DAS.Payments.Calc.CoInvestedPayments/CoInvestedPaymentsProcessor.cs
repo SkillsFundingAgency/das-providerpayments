@@ -120,6 +120,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
+            var fundingSource = paymentDue.CommitmentId.HasValue ? FundingSource.CoInvestedSfa : FundingSource.CoInvestedNonLevy;
             payments.Add(
                 new Payment
                 {
@@ -133,9 +134,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
                     CollectionPeriodMonth = currentPeriod.Month,
                     CollectionPeriodYear = currentPeriod.Year,
-                    FundingSource = FundingSource.CoInvestedSfa,
+                    FundingSource = fundingSource,
                     TransactionType = paymentDue.TransactionType,
-                    Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
+                    Amount = DetermineCoInvestedAmount(fundingSource, paymentDue.AmountDue)
                 }
                 );
 
@@ -166,6 +167,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             switch (fundingSource)
             {
                 case FundingSource.CoInvestedSfa:
+                case FundingSource.CoInvestedNonLevy:
                 {
                     result =  amountToPay * CoInvestedSfaRatio;
                     break;

@@ -42,13 +42,20 @@ AS
 		c.FrameworkCode,
 		c.PathwayCode
 	FROM Reference.ApprenticeshipEarnings ae
-		JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
+		LEFT JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
 			AND ae.LearnRefNumber = lc.LearnRefNumber
 			AND ae.AimSeqNumber = lc.AimSeqNumber
 			AND ae.EpisodeStartDate = lc.EpisodeStartDate
 			AND ae.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
-		JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
-		JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
+		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
+		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
+	WHERE NOT EXISTS(
+		SELECT 1 FROM DATALOCK.ValidationError ve
+		WHERE ve.LearnRefNumber = lc.LearnRefNumber
+			AND ve.AimSeqNumber = lc.AimSeqNumber
+			AND ve.EpisodeStartDate = lc.EpisodeStartDate
+			AND ve.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
+		)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
