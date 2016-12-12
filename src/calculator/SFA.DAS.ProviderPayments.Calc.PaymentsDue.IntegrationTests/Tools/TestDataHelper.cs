@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using System.Collections.Generic;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 {
@@ -87,9 +88,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                       + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier,@episodeStartDate)",
                       new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, episodeStartDate = startDate });
             }
+            else
+            {
+                var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
+
+                Execute("INSERT INTO DataLock.ValidationError "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,RuleId,PriceEpisodeIdentifier,EpisodeStartDate) "
+                      + "VALUES "
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,1,@priceEpisodeIdentifier,@episodeStartDate)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, episodeStartDate = startDate });
+
+            }
         }
 
-        internal static void AddEarningForCommitment(long commitmentId,
+        internal static void AddEarningForCommitment(long? commitmentId,
                                                      string learnerRefNumber,
                                                      int aimSequenceNumber = 1,
                                                      int numberOfPeriods = 12,
@@ -205,6 +217,128 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new {commitmentId, learnerRefNumber}, false);
+        }
+
+
+        internal static void AddEarning(long ukprn,
+                                        DateTime startDate,
+                                        decimal agreedCost,
+                                        string learnerRefNumber,
+                                        int aimSequenceNumber = 1,
+                                        int numberOfPeriods = 12,
+                                        int currentPeriod = 1,
+                                        bool earlyFinisher = false,
+                                        long uln = 0L)
+{
+
+            var tnp1 =  agreedCost * 0.8m;
+            var tnp2 = agreedCost * 0.2m;
+            if (uln == 0)
+                uln = Random.Next(1, int.MaxValue);
+
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
+                  + "VALUES( "
+                  + "@ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "@StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "@AgreedCost, "
+                  + "NULL, "
+                  + "NULL, "
+                  + "@tnp1, "
+                  + "@tnp2, "
+                  + "NULL, "
+                  + "NULL) ",
+                  new { ukprn,startDate,agreedCost,tnp1,tnp2, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
+
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
+                  + "VALUES( "
+                  + "@Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "@StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'PriceEpisodeOnProgPayment', "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 1) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 2) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 3) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 4) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 4) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 5) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 5) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 6) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 6) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 7) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 7) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 8) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 8) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 9) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 9) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 10) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 10) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 11) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 12) THEN (@tnp1) / @numberOfPeriods ELSE 0 END "
+                 + " )",
+                  new { ukprn,startDate, agreedCost, tnp1,tnp2,  learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
+                  + "VALUES ( "
+                  + "@Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "@StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'PriceEpisodeCompletionPayment', "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 1) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 2) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 3) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 3) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 4) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 4) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 5) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 5) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 6) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 6) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 7) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 7) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 8) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 8) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 9) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 9) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 10) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 10) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 11) THEN @tnp2 ELSE 0 END, "
+                  + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 12) THEN @tnp2 ELSE 0 END "
+                  + ") ",
+                  new { ukprn,startDate,tnp2, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
+                  + "VALUES ( "
+                  + "@Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "@StartDate, "
+                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'PriceEpisodeBalancePayment', "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 1 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 1) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 2 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 2) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 3 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 3) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 4 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 4) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 5 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 5) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 6 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 6) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 7 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 7) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 8 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 8) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 9 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 9) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 10 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 10) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 11 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 11) ELSE 0 END, "
+                  + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 12 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 12) ELSE 0 END "
+                  + ")",
+                  new { ukprn,startDate,tnp1, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+
+            Execute("INSERT INTO Valid.Learner "
+                    + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
+                    + "VALUES( @Ukprn, @learnerRefNumber,@Uln,0,0,0) ",
+                new { ukprn, learnerRefNumber ,uln}, false);
         }
 
         internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)

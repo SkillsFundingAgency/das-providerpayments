@@ -51,10 +51,10 @@ AS
 		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
 	WHERE NOT EXISTS(
 		SELECT 1 FROM DATALOCK.ValidationError ve
-		WHERE ve.LearnRefNumber = lc.LearnRefNumber
-			AND ve.AimSeqNumber = lc.AimSeqNumber
-			AND ve.EpisodeStartDate = lc.EpisodeStartDate
-			AND ve.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
+		WHERE ve.LearnRefNumber = ae.LearnRefNumber
+			AND ve.AimSeqNumber = ae.AimSeqNumber
+			AND ve.EpisodeStartDate = ae.EpisodeStartDate
+			AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)
 GO
 
@@ -116,7 +116,12 @@ SELECT
 	CollectionPeriodMonth,
 	CollectionPeriodYear,
 	AmountDue,
-	TransactionType 
+	TransactionType ,
+	Uln,
+	StandardCode ,
+	ProgrammeType,
+	FrameworkCode,
+	PathwayCode
 FROM Reference.RequiredPaymentsHistory
 GO
 

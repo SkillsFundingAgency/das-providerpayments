@@ -305,5 +305,48 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
             Assert.AreEqual(2000, period10Payments[2].AmountDue);
         }
+
+        [Test]
+        public void ThenItShouldMakeNoPaymentsForNonDASLearner()
+        {
+            // Arrange
+            var ukprn = 863145;
+          
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+           // TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(10);
+
+            TestDataHelper.AddEarning(ukprn,  startDate,1500, learnerRefNumber, currentPeriod: 10, earlyFinisher: false);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var period10Payments = duePayments.Where(p => p.DeliveryMonth == 5 && p.DeliveryYear == 2017)
+                                              .OrderBy(p => p.TransactionType)
+                                              .ToArray();
+            Assert.AreEqual(3, period10Payments.Length);
+
+            Assert.AreEqual((int)TransactionType.Learning, period10Payments[0].TransactionType);
+            Assert.AreEqual(1000, period10Payments[0].AmountDue);
+
+            Assert.AreEqual((int)TransactionType.Completion, period10Payments[1].TransactionType);
+            Assert.AreEqual(3000, period10Payments[1].AmountDue);
+
+            Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
+            Assert.AreEqual(2000, period10Payments[2].AmountDue);
+        }
+
     }
 }

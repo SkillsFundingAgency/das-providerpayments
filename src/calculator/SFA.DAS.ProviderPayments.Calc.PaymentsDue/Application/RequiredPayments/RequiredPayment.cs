@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
 {
     public class RequiredPayment
     {
-        public long CommitmentId { get; set; }
+        public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
         public string LearnerRefNumber { get; set; }
         public int AimSequenceNumber { get; set; }

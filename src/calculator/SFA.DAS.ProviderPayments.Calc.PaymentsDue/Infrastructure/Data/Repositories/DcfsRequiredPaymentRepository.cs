@@ -19,9 +19,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "DeliveryMonth, "
                                                    + "DeliveryYear, "
                                                    + "AmountDue, "
-                                                   + "TransactionType";
-        private const string SelectPaymentsForCommitment = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource
-                                                         + " WHERE CommitmentId = @commitmentId AND Ukprn = @ukprn";
+                                                   + "TransactionType,"
+                                                    + "Uln,"
+                                                    + "StandardCode ,"
+                                                    + "ProgrammeType,"
+                                                    + "FrameworkCode,"
+                                                    + "PathwayCode";
+        private const string SelectPayments= "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource
+                                                         + " WHERE Ukprn = @ukprn AND Uln=@Uln AND StandardCode=@standardCode AND "
+                                                         + " ProgrammeType=@programmeType AND FrameworkCode=@frameworkCode AND"
+                                                         + " PathwayCode=@pathwayCode " ;
 
 
         public DcfsRequiredPaymentRepository(string connectionString)
@@ -34,9 +41,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPaymentsForCommitment(long ukprn, long commitmentId)
+        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln, long? standardCode, int? programmeType, int? frameworkCode, int? pathwayCode)
         {
-            return Query<RequiredPaymentEntity>(SelectPaymentsForCommitment, new {ukprn, commitmentId});
+            return Query<RequiredPaymentEntity>(SelectPayments, new { ukprn, uln,standardCode,programmeType,frameworkCode,pathwayCode });
         }
     }
 }

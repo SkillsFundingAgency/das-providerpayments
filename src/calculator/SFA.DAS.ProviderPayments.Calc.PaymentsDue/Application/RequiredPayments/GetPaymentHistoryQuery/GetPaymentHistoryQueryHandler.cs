@@ -20,7 +20,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
             try
             {
                 var entities =
-                    _requiredPaymentRepository.GetPreviousPaymentsForCommitment(message.Ukprn, message.CommitmentId) ??
+                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn,
+                                                                            message.Uln,
+                                                                            message.StandardCode,
+                                                                            message.ProgrammeType,
+                                                                            message.FrameworkCode,
+                                                                            message.PathwayCode) ??
                     new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryQueryResponse
@@ -36,6 +41,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             DeliveryMonth = e.DeliveryMonth,
                             DeliveryYear = e.DeliveryYear,
                             AmountDue = e.AmountDue,
+                            Uln = e.Uln,
+                            StandardCode = e.StandardCode,
+                            ProgrammeType = e.ProgrammeType,
+                            FrameworkCode = e.FrameworkCode,
+                            PathwayCode = e.PathwayCode,
                             TransactionType = (TransactionType)e.TransactionType
                         }).ToArray()
                 };
@@ -48,6 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                     Exception = ex
                 };
             }
-        }
+        
+    }
     }
 }
