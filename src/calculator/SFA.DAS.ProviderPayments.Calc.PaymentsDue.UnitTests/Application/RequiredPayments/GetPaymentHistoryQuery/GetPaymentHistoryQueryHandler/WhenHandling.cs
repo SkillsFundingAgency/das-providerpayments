@@ -9,13 +9,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
 {
     public class WhenHandling
     {
-        private const long CommitmentId = 1;
+       
         private const long Ukprn = 123456;
         private const string LearnRefNumber = "LEARNER-1";
         private const int AimSequenceNumber = 1;
         private const int DeliveryMonth = 8;
         private const int DeliveryYear = 2017;
         private const decimal AmountDue = 123.45m;
+        private const long StandardCode = 98888;
+        private const long Uln = 999999;
 
         private GetPaymentHistoryQueryRequest _request;
         private Mock<IRequiredPaymentRepository> _requiredPaymentRepository;
@@ -24,29 +26,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         [SetUp]
         public void Arrange()
         {
-            //_request = new GetPaymentHistoryQueryRequest
-            //{
-            //    Ukprn = Ukprn,
-            //    CommitmentId = CommitmentId
-            //};
+            _request = new GetPaymentHistoryQueryRequest
+            {
+                Ukprn = Ukprn,
+                Uln = Uln,
+                StandardCode=StandardCode
 
-            //_requiredPaymentRepository = new Mock<IRequiredPaymentRepository>();
-            //_requiredPaymentRepository.Setup(r => r.GetPreviousPaymentsForCommitment(Ukprn, CommitmentId))
-            //    .Returns(new[]
-            //    {
-            //        new RequiredPaymentEntity
-            //        {
-            //            CommitmentId = CommitmentId,
-            //            Ukprn = Ukprn,
-            //            LearnRefNumber = LearnRefNumber,
-            //            AimSeqNumber = AimSequenceNumber,
-            //            DeliveryMonth = DeliveryMonth,
-            //            DeliveryYear = DeliveryYear,
-            //            AmountDue = AmountDue
-            //        }
-            //    });
+            };
 
-            //_handler = new PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery.GetPaymentHistoryQueryHandler(_requiredPaymentRepository.Object);
+            _requiredPaymentRepository = new Mock<IRequiredPaymentRepository>();
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+                .Returns(new[]
+                {
+                    new RequiredPaymentEntity
+                    {
+                        
+                        Ukprn = Ukprn,
+                        LearnRefNumber = LearnRefNumber,
+                        AimSeqNumber = AimSequenceNumber,
+                        DeliveryMonth = DeliveryMonth,
+                        DeliveryYear = DeliveryYear,
+                        AmountDue = AmountDue,
+                        StandardCode=StandardCode,
+                        Uln=Uln
+                    }
+                });
+
+            _handler = new PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery.GetPaymentHistoryQueryHandler(_requiredPaymentRepository.Object);
         }
 
         [Test]
@@ -69,44 +75,51 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             // Assert
             Assert.IsNotNull(actual.Items);
             Assert.AreEqual(1, actual.Items.Length);
-            Assert.AreEqual(CommitmentId, actual.Items[0].CommitmentId);
             Assert.AreEqual(Ukprn, actual.Items[0].Ukprn);
             Assert.AreEqual(LearnRefNumber, actual.Items[0].LearnerRefNumber);
             Assert.AreEqual(AimSequenceNumber, actual.Items[0].AimSequenceNumber);
             Assert.AreEqual(DeliveryMonth, actual.Items[0].DeliveryMonth);
             Assert.AreEqual(DeliveryYear, actual.Items[0].DeliveryYear);
             Assert.AreEqual(AmountDue, actual.Items[0].AmountDue);
+
+            Assert.AreEqual(Uln, actual.Items[0].Uln);
+            Assert.AreEqual(StandardCode, actual.Items[0].StandardCode);
+
+            Assert.IsNull(actual.Items[0].FrameworkCode);
+            Assert.IsNull(actual.Items[0].PathwayCode);
+            Assert.IsNull(actual.Items[0].ProgrammeType);
+
         }
 
         [Test]
         public void ThenItShouldReturnAnEmptyArrayOfItemsWhenNoneInTheRepository()
         {
-            //// Arrange
-            //_requiredPaymentRepository.Setup(r => r.GetPreviousPaymentsForCommitment(Ukprn, CommitmentId))
-            //    .Returns<RequiredPaymentEntity[]>(null);
+            // Arrange
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+                .Returns<RequiredPaymentEntity[]>(null);
 
-            //// Act
-            //var actual = _handler.Handle(_request);
+            // Act
+            var actual = _handler.Handle(_request);
 
-            //// Assert
-            //Assert.IsNotNull(actual.Items);
-            //Assert.AreEqual(0, actual.Items.Length);
+            // Assert
+            Assert.IsNotNull(actual.Items);
+            Assert.AreEqual(0, actual.Items.Length);
         }
 
         [Test]
         public void ThenItShouldReturnAnInvalidResponseWhenRepositoryErrors()
         {
-            //// Arrange
-            //_requiredPaymentRepository.Setup(r => r.GetPreviousPaymentsForCommitment(Ukprn, CommitmentId))
-            //    .Throws<Exception>();
+            // Arrange
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+                .Throws<Exception>();
 
-            //// Act
-            //var actual = _handler.Handle(_request);
+            // Act
+            var actual = _handler.Handle(_request);
 
-            //// Assert
-            //Assert.IsNotNull(actual);
-            //Assert.IsFalse(actual.IsValid);
-            //Assert.IsNotNull(actual.Exception);
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsFalse(actual.IsValid);
+            Assert.IsNotNull(actual.Exception);
         }
     }
 }

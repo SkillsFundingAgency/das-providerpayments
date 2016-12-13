@@ -9,10 +9,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string PaymentHistorySource = "PaymentsDue.vw_PaymentHistory";
         private const string PaymentHistoryColumns = "CommitmentId, "
-                                                   //+ "CommitmentVersionId, "
-                                                   //+ "AccountId, "
-                                                   //+ "AccountVersionId, "
-                                                   //+ "Uln, "
                                                    + "LearnRefNumber, "
                                                    + "AimSeqNumber, "
                                                    + "Ukprn, "
@@ -41,7 +37,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln, long? standardCode, int? programmeType, int? frameworkCode, int? pathwayCode)
+        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, 
+                                                            long uln, 
+                                                            long? standardCode= null, 
+                                                            int? programmeType = null, 
+                                                            int? frameworkCode = null,
+                                                            int? pathwayCode = null)
         {
             return Query<RequiredPaymentEntity>(SelectPayments, new { ukprn, uln,standardCode,programmeType,frameworkCode,pathwayCode });
         }

@@ -113,48 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
         }
 
-        //private void GetPaymentsDueForCommitments(Provider provider, CollectionPeriod currentPeriod, GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
-        //{
-        //    var paymentHistory = new List<RequiredPayment>();
-        //    var commitmentIds = earningResponse.Items.
-        //                        Where(x => x.CommitmentId.GetValueOrDefault() > 0).
-        //                        Select(e => e.CommitmentId.Value).Distinct().ToArray();
-
-        //    foreach (var commitmentId in commitmentIds)
-        //    {
-        //        var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
-        //        {
-        //            Ukprn = provider.Ukprn,
-        //            CommitmentId = commitmentId
-        //        });
-        //        if (!historyResponse.IsValid)
-        //        {
-        //            throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
-        //        }
-        //        paymentHistory.AddRange(historyResponse.Items);
-        //    }
-
-
-        //    foreach (var earning in earningResponse.Items)
-        //    {
-        //        if (earning.CalendarYear > currentPeriod.Year
-        //            || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
-        //        {
-        //            continue;
-        //        }
-
-        //        var amountEarned = earning.EarnedValue;
-        //        var alreadyPaid = paymentHistory
-        //            .Where(p => p.CommitmentId == earning.CommitmentId && p.DeliveryMonth == earning.CalendarMonth && p.DeliveryYear == earning.CalendarYear && p.TransactionType == earning.Type)
-        //            .Sum(p => p.AmountDue);
-        //        var amountDue = amountEarned - alreadyPaid;
-
-        //        if (amountDue > 0)
-        //        {
-        //            AddPaymentsDue(provider, paymentsDue, earning, amountDue);
-        //        }
-        //    }
-        //}
+        
 
         private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod, 
                                             GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
