@@ -45,7 +45,6 @@ AS
 		JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
 			AND ae.LearnRefNumber = lc.LearnRefNumber
 			AND ae.AimSeqNumber = lc.AimSeqNumber
-			AND ae.EpisodeStartDate = lc.EpisodeStartDate
 			AND ae.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
 		JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
 		JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId

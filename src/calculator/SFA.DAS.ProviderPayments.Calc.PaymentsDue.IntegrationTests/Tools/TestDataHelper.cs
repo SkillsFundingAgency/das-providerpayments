@@ -82,10 +82,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
 
                 Execute("INSERT INTO DataLock.DasLearnerCommitment "
-                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,EpisodeStartDate) "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier) "
                       + "VALUES "
-                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier,@episodeStartDate)",
-                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, episodeStartDate = startDate });
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier });
             }
         }
 
@@ -100,12 +100,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "StartDate, "
                   + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
+                  + "StartDate, "
+                  + "StartDate, "
                   + "NULL, "
                   + "NULL, "
-                  + "NULL, "
+                  + "@aimSequenceNumber, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
@@ -132,8 +132,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "StartDate, "
                   + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "'PriceEpisodeOnProgPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 1) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
@@ -150,14 +148,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 12) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { commitmentId, learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "StartDate, "
                   + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "'PriceEpisodeCompletionPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 1) THEN AgreedCost * 0.2 ELSE 0 END, "
@@ -174,14 +170,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 12) THEN AgreedCost * 0.2 ELSE 0 END "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { commitmentId, learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "StartDate, "
                   + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "'PriceEpisodeBalancePayment', "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 1 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 1) ELSE 0 END, "
@@ -198,7 +192,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 12 THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - 12) ELSE 0 END "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { commitmentId, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { commitmentId, learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Valid.Learner "
                     + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "

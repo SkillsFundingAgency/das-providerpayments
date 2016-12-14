@@ -6,8 +6,7 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		pe.[Ukprn],
 		l.[Uln],
 		pe.[LearnRefNumber],
-		pe.[AimSeqNumber],
-		pe.[EpisodeStartDate],
+		pe.[PriceEpisodeAimSeqNumber],
 		pe.[PriceEpisodeIdentifier],
 		pv.[AttributeName],
 		pv.Period_1,
@@ -25,7 +24,6 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues] pv ON pe.[Ukprn] = pv.[Ukprn]
 			AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
-			AND pe.[EpisodeStartDate] = pv.[EpisodeStartDate]
 			AND pe.[PriceEpisodeIdentifier] = pv.[PriceEpisodeIdentifier]
 		JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = pe.[Ukprn]
 			AND l.[LearnRefNumber] = pe.[LearnRefNumber]
