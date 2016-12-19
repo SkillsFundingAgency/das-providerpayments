@@ -11,11 +11,6 @@
         public long Ukprn { get; set; }
         public long Uln { get; set; }
 
-
-        public decimal MonthlyInstallment { get; set; }
-        public decimal CompletionPayment { get; set; }
-
-
         public string EarningType { get; set; }
         public decimal Period1 { get; set; }
         public decimal Period2 { get; set; }
