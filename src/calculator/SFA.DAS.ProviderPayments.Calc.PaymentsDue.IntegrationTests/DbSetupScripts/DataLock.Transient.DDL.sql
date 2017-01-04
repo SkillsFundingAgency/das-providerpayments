@@ -60,7 +60,6 @@ CREATE TABLE DataLock.DasLearnerCommitment
 	[LearnRefNumber] varchar(100) NOT NULL,
 	[AimSeqNumber] bigint NOT NULL,
 	[CommitmentId] bigint NOT NULL,
-	[PriceEpisodeIdentifier] varchar(25) NOT NULL,
-	[EpisodeStartDate] date NOT NULL,
+	[PriceEpisodeIdentifier] varchar(25) NOT NULL
 )
 GO
