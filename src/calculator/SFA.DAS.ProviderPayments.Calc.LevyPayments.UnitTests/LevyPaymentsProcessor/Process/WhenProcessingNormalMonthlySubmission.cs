@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
@@ -17,6 +19,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 {
     public class WhenProcessingNormalMonthlySubmission
     {
+        private static readonly Dictionary<long, Guid> CommitmentPaymentsDue = new Dictionary<long, Guid>
+        {
+            { 1, Guid.NewGuid() },
+            { 2, Guid.NewGuid() }
+        };
+
         private int _accountCounter;
         private Account _account;
 
@@ -67,23 +75,25 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
-                .Returns(new GetPaymentsDueForCommitmentQueryResponse
-                {
-                    IsValid = true,
-                    Items = new[]
+                .Returns<GetPaymentsDueForCommitmentQueryRequest>(r =>
+                    new GetPaymentsDueForCommitmentQueryResponse
                     {
-                        new PaymentDue
+                        IsValid = true,
+                        Items = new[]
                         {
-                            LearnerRefNumber = "Lrn-001",
-                            AimSequenceNumber = 1,
-                            Ukprn = 10007459,
-                            DeliveryMonth = 8,
-                            DeliveryYear = 2015,
-                            TransactionType = TransactionType.Learning,
-                            AmountDue = 1000.00m
+                            new PaymentDue
+                            {
+                                Id = CommitmentPaymentsDue[r.CommitmentId],
+                                LearnerRefNumber = "Lrn-001",
+                                AimSequenceNumber = 1,
+                                Ukprn = 10007459,
+                                DeliveryMonth = 8,
+                                DeliveryYear = 2015,
+                                TransactionType = TransactionType.Learning,
+                                AmountDue = 1000.00m
+                            }
                         }
-                    }
-                });
+                    });
 
             _mediator
                 .Setup(m => m.Send(It.Is<AllocateLevyCommandRequest>(r => r.Account.Id == _account.Id && r.AmountRequested == 1000.00m)))
@@ -172,8 +182,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0], FundingSource.Levy, 1000.00m)));
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, 1000.00m)));
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0].Id, FundingSource.Levy, 1000.00m)));
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1].Id, FundingSource.Levy, 1000.00m)));
         }
 
         [Test]
@@ -219,12 +229,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
         }
 
-        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource fundingSource, decimal amount)
+        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(long commitmentId, FundingSource fundingSource, decimal amount)
         {
-            return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.CommitmentId == commitment.Id
-                                                         && r.Payment.LearnerRefNumber == "Lrn-001"
-                                                         && r.Payment.AimSequenceNumber == 1
-                                                         && r.Payment.Ukprn == 10007459
+            return It.Is<ProcessPaymentCommandRequest>(r => r.Payment.RequiredPaymentId == CommitmentPaymentsDue[commitmentId]
                                                          && r.Payment.DeliveryMonth == 8
                                                          && r.Payment.DeliveryYear == 2015
                                                          && r.Payment.CollectionPeriodMonth == 9

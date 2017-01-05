@@ -143,10 +143,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                     Payment = new Payment
                     {
                         RequiredPaymentId = paymentDue.Id,
-                        CommitmentId = commitment.Id,
-                        LearnerRefNumber = paymentDue.LearnerRefNumber,
-                        AimSequenceNumber = paymentDue.AimSequenceNumber,
-                        Ukprn = paymentDue.Ukprn,
                         DeliveryMonth = paymentDue.DeliveryMonth,
                         DeliveryYear = paymentDue.DeliveryYear,
                         CollectionPeriodName = $"{_yearOfCollection}-{period.Name}",
