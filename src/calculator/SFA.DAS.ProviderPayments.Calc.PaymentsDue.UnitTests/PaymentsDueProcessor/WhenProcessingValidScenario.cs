@@ -246,7 +246,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             DeliveryMonth = _periodEarning1.CalendarMonth,
                             DeliveryYear = _periodEarning1.CalendarYear,
                             AmountDue = _periodEarning1.EarnedValue,
-                            TransactionType = _periodEarning1.Type
+                            TransactionType = _periodEarning1.Type,
+                            Uln = _periodEarning1.Uln,
+                            StandardCode = _periodEarning1.StandardCode,
+                            FrameworkCode = _periodEarning1.FrameworkCode,
+                            ProgrammeType = _periodEarning1.ProgrammeType,
+                            PathwayCode = _periodEarning1.PathwayCode
                         }
                     }
                 });
@@ -284,7 +289,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             DeliveryMonth = _periodEarning1.CalendarMonth,
                             DeliveryYear = _periodEarning1.CalendarYear,
                             AmountDue = _periodEarning1.EarnedValue - 100,
-                            TransactionType = _periodEarning1.Type
+                            TransactionType = _periodEarning1.Type,
+                            Uln = _periodEarning1.Uln,
+                            StandardCode = _periodEarning1.StandardCode,
+                            FrameworkCode = _periodEarning1.FrameworkCode,
+                            ProgrammeType = _periodEarning1.ProgrammeType,
+                            PathwayCode = _periodEarning1.PathwayCode
                         }
                     }
                 });

@@ -39,9 +39,7 @@ CREATE TABLE DataLock.ValidationError
 	[LearnRefNumber] varchar(100),
 	[AimSeqNumber] bigint,
 	[RuleId] varchar(50),
-	[PriceEpisodeIdentifier] varchar(25) NOT NULL,
-	[EpisodeStartDate] date NOT NULL
-
+	[PriceEpisodeIdentifier] varchar(25) NOT NULL
 )
 GO
 

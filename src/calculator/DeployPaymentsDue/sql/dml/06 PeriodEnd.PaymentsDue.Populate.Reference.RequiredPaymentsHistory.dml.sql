@@ -19,7 +19,8 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		StandardCode,
 		ProgrammeType,
 		FrameworkCode,
-		PathwayCode
+		PathwayCode,
+		PriceEpisodeIdentifier
     FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 GO

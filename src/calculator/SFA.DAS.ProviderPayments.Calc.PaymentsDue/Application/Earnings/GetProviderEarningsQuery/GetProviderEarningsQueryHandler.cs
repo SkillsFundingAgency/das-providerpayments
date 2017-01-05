@@ -121,27 +121,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             }
 
 
-            return new[] {new PeriodEarning
+            return new[]
             {
-                CommitmentId = entity.CommitmentId,
-                CommitmentVersionId = entity.CommitmentVersionId,
-                AccountId = entity.AccountId,
-                AccountVersionId = entity.AccountVersionId,
-                Uln = entity.Uln,
-                Ukprn = entity.Ukprn,
-                LearnerReferenceNumber = entity.LearnerRefNumber,
-                AimSequenceNumber = entity.AimSequenceNumber,
-                CollectionPeriodNumber = periodNumber,
-                CollectionAcademicYear = academicYear,
-                CalendarMonth = month,
-                CalendarYear = year,
-                EarnedValue = value,
-                Type = TranslateEarningTypeToTransactionType(entity.EarningType),
-                StandardCode = entity.StandardCode,
-                FrameworkCode = entity.FrameworkCode,
-                ProgrammeType = entity.ProgrammeType,
-                PathwayCode = entity.PathwayCode
-            }};
+                new PeriodEarning
+                {
+                    CommitmentId = entity.CommitmentId,
+                    CommitmentVersionId = entity.CommitmentVersionId,
+                    AccountId = entity.AccountId,
+                    AccountVersionId = entity.AccountVersionId,
+                    Uln = entity.Uln,
+                    Ukprn = entity.Ukprn,
+                    LearnerReferenceNumber = entity.LearnerRefNumber,
+                    AimSequenceNumber = entity.AimSequenceNumber,
+                    CollectionPeriodNumber = periodNumber,
+                    CollectionAcademicYear = academicYear,
+                    CalendarMonth = month,
+                    CalendarYear = year,
+                    EarnedValue = value,
+                    Type = TranslateEarningTypeToTransactionType(entity.EarningType),
+                    StandardCode = entity.StandardCode,
+                    FrameworkCode = entity.FrameworkCode,
+                    ProgrammeType = entity.ProgrammeType,
+                    PathwayCode = entity.PathwayCode,
+                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
+                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
+                }
+            };
         }
 
         private TransactionType TranslateEarningTypeToTransactionType(string earningType)

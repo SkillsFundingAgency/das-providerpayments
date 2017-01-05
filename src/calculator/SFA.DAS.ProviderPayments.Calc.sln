@@ -106,6 +106,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{AA8E660B-396
 		DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql = DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappings", "{F7596C2F-D840-4E72-AAAC-858B9F73AFE7}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml = DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,5 +184,6 @@ Global
 		{25382534-4F23-4B89-A057-63212317C975} = {D9A85E13-1B19-4529-9E7A-F0369E392B2D}
 		{BE22C543-12AB-4C4C-B45F-1630A8A4F3C8} = {52AE74DC-AD2F-4B38-8988-94450FA6137C}
 		{AA8E660B-396B-46AF-B355-289DCCBD6A0C} = {52AE74DC-AD2F-4B38-8988-94450FA6137C}
+		{F7596C2F-D840-4E72-AAAC-858B9F73AFE7} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
 	EndGlobalSection
 EndGlobal

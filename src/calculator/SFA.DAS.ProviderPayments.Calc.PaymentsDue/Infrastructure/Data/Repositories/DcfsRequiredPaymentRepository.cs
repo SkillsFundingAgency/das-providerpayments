@@ -16,16 +16,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "DeliveryYear, "
                                                    + "AmountDue, "
                                                    + "TransactionType,"
-                                                    + "Uln,"
-                                                    + "StandardCode ,"
-                                                    + "ProgrammeType,"
-                                                    + "FrameworkCode,"
-                                                    + "PathwayCode";
-        private const string SelectPayments= "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource
-                                                         + " WHERE Ukprn = @ukprn AND Uln=@Uln AND StandardCode=@standardCode AND "
-                                                         + " ProgrammeType=@programmeType AND FrameworkCode=@frameworkCode AND"
-                                                         + " PathwayCode=@pathwayCode " ;
+                                                   + "Uln,"
+                                                   + "StandardCode ,"
+                                                   + "ProgrammeType,"
+                                                   + "FrameworkCode,"
+                                                   + "PathwayCode";
 
+        private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
+        private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
+        private const string SelectLearnerPayments = SelectProviderPayments + " AND Uln = @Uln";
 
         public DcfsRequiredPaymentRepository(string connectionString)
             : base(connectionString)
@@ -37,14 +36,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, 
-                                                            long uln, 
-                                                            long? standardCode= null, 
-                                                            int? programmeType = null, 
-                                                            int? frameworkCode = null,
-                                                            int? pathwayCode = null)
+        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln)
         {
-            return Query<RequiredPaymentEntity>(SelectPayments, new { ukprn, uln,standardCode,programmeType,frameworkCode,pathwayCode });
+            return Query<RequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, uln });
         }
     }
 }

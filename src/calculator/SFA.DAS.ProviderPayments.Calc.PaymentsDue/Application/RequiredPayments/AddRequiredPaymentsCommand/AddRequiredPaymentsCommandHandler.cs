@@ -39,7 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             StandardCode = p.StandardCode,
                             FrameworkCode = p.FrameworkCode,
                             ProgrammeType = p.ProgrammeType,
-                            PathwayCode = p.PathwayCode
+                            PathwayCode = p.PathwayCode,
+                            ApprenticeshipContractType = p.ApprenticeshipContractType,
+                            PriceEpisodeIdentifier = p.PriceEpisodeIdentifier
                         })
                     .ToArray();
 

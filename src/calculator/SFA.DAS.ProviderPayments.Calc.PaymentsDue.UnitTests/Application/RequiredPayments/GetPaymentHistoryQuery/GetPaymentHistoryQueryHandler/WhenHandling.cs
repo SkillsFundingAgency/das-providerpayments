@@ -29,26 +29,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             _request = new GetPaymentHistoryQueryRequest
             {
                 Ukprn = Ukprn,
-                Uln = Uln,
-                StandardCode=StandardCode
-
+                Uln = Uln
             };
 
             _requiredPaymentRepository = new Mock<IRequiredPaymentRepository>();
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
                 .Returns(new[]
                 {
                     new RequiredPaymentEntity
                     {
-                        
                         Ukprn = Ukprn,
                         LearnRefNumber = LearnRefNumber,
                         AimSeqNumber = AimSequenceNumber,
                         DeliveryMonth = DeliveryMonth,
                         DeliveryYear = DeliveryYear,
                         AmountDue = AmountDue,
-                        StandardCode=StandardCode,
-                        Uln=Uln
+                        StandardCode = StandardCode,
+                        Uln = Uln
                     }
                 });
 
@@ -95,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         public void ThenItShouldReturnAnEmptyArrayOfItemsWhenNoneInTheRepository()
         {
             // Arrange
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
                 .Returns<RequiredPaymentEntity[]>(null);
 
             // Act
@@ -110,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         public void ThenItShouldReturnAnInvalidResponseWhenRepositoryErrors()
         {
             // Arrange
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln,StandardCode,null,null,null))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
                 .Throws<Exception>();
 
             // Act

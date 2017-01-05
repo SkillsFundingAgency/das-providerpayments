@@ -37,10 +37,12 @@ AS
 		ae.Period_10,
 		ae.Period_11,
 		ae.Period_12,
-		c.StandardCode,
-		c.ProgrammeType,
-		c.FrameworkCode,
-		c.PathwayCode
+		ae.StandardCode,
+		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
+		ae.FrameworkCode,
+		ae.PathwayCode,
+		ae.ApprenticeshipContractType,
+		ae.PriceEpisodeIdentifier
 	FROM Reference.ApprenticeshipEarnings ae
 		LEFT JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
 			AND ae.LearnRefNumber = lc.LearnRefNumber
@@ -48,11 +50,11 @@ AS
 			AND ae.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
 		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
 		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
-	WHERE NOT EXISTS(
-		SELECT 1 FROM DATALOCK.ValidationError ve
+	WHERE NOT EXISTS (
+		SELECT 1
+		FROM DataLock.ValidationError ve
 		WHERE ve.LearnRefNumber = ae.LearnRefNumber
 			AND ve.AimSeqNumber = ae.AimSeqNumber
-			AND ve.EpisodeStartDate = ae.EpisodeStartDate
 			AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)
 GO
@@ -115,9 +117,9 @@ SELECT
 	CollectionPeriodMonth,
 	CollectionPeriodYear,
 	AmountDue,
-	TransactionType ,
+	TransactionType,
 	Uln,
-	StandardCode ,
+	StandardCode,
 	ProgrammeType,
 	FrameworkCode,
 	PathwayCode

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using System.Collections.Generic;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 {
@@ -93,10 +92,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
 
                 Execute("INSERT INTO DataLock.ValidationError "
-                      + "(Ukprn,LearnRefNumber,AimSeqNumber,RuleId,PriceEpisodeIdentifier,EpisodeStartDate) "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,RuleId,PriceEpisodeIdentifier) "
                       + "VALUES "
-                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,1,@priceEpisodeIdentifier,@episodeStartDate)",
-                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, episodeStartDate = startDate });
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,1,@priceEpisodeIdentifier)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier });
 
             }
         }
@@ -123,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
-                  + "NULL, "
+                  + "EndDate, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
@@ -211,62 +210,83 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new {commitmentId, learnerRefNumber}, false);
+
+            Execute("INSERT INTO Valid.LearningDelivery "
+                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
+                    + "SELECT Ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, StartDate, EndDate, 36, StandardCode, ProgrammeType, FrameworkCode, PathwayCode FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
+
+            Execute("INSERT INTO Valid.LearningDeliveryFAM "
+                    + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
+                    + "SELECT Ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '1', StartDate, EndDate FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
 
-        internal static void AddEarning(long ukprn,
+        internal static void AddEarningForNonDas(long ukprn,
                                         DateTime startDate,
+                                        DateTime endDate,
                                         decimal agreedCost,
                                         string learnerRefNumber,
                                         int aimSequenceNumber = 1,
                                         int numberOfPeriods = 12,
                                         int currentPeriod = 1,
                                         bool earlyFinisher = false,
-                                        long uln = 0L)
-{
-
+                                        long uln = 0L,
+                                        long? standardCode = null,
+                                        int? programmeType = null,
+                                        int? frameworkCode = null,
+                                        int? pathwayCode = null)
+        {
             var tnp1 =  agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
             if (uln == 0)
+            {
                 uln = Random.Next(1, int.MaxValue);
+            }
+
+            if (standardCode == null && programmeType == null && frameworkCode == null && pathwayCode == null)
+            {
+                standardCode = 25;
+            }
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
-                  + "VALUES( "
+                  + "VALUES ("
                   + "@ukprn, "
                   + "@learnerRefNumber, "
+                  + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
+                  + "@startDate, "
+                  + "@startDate, "
+                  + "NULL, "
+                  + "NULL, "
                   + "@aimSequenceNumber, "
-                  + "@StartDate, "
-                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
+                  + "@endDate, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
                   + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "@AgreedCost, "
+                  + "@agreedCost, "
                   + "NULL, "
                   + "NULL, "
                   + "@tnp1, "
                   + "@tnp2, "
                   + "NULL, "
-                  + "NULL) ",
-                  new { ukprn,startDate,agreedCost,tnp1,tnp2, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
+                  + "NULL)",
+                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2 }, false);
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "VALUES( "
                   + "@Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "@StartDate, "
-                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                   + "'PriceEpisodeOnProgPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 1) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 2) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
@@ -281,15 +301,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 11) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= 12) THEN (@tnp1) / @numberOfPeriods ELSE 0 END "
                  + " )",
-                  new { ukprn,startDate, agreedCost, tnp1,tnp2,  learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { ukprn, startDate, agreedCost, tnp1, tnp2,  learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "VALUES ( "
                   + "@Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "@StartDate, "
-                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                   + "'PriceEpisodeCompletionPayment', "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 1) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 1) THEN @tnp2 ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 2) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 2) THEN @tnp2 ELSE 0 END, "
@@ -304,15 +322,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 11) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 11) THEN @tnp2 ELSE 0 END, "
                   + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = 12) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = 12) THEN @tnp2 ELSE 0 END "
                   + ") ",
-                  new { ukprn,startDate,tnp2, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { ukprn,startDate, tnp2, learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
                   + "VALUES ( "
                   + "@Ukprn, "
                   + "@learnerRefNumber, "
-                  + "@aimSequenceNumber, "
-                  + "@StartDate, "
-                  + "'99-99-99-' + CONVERT(char(10), @StartDate, 126), "
+                  + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                   + "'PriceEpisodeBalancePayment', "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 1 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 1) ELSE 0 END, "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 2 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 2) ELSE 0 END, "
@@ -327,12 +343,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 11 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 11) ELSE 0 END, "
                   + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = 12 THEN ((@tnp1) / @numberOfPeriods) * (@numberOfPeriods - 12) ELSE 0 END "
                   + ")",
-                  new { ukprn,startDate,tnp1, learnerRefNumber, aimSequenceNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
+                  new { ukprn, startDate, tnp1, learnerRefNumber, currentPeriod, numberOfPeriods, earlyFinisher }, false);
 
             Execute("INSERT INTO Valid.Learner "
-                    + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
-                    + "VALUES( @Ukprn, @learnerRefNumber,@Uln,0,0,0) ",
-                new { ukprn, learnerRefNumber ,uln}, false);
+                    + "(UKPRN, LearnRefNumber, ULN, Ethnicity, Sex, LLDDHealthProb) "
+                    + "VALUES (@Ukprn, @learnerRefNumber,@Uln,0,0,0)",
+                new { ukprn, learnerRefNumber, uln }, false);
+
+            Execute("INSERT INTO Valid.LearningDelivery "
+                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
+                    + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, standardCode, programmeType, frameworkCode, pathwayCode }, false);
+
+            Execute("INSERT INTO Valid.LearningDeliveryFAM "
+                    + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
+                    + "VALUES (@ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '2', @startDate, @endDate)",
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
         }
 
         internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)
@@ -349,10 +375,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "1, " // AimSeqNumber
                   + "Ukprn, " // Ukprn
                   + "GETDATE(), " // IlrSubmissionDateTime
+                  + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
                   + "StandardCode, " // StandardCode
                   + "ProgrammeType, " // ProgrammeType
                   + "FrameworkCode, " // FrameworkCode
                   + "PathwayCode, " // PathwayCode
+                  + "'1', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
                   + "'R01', " // CollectionPeriodName
@@ -363,6 +391,45 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { month, year, transactionType, amount, commitmentId }, false);
+        }
+
+        internal static void AddPaymentForNonDas(long ukprn, long uln, int month, int year, int transactionType, decimal amount,
+                                        long? standardCode = null,
+                                        int? programmeType = null,
+                                        int? frameworkCode = null,
+                                        int? pathwayCode = null)
+        {
+            if (standardCode == null && programmeType == null && frameworkCode == null && pathwayCode == null)
+            {
+                standardCode = 25;
+            }
+
+            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+                  + "VALUES ("
+                  + "NEWID(), " // Id
+                  + "NULL, " // CommitmentId
+                  + "NULL, " // CommitmentVersionId
+                  + "NULL, " // AccountId
+                  + "NULL, " // AccountVersionId
+                  + "@uln, " // Uln
+                  + "1, " // LearnRefNumber
+                  + "1, " // AimSeqNumber
+                  + "@ukprn, " // Ukprn
+                  + "GETDATE(), " // IlrSubmissionDateTime
+                  + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
+                  + "@standardCode, " // StandardCode
+                  + "@programmeType, " // ProgrammeType
+                  + "@frameworkCode, " // FrameworkCode
+                  + "@pathwayCode, " // PathwayCode
+                  + "'2', " // ApprenticeshipContractType
+                  + "@month, " // DeliveryMonth
+                  + "@year, " // DeliveryYear
+                  + "'R01', " // CollectionPeriodName
+                  + "@month, " // CollectionPeriodMonth
+                  + "@year, " // CollectionPeriodYear
+                  + "@transactionType, " // TransactionType
+                  + "@amount)", // AmountDue
+                  new { uln, ukprn, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode }, false);
         }
 
         internal static void SetOpenCollection(int periodNumber)

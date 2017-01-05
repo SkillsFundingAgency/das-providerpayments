@@ -30,7 +30,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                             + "StandardCode, "
                                             + "ProgrammeType, "
                                             + "FrameworkCode, "
-                                            + "PathwayCode";
+                                            + "PathwayCode, "
+                                            + "ApprenticeshipContractType, "
+                                            + "PriceEpisodeIdentifier";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

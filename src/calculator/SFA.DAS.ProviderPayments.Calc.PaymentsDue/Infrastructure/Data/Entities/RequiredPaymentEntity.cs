@@ -22,5 +22,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
         public int? PathwayCode { get; set; }
+
+        public string ApprenticeshipContractType { get; set; }
+        public string PriceEpisodeIdentifier { get; set; }
     }
 }

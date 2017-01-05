@@ -75,8 +75,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
 
             var periodNumber = currentPeriod.PeriodNumber > 12 ? 12 : currentPeriod.PeriodNumber;
-            int period1Month = currentPeriod.Month - (periodNumber - 1);
-            int period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
+            var period1Month = currentPeriod.Month - (periodNumber - 1);
+            var period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
             if (period1Month < 1)
             {
                 period1Month = period1Month + 12;
@@ -89,15 +89,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 Period1Year = period1Year,
                 AcademicYear = _context.GetPropertyValue(Common.Context.PaymentsContextPropertyKeys.YearOfCollection)
             });
+
             if (!earningResponse.IsValid)
             {
                 throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage, earningResponse.Exception);
             }
 
             var paymentsDue = new List<RequiredPayment>();
-
-            //Get payments due for commitments
-            //GetPaymentsDueForCommitments(provider, currentPeriod, earningResponse, paymentsDue);
 
             GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
 
@@ -116,27 +114,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         
 
         private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod, 
-                                            GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+                                    GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
         {
             var paymentHistory = new List<RequiredPayment>();
-            var earningsData = earningResponse.Items.
-                                Select(e => new { e.Ukprn,
-                                                    e.Uln,
-                                                    e.StandardCode,
-                                                    e.PathwayCode,
-                                                    e.FrameworkCode,
-                                                    e.ProgrammeType}).Distinct().ToArray();
+            var earningsData = earningResponse.Items
+                .Select(e =>
+                    new
+                    {
+                        e.Ukprn,
+                        e.Uln
+                    })
+                .Distinct()
+                .ToArray();
 
             foreach (var earningItem in earningsData)
             {
                 var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
                 {
                     Ukprn = provider.Ukprn,
-                    Uln = earningItem.Uln,
-                    StandardCode=earningItem.StandardCode,
-                    PathwayCode=earningItem.PathwayCode,
-                    ProgrammeType=earningItem.ProgrammeType,
-                    FrameworkCode=earningItem.FrameworkCode
+                    Uln = earningItem.Uln
                 });
                 if (!historyResponse.IsValid)
                 {
@@ -156,15 +152,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var amountEarned = earning.EarnedValue;
                 var alreadyPaid = paymentHistory
-                    .Where(p => p.Ukprn == earning.Ukprn && 
-                            p.Uln==earning.Uln &&
-                            p.StandardCode == earning.StandardCode &&
-                            p.FrameworkCode == earning.FrameworkCode && 
-                            p.PathwayCode == earning.PathwayCode &&
-                            p.ProgrammeType == earning.ProgrammeType &&
-                            p.DeliveryMonth == earning.CalendarMonth && 
-                            p.DeliveryYear == earning.CalendarYear && 
-                            p.TransactionType == earning.Type)
+                    .Where(p => p.Ukprn == earning.Ukprn &&
+                                p.Uln == earning.Uln &&
+                                p.StandardCode == earning.StandardCode &&
+                                p.FrameworkCode == earning.FrameworkCode &&
+                                p.PathwayCode == earning.PathwayCode &&
+                                p.ProgrammeType == earning.ProgrammeType &&
+                                p.DeliveryMonth == earning.CalendarMonth &&
+                                p.DeliveryYear == earning.CalendarYear &&
+                                p.TransactionType == earning.Type)
                     .Sum(p => p.AmountDue);
                 var amountDue = amountEarned - alreadyPaid;
 
@@ -174,7 +170,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
             }
         }
-
 
         private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, 
                                     Application.Earnings.PeriodEarning earning, decimal amountDue)
@@ -197,7 +192,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 StandardCode = earning.StandardCode,
                 FrameworkCode = earning.FrameworkCode,
                 ProgrammeType = earning.ProgrammeType,
-                PathwayCode = earning.PathwayCode
+                PathwayCode = earning.PathwayCode,
+                ApprenticeshipContractType = earning.ApprenticeshipContractType,
+                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier
             });
         }
     }
