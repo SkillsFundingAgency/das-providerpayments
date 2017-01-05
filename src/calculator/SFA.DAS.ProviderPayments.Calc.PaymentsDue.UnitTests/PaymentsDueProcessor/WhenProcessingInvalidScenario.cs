@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     { PaymentsContextPropertyKeys.YearOfCollection, "1718" }
                 });
 
-            _processor = new PaymentsDue.PaymentsDueProcessor(_logger.Object, _mediator.Object, new Payments.DCFS.Context.ContextWrapper(_externalContext.Object));
+            _processor = new PaymentsDue.PaymentsDueProcessor(_logger.Object, _mediator.Object, new ContextWrapper(_externalContext.Object));
 
             InitialMockSetup();
         }
