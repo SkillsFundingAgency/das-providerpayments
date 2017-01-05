@@ -4,7 +4,6 @@
     {
         Levy = 1,
         CoInvestedSfa = 2,
-        CoInvestedEmployer = 3,
-        CoInvestedNonLevy=4
+        CoInvestedEmployer = 3
     }
 }

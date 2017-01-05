@@ -116,6 +116,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappi
 		DeployLevyPayments\copy mappings\DasLevyPaymentsCopyToDedsMapping.xml = DeployLevyPayments\copy mappings\DasLevyPaymentsCopyToDedsMapping.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappings", "{528FE2CA-F504-412D-A682-486F30F27579}"
+	ProjectSection(SolutionItems) = preProject
+		DeployCoInvestedPayments\copy mappings\DasCoInvestedPaymentsCopyToDedsMapping.xml = DeployCoInvestedPayments\copy mappings\DasCoInvestedPaymentsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,5 +196,6 @@ Global
 		{AA8E660B-396B-46AF-B355-289DCCBD6A0C} = {52AE74DC-AD2F-4B38-8988-94450FA6137C}
 		{F7596C2F-D840-4E72-AAAC-858B9F73AFE7} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
 		{5C8DC259-E92C-4796-84C6-02157CEBAF24} = {216A6DB4-AFA0-4697-9102-0D77487B05EC}
+		{528FE2CA-F504-412D-A682-486F30F27579} = {92AA8114-4F64-4478-B263-74E1786D1071}
 	EndGlobalSection
 EndGlobal

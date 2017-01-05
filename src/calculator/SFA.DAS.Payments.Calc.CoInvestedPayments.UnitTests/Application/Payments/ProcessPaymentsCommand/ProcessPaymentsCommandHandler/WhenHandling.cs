@@ -15,10 +15,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
         {
             new Payment
             {
-                LearnerRefNumber = "Lrn001",
-                AimSequenceNumber = 1,
-                Ukprn = 10007459,
-                CommitmentId = 1,
                 DeliveryMonth = 12,
                 DeliveryYear = 2015,
                 CollectionPeriodName = "R02",
@@ -30,10 +26,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
             },
             new Payment
             {
-                LearnerRefNumber = "Lrn001",
-                AimSequenceNumber = 1,
-                Ukprn = 10007459,
-                CommitmentId = 1,
                 DeliveryMonth = 12,
                 DeliveryYear = 2015,
                 CollectionPeriodName = "R02",
@@ -118,11 +110,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
 
         private bool PaymentsMatch(PaymentEntity entity, Payment payment)
         {
-            return entity.LearnRefNumber == payment.LearnerRefNumber &&
-                   entity.AimSeqNumber == payment.AimSequenceNumber &&
-                   entity.Ukprn == payment.Ukprn &&
-                   entity.CommitmentId == payment.CommitmentId &&
-                   entity.DeliveryMonth == payment.DeliveryMonth &&
+            return entity.DeliveryMonth == payment.DeliveryMonth &&
                    entity.DeliveryYear == payment.DeliveryYear &&
                    entity.CollectionPeriodName == payment.CollectionPeriodName &&
                    entity.CollectionPeriodMonth == payment.CollectionPeriodMonth &&

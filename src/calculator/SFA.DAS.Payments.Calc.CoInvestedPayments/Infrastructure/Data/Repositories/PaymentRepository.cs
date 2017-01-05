@@ -7,7 +7,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
     {
         private const string PaymentsDestination = "CoInvestedPayments.Payments";
         private const string PaymentsAddStoredProcedure = "CoInvestedPayments.AddPayment";
-        private const string AddPaymentCommand = PaymentsAddStoredProcedure + " @RequiredPaymentId, @CommitmentId, @LearnRefNumber, @AimSeqNumber, @Ukprn, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount, @CollectionPeriodName";
+        private const string AddPaymentCommand = PaymentsAddStoredProcedure + " @RequiredPaymentId, @DeliveryMonth, @DeliveryYear, @CollectionPeriodMonth, @CollectionPeriodYear, @FundingSource, @TransactionType, @Amount, @CollectionPeriodName";
 
         public PaymentRepository(string connectionString) 
             : base(connectionString)
@@ -23,10 +23,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
             Execute(AddPaymentCommand, new
             {
                 RequiredPaymentId = payment.RequiredPaymentId,
-                CommitmentId = payment.CommitmentId,
-                LearnRefNumber = payment.LearnRefNumber,
-                AimSeqNumber = payment.AimSeqNumber,
-                Ukprn = payment.Ukprn,
                 DeliveryMonth = payment.DeliveryMonth,
                 DeliveryYear = payment.DeliveryYear,
                 CollectionPeriodMonth = payment.CollectionPeriodMonth,

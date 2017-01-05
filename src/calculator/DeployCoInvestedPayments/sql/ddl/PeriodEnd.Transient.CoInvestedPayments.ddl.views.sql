@@ -37,9 +37,6 @@ CREATE VIEW CoInvestedPayments.vw_RequiredPayments
 AS
 	SELECT
 		rp.Id,
-		rp.CommitmentId,
-		rp.LearnRefNumber,
-		rp.AimSeqNumber,
 		rp.Ukprn,
 		rp.DeliveryMonth,
 		rp.DeliveryYear,

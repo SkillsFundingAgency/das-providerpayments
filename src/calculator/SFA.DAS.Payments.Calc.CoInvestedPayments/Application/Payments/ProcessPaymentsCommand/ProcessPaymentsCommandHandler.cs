@@ -23,10 +23,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessP
                     .Select(p => new PaymentEntity
                     {
                         RequiredPaymentId = p.RequiredPaymentId,
-                        CommitmentId = p.CommitmentId,
-                        LearnRefNumber = p.LearnerRefNumber,
-                        AimSeqNumber = p.AimSequenceNumber,
-                        Ukprn = p.Ukprn,
                         DeliveryMonth = p.DeliveryMonth,
                         DeliveryYear = p.DeliveryYear,
                         CollectionPeriodName = p.CollectionPeriodName,
