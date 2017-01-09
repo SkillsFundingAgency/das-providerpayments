@@ -17,10 +17,6 @@
           <Destination>RequiredPaymentId</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>Ukprn</Source>
-          <Destination>Ukprn</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>DeliveryMonth</Source>
           <Destination>DeliveryMonth</Destination>
         </ColumnMapping>

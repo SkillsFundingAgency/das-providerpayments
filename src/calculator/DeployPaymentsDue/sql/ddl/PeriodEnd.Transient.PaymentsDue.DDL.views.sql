@@ -158,6 +158,8 @@ SELECT
 	(SELECT MAX([CalendarMonth]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodMonth,
 	(SELECT MAX([CalendarYear]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodYear,
 	AmountDue,
-	TransactionType 
+	TransactionType,
+	ApprenticeshipContractType,
+	PriceEpisodeIdentifier
 FROM PaymentsDue.RequiredPayments
 GO
