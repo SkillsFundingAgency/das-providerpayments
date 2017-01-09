@@ -41,6 +41,7 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment')
 		AND ldf.[LearnDelFAMType] = 'ACT'
+		AND ldf.[LearnDelFAMCode] IN ('1', '2')
         AND ldf.[LearnDelFAMDateFrom] <= pe.[EpisodeEffectiveTNPStartDate]
         AND ldf.[LearnDelFAMDateTo] >= COALESCE(pe.[PriceEpisodeActualEndDate], pe.[PriceEpisodePlannedEndDate])
 GO

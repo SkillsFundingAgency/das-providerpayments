@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 1000m,
                 Type = Common.Application.TransactionType.Learning,
                 StandardCode = 25,
-                ApprenticeshipContractType = "1"
+                ApprenticeshipContractType = 1
             };
             PeriodEarning2 = new PeriodEarning
             {
@@ -44,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 3000m,
                 Type = Common.Application.TransactionType.Completion,
                 StandardCode = 25,
-                ApprenticeshipContractType = "1"
+                ApprenticeshipContractType = 1
             };
             PeriodEarning3 = new PeriodEarning
             {
@@ -59,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 2000m,
                 Type = Common.Application.TransactionType.Balancing,
                 StandardCode = 25,
-                ApprenticeshipContractType = "1"
+                ApprenticeshipContractType = 1
             };
             Mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))

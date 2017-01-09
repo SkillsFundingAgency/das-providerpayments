@@ -283,9 +283,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         }
 
         [Test]
-        [TestCase(null, null, null, null, "2")]
-        [TestCase(1L, "C1", "1", "A1", "1")]
-        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, string accountId, string accountVersionId, string apprenticeshipContractType)
+        [TestCase(null, null, null, null, 2)]
+        [TestCase(1L, "C1", "1", "A1", 1)]
+        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, string accountId, string accountVersionId, int apprenticeshipContractType)
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))

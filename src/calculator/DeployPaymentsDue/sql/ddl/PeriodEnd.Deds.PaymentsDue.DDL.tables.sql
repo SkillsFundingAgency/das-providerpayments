@@ -30,7 +30,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	ProgrammeType int,
 	FrameworkCode int,
 	PathwayCode int,
-	ApprenticeshipContractType varchar(5),
+	ApprenticeshipContractType int,
 	DeliveryMonth int,
 	DeliveryYear int,
 	CollectionPeriodName varchar(8) NOT NULL,

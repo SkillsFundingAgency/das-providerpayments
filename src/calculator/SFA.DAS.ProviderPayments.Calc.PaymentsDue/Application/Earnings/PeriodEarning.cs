@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
         public decimal EarnedValue { get; set; }
         public TransactionType Type { get; set; }
 
-        public string ApprenticeshipContractType { get; set; }
+        public int ApprenticeshipContractType { get; set; }
         public string PriceEpisodeIdentifier { get; set; }
     }
 }
