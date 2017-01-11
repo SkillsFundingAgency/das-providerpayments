@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario1.cs" />
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario2.cs" />
+    <Compile Include="FinishOnTime\WhenLearnerIsNonDas.cs" />
     <Compile Include="FinishOnTime\WhenNoPaymentsAreDue.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />

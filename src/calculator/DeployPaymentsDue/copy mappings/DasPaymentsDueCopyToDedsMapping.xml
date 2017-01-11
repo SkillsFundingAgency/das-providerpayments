@@ -92,6 +92,14 @@
           <Source>PathwayCode</Source>
           <Destination>PathwayCode</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeIdentifier</Source>
+          <Destination>PriceEpisodeIdentifier</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ApprenticeshipContractType</Source>
+          <Destination>ApprenticeshipContractType</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>

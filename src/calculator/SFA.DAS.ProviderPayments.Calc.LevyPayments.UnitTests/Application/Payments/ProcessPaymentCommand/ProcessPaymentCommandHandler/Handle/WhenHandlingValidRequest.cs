@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
@@ -21,10 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
             {
                 Payment = new Payment
                 {
-                    CommitmentId = 1,
-                    LearnerRefNumber = "LEARNER1",
-                    AimSequenceNumber = 99,
-                    Ukprn = 12345,
+                    RequiredPaymentId = Guid.NewGuid(),
                     DeliveryMonth = 9,
                     DeliveryYear = 2016,
                     CollectionPeriodName = "R02",
@@ -53,10 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
 
         private bool PaymentsAreSame(PaymentEntity entity, Payment payment)
         {
-            return entity.CommitmentId == payment.CommitmentId
-                && entity.LearnerRefNumber == payment.LearnerRefNumber
-                && entity.AimSequenceNumber == payment.AimSequenceNumber
-                && entity.Ukprn == payment.Ukprn
+            return entity.RequiredPaymentId == payment.RequiredPaymentId
                 && entity.DeliveryMonth == payment.DeliveryMonth
                 && entity.DeliveryYear == payment.DeliveryYear
                 && entity.CollectionPeriodName == payment.CollectionPeriodName

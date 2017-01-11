@@ -17,10 +17,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.Proces
             _paymentRepository.AddPayment(new Infrastructure.Data.Entities.PaymentEntity
             {
                 RequiredPaymentId = message.Payment.RequiredPaymentId,
-                CommitmentId = message.Payment.CommitmentId,
-                LearnerRefNumber = message.Payment.LearnerRefNumber,
-                AimSequenceNumber = message.Payment.AimSequenceNumber,
-                Ukprn = message.Payment.Ukprn,
                 DeliveryMonth = message.Payment.DeliveryMonth,
                 DeliveryYear = message.Payment.DeliveryYear,
                 CollectionPeriodName = message.Payment.CollectionPeriodName,

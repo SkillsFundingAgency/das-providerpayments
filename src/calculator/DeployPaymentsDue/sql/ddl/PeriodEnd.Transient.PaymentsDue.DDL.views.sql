@@ -37,17 +37,26 @@ AS
 		ae.Period_10,
 		ae.Period_11,
 		ae.Period_12,
-		c.StandardCode,
-		c.ProgrammeType,
-		c.FrameworkCode,
-		c.PathwayCode
+		ae.StandardCode,
+		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
+		ae.FrameworkCode,
+		ae.PathwayCode,
+		ae.ApprenticeshipContractType,
+		ae.PriceEpisodeIdentifier
 	FROM Reference.ApprenticeshipEarnings ae
-		JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
+		LEFT JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
 			AND ae.LearnRefNumber = lc.LearnRefNumber
 			AND ae.AimSeqNumber = lc.AimSeqNumber
 			AND ae.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
-		JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
-		JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
+		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
+		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
+	WHERE NOT EXISTS (
+		SELECT 1
+		FROM DataLock.ValidationError ve
+		WHERE ve.LearnRefNumber = ae.LearnRefNumber
+			AND ve.AimSeqNumber = ae.AimSeqNumber
+			AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
+		)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,7 +117,12 @@ SELECT
 	CollectionPeriodMonth,
 	CollectionPeriodYear,
 	AmountDue,
-	TransactionType 
+	TransactionType,
+	Uln,
+	StandardCode,
+	ProgrammeType,
+	FrameworkCode,
+	PathwayCode
 FROM Reference.RequiredPaymentsHistory
 GO
 
@@ -144,6 +158,8 @@ SELECT
 	(SELECT MAX([CalendarMonth]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodMonth,
 	(SELECT MAX([CalendarYear]) FROM [Reference].[CollectionPeriods] WHERE [Open] = 1) AS CollectionPeriodYear,
 	AmountDue,
-	TransactionType 
+	TransactionType,
+	ApprenticeshipContractType,
+	PriceEpisodeIdentifier
 FROM PaymentsDue.RequiredPayments
 GO

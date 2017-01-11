@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriods;
@@ -12,13 +11,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Get
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
-    public class WhenProcessingValidScenario : WhenProcessingValidScenarioBase
+    public class WhenProcessingValidNonDasScenario : WhenProcessingValidScenarioBase
     {
         protected override void ArrangeProviderEarnings()
         {
             PeriodEarning1 = new PeriodEarning
             {
-                CommitmentId = 1,
                 Ukprn = 1,
                 LearnerReferenceNumber = "LEARNER-1",
                 AimSequenceNumber = 1,
@@ -29,11 +27,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 1000m,
                 Type = Common.Application.TransactionType.Learning,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 2
             };
             PeriodEarning2 = new PeriodEarning
             {
-                CommitmentId = 1,
                 Ukprn = 1,
                 LearnerReferenceNumber = "LEARNER-1",
                 AimSequenceNumber = 1,
@@ -44,11 +41,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 3000m,
                 Type = Common.Application.TransactionType.Completion,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 2
             };
             PeriodEarning3 = new PeriodEarning
             {
-                CommitmentId = 1,
                 Ukprn = 1,
                 LearnerReferenceNumber = "LEARNER-1",
                 AimSequenceNumber = 1,
@@ -59,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 2000m,
                 Type = Common.Application.TransactionType.Balancing,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 2
             };
             Mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
@@ -93,24 +89,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         }
 
         [Test]
-        public void ThenItShouldNotOuputPaymentDueWhenNothingHasBeenEarned()
-        {
-            // Arrange
-            Mediator.Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
-                .Returns(new GetProviderEarningsQueryResponse
-                {
-                    IsValid = true,
-                    Items = new PeriodEarning[0]
-                });
-
-            // Act
-            Processor.Process();
-
-            // Assert
-            Mediator.Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Never);
-        }
-
-        [Test]
         public void ThenItShouldOnlyOuputPaymentsDueForEarningsUpToAndIncludingTheCurrentPeriod()
         {
             // Arrange
@@ -134,29 +112,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 request => request.Payments.Any(p => PaymentForEarning(p, PeriodEarning2, PeriodEarning2.EarnedValue)))), Times.Never, "Expected not to have a payment for earning 2");
             Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Any(p => PaymentForEarning(p, PeriodEarning3, PeriodEarning3.EarnedValue)))), Times.Never, "Expected not to have a payment for earning 3");
-        }
-
-        [TestCase(1, 8, 2017, 8, 2017)]
-        [TestCase(2, 9, 2017, 8, 2017)]
-        [TestCase(5, 4, 2018, 12, 2017)]
-        [TestCase(5, 5, 2018, 1, 2018)]
-        public void ThenItShouldAdjustPeriodWhenSendingGetProviderEarningsQueryRequest(int periodNumber, int collectionMonth, int collectionYear,
-            int expectedPeriod1Month, int expectedPeriod1Year)
-        {
-            // Arrange
-            Mediator
-                .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
-                .Returns(new GetCurrentCollectionPeriodQueryResponse
-                {
-                    IsValid = true,
-                    Period = new CollectionPeriod { PeriodId = 1, Month = collectionMonth, Year = collectionYear, PeriodNumber = periodNumber }
-                });
-
-            // Act
-            Processor.Process();
-
-            // Assert
-            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == expectedPeriod1Month && r.Period1Year == expectedPeriod1Year)), Times.Once);
         }
 
         [Test]
@@ -245,34 +200,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 request => request.Payments.Any(p => PaymentForEarning(p, PeriodEarning2, PeriodEarning2.EarnedValue)))), Times.Once, "Expected a payment for earning 2");
             Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Any(p => PaymentForEarning(p, PeriodEarning3, PeriodEarning3.EarnedValue)))), Times.Once, "Expected a payment for earning 3");
-        }
-
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(10)]
-        [TestCase(11)]
-        [TestCase(12)]
-        [TestCase(13)]
-        [TestCase(14)]
-        public void ThenItShouldCorrectCalculateTheFirstPeriod(int periodNumber)
-        {
-            //Arrange
-            var date = (new DateTime(2016, 8, 1)).AddMonths((periodNumber <= 12 ? periodNumber : 12) - 1);
-
-            Mediator
-                .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
-                .Returns(new GetCurrentCollectionPeriodQueryResponse
-                {
-                    IsValid = true,
-                    Period = new CollectionPeriod { PeriodId = 1, Month = date.Month, Year = date.Year, PeriodNumber = periodNumber }
-                });
-
-            // Act
-            Processor.Process();
-
-            // Assert
-            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == 8 && r.Period1Year == 2016)), Times.Once);
         }
     }
 }

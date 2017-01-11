@@ -130,7 +130,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
         internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
-            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
+            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
         }
 
         internal static void CopyReferenceData()

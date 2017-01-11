@@ -17,22 +17,6 @@
           <Destination>RequiredPaymentId</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>CommitmentId</Source>
-          <Destination>CommitmentId</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>LearnRefNumber</Source>
-          <Destination>LearnRefNumber</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>AimSeqNumber</Source>
-          <Destination>AimSeqNumber</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>Ukprn</Source>
-          <Destination>Ukprn</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>DeliveryMonth</Source>
           <Destination>DeliveryMonth</Destination>
         </ColumnMapping>

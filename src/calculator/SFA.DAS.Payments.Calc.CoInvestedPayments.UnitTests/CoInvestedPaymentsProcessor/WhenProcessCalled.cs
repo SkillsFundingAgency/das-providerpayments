@@ -22,6 +22,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
         private string _yearOfCollection = "1617";
+        private Guid _requiredPaymentId = Guid.NewGuid();
 
         [SetUp]
         public void Arrange()
@@ -59,8 +60,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -68,8 +68,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -77,8 +76,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -86,8 +84,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -95,8 +92,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -104,8 +100,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -113,8 +108,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -122,8 +116,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -131,8 +124,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -140,8 +132,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -149,8 +140,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -158,8 +148,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -167,8 +156,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -192,7 +180,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _mediator.Verify(
                m => m.Send(
                    It.Is<ProcessPaymentsCommandRequest>(
-                       it => it.Payments.Count(p => p.Ukprn == 1) == 26
+                       it => it.Payments.Count(p => p.RequiredPaymentId == _requiredPaymentId) == 26
                        )),
                Times.Once);
         }
@@ -242,6 +230,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
         private string _yearOfCollection = "1617";
+        private Guid _requiredPaymentId = Guid.NewGuid();
 
         [SetUp]
         public void Arrange()
@@ -278,8 +267,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -287,8 +275,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -296,8 +283,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
@@ -305,8 +291,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -314,8 +299,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -323,8 +307,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -332,8 +315,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -341,8 +323,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -350,8 +331,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -359,8 +339,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -368,8 +347,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -377,8 +355,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -386,8 +363,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                         },
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            Ukprn = 1,
+                            Id = _requiredPaymentId,
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
@@ -411,7 +387,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _mediator.Verify(
                m => m.Send(
                    It.Is<ProcessPaymentsCommandRequest>(
-                       it => it.Payments.Count(p => p.Ukprn == 1) == 26
+                       it => it.Payments.Count(p => p.RequiredPaymentId == _requiredPaymentId) == 26
                        )),
                Times.Once);
         }
@@ -498,12 +474,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         {
             _paymentDue = new PaymentDue
             {
-                CommitmentId = 1,
-                AimSequenceNumber = 2,
+                Id = Guid.NewGuid(),
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
-                LearnerRefNumber = "5",
-                Ukprn = 6,
                 TransactionType = transactionType,
                 AmountDue = 10000
             };
@@ -523,7 +496,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _mediator.Verify(
                 m => m.Send(
                     It.Is<ProcessPaymentsCommandRequest>(
-                        it => it.Payments.Count(p => p.TransactionType == _paymentDue.TransactionType) == 2
+                        it => it.Payments.Count(p => p.TransactionType == _paymentDue.TransactionType && p.RequiredPaymentId == _paymentDue.Id) == 2
                         )),
                 Times.Once);
         }
@@ -571,12 +544,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
 
             _paymentDue = new PaymentDue
             {
-                CommitmentId = 1,
-                AimSequenceNumber = 2,
+                Id = Guid.NewGuid(),
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
-                LearnerRefNumber = "5",
-                Ukprn = 6,
                 TransactionType = TransactionType.Learning,
                 AmountDue = 10000
             };
@@ -624,14 +594,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             _mediator.Verify(
                 m => m.Send(
                     It.Is<ProcessPaymentsCommandRequest>(
-                        it => it.Payments.Count(p => p.AimSequenceNumber == _paymentDue.AimSequenceNumber &&
+                        it => it.Payments.Count(p => p.RequiredPaymentId == _paymentDue.Id &&
                                                      p.CollectionPeriodMonth == _period.Month &&
                                                      p.CollectionPeriodYear == _period.Year &&
                                                      p.DeliveryMonth == _paymentDue.DeliveryMonth &&
                                                      p.DeliveryYear == _paymentDue.DeliveryYear &&
-                                                     p.Ukprn == _paymentDue.Ukprn &&
-                                                     p.CommitmentId == _paymentDue.CommitmentId &&
-                                                     p.LearnerRefNumber == _paymentDue.LearnerRefNumber &&
                                                      p.TransactionType == _paymentDue.TransactionType) == 2)),
                 Times.Once);
         }
@@ -1160,12 +1127,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     {
                         new PaymentDue
                         {
-                            CommitmentId = 1,
-                            AimSequenceNumber = 2,
+                            Id = Guid.NewGuid(),
                             DeliveryMonth = 3,
                             DeliveryYear = 4,
-                            LearnerRefNumber = "5",
-                            Ukprn = 6,
                             TransactionType = TransactionType.Learning,
                             AmountDue = 10000
                         }

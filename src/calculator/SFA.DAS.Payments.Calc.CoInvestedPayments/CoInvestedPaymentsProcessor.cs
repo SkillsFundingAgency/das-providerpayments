@@ -124,10 +124,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 new Payment
                 {
                     RequiredPaymentId = paymentDue.Id,
-                    CommitmentId = paymentDue.CommitmentId,
-                    LearnerRefNumber = paymentDue.LearnerRefNumber,
-                    AimSequenceNumber = paymentDue.AimSequenceNumber,
-                    Ukprn = paymentDue.Ukprn,
                     DeliveryMonth = paymentDue.DeliveryMonth,
                     DeliveryYear = paymentDue.DeliveryYear,
                     CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
@@ -136,17 +132,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     FundingSource = FundingSource.CoInvestedSfa,
                     TransactionType = paymentDue.TransactionType,
                     Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
-                }
-                );
+                });
 
             payments.Add(
                 new Payment
                 {
                     RequiredPaymentId = paymentDue.Id,
-                    CommitmentId = paymentDue.CommitmentId,
-                    LearnerRefNumber = paymentDue.LearnerRefNumber,
-                    AimSequenceNumber = paymentDue.AimSequenceNumber,
-                    Ukprn = paymentDue.Ukprn,
                     DeliveryMonth = paymentDue.DeliveryMonth,
                     DeliveryYear = paymentDue.DeliveryYear,
                     CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
@@ -155,8 +146,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                     FundingSource = FundingSource.CoInvestedEmployer,
                     TransactionType = paymentDue.TransactionType,
                     Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.AmountDue)
-                }
-                );
+                });
         }
 
         private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal amountToPay)

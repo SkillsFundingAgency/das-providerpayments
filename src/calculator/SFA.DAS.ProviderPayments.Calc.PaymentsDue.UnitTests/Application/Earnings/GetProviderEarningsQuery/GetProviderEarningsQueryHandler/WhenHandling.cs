@@ -175,6 +175,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [Test]
         public void ThenItShouldReturnAResponseWithNoItemsIfNoEarningsInRepository()
         {
+            // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
                 .Returns<EarningEntity[]>(null);
 
@@ -279,6 +280,57 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         e.ProgrammeType == EarningEntities[1].ProgrammeType &&
                         e.PathwayCode == EarningEntities[1].PathwayCode &&
                         e.CommitmentId == EarningEntities[1].CommitmentId));
+        }
+
+        [Test]
+        [TestCase(null, null, null, null, 2)]
+        [TestCase(1L, "C1", "1", "A1", 1)]
+        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, string accountId, string accountVersionId, int apprenticeshipContractType)
+        {
+            // Arrange
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = commitmentId,
+                        CommitmentVersionId = commitmentVersionId,
+                        AccountId = accountId,
+                        AccountVersionId = accountVersionId,
+                        Uln = 1,
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        EarningType = EarningTypes.Completion,
+                        Period1 = 0,
+                        Period2 = 0,
+                        Period3 = 0,
+                        Period4 = 0,
+                        Period5 = 0,
+                        Period6 = 1000.00m,
+                        Period7 = 0,
+                        Period8 = 0,
+                        Period9 = 0,
+                        Period10 = 0,
+                        Period11 = 0,
+                        Period12 = 0,
+                        StandardCode = 25,
+                        ApprenticeshipContractType = apprenticeshipContractType
+                    }
+                });
+
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.AreEqual(1,
+                response.Items.Count(
+                    e =>
+                        e.CommitmentId == commitmentId &&
+                        e.CommitmentVersionId == commitmentVersionId &&
+                        e.AccountId == accountId &&
+                        e.AccountVersionId == accountVersionId &&
+                        e.ApprenticeshipContractType == apprenticeshipContractType));
         }
     }
 }

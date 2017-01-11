@@ -6,6 +6,7 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
         Id,
         CommitmentId,
         LearnRefNumber,
+		Uln,
         AimSeqNumber,
         Ukprn,
         DeliveryMonth,
@@ -14,7 +15,12 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
         CollectionPeriodMonth,
         CollectionPeriodYear,
         TransactionType,
-        AmountDue
+        AmountDue,
+		StandardCode,
+		ProgrammeType,
+		FrameworkCode,
+		PathwayCode,
+		PriceEpisodeIdentifier
     FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 GO

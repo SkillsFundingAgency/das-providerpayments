@@ -9,20 +9,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string PaymentHistorySource = "PaymentsDue.vw_PaymentHistory";
         private const string PaymentHistoryColumns = "CommitmentId, "
-                                                   //+ "CommitmentVersionId, "
-                                                   //+ "AccountId, "
-                                                   //+ "AccountVersionId, "
-                                                   //+ "Uln, "
                                                    + "LearnRefNumber, "
                                                    + "AimSeqNumber, "
                                                    + "Ukprn, "
                                                    + "DeliveryMonth, "
                                                    + "DeliveryYear, "
                                                    + "AmountDue, "
-                                                   + "TransactionType";
-        private const string SelectPaymentsForCommitment = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource
-                                                         + " WHERE CommitmentId = @commitmentId AND Ukprn = @ukprn";
+                                                   + "TransactionType,"
+                                                   + "Uln,"
+                                                   + "StandardCode ,"
+                                                   + "ProgrammeType,"
+                                                   + "FrameworkCode,"
+                                                   + "PathwayCode";
 
+        private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
+        private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
+        private const string SelectLearnerPayments = SelectProviderPayments + " AND Uln = @Uln";
 
         public DcfsRequiredPaymentRepository(string connectionString)
             : base(connectionString)
@@ -34,9 +36,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPaymentsForCommitment(long ukprn, long commitmentId)
+        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln)
         {
-            return Query<RequiredPaymentEntity>(SelectPaymentsForCommitment, new {ukprn, commitmentId});
+            return Query<RequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, uln });
         }
     }
 }

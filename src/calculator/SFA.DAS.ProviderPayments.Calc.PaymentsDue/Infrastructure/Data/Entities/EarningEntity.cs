@@ -2,7 +2,7 @@
 {
     public class EarningEntity
     {
-        public long CommitmentId { get; set; }
+        public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
         public string AccountId { get; set; }
         public string AccountVersionId { get; set; }
@@ -29,5 +29,8 @@
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
         public int? PathwayCode { get; set; }
+
+        public int ApprenticeshipContractType { get; set; }
+        public string PriceEpisodeIdentifier { get; set; }
     }
 }

@@ -8,9 +8,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
         private const string DuePaymentsSource = "CoInvestedPayments.vw_RequiredPayments";
 
         private const string DuePaymentsColumns = "Id," +
-                                                  "CommitmentId," +
-                                                  "LearnRefNumber," +
-                                                  "AimSeqNumber," +
                                                   "Ukprn," +
                                                   "DeliveryMonth," +
                                                   "DeliveryYear," +

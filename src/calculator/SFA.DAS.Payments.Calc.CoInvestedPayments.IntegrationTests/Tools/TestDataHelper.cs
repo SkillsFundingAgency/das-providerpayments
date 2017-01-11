@@ -174,7 +174,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
         internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
-            return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE CommitmentId = @commitmentId", new { commitmentId });
+            return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
         }
         internal static int GetPaymentsCount()
         {

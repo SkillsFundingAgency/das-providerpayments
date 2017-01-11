@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
@@ -16,6 +18,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 {
     public class WhenProcessingCompletionSubmission
     {
+        private static readonly Dictionary<long, Guid> CommitmentPaymentsDue = new Dictionary<long, Guid>
+        {
+            { 1, Guid.NewGuid() },
+            { 2, Guid.NewGuid() }
+        };
+
         private int _accountCounter;
         private Account _account;
 
@@ -66,13 +74,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
-                .Returns(new GetPaymentsDueForCommitmentQueryResponse
+                .Returns< GetPaymentsDueForCommitmentQueryRequest>(r =>
+                new GetPaymentsDueForCommitmentQueryResponse
                 {
                     IsValid = true,
                     Items = new[]
                     {
                         new PaymentDue
                         {
+                            Id = CommitmentPaymentsDue[r.CommitmentId],
                             LearnerRefNumber = "Lrn-001",
                             AimSequenceNumber = 1,
                             Ukprn = 10007459,
@@ -99,21 +109,18 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0], FundingSource.Levy, TransactionType.Completion, 3000.00m)), Times.Once);
-            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1], FundingSource.Levy, TransactionType.Completion, 3000.00m)), Times.Once);
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[0].Id, FundingSource.Levy, TransactionType.Completion, 3000.00m)), Times.Once);
+            _mediator.Verify(m => m.Send(ItIsPaymentForCommitment(_account.Commitments[1].Id, FundingSource.Levy, TransactionType.Completion, 3000.00m)), Times.Once);
         }
 
-        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(Commitment commitment, FundingSource fundingSource, TransactionType transactionType, decimal amount)
+        private ProcessPaymentCommandRequest ItIsPaymentForCommitment(long commitmentId, FundingSource fundingSource, TransactionType transactionType, decimal amount)
         {
-            return It.Is<ProcessPaymentCommandRequest>(r => IsCorrectPayment(r, commitment, fundingSource, transactionType, amount));
+            return It.Is<ProcessPaymentCommandRequest>(r => IsCorrectPayment(r, commitmentId, fundingSource, transactionType, amount));
         }
 
-        private bool IsCorrectPayment(ProcessPaymentCommandRequest request, Commitment commitment, FundingSource fundingSource, TransactionType transactionType, decimal amount)
+        private bool IsCorrectPayment(ProcessPaymentCommandRequest request, long commitmentId, FundingSource fundingSource, TransactionType transactionType, decimal amount)
         {
-            return request.Payment.CommitmentId == commitment.Id
-                && request.Payment.LearnerRefNumber == "Lrn-001"
-                && request.Payment.AimSequenceNumber == 1
-                && request.Payment.Ukprn == 10007459
+            return request.Payment.RequiredPaymentId == CommitmentPaymentsDue[commitmentId]
                 && request.Payment.DeliveryMonth == 8
                 && request.Payment.DeliveryYear == 2015
                 && request.Payment.CollectionPeriodMonth == 9
