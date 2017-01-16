@@ -120,33 +120,55 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
-            payments.Add(
-                new Payment
-                {
-                    RequiredPaymentId = paymentDue.Id,
-                    DeliveryMonth = paymentDue.DeliveryMonth,
-                    DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                    CollectionPeriodMonth = currentPeriod.Month,
-                    CollectionPeriodYear = currentPeriod.Year,
-                    FundingSource = FundingSource.CoInvestedSfa,
-                    TransactionType = paymentDue.TransactionType,
-                    Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
-                });
+            if (paymentDue.TransactionType == TransactionType.First16To18EmployerIncentive ||
+                paymentDue.TransactionType == TransactionType.First16To18ProviderIncentive ||
+                paymentDue.TransactionType == TransactionType.Second16To18EmployerIncentive ||
+                paymentDue.TransactionType == TransactionType.Second16To18ProviderIncentive)
+            {
+                payments.Add(
+               new Payment
+               {
+                   RequiredPaymentId = paymentDue.Id,
+                   DeliveryMonth = paymentDue.DeliveryMonth,
+                   DeliveryYear = paymentDue.DeliveryYear,
+                   CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                   CollectionPeriodMonth = currentPeriod.Month,
+                   CollectionPeriodYear = currentPeriod.Year,
+                   FundingSource = FundingSource.FullyFundedSfa,
+                   TransactionType = paymentDue.TransactionType,
+                   Amount =  paymentDue.AmountDue
+               });
+            }
+            else
+            {
+                payments.Add(
+                    new Payment
+                    {
+                        RequiredPaymentId = paymentDue.Id,
+                        DeliveryMonth = paymentDue.DeliveryMonth,
+                        DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                        CollectionPeriodMonth = currentPeriod.Month,
+                        CollectionPeriodYear = currentPeriod.Year,
+                        FundingSource = FundingSource.CoInvestedSfa,
+                        TransactionType = paymentDue.TransactionType,
+                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
+                    });
 
-            payments.Add(
-                new Payment
-                {
-                    RequiredPaymentId = paymentDue.Id,
-                    DeliveryMonth = paymentDue.DeliveryMonth,
-                    DeliveryYear = paymentDue.DeliveryYear,
-                    CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                    CollectionPeriodMonth = currentPeriod.Month,
-                    CollectionPeriodYear = currentPeriod.Year,
-                    FundingSource = FundingSource.CoInvestedEmployer,
-                    TransactionType = paymentDue.TransactionType,
-                    Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.AmountDue)
-                });
+                payments.Add(
+                    new Payment
+                    {
+                        RequiredPaymentId = paymentDue.Id,
+                        DeliveryMonth = paymentDue.DeliveryMonth,
+                        DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                        CollectionPeriodMonth = currentPeriod.Month,
+                        CollectionPeriodYear = currentPeriod.Year,
+                        FundingSource = FundingSource.CoInvestedEmployer,
+                        TransactionType = paymentDue.TransactionType,
+                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.AmountDue)
+                    });
+            }
         }
 
         private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal amountToPay)

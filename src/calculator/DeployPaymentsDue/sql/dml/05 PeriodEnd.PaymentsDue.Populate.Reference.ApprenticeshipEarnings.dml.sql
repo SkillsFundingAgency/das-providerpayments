@@ -39,7 +39,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 			AND pe.[LearnRefNumber] = ldf.[LearnRefNumber]
 			AND pe.[PriceEpisodeAimSeqNumber] = ldf.[AimSeqNumber]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment')
+		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment',
+		'PriceEpisodeFirstEmp1618Pay','PriceEpisodeFirstProv1618Pay','PriceEpisodeSecondEmp1618Pay','PriceEpisodeSecondProv1618Pay')
 		AND ldf.[LearnDelFAMType] = 'ACT'
 		AND ldf.[LearnDelFAMCode] IN ('1', '2')
         AND ldf.[LearnDelFAMDateFrom] <= pe.[EpisodeEffectiveTNPStartDate]

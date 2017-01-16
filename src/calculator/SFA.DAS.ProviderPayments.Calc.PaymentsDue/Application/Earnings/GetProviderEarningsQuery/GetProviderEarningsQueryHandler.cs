@@ -159,6 +159,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     return TransactionType.Completion;
                 case EarningTypes.Balancing:
                     return TransactionType.Balancing;
+                case EarningTypes.First16To18EmployerIncentive:
+                    return TransactionType.First16To18EmployerIncentive;
+                case EarningTypes.First16To18ProviderIncentive:
+                    return TransactionType.First16To18ProviderIncentive;
+                case EarningTypes.Second16To18EmployerIncentive:
+                    return TransactionType.Second16To18EmployerIncentive;
+                case EarningTypes.Second16To18ProviderIncentive:
+                    return TransactionType.Second16To18ProviderIncentive;
+
                 default:
                     throw new InvalidEarningTypeException(earningType);
             }
