@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
@@ -305,5 +305,98 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
             Assert.AreEqual(2000, period10Payments[2].AmountDue);
         }
+
+        [Test]
+        public void ThenItShouldMake16To18FirstIncentivePayments( )
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 06);
+            var plannedEndDate = new DateTime(2017, 8, 08);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(4);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4);
+
+            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4, incentiveName: "PriceEpisodeFirstEmp1618Pay");
+            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4, incentiveName: "PriceEpisodeFirstProv1618Pay");
+
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var period4Payments = duePayments.Where(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016).ToArray();
+          
+
+            var employerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.First16To18EmployerIncentive).Single();
+            var providerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.First16To18ProviderIncentive).Single();
+
+
+            Assert.NotNull(employerIncentive);
+            Assert.AreEqual(500, employerIncentive.AmountDue);
+
+            Assert.NotNull(providerIncentive);
+            Assert.AreEqual(500, providerIncentive.AmountDue);
+            
+        }
+
+        [Test]
+        public void ThenItShouldMake16To18SecondIncentivePayments()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 06);
+            var plannedEndDate = new DateTime(2017, 8, 08);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(12);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
+
+            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12, incentiveName: "PriceEpisodeSecondEmp1618Pay");
+            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12, incentiveName: "PriceEpisodeSecondProv1618Pay");
+
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var period4Payments = duePayments.Where(p => p.DeliveryMonth == 07 && p.DeliveryYear == 2017).ToArray();
+           
+
+            var employerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.Second16To18EmployerIncentive).Single();
+            var providerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.Second16To18ProviderIncentive).Single();
+
+
+            Assert.NotNull(employerIncentive);
+            Assert.AreEqual(500, employerIncentive.AmountDue);
+
+            Assert.NotNull(providerIncentive);
+            Assert.AreEqual(500, providerIncentive.AmountDue);
+
+        }
+
     }
 }

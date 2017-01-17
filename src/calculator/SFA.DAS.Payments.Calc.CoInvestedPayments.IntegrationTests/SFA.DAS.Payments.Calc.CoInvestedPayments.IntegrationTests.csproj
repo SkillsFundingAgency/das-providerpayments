@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.11709\lib\net45\CS.Common.External.dll</HintPath>
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.20114\lib\net45\CS.Common.External.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -59,8 +59,8 @@
       <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.11709, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.11709\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
+    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.20114, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.20114\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.4.1.451, Culture=neutral, processorArchitecture=MSIL">
@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario1.cs" />
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario2.cs" />
+    <Compile Include="FinishOnTime\WhenLearner16To18IncentivePaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenLearnerIsNonDas.cs" />
     <Compile Include="FinishOnTime\WhenNoPaymentsAreDue.cs" />
     <Compile Include="GlobalSetup.cs" />

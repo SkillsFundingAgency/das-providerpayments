@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.11709\lib\net45\CS.Common.External.dll</HintPath>
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.20114\lib\net45\CS.Common.External.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -50,8 +50,8 @@
       <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.11709, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.11709\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
+    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.20114, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.20114\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SFA.DAS.Payments.DCFS.StructureMap, Version=1.0.0.11709, Culture=neutral, processorArchitecture=MSIL">
@@ -72,8 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\FundingSource.cs" />
-    <Compile Include="Application\TransactionType.cs" />
     <Compile Include="Context\PaymentsInvalidContextException.cs" />
     <Compile Include="Context\PaymentsContextPropertyKeys.cs" />
     <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />

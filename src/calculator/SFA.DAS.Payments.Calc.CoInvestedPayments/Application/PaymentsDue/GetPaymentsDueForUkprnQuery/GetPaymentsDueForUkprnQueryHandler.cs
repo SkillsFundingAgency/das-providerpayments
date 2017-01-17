@@ -2,7 +2,7 @@
 using System.Linq;
 using MediatR;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery
 {

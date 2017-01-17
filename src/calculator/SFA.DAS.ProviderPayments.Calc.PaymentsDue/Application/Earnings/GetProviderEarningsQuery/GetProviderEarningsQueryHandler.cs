@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery
 {

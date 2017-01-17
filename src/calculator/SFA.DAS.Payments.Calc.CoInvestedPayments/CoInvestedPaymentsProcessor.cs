@@ -10,7 +10,7 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPayme
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {

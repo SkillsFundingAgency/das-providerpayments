@@ -16,6 +16,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvide
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -89,7 +90,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             CalendarMonth = 8,
                             CalendarYear = 2017,
                             EarnedValue = 1000m,
-                            Type = Common.Application.TransactionType.Learning,
+                            Type = TransactionType.Learning,
                             StandardCode = 25
                         }
                     }

@@ -361,6 +361,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
         }
 
+
+        internal static void AddIncentivePaymentsForCommitment(long? commitmentId,
+                                                   string learnerRefNumber,
+                                                   int aimSequenceNumber = 1,
+                                                   int numberOfPeriods = 12,
+                                                   int currentPeriod = 1,
+                                                   string incentiveName= "")
+        {
+            
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues "
+                + "SELECT "
+                + "Ukprn, "
+                + "@learnerRefNumber, "
+                + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
+                + "@incentiveName, "
+                + "CASE WHEN  @currentPeriod = 1  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 2  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 3  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 4  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 5  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 6  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 7  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 8  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 9  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 10  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 11  THEN 500 ELSE 0 END, "
+                + "CASE WHEN  @currentPeriod = 12  THEN 500 ELSE 0 END "
+                      + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                  new { commitmentId, learnerRefNumber,incentiveName, currentPeriod, numberOfPeriods }, false);
+
+         
+
+           
+        }
+
         internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)
         {
             Execute("INSERT INTO PaymentsDue.RequiredPayments "

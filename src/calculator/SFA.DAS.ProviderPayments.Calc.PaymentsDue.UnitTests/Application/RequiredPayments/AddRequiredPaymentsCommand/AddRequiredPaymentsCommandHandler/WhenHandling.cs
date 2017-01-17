@@ -5,7 +5,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using System.Linq;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.RequiredPayments.AddRequiredPaymentsCommand.AddRequiredPaymentsCommandHandler
 {
@@ -35,6 +36,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 DeliveryYear = 2016,
                 TransactionType = TransactionType.Completion,
                 AmountDue = 3000.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            }
+            ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.First16To18EmployerIncentive,
+                AmountDue = 500.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            }
+             ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.Second16To18EmployerIncentive,
+                AmountDue = 500.00m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6
@@ -78,6 +109,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             // Assert
             _repository.Verify(r => r.AddRequiredPayments(It.Is<RequiredPaymentEntity[]>(p => PaymentBatchesMatch(p, Payments))), Times.Once);
         }
+
+     
 
         [Test]
         public void ThenInvalidAddRequiredPaymentsCommandResponseReturnedForInvalidRepositoryResponse()
