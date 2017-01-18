@@ -5,38 +5,33 @@ END
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- vw_CommitmentEarning
+-- vw_ApprenticeshipEarning
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_CommitmentEarning' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_ApprenticeshipEarning' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
 BEGIN
-	DROP VIEW PaymentsDue.vw_CommitmentEarning
+	DROP VIEW PaymentsDue.vw_ApprenticeshipEarning
 END
 GO
 
-CREATE VIEW PaymentsDue.vw_CommitmentEarning
+CREATE VIEW PaymentsDue.vw_ApprenticeshipEarning
 AS
 	SELECT
-		lc.CommitmentId,
-		c.VersionId CommitmentVersionId,
+		pepm.CommitmentId,
+		pepm.VersionId CommitmentVersionId,
 		a.AccountId,
 		a.VersionId AccountVersionId,
 		ae.Ukprn,
 		ae.Uln,
 		ae.LearnRefNumber,
 		ae.AimSeqNumber,
-		ae.AttributeName,
-		ae.Period_1,
-		ae.Period_2,
-		ae.Period_3,
-		ae.Period_4,
-		ae.Period_5,
-		ae.Period_6,
-		ae.Period_7,
-		ae.Period_8,
-		ae.Period_9,
-		ae.Period_10,
-		ae.Period_11,
-		ae.Period_12,
+		ae.Period,
+		ae.PriceEpisodeOnProgPayment,
+		ae.PriceEpisodeCompletionPayment,
+		ae.PriceEpisodeBalancePayment,
+		ae.PriceEpisodeFirstEmp1618Pay,
+		ae.PriceEpisodeFirstProv1618Pay,
+		ae.PriceEpisodeSecondEmp1618Pay,
+		ae.PriceEpisodeSecondProv1618Pay,
 		ae.StandardCode,
 		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
 		ae.FrameworkCode,
@@ -44,19 +39,22 @@ AS
 		ae.ApprenticeshipContractType,
 		ae.PriceEpisodeIdentifier
 	FROM Reference.ApprenticeshipEarnings ae
-		LEFT JOIN DataLock.DasLearnerCommitment lc ON ae.Ukprn = lc.Ukprn
-			AND ae.LearnRefNumber = lc.LearnRefNumber
-			AND ae.AimSeqNumber = lc.AimSeqNumber
-			AND ae.PriceEpisodeIdentifier = lc.PriceEpisodeIdentifier
-		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = lc.CommitmentId
+		LEFT JOIN DataLock.PriceEpisodePeriodMatch pepm ON ae.Ukprn = pepm.Ukprn
+			AND ae.PriceEpisodeIdentifier = pepm.PriceEpisodeIdentifier
+			AND ae.LearnRefNumber = pepm.LearnRefNumber
+			AND ae.AimSeqNumber = pepm.AimSeqNumber
+			AND ae.Period = pepm.Period
+		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
+			AND c.VersionId = pepm.VersionId
 		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
 	WHERE NOT EXISTS (
-		SELECT 1
-		FROM DataLock.ValidationError ve
-		WHERE ve.LearnRefNumber = ae.LearnRefNumber
-			AND ve.AimSeqNumber = ae.AimSeqNumber
-			AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
+			SELECT 1
+			FROM DataLock.ValidationError ve
+			WHERE ve.LearnRefNumber = ae.LearnRefNumber
+				AND ve.AimSeqNumber = ae.AimSeqNumber
+				AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)
+		AND (pepm.Payable IS NULL OR pepm.Payable = 1)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

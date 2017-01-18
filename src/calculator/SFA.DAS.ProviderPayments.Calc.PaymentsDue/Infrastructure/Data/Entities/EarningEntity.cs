@@ -11,19 +11,15 @@
         public long Ukprn { get; set; }
         public long Uln { get; set; }
 
-        public string EarningType { get; set; }
-        public decimal Period1 { get; set; }
-        public decimal Period2 { get; set; }
-        public decimal Period3 { get; set; }
-        public decimal Period4 { get; set; }
-        public decimal Period5 { get; set; }
-        public decimal Period6 { get; set; }
-        public decimal Period7 { get; set; }
-        public decimal Period8 { get; set; }
-        public decimal Period9 { get; set; }
-        public decimal Period10 { get; set; }
-        public decimal Period11 { get; set; }
-        public decimal Period12 { get; set; }
+        public int Period { get; set; }
+
+        public decimal PriceEpisodeOnProgPayment { get; set; }
+        public decimal PriceEpisodeCompletionPayment { get; set; }
+        public decimal PriceEpisodeBalancePayment { get; set; }
+        public decimal PriceEpisodeFirstEmp1618Pay { get; set; }
+        public decimal PriceEpisodeFirstProv1618Pay { get; set; }
+        public decimal PriceEpisodeSecondEmp1618Pay { get; set; }
+        public decimal PriceEpisodeSecondProv1618Pay { get; set; }
 
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }

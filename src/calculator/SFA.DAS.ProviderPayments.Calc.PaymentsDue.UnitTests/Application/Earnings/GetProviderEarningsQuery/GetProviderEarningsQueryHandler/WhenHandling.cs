@@ -2,7 +2,6 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -25,19 +24,92 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 LearnerRefNumber = "Lrn-001",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
-                EarningType = EarningTypes.Learning,
-                Period1 = 1000m,
-                Period2 = 1000m,
-                Period3 = 1000m,
-                Period4 = 1000m,
-                Period5 = 1000m,
-                Period6 = 1000m,
-                Period7 = 1000m,
-                Period8 = 0,
-                Period9 = 0,
-                Period10 = 0,
-                Period11 = 0,
-                Period12 = 0,
+                Period = 1,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 2,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 3,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 4,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 5,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 6,
+                PriceEpisodeOnProgPayment = 1000m,
+                StandardCode = 25
+            },
+            new EarningEntity
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "C1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Uln = 1,
+                LearnerRefNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 7,
+                PriceEpisodeOnProgPayment = 1000m,
                 StandardCode = 25
             },
             new EarningEntity
@@ -50,30 +122,140 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 LearnerRefNumber = "Lrn-002",
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
-                EarningType = EarningTypes.Learning,
-                Period1 = 1000m,
-                Period2 = 1000m,
-                Period3 = 1000m,
-                Period4 = 1000m,
-                Period5 = 1000m,
-                Period6 = 1000m,
-                Period7 = 1000m,
-                Period8 = 1000m,
-                Period9 = 1000m,
-                Period10 = 0,
-                Period11 = 0,
-                Period12 = 0,
+                Period = 1,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 2,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 3,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 4,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 5,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 6,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 7,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 8,
+                PriceEpisodeOnProgPayment = 1000m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6
+            },
+            new EarningEntity
+            {
+                CommitmentId = 2,
+                CommitmentVersionId = "C2",
+                AccountId = "2",
+                AccountVersionId = "A2",
+                Uln = 2,
+                LearnerRefNumber = "Lrn-002",
+                AimSequenceNumber = 1,
+                Ukprn = Ukprn,
+                Period = 9,
+                PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6
             }
-        };
-
-        private static readonly object[] EarningTypesWithExpectedTransactionTypes =
-        {
-            new object[] {EarningTypes.Learning, TransactionType.Learning},
-            new object[] {EarningTypes.Completion, TransactionType.Completion},
-            new object[] {EarningTypes.Balancing, TransactionType.Balancing}
         };
 
         private Mock<IEarningRepository> _repository;
@@ -128,8 +310,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         }
 
         [Test]
-        [TestCaseSource(nameof(EarningTypesWithExpectedTransactionTypes))]
-        public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(string earningType, TransactionType transactionType)
+        [TestCase(TransactionType.Learning)]
+        [TestCase(TransactionType.Completion)]
+        [TestCase(TransactionType.Balancing)]
+        [TestCase(TransactionType.First16To18EmployerIncentive)]
+        [TestCase(TransactionType.First16To18ProviderIncentive)]
+        [TestCase(TransactionType.Second16To18EmployerIncentive)]
+        [TestCase(TransactionType.Second16To18ProviderIncentive)]
+        public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(TransactionType transactionType)
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
@@ -145,19 +333,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
-                        EarningType = earningType,
-                        Period1 = 0,
-                        Period2 = 0,
-                        Period3 = 0,
-                        Period4 = 0,
-                        Period5 = 0,
-                        Period6 = 1000.00m,
-                        Period7 = 0,
-                        Period8 = 0,
-                        Period9 = 0,
-                        Period10 = 0,
-                        Period11 = 0,
-                        Period12 = 0,
+                        Period = 6,
+                        PriceEpisodeOnProgPayment = transactionType == TransactionType.Learning ? 1000m : 0m,
+                        PriceEpisodeCompletionPayment = transactionType == TransactionType.Completion ? 1000m : 0m,
+                        PriceEpisodeBalancePayment = transactionType == TransactionType.Balancing ? 1000m : 0m,
+                        PriceEpisodeFirstEmp1618Pay = transactionType == TransactionType.First16To18EmployerIncentive ? 1000m : 0m,
+                        PriceEpisodeFirstProv1618Pay = transactionType == TransactionType.First16To18ProviderIncentive ? 1000m : 0m,
+                        PriceEpisodeSecondEmp1618Pay = transactionType == TransactionType.Second16To18EmployerIncentive ? 1000m : 0m,
+                        PriceEpisodeSecondProv1618Pay = transactionType == TransactionType.Second16To18ProviderIncentive ? 1000m : 0m,
                         StandardCode = 25
                     }
                 });
@@ -206,52 +389,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         }
 
         [Test]
-        public void ThenItShouldReturnAnInvalidResponseWithErrorIfAnInvalidEarningTypeIsFound()
-        {
-            // Arrange
-            var invalidEarningType = "InvalidEarningType";
-
-            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(new[]
-                {
-                    new EarningEntity
-                    {
-                        CommitmentId = 1,
-                        CommitmentVersionId = "C1",
-                        AccountId = "1",
-                        AccountVersionId = "A1",
-                        Uln = 1,
-                        LearnerRefNumber = "Lrn-001",
-                        AimSequenceNumber = 1,
-                        Ukprn = Ukprn,
-                        EarningType = invalidEarningType,
-                        Period1 = 0,
-                        Period2 = 0,
-                        Period3 = 0,
-                        Period4 = 0,
-                        Period5 = 0,
-                        Period6 = 1000.00m,
-                        Period7 = 0,
-                        Period8 = 0,
-                        Period9 = 0,
-                        Period10 = 0,
-                        Period11 = 0,
-                        Period12 = 0,
-                        StandardCode = 25
-                    }
-                });
-            
-            // Act
-            var response = _handler.Handle(_request);
-
-            // Assert
-            Assert.IsFalse(response.IsValid);
-            Assert.IsNull(response.Items);
-            Assert.IsNotNull(response.Exception);
-            Assert.AreEqual(typeof(InvalidEarningTypeException), response.Exception.GetType());
-        }
-
-        [Test]
         public void ThenItShouldReturnTheCorrectCourseInformation()
         {
             // Act
@@ -266,20 +403,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             Assert.AreEqual(7,
                 response.Items.Count(
                     e =>
-                        e.StandardCode == EarningEntities[0].StandardCode &&
-                        e.FrameworkCode == EarningEntities[0].FrameworkCode &&
-                        e.ProgrammeType == EarningEntities[0].ProgrammeType &&
-                        e.PathwayCode == EarningEntities[0].PathwayCode &&
-                        e.CommitmentId == EarningEntities[0].CommitmentId));
+                        e.StandardCode == 25 &&
+                        e.FrameworkCode == null &&
+                        e.ProgrammeType == null &&
+                        e.PathwayCode == null &&
+                        e.CommitmentId == 1));
 
             Assert.AreEqual(9,
                 response.Items.Count(
                     e =>
-                        e.StandardCode == EarningEntities[1].StandardCode &&
-                        e.FrameworkCode == EarningEntities[1].FrameworkCode &&
-                        e.ProgrammeType == EarningEntities[1].ProgrammeType &&
-                        e.PathwayCode == EarningEntities[1].PathwayCode &&
-                        e.CommitmentId == EarningEntities[1].CommitmentId));
+                        e.StandardCode == null &&
+                        e.FrameworkCode == 550 &&
+                        e.ProgrammeType == 20 &&
+                        e.PathwayCode == 6 &&
+                        e.CommitmentId == 2));
         }
 
         [Test]
@@ -301,19 +438,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         LearnerRefNumber = "Lrn-001",
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
-                        EarningType = EarningTypes.Completion,
-                        Period1 = 0,
-                        Period2 = 0,
-                        Period3 = 0,
-                        Period4 = 0,
-                        Period5 = 0,
-                        Period6 = 1000.00m,
-                        Period7 = 0,
-                        Period8 = 0,
-                        Period9 = 0,
-                        Period10 = 0,
-                        Period11 = 0,
-                        Period12 = 0,
+                        Period = 6,
+                        PriceEpisodeCompletionPayment = 1000m,
                         StandardCode = 25,
                         ApprenticeshipContractType = apprenticeshipContractType
                     }
