@@ -46,16 +46,6 @@ AS
 		LEFT JOIN LevyPayments.Payments lp ON rp.Id = lp.RequiredPaymentId
 	WHERE (rp.AmountDue - COALESCE(lp.Amount, 0.00)) <> 0
 
-	UNION
-    
-	SELECT
-		rp.Id,
-		rp.Ukprn,
-		rp.DeliveryMonth,
-		rp.DeliveryYear,
-		rp.TransactionType, 
-		rp.AmountDue  AS AmountDue
-	FROM PaymentsDue.RequiredPayments rp
-	WHERE rp.TransactionType In (4,5,6,7)
+	
 GO
 
