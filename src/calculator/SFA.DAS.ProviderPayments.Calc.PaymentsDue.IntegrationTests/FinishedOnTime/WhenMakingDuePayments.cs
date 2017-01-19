@@ -324,9 +324,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4);
 
-            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4, incentiveName: "PriceEpisodeFirstEmp1618Pay");
-            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4, incentiveName: "PriceEpisodeFirstProv1618Pay");
-
+            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstEmp1618Pay");
+            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstProv1618Pay");
 
             TestDataHelper.CopyReferenceData();
 
@@ -340,8 +339,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var period4Payments = duePayments.Where(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016).ToArray();
           
 
-            var employerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.First16To18EmployerIncentive).Single();
-            var providerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.First16To18ProviderIncentive).Single();
+            var employerIncentive = period4Payments.Single(x => x.TransactionType == (int)TransactionType.First16To18EmployerIncentive);
+            var providerIncentive = period4Payments.Single(x => x.TransactionType == (int)TransactionType.First16To18ProviderIncentive);
 
 
             Assert.NotNull(employerIncentive);
@@ -349,7 +348,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             Assert.NotNull(providerIncentive);
             Assert.AreEqual(500, providerIncentive.AmountDue);
-            
         }
 
         [Test]
@@ -370,9 +368,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
 
-            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12, incentiveName: "PriceEpisodeSecondEmp1618Pay");
-            TestDataHelper.AddIncentivePaymentsForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12, incentiveName: "PriceEpisodeSecondProv1618Pay");
-
+            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondEmp1618Pay");
+            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondProv1618Pay");
 
             TestDataHelper.CopyReferenceData();
 
@@ -386,8 +383,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var period4Payments = duePayments.Where(p => p.DeliveryMonth == 07 && p.DeliveryYear == 2017).ToArray();
            
 
-            var employerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.Second16To18EmployerIncentive).Single();
-            var providerIncentive = period4Payments.Where(x => x.TransactionType == (int)TransactionType.Second16To18ProviderIncentive).Single();
+            var employerIncentive = period4Payments.Single(x => x.TransactionType == (int)TransactionType.Second16To18EmployerIncentive);
+            var providerIncentive = period4Payments.Single(x => x.TransactionType == (int)TransactionType.Second16To18ProviderIncentive);
 
 
             Assert.NotNull(employerIncentive);
@@ -395,8 +392,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             Assert.NotNull(providerIncentive);
             Assert.AreEqual(500, providerIncentive.AmountDue);
-
         }
-
     }
 }
