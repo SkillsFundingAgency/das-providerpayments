@@ -5,9 +5,9 @@
         public const string Learning = "PriceEpisodeOnProgPayment";
         public const string Completion = "PriceEpisodeCompletionPayment";
         public const string Balancing = "PriceEpisodeBalancePayment";
-
-        //public const string Learning = "ProgrammeAimOnProgPayment";
-        //public const string Completion = "ProgrammeAimCompletionPayment";
-        //public const string Balancing = "ProgrammeAimBalPayment";
+        public const string First16To18EmployerIncentive = "PriceEpisodeFirstEmp1618Pay";
+        public const string First16To18ProviderIncentive = "PriceEpisodeFirstProv1618Pay";
+        public const string Second16To18EmployerIncentive = "PriceEpisodeSecondEmp1618Pay";
+        public const string Second16To18ProviderIncentive = "PriceEpisodeSecondProv1618Pay";
     }
 }

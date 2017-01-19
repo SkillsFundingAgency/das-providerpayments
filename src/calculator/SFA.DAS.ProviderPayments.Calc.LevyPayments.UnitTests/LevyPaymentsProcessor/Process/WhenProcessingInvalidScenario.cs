@@ -3,7 +3,6 @@ using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
@@ -12,6 +11,7 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.G
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProcessor.Process
 {

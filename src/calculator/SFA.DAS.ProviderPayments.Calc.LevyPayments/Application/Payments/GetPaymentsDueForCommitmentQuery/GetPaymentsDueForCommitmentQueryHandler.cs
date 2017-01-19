@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using MediatR;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery
 {

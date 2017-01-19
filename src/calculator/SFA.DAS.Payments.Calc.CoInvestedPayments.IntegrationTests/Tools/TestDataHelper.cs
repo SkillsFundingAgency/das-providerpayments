@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 {
@@ -73,7 +74,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             long ukprn,
             string learnerRefNumber = null,
             int aimSequenceNumber = 1,
-            ProviderPayments.Calc.Common.Application.TransactionType transactionType = ProviderPayments.Calc.Common.Application.TransactionType.Learning,
+            TransactionType transactionType = TransactionType.Learning,
             decimal amountDue = 1000.00m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
@@ -103,7 +104,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             int deliveryYear,
             int aimSequenceNumber = 1,
             string learnerRefNumber = null,
-            ProviderPayments.Calc.Common.Application.TransactionType transactionType = ProviderPayments.Calc.Common.Application.TransactionType.Learning,
+            TransactionType transactionType = TransactionType.Learning,
             decimal amountDue = 1000.00m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
@@ -130,7 +131,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         internal static void AddPaymentDueForCommitment(long commitmentId, 
                                                      string learnerRefNumber = null, 
                                                      int aimSequenceNumber = 1,
-                                                     ProviderPayments.Calc.Common.Application.TransactionType transactionType = ProviderPayments.Calc.Common.Application.TransactionType.Learning,
+                                                     TransactionType transactionType = TransactionType.Learning,
                                                      decimal amountDue = 1000.00m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))

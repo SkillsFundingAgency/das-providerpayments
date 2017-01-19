@@ -5,7 +5,7 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentsCommand;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payments.ProcessPaymentsCommand.ProcessPaymentsCommandHandler
 {

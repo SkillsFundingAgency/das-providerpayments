@@ -45,5 +45,7 @@ AS
 	FROM PaymentsDue.RequiredPayments rp
 		LEFT JOIN LevyPayments.Payments lp ON rp.Id = lp.RequiredPaymentId
 	WHERE (rp.AmountDue - COALESCE(lp.Amount, 0.00)) <> 0
+
+	
 GO
 

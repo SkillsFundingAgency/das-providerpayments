@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery
 {
@@ -159,6 +159,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     return TransactionType.Completion;
                 case EarningTypes.Balancing:
                     return TransactionType.Balancing;
+                case EarningTypes.First16To18EmployerIncentive:
+                    return TransactionType.First16To18EmployerIncentive;
+                case EarningTypes.First16To18ProviderIncentive:
+                    return TransactionType.First16To18ProviderIncentive;
+                case EarningTypes.Second16To18EmployerIncentive:
+                    return TransactionType.Second16To18EmployerIncentive;
+                case EarningTypes.Second16To18ProviderIncentive:
+                    return TransactionType.Second16To18ProviderIncentive;
+
                 default:
                     throw new InvalidEarningTypeException(earningType);
             }

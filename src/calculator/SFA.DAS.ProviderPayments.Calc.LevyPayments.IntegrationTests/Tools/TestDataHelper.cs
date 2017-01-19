@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 {
@@ -74,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         internal static void AddPaymentDueForCommitment(long commitmentId, 
                                                         string learnerRefNumber = null, 
                                                         int aimSequenceNumber = 1,
-                                                        Common.Application.TransactionType transactionType = Common.Application.TransactionType.Learning,
+                                                        TransactionType transactionType = TransactionType.Learning,
                                                         decimal amountDue = 1000.00m,
                                                         int deliveryMonth = 0,
                                                         int deliveryYear = 0)

@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Common.Application;
+
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTime
 {

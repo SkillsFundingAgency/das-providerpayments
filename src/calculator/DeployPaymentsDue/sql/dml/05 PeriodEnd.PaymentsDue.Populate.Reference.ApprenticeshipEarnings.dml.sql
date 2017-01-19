@@ -9,18 +9,18 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		pe.[PriceEpisodeAimSeqNumber],
 		pe.[PriceEpisodeIdentifier],
 		pv.[AttributeName],
-		pv.Period_1,
-		pv.Period_2,
-		pv.Period_3,
-		pv.Period_4,
-		pv.Period_5,
-		pv.Period_6,
-		pv.Period_7,
-		pv.Period_8,
-		pv.Period_9,
-		pv.Period_10,
-		pv.Period_11,
-		pv.Period_12,
+		ISNULL(pv.Period_1, 0),
+		ISNULL(pv.Period_2, 0),
+		ISNULL(pv.Period_3, 0),
+		ISNULL(pv.Period_4, 0),
+		ISNULL(pv.Period_5, 0),
+		ISNULL(pv.Period_6, 0),
+		ISNULL(pv.Period_7, 0),
+		ISNULL(pv.Period_8, 0),
+		ISNULL(pv.Period_9, 0),
+		ISNULL(pv.Period_10, 0),
+		ISNULL(pv.Period_11, 0),
+		ISNULL(pv.Period_12, 0),
 		ld.[StdCode],
 		ld.[ProgType],
 		ld.[FworkCode],
@@ -39,7 +39,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 			AND pe.[LearnRefNumber] = ldf.[LearnRefNumber]
 			AND pe.[PriceEpisodeAimSeqNumber] = ldf.[AimSeqNumber]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment')
+		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment',
+		'PriceEpisodeFirstEmp1618Pay','PriceEpisodeFirstProv1618Pay','PriceEpisodeSecondEmp1618Pay','PriceEpisodeSecondProv1618Pay')
 		AND ldf.[LearnDelFAMType] = 'ACT'
 		AND ldf.[LearnDelFAMCode] IN ('1', '2')
         AND ldf.[LearnDelFAMDateFrom] <= pe.[EpisodeEffectiveTNPStartDate]
