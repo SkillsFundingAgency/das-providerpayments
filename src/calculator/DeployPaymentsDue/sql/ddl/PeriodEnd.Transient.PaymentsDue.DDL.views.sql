@@ -50,7 +50,8 @@ AS
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM DataLock.ValidationError ve
-			WHERE ve.LearnRefNumber = ae.LearnRefNumber
+			WHERE ve.Ukprn = ae.Ukprn
+				AND ve.LearnRefNumber = ae.LearnRefNumber
 				AND ve.AimSeqNumber = ae.AimSeqNumber
 				AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)

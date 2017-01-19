@@ -43,6 +43,9 @@ CREATE TABLE DataLock.ValidationError
 )
 GO
 
+CREATE CLUSTERED INDEX [IDX_ValidationError_1] ON DataLock.ValidationError ([Ukprn], [LearnRefNumber], [AimSeqNumber], [PriceEpisodeIdentifier])
+GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- PriceEpisodeMatch
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -82,4 +85,7 @@ CREATE TABLE DataLock.PriceEpisodePeriodMatch
     [Period] int NOT NULL,
     [Payable] bit NOT NULL
 )
+GO
+
+CREATE CLUSTERED INDEX [IDX_PriceEpisodePeriodMatch_1] ON DataLock.PriceEpisodePeriodMatch ([Ukprn], [PriceEpisodeIdentifier], [LearnRefNumber], [AimSeqNumber], [Period])
 GO
