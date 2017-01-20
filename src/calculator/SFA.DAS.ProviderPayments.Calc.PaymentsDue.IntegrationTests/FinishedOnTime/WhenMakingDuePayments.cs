@@ -393,5 +393,44 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.NotNull(providerIncentive);
             Assert.AreEqual(500, providerIncentive.AmountDue);
         }
+
+        [Test]
+        public void ThenItShouldNotMakePaymentsForThePeriodsThatTheDataLockFlaggedAsNonPayable()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate, notPayablePeriods: new [] { 2, 3, 4 });
+
+            TestDataHelper.SetOpenCollection(6);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 6);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(3, duePayments.Length);
+
+            var period2Payment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 9 && p.DeliveryYear == 2016);
+            Assert.IsNull(period2Payment);
+
+            var period3Payment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 10 && p.DeliveryYear == 2016);
+            Assert.IsNull(period3Payment);
+
+            var period4Payment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016);
+            Assert.IsNull(period4Payment);
+        }
     }
 }
