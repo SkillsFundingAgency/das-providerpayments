@@ -4,6 +4,7 @@ GO
 INSERT INTO [Reference].[DasCommitments]
     SELECT
         [CommitmentId],
+        MAX([VersionId]) [VersionId],
         [Uln],
         [Ukprn],
         [AccountId],
@@ -16,8 +17,24 @@ INSERT INTO [Reference].[DasCommitments]
         [PathwayCode],
         [PaymentStatus],
         [PaymentStatusDescription],
-        [Payable],
         [Priority],
-        [VersionId]
+        [EffectiveFromDate],
+        [EffectiveToDate]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
+    GROUP BY [CommitmentId],
+        [Uln],
+        [Ukprn],
+        [AccountId],
+        [StartDate],
+        [EndDate],
+        [AgreedCost],
+        [StandardCode],
+        [ProgrammeType],
+        [FrameworkCode],
+        [PathwayCode],
+        [PaymentStatus],
+        [PaymentStatusDescription],
+        [Priority],
+        [EffectiveFromDate],
+        [EffectiveToDate]
 GO
