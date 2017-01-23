@@ -39,6 +39,10 @@ AS
 		ae.ApprenticeshipContractType,
 		ae.PriceEpisodeIdentifier
 	FROM Reference.ApprenticeshipEarnings ae
+		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
+			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
+			AND ae.LearnRefNumber = pem.LearnRefNumber
+			AND ae.AimSeqNumber = pem.AimSeqNumber
 		LEFT JOIN DataLock.PriceEpisodePeriodMatch pepm ON ae.Ukprn = pepm.Ukprn
 			AND ae.PriceEpisodeIdentifier = pepm.PriceEpisodeIdentifier
 			AND ae.LearnRefNumber = pepm.LearnRefNumber
@@ -55,7 +59,7 @@ AS
 				AND ve.AimSeqNumber = ae.AimSeqNumber
 				AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)
-		AND (pepm.Payable IS NULL OR pepm.Payable = 1)
+		AND ((pem.CommitmentId IS NULL AND pepm.Payable IS NULL) OR pepm.Payable = 1)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

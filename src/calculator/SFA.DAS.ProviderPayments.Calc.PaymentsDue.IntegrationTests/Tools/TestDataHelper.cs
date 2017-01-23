@@ -49,7 +49,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            int? frameworkCode = null,
                                            int? pathwayCode = null,
                                            bool passedDataLock = true,
-                                           int[] notPayablePeriods = null)
+                                           int[] notPayablePeriods = null,
+                                           int[] notMatchedPeriods = null)
         {
             var minStartDate = new DateTime(2016, 8, 1);
 
@@ -94,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
                 while (censusDate <= endDate && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods);
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods);
 
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
@@ -102,7 +103,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
                 if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods);
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods);
                 }
             }
             else
@@ -124,8 +125,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                        int aimSequenceNumber,
                                                        string priceEpisodeIdentifier,
                                                        int period,
-                                                       int[] notPayablePeriods)
+                                                       int[] notPayablePeriods,
+                                                       int[] notMatchedPeriods)
         {
+            if (notMatchedPeriods != null && notMatchedPeriods.Contains(period))
+            {
+                return;
+            }
+
             var payable = 1;
 
             if (notPayablePeriods != null && notPayablePeriods.Contains(period))
