@@ -49,7 +49,8 @@ SELECT
 	[FrameworkCode],
 	[PathwayCode],
 	[Priority],
-	[VersionId]
+	[VersionId],
+	RANK() OVER (PARTITION BY [CommitmentId] ORDER BY [VersionId] DESC) AS [Rank]
 FROM Reference.DasCommitments
 GO
 

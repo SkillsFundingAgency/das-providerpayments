@@ -26,8 +26,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             var commitmentId1 = 1L;
             var commitmentId2 = 2L;
 
-            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), priority: 5);
-            TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), priority: 2);
+            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), priority: 6);
+            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), versionId: 7, priority: 4);
+            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), versionId: 15, priority: 5);
+            TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), priority: 7);
+            TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), versionId: 3, priority: 2);
 
             TestDataHelper.CopyReferenceData();
 
