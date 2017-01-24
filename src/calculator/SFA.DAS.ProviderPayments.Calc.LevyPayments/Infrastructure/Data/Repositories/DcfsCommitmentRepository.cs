@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         private const string CommitmentsSource = "LevyPayments.vw_AccountCommitments";
         private const string CommitmentsColumns = "CommitmentId [Id]";
         private const string SelectCommitments = "SELECT " + CommitmentsColumns + " FROM " + CommitmentsSource;
-        private const string SelectCommitmentsForAccount = SelectCommitments + " WHERE AccountId = @AccountId ORDER BY Priority ASC";
+        private const string SelectCommitmentsForAccount = SelectCommitments + " WHERE AccountId = @AccountId AND Rank = 1 ORDER BY Priority ASC";
 
         public DcfsCommitmentRepository(string connectionString)
             : base(connectionString)

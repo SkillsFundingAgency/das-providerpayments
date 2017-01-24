@@ -8,26 +8,21 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		pe.[LearnRefNumber],
 		pe.[PriceEpisodeAimSeqNumber],
 		pe.[PriceEpisodeIdentifier],
-		pv.[AttributeName],
-		ISNULL(pv.Period_1, 0),
-		ISNULL(pv.Period_2, 0),
-		ISNULL(pv.Period_3, 0),
-		ISNULL(pv.Period_4, 0),
-		ISNULL(pv.Period_5, 0),
-		ISNULL(pv.Period_6, 0),
-		ISNULL(pv.Period_7, 0),
-		ISNULL(pv.Period_8, 0),
-		ISNULL(pv.Period_9, 0),
-		ISNULL(pv.Period_10, 0),
-		ISNULL(pv.Period_11, 0),
-		ISNULL(pv.Period_12, 0),
+		pv.[Period],
+		ISNULL(pv.[PriceEpisodeOnProgPayment], 0),
+		ISNULL(pv.[PriceEpisodeCompletionPayment], 0),
+		ISNULL(pv.[PriceEpisodeBalancePayment], 0),
+		ISNULL(pv.[PriceEpisodeFirstEmp1618Pay], 0),
+		ISNULL(pv.[PriceEpisodeFirstProv1618Pay], 0),
+		ISNULL(pv.[PriceEpisodeSecondEmp1618Pay], 0),
+		ISNULL(pv.[PriceEpisodeSecondProv1618Pay], 0),
 		ld.[StdCode],
 		ld.[ProgType],
 		ld.[FworkCode],
 		ld.[PwayCode],
 		ldf.[LearnDelFAMCode]
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
-		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues] pv ON pe.[Ukprn] = pv.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
 			AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
 			AND pe.[PriceEpisodeIdentifier] = pv.[PriceEpisodeIdentifier]
 		JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = pe.[Ukprn]
@@ -39,8 +34,6 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 			AND pe.[LearnRefNumber] = ldf.[LearnRefNumber]
 			AND pe.[PriceEpisodeAimSeqNumber] = ldf.[AimSeqNumber]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-		AND pv.[AttributeName] IN ('PriceEpisodeOnProgPayment', 'PriceEpisodeCompletionPayment', 'PriceEpisodeBalancePayment',
-		'PriceEpisodeFirstEmp1618Pay','PriceEpisodeFirstProv1618Pay','PriceEpisodeSecondEmp1618Pay','PriceEpisodeSecondProv1618Pay')
 		AND ldf.[LearnDelFAMType] = 'ACT'
 		AND ldf.[LearnDelFAMCode] IN ('1', '2')
         AND ldf.[LearnDelFAMDateFrom] <= pe.[EpisodeEffectiveTNPStartDate]

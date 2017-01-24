@@ -33,18 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 var periodEarnings = new List<PeriodEarning>();
                 foreach (var entity in earningEntities)
                 {
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 1, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 2, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 3, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 4, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 5, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 6, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 7, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 8, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 9, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 10, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 11, message.Period1Month, message.Period1Year, message.AcademicYear));
-                    periodEarnings.AddRange(GetEarningForPeriod(entity, 12, message.Period1Month, message.Period1Year, message.AcademicYear));
+                    periodEarnings.AddRange(GetEarningsForPeriod(entity, message.Period1Month, message.Period1Year, message.AcademicYear));
                 }
 
                 return new GetProviderEarningsQueryResponse
@@ -63,67 +52,63 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             }
         }
 
-        private PeriodEarning[] GetEarningForPeriod(EarningEntity entity, int periodNumber, int period1Month, int period1Year, string academicYear)
+        private PeriodEarning[] GetEarningsForPeriod(EarningEntity entity, int period1Month, int period1Year, string academicYear)
         {
-            var month = period1Month + periodNumber - 1;
+            var periodEarnings = new List<PeriodEarning>();
+
+            var month = period1Month + entity.Period - 1;
             var year = period1Year;
             if (month > 12)
             {
                 month -= 12;
                 year++;
             }
-            decimal value;
-            switch (periodNumber)
+
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Learning, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18EmployerIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18ProviderIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18EmployerIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18ProviderIncentive, academicYear, month, year);
+
+            return periodEarnings.ToArray();
+        }
+
+        private void AddEarningForPeriodAndPaymentTypeIfAvailable(List<PeriodEarning> earnings, EarningEntity entity, TransactionType earningType, string academicYear, int month, int year)
+        {
+            decimal amount;
+
+            switch (earningType)
             {
-                case 1:
-                    value = entity.Period1;
+                case TransactionType.Learning:
+                    amount = entity.PriceEpisodeOnProgPayment;
                     break;
-                case 2:
-                    value = entity.Period2;
+                case TransactionType.Completion:
+                    amount = entity.PriceEpisodeCompletionPayment;
                     break;
-                case 3:
-                    value = entity.Period3;
+                case TransactionType.Balancing:
+                    amount = entity.PriceEpisodeBalancePayment;
                     break;
-                case 4:
-                    value = entity.Period4;
+                case TransactionType.First16To18EmployerIncentive:
+                    amount = entity.PriceEpisodeFirstEmp1618Pay;
                     break;
-                case 5:
-                    value = entity.Period5;
+                case TransactionType.First16To18ProviderIncentive:
+                    amount = entity.PriceEpisodeFirstProv1618Pay;
                     break;
-                case 6:
-                    value = entity.Period6;
+                case TransactionType.Second16To18EmployerIncentive:
+                    amount = entity.PriceEpisodeSecondEmp1618Pay;
                     break;
-                case 7:
-                    value = entity.Period7;
-                    break;
-                case 8:
-                    value = entity.Period8;
-                    break;
-                case 9:
-                    value = entity.Period9;
-                    break;
-                case 10:
-                    value = entity.Period10;
-                    break;
-                case 11:
-                    value = entity.Period11;
-                    break;
-                case 12:
-                    value = entity.Period12;
+                case TransactionType.Second16To18ProviderIncentive:
+                    amount = entity.PriceEpisodeSecondProv1618Pay;
                     break;
                 default:
-                    throw new IndexOutOfRangeException($"Period number must be between 1 and 12 (periodNumber={periodNumber})");
+                    throw new ArgumentException($"Invalid transaction type of {earningType} found.");
             }
 
-            if (value == 0)
+            if (amount != 0)
             {
-                return new PeriodEarning[0];
-            }
-
-
-            return new[]
-            {
-                new PeriodEarning
+                earnings.Add(new PeriodEarning
                 {
                     CommitmentId = entity.CommitmentId,
                     CommitmentVersionId = entity.CommitmentVersionId,
@@ -133,43 +118,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     Ukprn = entity.Ukprn,
                     LearnerReferenceNumber = entity.LearnerRefNumber,
                     AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = periodNumber,
+                    CollectionPeriodNumber = entity.Period,
                     CollectionAcademicYear = academicYear,
                     CalendarMonth = month,
                     CalendarYear = year,
-                    EarnedValue = value,
-                    Type = TranslateEarningTypeToTransactionType(entity.EarningType),
+                    EarnedValue = amount,
+                    Type = earningType,
                     StandardCode = entity.StandardCode,
                     FrameworkCode = entity.FrameworkCode,
                     ProgrammeType = entity.ProgrammeType,
                     PathwayCode = entity.PathwayCode,
                     ApprenticeshipContractType = entity.ApprenticeshipContractType,
                     PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                }
-            };
-        }
-
-        private TransactionType TranslateEarningTypeToTransactionType(string earningType)
-        {
-            switch (earningType)
-            {
-                case EarningTypes.Learning:
-                    return TransactionType.Learning;
-                case EarningTypes.Completion:
-                    return TransactionType.Completion;
-                case EarningTypes.Balancing:
-                    return TransactionType.Balancing;
-                case EarningTypes.First16To18EmployerIncentive:
-                    return TransactionType.First16To18EmployerIncentive;
-                case EarningTypes.First16To18ProviderIncentive:
-                    return TransactionType.First16To18ProviderIncentive;
-                case EarningTypes.Second16To18EmployerIncentive:
-                    return TransactionType.Second16To18EmployerIncentive;
-                case EarningTypes.Second16To18ProviderIncentive:
-                    return TransactionType.Second16To18ProviderIncentive;
-
-                default:
-                    throw new InvalidEarningTypeException(earningType);
+                });
             }
         }
     }

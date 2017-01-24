@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 {
     public class DcfsEarningRepository : DcfsRepository, IEarningRepository
     {
-        private const string EarningSource = "PaymentsDue.vw_CommitmentEarning";
+        private const string EarningSource = "PaymentsDue.vw_ApprenticeshipEarning";
         private const string EarningColumns = "CommitmentId, "
                                             + "CommitmentVersionId, "
                                             + "AccountId, "
@@ -14,19 +14,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                             + "Uln, "
                                             + "LearnRefNumber [LearnerRefNumber], "
                                             + "AimSeqNumber [AimSequenceNumber], "
-                                            + "AttributeName [EarningType], "
-                                            + "Period_1 [Period1], "
-                                            + "Period_2 [Period2], "
-                                            + "Period_3 [Period3], "
-                                            + "Period_4 [Period4], "
-                                            + "Period_5 [Period5], "
-                                            + "Period_6 [Period6], "
-                                            + "Period_7 [Period7], "
-                                            + "Period_8 [Period8], "
-                                            + "Period_9 [Period9], "
-                                            + "Period_10 [Period10], "
-                                            + "Period_11 [Period11], "
-                                            + "Period_12 [Period12], "
+                                            + "Period, "
+                                            + "PriceEpisodeOnProgPayment, "
+                                            + "PriceEpisodeCompletionPayment, "
+                                            + "PriceEpisodeBalancePayment, "
+                                            + "PriceEpisodeFirstEmp1618Pay, "
+                                            + "PriceEpisodeFirstProv1618Pay, "
+                                            + "PriceEpisodeSecondEmp1618Pay, "
+                                            + "PriceEpisodeSecondProv1618Pay, "
                                             + "StandardCode, "
                                             + "ProgrammeType, "
                                             + "FrameworkCode, "
