@@ -64,196 +64,74 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 year++;
             }
 
-            if (entity.PriceEpisodeOnProgPayment != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeOnProgPayment,
-                    Type = TransactionType.Learning,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeCompletionPayment != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeCompletionPayment,
-                    Type = TransactionType.Completion,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeBalancePayment != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeBalancePayment,
-                    Type = TransactionType.Balancing,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeFirstEmp1618Pay != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeFirstEmp1618Pay,
-                    Type = TransactionType.First16To18EmployerIncentive,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeFirstProv1618Pay != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeFirstProv1618Pay,
-                    Type = TransactionType.First16To18ProviderIncentive,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeSecondEmp1618Pay != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeSecondEmp1618Pay,
-                    Type = TransactionType.Second16To18EmployerIncentive,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
-
-            if (entity.PriceEpisodeSecondProv1618Pay != 0)
-            {
-                periodEarnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.PriceEpisodeSecondProv1618Pay,
-                    Type = TransactionType.Second16To18ProviderIncentive,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
-                });
-            }
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Learning, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18EmployerIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18ProviderIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18EmployerIncentive, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18ProviderIncentive, academicYear, month, year);
 
             return periodEarnings.ToArray();
+        }
+
+        private void AddEarningForPeriodAndPaymentTypeIfAvailable(List<PeriodEarning> earnings, EarningEntity entity, TransactionType earningType, string academicYear, int month, int year)
+        {
+            decimal amount;
+
+            switch (earningType)
+            {
+                case TransactionType.Learning:
+                    amount = entity.PriceEpisodeOnProgPayment;
+                    break;
+                case TransactionType.Completion:
+                    amount = entity.PriceEpisodeCompletionPayment;
+                    break;
+                case TransactionType.Balancing:
+                    amount = entity.PriceEpisodeBalancePayment;
+                    break;
+                case TransactionType.First16To18EmployerIncentive:
+                    amount = entity.PriceEpisodeFirstEmp1618Pay;
+                    break;
+                case TransactionType.First16To18ProviderIncentive:
+                    amount = entity.PriceEpisodeFirstProv1618Pay;
+                    break;
+                case TransactionType.Second16To18EmployerIncentive:
+                    amount = entity.PriceEpisodeSecondEmp1618Pay;
+                    break;
+                case TransactionType.Second16To18ProviderIncentive:
+                    amount = entity.PriceEpisodeSecondProv1618Pay;
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid transaction type of {earningType} found.");
+            }
+
+            if (amount != 0)
+            {
+                earnings.Add(new PeriodEarning
+                {
+                    CommitmentId = entity.CommitmentId,
+                    CommitmentVersionId = entity.CommitmentVersionId,
+                    AccountId = entity.AccountId,
+                    AccountVersionId = entity.AccountVersionId,
+                    Uln = entity.Uln,
+                    Ukprn = entity.Ukprn,
+                    LearnerReferenceNumber = entity.LearnerRefNumber,
+                    AimSequenceNumber = entity.AimSequenceNumber,
+                    CollectionPeriodNumber = entity.Period,
+                    CollectionAcademicYear = academicYear,
+                    CalendarMonth = month,
+                    CalendarYear = year,
+                    EarnedValue = amount,
+                    Type = earningType,
+                    StandardCode = entity.StandardCode,
+                    FrameworkCode = entity.FrameworkCode,
+                    ProgrammeType = entity.ProgrammeType,
+                    PathwayCode = entity.PathwayCode,
+                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
+                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
+                });
+            }
         }
     }
 }
