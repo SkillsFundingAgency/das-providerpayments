@@ -37,7 +37,9 @@ AS
 		ae.FrameworkCode,
 		ae.PathwayCode,
 		ae.ApprenticeshipContractType,
-		ae.PriceEpisodeIdentifier
+		ae.PriceEpisodeIdentifier,
+		ae.PriceEpisodeFundLineType,
+		ae.PriceEpisodeSfaContribPct
 	FROM Reference.ApprenticeshipEarnings ae
 		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
 			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -163,6 +165,8 @@ SELECT
 	AmountDue,
 	TransactionType,
 	ApprenticeshipContractType,
-	PriceEpisodeIdentifier
+	PriceEpisodeIdentifier,
+	SfaContributionPercentage,
+	FundingLineType
 FROM PaymentsDue.RequiredPayments
 GO

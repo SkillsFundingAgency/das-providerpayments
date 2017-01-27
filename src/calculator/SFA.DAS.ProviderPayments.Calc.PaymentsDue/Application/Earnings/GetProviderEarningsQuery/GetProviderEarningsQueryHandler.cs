@@ -129,7 +129,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     ProgrammeType = entity.ProgrammeType,
                     PathwayCode = entity.PathwayCode,
                     ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier
+                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
+                    SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
+                    FundingLineType = entity.PriceEpisodeFundLineType
                 });
             }
         }

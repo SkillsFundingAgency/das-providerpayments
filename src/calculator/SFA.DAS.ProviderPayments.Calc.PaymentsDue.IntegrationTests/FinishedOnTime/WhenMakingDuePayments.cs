@@ -64,6 +64,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(frameworkCode, duePayments[0].FrameworkCode);
             Assert.AreEqual(programmeType, duePayments[0].ProgrammeType);
             Assert.AreEqual(pathwayCode, duePayments[0].PathwayCode);
+
+            Assert.AreEqual(0.9m, duePayments[0].SfaContributionPercentage);
+            Assert.AreEqual("Levy Funding Line", duePayments[0].FundingLineType);
         }
 
         [Test]

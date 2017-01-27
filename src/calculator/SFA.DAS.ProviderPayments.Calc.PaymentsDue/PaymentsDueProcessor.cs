@@ -194,7 +194,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 ProgrammeType = earning.ProgrammeType,
                 PathwayCode = earning.PathwayCode,
                 ApprenticeshipContractType = earning.ApprenticeshipContractType,
-                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier
+                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                SfaContributionPercentage = earning.SfaContributionPercentage,
+                FundingLineType = earning.FundingLineType
             });
         }
     }

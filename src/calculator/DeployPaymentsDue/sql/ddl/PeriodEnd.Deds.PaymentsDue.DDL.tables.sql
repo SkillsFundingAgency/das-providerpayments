@@ -37,5 +37,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	CollectionPeriodMonth int NOT NULL,
 	CollectionPeriodYear int NOT NULL,
 	TransactionType int,
-	AmountDue decimal(15,5)
+	AmountDue decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(60)
 )

@@ -458,5 +458,70 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         e.AccountVersionId == accountVersionId &&
                         e.ApprenticeshipContractType == apprenticeshipContractType));
         }
+
+        [Test]
+        public void ThenItShouldReturnTheCorrectSfaContributionPercentage()
+        {
+            // Arrange
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = 1,
+                        CommitmentVersionId = "1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        Period = 6,
+                        PriceEpisodeCompletionPayment = 1000m,
+                        StandardCode = 25,
+                        ApprenticeshipContractType = 1,
+                        PriceEpisodeSfaContribPct = 0.9m
+                    }
+                });
+
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.AreEqual(1, response.Items.Count(e => e.SfaContributionPercentage == 0.9m));
+        }
+
+        [Test]
+        public void ThenItShouldReturnTheCorrectFundingLineType()
+        {
+            // Arrange
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = 1,
+                        CommitmentVersionId = "1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        Period = 6,
+                        PriceEpisodeCompletionPayment = 1000m,
+                        StandardCode = 25,
+                        ApprenticeshipContractType = 1,
+                        PriceEpisodeSfaContribPct = 0.9m,
+                        PriceEpisodeFundLineType = "Levy Funding Line Type"
+                    }
+                });
+
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.AreEqual(1, response.Items.Count(e => e.FundingLineType == "Levy Funding Line Type"));
+        }
     }
 }
