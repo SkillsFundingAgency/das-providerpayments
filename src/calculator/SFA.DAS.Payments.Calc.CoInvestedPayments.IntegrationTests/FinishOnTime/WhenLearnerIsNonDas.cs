@@ -1,13 +1,14 @@
 ﻿using NUnit.Framework;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
-using System;
+using System.Linq;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 {
-
-
     public class WhenLearnerIsNonDas
     {
+        private readonly long _uln = 1000000108;
+
         private CoInvestedPaymentsTask _uut;
         private IntegrationTaskContext _taskContext;
 
@@ -16,31 +17,27 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
-            TestDataHelper.AddAccount(accountId);
+            TestDataHelper.AddPaymentDueForNonDas(1, _uln, amountDue: 1500m);
 
-            var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId);
+            TestDataHelper.CopyReferenceData();
 
             _taskContext = new IntegrationTaskContext();
             _uut = new CoInvestedPaymentsTask();
         }
 
         [Test]
-        public void ThenNoPaymentsAreMade()
+        public void ThenNonDasPaymentsAreMade()
         {
-            Act();
+            // Act
+            _uut.Execute(_taskContext);
 
             // Assert
-            var paymentsCount = TestDataHelper.GetPaymentsCount();
-            Assert.IsNotNull(paymentsCount);
-            Assert.AreEqual(0, paymentsCount);
-        }
+            var payments = TestDataHelper.GetPaymentsForUln(_uln);
+            Assert.IsNotNull(payments);
+            Assert.AreEqual(2, payments.Length);
 
-        private void Act()
-        {
-            _uut.Execute(_taskContext);
+            Assert.AreEqual(1, payments.Count(p => p.FundingSource == (int) FundingSource.CoInvestedSfa && p.Amount == 1500m * 0.9m));
+            Assert.AreEqual(1, payments.Count(p => p.FundingSource == (int) FundingSource.CoInvestedEmployer && p.Amount == 1500m * 0.1m));
         }
-
     }
 }

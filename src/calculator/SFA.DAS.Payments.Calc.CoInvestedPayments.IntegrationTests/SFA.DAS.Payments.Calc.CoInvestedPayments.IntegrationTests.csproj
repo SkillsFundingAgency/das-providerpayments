@@ -140,19 +140,16 @@
     <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DML.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Summarisation.Transient.LevyPayments.DDL.tables.sql">
+    <Content Include="DbSetupScripts\PeriodEnd.Transient.LevyPayments.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Summarisation.Transient.PaymentsDue.DDL.tables.sql">
+    <Content Include="DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

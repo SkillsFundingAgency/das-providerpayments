@@ -12,7 +12,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
                                                   "DeliveryMonth," +
                                                   "DeliveryYear," +
                                                   "TransactionType," +
-                                                  "AmountDue";
+                                                  "AmountDue," +
+                                                  "SfaContributionPercentage";
         private const string SelectDuePayments = "SELECT " + DuePaymentsColumns + " FROM " + DuePaymentsSource;
         private const string SelectDuePaymentsByUkprn = SelectDuePayments + " WHERE Ukprn = @Ukprn";
 
