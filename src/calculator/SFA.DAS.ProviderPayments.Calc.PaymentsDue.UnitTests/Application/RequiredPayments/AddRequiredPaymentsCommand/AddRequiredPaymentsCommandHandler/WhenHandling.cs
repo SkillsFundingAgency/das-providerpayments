@@ -5,7 +5,6 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.RequiredPayments.AddRequiredPaymentsCommand.AddRequiredPaymentsCommandHandler
@@ -24,7 +23,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 DeliveryYear = 2016,
                 TransactionType = TransactionType.Learning,
                 AmountDue = 1000.00m,
-                StandardCode = 25
+                StandardCode = 25,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line"
             },
             new RequiredPayment
             {
@@ -38,9 +39,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 AmountDue = 3000.00m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
-            }
-            ,
+                PathwayCode = 6,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line"
+            },
             new RequiredPayment
             {
                 CommitmentId = 2,
@@ -53,9 +55,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 AmountDue = 500.00m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
-            }
-             ,
+                PathwayCode = 6,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line"
+            },
             new RequiredPayment
             {
                 CommitmentId = 2,
@@ -68,7 +71,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 AmountDue = 500.00m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line"
             }
         };
 
@@ -147,18 +152,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
 
         private bool PaymentsMatch(RequiredPaymentEntity entity, RequiredPayment payment)
         {
-            return entity.CommitmentId == payment.CommitmentId &&
-                   entity.LearnRefNumber == payment.LearnerRefNumber &&
-                   entity.AimSeqNumber == payment.AimSequenceNumber &&
-                   entity.Ukprn == payment.Ukprn &&
-                   entity.DeliveryMonth == payment.DeliveryMonth &&
-                   entity.DeliveryYear == payment.DeliveryYear &&
-                   entity.TransactionType == (int) payment.TransactionType &&
-                   entity.AmountDue == payment.AmountDue &&
-                   entity.StandardCode == payment.StandardCode &&
-                   entity.FrameworkCode == payment.FrameworkCode &&
-                   entity.ProgrammeType == payment.ProgrammeType &&
-                   entity.PathwayCode == payment.PathwayCode;
+            return entity.CommitmentId == payment.CommitmentId
+                   && entity.CommitmentVersionId == payment.CommitmentVersionId
+                   && entity.AccountId == payment.AccountVersionId
+                   && entity.AccountVersionId == payment.AccountVersionId
+                   && entity.Uln == payment.Uln
+                   && entity.LearnRefNumber == payment.LearnerRefNumber
+                   && entity.AimSeqNumber == payment.AimSequenceNumber
+                   && entity.Ukprn == payment.Ukprn
+                   && entity.IlrSubmissionDateTime == payment.IlrSubmissionDateTime
+                   && entity.DeliveryMonth == payment.DeliveryMonth
+                   && entity.DeliveryYear == payment.DeliveryYear
+                   && entity.TransactionType == (int) payment.TransactionType
+                   && entity.AmountDue == payment.AmountDue
+                   && entity.StandardCode == payment.StandardCode
+                   && entity.FrameworkCode == payment.FrameworkCode
+                   && entity.ProgrammeType == payment.ProgrammeType
+                   && entity.PathwayCode == payment.PathwayCode
+                   && entity.PriceEpisodeIdentifier == payment.PriceEpisodeIdentifier
+                   && entity.ApprenticeshipContractType == payment.ApprenticeshipContractType
+                   && entity.SfaContributionPercentage == payment.SfaContributionPercentage
+                   && entity.FundingLineType == payment.FundingLineType;
         }
     }
 }

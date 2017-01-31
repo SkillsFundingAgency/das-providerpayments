@@ -37,11 +37,25 @@ CREATE TABLE PaymentsDue.RequiredPayments
 (
 	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 	CommitmentId bigint,
+	CommitmentVersionId varchar(50),
+	AccountId varchar(50),
+	AccountVersionId varchar(50),
+	Uln bigint,
 	LearnRefNumber varchar(12),
 	AimSeqNumber int,
 	Ukprn bigint,
+	IlrSubmissionDateTime datetime,
+	PriceEpisodeIdentifier varchar(25),
+	StandardCode bigint,
+	ProgrammeType int,
+	FrameworkCode int,
+	PathwayCode int,
+	ApprenticeshipContractType int,
 	DeliveryMonth int,
 	DeliveryYear int,
 	TransactionType int,
-	AmountDue decimal(15,5)
+	AmountDue decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(60)
 )
+GO

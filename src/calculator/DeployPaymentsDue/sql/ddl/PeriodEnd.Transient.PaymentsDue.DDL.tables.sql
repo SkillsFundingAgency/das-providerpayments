@@ -54,6 +54,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	DeliveryMonth int,
 	DeliveryYear int,
 	TransactionType int,
-	AmountDue decimal(15,5)
+	AmountDue decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(60)
 )
 GO

@@ -190,7 +190,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             {
                 Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
                     + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
-                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay) "
+                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeFundLineType, PriceEpisodeSFAContribPct) "
                     + "SELECT "
                     + "Ukprn, "
                     + "@learnerRefNumber, "
@@ -202,7 +202,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "0, "
                     + "0, "
                     + "0, "
-                    + "0 "
+                    + "0, "
+                    + "'Levy Funding Line', "
+                    + "0.9 "
                     + "FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                     new { learnerRefNumber, period = x, earlyFinisher, currentPeriod, numberOfPeriods, commitmentId }, false);
@@ -289,7 +291,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             {
                 Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
                     + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
-                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay) "
+                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeFundLineType, PriceEpisodeSFAContribPct) "
                     + "VALUES ("
                     + "@Ukprn, "
                     + "@learnerRefNumber, "
@@ -301,7 +303,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "0, "
                     + "0, "
                     + "0, "
-                    + "0 "
+                    + "0, "
+                    + "'Non-Levy Funding Line', "
+                    + "0.9 "
                     + ")",
                     new { ukprn, learnerRefNumber, startDate, period = x, earlyFinisher, currentPeriod, numberOfPeriods, agreedCost, tnp1, tnp2 }, false);
             }
@@ -387,7 +391,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType
-                  + "@amount " // AmountDue
+                  + "@amount, " // AmountDue
+                  + "0.9, " // SfaContributionPercentage
+                  + "'Non-Levy Funding Line' " // FundingLineType
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { month, year, transactionType, amount, commitmentId }, false);
@@ -428,7 +434,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType
-                  + "@amount)", // AmountDue
+                  + "@amount, " // AmountDue
+                  + "0.9, " // SfaContributionPercentage
+                  + "'Non-Levy Funding Line' " // FundingLineType
+                  + ")",
                   new { uln, ukprn, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode }, false);
         }
 

@@ -75,28 +75,34 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             string learnerRefNumber = null,
             int aimSequenceNumber = 1,
             TransactionType transactionType = TransactionType.Learning,
-            decimal amountDue = 1000.00m)
+            decimal amountDue = 1000.00m,
+            decimal sfaContributionPercentage = 0.9m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
-            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+            Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
                   + "SELECT "
                   + "NEWID(), "
                   + "CommitmentId, "
+                  + "AccountId, "
+                  + "Uln, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "@Ukprn, "
+                  + "@ukprn, "
                   + "(SELECT Period FROM CoInvestedPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
                   + "(SELECT Calendar_Year FROM CoInvestedPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
                   + "@transactionType, "
-                  + "@amountDue "
+                  + "@amountDue, "
+                  + "@sfaContributionPercentage "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue });
+                new { commitmentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
+
         internal static void AddPaymentDueForProvider2(
             long commitmentId,
             long ukprn,
@@ -105,54 +111,63 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             int aimSequenceNumber = 1,
             string learnerRefNumber = null,
             TransactionType transactionType = TransactionType.Learning,
-            decimal amountDue = 1000.00m)
+            decimal amountDue = 1000.00m,
+            decimal sfaContributionPercentage = 0.9m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
-            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+            Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
                   + "SELECT "
                   + "NEWID(), "
                   + "CommitmentId, "
+                  + "AccountId, "
+                  + "Uln, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "@Ukprn, "
+                  + "@ukprn, "
                   + "@deliveryMonth, "
                   + "@deliveryYear, "
                   + "@transactionType, "
-                  + "@amountDue "
+                  + "@amountDue, "
+                  + "@sfaContributionPercentage "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue });
+                new { commitmentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
 
-        internal static void AddPaymentDueForCommitment(long commitmentId, 
-                                                     string learnerRefNumber = null, 
-                                                     int aimSequenceNumber = 1,
-                                                     TransactionType transactionType = TransactionType.Learning,
-                                                     decimal amountDue = 1000.00m)
+        internal static void AddPaymentDueForNonDas(
+            long ukprn,
+            long uln,
+            string learnerRefNumber = null,
+            int aimSequenceNumber = 1,
+            TransactionType transactionType = TransactionType.Learning,
+            decimal amountDue = 1000.00m,
+            decimal sfaContributionPercentage = 0.9m)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
-            Execute("INSERT INTO PaymentsDue.RequiredPayments "
-                  + "SELECT "
+            Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, ApprenticeshipContractType) "
+                  + "VALUES ("
                   + "NEWID(), "
-                  + "CommitmentId, "
+                  + "@uln, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "Ukprn, "
-                  + "(SELECT Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
-                  + "(SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
+                  + "@ukprn, "
+                  + "(SELECT Period FROM CoInvestedPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
+                  + "(SELECT Calendar_Year FROM CoInvestedPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
                   + "@transactionType, "
-                  + "@amountDue "
-                  + "FROM dbo.DasCommitments "
-                  + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue });
+                  + "@amountDue, "
+                  + "@sfaContributionPercentage, "
+                  + "2)",
+                new { uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
 
         internal static void Clean()
@@ -177,6 +192,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         {
             return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
         }
+
+        internal static PaymentEntity[] GetPaymentsForUln(long uln,long ukprn)
+        {
+            return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE Uln = @uln AND UKPRN = @ukprn)", new { uln,ukprn });
+        }
+
         internal static int GetPaymentsCount()
         {
             return Count("CoInvestedPayments.Payments");

@@ -88,18 +88,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         protected bool PaymentForEarning(RequiredPayment payment, PeriodEarning earning, decimal expectedAmountDue)
         {
             return payment.CommitmentId == earning.CommitmentId
+                   && payment.CommitmentVersionId == earning.CommitmentVersionId
+                   && payment.AccountId == earning.AccountId
+                   && payment.AccountVersionId == earning.AccountVersionId
                    && payment.Ukprn == earning.Ukprn
+                   && payment.Uln == earning.Uln
                    && payment.LearnerRefNumber == earning.LearnerReferenceNumber
                    && payment.AimSequenceNumber == earning.AimSequenceNumber
                    && payment.DeliveryMonth == earning.CalendarMonth
                    && payment.DeliveryYear == earning.CalendarYear
                    && payment.AmountDue == expectedAmountDue
-                   && (int)payment.TransactionType == (int)earning.Type
+                   && (int) payment.TransactionType == (int) earning.Type
                    && payment.StandardCode == earning.StandardCode
                    && payment.FrameworkCode == earning.FrameworkCode
                    && payment.ProgrammeType == earning.ProgrammeType
                    && payment.PathwayCode == earning.PathwayCode
-                   && payment.ApprenticeshipContractType == earning.ApprenticeshipContractType;
+                   && payment.ApprenticeshipContractType == earning.ApprenticeshipContractType
+                   && payment.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier
+                   && payment.SfaContributionPercentage == earning.SfaContributionPercentage
+                   && payment.FundingLineType == earning.FundingLineType;
         }
     }
 }

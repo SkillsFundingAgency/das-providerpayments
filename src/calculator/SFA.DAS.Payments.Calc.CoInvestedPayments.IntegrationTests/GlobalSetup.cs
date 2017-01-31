@@ -23,13 +23,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 try
                 {
                     // Pre-req scripts
-                    RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
-                    RunSqlScript(@"Summarisation.Transient.LevyPayments.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.LevyPayments.ddl.tables.sql", connection);
 
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);

@@ -20,7 +20,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		ld.[ProgType],
 		ld.[FworkCode],
 		ld.[PwayCode],
-		ldf.[LearnDelFAMCode]
+		ldf.[LearnDelFAMCode],
+		pv.[PriceEpisodeFundLineType],
+		pv.[PriceEpisodeSFAContribPct]
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
 			AND pe.[LearnRefNumber] = pv.[LearnRefNumber]

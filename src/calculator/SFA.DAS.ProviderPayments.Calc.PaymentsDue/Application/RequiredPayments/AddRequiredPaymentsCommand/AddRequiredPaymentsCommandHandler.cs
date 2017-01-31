@@ -41,7 +41,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             ProgrammeType = p.ProgrammeType,
                             PathwayCode = p.PathwayCode,
                             ApprenticeshipContractType = p.ApprenticeshipContractType,
-                            PriceEpisodeIdentifier = p.PriceEpisodeIdentifier
+                            PriceEpisodeIdentifier = p.PriceEpisodeIdentifier,
+                            SfaContributionPercentage = p.SfaContributionPercentage,
+                            FundingLineType = p.FundingLineType
                         })
                     .ToArray();
 

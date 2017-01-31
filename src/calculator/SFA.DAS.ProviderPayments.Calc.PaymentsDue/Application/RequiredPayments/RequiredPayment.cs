@@ -26,5 +26,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
 
         public int ApprenticeshipContractType { get; set; }
         public string PriceEpisodeIdentifier { get; set; }
+
+        public decimal SfaContributionPercentage { get; set; }
+        public string FundingLineType { get; set; }
     }
 }

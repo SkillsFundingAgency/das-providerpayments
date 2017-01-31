@@ -30,7 +30,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 1000m,
                 Type = TransactionType.Learning,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 1,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line Type"
             };
             PeriodEarning2 = new PeriodEarning
             {
@@ -45,7 +47,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 3000m,
                 Type = TransactionType.Completion,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 1,
+                SfaContributionPercentage = 0.75m,
+                FundingLineType = "Levy Funding Line Type"
             };
             PeriodEarning3 = new PeriodEarning
             {
@@ -60,7 +64,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 EarnedValue = 2000m,
                 Type = TransactionType.Balancing,
                 StandardCode = 25,
-                ApprenticeshipContractType = 1
+                ApprenticeshipContractType = 1,
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line Type"
             };
             Mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
@@ -274,6 +280,54 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
 
             // Assert
             Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == 8 && r.Period1Year == 2016)), Times.Once);
+        }
+
+        [Test]
+        public void ThenItShouldWriteTheCorrectRequestedPaymentForAPeriodEarningWithNoPaymentHistory()
+        {
+            // Arrange
+            var periodEarning = new PeriodEarning
+            {
+                CommitmentId = 1,
+                CommitmentVersionId = "1",
+                AccountId = "1",
+                AccountVersionId = "A1",
+                Ukprn = 1,
+                Uln = 123456,
+                LearnerReferenceNumber = "Lrn-001",
+                AimSequenceNumber = 1,
+                CollectionPeriodNumber = 1,
+                CollectionAcademicYear = "1718",
+                CalendarMonth = 8,
+                CalendarYear = 2017,
+                EarnedValue = 1000m,
+                Type = TransactionType.Learning,
+                StandardCode = 25,
+                ApprenticeshipContractType = 1,
+                PriceEpisodeIdentifier = "25-25-01/08/2017",
+                SfaContributionPercentage = 0.9m,
+                FundingLineType = "Levy Funding Line"
+            };
+
+            Mediator
+                .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
+                .Returns(new GetProviderEarningsQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        periodEarning
+                    }
+                });
+
+            // Act
+            Processor.Process();
+
+            // Assert
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Length == 1)), Times.Once, "Expected only 1 required payment");
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Any(p => PaymentForEarning(p, periodEarning, periodEarning.EarnedValue)))), Times.Once);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
         private readonly string _yearOfCollection;
-        private const decimal CoInvestedSfaRatio = 0.9m;
 
         public CoInvestedPaymentsProcessor(ILogger logger, IMediator mediator, string yearOfCollection)
         {
@@ -31,7 +30,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         {
             // So we can mock
         }
-
 
         public virtual void Process()
         {
@@ -120,28 +118,28 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private void AddCoInvestedPaymentsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
-            if (paymentDue.TransactionType == TransactionType.First16To18EmployerIncentive ||
-                paymentDue.TransactionType == TransactionType.First16To18ProviderIncentive ||
-                paymentDue.TransactionType == TransactionType.Second16To18EmployerIncentive ||
-                paymentDue.TransactionType == TransactionType.Second16To18ProviderIncentive)
+            switch (paymentDue.TransactionType)
             {
-                payments.Add(
-               new Payment
-               {
-                   RequiredPaymentId = paymentDue.Id,
-                   DeliveryMonth = paymentDue.DeliveryMonth,
-                   DeliveryYear = paymentDue.DeliveryYear,
-                   CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                   CollectionPeriodMonth = currentPeriod.Month,
-                   CollectionPeriodYear = currentPeriod.Year,
-                   FundingSource = FundingSource.FullyFundedSfa,
-                   TransactionType = paymentDue.TransactionType,
-                   Amount =  paymentDue.AmountDue
-               });
-            }
-            else
-            {
-                payments.Add(
+                case TransactionType.First16To18EmployerIncentive:
+                case TransactionType.First16To18ProviderIncentive:
+                case TransactionType.Second16To18EmployerIncentive:
+                case TransactionType.Second16To18ProviderIncentive:
+                    payments.Add(
+                        new Payment
+                        {
+                            RequiredPaymentId = paymentDue.Id,
+                            DeliveryMonth = paymentDue.DeliveryMonth,
+                            DeliveryYear = paymentDue.DeliveryYear,
+                            CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                            CollectionPeriodMonth = currentPeriod.Month,
+                            CollectionPeriodYear = currentPeriod.Year,
+                            FundingSource = FundingSource.FullyFundedSfa,
+                            TransactionType = paymentDue.TransactionType,
+                            Amount = paymentDue.AmountDue
+                        });
+                    break;
+                default:
+                    payments.Add(
                     new Payment
                     {
                         RequiredPaymentId = paymentDue.Id,
@@ -152,26 +150,27 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                         CollectionPeriodYear = currentPeriod.Year,
                         FundingSource = FundingSource.CoInvestedSfa,
                         TransactionType = paymentDue.TransactionType,
-                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.AmountDue)
+                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.SfaContributionPercentage, paymentDue.AmountDue)
                     });
 
-                payments.Add(
-                    new Payment
-                    {
-                        RequiredPaymentId = paymentDue.Id,
-                        DeliveryMonth = paymentDue.DeliveryMonth,
-                        DeliveryYear = paymentDue.DeliveryYear,
-                        CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                        CollectionPeriodMonth = currentPeriod.Month,
-                        CollectionPeriodYear = currentPeriod.Year,
-                        FundingSource = FundingSource.CoInvestedEmployer,
-                        TransactionType = paymentDue.TransactionType,
-                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.AmountDue)
-                    });
+                    payments.Add(
+                        new Payment
+                        {
+                            RequiredPaymentId = paymentDue.Id,
+                            DeliveryMonth = paymentDue.DeliveryMonth,
+                            DeliveryYear = paymentDue.DeliveryYear,
+                            CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                            CollectionPeriodMonth = currentPeriod.Month,
+                            CollectionPeriodYear = currentPeriod.Year,
+                            FundingSource = FundingSource.CoInvestedEmployer,
+                            TransactionType = paymentDue.TransactionType,
+                            Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.SfaContributionPercentage, paymentDue.AmountDue)
+                        });
+                    break;
             }
         }
 
-        private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal amountToPay)
+        private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal sfaContributionPercentage, decimal amountToPay)
         {
             decimal result;
 
@@ -179,12 +178,12 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             {
                 case FundingSource.CoInvestedSfa:
                 {
-                    result =  amountToPay * CoInvestedSfaRatio;
+                    result =  amountToPay * sfaContributionPercentage;
                     break;
                 }
                 case FundingSource.CoInvestedEmployer:
                 {
-                    result =  amountToPay * (1 - CoInvestedSfaRatio);
+                    result =  amountToPay * (1 - sfaContributionPercentage);
                     break;
                 }
                 default:

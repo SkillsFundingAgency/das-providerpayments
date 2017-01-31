@@ -11,5 +11,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue
         public int DeliveryYear { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal AmountDue { get; set; }
+        public decimal SfaContributionPercentage { get; set; }
     }
 }

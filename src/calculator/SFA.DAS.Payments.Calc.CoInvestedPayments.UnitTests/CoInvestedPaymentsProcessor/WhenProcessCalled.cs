@@ -64,7 +64,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -72,7 +73,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -80,7 +82,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -88,7 +91,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -96,7 +100,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -104,7 +109,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -112,7 +118,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -120,7 +127,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -128,7 +136,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -136,7 +145,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -144,7 +154,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -152,7 +163,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 923.07692m
+                            AmountDue = 923.07692m,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -160,7 +172,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 3923.07692m
+                            AmountDue = 3923.07692m,
+                            SfaContributionPercentage = 0.9m
                         }
                     }
                 });
@@ -271,7 +284,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 10,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -279,7 +293,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 11,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -287,7 +302,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 12,
                             DeliveryYear = 17,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -295,7 +311,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 1,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -303,7 +320,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 2,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -311,7 +329,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 3,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -319,7 +338,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 4,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -327,7 +347,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 5,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -335,7 +356,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 6,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -343,7 +365,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 7,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -351,7 +374,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 8,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -359,7 +383,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 9,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 1000
+                            AmountDue = 1000,
+                            SfaContributionPercentage = 0.9m
                         },
                         new PaymentDue
                         {
@@ -367,7 +392,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                             DeliveryMonth = 10,
                             DeliveryYear = 18,
                             TransactionType = TransactionType.Learning,
-                            AmountDue = 3000
+                            AmountDue = 3000,
+                            SfaContributionPercentage = 0.9m
                         }
                     }
                 });
@@ -478,7 +504,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
                 TransactionType = transactionType,
-                AmountDue = 10000
+                AmountDue = 10000,
+                SfaContributionPercentage = 0.9m
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
@@ -548,7 +575,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                 DeliveryMonth = 3,
                 DeliveryYear = 4,
                 TransactionType = TransactionType.Learning,
-                AmountDue = 10000
+                AmountDue = 10000,
+                SfaContributionPercentage = 0.9m
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>())).Returns(
@@ -1186,6 +1214,93 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         private void Act()
         {
             _processor.Process();
+        }
+    }
+
+    public class WhenProcessCalledWithDifferentSfaContributionPercentages
+    {
+        private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
+        private Mock<ILogger> _logger;
+        private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
+        private PaymentDue _paymentDue;
+
+        [SetUp]
+        public void Arrange()
+        {
+            _logger = new Mock<ILogger>();
+            _mediator = new Mock<IMediator>();
+
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
+                new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod()
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>())).Returns(
+                new GetProvidersQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new Provider()
+                    }
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
+        }
+
+        [TestCase(0.9)]
+        [TestCase(0.75)]
+        [TestCase(1.00)]
+        [TestCase(0.00)]
+        public void ThenItShouldCallProcessPaymentsCommandWithTheCorrectAmountsForThatSfaContributionPercentage(decimal sfaContributionPercentage)
+        {
+            // Arrange
+            _paymentDue = new PaymentDue
+            {
+                Id = Guid.NewGuid(),
+                DeliveryMonth = 3,
+                DeliveryYear = 2017,
+                TransactionType = TransactionType.Learning,
+                AmountDue = 1000m,
+                SfaContributionPercentage = sfaContributionPercentage
+            };
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>()))
+                .Returns(
+                new GetPaymentsDueForUkprnQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        _paymentDue
+                    }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            var sfaPayment = _paymentDue.AmountDue * sfaContributionPercentage;
+            var employerPayment = _paymentDue.AmountDue*(1 - sfaContributionPercentage);
+
+            _mediator.Verify(m =>
+                m.Send(
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == sfaPayment) == 1)),
+                    Times.Once);
+
+            _mediator.Verify(m =>
+                m.Send(
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == employerPayment) == 1)),
+                    Times.Once);
         }
     }
 }

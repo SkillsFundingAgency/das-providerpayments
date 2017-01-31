@@ -6,28 +6,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
     public class DcfsEarningRepository : DcfsRepository, IEarningRepository
     {
         private const string EarningSource = "PaymentsDue.vw_ApprenticeshipEarning";
+
         private const string EarningColumns = "CommitmentId, "
-                                            + "CommitmentVersionId, "
-                                            + "AccountId, "
-                                            + "AccountVersionId, "
-                                            + "Ukprn, "
-                                            + "Uln, "
-                                            + "LearnRefNumber [LearnerRefNumber], "
-                                            + "AimSeqNumber [AimSequenceNumber], "
-                                            + "Period, "
-                                            + "PriceEpisodeOnProgPayment, "
-                                            + "PriceEpisodeCompletionPayment, "
-                                            + "PriceEpisodeBalancePayment, "
-                                            + "PriceEpisodeFirstEmp1618Pay, "
-                                            + "PriceEpisodeFirstProv1618Pay, "
-                                            + "PriceEpisodeSecondEmp1618Pay, "
-                                            + "PriceEpisodeSecondProv1618Pay, "
-                                            + "StandardCode, "
-                                            + "ProgrammeType, "
-                                            + "FrameworkCode, "
-                                            + "PathwayCode, "
-                                            + "ApprenticeshipContractType, "
-                                            + "PriceEpisodeIdentifier";
+                                              + "CommitmentVersionId, "
+                                              + "AccountId, "
+                                              + "AccountVersionId, "
+                                              + "Ukprn, "
+                                              + "Uln, "
+                                              + "LearnRefNumber [LearnerRefNumber], "
+                                              + "AimSeqNumber [AimSequenceNumber], "
+                                              + "Period, "
+                                              + "PriceEpisodeOnProgPayment, "
+                                              + "PriceEpisodeCompletionPayment, "
+                                              + "PriceEpisodeBalancePayment, "
+                                              + "PriceEpisodeFirstEmp1618Pay, "
+                                              + "PriceEpisodeFirstProv1618Pay, "
+                                              + "PriceEpisodeSecondEmp1618Pay, "
+                                              + "PriceEpisodeSecondProv1618Pay, "
+                                              + "StandardCode, "
+                                              + "ProgrammeType, "
+                                              + "FrameworkCode, "
+                                              + "PathwayCode, "
+                                              + "ApprenticeshipContractType, "
+                                              + "PriceEpisodeIdentifier, "
+                                              + "PriceEpisodeFundLineType, "
+                                              + "PriceEpisodeSfaContribPct";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

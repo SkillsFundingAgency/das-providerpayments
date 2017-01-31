@@ -28,5 +28,8 @@
 
         public int ApprenticeshipContractType { get; set; }
         public string PriceEpisodeIdentifier { get; set; }
+
+        public string PriceEpisodeFundLineType { get; set; }
+        public decimal PriceEpisodeSfaContribPct { get; set; }
     }
 }

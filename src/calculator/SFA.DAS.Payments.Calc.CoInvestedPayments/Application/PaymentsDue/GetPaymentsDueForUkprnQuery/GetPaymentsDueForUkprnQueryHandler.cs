@@ -33,7 +33,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPa
                             DeliveryMonth = p.DeliveryMonth,
                             DeliveryYear = p.DeliveryYear,
                             TransactionType = (TransactionType) p.TransactionType,
-                            AmountDue = p.AmountDue
+                            AmountDue = p.AmountDue,
+                            SfaContributionPercentage = p.SfaContributionPercentage
                         }).ToArray()
                 };
             }
