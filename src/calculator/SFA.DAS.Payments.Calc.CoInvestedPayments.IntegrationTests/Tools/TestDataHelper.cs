@@ -193,9 +193,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
         }
 
-        internal static PaymentEntity[] GetPaymentsForUln(long uln)
+        internal static PaymentEntity[] GetPaymentsForUln(long uln,long ukprn)
         {
-            return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE Uln = @uln)", new { uln });
+            return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE Uln = @uln AND UKPRN = @ukprn)", new { uln,ukprn });
         }
 
         internal static int GetPaymentsCount()

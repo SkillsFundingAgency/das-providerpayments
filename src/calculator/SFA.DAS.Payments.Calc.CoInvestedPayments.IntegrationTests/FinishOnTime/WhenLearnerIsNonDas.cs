@@ -8,6 +8,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
     public class WhenLearnerIsNonDas
     {
         private readonly long _uln = 1000000108;
+        private readonly long _ukprn = 1;
 
         private CoInvestedPaymentsTask _uut;
         private IntegrationTaskContext _taskContext;
@@ -17,7 +18,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            TestDataHelper.AddPaymentDueForNonDas(1, _uln, amountDue: 1500m);
+            TestDataHelper.AddPaymentDueForNonDas(_ukprn, _uln, amountDue: 1500m);
 
             TestDataHelper.CopyReferenceData();
 
@@ -32,7 +33,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             _uut.Execute(_taskContext);
 
             // Assert
-            var payments = TestDataHelper.GetPaymentsForUln(_uln);
+            var payments = TestDataHelper.GetPaymentsForUln(_uln,_ukprn);
             Assert.IsNotNull(payments);
             Assert.AreEqual(2, payments.Length);
 
