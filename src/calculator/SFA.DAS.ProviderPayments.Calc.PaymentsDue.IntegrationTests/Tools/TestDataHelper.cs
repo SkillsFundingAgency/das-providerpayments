@@ -5,6 +5,7 @@ using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 {
@@ -50,7 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            int? pathwayCode = null,
                                            bool passedDataLock = true,
                                            int[] notPayablePeriods = null,
-                                           int[] notMatchedPeriods = null)
+                                           int[] notMatchedPeriods = null,
+                                           TransactionType[] transactionTypes = null)
         {
             var minStartDate = new DateTime(2016, 8, 1);
 
@@ -93,17 +95,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 var censusDate = startDate.LastDayOfMonth();
                 var period = 1;
 
+                transactionTypes = transactionTypes == null ? new TransactionType[]  { TransactionType.Balancing, TransactionType.Completion, TransactionType.Learning } : transactionTypes;
                 while (censusDate <= endDate && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods);
-
+                    foreach (var traxType in transactionTypes)
+                    {
+                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods, traxType);
+                    }
+                    
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
                 }
 
                 if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods);
+                    foreach (var traxType in transactionTypes)
+                    {
+                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, notPayablePeriods, notMatchedPeriods, traxType);
+                    }
+                     
                 }
             }
             else
@@ -126,7 +136,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                        string priceEpisodeIdentifier,
                                                        int period,
                                                        int[] notPayablePeriods,
-                                                       int[] notMatchedPeriods)
+                                                       int[] notMatchedPeriods,
+                                                       TransactionType transactionType)
         {
             if (notMatchedPeriods != null && notMatchedPeriods.Contains(period))
             {
@@ -141,10 +152,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO DataLock.PriceEpisodePeriodMatch "
-                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable) "
+                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType) "
                   + "VALUES "
-                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable)",
-                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable });
+                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable, @transactionType)",
+                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionType });
         }
 
         internal static void AddEarningForCommitment(long? commitmentId,

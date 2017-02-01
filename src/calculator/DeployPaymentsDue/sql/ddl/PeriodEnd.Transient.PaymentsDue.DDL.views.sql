@@ -25,13 +25,13 @@ AS
 		ae.LearnRefNumber,
 		ae.AimSeqNumber,
 		ae.Period,
-		ae.PriceEpisodeOnProgPayment,
-		ae.PriceEpisodeCompletionPayment,
-		ae.PriceEpisodeBalancePayment,
-		ae.PriceEpisodeFirstEmp1618Pay,
-		ae.PriceEpisodeFirstProv1618Pay,
-		ae.PriceEpisodeSecondEmp1618Pay,
-		ae.PriceEpisodeSecondProv1618Pay,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 1 Then ae.PriceEpisodeOnProgPayment ELSE 0 END AS PriceEpisodeOnProgPayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 2 Then ae.PriceEpisodeCompletionPayment ELSE 0 END AS PriceEpisodeCompletionPayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 3 Then ae.PriceEpisodeBalancePayment ELSE 0 END AS PriceEpisodeBalancePayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 4 Then ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END AS PriceEpisodeFirstEmp1618Pay,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END AS PriceEpisodeFirstProv1618Pay,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END AS PriceEpisodeSecondEmp1618Pay,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END AS PriceEpisodeSecondProv1618Pay,
 		ae.StandardCode,
 		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
 		ae.FrameworkCode,
@@ -62,6 +62,15 @@ AS
 				AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
 		)
 		AND ((pem.CommitmentId IS NULL AND pepm.Payable IS NULL) OR pepm.Payable = 1)
+		AND (
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 1 Then ae.PriceEpisodeOnProgPayment ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 2 Then ae.PriceEpisodeCompletionPayment ELSE 0 END > 0 OR 
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 3 Then ae.PriceEpisodeBalancePayment ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 4 Then ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 
+		 )
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

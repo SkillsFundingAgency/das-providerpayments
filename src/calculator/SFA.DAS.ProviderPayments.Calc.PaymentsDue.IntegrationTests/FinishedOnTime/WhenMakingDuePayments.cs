@@ -321,7 +321,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddProvider(ukprn);
 
-            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate, 
+                            transactionTypes: new TransactionType[] {TransactionType.First16To18EmployerIncentive,TransactionType.First16To18ProviderIncentive });
 
             TestDataHelper.SetOpenCollection(4);
 
@@ -365,7 +366,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddProvider(ukprn);
 
-            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate, 
+                transactionTypes: new TransactionType[] { TransactionType.Second16To18EmployerIncentive, TransactionType.Second16To18ProviderIncentive });
 
             TestDataHelper.SetOpenCollection(12);
 
