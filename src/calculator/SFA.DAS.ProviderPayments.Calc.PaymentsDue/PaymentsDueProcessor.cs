@@ -196,7 +196,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 ApprenticeshipContractType = earning.ApprenticeshipContractType,
                 PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                 SfaContributionPercentage = earning.SfaContributionPercentage,
-                FundingLineType = earning.FundingLineType
+                FundingLineType = earning.FundingLineType,
+                UseLevyBalance = earning.UseLevyBalance
             });
         }
     }

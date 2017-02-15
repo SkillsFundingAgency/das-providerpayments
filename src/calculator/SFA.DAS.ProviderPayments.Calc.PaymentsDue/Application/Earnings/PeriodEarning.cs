@@ -33,5 +33,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 
         public decimal SfaContributionPercentage { get; set; }
         public string FundingLineType { get; set; }
+
+        public bool UseLevyBalance { get; set; }
+
     }
 }

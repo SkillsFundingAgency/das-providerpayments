@@ -108,6 +108,10 @@
           <Source>FundingLineType</Source>
           <Destination>FundingLineType</Destination>
         </ColumnMapping>
+       <ColumnMapping>
+          <Source>UseLevyBalance</Source>
+          <Destination>UseLevyBalance</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>

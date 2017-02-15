@@ -39,7 +39,8 @@ AS
 		ae.ApprenticeshipContractType,
 		ae.PriceEpisodeIdentifier,
 		ae.PriceEpisodeFundLineType,
-		ae.PriceEpisodeSfaContribPct
+		ae.PriceEpisodeSfaContribPct,
+		ae.PriceEpisodeLevyNonPayInd
 	FROM Reference.ApprenticeshipEarnings ae
 		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
 			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -176,6 +177,7 @@ SELECT
 	ApprenticeshipContractType,
 	PriceEpisodeIdentifier,
 	SfaContributionPercentage,
-	FundingLineType
+	FundingLineType,
+	UseLevyBalance
 FROM PaymentsDue.RequiredPayments
 GO

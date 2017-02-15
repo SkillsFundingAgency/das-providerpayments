@@ -43,5 +43,6 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	DeliveryMonth int,
 	DeliveryYear int,
 	TransactionType int,
-	AmountDue decimal(15,5)
+	AmountDue decimal(15,5),
+	UseLevyBalance bit
 )

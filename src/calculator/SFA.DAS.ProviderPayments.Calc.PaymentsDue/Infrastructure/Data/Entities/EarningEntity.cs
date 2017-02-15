@@ -31,5 +31,6 @@
 
         public string PriceEpisodeFundLineType { get; set; }
         public decimal PriceEpisodeSfaContribPct { get; set; }
+        public int? PriceEpisodeLevyNonPayInd { get; set; }
     }
 }
