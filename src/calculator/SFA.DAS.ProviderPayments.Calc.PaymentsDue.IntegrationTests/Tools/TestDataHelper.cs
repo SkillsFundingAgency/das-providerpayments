@@ -405,7 +405,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@transactionType, " // TransactionType
                   + "@amount, " // AmountDue
                   + "0.9, " // SfaContributionPercentage
-                  + "'Non-Levy Funding Line' " // FundingLineType
+                  + "'Non-Levy Funding Line', " // FundingLineType
+                   + "1 " // UseLevyBalane
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                   new { month, year, transactionType, amount, commitmentId }, false);
