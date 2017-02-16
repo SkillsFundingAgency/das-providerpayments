@@ -43,6 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             ApprenticeshipContractType = p.ApprenticeshipContractType,
                             PriceEpisodeIdentifier = p.PriceEpisodeIdentifier,
                             SfaContributionPercentage = p.SfaContributionPercentage,
+                            UseLevyBalance = p.UseLevyBalance,
                             FundingLineType = p.FundingLineType
                         })
                     .ToArray();

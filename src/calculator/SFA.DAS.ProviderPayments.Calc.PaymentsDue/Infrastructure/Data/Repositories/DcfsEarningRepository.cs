@@ -30,7 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "ApprenticeshipContractType, "
                                               + "PriceEpisodeIdentifier, "
                                               + "PriceEpisodeFundLineType, "
-                                              + "PriceEpisodeSfaContribPct";
+                                              + "PriceEpisodeSfaContribPct, "
+                                              + "PriceEpisodeLevyNonPayInd";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

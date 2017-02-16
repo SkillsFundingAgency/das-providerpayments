@@ -39,5 +39,6 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	TransactionType int,
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
-	FundingLineType varchar(60)
+	FundingLineType varchar(60),
+	UseLevyBalance bit
 )

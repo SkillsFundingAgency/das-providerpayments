@@ -106,7 +106,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "@deliveryMonth, "
                   + "@deliveryYear, "
                   + "@transactionType, "
-                  + "@amountDue "
+                  + "@amountDue, "
+                + "  1 "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear });
