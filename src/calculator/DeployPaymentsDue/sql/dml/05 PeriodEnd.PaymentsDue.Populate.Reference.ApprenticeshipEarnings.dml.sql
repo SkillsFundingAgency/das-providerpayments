@@ -20,8 +20,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		ld.[ProgType],
 		ld.[FworkCode],
 		ld.[PwayCode],
-		ldf.[LearnDelFAMCode],
-		pv.[PriceEpisodeFundLineType],
+		Case pe.[PriceEpisodeContractType] When 'Levy Contract' Then 1 Else 2 END,
+		pe.[PriceEpisodeFundLineType],
 		pv.[PriceEpisodeSFAContribPct],
 		pv.[PriceEpisodeLevyNonPayInd]
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
@@ -33,12 +33,6 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
 			AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
 			AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
-		JOIN ${ILR_Deds.FQ}.[Valid].[LearningDeliveryFAM] ldf ON pe.[Ukprn] = ldf.[Ukprn]
-			AND pe.[LearnRefNumber] = ldf.[LearnRefNumber]
-			AND pe.[PriceEpisodeAimSeqNumber] = ldf.[AimSeqNumber]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-		AND ldf.[LearnDelFAMType] = 'ACT'
-		AND ldf.[LearnDelFAMCode] IN ('1', '2')
-        AND ldf.[LearnDelFAMDateFrom] <= pe.[EpisodeEffectiveTNPStartDate]
-        AND ldf.[LearnDelFAMDateTo] >= COALESCE(pe.[PriceEpisodeActualEndDate], pe.[PriceEpisodePlannedEndDate])
+		
 GO
