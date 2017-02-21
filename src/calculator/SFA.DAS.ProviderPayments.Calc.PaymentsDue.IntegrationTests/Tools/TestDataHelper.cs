@@ -166,33 +166,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                      bool earlyFinisher = false)
         {
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
+                 + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
+                  + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "StartDate, "
                   + "StartDate, "
-                  + "NULL, "
-                  + "NULL, "
                   + "@aimSequenceNumber, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
                   + "EndDate, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
                   + "AgreedCost, "
-                  + "NULL, "
-                  + "NULL, "
+                  + "'Levy Contract', "
+                  + "'Levy Funding Line', "
                   + "AgreedCost * 0.8, "
-                  + "AgreedCost * 0.2, "
-                  + "NULL, "
-                  + "NULL "
+                  + "AgreedCost * 0.2 "
+                 
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
@@ -201,7 +191,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             {
                 Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
                     + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
-                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeFundLineType,PriceEpisodeSFAContribPct, PriceEpisodeLevyNonPayInd) "
+                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeSFAContribPct, PriceEpisodeLevyNonPayInd) "
                     + "SELECT "
                     + "Ukprn, "
                     + "@learnerRefNumber, "
@@ -214,7 +204,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "0, "
                     + "0, "
                     + "0, "
-                    + "'Levy Funding Line', "
                     + "0.9, "
                     + "1 "
                     + "FROM dbo.DasCommitments "
@@ -269,41 +258,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
+          
+
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
-                  + "VALUES ("
+                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate]," 
+                  + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
+                  + " SELECT "
                   + "@ukprn, "
                   + "@learnerRefNumber, "
                   + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                   + "@startDate, "
                   + "@startDate, "
-                  + "NULL, "
-                  + "NULL, "
                   + "@aimSequenceNumber, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
                   + "@endDate, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
-                  + "NULL, "
                   + "@agreedCost, "
-                  + "NULL, "
-                  + "NULL, "
+                  +"'Levy Contract',"
+                  + "'Non-Levy Funding Line',"
                   + "@tnp1, "
-                  + "@tnp2, "
-                  + "NULL, "
-                  + "NULL)",
+                  + "@tnp2 ",
                 new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2 }, false);
 
             for (var x = 1; x <= 12; x++)
             {
                 Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
                     + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
-                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeFundLineType, PriceEpisodeSFAContribPct,PriceEpisodeLevyNonPayInd) "
+                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay,  PriceEpisodeSFAContribPct,PriceEpisodeLevyNonPayInd) "
                     + "VALUES ("
                     + "@Ukprn, "
                     + "@learnerRefNumber, "
@@ -316,7 +296,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "0, "
                     + "0, "
                     + "0, "
-                    + "'Non-Levy Funding Line', "
                     + "0.9, "
                     + "1)",
                     new { ukprn, learnerRefNumber, startDate, period = x, earlyFinisher, currentPeriod, numberOfPeriods, agreedCost, tnp1, tnp2 }, false);
