@@ -75,7 +75,13 @@ AS
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 4 Then ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END > 0 OR
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END > 0 OR
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 8 Then ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 9 Then ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 10 Then ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 11 Then ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END > 0 OR
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 12 Then ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END > 0
+
 		 )
 GO
 
