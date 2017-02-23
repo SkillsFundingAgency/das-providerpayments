@@ -40,7 +40,12 @@ AS
 		ae.PriceEpisodeIdentifier,
 		ae.PriceEpisodeFundLineType,
 		ae.PriceEpisodeSfaContribPct,
-		ae.PriceEpisodeLevyNonPayInd
+		ae.PriceEpisodeLevyNonPayInd,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 8 Then ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftOnProgPayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 9 Then ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 10 Then ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftBalancing,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 11 Then ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END AS PriceEpisodeFirstDisadvantagePayment,
+		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 12 Then ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END AS PriceEpisodeSecondDisadvantagePayment
 	FROM Reference.ApprenticeshipEarnings ae
 		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
 			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier

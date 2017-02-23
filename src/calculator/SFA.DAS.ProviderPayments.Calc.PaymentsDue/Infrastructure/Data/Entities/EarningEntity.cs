@@ -20,6 +20,11 @@
         public decimal PriceEpisodeFirstProv1618Pay { get; set; }
         public decimal PriceEpisodeSecondEmp1618Pay { get; set; }
         public decimal PriceEpisodeSecondProv1618Pay { get; set; }
+        public decimal PriceEpisodeApplic1618FrameworkUpliftBalancing { get; set; }
+        public decimal PriceEpisodeApplic1618FrameworkUpliftCompletionPayment { get; set; }
+        public decimal PriceEpisodeApplic1618FrameworkUpliftOnProgPayment { get; set; }
+        public decimal PriceEpisodeFirstDisadvantagePayment { get; set; }
+        public decimal PriceEpisodeSecondDisadvantagePayment { get; set; }
 
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }

@@ -72,6 +72,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18EmployerIncentive, academicYear, month, year);
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18ProviderIncentive, academicYear, month, year);
 
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing16To18FrameworkUplift, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion16To18FrameworkUplift, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.OnProgramme16To18FrameworkUplift, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.FirstDisadvantagePayment, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.SecondDisadvantagePayment, academicYear, month, year);
+
             return periodEarnings.ToArray();
         }
 
@@ -102,6 +108,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 case TransactionType.Second16To18ProviderIncentive:
                     amount = entity.PriceEpisodeSecondProv1618Pay;
                     break;
+                case TransactionType.OnProgramme16To18FrameworkUplift:
+                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment;
+                    break;
+                case TransactionType.Completion16To18FrameworkUplift:
+                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment;
+                    break;
+                case TransactionType.Balancing16To18FrameworkUplift:
+                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftBalancing;
+                    break;
+                case TransactionType.FirstDisadvantagePayment:
+                    amount = entity.PriceEpisodeFirstDisadvantagePayment;
+                    break;
+                case TransactionType.SecondDisadvantagePayment:
+                    amount = entity.PriceEpisodeSecondDisadvantagePayment;
+                    break;
+
                 default:
                     throw new ArgumentException($"Invalid transaction type of {earningType} found.");
             }
