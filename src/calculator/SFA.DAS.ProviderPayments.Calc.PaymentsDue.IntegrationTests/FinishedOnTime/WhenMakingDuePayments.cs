@@ -328,8 +328,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 4);
 
-            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstEmp1618Pay");
-            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstProv1618Pay");
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstEmp1618Pay");
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 4, "PriceEpisodeFirstProv1618Pay");
 
             TestDataHelper.CopyReferenceData();
 
@@ -373,8 +373,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
 
-            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondEmp1618Pay");
-            TestDataHelper.AddIncentivePaymentsForCommitment(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondProv1618Pay");
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondEmp1618Pay");
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 12, "PriceEpisodeSecondProv1618Pay");
 
             TestDataHelper.CopyReferenceData();
 

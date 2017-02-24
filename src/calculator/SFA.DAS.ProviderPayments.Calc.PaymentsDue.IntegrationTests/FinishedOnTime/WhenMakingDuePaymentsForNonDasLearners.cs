@@ -264,5 +264,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
             Assert.AreEqual(2000, period10Payments[2].AmountDue);
         }
+
+        [Test]
+        public void ThenItShouldMakeFrameworkUpliftPayments()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.SetOpenCollection(12);
+
+            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment", 120);
+            TestDataHelper.CopyReferenceData();
+
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var period12Payments = duePayments.Where(p => p.DeliveryMonth == 7 && p.DeliveryYear == 2017)
+                                              .OrderBy(p => p.TransactionType)
+                                              .ToArray();
+            Assert.AreEqual(2, period12Payments.Length);
+
+        }
     }
 }
