@@ -36,3 +36,49 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 	WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 		
 GO
+
+TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]
+GO
+
+INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
+	[Ukprn],
+	[Uln],
+	[LearnRefNumber],
+	[AimSeqNumber],
+	[Period],
+	[MathEngOnProgPayment],
+	[MathEngBalPayment],
+	[LearningSupportPayment],
+	[StandardCode],
+	[ProgrammeType],
+	[FrameworkCode],
+	[PathwayCode],
+	[ApprenticeshipContractType],
+	[FundingLineType],
+	[SfaContributionPercentage],
+	[LevyNonPayIndicator])
+	SELECT
+		p.[Ukprn],
+		l.[ULN],
+		p.[LearnRefNumber],
+		p.[AimSeqNumber],
+		p.[Period],
+		ISNULL(p.[MathEngOnProgPayment], 0) AS [MathEngOnProgPayment],
+		ISNULL(p.[MathEngBalPayment], 0) AS [MathEngBalPayment],
+		ISNULL(p.[LearnSuppFundCash], 0) AS [LearningSupportPayment],
+		ld.[StdCode] AS [StandardCode],
+		ld.[ProgType] AS [ProgrammeType],
+		ld.[FworkCode] AS [FrameworkCode],
+		ld.[PwayCode] AS [PathwayCode],
+		CASE p.[LearnDelContType] WHEN 'Levy Contract' THEN 1 ELSE 2 END AS [ApprenticeshipContractType],
+		p.[FundLineType] AS [FundingLineType],
+		p.[LearnDelSFAContribPct] AS [SfaContributionPercentage],
+		p.[LearnDelLevyNonPayInd] AS [LevyNonPayIndicator]
+	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
+		JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
+			AND l.[LearnRefNumber] = p.[LearnRefNumber]
+		JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
+			AND p.[LearnRefNumber] = ld.[LearnRefNumber]
+			AND p.[AimSeqNumber] = ld.[AimSeqNumber]
+	WHERE ld.[LearnAimRef] != 'ZPROG001'
+GO

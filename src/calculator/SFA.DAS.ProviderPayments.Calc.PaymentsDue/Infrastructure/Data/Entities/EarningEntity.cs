@@ -21,6 +21,10 @@
         public decimal PriceEpisodeSecondEmp1618Pay { get; set; }
         public decimal PriceEpisodeSecondProv1618Pay { get; set; }
 
+        public decimal MathsAndEnglishOnProgPayment { get; set; }
+        public decimal MathsAndEnglishBalancePayment { get; set; }
+        public decimal LearningSupportPayment { get; set; }
+
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }

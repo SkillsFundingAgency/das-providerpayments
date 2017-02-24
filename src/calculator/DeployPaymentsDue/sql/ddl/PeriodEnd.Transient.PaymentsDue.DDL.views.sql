@@ -32,6 +32,9 @@ AS
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END AS PriceEpisodeFirstProv1618Pay,
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END AS PriceEpisodeSecondEmp1618Pay,
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END AS PriceEpisodeSecondProv1618Pay,
+		0.00 AS MathEngOnProgPayment,
+		0.00 AS MathEngBalPayment,
+		0.00 AS LearningSupportPayment,
 		ae.StandardCode,
 		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
 		ae.FrameworkCode,
@@ -71,7 +74,71 @@ AS
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END > 0 OR
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END > 0 OR
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 
-		 )
+		)
+	UNION
+	SELECT
+		pepm.CommitmentId,
+		pepm.VersionId CommitmentVersionId,
+		a.AccountId,
+		a.VersionId AccountVersionId,
+		ade.[Ukprn],
+		ade.[Uln],
+		ade.[LearnRefNumber],
+		ade.[AimSeqNumber],
+		ade.[Period],
+		0.00 AS PriceEpisodeOnProgPayment,
+		0.00 AS PriceEpisodeCompletionPayment,
+		0.00 AS PriceEpisodeBalancePayment,
+		0.00 AS PriceEpisodeFirstEmp1618Pay,
+		0.00 AS PriceEpisodeFirstProv1618Pay,
+		0.00 AS PriceEpisodeSecondEmp1618Pay,
+		0.00 AS PriceEpisodeSecondProv1618Pay,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 13 THEN ade.MathEngOnProgPayment ELSE 0 END AS MathEngOnProgPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 14 THEN ade.MathEngBalPayment ELSE 0 END AS MathEngBalPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 15 THEN ade.LearningSupportPayment ELSE 0 END AS LearningSupportPayment,
+		ade.StandardCode,
+		(CASE WHEN ade.StandardCode IS NULL THEN ade.ProgrammeType ELSE NULL END) ProgrammeType,
+		ade.FrameworkCode,
+		ade.PathwayCode,
+		ade.ApprenticeshipContractType,
+		ae.PriceEpisodeIdentifier,
+		ade.FundingLineType AS PriceEpisodeFundLineType,
+		ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
+		ade.LevyNonPayIndicator AS PriceEpisodeLevyNonPayInd
+	FROM Reference.ApprenticeshipEarnings ae
+		JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
+			AND ae.LearnRefNumber = ade.LearnRefNumber
+			AND ISNULL(ae.StandardCode, -1) = ISNULL(ade.StandardCode, -1)
+			AND ISNULL(ae.FrameworkCode, -1) = ISNULL(ade.FrameworkCode, -1)
+			AND ISNULL(ae.ProgrammeType, -1) = ISNULL(ade.ProgrammeType, -1)
+			AND ISNULL(ae.PathwayCode, -1) = ISNULL(ade.PathwayCode, -1)
+			AND ae.Period = ade.Period
+		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
+			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
+			AND ae.LearnRefNumber = pem.LearnRefNumber
+			AND ae.AimSeqNumber = pem.AimSeqNumber
+		LEFT JOIN DataLock.PriceEpisodePeriodMatch pepm ON ae.Ukprn = pepm.Ukprn
+			AND ae.PriceEpisodeIdentifier = pepm.PriceEpisodeIdentifier
+			AND ae.LearnRefNumber = pepm.LearnRefNumber
+			AND ae.AimSeqNumber = pepm.AimSeqNumber
+			AND ae.Period = pepm.Period
+		LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
+			AND c.VersionId = pepm.VersionId
+		LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM DataLock.ValidationError ve
+			WHERE ve.Ukprn = ae.Ukprn
+				AND ve.LearnRefNumber = ae.LearnRefNumber
+				AND ve.AimSeqNumber = ae.AimSeqNumber
+				AND ve.PriceEpisodeIdentifier = ae.PriceEpisodeIdentifier
+		)
+		AND ((pem.CommitmentId IS NULL AND pepm.Payable IS NULL) OR pepm.Payable = 1)
+		AND (
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 13 THEN ade.MathEngOnProgPayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 14 THEN ade.MathEngBalPayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 15 THEN ade.LearningSupportPayment ELSE 0 END > 0
+		)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

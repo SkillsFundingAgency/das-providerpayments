@@ -317,6 +317,51 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
         }
 
+        internal static void AddMathsAndEnglishEarningForCommitment(long? commitmentId,
+                                                     string learnerRefNumber,
+                                                     int aimSequenceNumber = 2,
+                                                     int numberOfPeriods = 12,
+                                                     int currentPeriod = 1,
+                                                     bool earlyFinisher = false)
+        {
+            Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
+                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef])"
+                  + "SELECT "
+                  + "Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "'50086832' "
+                  + "FROM dbo.DasCommitments "
+                  + "WHERE CommitmentId = @commitmentId",
+                new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
+
+            for (var x = 1; x <= 12; x++)
+            {
+                Execute("INSERT INTO Rulebase.AEC_LearningDelivery_Period (Ukprn, LearnRefNumber, AimSeqNumber, Period, MathEngOnProgPayment, MathEngBalPayment, "
+                    + "LearnSuppFundCash, LearnDelContType, FundLineType, LearnDelSFAContribPct, LearnDelLevyNonPayInd) "
+                    + "SELECT "
+                    + "Ukprn, "
+                    + "@learnerRefNumber, "
+                    + "@aimSequenceNumber, "
+                    + "@period, "
+                    + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= @period) THEN 471 / @numberOfPeriods ELSE 0 END, "
+                    + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = @period THEN (471.00 / @numberOfPeriods) * (@numberOfPeriods - @period) ELSE 0 END, "
+                    + "0, "
+                    + "'Levy Contract', "
+                    + "'Funding Line', "
+                    + "1, "
+                    + "1 "
+                    + "FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                    new { learnerRefNumber, aimSequenceNumber, period = x, earlyFinisher, currentPeriod, numberOfPeriods, commitmentId }, false);
+            }
+
+            Execute("INSERT INTO Valid.LearningDelivery "
+                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
+                    + "SELECT Ukprn, @learnerRefNumber, '50086832', 3, @aimSequenceNumber, StartDate, EndDate, 36, StandardCode, ProgrammeType, FrameworkCode, PathwayCode FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
+        }
 
         internal static void AddIncentivePaymentsForCommitment(long ukprn,
                                                                DateTime startDate,

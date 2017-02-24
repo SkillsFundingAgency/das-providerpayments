@@ -317,6 +317,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [TestCase(TransactionType.First16To18ProviderIncentive)]
         [TestCase(TransactionType.Second16To18EmployerIncentive)]
         [TestCase(TransactionType.Second16To18ProviderIncentive)]
+        [TestCase(TransactionType.OnProgrammeMathsAndEnglish)]
+        [TestCase(TransactionType.BalancingMathsAndEnglish)]
+        [TestCase(TransactionType.LearningSupport)]
         public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(TransactionType transactionType)
         {
             // Arrange
@@ -341,6 +344,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         PriceEpisodeFirstProv1618Pay = transactionType == TransactionType.First16To18ProviderIncentive ? 1000m : 0m,
                         PriceEpisodeSecondEmp1618Pay = transactionType == TransactionType.Second16To18EmployerIncentive ? 1000m : 0m,
                         PriceEpisodeSecondProv1618Pay = transactionType == TransactionType.Second16To18ProviderIncentive ? 1000m : 0m,
+                        MathsAndEnglishOnProgPayment = transactionType == TransactionType.OnProgrammeMathsAndEnglish ? 1000m : 0m,
+                        MathsAndEnglishBalancePayment = transactionType == TransactionType.BalancingMathsAndEnglish ? 1000m : 0m,
+                        LearningSupportPayment = transactionType == TransactionType.LearningSupport ? 1000m : 0m,
                         StandardCode = 25
                     }
                 });
