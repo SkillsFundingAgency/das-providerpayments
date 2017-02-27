@@ -240,6 +240,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.SetOpenCollection(10);
 
             TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 10, earlyFinisher: true);
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment", 360);
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftBalancing", 240);
+
 
             TestDataHelper.CopyReferenceData();
 
@@ -253,20 +256,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var period10Payments = duePayments.Where(p => p.DeliveryMonth == 5 && p.DeliveryYear == 2017)
                                               .OrderBy(p => p.TransactionType)
                                               .ToArray();
-            Assert.AreEqual(3, period10Payments.Length);
+            Assert.AreEqual(5, period10Payments.Length);
 
-            Assert.AreEqual((int)TransactionType.Learning, period10Payments[0].TransactionType);
-            Assert.AreEqual(1000, period10Payments[0].AmountDue);
+            Assert.True(period10Payments.Any(x => x.TransactionType == (int)TransactionType.Learning));
+            Assert.AreEqual(1000, period10Payments.Single(x => x.TransactionType == (int)TransactionType.Learning).AmountDue);
 
-            Assert.AreEqual((int)TransactionType.Completion, period10Payments[1].TransactionType);
-            Assert.AreEqual(3000, period10Payments[1].AmountDue);
+            Assert.True(period10Payments.Any(x => x.TransactionType == (int)TransactionType.Completion));
+            Assert.AreEqual(3000, period10Payments.Single(x => x.TransactionType == (int)TransactionType.Completion).AmountDue);
 
-            Assert.AreEqual((int)TransactionType.Balancing, period10Payments[2].TransactionType);
-            Assert.AreEqual(2000, period10Payments[2].AmountDue);
+            Assert.True(period10Payments.Any(x => x.TransactionType == (int)TransactionType.Balancing));
+            Assert.AreEqual(2000, period10Payments.Single(x => x.TransactionType == (int)TransactionType.Balancing).AmountDue);
+
+            Assert.True(period10Payments.Any(x => x.TransactionType == (int)TransactionType.Balancing16To18FrameworkUplift));
+            Assert.AreEqual(240, period10Payments.Single(x => x.TransactionType == (int)TransactionType.Balancing16To18FrameworkUplift).AmountDue);
+
+
+            Assert.True(period10Payments.Any(x => x.TransactionType == (int)TransactionType.Completion16To18FrameworkUplift));
+            Assert.AreEqual(360, period10Payments.Single(x => x.TransactionType == (int)TransactionType.Completion16To18FrameworkUplift).AmountDue);
+
         }
 
         [Test]
-        public void ThenItShouldMakeFrameworkUpliftPayments()
+        public void ThenItShouldMakeFrameworkUpliftOnProgrammePayments()
         {
             // Arrange
             var ukprn = 863145;
@@ -290,11 +301,56 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             // Assert
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
-            var period12Payments = duePayments.Where(p => p.DeliveryMonth == 7 && p.DeliveryYear == 2017)
-                                              .OrderBy(p => p.TransactionType)
-                                              .ToArray();
-            Assert.AreEqual(2, period12Payments.Length);
+
+            var period1Payments = duePayments.Where(p => p.DeliveryMonth == 08 && p.DeliveryYear == 2016).ToArray();
+
+            var onProgrammeUpluft = period1Payments.Single(x => x.TransactionType == (int)TransactionType.OnProgramme16To18FrameworkUplift);
+
+            Assert.NotNull(onProgrammeUpluft);
+            Assert.AreEqual(120, onProgrammeUpluft.AmountDue);
 
         }
+
+        public void ThenItShouldMakeDisadvantagePayments()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.SetOpenCollection(12);
+
+            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeFirstDisadvantagePayment", 100);
+            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 5, "PriceEpisodeSecondDisadvantagePayment", 100);
+
+            TestDataHelper.CopyReferenceData();
+
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+
+            var period1Payments = duePayments.Where(p => p.DeliveryMonth == 08 && p.DeliveryYear == 2016).ToArray();
+            var firstDisadvantge = period1Payments.Single(x => x.TransactionType == (int)TransactionType.FirstDisadvantagePayment);
+            Assert.NotNull(firstDisadvantge);
+            Assert.AreEqual(100, firstDisadvantge.AmountDue);
+
+
+            var period5Payments = duePayments.Where(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016).ToArray();
+            var secondDisadvantge = period1Payments.Single(x => x.TransactionType == (int)TransactionType.FirstDisadvantagePayment);
+            Assert.NotNull(secondDisadvantge);
+            Assert.AreEqual(100, secondDisadvantge.AmountDue);
+
+        }
+
+
     }
 }

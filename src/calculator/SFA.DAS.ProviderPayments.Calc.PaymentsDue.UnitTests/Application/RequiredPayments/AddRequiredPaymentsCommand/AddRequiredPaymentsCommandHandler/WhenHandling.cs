@@ -75,6 +75,93 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
                 SfaContributionPercentage = 0.9m,
                 FundingLineType = "Levy Funding Line"
             }
+
+            ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.OnProgramme16To18FrameworkUplift,
+                AmountDue = 120.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6,
+                SfaContributionPercentage = 1m,
+                FundingLineType = "Non Levy Funding Line"
+            }
+              ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.Balancing16To18FrameworkUplift,
+                AmountDue = 240.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6,
+                SfaContributionPercentage = 1m,
+                FundingLineType = "Non Levy Funding Line"
+            }
+              ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.Completion16To18FrameworkUplift,
+                AmountDue = 360.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6,
+                SfaContributionPercentage =1m,
+                FundingLineType = "Non Levy Funding Line"
+            }
+
+                ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.FirstDisadvantagePayment,
+                AmountDue = 500.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6,
+                SfaContributionPercentage = 1m,
+                FundingLineType = "Non Levy Funding Line"
+            }
+               ,
+            new RequiredPayment
+            {
+                CommitmentId = 2,
+                LearnerRefNumber = "Lrn002",
+                AimSequenceNumber = 1,
+                Ukprn = 10007459,
+                DeliveryMonth = 9,
+                DeliveryYear = 2016,
+                TransactionType = TransactionType.SecondDisadvantagePayment,
+                AmountDue = 500.00m,
+                FrameworkCode = 550,
+                ProgrammeType = 20,
+                PathwayCode = 6,
+                SfaContributionPercentage = 1m,
+                FundingLineType = "Non Levy Funding Line"
+            }
         };
 
         private Mock<IRequiredPaymentRepository> _repository;

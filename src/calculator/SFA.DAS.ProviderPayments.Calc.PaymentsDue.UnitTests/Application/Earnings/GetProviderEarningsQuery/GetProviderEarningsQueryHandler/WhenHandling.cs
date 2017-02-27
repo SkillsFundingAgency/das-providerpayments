@@ -317,6 +317,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [TestCase(TransactionType.First16To18ProviderIncentive)]
         [TestCase(TransactionType.Second16To18EmployerIncentive)]
         [TestCase(TransactionType.Second16To18ProviderIncentive)]
+        [TestCase(TransactionType.Balancing16To18FrameworkUplift)]
+        [TestCase(TransactionType.Completion16To18FrameworkUplift)]
+        [TestCase(TransactionType.OnProgramme16To18FrameworkUplift)]
+        [TestCase(TransactionType.FirstDisadvantagePayment)]
+        [TestCase(TransactionType.SecondDisadvantagePayment)]
+        
         public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(TransactionType transactionType)
         {
             // Arrange
@@ -341,6 +347,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         PriceEpisodeFirstProv1618Pay = transactionType == TransactionType.First16To18ProviderIncentive ? 1000m : 0m,
                         PriceEpisodeSecondEmp1618Pay = transactionType == TransactionType.Second16To18EmployerIncentive ? 1000m : 0m,
                         PriceEpisodeSecondProv1618Pay = transactionType == TransactionType.Second16To18ProviderIncentive ? 1000m : 0m,
+                        PriceEpisodeApplic1618FrameworkUpliftOnProgPayment= transactionType == TransactionType.OnProgramme16To18FrameworkUplift ? 1000m : 0m,
+                        PriceEpisodeApplic1618FrameworkUpliftBalancing= transactionType == TransactionType.Balancing16To18FrameworkUplift ? 1000m : 0m,
+                        PriceEpisodeApplic1618FrameworkUpliftCompletionPayment= transactionType == TransactionType.Completion16To18FrameworkUplift? 1000m : 0m,
+                        PriceEpisodeFirstDisadvantagePayment= transactionType == TransactionType.FirstDisadvantagePayment? 1000m : 0m,
+                        PriceEpisodeSecondDisadvantagePayment= transactionType == TransactionType.SecondDisadvantagePayment? 1000m : 0m,
+
+
                         StandardCode = 25
                     }
                 });
