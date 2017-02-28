@@ -363,7 +363,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
-        internal static void AddIncentivePaymentsForCommitment(long ukprn,
+        internal static void AddAdditionalPayments(long ukprn,
                                                                DateTime startDate,
                                                                string learnerRefNumber,
                                                                int currentPeriod = 1,
@@ -385,6 +385,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     break;
                 case "PriceEpisodeSecondProv1618Pay":
                     setClause = "PriceEpisodeSecondProv1618Pay = @amount ";
+                    break;
+                case "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment":
+                    setClause = "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment = @amount ";
+                    break;
+                case "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment":
+                    setClause = "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment= @amount ";
+                    break;
+                case "PriceEpisodeApplic1618FrameworkUpliftBalancing":
+                    setClause = "PriceEpisodeApplic1618FrameworkUpliftBalancing = @amount ";
+                    break;
+                case "PriceEpisodeFirstDisadvantagePayment":
+                    setClause = "PriceEpisodeFirstDisadvantagePayment = @amount ";
+                    break;
+                case "PriceEpisodeSecondDisadvantagePayment":
+                    setClause = "PriceEpisodeSecondDisadvantagePayment = @amount ";
                     break;
                 default:
                     throw new ArgumentException($"Unknown incentive name {incentiveName}.");

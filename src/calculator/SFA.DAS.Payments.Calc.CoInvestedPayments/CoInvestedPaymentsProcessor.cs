@@ -124,6 +124,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 case TransactionType.First16To18ProviderIncentive:
                 case TransactionType.Second16To18EmployerIncentive:
                 case TransactionType.Second16To18ProviderIncentive:
+                case TransactionType.Balancing16To18FrameworkUplift:
+                case TransactionType.Completion16To18FrameworkUplift:
+                case TransactionType.OnProgramme16To18FrameworkUplift:
+                case TransactionType.FirstDisadvantagePayment:
+                case TransactionType.SecondDisadvantagePayment:
                 case TransactionType.OnProgrammeMathsAndEnglish:
                 case TransactionType.BalancingMathsAndEnglish:
                     payments.Add(

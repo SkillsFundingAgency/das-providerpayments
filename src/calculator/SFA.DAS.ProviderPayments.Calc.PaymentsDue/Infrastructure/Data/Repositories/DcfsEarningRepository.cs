@@ -31,7 +31,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "PriceEpisodeIdentifier, "
                                               + "PriceEpisodeFundLineType, "
                                               + "PriceEpisodeSfaContribPct, "
-                                              + "PriceEpisodeLevyNonPayInd, "
+                                              + "PriceEpisodeLevyNonPayInd,"
+                                              + "PriceEpisodeApplic1618FrameworkUpliftBalancing, "
+                                              + "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment, "
+                                              + "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment, "
+                                              + "PriceEpisodeFirstDisadvantagePayment, "
+                                              + "PriceEpisodeSecondDisadvantagePayment, "
                                               + "MathEngOnProgPayment [MathsAndEnglishOnProgPayment], "
                                               + "MathEngBalPayment [MathsAndEnglishBalancePayment], "
                                               + "LearningSupportPayment";

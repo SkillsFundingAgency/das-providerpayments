@@ -23,7 +23,12 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		Case pe.[PriceEpisodeContractType] When 'Levy Contract' Then 1 Else 2 END,
 		pe.[PriceEpisodeFundLineType],
 		pv.[PriceEpisodeSFAContribPct],
-		pv.[PriceEpisodeLevyNonPayInd]
+		pv.[PriceEpisodeLevyNonPayInd],
+		IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftBalancing],0),
+        IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],0),
+        IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],0),
+		IsNull(pv.[PriceEpisodeFirstDisadvantagePayment],0),
+		IsNull(pv.[PriceEpisodeSecondDisadvantagePayment],0)
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
 			AND pe.[LearnRefNumber] = pv.[LearnRefNumber]

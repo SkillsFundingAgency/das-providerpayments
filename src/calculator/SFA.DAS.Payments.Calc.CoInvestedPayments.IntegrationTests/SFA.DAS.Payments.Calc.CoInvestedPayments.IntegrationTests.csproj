@@ -88,6 +88,8 @@
   <ItemGroup>
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario1.cs" />
     <Compile Include="FinishOnTime\WhenDpp195AcceptanceScenario2.cs" />
+    <Compile Include="FinishOnTime\WhenLearner16To18FrameworkUpliftPaymentsAreDue.cs" />
+    <Compile Include="FinishOnTime\WhenLearner16To18DisadvantagePaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenLearner16To18IncentivePaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenLearnerIsNonDas.cs" />
     <Compile Include="FinishOnTime\WhenNoPaymentsAreDue.cs" />
