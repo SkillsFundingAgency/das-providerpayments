@@ -26,6 +26,10 @@
         public decimal PriceEpisodeFirstDisadvantagePayment { get; set; }
         public decimal PriceEpisodeSecondDisadvantagePayment { get; set; }
 
+        public decimal MathsAndEnglishOnProgPayment { get; set; }
+        public decimal MathsAndEnglishBalancePayment { get; set; }
+        public decimal LearningSupportPayment { get; set; }
+
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }

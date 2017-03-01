@@ -78,6 +78,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.FirstDisadvantagePayment, academicYear, month, year);
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.SecondDisadvantagePayment, academicYear, month, year);
 
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.OnProgrammeMathsAndEnglish, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.BalancingMathsAndEnglish, academicYear, month, year);
+            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.LearningSupport, academicYear, month, year);
+
+
             return periodEarnings.ToArray();
         }
 
@@ -123,7 +128,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 case TransactionType.SecondDisadvantagePayment:
                     amount = entity.PriceEpisodeSecondDisadvantagePayment;
                     break;
-
+                case TransactionType.OnProgrammeMathsAndEnglish:
+                    amount = entity.MathsAndEnglishOnProgPayment;
+                    break;
+                case TransactionType.BalancingMathsAndEnglish:
+                    amount = entity.MathsAndEnglishBalancePayment;
+                    break;
+                case TransactionType.LearningSupport:
+                    amount = entity.LearningSupportPayment;
+                    break;
                 default:
                     throw new ArgumentException($"Invalid transaction type of {earningType} found.");
             }

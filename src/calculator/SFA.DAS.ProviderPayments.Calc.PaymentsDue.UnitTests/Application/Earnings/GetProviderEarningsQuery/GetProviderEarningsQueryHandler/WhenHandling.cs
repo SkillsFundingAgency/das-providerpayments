@@ -323,6 +323,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [TestCase(TransactionType.FirstDisadvantagePayment)]
         [TestCase(TransactionType.SecondDisadvantagePayment)]
         
+        [TestCase(TransactionType.OnProgrammeMathsAndEnglish)]
+        [TestCase(TransactionType.BalancingMathsAndEnglish)]
+        [TestCase(TransactionType.LearningSupport)]
         public void ThenItShouldReturnEarningsWithTheCorrectTransactionType(TransactionType transactionType)
         {
             // Arrange
@@ -354,6 +357,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         PriceEpisodeSecondDisadvantagePayment= transactionType == TransactionType.SecondDisadvantagePayment? 1000m : 0m,
 
 
+                        MathsAndEnglishOnProgPayment = transactionType == TransactionType.OnProgrammeMathsAndEnglish ? 1000m : 0m,
+                        MathsAndEnglishBalancePayment = transactionType == TransactionType.BalancingMathsAndEnglish ? 1000m : 0m,
+                        LearningSupportPayment = transactionType == TransactionType.LearningSupport ? 1000m : 0m,
                         StandardCode = 25
                     }
                 });

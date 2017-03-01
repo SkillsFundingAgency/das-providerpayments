@@ -1303,4 +1303,88 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
                     Times.Once);
         }
     }
+
+    public class WhenProcessCalledWithDifferentTransactionTypes
+    {
+        private CoInvestedPayments.CoInvestedPaymentsProcessor _processor;
+        private Mock<ILogger> _logger;
+        private Mock<IMediator> _mediator;
+        private string _yearOfCollection = "1617";
+        private PaymentDue _paymentDue;
+
+        [SetUp]
+        public void Arrange()
+        {
+            _logger = new Mock<ILogger>();
+            _mediator = new Mock<IMediator>();
+
+            _processor = new CoInvestedPayments.CoInvestedPaymentsProcessor(_logger.Object, _mediator.Object, _yearOfCollection);
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>())).Returns(
+                new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod()
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>())).Returns(
+                new GetProvidersQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new Provider()
+                    }
+                });
+
+            _mediator.Setup(m => m.Send(It.IsAny<ProcessPaymentsCommandRequest>())).Returns(
+                new ProcessPaymentsCommandResponse
+                {
+                    IsValid = true
+                });
+        }
+
+        [TestCase(TransactionType.Learning, FundingSource.CoInvestedSfa)]
+        [TestCase(TransactionType.Completion, FundingSource.CoInvestedSfa)]
+        [TestCase(TransactionType.Balancing, FundingSource.CoInvestedSfa)]
+        [TestCase(TransactionType.First16To18EmployerIncentive, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.First16To18ProviderIncentive, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.Second16To18EmployerIncentive, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.Second16To18ProviderIncentive, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.OnProgrammeMathsAndEnglish, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.BalancingMathsAndEnglish, FundingSource.FullyFundedSfa)]
+        public void ThenItShouldCallProcessPaymentsCommandWithTheCorrectAmountsForThatSfaContributionPercentage(TransactionType transactionType, FundingSource expectedFundingSource)
+        {
+            // Arrange
+            _paymentDue = new PaymentDue
+            {
+                Id = Guid.NewGuid(),
+                DeliveryMonth = 3,
+                DeliveryYear = 2017,
+                TransactionType = transactionType,
+                AmountDue = 1000m,
+                SfaContributionPercentage = 0.9m
+            };
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentsDueForUkprnQueryRequest>()))
+                .Returns(
+                new GetPaymentsDueForUkprnQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        _paymentDue
+                    }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m =>
+                m.Send(
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == expectedFundingSource && p.TransactionType == transactionType) == 1)),
+                    Times.Once);
+        }
+    }
 }

@@ -36,7 +36,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment, "
                                               + "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment, "
                                               + "PriceEpisodeFirstDisadvantagePayment, "
-                                              + "PriceEpisodeSecondDisadvantagePayment ";
+                                              + "PriceEpisodeSecondDisadvantagePayment, "
+                                              + "MathEngOnProgPayment [MathsAndEnglishOnProgPayment], "
+                                              + "MathEngBalPayment [MathsAndEnglishBalancePayment], "
+                                              + "LearningSupportPayment";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 
