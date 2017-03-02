@@ -25,6 +25,7 @@ AS
 		ae.LearnRefNumber,
 		ae.AimSeqNumber,
 		ae.Period,
+		ae.[PriceEpisodeEndDate],
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 1 Then ae.PriceEpisodeOnProgPayment ELSE 0 END AS PriceEpisodeOnProgPayment,
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 2 Then ae.PriceEpisodeCompletionPayment ELSE 0 END AS PriceEpisodeCompletionPayment,
 		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 3 Then ae.PriceEpisodeBalancePayment ELSE 0 END AS PriceEpisodeBalancePayment,
@@ -96,6 +97,7 @@ AS
 		ade.[LearnRefNumber],
 		ade.[AimSeqNumber],
 		ade.[Period],
+		ae.[PriceEpisodeEndDate],
 		0.00 AS PriceEpisodeOnProgPayment,
 		0.00 AS PriceEpisodeCompletionPayment,
 		0.00 AS PriceEpisodeBalancePayment,
@@ -120,15 +122,8 @@ AS
 		0.00 AS PriceEpisodeApplic1618FrameworkUpliftBalancing,
 		0.00 PriceEpisodeFirstDisadvantagePayment,
 		0.00 PriceEpisodeSecondDisadvantagePayment
-	FROM Reference.ApprenticeshipDeliveryEarnings ade 
-		JOIN (  
-				SELECT ae1.* FROM Reference.ApprenticeshipEarnings ae1
-				JOIN (SELECT PriceEpisodeIdentifier,Max([EpisodeStartDate]) MaxStartDate 
-					  FROM Reference.ApprenticeshipEarnings GROUP BY PriceEpisodeIdentifier) ae2
-				ON ae1.PriceEpisodeIdentifier = ae2.PriceEpisodeIdentifier AND
-					ae1.EpisodeStartDate = ae2.MaxStartDate		
-			) ae
-			ON ae.Ukprn = ade.Ukprn
+	FROM Reference.ApprenticeshipEarnings ae
+		JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
 			AND ae.LearnRefNumber = ade.LearnRefNumber
 			AND ISNULL(ae.StandardCode, -1) = ISNULL(ade.StandardCode, -1)
 			AND ISNULL(ae.FrameworkCode, -1) = ISNULL(ade.FrameworkCode, -1)
