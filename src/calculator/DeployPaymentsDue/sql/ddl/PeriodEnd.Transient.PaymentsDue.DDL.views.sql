@@ -120,8 +120,15 @@ AS
 		0.00 AS PriceEpisodeApplic1618FrameworkUpliftBalancing,
 		0.00 PriceEpisodeFirstDisadvantagePayment,
 		0.00 PriceEpisodeSecondDisadvantagePayment
-	FROM Reference.ApprenticeshipEarnings ae
-		JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
+	FROM Reference.ApprenticeshipDeliveryEarnings ade 
+		JOIN (  
+				SELECT ae1.* FROM Reference.ApprenticeshipEarnings ae1
+				JOIN (SELECT PriceEpisodeIdentifier,Max([EpisodeStartDate]) MaxStartDate 
+					  FROM Reference.ApprenticeshipEarnings GROUP BY PriceEpisodeIdentifier) ae2
+				ON ae1.PriceEpisodeIdentifier = ae2.PriceEpisodeIdentifier AND
+					ae1.EpisodeStartDate = ae2.MaxStartDate		
+			) ae
+			ON ae.Ukprn = ade.Ukprn
 			AND ae.LearnRefNumber = ade.LearnRefNumber
 			AND ISNULL(ae.StandardCode, -1) = ISNULL(ade.StandardCode, -1)
 			AND ISNULL(ae.FrameworkCode, -1) = ISNULL(ade.FrameworkCode, -1)
