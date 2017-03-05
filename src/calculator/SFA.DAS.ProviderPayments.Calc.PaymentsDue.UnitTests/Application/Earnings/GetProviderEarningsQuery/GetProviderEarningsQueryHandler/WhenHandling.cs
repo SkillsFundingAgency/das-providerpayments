@@ -26,7 +26,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 1,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -40,7 +41,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 2,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -54,7 +56,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 3,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -68,7 +71,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 4,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -82,7 +86,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 5,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -96,7 +101,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 6,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -110,7 +116,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 Ukprn = Ukprn,
                 Period = 7,
                 PriceEpisodeOnProgPayment = 1000m,
-                StandardCode = 25
+                StandardCode = 25,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -126,7 +133,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -142,7 +150,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -158,7 +167,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -174,7 +184,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -190,7 +201,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -206,7 +218,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -222,7 +235,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -238,7 +252,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             },
             new EarningEntity
             {
@@ -254,7 +269,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 PriceEpisodeOnProgPayment = 1000m,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
-                PathwayCode = 6
+                PathwayCode = 6,
+                PriceEpisodeEndDate=new DateTime(2018,08,01)
             }
         };
 
@@ -268,7 +284,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             _request = new GetProviderEarningsQueryRequest
             {
                 Ukprn = Ukprn,
-                AcademicYear = "1718"
+                AcademicYear = "1718",
+                Period1Month=8,
+                Period1Year=2018
             };
 
             _repository = new Mock<IEarningRepository>();
@@ -343,6 +361,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
                         Period = 6,
+                        PriceEpisodeEndDate=new DateTime(2019,10,10),
                         PriceEpisodeOnProgPayment = transactionType == TransactionType.Learning ? 1000m : 0m,
                         PriceEpisodeCompletionPayment = transactionType == TransactionType.Completion ? 1000m : 0m,
                         PriceEpisodeBalancePayment = transactionType == TransactionType.Balancing ? 1000m : 0m,
@@ -460,7 +479,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         Period = 6,
                         PriceEpisodeCompletionPayment = 1000m,
                         StandardCode = 25,
-                        ApprenticeshipContractType = apprenticeshipContractType
+                        ApprenticeshipContractType = apprenticeshipContractType,
+                        PriceEpisodeEndDate=new DateTime(2018,08,01)
                     }
                 });
 
@@ -499,7 +519,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         PriceEpisodeCompletionPayment = 1000m,
                         StandardCode = 25,
                         ApprenticeshipContractType = 1,
-                        PriceEpisodeSfaContribPct = 0.9m
+                        PriceEpisodeSfaContribPct = 0.9m,
+                        PriceEpisodeEndDate=new DateTime(2018,08,01)
                     }
                 });
 
@@ -532,7 +553,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         StandardCode = 25,
                         ApprenticeshipContractType = 1,
                         PriceEpisodeSfaContribPct = 0.9m,
-                        PriceEpisodeFundLineType = "Levy Funding Line Type"
+                        PriceEpisodeFundLineType = "Levy Funding Line Type",
+                        PriceEpisodeEndDate=new DateTime(2018,08,01)
                     }
                 });
 

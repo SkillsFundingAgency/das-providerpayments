@@ -1,4 +1,6 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
+﻿using System;
+
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class EarningEntity
     {
@@ -41,5 +43,7 @@
         public string PriceEpisodeFundLineType { get; set; }
         public decimal PriceEpisodeSfaContribPct { get; set; }
         public int? PriceEpisodeLevyNonPayInd { get; set; }
+
+        public DateTime PriceEpisodeEndDate { get; set; }
     }
 }

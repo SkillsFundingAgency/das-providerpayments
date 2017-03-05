@@ -9,6 +9,7 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		pe.[PriceEpisodeAimSeqNumber],
 		pe.[PriceEpisodeIdentifier],
 		pv.[Period],
+		COALESCE(pe.[PriceEpisodeActualEndDate],pe.[PriceEpisodePlannedEndDate]),
 		ISNULL(pv.[PriceEpisodeOnProgPayment], 0),
 		ISNULL(pv.[PriceEpisodeCompletionPayment], 0),
 		ISNULL(pv.[PriceEpisodeBalancePayment], 0),

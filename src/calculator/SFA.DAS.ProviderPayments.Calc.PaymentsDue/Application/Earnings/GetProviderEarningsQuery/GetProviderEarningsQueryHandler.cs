@@ -55,6 +55,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
         private PeriodEarning[] GetEarningsForPeriod(EarningEntity entity, int period1Month, int period1Year, string academicYear)
         {
             var periodEarnings = new List<PeriodEarning>();
+            var academicStart = new DateTime(period1Year, period1Month, 1);
+
+            if (academicStart > entity.PriceEpisodeEndDate)
+            {
+                return periodEarnings.ToArray();
+            }
 
             var month = period1Month + entity.Period - 1;
             var year = period1Year;
@@ -64,6 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 year++;
             }
 
+         
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Learning, academicYear, month, year);
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion, academicYear, month, year);
             AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing, academicYear, month, year);
