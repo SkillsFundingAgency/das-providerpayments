@@ -25,16 +25,16 @@ AS
 		ae.LearnRefNumber,
 		ae.AimSeqNumber,
 		ae.Period,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 1 Then ae.PriceEpisodeOnProgPayment ELSE 0 END AS PriceEpisodeOnProgPayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 2 Then ae.PriceEpisodeCompletionPayment ELSE 0 END AS PriceEpisodeCompletionPayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 3 Then ae.PriceEpisodeBalancePayment ELSE 0 END AS PriceEpisodeBalancePayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 4 Then ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END AS PriceEpisodeFirstEmp1618Pay,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END AS PriceEpisodeFirstProv1618Pay,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END AS PriceEpisodeSecondEmp1618Pay,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END AS PriceEpisodeSecondProv1618Pay,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 1 THEN ae.PriceEpisodeOnProgPayment ELSE 0 END AS PriceEpisodeOnProgPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 2 THEN ae.PriceEpisodeCompletionPayment ELSE 0 END AS PriceEpisodeCompletionPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 3 THEN ae.PriceEpisodeBalancePayment ELSE 0 END AS PriceEpisodeBalancePayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 4 THEN ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END AS PriceEpisodeFirstEmp1618Pay,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 5 THEN ae.PriceEpisodeFirstProv1618Pay ELSE 0 END AS PriceEpisodeFirstProv1618Pay,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 6 THEN ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END AS PriceEpisodeSecondEmp1618Pay,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 7 THEN ae.PriceEpisodeSecondProv1618Pay ELSE 0 END AS PriceEpisodeSecondProv1618Pay,
 		0.00 AS MathEngOnProgPayment,
 		0.00 AS MathEngBalPayment,
-		0.00 AS LearningSupportPayment,
+		Case WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 15 Then ae.LearningSupportPayment ELSE 0 END AS LearningSupportPayment,
 		ae.StandardCode,
 		(CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
 		ae.FrameworkCode,
@@ -44,11 +44,11 @@ AS
 		ae.PriceEpisodeFundLineType,
 		ae.PriceEpisodeSfaContribPct,
 		ae.PriceEpisodeLevyNonPayInd,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 8 Then ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftOnProgPayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 9 Then ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 10 Then ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftBalancing,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 11 Then ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END AS PriceEpisodeFirstDisadvantagePayment,
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 12 Then ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END AS PriceEpisodeSecondDisadvantagePayment
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 8 THEN ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftOnProgPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 9 THEN ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 10 THEN ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END AS PriceEpisodeApplic1618FrameworkUpliftBalancing,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 11 THEN ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END AS PriceEpisodeFirstDisadvantagePayment,
+		CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 12 THEN ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END AS PriceEpisodeSecondDisadvantagePayment
 	FROM Reference.ApprenticeshipEarnings ae
 		LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
 			AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -72,18 +72,19 @@ AS
 		)
 		AND ((pem.CommitmentId IS NULL AND pepm.Payable IS NULL) OR pepm.Payable = 1)
 		AND (
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 1 Then ae.PriceEpisodeOnProgPayment ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 2 Then ae.PriceEpisodeCompletionPayment ELSE 0 END > 0 OR 
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 3 Then ae.PriceEpisodeBalancePayment ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 4 Then ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 5 Then ae.PriceEpisodeFirstProv1618Pay ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 6 Then ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 7 Then ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 8 Then ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 9 Then ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 10 Then ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 11 Then ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END > 0 OR
-		Case When pepm.TransactionType IS NULL OR pepm.TransactionType = 12 Then ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END > 0
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 1 THEN ae.PriceEpisodeOnProgPayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 2 THEN ae.PriceEpisodeCompletionPayment ELSE 0 END > 0 OR 
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 3 THEN ae.PriceEpisodeBalancePayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 4 THEN ae.PriceEpisodeFirstEmp1618Pay ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 5 THEN ae.PriceEpisodeFirstProv1618Pay ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 6 THEN ae.PriceEpisodeSecondEmp1618Pay ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 7 THEN ae.PriceEpisodeSecondProv1618Pay ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 8 THEN ae.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 9 THEN ae.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 10 THEN ae.PriceEpisodeApplic1618FrameworkUpliftBalancing ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 11 THEN ae.PriceEpisodeFirstDisadvantagePayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 12 THEN ae.PriceEpisodeSecondDisadvantagePayment ELSE 0 END > 0 OR
+			CASE WHEN pepm.TransactionType IS NULL OR pepm.TransactionType = 15 THEN ae.LearningSupportPayment ELSE 0 END > 0
 		)
 	UNION
 	SELECT

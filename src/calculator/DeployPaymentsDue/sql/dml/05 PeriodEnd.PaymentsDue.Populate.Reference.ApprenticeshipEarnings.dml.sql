@@ -1,7 +1,34 @@
 TRUNCATE TABLE [Reference].[ApprenticeshipEarnings]
 GO
 
-INSERT INTO [Reference].[ApprenticeshipEarnings]
+INSERT INTO [Reference].[ApprenticeshipEarnings] (
+	[Ukprn],
+	[Uln],
+	[LearnRefNumber],
+	[AimSeqNumber],
+	[PriceEpisodeIdentifier],
+	[Period],
+	[PriceEpisodeOnProgPayment],
+	[PriceEpisodeCompletionPayment],
+	[PriceEpisodeBalancePayment],
+	[PriceEpisodeFirstEmp1618Pay],
+	[PriceEpisodeFirstProv1618Pay],
+	[PriceEpisodeSecondEmp1618Pay],
+	[PriceEpisodeSecondProv1618Pay],
+	[StandardCode],
+	[ProgrammeType],
+	[FrameworkCode],
+	[PathwayCode],
+	[ApprenticeshipContractType],
+	[PriceEpisodeFundLineType],
+	[PriceEpisodeSfaContribPct],
+	[PriceEpisodeLevyNonPayInd],
+	[PriceEpisodeApplic1618FrameworkUpliftBalancing],
+	[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],
+	[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
+	[PriceEpisodeFirstDisadvantagePayment],
+	[PriceEpisodeSecondDisadvantagePayment],
+	[LearningSupportPayment])
 	SELECT
 		pe.[Ukprn],
 		l.[Uln],
@@ -24,11 +51,12 @@ INSERT INTO [Reference].[ApprenticeshipEarnings]
 		pe.[PriceEpisodeFundLineType],
 		pv.[PriceEpisodeSFAContribPct],
 		pv.[PriceEpisodeLevyNonPayInd],
-		IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftBalancing],0),
-        IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],0),
-        IsNull(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],0),
-		IsNull(pv.[PriceEpisodeFirstDisadvantagePayment],0),
-		IsNull(pv.[PriceEpisodeSecondDisadvantagePayment],0)
+		ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftBalancing], 0),
+        ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment], 0),
+        ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment], 0),
+		ISNULL(pv.[PriceEpisodeFirstDisadvantagePayment], 0),
+		ISNULL(pv.[PriceEpisodeSecondDisadvantagePayment], 0),
+		ISNULL(pv.[PriceEpisodeLSFCash], 0)
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
 			AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
