@@ -285,8 +285,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 Ukprn = Ukprn,
                 AcademicYear = "1718",
-                Period1Month=8,
-                Period1Year=2018
+                Period1Month = 8,
+                Period1Year = 2017
             };
 
             _repository = new Mock<IEarningRepository>();
@@ -563,6 +563,40 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
 
             // Assert
             Assert.AreEqual(1, response.Items.Count(e => e.FundingLineType == "Levy Funding Line Type"));
+        }
+
+        [Test]
+        public void ThenItShouldNotReturnAnyEarningsForAPriceEpisodeThatEndedBeforeTheCurrentAcademicYear()
+        {
+            // Arrange
+            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
+                .Returns(new[]
+                {
+                    new EarningEntity
+                    {
+                        CommitmentId = 1,
+                        CommitmentVersionId = "1",
+                        AccountId = "1",
+                        AccountVersionId = "A1",
+                        Uln = 1,
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = Ukprn,
+                        Period = 6,
+                        PriceEpisodeCompletionPayment = 1000m,
+                        StandardCode = 25,
+                        ApprenticeshipContractType = 1,
+                        PriceEpisodeSfaContribPct = 0.9m,
+                        PriceEpisodeFundLineType = "Levy Funding Line Type",
+                        PriceEpisodeEndDate = new DateTime(2017, 7, 31)
+                    }
+                });
+
+            // Act
+            var response = _handler.Handle(_request);
+
+            // Assert
+            Assert.AreEqual(0, response.Items.Length);
         }
     }
 }
