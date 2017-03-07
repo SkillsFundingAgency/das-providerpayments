@@ -16,13 +16,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "LearnRefNumber [LearnerRefNumber], "
                                               + "AimSeqNumber [AimSequenceNumber], "
                                               + "Period, "
-                                              + "PriceEpisodeOnProgPayment, "
-                                              + "PriceEpisodeCompletionPayment, "
-                                              + "PriceEpisodeBalancePayment, "
-                                              + "PriceEpisodeFirstEmp1618Pay, "
-                                              + "PriceEpisodeFirstProv1618Pay, "
-                                              + "PriceEpisodeSecondEmp1618Pay, "
-                                              + "PriceEpisodeSecondProv1618Pay, "
                                               + "StandardCode, "
                                               + "ProgrammeType, "
                                               + "FrameworkCode, "
@@ -31,16 +24,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "PriceEpisodeIdentifier, "
                                               + "PriceEpisodeFundLineType, "
                                               + "PriceEpisodeSfaContribPct, "
-                                              + "PriceEpisodeLevyNonPayInd,"
-                                              + "PriceEpisodeApplic1618FrameworkUpliftBalancing, "
-                                              + "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment, "
-                                              + "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment, "
-                                              + "PriceEpisodeFirstDisadvantagePayment, "
-                                              + "PriceEpisodeSecondDisadvantagePayment, "
-                                              + "MathEngOnProgPayment [MathsAndEnglishOnProgPayment], "
-                                              + "MathEngBalPayment [MathsAndEnglishBalancePayment], "
-                                              + "LearningSupportPayment,"
-                                              + "PriceEpisodeEndDate";
+                                              + "PriceEpisodeLevyNonPayInd, "
+                                              + "PriceEpisodeEndDate, "
+                                              + "TransactionType, "
+                                              + "EarningAmount [Amount]";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 
