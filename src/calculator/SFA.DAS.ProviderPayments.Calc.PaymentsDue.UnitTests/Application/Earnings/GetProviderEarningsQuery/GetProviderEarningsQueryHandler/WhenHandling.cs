@@ -25,9 +25,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 1,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -40,9 +41,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 2,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -55,9 +57,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 3,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -70,9 +73,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 4,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -85,9 +89,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 5,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -100,9 +105,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 6,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -115,9 +121,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 7,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 StandardCode = 25,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -130,11 +137,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 1,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -147,11 +155,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 2,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -164,11 +173,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 3,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -181,11 +191,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 4,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -198,11 +209,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 5,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -215,11 +227,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 6,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -232,11 +245,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 7,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -249,11 +263,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 8,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             },
             new EarningEntity
             {
@@ -266,11 +281,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 AimSequenceNumber = 1,
                 Ukprn = Ukprn,
                 Period = 9,
-                PriceEpisodeOnProgPayment = 1000m,
+                Amount = 1000m,
+                TransactionType = (int)TransactionType.Learning,
                 FrameworkCode = 550,
                 ProgrammeType = 20,
                 PathwayCode = 6,
-                PriceEpisodeEndDate=new DateTime(2018,08,01)
+                PriceEpisodeEndDate = new DateTime(2018, 8, 1)
             }
         };
 
@@ -362,23 +378,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         Ukprn = Ukprn,
                         Period = 6,
                         PriceEpisodeEndDate=new DateTime(2019,10,10),
-                        PriceEpisodeOnProgPayment = transactionType == TransactionType.Learning ? 1000m : 0m,
-                        PriceEpisodeCompletionPayment = transactionType == TransactionType.Completion ? 1000m : 0m,
-                        PriceEpisodeBalancePayment = transactionType == TransactionType.Balancing ? 1000m : 0m,
-                        PriceEpisodeFirstEmp1618Pay = transactionType == TransactionType.First16To18EmployerIncentive ? 1000m : 0m,
-                        PriceEpisodeFirstProv1618Pay = transactionType == TransactionType.First16To18ProviderIncentive ? 1000m : 0m,
-                        PriceEpisodeSecondEmp1618Pay = transactionType == TransactionType.Second16To18EmployerIncentive ? 1000m : 0m,
-                        PriceEpisodeSecondProv1618Pay = transactionType == TransactionType.Second16To18ProviderIncentive ? 1000m : 0m,
-                        PriceEpisodeApplic1618FrameworkUpliftOnProgPayment= transactionType == TransactionType.OnProgramme16To18FrameworkUplift ? 1000m : 0m,
-                        PriceEpisodeApplic1618FrameworkUpliftBalancing= transactionType == TransactionType.Balancing16To18FrameworkUplift ? 1000m : 0m,
-                        PriceEpisodeApplic1618FrameworkUpliftCompletionPayment= transactionType == TransactionType.Completion16To18FrameworkUplift? 1000m : 0m,
-                        PriceEpisodeFirstDisadvantagePayment= transactionType == TransactionType.FirstDisadvantagePayment? 1000m : 0m,
-                        PriceEpisodeSecondDisadvantagePayment= transactionType == TransactionType.SecondDisadvantagePayment? 1000m : 0m,
-
-
-                        MathsAndEnglishOnProgPayment = transactionType == TransactionType.OnProgrammeMathsAndEnglish ? 1000m : 0m,
-                        MathsAndEnglishBalancePayment = transactionType == TransactionType.BalancingMathsAndEnglish ? 1000m : 0m,
-                        LearningSupportPayment = transactionType == TransactionType.LearningSupport ? 1000m : 0m,
+                        Amount = 1000m,
+                        TransactionType = (int) transactionType,
                         StandardCode = 25
                     }
                 });
@@ -477,10 +478,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
                         Period = 6,
-                        PriceEpisodeCompletionPayment = 1000m,
+                        Amount = 1000m,
+                        TransactionType = (int)TransactionType.Completion,
                         StandardCode = 25,
                         ApprenticeshipContractType = apprenticeshipContractType,
-                        PriceEpisodeEndDate=new DateTime(2018,08,01)
+                        PriceEpisodeEndDate = new DateTime(2018, 8, 1)
                     }
                 });
 
@@ -516,11 +518,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
                         Period = 6,
-                        PriceEpisodeCompletionPayment = 1000m,
+                        Amount = 1000m,
+                        TransactionType = (int)TransactionType.Completion,
                         StandardCode = 25,
                         ApprenticeshipContractType = 1,
                         PriceEpisodeSfaContribPct = 0.9m,
-                        PriceEpisodeEndDate=new DateTime(2018,08,01)
+                        PriceEpisodeEndDate = new DateTime(2018, 8, 1)
                     }
                 });
 
@@ -549,12 +552,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
                         Period = 6,
-                        PriceEpisodeCompletionPayment = 1000m,
+                        Amount = 1000m,
+                        TransactionType = (int)TransactionType.Completion,
                         StandardCode = 25,
                         ApprenticeshipContractType = 1,
                         PriceEpisodeSfaContribPct = 0.9m,
                         PriceEpisodeFundLineType = "Levy Funding Line Type",
-                        PriceEpisodeEndDate=new DateTime(2018,08,01)
+                        PriceEpisodeEndDate = new DateTime(2018, 8, 1)
                     }
                 });
 
@@ -583,7 +587,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                         AimSequenceNumber = 1,
                         Ukprn = Ukprn,
                         Period = 6,
-                        PriceEpisodeCompletionPayment = 1000m,
+                        Amount = 1000m,
+                        TransactionType = (int)TransactionType.Learning,
                         StandardCode = 25,
                         ApprenticeshipContractType = 1,
                         PriceEpisodeSfaContribPct = 0.9m,

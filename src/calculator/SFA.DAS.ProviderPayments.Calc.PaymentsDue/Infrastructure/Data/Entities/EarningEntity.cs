@@ -15,23 +15,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 
         public int Period { get; set; }
 
-        public decimal PriceEpisodeOnProgPayment { get; set; }
-        public decimal PriceEpisodeCompletionPayment { get; set; }
-        public decimal PriceEpisodeBalancePayment { get; set; }
-        public decimal PriceEpisodeFirstEmp1618Pay { get; set; }
-        public decimal PriceEpisodeFirstProv1618Pay { get; set; }
-        public decimal PriceEpisodeSecondEmp1618Pay { get; set; }
-        public decimal PriceEpisodeSecondProv1618Pay { get; set; }
-        public decimal PriceEpisodeApplic1618FrameworkUpliftBalancing { get; set; }
-        public decimal PriceEpisodeApplic1618FrameworkUpliftCompletionPayment { get; set; }
-        public decimal PriceEpisodeApplic1618FrameworkUpliftOnProgPayment { get; set; }
-        public decimal PriceEpisodeFirstDisadvantagePayment { get; set; }
-        public decimal PriceEpisodeSecondDisadvantagePayment { get; set; }
-
-        public decimal MathsAndEnglishOnProgPayment { get; set; }
-        public decimal MathsAndEnglishBalancePayment { get; set; }
-        public decimal LearningSupportPayment { get; set; }
-
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
@@ -45,5 +28,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int? PriceEpisodeLevyNonPayInd { get; set; }
 
         public DateTime PriceEpisodeEndDate { get; set; }
+
+        public int TransactionType { get; set; }
+        public decimal Amount { get; set; }
     }
 }
