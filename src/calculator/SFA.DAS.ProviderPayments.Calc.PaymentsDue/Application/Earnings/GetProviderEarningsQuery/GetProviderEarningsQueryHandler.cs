@@ -70,85 +70,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 year++;
             }
 
-         
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Learning, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18EmployerIncentive, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.First16To18ProviderIncentive, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18EmployerIncentive, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Second16To18ProviderIncentive, academicYear, month, year);
-
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Balancing16To18FrameworkUplift, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.Completion16To18FrameworkUplift, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.OnProgramme16To18FrameworkUplift, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.FirstDisadvantagePayment, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.SecondDisadvantagePayment, academicYear, month, year);
-
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.OnProgrammeMathsAndEnglish, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.BalancingMathsAndEnglish, academicYear, month, year);
-            AddEarningForPeriodAndPaymentTypeIfAvailable(periodEarnings, entity, TransactionType.LearningSupport, academicYear, month, year);
-
+            AddEarningForPeriod(periodEarnings, entity, academicYear, month, year);
 
             return periodEarnings.ToArray();
         }
 
-        private void AddEarningForPeriodAndPaymentTypeIfAvailable(List<PeriodEarning> earnings, EarningEntity entity, TransactionType earningType, string academicYear, int month, int year)
+        private void AddEarningForPeriod(List<PeriodEarning> earnings, EarningEntity entity, string academicYear, int month, int year)
         {
-            decimal amount;
-
-            switch (earningType)
-            {
-                case TransactionType.Learning:
-                    amount = entity.PriceEpisodeOnProgPayment;
-                    break;
-                case TransactionType.Completion:
-                    amount = entity.PriceEpisodeCompletionPayment;
-                    break;
-                case TransactionType.Balancing:
-                    amount = entity.PriceEpisodeBalancePayment;
-                    break;
-                case TransactionType.First16To18EmployerIncentive:
-                    amount = entity.PriceEpisodeFirstEmp1618Pay;
-                    break;
-                case TransactionType.First16To18ProviderIncentive:
-                    amount = entity.PriceEpisodeFirstProv1618Pay;
-                    break;
-                case TransactionType.Second16To18EmployerIncentive:
-                    amount = entity.PriceEpisodeSecondEmp1618Pay;
-                    break;
-                case TransactionType.Second16To18ProviderIncentive:
-                    amount = entity.PriceEpisodeSecondProv1618Pay;
-                    break;
-                case TransactionType.OnProgramme16To18FrameworkUplift:
-                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment;
-                    break;
-                case TransactionType.Completion16To18FrameworkUplift:
-                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment;
-                    break;
-                case TransactionType.Balancing16To18FrameworkUplift:
-                    amount = entity.PriceEpisodeApplic1618FrameworkUpliftBalancing;
-                    break;
-                case TransactionType.FirstDisadvantagePayment:
-                    amount = entity.PriceEpisodeFirstDisadvantagePayment;
-                    break;
-                case TransactionType.SecondDisadvantagePayment:
-                    amount = entity.PriceEpisodeSecondDisadvantagePayment;
-                    break;
-                case TransactionType.OnProgrammeMathsAndEnglish:
-                    amount = entity.MathsAndEnglishOnProgPayment;
-                    break;
-                case TransactionType.BalancingMathsAndEnglish:
-                    amount = entity.MathsAndEnglishBalancePayment;
-                    break;
-                case TransactionType.LearningSupport:
-                    amount = entity.LearningSupportPayment;
-                    break;
-                default:
-                    throw new ArgumentException($"Invalid transaction type of {earningType} found.");
-            }
-
-            if (amount != 0)
+            if (entity.Amount != 0)
             {
                 earnings.Add(new PeriodEarning
                 {
@@ -164,8 +93,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     CollectionAcademicYear = academicYear,
                     CalendarMonth = month,
                     CalendarYear = year,
-                    EarnedValue = amount,
-                    Type = earningType,
+                    EarnedValue = entity.Amount,
+                    Type = (TransactionType)entity.TransactionType,
                     StandardCode = entity.StandardCode,
                     FrameworkCode = entity.FrameworkCode,
                     ProgrammeType = entity.ProgrammeType,

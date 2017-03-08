@@ -61,8 +61,12 @@ CREATE TABLE DataLock.PriceEpisodeMatch
     [PriceEpisodeIdentifier] varchar(25) NOT NULL,
     [LearnRefNumber] varchar(100) NOT NULL,
     [AimSeqNumber] bigint NOT NULL,
-    [CommitmentId] bigint NOT NULL
+    [CommitmentId] bigint NOT NULL,
+	[IsSuccess] bit NOT NULL
 )
+GO
+
+CREATE CLUSTERED INDEX [IDX_PriceEpisodeMatch_1] ON DataLock.PriceEpisodeMatch ([Ukprn], [PriceEpisodeIdentifier], [LearnRefNumber], [AimSeqNumber])
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -85,7 +89,6 @@ CREATE TABLE DataLock.PriceEpisodePeriodMatch
     [Period] int NOT NULL,
     [Payable] bit NOT NULL,
 	[TransactionType] int NOT NULL
-
 )
 GO
 
