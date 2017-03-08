@@ -1353,6 +1353,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
         [TestCase(TransactionType.Second16To18ProviderIncentive, FundingSource.FullyFundedSfa)]
         [TestCase(TransactionType.OnProgrammeMathsAndEnglish, FundingSource.FullyFundedSfa)]
         [TestCase(TransactionType.BalancingMathsAndEnglish, FundingSource.FullyFundedSfa)]
+        [TestCase(TransactionType.LearningSupport, FundingSource.FullyFundedSfa)]
         public void ThenItShouldCallProcessPaymentsCommandWithTheCorrectAmountsForThatSfaContributionPercentage(TransactionType transactionType, FundingSource expectedFundingSource)
         {
             // Arrange

@@ -131,6 +131,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 case TransactionType.SecondDisadvantagePayment:
                 case TransactionType.OnProgrammeMathsAndEnglish:
                 case TransactionType.BalancingMathsAndEnglish:
+                case TransactionType.LearningSupport:
                     payments.Add(
                         new Payment
                         {
