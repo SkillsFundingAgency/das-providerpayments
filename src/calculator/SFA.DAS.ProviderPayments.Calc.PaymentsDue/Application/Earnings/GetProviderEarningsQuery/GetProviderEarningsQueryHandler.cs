@@ -55,23 +55,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
         private PeriodEarning[] GetEarningsForPeriod(EarningEntity entity, int period1Month, int period1Year, string academicYear)
         {
             var periodEarnings = new List<PeriodEarning>();
-            var academicStart = new DateTime(period1Year, period1Month, 1);
+            var academicStart = $"/{ period1Month.ToString("00")}/{ period1Year}";
 
-            if (academicStart > entity.PriceEpisodeEndDate)
+            var index = entity.PriceEpisodeIdentifier.IndexOf("/");
+            var priceEpisodePart = entity.PriceEpisodeIdentifier.Substring(index);
+
+            if (academicStart == priceEpisodePart)
             {
-                return periodEarnings.ToArray();
+                var month = period1Month + entity.Period - 1;
+                var year = period1Year;
+                if (month > 12)
+                {
+                    month -= 12;
+                    year++;
+                }
+
+                AddEarningForPeriod(periodEarnings, entity, academicYear, month, year);
             }
-
-            var month = period1Month + entity.Period - 1;
-            var year = period1Year;
-            if (month > 12)
-            {
-                month -= 12;
-                year++;
-            }
-
-            AddEarningForPeriod(periodEarnings, entity, academicYear, month, year);
-
             return periodEarnings.ToArray();
         }
 
