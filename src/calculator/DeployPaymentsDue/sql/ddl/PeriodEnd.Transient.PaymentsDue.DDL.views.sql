@@ -177,7 +177,7 @@ AS
 
 			AND EXISTS(
 			Select 1 from  Reference.CollectionPeriods 
-			WHERE
+			WHERE [Open] = 1 AND
 			 ae.PriceEpisodeEndDate <=
 				Case WHEN ae.period <= 5 THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear + 1 as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
