@@ -94,7 +94,8 @@ AS
                 WHEN 11 THEN ae.PriceEpisodeFirstDisadvantagePayment
                 WHEN 12 THEN ae.PriceEpisodeSecondDisadvantagePayment
                 WHEN 15 THEN ae.LearningSupportPayment
-            END) AS EarningAmount
+            END) AS EarningAmount,
+			ae.[EpisodeStartDate]
         FROM Reference.ApprenticeshipEarnings ae
             LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
                 AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -146,7 +147,8 @@ AS
                 WHEN 13 THEN ade.MathEngOnProgPayment
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
-            END) AS EarningAmount
+            END) AS EarningAmount,
+			ae.[EpisodeStartDate]
         FROM Reference.ApprenticeshipEarnings ae
             JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
                 AND ae.LearnRefNumber = ade.LearnRefNumber
@@ -175,14 +177,41 @@ AS
                     AND pepm.Payable = 1
             ))
 
-			AND EXISTS(
-			Select 1 from  Reference.CollectionPeriods 
-			WHERE [Open] = 1 AND
-			 ae.PriceEpisodeEndDate <=
-				Case WHEN ae.period <= 5 THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear + 1 as varchar) , 101) 
-				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+			AND ae.EpisodeStartDate >= (
+			Select
+				Case [Name] 
+				WHEN  'R01' THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R02' THEN CONVERT(VARCHAR(10), '09/01/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R03' THEN CONVERT(VARCHAR(10), '10/01/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R04' THEN CONVERT(VARCHAR(10), '11/01/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R05' THEN CONVERT(VARCHAR(10), '12/01/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R06' THEN CONVERT(VARCHAR(10), '01/01/' +  Cast(CalendarYear -1  as varchar) , 101) 
+				WHEN  'R07' THEN CONVERT(VARCHAR(10), '02/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
+				WHEN  'R08' THEN CONVERT(VARCHAR(10), '03/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
+				WHEN  'R09' THEN CONVERT(VARCHAR(10), '04/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
+				WHEN  'R10' THEN CONVERT(VARCHAR(10), '05/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
+				WHEN  'R11' THEN CONVERT(VARCHAR(10), '06/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
+				WHEN  'R12' THEN CONVERT(VARCHAR(10), '07/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
 				END
-	)
+				From  Reference.CollectionPeriods Where [Open] = 1)
+
+			AND
+				ae.EpisodeStartDate <= ( Select 
+				Case [Name] 
+				WHEN  'R01' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				WHEN  'R02' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				WHEN  'R03' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				WHEN  'R04' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				WHEN  'R05' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				WHEN  'R06' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) 
+				WHEN  'R07' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				WHEN  'R08' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				WHEN  'R09' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				WHEN  'R10' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				WHEN  'R11' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				WHEN  'R12' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				END
+				From  Reference.CollectionPeriods Where [Open] = 1)
 
     ) DeliveryEarnings
     WHERE DeliveryEarnings.EarningAmount IS NOT NULL
