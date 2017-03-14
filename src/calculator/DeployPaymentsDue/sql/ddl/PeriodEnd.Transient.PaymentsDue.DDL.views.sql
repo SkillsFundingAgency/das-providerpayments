@@ -168,12 +168,22 @@ AS
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
             LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
-        WHERE ae.ApprenticeshipContractType = 2 
+       WHERE (ae.ApprenticeshipContractType = 2 
             OR (
                 ae.ApprenticeshipContractType = 1
                     AND pem.IsSuccess = 1
                     AND pepm.Payable = 1
-            )
+            ))
+
+			AND EXISTS(
+			Select 1 from  Reference.CollectionPeriods 
+			WHERE
+			 ae.PriceEpisodeEndDate <=
+				Case WHEN ae.period <= 5 THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear + 1 as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
+				END
+	)
+
     ) DeliveryEarnings
     WHERE DeliveryEarnings.EarningAmount IS NOT NULL
         AND DeliveryEarnings.EarningAmount != 0

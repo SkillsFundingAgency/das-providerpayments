@@ -82,7 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "(@id, 1, '123', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, 'Active', 1, @startDate)",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
 
-            var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("dd/MM/yyyy")}";
+            var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
 
             Execute("INSERT INTO DataLock.PriceEpisodeMatch "
                   + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,IsSuccess) "
@@ -169,7 +169,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
-                  + "'99-99-99-' + CONVERT(VARCHAR(10), StartDate, 103), "
+                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                   + "StartDate, "
                   + "StartDate, "
                   + "@aimSequenceNumber, "
@@ -179,7 +179,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Levy Funding Line', "
                   + "AgreedCost * 0.8, "
                   + "AgreedCost * 0.2 "
-
+                 
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
@@ -192,7 +192,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "SELECT "
                     + "Ukprn, "
                     + "@learnerRefNumber, "
-                    + "'99-99-99-' + CONVERT(VARCHAR(10), StartDate, 103), "
+                    + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
                     + "@period, "
                     + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= @period) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
                     + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = @period) THEN AgreedCost * 0.2 ELSE 0 END, "
@@ -212,7 +212,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
                     + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber }, false);
+                new {commitmentId, learnerRefNumber}, false);
 
             Execute("INSERT INTO Valid.LearningDelivery "
                     + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
@@ -243,7 +243,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? frameworkCode = null,
                                         int? pathwayCode = null)
         {
-            var tnp1 = agreedCost * 0.8m;
+            var tnp1 =  agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
             if (uln == 0)
             {
@@ -255,22 +255,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
-
+          
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
-                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
+                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate]," 
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
                   + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
                   + " SELECT "
                   + "@ukprn, "
                   + "@learnerRefNumber, "
-                  + "'99-99-99-' + CONVERT(VARCHAR(10), @startDate, 103), "
+                  + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                   + "@startDate, "
                   + "@startDate, "
                   + "@aimSequenceNumber, "
                   + "@endDate, "
                   + "@agreedCost, "
-                  + "'Non-Levy Contract',"
+                  +"'Non-Levy Contract',"
                   + "'Non-Levy Funding Line',"
                   + "@tnp1, "
                   + "@tnp2 ",
@@ -284,7 +284,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "VALUES ("
                     + "@Ukprn, "
                     + "@learnerRefNumber, "
-                    + "'99-99-99-' + CONVERT(VARCHAR(10), @startDate, 103), "
+                    + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
                     + "@period, "
                     + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= @period) THEN (@tnp1) / @numberOfPeriods ELSE 0 END, "
                     + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = @period) THEN @tnp2 ELSE 0 END, "
@@ -408,7 +408,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 + "WHERE "
                 + "Ukprn = @ukprn "
                 + "AND LearnRefNumber = @learnerRefNumber "
-                + "AND PriceEpisodeIdentifier = '99-99-99-' + CONVERT(VARCHAR(10), @startDate, 103) "
+                + "AND PriceEpisodeIdentifier = '99-99-99-' + CONVERT(char(10), @startDate, 126) "
                 + "AND Period = @currentPeriod",
                 new { ukprn, learnerRefNumber, startDate, currentPeriod, amount }, false);
         }
