@@ -29,7 +29,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
     [PriceEpisodeFirstDisadvantagePayment],
     [PriceEpisodeSecondDisadvantagePayment],
-    [LearningSupportPayment])
+    [LearningSupportPayment],
+	[EpisodeStartDate] )
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -58,7 +59,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment], 0),
         ISNULL(pv.[PriceEpisodeFirstDisadvantagePayment], 0),
         ISNULL(pv.[PriceEpisodeSecondDisadvantagePayment], 0),
-        ISNULL(pv.[PriceEpisodeLSFCash], 0)
+        ISNULL(pv.[PriceEpisodeLSFCash], 0),
+		pe.[EpisodeStartDate]	
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
             AND pe.[LearnRefNumber] = pv.[LearnRefNumber]

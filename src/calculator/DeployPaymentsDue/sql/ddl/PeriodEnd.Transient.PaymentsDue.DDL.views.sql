@@ -94,7 +94,8 @@ AS
                 WHEN 11 THEN ae.PriceEpisodeFirstDisadvantagePayment
                 WHEN 12 THEN ae.PriceEpisodeSecondDisadvantagePayment
                 WHEN 15 THEN ae.LearningSupportPayment
-            END) AS EarningAmount
+            END) AS EarningAmount,
+			ae.[EpisodeStartDate]
         FROM Reference.ApprenticeshipEarnings ae
             LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
                 AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -146,7 +147,8 @@ AS
                 WHEN 13 THEN ade.MathEngOnProgPayment
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
-            END) AS EarningAmount
+            END) AS EarningAmount,
+			ae.[EpisodeStartDate]
         FROM Reference.ApprenticeshipEarnings ae
             JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
                 AND ae.LearnRefNumber = ade.LearnRefNumber
@@ -168,12 +170,24 @@ AS
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
             LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
-        WHERE ae.ApprenticeshipContractType = 2 
+       WHERE (ae.ApprenticeshipContractType = 2 
             OR (
                 ae.ApprenticeshipContractType = 1
                     AND pem.IsSuccess = 1
                     AND pepm.Payable = 1
-            )
+            ))
+
+			AND ae.EpisodeStartDate >= (
+			Select
+			Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear -1  as varchar) , 101) END
+				From  Reference.CollectionPeriods Where [Open] = 1)
+			AND
+				ae.EpisodeStartDate <= ( Select 
+				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
+				From  Reference.CollectionPeriods Where [Open] = 1)
+
     ) DeliveryEarnings
     WHERE DeliveryEarnings.EarningAmount IS NOT NULL
         AND DeliveryEarnings.EarningAmount != 0
