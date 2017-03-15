@@ -179,38 +179,13 @@ AS
 
 			AND ae.EpisodeStartDate >= (
 			Select
-				Case [Name] 
-				WHEN  'R01' THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R02' THEN CONVERT(VARCHAR(10), '09/01/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R03' THEN CONVERT(VARCHAR(10), '10/01/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R04' THEN CONVERT(VARCHAR(10), '11/01/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R05' THEN CONVERT(VARCHAR(10), '12/01/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R06' THEN CONVERT(VARCHAR(10), '01/01/' +  Cast(CalendarYear -1  as varchar) , 101) 
-				WHEN  'R07' THEN CONVERT(VARCHAR(10), '02/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				WHEN  'R08' THEN CONVERT(VARCHAR(10), '03/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				WHEN  'R09' THEN CONVERT(VARCHAR(10), '04/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				WHEN  'R10' THEN CONVERT(VARCHAR(10), '05/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				WHEN  'R11' THEN CONVERT(VARCHAR(10), '06/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				WHEN  'R12' THEN CONVERT(VARCHAR(10), '07/01/' +  Cast(CalendarYear-1  as varchar) , 101) 
-				END
+			Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear -1  as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
-
 			AND
 				ae.EpisodeStartDate <= ( Select 
-				Case [Name] 
-				WHEN  'R01' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
-				WHEN  'R02' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
-				WHEN  'R03' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
-				WHEN  'R04' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
-				WHEN  'R05' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
-				WHEN  'R06' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) 
-				WHEN  'R07' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				WHEN  'R08' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				WHEN  'R09' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				WHEN  'R10' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				WHEN  'R11' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				WHEN  'R12' THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear  as varchar) , 101) 
-				END
+				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
 
     ) DeliveryEarnings
