@@ -223,9 +223,7 @@ AS
                 WHEN 15 THEN ade.LearningSupportPayment
             END) AS EarningAmount,
 			ae.[EpisodeStartDate]
-        FROM Reference.ApprenticeshipDeliveryEarnings ade 
-			
-			JOIN (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
+        FROM (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
 				Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode
 				from Reference.ApprenticeshipEarnings 
 				Group By Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode ) ae1
@@ -236,7 +234,7 @@ AS
 					AND ISNULL(ae.PathwayCode, -1) = ISNULL(ae1.PathwayCode, -1)
 					and ae1.LearnRefNumber = ae.LearnRefNumber
 					and ae1.Ukprn = ae.Ukprn
-					
+			Join Reference.ApprenticeshipDeliveryEarnings ade 
 			ON ae.Ukprn = ade.Ukprn
                 AND ae.LearnRefNumber = ade.LearnRefNumber
                 AND ISNULL(ae.StandardCode, -1) = ISNULL(ade.StandardCode, -1)
