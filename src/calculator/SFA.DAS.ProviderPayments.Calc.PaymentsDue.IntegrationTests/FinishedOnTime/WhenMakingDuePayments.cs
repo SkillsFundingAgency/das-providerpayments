@@ -573,5 +573,43 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(5, duePayments.Count(p => p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 39));
             Assert.AreEqual(1, duePayments.Count(p => p.TransactionType == (int)TransactionType.BalancingMathsAndEnglish && p.AmountDue == 274.75m));
         }
+
+        [Test]
+        public void ThenItShouldMakeOnProgrammeMathsAndEnglishPaymentsForEachPeriodWhichGoesbeyondMainAim()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 4, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
+                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+
+            TestDataHelper.SetOpenCollection(12);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber);
+            TestDataHelper.AddMathsAndEnglishEarningForCommitment(commitmentId, learnerRefNumber);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(12, duePayments.Length);
+
+            Assert.AreEqual(commitmentId, duePayments[0].CommitmentId);
+            Assert.Greater(duePayments.Single(x=> x.DeliveryMonth == 10 && x.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish).AmountDue,0);
+            Assert.Greater(duePayments.Single(x => x.DeliveryMonth == 11 && x.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish).AmountDue, 0);
+            Assert.Greater(duePayments.Single(x => x.DeliveryMonth == 12 && x.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish).AmountDue, 0);
+
+        }
     }
 }
