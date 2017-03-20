@@ -193,6 +193,7 @@ AS
         AND DeliveryEarnings.EarningAmount != 0
 
 	UNION
+	 
 	 SELECT *
     FROM (
         SELECT
@@ -216,8 +217,8 @@ AS
             ade.FundingLineType AS PriceEpisodeFundLineType,
             ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
             ade.LevyNonPayIndicator AS PriceEpisodeLevyNonPayInd,
-            COALESCE(pepm.TransactionType, ndtt.TransactionType) AS TransactionType,
-            (CASE COALESCE(pepm.TransactionType, ndtt.TransactionType)
+            pepm.TransactionType AS TransactionType,
+            (CASE pepm.TransactionType
                 WHEN 13 THEN ade.MathEngOnProgPayment
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
@@ -253,7 +254,6 @@ AS
             LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
-            LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
        WHERE 
 	  
 			ae.ApprenticeshipContractType = 1
