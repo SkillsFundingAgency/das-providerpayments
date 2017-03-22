@@ -77,35 +77,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
 
         private void AddEarningForPeriod(List<PeriodEarning> earnings, EarningEntity entity, string academicYear, int month, int year)
         {
-            if (entity.Amount != 0)
+            earnings.Add(new PeriodEarning
             {
-                earnings.Add(new PeriodEarning
-                {
-                    CommitmentId = entity.CommitmentId,
-                    CommitmentVersionId = entity.CommitmentVersionId,
-                    AccountId = entity.AccountId,
-                    AccountVersionId = entity.AccountVersionId,
-                    Uln = entity.Uln,
-                    Ukprn = entity.Ukprn,
-                    LearnerReferenceNumber = entity.LearnerRefNumber,
-                    AimSequenceNumber = entity.AimSequenceNumber,
-                    CollectionPeriodNumber = entity.Period,
-                    CollectionAcademicYear = academicYear,
-                    CalendarMonth = month,
-                    CalendarYear = year,
-                    EarnedValue = entity.Amount,
-                    Type = (TransactionType)entity.TransactionType,
-                    StandardCode = entity.StandardCode,
-                    FrameworkCode = entity.FrameworkCode,
-                    ProgrammeType = entity.ProgrammeType,
-                    PathwayCode = entity.PathwayCode,
-                    ApprenticeshipContractType = entity.ApprenticeshipContractType,
-                    PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
-                    SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
-                    FundingLineType = entity.PriceEpisodeFundLineType,
-                    UseLevyBalance = entity.PriceEpisodeLevyNonPayInd.HasValue && entity.PriceEpisodeLevyNonPayInd.Value == 1 ? false : true
-                });
-            }
+                CommitmentId = entity.CommitmentId,
+                CommitmentVersionId = entity.CommitmentVersionId,
+                AccountId = entity.AccountId,
+                AccountVersionId = entity.AccountVersionId,
+                Uln = entity.Uln,
+                Ukprn = entity.Ukprn,
+                LearnerReferenceNumber = entity.LearnerRefNumber,
+                AimSequenceNumber = entity.AimSequenceNumber,
+                CollectionPeriodNumber = entity.Period,
+                CollectionAcademicYear = academicYear,
+                CalendarMonth = month,
+                CalendarYear = year,
+                EarnedValue = entity.Amount,
+                Type = (TransactionType)entity.TransactionType,
+                StandardCode = entity.StandardCode,
+                FrameworkCode = entity.FrameworkCode,
+                ProgrammeType = entity.ProgrammeType,
+                PathwayCode = entity.PathwayCode,
+                ApprenticeshipContractType = entity.ApprenticeshipContractType,
+                PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
+                SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
+                FundingLineType = entity.PriceEpisodeFundLineType,
+                UseLevyBalance = entity.PriceEpisodeLevyNonPayInd.HasValue && entity.PriceEpisodeLevyNonPayInd.Value == 1 ? false : true
+            });
+
         }
     }
 }

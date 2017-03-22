@@ -351,6 +351,49 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
         }
 
+        [Test]
+        public void ThenItShouldMakeRefundPaymentsForPeriodWhereEarningsNeedToBeRefunded()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var uln = 1765935903;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 9, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 10, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 11, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 12, 2016, (int)TransactionType.Learning, 1000);
+
+
+            TestDataHelper.SetOpenCollection(6);
+            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5,uln:uln);
+
+            TestDataHelper.ClearApprenticeshipPriceEpisodePeriod();
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 1, 1000);
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 2, 1000);
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 3, 1000);
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 4, 0);
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 5, 0);
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 6, 0);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(2, duePayments.Length);
+            Assert.True(duePayments.Any(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016 && p.AmountDue ==(decimal)-1000.00));
+            Assert.True(duePayments.Any(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-1000.00));
+
+        }
     }
 }

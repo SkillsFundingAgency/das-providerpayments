@@ -118,7 +118,6 @@ AS
             )
     ) PriceEpisodeEarnings
     WHERE PriceEpisodeEarnings.EarningAmount IS NOT NULL
-        AND PriceEpisodeEarnings.EarningAmount != 0
     UNION
     SELECT *
     FROM (
@@ -190,7 +189,6 @@ AS
 
     ) DeliveryEarnings
     WHERE DeliveryEarnings.EarningAmount IS NOT NULL
-        AND DeliveryEarnings.EarningAmount != 0
 
 	UNION
 	 
@@ -277,7 +275,6 @@ AS
 
     ) DeliveryEarnings
     WHERE DeliveryEarnings.EarningAmount IS NOT NULL
-        AND DeliveryEarnings.EarningAmount != 0
 
 
 		

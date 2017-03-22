@@ -164,7 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     .Sum(p => p.AmountDue);
                 var amountDue = amountEarned - alreadyPaid;
 
-                if (amountDue > 0)
+                if (amountDue != 0)
                 {
                     AddPaymentsDue(provider, paymentsDue, earning, amountDue);
                 }
