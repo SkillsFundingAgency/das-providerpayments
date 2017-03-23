@@ -13,8 +13,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         private static readonly string[] PeriodEndCopyReferenceDataScripts =
         {
             "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
+            "02 PeriodEnd.Populate.Reference.Providers.dml.sql",
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql"
+           
+             
+
         };
 
         private static readonly Random Random = new Random();
@@ -113,6 +117,41 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear });
         }
 
+
+        internal static void AddPaymentHistoryForCommitment(long commitmentId)
+        {
+           
+            Execute("INSERT INTO Payments.Payments "
+                  + "SELECT "
+                  + "NEWID(), "
+                  + "Id, "
+                  + "DeliveryMonth, "
+                  + "DeliveryYear, "
+                  + "'2017-R01', "
+                  + "1, "
+                  + "2017, "
+                  + "1, "
+                  + "TransactionType, "
+                  + "AmountDue * -1"
+                  + "FROM PaymentsDue.RequiredPayments "
+                  + "WHERE CommitmentId = @commitmentId",
+                new { commitmentId});
+        }
+
+        internal static long AddProvider(long ukprn)
+        {
+            Execute("INSERT INTO Valid.LearningProvider" +
+                    "(UKPRN) " +
+                    "VALUES " +
+                    "(@ukprn)",
+                new { ukprn });
+
+            Execute("INSERT INTO dbo.FileDetails (UKPRN,SubmittedTime) VALUES (@ukprn, @submissionDate)",
+                new { ukprn, submissionDate = DateTime.Today });
+
+            return ukprn;
+        }
+
         internal static void Clean()
         {
             Execute(@"
@@ -151,6 +190,20 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             }
         }
 
+        internal static void PopulatePaymentsHistory()
+        {
+            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql");
+
+            var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var command in commands)
+            {
+                Execute(command);
+            }
+            
+        }
+
+
 
         private static void Execute(string command, object param = null)
         {
@@ -187,7 +240,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         {
             return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                    .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                    .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
         }
     }
 }
