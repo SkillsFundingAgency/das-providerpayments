@@ -12,19 +12,47 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
     {
         private static readonly string[] PeriodEndCopyReferenceDataScripts =
         {
-            "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql"
+            "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
+            "02 PeriodEnd.Populate.Reference.Providers.dml.sql"
+
         };
 
         private static readonly Random Random = new Random();
 
-        internal static void AddAccount(string id, string name = null, decimal balance = 999999999)
+        internal static void AddAccount(string id, string name = null, decimal balance = 999999999,bool isDeds = false)
         {
             if (name == null)
             {
                 name = id;
             }
 
-            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, Balance) VALUES (@id, @name, @balance)", new { id, name, balance });
+            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, Balance) VALUES (@id, @name, @balance)",
+                new { id, name, balance },isDeds);
+        }
+
+
+        internal static void AddPaymentHistoryForCommitment(string requiredPaymentId,
+                                                            FundingSource fundingSource,
+                                                            decimal amount,
+                                                            int deliveryMonth,
+                                                            int deliveryYear,
+                                                            TransactionType transactionType, 
+                                                            bool isDeds)
+        {
+
+            Execute("INSERT INTO Payments.Payments "
+                  + "Values ( "
+                  + "NEWID(), "
+                  + "@requiredPaymentId, "
+                  + "@deliveryMonth, "
+                  + "@deliveryYear, "
+                  + "'2017-R01', "
+                  + "1, "
+                  + "2017, "
+                  + "@fundingSource, "
+                  + "@transactionType, "
+                  + "@amount) ",
+                  new { requiredPaymentId,deliveryMonth,deliveryYear,transactionType,fundingSource ,amount},isDeds);
         }
 
         internal static void AddCommitment(long id, 
@@ -37,7 +65,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                                            long? standardCode = null,
                                            int? programmeType = null,
                                            int? frameworkCode = null,
-                                           int? pathwayCode = null)
+                                           int? pathwayCode = null,
+                                           bool isDeds = false)
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
@@ -66,7 +95,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                     "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,PaymentStatus,PaymentStatusDescription,Payable,Priority,VersionId) " +
                     "VALUES " +
                     "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, 'Active', 1, 1, '1')",
-                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode });
+                    new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode },isDeds);
         }
 
         internal static void AddPaymentDueForProvider(
@@ -76,17 +105,23 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             int aimSequenceNumber = 1,
             TransactionType transactionType = TransactionType.Learning,
             decimal amountDue = 1000.00m,
-            decimal sfaContributionPercentage = 0.9m)
+            decimal sfaContributionPercentage = 0.9m,
+            string requiredPaymentId = null,
+            bool isDeds = false)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
+            if (string.IsNullOrEmpty(requiredPaymentId))
+            {
+                requiredPaymentId = Guid.NewGuid().ToString();
+            }
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
                   + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
                   + "SELECT "
-                  + "NEWID(), "
+                  + "@requiredPaymentId, "
                   + "CommitmentId, "
                   + "AccountId, "
                   + "Uln, "
@@ -100,7 +135,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@sfaContributionPercentage "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
+                new { commitmentId,requiredPaymentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
         }
 
         internal static void AddPaymentDueForProvider2(
@@ -112,17 +147,23 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             string learnerRefNumber = null,
             TransactionType transactionType = TransactionType.Learning,
             decimal amountDue = 1000.00m,
-            decimal sfaContributionPercentage = 0.9m)
+            decimal sfaContributionPercentage = 0.9m,
+             string requiredPaymentId = null,
+            bool isDeds = false)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
+            if (string.IsNullOrEmpty(requiredPaymentId))
+            {
+                requiredPaymentId = Guid.NewGuid().ToString();
+            }
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
                   + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
                   + "SELECT "
-                  + "NEWID(), "
+                  + "@requiredPaymentId, "
                   + "CommitmentId, "
                   + "AccountId, "
                   + "Uln, "
@@ -136,7 +177,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@sfaContributionPercentage "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
+                new { commitmentId, requiredPaymentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
         }
 
         internal static void AddPaymentDueForNonDas(
@@ -169,6 +210,34 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "2)",
                 new { uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
+
+        internal static void PopulatePaymentsHistory()
+        {
+            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql");
+
+            var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var command in commands)
+            {
+                Execute(command);
+            }
+
+        }
+
+        internal static long AddProvider(long ukprn)
+        {
+            Execute("INSERT INTO Valid.LearningProvider" +
+                    "(UKPRN) " +
+                    "VALUES " +
+                    "(@ukprn)",
+                new { ukprn },true);
+
+            Execute("INSERT INTO dbo.FileDetails (UKPRN,SubmittedTime) VALUES (@ukprn, @submissionDate)",
+                new { ukprn, submissionDate = DateTime.Today },true);
+
+            return ukprn;
+        }
+
 
         internal static void Clean()
         {
@@ -220,7 +289,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
         private static int Count(string tablename)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
                 connection.Open();
                 try
@@ -233,9 +302,10 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 }
             }
         }
-        private static void Execute(string command, object param = null)
+        private static void Execute(string command, object param = null, bool isDeds = false)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            var connString = isDeds ? GlobalTestContext.Instance.DedsConnectionString : GlobalTestContext.Instance.TransientConnectionString;
+            using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 try
@@ -251,7 +321,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
         private static T[] Query<T>(string command, object param = null)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
                 connection.Open();
                 try
@@ -266,8 +336,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         }
 
         private static string ReplaceSqlTokens(string sql)
-        {
-            return sql.Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+        { 
+            return sql.Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                 .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName); 
+            
         }
     }
 }

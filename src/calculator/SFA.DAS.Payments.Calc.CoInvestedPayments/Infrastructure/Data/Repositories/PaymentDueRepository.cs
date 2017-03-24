@@ -8,12 +8,18 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
         private const string DuePaymentsSource = "CoInvestedPayments.vw_RequiredPayments";
 
         private const string DuePaymentsColumns = "Id," +
-                                                  "Ukprn," +
-                                                  "DeliveryMonth," +
-                                                  "DeliveryYear," +
-                                                  "TransactionType," +
-                                                  "AmountDue," +
-                                                  "SfaContributionPercentage";
+                                                    "Ukprn," +
+                                                    "DeliveryMonth," +
+                                                    "DeliveryYear," +
+                                                    "TransactionType," +
+                                                    "AmountDue," +
+                                                    "SfaContributionPercentage," +
+                                                    "AimSequenceNumber," + 
+                                                    "FrameworkCode," +
+                                                    "PathwayCode," +
+                                                    "ProgrammeType," +
+                                                    "StandardCode," +
+                                                    "Uln" ;
         private const string SelectDuePayments = "SELECT " + DuePaymentsColumns + " FROM " + DuePaymentsSource;
         private const string SelectDuePaymentsByUkprn = SelectDuePayments + " WHERE Ukprn = @Ukprn";
 

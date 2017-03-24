@@ -34,7 +34,13 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPa
                             DeliveryYear = p.DeliveryYear,
                             TransactionType = (TransactionType) p.TransactionType,
                             AmountDue = p.AmountDue,
-                            SfaContributionPercentage = p.SfaContributionPercentage
+                            SfaContributionPercentage = p.SfaContributionPercentage,
+                            AimSequenceNumber = p.AimSequenceNumber,
+                            FrameworkCode = p.FrameworkCode,
+                            PathwayCode = p.PathwayCode,
+                            ProgrammeType = p.ProgrammeType,
+                            StandardCode = p.StandardCode,
+                            Uln = p.Uln
                         }).ToArray()
                 };
             }
