@@ -151,7 +151,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 var amountEarned = earning.EarnedValue;
-                var alreadyPaid = paymentHistory
+                var alreadyPaidItems = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.Uln == earning.Uln &&
                                 p.StandardCode == earning.StandardCode &&
@@ -160,10 +160,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
-                                p.TransactionType == earning.Type)
-                    .Sum(p => p.AmountDue);
-
-                var amountDue = amountEarned - alreadyPaid;
+                                p.TransactionType == earning.Type);
+       
+                var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue); 
 
                 var isPayble = false;
                 if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 1 && earning.Payable && earning.IsSuccess)
@@ -177,6 +176,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 else if (earning.EarnedValue == 0)
                 {
                     isPayble = true;
+
+                    var oldCommitment = alreadyPaidItems.FirstOrDefault();
+                    if (oldCommitment != null)
+                    {
+                        earning.CommitmentId = oldCommitment.CommitmentId;
+                        earning.AccountId = oldCommitment.AccountId;
+                        earning.AccountVersionId = oldCommitment.AccountVersionId;
+                        earning.CommitmentVersionId = oldCommitment.CommitmentVersionId;
+                    }
                 }
 
                 if (amountDue != 0 && isPayble == true)
