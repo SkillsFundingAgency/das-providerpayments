@@ -341,6 +341,9 @@ CREATE VIEW PaymentsDue.vw_PaymentHistory
 AS
 SELECT
     CommitmentId,
+	CommitmentVersionId,
+	AccountId,
+	AccountVersionId,
     LearnRefNumber,
     AimSeqNumber,
     Ukprn,
