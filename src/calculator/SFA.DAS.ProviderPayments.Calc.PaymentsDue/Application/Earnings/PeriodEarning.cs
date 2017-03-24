@@ -36,5 +36,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 
         public bool UseLevyBalance { get; set; }
 
+        public bool Payable { get; set; }
+        public bool IsSuccess { get; set; }
+
     }
 }

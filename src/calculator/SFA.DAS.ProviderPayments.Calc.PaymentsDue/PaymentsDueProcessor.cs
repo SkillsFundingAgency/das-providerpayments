@@ -162,9 +162,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.DeliveryYear == earning.CalendarYear &&
                                 p.TransactionType == earning.Type)
                     .Sum(p => p.AmountDue);
+
                 var amountDue = amountEarned - alreadyPaid;
 
-                if (amountDue != 0)
+                var isPayble = false;
+                if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 1 && earning.Payable && earning.IsSuccess)
+                {
+                    isPayble = true;
+                }
+                else if ( earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2)
+                {
+                    isPayble = true;
+                }
+                else if (earning.EarnedValue == 0)
+                {
+                    isPayble = true;
+                }
+
+                if (amountDue != 0 && isPayble == true)
                 {
                     AddPaymentsDue(provider, paymentsDue, earning, amountDue);
                 }

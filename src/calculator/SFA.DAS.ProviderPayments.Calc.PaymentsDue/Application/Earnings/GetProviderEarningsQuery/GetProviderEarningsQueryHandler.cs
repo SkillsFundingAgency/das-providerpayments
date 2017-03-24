@@ -101,7 +101,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
                 SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
                 FundingLineType = entity.PriceEpisodeFundLineType,
-                UseLevyBalance = entity.PriceEpisodeLevyNonPayInd.HasValue && entity.PriceEpisodeLevyNonPayInd.Value == 1 ? false : true
+                UseLevyBalance = entity.PriceEpisodeLevyNonPayInd.HasValue && entity.PriceEpisodeLevyNonPayInd.Value == 1 ? false : true,
+                IsSuccess = entity.IsSuccess,
+                Payable = entity.Payable
             });
 
         }
