@@ -89,6 +89,8 @@ GO
 CREATE VIEW PaymentsDue.vw_ApprenticeshipEarning
 AS
    
+   
+   
     SELECT
             pepm.CommitmentId,
             pepm.VersionId CommitmentVersionId,
@@ -154,7 +156,8 @@ AS
 				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
-    UNION
+		AND    COALESCE(pepm.TransactionType, ndtt.TransactionType) In (1,2,3,4,5,6,7,8,9,10,11,12,15)
+	UNION
    
         SELECT
             pepm.CommitmentId,
@@ -217,6 +220,7 @@ AS
 				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
+		And   COALESCE(pepm.TransactionType, ndtt.TransactionType) In ( 13,14,15)
 	UNION
 	
         SELECT
@@ -296,6 +300,14 @@ AS
 				WHEN 11 THEN CONVERT(VARCHAR(10), '06/01/' +  Cast(CalendarYear  as varchar) , 101) 
 				WHEN 12 THEN CONVERT(VARCHAR(10), '07/01/' +  Cast(CalendarYear  as varchar) , 101) 
 				END From  Reference.CollectionPeriods Where [Open] = 1) > ae.PriceEpisodeEndDate 
+
+  		And   pepm.TransactionType In ( 13,14,15)
+
+		
+
+GO
+
+
 
   
 		
