@@ -67,6 +67,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
         {
             // Arrange
             var ukprn = 10007459;
+            TestDataHelper.AddProvider(ukprn);
             TestDataHelper.AddPreviousProviderAdjustments(ukprn, amount: 25.00m, currentPeriod: 5);
             TestDataHelper.AddPreviousProviderAdjustments(ukprn, amount: 50.00m, currentPeriod: 4);
 
@@ -80,6 +81,37 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
 
             Assert.IsNotNull(payments);
             Assert.AreEqual(0, payments.Length);
+        }
+
+        [Test]
+        public void ThenItShouldWriteFullAndAdjustedPaymentsWhenMultipleProvidersArePresent()
+        {
+            // Arrange
+            var ukprn1 = 10007459;
+            var ukprn2 = 10007460;
+            TestDataHelper.AddProviderAdjustmentsSubmission(ukprn1, amount: 125.00m, currentPeriod: 6);
+            TestDataHelper.AddPreviousProviderAdjustments(ukprn1, amount: 25.00m, currentPeriod: 5);
+            TestDataHelper.AddPreviousProviderAdjustments(ukprn1, amount: 50.00m, currentPeriod: 4);
+
+            TestDataHelper.AddProviderAdjustmentsSubmission(ukprn2, amount: 225.00m);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var payments1 = TestDataHelper.GetPaymentsForProvider(ukprn1);
+            var payments2 = TestDataHelper.GetPaymentsForProvider(ukprn2);
+
+            Assert.IsNotNull(payments1);
+            Assert.AreEqual(6, payments1.Count(p => p.Ukprn == ukprn1));
+            Assert.AreEqual(1, payments1.Count(p => p.Amount == 125.00m));
+            Assert.AreEqual(1, payments1.Count(p => p.Amount == 100.00m));
+            Assert.AreEqual(4, payments1.Count(p => p.Amount == 50.00m));
+
+            Assert.IsNotNull(payments2);
+            Assert.AreEqual(12, payments2.Count(p => p.Ukprn == ukprn2 && p.Amount == 225.00m));
         }
     }
 }
