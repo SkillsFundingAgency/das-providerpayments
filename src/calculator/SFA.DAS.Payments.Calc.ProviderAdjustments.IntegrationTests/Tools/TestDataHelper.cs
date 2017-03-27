@@ -109,16 +109,6 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
             }
         }
 
-        internal static void SetOpenCollection(int periodNumber)
-        {
-            Execute("UPDATE Collection_Period_Mapping "
-                    + "SET Collection_Open = 0", null, false);
-
-            Execute("UPDATE Collection_Period_Mapping "
-                    + "SET Collection_Open = 1 "
-                    + $"WHERE Collection_Period = 'R{periodNumber:00}'", null, false);
-        }
-
         internal static PaymentEntity[] GetPaymentsForProvider(long ukprn)
         {
             return Query<PaymentEntity>("SELECT * FROM ProviderAdjustments.Payments WHERE Ukprn = @ukprn", new { ukprn });

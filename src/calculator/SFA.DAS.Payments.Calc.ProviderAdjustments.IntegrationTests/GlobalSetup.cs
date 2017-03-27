@@ -35,7 +35,6 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql", dedsConnection);
                     RunSqlScript(@"PeriodEnd.Transient.ProviderAdjustments.Reference.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.ProviderAdjustments.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.ProviderAdjustments.ddl.views.sql", transientConnection);
                 }

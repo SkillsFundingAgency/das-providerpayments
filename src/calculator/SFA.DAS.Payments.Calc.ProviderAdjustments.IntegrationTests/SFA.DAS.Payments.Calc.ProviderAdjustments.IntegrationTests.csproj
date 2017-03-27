@@ -111,10 +111,6 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

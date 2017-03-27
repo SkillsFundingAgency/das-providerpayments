@@ -137,7 +137,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ddl", "Ddl", "{389D8157-2A8
 		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.views.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.views.sql
 		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.Reference.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.Reference.ddl.tables.sql
 		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
-		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dml", "Dml", "{2661EDC3-37BA-408A-84FD-BF47EE62A4C7}"
