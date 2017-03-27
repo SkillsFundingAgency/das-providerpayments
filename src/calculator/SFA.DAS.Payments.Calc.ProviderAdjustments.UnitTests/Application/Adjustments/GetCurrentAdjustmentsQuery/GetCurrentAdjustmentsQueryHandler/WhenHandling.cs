@@ -10,13 +10,14 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.Application.Adjust
     public class WhenHandling
     {
         private static readonly long Ukprn = 10007459;
+        private static readonly Guid SubmissionId = Guid.NewGuid();
 
         private static readonly AdjustmentEntity[] AdjustmentEntities =
         {
             new AdjustmentEntity
             {
                 Ukprn = Ukprn,
-                SubmissionId = "abc",
+                SubmissionId = SubmissionId,
                 SubmissionCollectionPeriod = 1,
                 PaymentType = 1,
                 PaymentTypeName = "type",

@@ -11,13 +11,14 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.Application.Paymen
     public class WhenHandling
     {
         private static readonly long Ukprn = 10007459;
+        private static readonly Guid SubmissionId = Guid.NewGuid();
 
         private static readonly Payment[] Payments =
         {
             new Payment
             {
                 Ukprn = Ukprn,
-                SubmissionId = "abc",
+                SubmissionId = SubmissionId,
                 SubmissionCollectionPeriod = 1,
                 SubmissionAcademicYear = 1617,
                 PaymentType = 57,
@@ -30,7 +31,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.Application.Paymen
             new Payment
             {
                 Ukprn = Ukprn,
-                SubmissionId = "abc",
+                SubmissionId = SubmissionId,
                 SubmissionCollectionPeriod = 5,
                 SubmissionAcademicYear = 1617,
                 PaymentType = 77,

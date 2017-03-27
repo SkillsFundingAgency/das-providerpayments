@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using Dapper;
+using SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
 {
@@ -61,6 +62,66 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
                     Execute(command);
                 }
             }
+        }
+
+        internal static void AddProvider(long ukprn)
+        {
+            var submissionId = Guid.NewGuid();
+
+            Execute("INSERT INTO dbo.EAS_Submission "
+                    + "(Submission_Id, UKPRN, CollectionPeriod, ProviderName, UpdatedOn, DeclarationChecked, NilReturn) "
+                    + "VALUES "
+                    + "(@submissionId, @ukprn, 1, 'Provider', GETDATE(), 1, 0)",
+                    new { submissionId, ukprn }, false);
+        }
+
+        internal static void AddProviderAdjustmentsSubmission(long ukprn, decimal amount = 1000.00m, int currentPeriod = 12)
+        {
+            var submissionId = Guid.NewGuid();
+
+            for (var period = 1; period <= currentPeriod; period++)
+            {
+                Execute("INSERT INTO dbo.EAS_Submission "
+                        + "(Submission_Id, UKPRN, CollectionPeriod, ProviderName, UpdatedOn, DeclarationChecked, NilReturn) "
+                        + "VALUES "
+                        + "(@submissionId, @ukprn, @period, 'Provider', GETDATE(), 1, 0)",
+                        new { submissionId, ukprn, period }, false);
+
+                Execute("INSERT INTO dbo.EAS_Submission_Values "
+                        + "(Submission_Id, CollectionPeriod, Payment_Id, PaymentValue) "
+                        + "VALUES "
+                        + "(@submissionId, @period, 58, @amount)",
+                        new { submissionId, period, amount }, false);
+            }
+        }
+
+        internal static void AddPreviousProviderAdjustments(long ukprn, decimal amount = 500.00m, int currentPeriod = 12, int academicYear = 1617)
+        {
+            var submissionId = Guid.NewGuid();
+
+            for (var period = 1; period <= currentPeriod; period++)
+            {
+                Execute("INSERT INTO ProviderAdjustments.Payments "
+                        + "(Ukprn, SubmissionId, SubmissionCollectionPeriod, SubmissionAcademicYear, PaymentType, PaymentTypeName, Amount, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear) "
+                        + "VALUES "
+                        + "(@ukprn, @submissionId, @period, @academicYear, 58, 'Audit Adjustments: 16-18 Levy Apprenticeships - Provider', @amount, '1617-R09', 4, 2017)",
+                        new { ukprn, submissionId, period, academicYear, amount }, false);
+            }
+        }
+
+        internal static void SetOpenCollection(int periodNumber)
+        {
+            Execute("UPDATE Collection_Period_Mapping "
+                    + "SET Collection_Open = 0", null, false);
+
+            Execute("UPDATE Collection_Period_Mapping "
+                    + "SET Collection_Open = 1 "
+                    + $"WHERE Collection_Period = 'R{periodNumber:00}'", null, false);
+        }
+
+        internal static PaymentEntity[] GetPaymentsForProvider(long ukprn)
+        {
+            return Query<PaymentEntity>("SELECT * FROM ProviderAdjustments.Payments WHERE Ukprn = @ukprn", new { ukprn });
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)

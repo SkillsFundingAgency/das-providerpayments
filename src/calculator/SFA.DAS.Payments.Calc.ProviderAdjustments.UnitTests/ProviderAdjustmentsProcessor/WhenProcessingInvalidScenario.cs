@@ -17,6 +17,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
     public class WhenProcessingInvalidScenario
     {
         private static readonly long Ukprn = 10007459;
+        private static readonly Guid SubmissionId = Guid.NewGuid();
 
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
@@ -62,7 +63,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
                         new Adjustment
                         {
                             Ukprn = Ukprn,
-                            SubmissionId = "abc",
+                            SubmissionId = SubmissionId,
                             SubmissionCollectionPeriod = 8,
                             PaymentType = 1,
                             PaymentTypeName = "adjustment",
@@ -71,7 +72,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
                         new Adjustment
                         {
                             Ukprn = Ukprn,
-                            SubmissionId = "abc",
+                            SubmissionId = SubmissionId,
                             SubmissionCollectionPeriod = 9,
                             PaymentType = 1,
                             PaymentTypeName = "adjustment",
@@ -90,7 +91,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
                         new Adjustment
                         {
                             Ukprn = Ukprn,
-                            SubmissionId = "abc",
+                            SubmissionId = SubmissionId,
                             SubmissionCollectionPeriod = 8,
                             PaymentType = 1,
                             PaymentTypeName = "adjustment",

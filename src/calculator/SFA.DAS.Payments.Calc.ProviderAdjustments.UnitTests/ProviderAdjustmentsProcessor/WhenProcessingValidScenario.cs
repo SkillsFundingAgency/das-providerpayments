@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MediatR;
 using Moq;
 using NLog;
@@ -18,6 +19,8 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
     public class WhenProcessingValidScenario
     {
         private static readonly long Ukprn = 10007459;
+        private static readonly Guid SubmissionId = Guid.NewGuid();
+        private static readonly Guid PreviousSubmissionId = Guid.NewGuid();
 
         private static readonly CollectionPeriod CurrentPeriod = new CollectionPeriod
         {
@@ -38,7 +41,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
             new Adjustment
             {
                 Ukprn = Ukprn,
-                SubmissionId = "abc",
+                SubmissionId = SubmissionId,
                 SubmissionCollectionPeriod = 8,
                 PaymentType = 1,
                 PaymentTypeName = "adjustment",
@@ -47,7 +50,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
             new Adjustment
             {
                 Ukprn = Ukprn,
-                SubmissionId = "abc",
+                SubmissionId = SubmissionId,
                 SubmissionCollectionPeriod = 9,
                 PaymentType = 1,
                 PaymentTypeName = "adjustment",
@@ -60,7 +63,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
             new Adjustment
             {
                 Ukprn = Ukprn,
-                SubmissionId = "qwe",
+                SubmissionId = PreviousSubmissionId,
                 SubmissionCollectionPeriod = 8,
                 PaymentType = 1,
                 PaymentTypeName = "adjustment",

@@ -14,7 +14,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Reposito
                                                          + "Amount";
         private const string SelectCurrentProviderAdjustments = "SELECT " + CurrentAdjustmentColumns + " FROM " + CurrentAdjustmentSource + " WHERE Ukprn = @ukprn";
 
-        private const string PreviousAdjustmentSource = "Reference.ProviderAdjustmentsCurrent";
+        private const string PreviousAdjustmentSource = "Reference.ProviderAdjustmentsHistory";
         private const string PreviousAdjustmentColumns = "Ukprn, "
                                                          + "SubmissionId, "
                                                          + "SubmissionCollectionPeriod, "
