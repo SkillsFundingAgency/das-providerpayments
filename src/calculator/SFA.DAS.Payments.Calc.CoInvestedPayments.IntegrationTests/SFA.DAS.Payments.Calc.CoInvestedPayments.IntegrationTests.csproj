@@ -153,7 +153,7 @@
       <Link>Tools\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\DasAccounts.Deds.ddl.sql">
+    <Content Include="DbSetupScripts\DasAccounts.Transient.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">

@@ -22,14 +22,18 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 connection.Open();
                 try
                 {
-                   
-                   
+                    RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
+                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
+
+
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
-                    
+                    RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
+                    RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
+
 
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);
@@ -37,6 +41,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.views.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.sprocs.sql", connection);
+
                 }
                 finally
                 {
@@ -51,9 +56,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 try
                 {
                     // Pre-req scripts
-                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
                     RunSqlScript(@"Ilr.Deds.LearningProvider.DDL.sql", connection);
-                    RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
                     RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", connection);

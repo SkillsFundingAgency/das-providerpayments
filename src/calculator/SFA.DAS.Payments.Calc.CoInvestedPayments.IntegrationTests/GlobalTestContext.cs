@@ -48,14 +48,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
         }
         private void SetupDatabaseName()
         {
-            var match = Regex.Match(TransientConnectionString, @"database=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            var match = Regex.Match(DedsConnectionString, @"database=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 DatabaseName = match.Groups[1].Value;
                 return;
             }
 
-            match = Regex.Match(TransientConnectionString, @"initial catalog=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
+            match = Regex.Match(DedsConnectionString, @"initial catalog=([A-Z0-9\-_]{1,});", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 DatabaseName = match.Groups[1].Value;

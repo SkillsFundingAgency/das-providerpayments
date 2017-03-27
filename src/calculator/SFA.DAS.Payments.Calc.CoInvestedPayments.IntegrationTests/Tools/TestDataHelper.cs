@@ -255,6 +255,21 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
                     EXEC sys.sp_executesql @SQL                
                 ");
+
+            Execute(@"
+                    DECLARE @SQL NVARCHAR(MAX) = ''
+
+                    SELECT @SQL = (
+                        SELECT 'TRUNCATE TABLE [' + s.name + '].[' + o.name + ']' + CHAR(13)
+                        FROM sys.objects o WITH (NOWAIT)
+                        JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
+                        WHERE o.[type] = 'U'
+                            AND s.name IN ('dbo', 'PaymentsDue', 'CoInvestedPayments')
+                            AND o.name NOT IN ('Collection_Period_Mapping')
+                        FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
+
+                    EXEC sys.sp_executesql @SQL                
+                ",null,true);
         }
 
         internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
@@ -312,6 +327,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 {
                     connection.Execute(command, param);
                 }
+               
                 finally
                 {
                     connection.Close();
