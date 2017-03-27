@@ -62,7 +62,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500, sfaContributionPercentage: 0.9m);
 
 
-
             // Act
             _uut.Execute(_taskContext);
 

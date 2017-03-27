@@ -60,6 +60,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
                     RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", connection);
+                    RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
+                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
 
                 }
                 finally
