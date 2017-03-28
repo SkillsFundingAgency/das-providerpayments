@@ -161,15 +161,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
                                 p.TransactionType == earning.Type);
-       
-                var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue); 
+
+                var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
+
 
                 var isPayble = false;
                 if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 1 && earning.Payable && earning.IsSuccess)
                 {
                     isPayble = true;
                 }
-                else if ( earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2)
+                else if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2)
                 {
                     isPayble = true;
                 }
@@ -186,6 +187,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         earning.CommitmentVersionId = oldCommitment.CommitmentVersionId;
                     }
                 }
+
+                if (earning.EarnedValue == 0 && earning.Payable == false && 
+                    earning.ApprenticeshipContractType == 1 &&
+                    earningResponse.Items.Any(x=> x.CalendarMonth == earning.CalendarMonth 
+                                && earning.CalendarYear == x.CalendarYear && x.Payable== true))
+                {
+                    isPayble = false;
+                }
+
+
 
                 if (amountDue != 0 && isPayble == true)
                 {
