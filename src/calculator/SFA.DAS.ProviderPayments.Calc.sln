@@ -121,6 +121,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappi
 		DeployCoInvestedPayments\copy mappings\DasCoInvestedPaymentsCopyToDedsMapping.xml = DeployCoInvestedPayments\copy mappings\DasCoInvestedPaymentsCopyToDedsMapping.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProviderAdjustments", "ProviderAdjustments", "{64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappings", "{C180B3DA-AAB6-4D0A-A2A2-CF84281BF617}"
+	ProjectSection(SolutionItems) = preProject
+		DeployProviderAdjustments\copy mappings\DasProviderAdjustmentsCopyToDedsMapping.xml = DeployProviderAdjustments\copy mappings\DasProviderAdjustmentsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{3964125D-37FF-49B2-82EC-368D6E78AC18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ddl", "Ddl", "{389D8157-2A83-4690-965F-EDB288690108}"
+	ProjectSection(SolutionItems) = preProject
+		DeployProviderAdjustments\sql\ddl\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql
+		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.tables.sql
+		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.views.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.ddl.views.sql
+		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.Reference.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.ProviderAdjustments.Reference.ddl.tables.sql
+		DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployProviderAdjustments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dml", "Dml", "{2661EDC3-37BA-408A-84FD-BF47EE62A4C7}"
+	ProjectSection(SolutionItems) = preProject
+		DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql = DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql
+		DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql = DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql
+		DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql = DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8343343D-2416-4182-86BC-DC6614A958DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments", "SFA.DAS.Payments.Calc.ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments.csproj", "{13240C68-1925-4DC2-B975-00691DC524F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests", "SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests\SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.csproj", "{E2A1EA29-FA08-4DEE-B894-0B51376A546E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests", "SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests\SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.csproj", "{1560F0F3-8074-4225-8367-1F4E4D8F50B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +201,18 @@ Global
 		{D2948742-339F-4D56-8C40-437A0AE79027}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2948742-339F-4D56-8C40-437A0AE79027}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2948742-339F-4D56-8C40-437A0AE79027}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,5 +243,13 @@ Global
 		{F7596C2F-D840-4E72-AAAC-858B9F73AFE7} = {5490800A-69D0-44DA-8A5D-8B780B05B8AA}
 		{5C8DC259-E92C-4796-84C6-02157CEBAF24} = {216A6DB4-AFA0-4697-9102-0D77487B05EC}
 		{528FE2CA-F504-412D-A682-486F30F27579} = {92AA8114-4F64-4478-B263-74E1786D1071}
+		{C180B3DA-AAB6-4D0A-A2A2-CF84281BF617} = {64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}
+		{3964125D-37FF-49B2-82EC-368D6E78AC18} = {64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}
+		{389D8157-2A83-4690-965F-EDB288690108} = {3964125D-37FF-49B2-82EC-368D6E78AC18}
+		{2661EDC3-37BA-408A-84FD-BF47EE62A4C7} = {3964125D-37FF-49B2-82EC-368D6E78AC18}
+		{8343343D-2416-4182-86BC-DC6614A958DD} = {64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}
+		{13240C68-1925-4DC2-B975-00691DC524F8} = {64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}
+		{E2A1EA29-FA08-4DEE-B894-0B51376A546E} = {8343343D-2416-4182-86BC-DC6614A958DD}
+		{1560F0F3-8074-4225-8367-1F4E4D8F50B1} = {8343343D-2416-4182-86BC-DC6614A958DD}
 	EndGlobalSection
 EndGlobal
