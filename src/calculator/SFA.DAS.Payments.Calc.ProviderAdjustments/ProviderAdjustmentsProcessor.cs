@@ -168,19 +168,22 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
 
                 var paymentAmount = current.Amount - previousAmount;
 
-                payments.Add(new Payment
+                if (paymentAmount != 0.00m)
                 {
-                    Ukprn = provider.Ukprn,
-                    SubmissionId = current.SubmissionId,
-                    SubmissionCollectionPeriod = current.SubmissionCollectionPeriod,
-                    SubmissionAcademicYear = int.Parse(_yearOfCollection),
-                    PaymentType = current.PaymentType,
-                    PaymentTypeName = current.PaymentTypeName,
-                    Amount = paymentAmount,
-                    CollectionPeriodName = $"{_yearOfCollection}-{period.Name}",
-                    CollectionPeriodMonth = period.Month,
-                    CollectionPeriodYear = period.Year
-                });
+                    payments.Add(new Payment
+                    {
+                        Ukprn = provider.Ukprn,
+                        SubmissionId = current.SubmissionId,
+                        SubmissionCollectionPeriod = current.SubmissionCollectionPeriod,
+                        SubmissionAcademicYear = int.Parse(_yearOfCollection),
+                        PaymentType = current.PaymentType,
+                        PaymentTypeName = current.PaymentTypeName,
+                        Amount = paymentAmount,
+                        CollectionPeriodName = $"{_yearOfCollection}-{period.Name}",
+                        CollectionPeriodMonth = period.Month,
+                        CollectionPeriodYear = period.Year
+                    });
+                }
             }
         }
 

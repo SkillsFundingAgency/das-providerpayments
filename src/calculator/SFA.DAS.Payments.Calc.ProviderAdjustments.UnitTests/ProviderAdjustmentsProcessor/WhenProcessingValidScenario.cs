@@ -269,6 +269,44 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ProviderAdjustment
                 Times.Once, "Expecting adjusted negative payment");
         }
 
+        [Test]
+        public void ThenItShouldNotOutputPaymentsForCurrentAndPreviousAdjustmentsWithTheSameAmounts()
+        {
+            // Arrange
+            var adjustment = new Adjustment
+            {
+                Ukprn = Ukprn,
+                SubmissionId = SubmissionId,
+                SubmissionCollectionPeriod = 8,
+                PaymentType = 1,
+                PaymentTypeName = "adjustment",
+                Amount = 150.00m
+            };
+
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetCurrentAdjustmentsQueryRequest>()))
+                .Returns(new GetCurrentAdjustmentsQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[] { adjustment }
+                });
+
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetPreviousAdjustmentsQueryRequest>()))
+                .Returns(new GetPreviousAdjustmentsQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[] { adjustment }
+                });
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(
+                It.Is<AddPaymentsCommandRequest>(r => r.Payments.Length == 0)), Times.Once, "Expecting no payments.");
+        }
+
         private bool PaymentForAdjustment(Payment payment, Adjustment adjustment, decimal amount)
         {
             return payment.Ukprn == adjustment.Ukprn
