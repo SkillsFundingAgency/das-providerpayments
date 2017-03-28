@@ -150,6 +150,26 @@ AS
             END) AS EarningAmount,
 			ae.[EpisodeStartDate]
         FROM Reference.ApprenticeshipEarnings ae
+			JOIN (
+				SELECT 
+					ae1.LearnRefNumber,
+					ae1.AimSeqNumber,
+					ae1.Period,
+					MAX(ae1.EpisodeStartDate) MaxEpisodeStartDate
+				FROM Reference.ApprenticeshipEarnings ae1
+				JOIN Reference.CollectionPeriods cp
+					ON ae1.Period = CAST(RIGHT(cp.Name,2) as int)
+				WHERE ae1.EpisodeStartDate < DATEADD(MM, 1, DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1))
+				AND ae1.PriceEpisodeEndDate >= DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1)
+				GROUP BY 
+					ae1.LearnRefNumber,
+					ae1.AimSeqNumber,
+					ae1.Period
+			) pae
+				ON ae.LearnRefNumber = pae.LearnRefNumber
+				AND ae.AimSeqNumber = pae.AimSeqNumber
+				AND ae.Period = pae.Period
+				AND ae.EpisodeStartDate = pae.MaxEpisodeStartDate
             JOIN Reference.ApprenticeshipDeliveryEarnings ade ON ae.Ukprn = ade.Ukprn
                 AND ae.LearnRefNumber = ade.LearnRefNumber
                 AND ISNULL(ae.StandardCode, -1) = ISNULL(ade.StandardCode, -1)
