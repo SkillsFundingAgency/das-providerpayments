@@ -11,7 +11,7 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery;
+using SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {

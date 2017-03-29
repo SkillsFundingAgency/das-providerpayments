@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery
+namespace SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery
 {
     public class GetCoInvestedPaymentsHistoryQueryRequest : IRequest<GetCoInvestedPaymentsHistoryQueryResponse>
     {

@@ -5,7 +5,7 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
 
-namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery
+namespace SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery
 {
     public class GetCoInvestedPaymentsHistoryQueryHandler : IRequestHandler<GetCoInvestedPaymentsHistoryQueryRequest, GetCoInvestedPaymentsHistoryQueryResponse>
     {
