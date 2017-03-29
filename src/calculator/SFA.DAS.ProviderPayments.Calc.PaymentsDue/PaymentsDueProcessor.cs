@@ -11,6 +11,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvide
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -188,15 +189,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                 }
 
-                if (earning.EarnedValue == 0 && earning.Payable == false && 
-                    earning.ApprenticeshipContractType == 1 &&
-                    earningResponse.Items.Any(x=> x.CalendarMonth == earning.CalendarMonth 
-                                && earning.CalendarYear == x.CalendarYear && x.Payable== true))
+                if (earning.EarnedValue == 0 && PayableItemExists(earningResponse.Items,earning))
                 {
                     isPayble = false;
                 }
 
-
+               
 
                 if (amountDue != 0 && isPayble == true)
                 {
@@ -205,6 +203,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
+        private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
+        {
+            return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
+                               p.Uln == currentEarning.Uln &&
+                               p.StandardCode == currentEarning.StandardCode &&
+                               p.FrameworkCode == currentEarning.FrameworkCode &&
+                               p.PathwayCode == currentEarning.PathwayCode &&
+                               p.ProgrammeType == currentEarning.ProgrammeType &&
+                               p.CalendarMonth == currentEarning.CalendarMonth &&
+                               p.CalendarYear == currentEarning.CalendarYear &&
+                               p.EarnedValue > 0 &&
+                               ((p.ApprenticeshipContractType ==1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
+        }
         private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, 
                                     Application.Earnings.PeriodEarning earning, decimal amountDue)
         {
