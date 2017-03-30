@@ -11,6 +11,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvide
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -151,7 +152,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 var amountEarned = earning.EarnedValue;
-                var alreadyPaid = paymentHistory
+                var alreadyPaidItems = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.Uln == earning.Uln &&
                                 p.StandardCode == earning.StandardCode &&
@@ -160,17 +161,61 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
-                                p.TransactionType == earning.Type)
-                    .Sum(p => p.AmountDue);
-                var amountDue = amountEarned - alreadyPaid;
+                                p.TransactionType == earning.Type);
 
-                if (amountDue > 0)
+                var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
+
+
+                var isPayble = false;
+                if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 1 && earning.Payable && earning.IsSuccess)
+                {
+                    isPayble = true;
+                }
+                else if (earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2)
+                {
+                    isPayble = true;
+                }
+                else if (earning.EarnedValue == 0)
+                {
+                    isPayble = true;
+
+                    var oldCommitment = alreadyPaidItems.FirstOrDefault();
+                    if (oldCommitment != null)
+                    {
+                        earning.CommitmentId = oldCommitment.CommitmentId;
+                        earning.AccountId = oldCommitment.AccountId;
+                        earning.AccountVersionId = oldCommitment.AccountVersionId;
+                        earning.CommitmentVersionId = oldCommitment.CommitmentVersionId;
+                    }
+                }
+
+                if (earning.EarnedValue == 0 && PayableItemExists(earningResponse.Items,earning))
+                {
+                    isPayble = false;
+                }
+
+               
+
+                if (amountDue != 0 && isPayble == true)
                 {
                     AddPaymentsDue(provider, paymentsDue, earning, amountDue);
                 }
             }
         }
 
+        private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
+        {
+            return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
+                               p.Uln == currentEarning.Uln &&
+                               p.StandardCode == currentEarning.StandardCode &&
+                               p.FrameworkCode == currentEarning.FrameworkCode &&
+                               p.PathwayCode == currentEarning.PathwayCode &&
+                               p.ProgrammeType == currentEarning.ProgrammeType &&
+                               p.CalendarMonth == currentEarning.CalendarMonth &&
+                               p.CalendarYear == currentEarning.CalendarYear &&
+                               p.EarnedValue > 0 &&
+                               ((p.ApprenticeshipContractType ==1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
+        }
         private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, 
                                     Application.Earnings.PeriodEarning earning, decimal amountDue)
         {

@@ -41,7 +41,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             ProgrammeType = e.ProgrammeType,
                             FrameworkCode = e.FrameworkCode,
                             PathwayCode = e.PathwayCode,
-                            TransactionType = (TransactionType)e.TransactionType
+                            TransactionType = (TransactionType)e.TransactionType,
+                            CommitmentVersionId = e.CommitmentVersionId,
+                            AccountId = e.AccountId,
+                            AccountVersionId = e.AccountVersionId
+                            
                         }).ToArray()
                 };
             }

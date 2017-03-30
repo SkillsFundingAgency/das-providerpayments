@@ -24,6 +24,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                 {
                     // Pre-req scripts
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
+                    RunSqlScript(@"Ilr.Deds.LearningProvider.DDL.sql", connection);
+
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
@@ -34,10 +36,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
 
+                    
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
+
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
+
                 }
                 finally
                 {
@@ -59,7 +66,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
         {
             return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                       .Replace("$${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+
+
         }
     }
 }

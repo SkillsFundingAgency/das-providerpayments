@@ -38,11 +38,17 @@ AS
 	SELECT
 		rp.Id,
 		rp.Ukprn,
+		rp.ULN,
 		rp.DeliveryMonth,
 		rp.DeliveryYear,
 		rp.TransactionType,
 		(rp.AmountDue - COALESCE(lp.Amount, 0.00)) AS AmountDue,
-		rp.SfaContributionPercentage
+		rp.SfaContributionPercentage,
+		rp.AimSeqNumber As AimSequenceNumber,
+		rp.StandardCode,
+		rp.ProgrammeType,
+		rp.FrameworkCode,
+		rp.PathwayCode
 	FROM PaymentsDue.RequiredPayments rp
 		LEFT JOIN LevyPayments.Payments lp ON rp.Id = lp.RequiredPaymentId
 	WHERE (rp.AmountDue - COALESCE(lp.Amount, 0.00)) <> 0

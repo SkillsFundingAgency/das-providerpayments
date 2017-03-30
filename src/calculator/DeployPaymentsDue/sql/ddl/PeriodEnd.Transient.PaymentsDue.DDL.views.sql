@@ -44,6 +44,37 @@ AS
     SELECT 2 ApprenticeshipContractType, 14 TransactionType
     UNION
     SELECT 2 ApprenticeshipContractType, 15 TransactionType
+	UNION
+	SELECT 1 ApprenticeshipContractType, 1 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 2 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 3 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 4 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 5 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 6 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 7 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 8 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 9 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 10 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 11 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 12 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 13 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 14 TransactionType
+    UNION
+    SELECT 1 ApprenticeshipContractType, 15 TransactionType
+
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,9 +88,10 @@ GO
 
 CREATE VIEW PaymentsDue.vw_ApprenticeshipEarning
 AS
-    SELECT *
-    FROM (
-        SELECT
+   
+   
+   
+    SELECT
             pepm.CommitmentId,
             pepm.VersionId CommitmentVersionId,
             a.AccountId,
@@ -95,7 +127,10 @@ AS
                 WHEN 12 THEN ae.PriceEpisodeSecondDisadvantagePayment
                 WHEN 15 THEN ae.LearningSupportPayment
             END) AS EarningAmount,
-			ae.[EpisodeStartDate]
+			ae.[EpisodeStartDate],
+			IsNull(pem.IsSuccess,0) As IsSuccess, 
+            IsNull(pepm.Payable,0) As Payable 
+
         FROM Reference.ApprenticeshipEarnings ae
             LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
                 AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
@@ -110,18 +145,20 @@ AS
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
             LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
-        WHERE ae.ApprenticeshipContractType = 2 
-            OR (
-                ae.ApprenticeshipContractType = 1
-                    AND pem.IsSuccess = 1
-                    AND pepm.Payable = 1
-            )
-    ) PriceEpisodeEarnings
-    WHERE PriceEpisodeEarnings.EarningAmount IS NOT NULL
-        AND PriceEpisodeEarnings.EarningAmount != 0
-    UNION
-    SELECT *
-    FROM (
+    
+		WHERE ae.EpisodeStartDate >= (
+			Select
+			Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear -1  as varchar) , 101) END
+				From  Reference.CollectionPeriods Where [Open] = 1)
+			AND
+				ae.EpisodeStartDate <= ( Select 
+				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
+				From  Reference.CollectionPeriods Where [Open] = 1)
+		AND    COALESCE(pepm.TransactionType, ndtt.TransactionType) In (1,2,3,4,5,6,7,8,9,10,11,12,15)
+	UNION
+   
         SELECT
             pepm.CommitmentId,
             pepm.VersionId CommitmentVersionId,
@@ -148,7 +185,10 @@ AS
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
             END) AS EarningAmount,
-			ae.[EpisodeStartDate]
+			ae.[EpisodeStartDate],
+			IsNull(pem.IsSuccess,0) As IsSuccess, 
+            IsNull(pepm.Payable,0) As Payable 
+
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN (
 				SELECT 
@@ -190,14 +230,7 @@ AS
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
             LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
-       WHERE (ae.ApprenticeshipContractType = 2 
-            OR (
-                ae.ApprenticeshipContractType = 1
-                    AND pem.IsSuccess = 1
-                    AND pepm.Payable = 1
-            ))
-
-			AND ae.EpisodeStartDate >= (
+       WHERE ae.EpisodeStartDate >= (
 			Select
 			Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear -1  as varchar) , 101) END
@@ -207,15 +240,9 @@ AS
 				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
-
-    ) DeliveryEarnings
-    WHERE DeliveryEarnings.EarningAmount IS NOT NULL
-        AND DeliveryEarnings.EarningAmount != 0
-
+		And   COALESCE(pepm.TransactionType, ndtt.TransactionType) In ( 13,14,15)
 	UNION
-	 
-	 SELECT *
-    FROM (
+	
         SELECT
 			
             pepm.CommitmentId,
@@ -243,7 +270,9 @@ AS
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
             END) AS EarningAmount,
-			ae.[EpisodeStartDate]
+			ae.[EpisodeStartDate],
+			IsNull(pem.IsSuccess,0) As IsSuccess, 
+            IsNull(pepm.Payable,0) As Payable 
         FROM (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
 				Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode
 				from Reference.ApprenticeshipEarnings 
@@ -276,10 +305,7 @@ AS
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
        WHERE 
 	  
-			ae.ApprenticeshipContractType = 1
-            AND pem.IsSuccess = 1
-            AND pepm.Payable = 1
-			AND (Select
+			(Select
 				Case  ade.Period 
 				WHEN 1 THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
 				WHEN 2 THEN CONVERT(VARCHAR(10), '09/01/' +  Cast(CalendarYear as varchar) , 101) 
@@ -295,11 +321,15 @@ AS
 				WHEN 12 THEN CONVERT(VARCHAR(10), '07/01/' +  Cast(CalendarYear  as varchar) , 101) 
 				END From  Reference.CollectionPeriods Where [Open] = 1) > ae.PriceEpisodeEndDate 
 
-    ) DeliveryEarnings
-    WHERE DeliveryEarnings.EarningAmount IS NOT NULL
-        AND DeliveryEarnings.EarningAmount != 0
+  		And   pepm.TransactionType In ( 13,14,15)
+
+		
+
+GO
 
 
+
+  
 		
 GO
 
@@ -353,6 +383,9 @@ CREATE VIEW PaymentsDue.vw_PaymentHistory
 AS
 SELECT
     CommitmentId,
+	CommitmentVersionId,
+	AccountId,
+	AccountVersionId,
     LearnRefNumber,
     AimSeqNumber,
     Ukprn,
