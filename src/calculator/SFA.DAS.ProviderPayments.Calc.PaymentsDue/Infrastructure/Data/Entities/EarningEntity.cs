@@ -31,5 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 
         public int TransactionType { get; set; }
         public decimal Amount { get; set; }
+        public bool Payable { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

@@ -20,18 +20,26 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.Alloca
                 throw new InvalidRequestException($"Invalid account id. {message.Account.Id} is not a valid number");
             }
 
-            var account = _accountRepository.GetAccountById(accountId);
-            var amountToSpend = message.AmountRequested > account.Balance ? account.Balance : message.AmountRequested;
-            if (amountToSpend < 0)
+            decimal amountToUpdate = 0;
+            if (message.AmountRequested > 0)
             {
-                amountToSpend = 0;
+                var account = _accountRepository.GetAccountById(accountId);
+                amountToUpdate = message.AmountRequested > account.Balance ? account.Balance : message.AmountRequested;
+                if (amountToUpdate < 0)
+                {
+                    amountToUpdate = 0;
+                }
             }
-
-            _accountRepository.SpendLevy(accountId, amountToSpend);
+            else
+            {
+                amountToUpdate = message.AmountRequested;
+            }
+           
+            _accountRepository.UpdateLevyBalance(accountId, amountToUpdate);
 
             return new AllocateLevyCommandResponse
             {
-                AmountAllocated = amountToSpend
+                AmountAllocated = amountToUpdate
             };
         }
     }

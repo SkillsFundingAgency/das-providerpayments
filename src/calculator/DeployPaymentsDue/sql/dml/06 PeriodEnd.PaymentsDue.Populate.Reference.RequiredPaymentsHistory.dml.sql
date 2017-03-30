@@ -5,6 +5,9 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
     SELECT
         Id,
         CommitmentId,
+		CommitmentVersionId ,
+		AccountId,
+		AccountVersionId,
         LearnRefNumber,
 		Uln,
         AimSeqNumber,

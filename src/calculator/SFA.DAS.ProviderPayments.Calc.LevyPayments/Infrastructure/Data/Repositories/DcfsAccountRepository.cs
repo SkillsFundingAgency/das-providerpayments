@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
             return QuerySingle<AccountEntity>(SelectAccountById, new { AccountId = id });
         }
 
-        public void SpendLevy(long accountId, decimal amount)
+        public void UpdateLevyBalance(long accountId, decimal amount)
         {
             Execute(UpdateLevySpentCommand, new { AccountId = accountId, AmountToUpdateBy = amount });
         }
