@@ -4,10 +4,10 @@ GO
 INSERT INTO [Reference].[CollectionPeriods]
     SELECT
         [Period_ID] AS [Id],
-        [Collection_Period] AS [Name],
-        [Period] AS [CalendarMonth],
+        [Return_Code] AS [Name],
+        [Calendar_Month] AS [CalendarMonth],
         [Calendar_Year] AS [CalendarYear],
         [Collection_Open] AS [Open]
-	FROM ${ILR_Summarisation.FQ}.[dbo].[Collection_Period_Mapping]
-	WHERE [Collection_Open] = 1
+	FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
+	WHERE [Collection_Open] = 1 AND [Collection_Year] = ${YearOfCollection}
 GO
