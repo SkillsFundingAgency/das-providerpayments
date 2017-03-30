@@ -192,19 +192,45 @@ AS
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN (
 				SELECT 
-					ae1.LearnRefNumber,
-					ae1.AimSeqNumber,
-					ae1.Period,
-					MAX(ae1.EpisodeStartDate) MaxEpisodeStartDate
-				FROM Reference.ApprenticeshipEarnings ae1
-				JOIN Reference.CollectionPeriods cp
-					ON ae1.Period = CAST(RIGHT(cp.Name,2) as int)
-				WHERE ae1.EpisodeStartDate < DATEADD(MM, 1, DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1))
-				AND ae1.PriceEpisodeEndDate >= DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1)
-				GROUP BY 
-					ae1.LearnRefNumber,
-					ae1.AimSeqNumber,
-					ae1.Period
+					x.LearnRefNumber, 
+					x.AimSeqNumber, 
+					x.Period, 
+					COALESCE(y.MaxEpisodeStartDate, x.MaxEpisodeStartDate) MaxEpisodeStartDate
+                FROM
+                (
+                SELECT 
+                    ae1.LearnRefNumber,
+                    ae1.AimSeqNumber,
+                    ae1.Period,
+                    MAX(ae1.EpisodeStartDate) MaxEpisodeStartDate
+                FROM Reference.ApprenticeshipEarnings ae1
+                JOIN Reference.CollectionPeriods cp
+                    ON ae1.Period = CAST(RIGHT(cp.Name,2) as int)
+                GROUP BY 
+                    ae1.LearnRefNumber,
+                    ae1.AimSeqNumber,
+                    ae1.Period
+                ) x
+                LEFT JOIN
+                (
+                SELECT 
+                    ae1.LearnRefNumber,
+                    ae1.AimSeqNumber,
+                    ae1.Period,
+                    MAX(ae1.EpisodeStartDate) MaxEpisodeStartDate
+                FROM Reference.ApprenticeshipEarnings ae1
+                JOIN Reference.CollectionPeriods cp
+                    ON ae1.Period = CAST(RIGHT(cp.Name,2) as int)
+                WHERE ae1.EpisodeStartDate < DATEADD(MM, 1, DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1))
+                AND ae1.PriceEpisodeEndDate >= DATEFROMPARTS(cp.CalendarYear, cp.CalendarMonth, 1)
+                GROUP BY 
+                    ae1.LearnRefNumber,
+                    ae1.AimSeqNumber,
+                    ae1.Period
+                ) y
+                ON x.LearnRefNumber = y.LearnRefNumber
+                AND x.AimSeqNumber = y.AimSeqNumber
+                AND x.Period = y.Period
 			) pae
 				ON ae.LearnRefNumber = pae.LearnRefNumber
 				AND ae.AimSeqNumber = pae.AimSeqNumber
