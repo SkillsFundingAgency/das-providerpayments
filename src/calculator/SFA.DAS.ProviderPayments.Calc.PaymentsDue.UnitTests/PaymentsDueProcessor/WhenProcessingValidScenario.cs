@@ -32,7 +32,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 StandardCode = 25,
                 ApprenticeshipContractType = 1,
                 SfaContributionPercentage = 0.9m,
-                FundingLineType = "Levy Funding Line Type"
+                FundingLineType = "Levy Funding Line Type",
+                IsSuccess = true,
+                Payable = true
             };
             PeriodEarning2 = new PeriodEarning
             {
@@ -49,7 +51,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 StandardCode = 25,
                 ApprenticeshipContractType = 1,
                 SfaContributionPercentage = 0.75m,
-                FundingLineType = "Levy Funding Line Type"
+                FundingLineType = "Levy Funding Line Type",
+                IsSuccess = true,
+                Payable = true
             };
             PeriodEarning3 = new PeriodEarning
             {
@@ -66,7 +70,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 StandardCode = 25,
                 ApprenticeshipContractType = 1,
                 SfaContributionPercentage = 0.9m,
-                FundingLineType = "Levy Funding Line Type"
+                FundingLineType = "Levy Funding Line Type",
+                IsSuccess = true,
+                Payable = true
             };
             Mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
@@ -306,7 +312,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 ApprenticeshipContractType = 1,
                 PriceEpisodeIdentifier = "25-25-01/08/2017",
                 SfaContributionPercentage = 0.9m,
-                FundingLineType = "Levy Funding Line"
+                FundingLineType = "Levy Funding Line",
+                IsSuccess = true,
+                Payable = true
             };
 
             Mediator

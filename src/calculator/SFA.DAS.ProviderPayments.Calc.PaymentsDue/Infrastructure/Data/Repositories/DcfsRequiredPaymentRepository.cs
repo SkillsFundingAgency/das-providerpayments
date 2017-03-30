@@ -9,6 +9,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string PaymentHistorySource = "PaymentsDue.vw_PaymentHistory";
         private const string PaymentHistoryColumns = "CommitmentId, "
+                                                    + "CommitmentVersionId,"
+                                                   + "AccountId,"
+                                                   + "AccountVersionId,"
                                                    + "LearnRefNumber, "
                                                    + "AimSeqNumber, "
                                                    + "Ukprn, "
@@ -21,6 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "ProgrammeType,"
                                                    + "FrameworkCode,"
                                                    + "PathwayCode";
+        
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";

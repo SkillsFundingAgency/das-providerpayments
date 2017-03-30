@@ -88,7 +88,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
             _handler.Handle(_request);
 
             // Assert
-            _accountRepository.Verify(r => r.SpendLevy(AccountId, expectedSpend), Times.Once);
+            _accountRepository.Verify(r => r.UpdateLevyBalance(AccountId, expectedSpend), Times.Once);
         }
 
     }

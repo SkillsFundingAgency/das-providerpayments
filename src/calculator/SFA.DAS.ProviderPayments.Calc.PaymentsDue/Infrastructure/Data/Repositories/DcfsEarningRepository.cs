@@ -27,7 +27,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "PriceEpisodeLevyNonPayInd, "
                                               + "PriceEpisodeEndDate, "
                                               + "TransactionType, "
-                                              + "EarningAmount [Amount]";
+                                              + "EarningAmount [Amount],"
+                                              + "IsSuccess,"
+                                              + "Payable";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

@@ -76,11 +76,15 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
+    <Compile Include="Application\GetCoInvestedPaymentsHistory\GetCoInvestedPaymentsHistoryQueryHandler.cs" />
+    <Compile Include="Application\GetCoInvestedPaymentsHistory\GetCoInvestedPaymentsHistoryQueryRequest.cs" />
+    <Compile Include="Application\GetCoInvestedPaymentsHistory\GetCoInvestedPaymentsHistoryQueryResponse.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryHandler.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryRequest.cs" />
     <Compile Include="Application\PaymentsDue\GetPaymentsDueForUkprnQuery\GetPaymentsDueForUkprnQueryResponse.cs" />
     <Compile Include="Application\PaymentsDue\PaymentDue.cs" />
     <Compile Include="Application\Payments\Payment.cs" />
+    <Compile Include="Application\Payments\PaymentHistory.cs" />
     <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandHandler.cs" />
     <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandRequest.cs" />
     <Compile Include="Application\Payments\ProcessPaymentsCommand\ProcessPaymentsCommandResponse.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentDueEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\IPaymentDueRepository.cs" />

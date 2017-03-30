@@ -314,6 +314,35 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
         }
 
+        internal static void AddApprenticeEarning(long ukprn,
+                                        DateTime startDate,
+                                        string learnerRefNumber,
+                                        int period ,
+                                        decimal? onProgPayment = null,
+                                        decimal? completionPayment = null,
+                                        decimal? balancingPayment = null)
+        {
+            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
+                    + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
+                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay,  PriceEpisodeSFAContribPct,PriceEpisodeLevyNonPayInd) "
+                    + "VALUES ("
+                    + "@Ukprn, "
+                    + "@learnerRefNumber, "
+                    + "'99-99-99-' + CONVERT(char(10), @startDate, 126), "
+                    + "@period, "
+                    + "@onProgPayment, "
+                    + "@completionPayment, "
+                    + "@balancingPayment, "
+                    + "0, "
+                    + "0, "
+                    + "0, "
+                    + "0, "
+                    + "0.9, "
+                    + "1)",
+                    new { ukprn, learnerRefNumber,startDate, period , onProgPayment,completionPayment,balancingPayment}, false);
+
+        }
+
         internal static void AddMathsAndEnglishEarningForCommitment(long? commitmentId,
                                                      string learnerRefNumber,
                                                      int aimSequenceNumber = 2,
@@ -553,6 +582,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     Execute(command);
                 }
             }
+        }
+
+        internal static void ClearApprenticeshipPriceEpisodePeriod()
+        {
+            Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period",null,false);
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)

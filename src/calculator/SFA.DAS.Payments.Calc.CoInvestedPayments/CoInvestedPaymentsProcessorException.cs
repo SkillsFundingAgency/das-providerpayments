@@ -10,7 +10,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         public const string ErrorReadingProviderEarnings = "Error while reading the provider earnings";
         public const string ErrorReadingPaymentsDueForUkprn = "Error while reading payments due for UKPRN.";
         public const string ErrorWritingPaymentsForUkprn = "Error while writing co-invested payments for UKPRN.";
-
+        public const string ErrorReadingPaymentsHistoryMessage = "Error while writing co-invested payments history for UKPRN.";
         public CoInvestedPaymentsProcessorException(string message)
             : base(message)
         {

@@ -3,11 +3,14 @@ using NUnit.Framework;
 
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
+using System;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTime
 {
     public class WhenThereIsEnoughLevyInTheAccount
     {
+        private static readonly Random Random = new Random();
+
         private static readonly object[] PaymentsDue =
         {
             new object[] {TransactionType.Learning, 500.00m},
@@ -106,5 +109,41 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == 575.12345m));
             Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == 1725.54321m));
         }
+
+        [Test]
+        public void ThenMultipleLevyRefundPaymentsAreMadeWhenMultipleRefundsAreDue()
+        {
+            // Arrange
+            var accountId = 1;
+            var ukprn =  Random.Next(1, int.MaxValue); 
+            TestDataHelper.AddAccount(accountId);
+            TestDataHelper.AddProvider(ukprn);
+
+            var commitmentId = 1L;
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), ukprn: ukprn);
+
+            TestDataHelper.CopyReferenceData();
+
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: -575.12345m);
+
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: -1725.54321m, transactionType: TransactionType.Completion);
+            TestDataHelper.AddPaymentHistoryForCommitment(commitmentId);
+
+            TestDataHelper.PopulatePaymentsHistory();
+            var taskContext = new IntegrationTaskContext();
+            var task = new LevyPaymentsTask();
+
+            // Act
+            task.Execute(taskContext);
+
+            // Assert
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
+            Assert.IsNotNull(paymentsMade);
+            Assert.AreEqual(2, paymentsMade.Length);
+
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == -575.12345m));
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == -1725.54321m));
+        }
+
     }
 }

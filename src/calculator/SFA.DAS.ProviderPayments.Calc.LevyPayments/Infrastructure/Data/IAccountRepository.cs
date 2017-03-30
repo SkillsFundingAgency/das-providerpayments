@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data
         AccountEntity GetNextAccountRequiringProcessing();
         AccountEntity GetAccountById(long id);
 
-        void SpendLevy(long accountId, decimal amount);
+        void UpdateLevyBalance(long accountId, decimal amount);
         void MarkAccountAsProcessed(long accountId);
     }
 }

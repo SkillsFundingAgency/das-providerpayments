@@ -91,7 +91,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             CalendarYear = 2017,
                             EarnedValue = 1000m,
                             Type = TransactionType.Learning,
-                            StandardCode = 25
+                            StandardCode = 25,
+                            IsSuccess=true,
+                            Payable=true,
+                            ApprenticeshipContractType = 1
                         }
                     }
                 });
