@@ -9,5 +9,4 @@ INSERT INTO [Reference].[CollectionPeriods]
         [Calendar_Year] AS [CalendarYear],
         [Collection_Open] AS [Open]
 	FROM ${ILR_Summarisation.FQ}.[dbo].[Collection_Period_Mapping]
-	WHERE [Collection_Open] = 1
 GO
