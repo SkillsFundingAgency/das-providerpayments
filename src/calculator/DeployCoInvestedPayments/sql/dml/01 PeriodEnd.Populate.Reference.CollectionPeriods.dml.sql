@@ -9,5 +9,5 @@ INSERT INTO [Reference].[CollectionPeriods]
         [Calendar_Year] AS [CalendarYear],
         [Collection_Open] AS [Open]
 	FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
-	WHERE [Collection_Open] = 1 AND [Collection_Year] = ${YearOfCollection}
+	WHERE [Collection_Year] = ${YearOfCollection}
 GO
