@@ -76,6 +76,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
                 .Returns<GetPaymentsDueForCommitmentQueryRequest>(r =>
+                    r.RefundPayments == true ? new GetPaymentsDueForCommitmentQueryResponse
+                      {
+                          IsValid = true,
+                          Items = null
+                      } :
                     new GetPaymentsDueForCommitmentQueryResponse
                     {
                         IsValid = true,
@@ -142,8 +147,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[0].Id)), Times.Once);
-            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[1].Id)), Times.Once);
+            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[0].Id && r.RefundPayments == false )), Times.Once);
+            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[1].Id && r.RefundPayments == false)), Times.Once);
         }
 
         [Test]

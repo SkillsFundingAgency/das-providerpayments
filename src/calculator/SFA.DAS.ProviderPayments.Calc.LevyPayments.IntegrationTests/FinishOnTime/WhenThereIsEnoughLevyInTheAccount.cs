@@ -145,5 +145,55 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == -1725.54321m));
         }
 
+
+        [Test]
+        public void ThenRefundPaymentsShouldbeMadeFirstBeforeProcessingPayments()
+        {
+            // Arrange
+            var accountId = 1;
+            var ukprn1 = Random.Next(1, int.MaxValue);
+            var ukprn2 = Random.Next(1, int.MaxValue);
+
+            TestDataHelper.AddAccount(accountId,balance:1150m);
+
+            TestDataHelper.AddProvider(ukprn1);
+            TestDataHelper.AddProvider(ukprn2);
+
+            var commitmentId1 = 1L;
+            var commitmentId2 = 2L;
+
+            TestDataHelper.AddCommitment(commitmentId1, accountId.ToString(), ukprn: ukprn1);
+            TestDataHelper.AddCommitment(commitmentId2, accountId.ToString(), ukprn: ukprn2);
+
+            TestDataHelper.CopyReferenceData();
+
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId1, amountDue: -575m);
+            TestDataHelper.AddPaymentHistoryForCommitment(commitmentId1);
+            TestDataHelper.PopulatePaymentsHistory();
+
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId2, amountDue: 1725m, transactionType: TransactionType.Completion);
+            
+            var taskContext = new IntegrationTaskContext();
+            var task = new LevyPaymentsTask();
+
+            // Act
+            task.Execute(taskContext);
+
+            // Assert
+            var refundsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId1);
+            Assert.IsNotNull(refundsMade);
+            Assert.AreEqual(1, refundsMade.Length);
+            Assert.AreEqual(1, refundsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == -575m));
+
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId2);
+            Assert.IsNotNull(paymentsMade);
+            Assert.AreEqual(1, paymentsMade.Length);
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == 1725m));
+
+            var accountBalance = TestDataHelper.GetAccountBalance(accountId);
+            Assert.IsNotNull(accountBalance);
+            Assert.AreEqual(1150, accountBalance[0]);
+        }
+
     }
 }

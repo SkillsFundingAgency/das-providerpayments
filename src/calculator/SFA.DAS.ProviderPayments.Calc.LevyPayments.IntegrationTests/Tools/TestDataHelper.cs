@@ -33,6 +33,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountHashId, AccountName, Balance,VersionId) VALUES (@id, @id, @name, @balance, '1')", new { id, name, balance });
         }
 
+        internal static decimal[] GetAccountBalance(long id)
+        {
+
+          return Query<decimal>("SELECT BALANCE FROM dbo.DasAccounts WHERE AccountId = @id", new { id});
+        }
+
         internal static void AddCommitment(long id, 
                                            string accountId, 
                                            long uln = 0L, 

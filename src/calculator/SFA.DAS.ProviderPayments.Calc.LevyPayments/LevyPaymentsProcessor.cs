@@ -45,13 +45,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
-                var accountHasFundsForLevy = true;
 
+                //process refunds first
                 foreach (var commitment in account.Commitments)
                 {
-                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id}");
+                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id} for refunds");
 
-                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id);
+                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, true);
 
                     if (paymentsDue == null || !paymentsDue.Any())
                     {
@@ -60,28 +60,46 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
                     foreach (var paymentDue in paymentsDue)
                     {
-                        if (paymentDue.AmountDue > 0)
-                        {
-                            _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-                            var levyAllocation = GetLevyAllocation(account, paymentDue.AmountDue);
+                        _logger.Info($"refund due of {paymentDue.AmountDue} for commitment {commitment.Id}, to credit for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
-                            if (levyAllocation == 0 && paymentDue.AmountDue > 0)
-                            {
-                                _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-                                accountHasFundsForLevy = false;
-                                break;
-                            }
-
-                            MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
-                        }
-                        else
+                        var amountToRefund = MakeLevyRefund(commitment, period, paymentDue);
+                        if (amountToRefund < 0)
                         {
-                            var amountToRefund = MakeLevyRefund(commitment, period, paymentDue);
-                            if (amountToRefund < 0)
-                            {
-                                GetLevyAllocation(account, amountToRefund);
-                            }
+                            GetLevyAllocation(account, amountToRefund);
+                            _logger.Info($"levy refund payment made of {paymentDue.AmountDue} for commitment {commitment.Id}, to credit for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+
                         }
+                    }
+
+                }
+
+                //process payments now
+                var accountHasFundsForLevy = true;
+                foreach (var commitment in account.Commitments)
+                {
+                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id} for payments");
+
+                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, false);
+
+                    if (paymentsDue == null || !paymentsDue.Any())
+                    {
+                        continue;
+                    }
+                    
+                    foreach (var paymentDue in paymentsDue.Where(x => x.AmountDue > 0))
+                    {
+                        _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                        var levyAllocation = GetLevyAllocation(account, paymentDue.AmountDue);
+
+                        if (levyAllocation == 0)
+                        {
+                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            accountHasFundsForLevy = false;
+                            break;
+                        }
+
+                        MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
+
                     }
 
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
@@ -96,6 +114,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
                 _logger.Info($"Finished processing account {account.Id}");
             }
+
         }
 
         private CollectionPeriod GetCurrentCollectionPeriod()
@@ -120,9 +139,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
 
-        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId)
+        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId, bool refundPayments)
         {
-            var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest { CommitmentId = commitmentId });
+            var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest
+            {
+                CommitmentId = commitmentId,
+                RefundPayments = refundPayments
+            });
 
             if (!paymentsDue.IsValid)
             {
@@ -208,6 +231,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
             return amountToRefund;
         }
-        
+
     }
 }
