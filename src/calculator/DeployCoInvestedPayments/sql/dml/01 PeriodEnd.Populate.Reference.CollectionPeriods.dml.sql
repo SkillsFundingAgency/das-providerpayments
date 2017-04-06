@@ -2,11 +2,12 @@ TRUNCATE TABLE [Reference].[CollectionPeriods]
 GO
 
 INSERT INTO [Reference].[CollectionPeriods]
-    SELECT
+ SELECT
         [Period_ID] AS [Id],
-        [Collection_Period] AS [Name],
-        [Period] AS [CalendarMonth],
+        [Return_Code] AS [Name],
+        [Calendar_Month] AS [CalendarMonth],
         [Calendar_Year] AS [CalendarYear],
         [Collection_Open] AS [Open]
-	FROM ${ILR_Summarisation.FQ}.[dbo].[Collection_Period_Mapping]
+	FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
+	WHERE [Collection_Year] = ${YearOfCollection}
 GO

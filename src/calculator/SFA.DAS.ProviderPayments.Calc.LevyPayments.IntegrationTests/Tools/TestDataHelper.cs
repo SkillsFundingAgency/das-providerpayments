@@ -242,7 +242,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                     .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                    .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                    .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                    .Replace("${YearOfCollection}", "1617");
+
         }
     }
 }

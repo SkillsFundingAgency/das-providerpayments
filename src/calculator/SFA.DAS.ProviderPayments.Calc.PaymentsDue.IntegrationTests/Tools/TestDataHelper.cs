@@ -527,7 +527,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
             Execute("UPDATE Collection_Period_Mapping "
                     + "SET Collection_Open = 1 "
-                    + $"WHERE Collection_Period = 'R{periodNumber:00}'", null, false);
+                    + $"WHERE [Return_Code] = 'R{periodNumber:00}'", null, false);
         }
 
 
@@ -630,7 +630,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
+                      .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${YearOfCollection}", "1617");
         }
     }
 }

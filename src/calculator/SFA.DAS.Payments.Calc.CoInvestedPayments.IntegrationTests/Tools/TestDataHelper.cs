@@ -355,8 +355,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         { 
             return sql.Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                 .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                 .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName); 
-            
+                 .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                  .Replace("${YearOfCollection}", "1617");
+
         }
     }
 }
