@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             }
 
             // Act
-            var payments = _repository.GetPaymentsDueForCommitment(commitmentId);
+            var payments = _repository.GetPaymentsDueForCommitment(commitmentId,false);
 
             // Assert
             Assert.IsNotNull(payments);
@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: 5, deliveryYear: 2017, transactionType: transactionType);
 
             // Act
-            var payments = _repository.GetPaymentsDueForCommitment(commitmentId);
+            var payments = _repository.GetPaymentsDueForCommitment(commitmentId,false);
 
             // Assert
             Assert.IsNotNull(payments);

@@ -67,10 +67,16 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
 
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
-                .Returns(new GetPaymentsDueForCommitmentQueryResponse
-                {
-                    IsValid = true,
-                    Items = new[]
+                .Returns<GetPaymentsDueForCommitmentQueryRequest>(r =>
+                      r.RefundPayments == true ? new GetPaymentsDueForCommitmentQueryResponse
+                      {
+                          IsValid = true,
+                          Items = null
+                      } : 
+                    new GetPaymentsDueForCommitmentQueryResponse
+                      {
+                          IsValid = true,
+                          Items = new[]
                     {
                         new PaymentDue
                         {
@@ -92,8 +98,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                             TransactionType = TransactionType.Completion,
                             AmountDue = 3000.00m
                         }
-                    }
-                });
+                   }
+                      });
 
             _mediator
                 .Setup(m => m.Send(It.Is<AllocateLevyCommandRequest>(r => r.Account.Id == _account.Id && r.AmountRequested == 1000.00m)))

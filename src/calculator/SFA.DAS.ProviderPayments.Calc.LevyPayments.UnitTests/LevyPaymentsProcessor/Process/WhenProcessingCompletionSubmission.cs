@@ -75,6 +75,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
                 .Returns< GetPaymentsDueForCommitmentQueryRequest>(r =>
+                  r.RefundPayments == true ? new GetPaymentsDueForCommitmentQueryResponse
+                  {
+                      IsValid = true,
+                      Items = null
+                  } :
                 new GetPaymentsDueForCommitmentQueryResponse
                 {
                     IsValid = true,
