@@ -7,7 +7,7 @@ GO
 DECLARE @now DATETIME = GETDATE()
 DECLARE @completionDateTime DATETIME
 
-SET @completionDateTime = (SELECT DATEADD(MONTH, 1, DATEFROMPARTS(q.CalendarYear, q.CalendarMonth, 1)) FROM Reference.CollectionPeriods q)
+SET @completionDateTime = (SELECT DATEADD(MONTH, 1, DATEFROMPARTS(q.CalendarYear, q.CalendarMonth, 1)) FROM Reference.CollectionPeriods q WHERE [OPEN]=1)
 SET @completionDateTime = DATEADD(DAY, DAY(@now) - 1, @completionDateTime)
 
 SET @completionDateTime = DATEADD(HOUR, DATEPART(HOUR, @now), @completionDateTime)
