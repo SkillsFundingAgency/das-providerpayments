@@ -43,6 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Staging.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.views.sql", transientConnection);
                 }
                 finally

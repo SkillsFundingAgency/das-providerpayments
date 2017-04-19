@@ -107,6 +107,10 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -129,6 +133,34 @@
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql">
       <Link>Tools\Sql\Copy Reference Data\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.Populate.Staging.CollectionPeriods.sql">
+      <Link>Tools\Sql\Copy Reference Data\07 PeriodEnd.PaymentsDue.Populate.Staging.CollectionPeriods.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.Populate.Staging.NonDasTransactionTypes.sql">
+      <Link>Tools\Sql\Copy Reference Data\08 PeriodEnd.PaymentsDue.Populate.Staging.NonDasTransactionTypes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql">
+      <Link>Tools\Sql\Copy Reference Data\09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql">
+      <Link>Tools\Sql\Copy Reference Data\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql">
+      <Link>Tools\Sql\Copy Reference Data\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql">
+      <Link>Tools\Sql\Copy Reference Data\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql">
+      <Link>Tools\Sql\Copy Reference Data\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
