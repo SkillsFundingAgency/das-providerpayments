@@ -39,7 +39,7 @@ SELECT
 	PriceEpisodeFirstDisadvantagePayment,
 	PriceEpisodeSecondDisadvantagePayment,
 	LearningSupportPayment
-FROM Reference.ApprenticeshipEarnings ae
+FROM Staging.ApprenticeshipEarningsRequiringPayments ae
     LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
         AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
         AND ae.LearnRefNumber = pem.LearnRefNumber
@@ -52,33 +52,5 @@ FROM Reference.ApprenticeshipEarnings ae
     LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
         AND c.VersionId = pepm.VersionId
     LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
-	LEFT JOIN PaymentsDue.vw_NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
-	JOIN Staging.CollectionPeriods cp
-		ON ae.Period = cp.PeriodNumber
-	LEFT JOIN Reference.RequiredPaymentsHistory ph
-		ON ae.Ukprn = ph.Ukprn
-		AND ae.Uln = ph.Uln
-		--AND ae.LearnRefNumber = ph.LearnRefNumber
-		--AND ae.AimSeqNumber = ph.AimSeqNumber
-		AND ae.StandardCode = ph.StandardCode
-		AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
-		AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)
-		AND ISNULL(ae.PathwayCode,0) = ISNULL(ph.PathwayCode,0)
-		AND COALESCE(pepm.TransactionType, ndtt.TransactionType) = ph.TransactionType
-		AND cp.CalendarMonth = ph.DeliveryMonth
-		AND cp.CalendarYear = ph.DeliveryYear
-WHERE PriceEpisodeOnProgPayment > 0
-OR PriceEpisodeCompletionPayment > 0
-OR PriceEpisodeBalancePayment > 0
-OR PriceEpisodeFirstEmp1618Pay > 0
-OR PriceEpisodeFirstProv1618Pay > 0
-OR PriceEpisodeSecondEmp1618Pay > 0
-OR PriceEpisodeSecondProv1618Pay > 0
-OR PriceEpisodeApplic1618FrameworkUpliftOnProgPayment > 0
-OR PriceEpisodeApplic1618FrameworkUpliftCompletionPayment > 0
-OR PriceEpisodeApplic1618FrameworkUpliftBalancing > 0
-OR PriceEpisodeFirstDisadvantagePayment > 0
-OR PriceEpisodeSecondDisadvantagePayment > 0
-OR LearningSupportPayment > 0
-OR ph.AmountDue > 0
+	LEFT JOIN Staging.NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
 GO

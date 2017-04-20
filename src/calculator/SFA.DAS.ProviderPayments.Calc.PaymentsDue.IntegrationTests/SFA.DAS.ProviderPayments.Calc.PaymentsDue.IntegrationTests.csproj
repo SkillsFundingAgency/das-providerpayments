@@ -147,20 +147,24 @@
       <Link>Tools\Sql\Copy Reference Data\09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql">
-      <Link>Tools\Sql\Copy Reference Data\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarningsRequiringPayments.sql">
+      <Link>Tools\Sql\Copy Reference Data\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarningsRequiringPayments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql">
-      <Link>Tools\Sql\Copy Reference Data\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql">
+      <Link>Tools\Sql\Copy Reference Data\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql">
-      <Link>Tools\Sql\Copy Reference Data\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql">
+      <Link>Tools\Sql\Copy Reference Data\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql">
-      <Link>Tools\Sql\Copy Reference Data\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql</Link>
+    <Content Include="..\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql">
+      <Link>Tools\Sql\Copy Reference Data\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql">
+      <Link>Tools\Sql\Copy Reference Data\14 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">

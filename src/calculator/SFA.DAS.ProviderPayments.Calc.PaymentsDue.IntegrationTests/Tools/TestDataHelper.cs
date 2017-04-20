@@ -22,10 +22,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "07 PeriodEnd.PaymentsDue.Populate.Staging.CollectionPeriods.sql",
             "08 PeriodEnd.PaymentsDue.Populate.Staging.NonDasTransactionTypes.sql",
             "09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql",
-            "10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql",
-            "11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql",
-            "12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql",
-            "13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql",
+            "10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarningsRequiringPayments.sql",
+            "11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql",
+            "12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql",
+            "13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql",
+            "14 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql",
         };
 
         private static readonly Random Random = new Random();

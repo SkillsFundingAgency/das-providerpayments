@@ -62,6 +62,48 @@ CREATE TABLE Staging.LearnerPriceEpisodePerPeriod
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
+-- ApprenticeshipEarningsRequiringPayments
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='ApprenticeshipEarningsRequiringPayments' AND [schema_id] = SCHEMA_ID('Staging'))
+BEGIN
+	DROP TABLE Staging.ApprenticeshipEarningsRequiringPayments
+END
+GO
+
+CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
+(
+	Ukprn bigint,
+    Uln bigint,
+    LearnRefNumber varchar(12),
+    AimSeqNumber int,
+    Period int,
+    PriceEpisodeEndDate date,
+    StandardCode bigint,
+    ProgrammeType int,
+    FrameworkCode int,
+    PathwayCode int,
+    ApprenticeshipContractType int,
+    PriceEpisodeIdentifier varchar(25),
+    PriceEpisodeFundLineType varchar(60),
+    PriceEpisodeSfaContribPct decimal(15,5),
+    PriceEpisodeLevyNonPayInd int,
+	EpisodeStartDate date,
+	PriceEpisodeOnProgPayment decimal(15,5),
+	PriceEpisodeCompletionPayment decimal(15,5),
+	PriceEpisodeBalancePayment decimal(15,5),
+	PriceEpisodeFirstEmp1618Pay decimal(15,5),
+	PriceEpisodeFirstProv1618Pay decimal(15,5),
+	PriceEpisodeSecondEmp1618Pay decimal(15,5),
+	PriceEpisodeSecondProv1618Pay decimal(15,5),
+	PriceEpisodeApplic1618FrameworkUpliftOnProgPayment decimal(15,5),
+	PriceEpisodeApplic1618FrameworkUpliftCompletionPayment decimal(15,5),
+	PriceEpisodeApplic1618FrameworkUpliftBalancing decimal(15,5),
+	PriceEpisodeFirstDisadvantagePayment decimal(15,5),
+	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
+	LearningSupportPayment decimal(15,5)
+)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 -- ApprenticeshipEarnings
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='ApprenticeshipEarnings' AND [schema_id] = SCHEMA_ID('Staging'))
