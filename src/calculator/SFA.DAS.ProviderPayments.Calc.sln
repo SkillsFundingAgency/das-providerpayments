@@ -70,14 +70,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{C7F29E92-3CD
 		DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
 		DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql = DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql
 		DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql = DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql
-		DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.Populate.Staging.CollectionPeriods.sql = DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.Populate.Staging.CollectionPeriods.sql
-		DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.Populate.Staging.NonDasTransactionTypes.sql = DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.Populate.Staging.NonDasTransactionTypes.sql
-		DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql = DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.Populate.Staging.LearnerPriceEpisodePerPeriod.sql
-		DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarningsRequiringPayments.sql = DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarningsRequiringPayments.sql
-		DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql = DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings.sql
-		DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql = DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings1.sql
-		DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql = DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings2.sql
-		DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql = DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.Populate.Staging.ApprenticeshipEarnings3.sql
+		DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql = DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql
+		DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql = DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql
+		DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql = DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql
+		DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql = DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql
+		DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql = DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql
+		DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql = DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql
+		DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql = DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql
+		DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql = DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql
 		DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql = DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
