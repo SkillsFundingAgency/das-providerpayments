@@ -41,7 +41,7 @@ LEFT JOIN Reference.RequiredPaymentsHistory ph
               --AND ae.LearnRefNumber = ph.LearnRefNumber
               --AND ae.AimSeqNumber = ph.AimSeqNumber
               AND ae.StandardCode = ph.StandardCode
-              AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
+              AND (ISNULL(ae.StandardCode,0) > 0 OR ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0))
               AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)
               AND ISNULL(ae.PathwayCode,0) = ISNULL(ph.PathwayCode,0)
               AND case 
