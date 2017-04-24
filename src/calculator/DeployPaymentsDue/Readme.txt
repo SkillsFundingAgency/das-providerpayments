@@ -33,6 +33,8 @@ DAS Payments Due Component
    - transient database reference tables that need to be present when the component is executed
   - sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql:
    - transient database reference tables that need to be present when the component is executed
+  - sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql:
+   - transient database staging tables needed for pre-run and execution of component
 
   - sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql:
    - deds database tables that need to be present when the component is executed
@@ -51,6 +53,23 @@ DAS Payments Due Component
    - populate apprenticeship earnings reference data (from deds to transient) needed to run payments due
   - sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql:
    - populate required payments history reference data (from deds to transient) needed to run payments due
+  
+  - sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql:
+   - populate collection periods required for staging. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql:
+   - populate non-das transaction types. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql:
+   - calculate max start date per learner for later queries. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql:
+   - populate earnings that require payment. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql:
+   - populate apprenticeship earnings. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql:
+   - populate first part of earnings for payments due. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql:
+   - populate second part of earnings for payments due. To be run in pre-run step, just before component execution (Relies on DataLock execution)
+  - sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql:
+   - populate third part of earnings for payments due. To be run in pre-run step, just before component execution (Relies on DataLock execution)
    
  1.3 Copy to deds mapping xml:
   - copy mappings\DasPaymentsDueCopyToDedsMapping.xml:
