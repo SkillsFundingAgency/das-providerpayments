@@ -2,18 +2,10 @@ DELETE ${DAS_PeriodEnd.FQ}.Payments.Periods
 FROM ${DAS_PeriodEnd.FQ}.Payments.Periods p
 INNER JOIN Reference.CollectionPeriods cp
 	ON p.PeriodName = '${YearOfCollection}-' + cp.Name
+	WHERE cp.[Open]=1
 GO
 
-DECLARE @now DATETIME = GETDATE()
-DECLARE @completionDateTime DATETIME
-
-SET @completionDateTime = (SELECT DATEADD(MONTH, 1, DATEFROMPARTS(q.CalendarYear, q.CalendarMonth, 1)) FROM Reference.CollectionPeriods q WHERE [OPEN]=1)
-SET @completionDateTime = DATEADD(DAY, DAY(@now) - 1, @completionDateTime)
-
-SET @completionDateTime = DATEADD(HOUR, DATEPART(HOUR, @now), @completionDateTime)
-SET @completionDateTime = DATEADD(MINUTE, DATEPART(MINUTE, @now), @completionDateTime)
-SET @completionDateTime = DATEADD(SECOND, DATEPART(SECOND, @now), @completionDateTime)
-SET @completionDateTime = DATEADD(MILLISECOND, DATEPART(MILLISECOND, @now), @completionDateTime)
+DECLARE @completionDateTime DATETIME = GETDATE()
 
 INSERT INTO ${DAS_PeriodEnd.FQ}.Payments.Periods
 SELECT 
@@ -24,5 +16,6 @@ SELECT
     (SELECT MAX(ReadDate) FROM ${DAS_Commitments.FQ}.dbo.EventStreamPointer) CommitmentDataValidAt, 
     @completionDateTime CompletionDateTime 
 FROM Reference.CollectionPeriods
+WHERE cp.[Open]=1
 GO
 
