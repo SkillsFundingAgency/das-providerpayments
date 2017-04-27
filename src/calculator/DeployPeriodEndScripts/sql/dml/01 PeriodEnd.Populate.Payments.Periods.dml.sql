@@ -25,3 +25,4 @@ SELECT
     @completionDateTime CompletionDateTime 
 FROM Reference.CollectionPeriods
 GO
+
