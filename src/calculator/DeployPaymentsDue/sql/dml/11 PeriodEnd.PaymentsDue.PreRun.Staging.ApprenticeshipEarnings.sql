@@ -12,6 +12,7 @@ SELECT
     ae.LearnRefNumber,
     ae.AimSeqNumber,
     ae.Period,
+	
     ae.PriceEpisodeEndDate,
     ae.StandardCode,
     (CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
@@ -50,7 +51,7 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
         AND ae.PriceEpisodeIdentifier = pepm.PriceEpisodeIdentifier
         AND ae.LearnRefNumber = pepm.LearnRefNumber
         AND ae.AimSeqNumber = pepm.AimSeqNumber
-        AND ae.Period = pepm.Period
+
     LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
         AND c.VersionId = pepm.VersionId
     LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
@@ -66,7 +67,7 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
               AND cp.CalendarMonth = ph.DeliveryMonth
               AND cp.CalendarYear = ph.DeliveryYear
 	WHERE 
-	
+	(
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 1 AND PriceEpisodeOnProgPayment > 0 ) OR
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 2 AND PriceEpisodeCompletionPayment > 0 ) OR
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 3 AND PriceEpisodeBalancePayment > 0 ) OR
@@ -80,7 +81,7 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 11 AND PriceEpisodeFirstDisadvantagePayment > 0 ) OR
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 12 AND PriceEpisodeSecondDisadvantagePayment > 0 ) OR
 	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 15 AND LearningSupportPayment > 0 ) 
-	--OR	COALESCE(pepm.TransactionType, ndtt.TransactionType) in (13,14,15)
 	OR ph.AmountDue> 0
-	
+	)
+	AND (pepm.Period Is Null OR ae.Period = pepm.Period OR ph.AmountDue >0)
 
