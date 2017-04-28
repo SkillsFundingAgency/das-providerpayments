@@ -15,7 +15,7 @@ SELECT
     (SELECT MAX(ReadDateTime) FROM ${DAS_Accounts.FQ}.dbo.DasAccountsAudit) AccountDataValidAt, 
     (SELECT MAX(ReadDate) FROM ${DAS_Commitments.FQ}.dbo.EventStreamPointer) CommitmentDataValidAt, 
     @completionDateTime CompletionDateTime 
-FROM Reference.CollectionPeriods cp
+FROM Reference.CollectionPeriods
 WHERE cp.[Open]=1
 GO
 
