@@ -18,7 +18,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
-            "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql"
+            "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql",
+            "07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql",
+            "08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql",
+            "09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql",
+            "10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql",
+            "11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql",
+            "12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql",
+            "13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql",
+            "14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql",
         };
 
         private static readonly Random Random = new Random();
