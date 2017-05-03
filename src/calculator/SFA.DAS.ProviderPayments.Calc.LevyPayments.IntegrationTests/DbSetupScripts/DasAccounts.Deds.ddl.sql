@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[DasAccounts](
 	[AccountHashId] varchar(50) NOT NULL,
 	[AccountName] [varchar](125) NOT NULL,
 	[Balance] [decimal](15, 2) NULL,
-	[VersionId] varchar(50) NOT NULL
+	[VersionId] varchar(50) NOT NULL,
+	[IsLevyPayer] bit NOT NULL
 )
 GO

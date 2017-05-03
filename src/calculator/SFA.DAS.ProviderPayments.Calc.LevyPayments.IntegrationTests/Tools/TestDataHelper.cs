@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 name = id.ToString();
             }
 
-            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountHashId, AccountName, Balance,VersionId) VALUES (@id, @id, @name, @balance, '1')", new { id, name, balance });
+            Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountHashId, AccountName, Balance,VersionId,IsLevyPayer) VALUES (@id, @id, @name, @balance, '1',1)", new { id, name, balance });
         }
 
         internal static decimal[] GetAccountBalance(long id)
