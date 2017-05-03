@@ -38,10 +38,18 @@ CREATE TABLE Staging.NonDasTransactionTypes
 (
 	ApprenticeshipContractType int,
 	TransactionType int,
-
-	INDEX [IX_ApprenticeshipContractType] CLUSTERED (ApprenticeshipContractType)
 )
 GO
+
+IF EXISTS(SELECT [object_id] FROM sys.indexes WHERE [name]='IX_ApprenticeshipContractType')
+BEGIN
+       DROP INDEX [IX_ApprenticeshipContractType] ON [Staging].[NonDasTransactionTypes]
+END
+GO
+ 
+CREATE INDEX [IX_ApprenticeshipContractType] ON [Staging].[NonDasTransactionTypes] (ApprenticeshipContractType)
+GO
+ 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- LearnerPriceEpisodePerPeriod
@@ -151,10 +159,18 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
 	LearningSupportPayment decimal(15,5),
 
-	INDEX [IX_TransType_StartDate] CLUSTERED (TransactionType, EpisodeStartDate)
 )
 GO
 
+
+IF EXISTS(SELECT [object_id] FROM sys.indexes WHERE [name]='IX_TransType_StartDate')
+BEGIN
+		DROP INDEX [IX_TransType_StartDate] ON [Staging].[ApprenticeshipEarnings]
+END
+GO
+ 
+CREATE INDEX [IX_TransType_StartDate] ON Staging.ApprenticeshipEarnings (TransactionType, EpisodeStartDate)
+GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- ApprenticeshipEarnings1
 -----------------------------------------------------------------------------------------------------------------------------------------------
