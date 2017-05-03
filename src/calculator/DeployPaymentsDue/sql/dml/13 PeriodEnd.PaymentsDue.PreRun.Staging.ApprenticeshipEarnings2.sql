@@ -35,7 +35,8 @@ SELECT
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae
-			ON ae.LearnRefNumber = pae.LearnRefNumber
+			ON ae.Ukprn = pae.Ukprn
+			AND ae.LearnRefNumber = pae.LearnRefNumber
 			AND ae.AimSeqNumber = pae.AimSeqNumber
 			AND ae.Period = pae.Period
 			AND ae.EpisodeStartDate = pae.MaxEpisodeStartDate

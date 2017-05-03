@@ -62,6 +62,7 @@ GO
 
 CREATE TABLE Staging.LearnerPriceEpisodePerPeriod
 (
+	Ukprn bigint,
 	LearnRefNumber varchar(12),
 	AimSeqNumber int,
 	Period int,
