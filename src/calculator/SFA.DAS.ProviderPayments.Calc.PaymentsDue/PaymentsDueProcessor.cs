@@ -161,7 +161,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
-                                p.TransactionType == earning.Type);
+                                p.TransactionType == earning.Type &&
+                                p.AimSequenceNumber == earning.AimSequenceNumber);
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
 
