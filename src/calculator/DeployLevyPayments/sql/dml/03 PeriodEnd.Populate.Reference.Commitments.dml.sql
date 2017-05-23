@@ -19,7 +19,8 @@ INSERT INTO [Reference].[DasCommitments]
         [PaymentStatusDescription],
         [Priority],
         [EffectiveFromDate],
-        [EffectiveToDate]
+        [EffectiveToDate],
+        [LegalEntityName]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
     GROUP BY [CommitmentId],
         [Uln],
@@ -36,5 +37,6 @@ INSERT INTO [Reference].[DasCommitments]
         [PaymentStatusDescription],
         [Priority],
         [EffectiveFromDate],
-        [EffectiveToDate]
+        [EffectiveToDate],
+        [LegalEntityName]
 GO
