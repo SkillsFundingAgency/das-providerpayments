@@ -156,21 +156,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                         });
                     break;
                 default:
-                    payments.Add(
-                    new Payment
-                    {
-                        RequiredPaymentId = paymentDue.Id,
-                        DeliveryMonth = paymentDue.DeliveryMonth,
-                        DeliveryYear = paymentDue.DeliveryYear,
-                        CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                        CollectionPeriodMonth = currentPeriod.Month,
-                        CollectionPeriodYear = currentPeriod.Year,
-                        FundingSource = FundingSource.CoInvestedSfa,
-                        TransactionType = paymentDue.TransactionType,
-                        Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.SfaContributionPercentage, paymentDue.AmountDue)
-                    });
 
-                    payments.Add(
+                    var coInvestedSfaAmount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.SfaContributionPercentage, paymentDue.AmountDue);
+                    if (coInvestedSfaAmount != 0)
+                    {
+                        payments.Add(
                         new Payment
                         {
                             RequiredPaymentId = paymentDue.Id,
@@ -179,10 +169,29 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                             CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
                             CollectionPeriodMonth = currentPeriod.Month,
                             CollectionPeriodYear = currentPeriod.Year,
-                            FundingSource = FundingSource.CoInvestedEmployer,
+                            FundingSource = FundingSource.CoInvestedSfa,
                             TransactionType = paymentDue.TransactionType,
-                            Amount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.SfaContributionPercentage, paymentDue.AmountDue)
+                            Amount = coInvestedSfaAmount
                         });
+                    }
+
+                    var coInvestedEmployerAmount = DetermineCoInvestedAmount(FundingSource.CoInvestedEmployer, paymentDue.SfaContributionPercentage, paymentDue.AmountDue);
+                    if (coInvestedEmployerAmount != 0)
+                    {
+                        payments.Add(
+                            new Payment
+                            {
+                                RequiredPaymentId = paymentDue.Id,
+                                DeliveryMonth = paymentDue.DeliveryMonth,
+                                DeliveryYear = paymentDue.DeliveryYear,
+                                CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                                CollectionPeriodMonth = currentPeriod.Month,
+                                CollectionPeriodYear = currentPeriod.Year,
+                                FundingSource = FundingSource.CoInvestedEmployer,
+                                TransactionType = paymentDue.TransactionType,
+                                Amount = coInvestedEmployerAmount
+                            });
+                    }
                     break;
             }
         }

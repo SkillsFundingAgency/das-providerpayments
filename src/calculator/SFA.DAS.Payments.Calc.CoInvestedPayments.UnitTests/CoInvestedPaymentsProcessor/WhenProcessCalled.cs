@@ -1292,14 +1292,15 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.CoInvestedPaymentsP
             var sfaPayment = _paymentDue.AmountDue * sfaContributionPercentage;
             var employerPayment = _paymentDue.AmountDue*(1 - sfaContributionPercentage);
 
+            
             _mediator.Verify(m =>
                 m.Send(
-                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == sfaPayment) == 1)),
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedSfa && p.Amount == sfaPayment) == (sfaPayment == 0 ? 0 :  1))),
                     Times.Once);
 
             _mediator.Verify(m =>
                 m.Send(
-                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == employerPayment) == 1)),
+                    It.Is<ProcessPaymentsCommandRequest>(it => it.Payments.Count(p => p.FundingSource == FundingSource.CoInvestedEmployer && p.Amount == employerPayment) == (employerPayment == 0 ? 0 : 1))),
                     Times.Once);
         }
     }
