@@ -221,10 +221,72 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var employerPayment = 1500m * (1 - sfaContributionPercentage);
 
             var payments = TestDataHelper.GetPaymentsForCommitment(_commitmentId);
-            Assert.IsNotNull(
+
+            if (sfaPayment == 0)
+            {
+                Assert.IsNull(
                 payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == sfaPayment));
-            Assert.IsNotNull(
+            }
+            else
+            {
+                Assert.IsNotNull(
+                payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == sfaPayment));
+            }
+
+            if (employerPayment == 0)
+            {
+                Assert.IsNull(
                 payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == employerPayment));
+            }
+            else
+            {
+                Assert.IsNotNull(
+                    payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == employerPayment));
+            }
+        }
+    }
+
+    public class WhenNoEmployerPaymentsAreDue
+    {
+        private CoInvestedPaymentsTask _uut;
+        private IntegrationTaskContext _taskContext;
+        private long _commitmentId;
+
+
+        [SetUp]
+        public void Arrange()
+        {
+
+            TestDataHelper.Clean();
+
+            var accountId = Guid.NewGuid().ToString();
+            TestDataHelper.AddAccount(accountId);
+
+            _commitmentId = 1L;
+            TestDataHelper.AddCommitment(_commitmentId, accountId);
+
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1500, transactionType: TransactionType.Learning,sfaContributionPercentage:1.0m);
+
+            TestDataHelper.CopyReferenceData();
+
+            _taskContext = new IntegrationTaskContext();
+            _uut = new CoInvestedPaymentsTask();
+        }
+
+        [Test]
+        public void ThenNoPaymentsAreMade()
+        {
+            Act();
+
+            // Assert
+            var paymentsCount = TestDataHelper.GetPaymentsCount();
+            Assert.IsNotNull(paymentsCount);
+            Assert.AreEqual(1, paymentsCount);
+        }
+
+        private void Act()
+        {
+            _uut.Execute(_taskContext);
         }
     }
 }
