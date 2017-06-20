@@ -64,17 +64,17 @@ LEFT JOIN Reference.RequiredPaymentsHistory ph
               AND cp.CalendarMonth = ph.DeliveryMonth
               AND cp.CalendarYear = ph.DeliveryYear
 WHERE
-PriceEpisodeOnProgPayment > 0
-OR PriceEpisodeCompletionPayment > 0
-OR PriceEpisodeBalancePayment > 0
-OR PriceEpisodeFirstEmp1618Pay > 0
-OR PriceEpisodeFirstProv1618Pay > 0
-OR PriceEpisodeSecondEmp1618Pay > 0
-OR PriceEpisodeSecondProv1618Pay > 0
-OR PriceEpisodeApplic1618FrameworkUpliftOnProgPayment > 0
-OR PriceEpisodeApplic1618FrameworkUpliftCompletionPayment > 0
-OR PriceEpisodeApplic1618FrameworkUpliftBalancing > 0
-OR PriceEpisodeFirstDisadvantagePayment > 0
-OR PriceEpisodeSecondDisadvantagePayment > 0
-OR LearningSupportPayment > 0
+PriceEpisodeOnProgPayment <> 0
+OR PriceEpisodeCompletionPayment <> 0
+OR PriceEpisodeBalancePayment <> 0
+OR PriceEpisodeFirstEmp1618Pay <> 0
+OR PriceEpisodeFirstProv1618Pay <> 0
+OR PriceEpisodeSecondEmp1618Pay <> 0
+OR PriceEpisodeSecondProv1618Pay <> 0
+OR PriceEpisodeApplic1618FrameworkUpliftOnProgPayment <> 0
+OR PriceEpisodeApplic1618FrameworkUpliftCompletionPayment <> 0
+OR PriceEpisodeApplic1618FrameworkUpliftBalancing <> 0
+OR PriceEpisodeFirstDisadvantagePayment <> 0
+OR PriceEpisodeSecondDisadvantagePayment <> 0
+OR LearningSupportPayment <> 0
 OR ph.AmountDue > 0
