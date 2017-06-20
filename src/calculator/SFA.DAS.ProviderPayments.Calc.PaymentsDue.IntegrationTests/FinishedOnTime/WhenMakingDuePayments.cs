@@ -658,5 +658,52 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.True(duePayments.Any(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-1000.00));
 
         }
+
+        [Test]
+        public void ThenItShouldMakeRefundPaymentsIfEarningIsNegativeByRefundingPreviousPeriodsToRequiredAmount()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = "1"; //Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 100);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 9, 2016, (int)TransactionType.Learning, 100);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, (int)TransactionType.Learning, 100);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 11, 2016, (int)TransactionType.Learning, 100);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, (int)TransactionType.Learning, 100);
+
+            TestDataHelper.SetOpenCollection(6);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
+            TestDataHelper.ClearApprenticeshipPriceEpisodePeriod();
+
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 1, 100);  //08/16
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 2, 100);  //09/16
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 3, 100);  //10/16
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 4, 100);  //11/16
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 5, 100);  //12/16
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 6, -250); //01/17
+
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(3, duePayments.Length);
+            Assert.True(duePayments.Any(p => p.DeliveryMonth == 10 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-50.00));
+            Assert.True(duePayments.Any(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-100.00));
+            Assert.True(duePayments.Any(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-100.00));
+        }
     }
 }
