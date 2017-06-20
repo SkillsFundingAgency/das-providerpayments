@@ -57,7 +57,7 @@ LEFT JOIN Reference.RequiredPaymentsHistory ph
 					when PriceEpisodeApplic1618FrameworkUpliftBalancing > 0 then 10
 					when PriceEpisodeFirstDisadvantagePayment > 0 then 11
 					when PriceEpisodeSecondDisadvantagePayment > 0 then 12
-					when LearningSupportPayment > 0 then 13
+					when LearningSupportPayment > 0 then 15
 					else ph.TransactionType
                   end
               = ph.TransactionType
