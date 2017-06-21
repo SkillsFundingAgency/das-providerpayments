@@ -232,16 +232,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         }
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
-            var refundablePeriods = paymentHistory.OrderByDescending(x => x.DeliveryYear).ThenByDescending(x => x.DeliveryMonth).ToArray();
+            var refundablePeriods = paymentHistory.GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
+                                                  .Select(x => new { x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue) })
+                                                  .OrderByDescending(x => x.DeliveryYear)
+                                                  .ThenByDescending(x => x.DeliveryMonth)
+                                                  .ToArray();
             var refundPeriodIndex = 0;
             while (amountDue < 0)
             {
                 var period = refundablePeriods[refundPeriodIndex];
+
+                // Attempt to get refund from payments due first
+                var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear).ToArray();
+                foreach (var paymentDue in paymentsDueInPeriod)
+                {
+                    amountDue -= -paymentDue.AmountDue;
+                    paymentsDue.Remove(paymentDue);
+                }
+
+                // Attempt to get any remaining amount from previous payments
                 var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
+                if (refundedInPeriod != 0)
+                {
+                    AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth, period.DeliveryYear);
+                    amountDue -= refundedInPeriod;
+                }
 
-                AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth, period.DeliveryYear);
-
-                amountDue -= refundedInPeriod;
                 refundPeriodIndex++;
             }
         }
