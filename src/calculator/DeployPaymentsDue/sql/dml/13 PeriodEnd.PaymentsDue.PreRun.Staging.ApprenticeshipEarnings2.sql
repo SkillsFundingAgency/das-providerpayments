@@ -75,9 +75,9 @@ SELECT
               AND cp.CalendarYear = ph.DeliveryYear
 	WHERE 
 	(
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 13 AND ade.MathEngOnProgPayment > 0 ) OR
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 14 AND ade.MathEngBalPayment > 0 ) OR
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 15 AND ade.LearningSupportPayment > 0 )
+	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 13 AND ade.MathEngOnProgPayment <> 0 ) OR
+	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 14 AND ade.MathEngBalPayment <> 0 ) OR
+	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 15 AND ade.LearningSupportPayment <> 0 )
 	OR ph.AmountDue> 0)
 	
 

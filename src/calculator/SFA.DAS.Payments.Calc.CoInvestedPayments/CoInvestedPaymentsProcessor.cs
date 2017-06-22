@@ -223,8 +223,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
             AddRefundPayment(payments,historyPayments.Items, FundingSource.FullyFundedSfa, paymentDue, currentPeriod);
             AddRefundPayment(payments,historyPayments.Items, FundingSource.CoInvestedSfa, paymentDue, currentPeriod);
             AddRefundPayment(payments,historyPayments.Items, FundingSource.CoInvestedEmployer, paymentDue, currentPeriod);
-
-
         }
 
         private void AddRefundPayment(ICollection<Payment> payments,
@@ -233,7 +231,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                                             PaymentDue paymentDue,
                                             CollectionPeriod currentPeriod)
         {
-            var amountToRefund = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount) * -1;
+            var amountPaidFromSource = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
+            var amountPaidTotal = historyPayments.Sum(x => x.Amount);
+
+            var percentagePaidFromSource = amountPaidFromSource / amountPaidTotal;
+            var amountToRefund = paymentDue.AmountDue * percentagePaidFromSource;
             if (amountToRefund < 0)
             {
                 payments.Add(
