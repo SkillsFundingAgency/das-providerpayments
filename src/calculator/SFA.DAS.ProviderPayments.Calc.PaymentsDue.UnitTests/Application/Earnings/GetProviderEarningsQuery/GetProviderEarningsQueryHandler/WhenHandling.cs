@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -33,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -81,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -97,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -113,7 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             new EarningEntity
             {
                 CommitmentId = 1,
-                CommitmentVersionId = "C1",
+                CommitmentVersionId = "1-001",
                 AccountId = "1",
                 AccountVersionId = "A1",
                 Uln = 1,
@@ -369,7 +369,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     new EarningEntity
                     {
                         CommitmentId = 1,
-                        CommitmentVersionId = "C1",
+                        CommitmentVersionId = "1-001",
                         AccountId = "1",
                         AccountVersionId = "A1",
                         Uln = 1,
@@ -460,7 +460,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
 
         [Test]
         [TestCase(null, null, null, null, 2)]
-        [TestCase(1L, "C1", "1", "A1", 1)]
+        [TestCase(1L, "1-001", "1", "A1", 1)]
         public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, string accountId, string accountVersionId, int apprenticeshipContractType)
         {
             // Arrange
