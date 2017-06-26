@@ -145,6 +145,40 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Completion && p.Amount == -1725.54321m));
         }
 
+        [Test]
+        public void ThenLevyRefundPaymentsAreMadeWhenPartiallyRefunding()
+        {
+            // Arrange
+            var accountId = 1;
+            var ukprn = Random.Next(1, int.MaxValue);
+            TestDataHelper.AddAccount(accountId);
+            TestDataHelper.AddProvider(ukprn);
+
+            var commitmentId = 1L;
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), ukprn: ukprn);
+
+            TestDataHelper.CopyReferenceData();
+
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: -212.15326m);
+            TestDataHelper.AddPaymentHistoryForCommitment(commitmentId);
+            TestDataHelper.AddPaymentHistoryForCommitment(commitmentId, 8, 2016, -575.12345m);
+
+            TestDataHelper.PopulatePaymentsHistory();
+            var taskContext = new IntegrationTaskContext();
+            var task = new LevyPaymentsTask();
+
+            // Act
+            task.Execute(taskContext);
+
+            // Assert
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
+            Assert.IsNotNull(paymentsMade);
+            Assert.AreEqual(1, paymentsMade.Length);
+
+            var actualPaymentsMessage = "actually paid:\n" + paymentsMade.Select(x => x.Amount.ToString() + " " + ((FundingSource)x.FundingSource).ToString()).Aggregate((x, y) => $"{x}\n{y}");
+            Assert.AreEqual(1, paymentsMade.Count(p => p.FundingSource == (int)FundingSource.Levy && p.TransactionType == (int)TransactionType.Learning && p.Amount == -212.15326m), $"Expected -212.15326 Levy, {actualPaymentsMessage}");
+        }
+
 
         [Test]
         public void ThenRefundPaymentsShouldbeMadeFirstBeforeProcessingPayments()
