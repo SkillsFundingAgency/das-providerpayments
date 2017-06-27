@@ -209,7 +209,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, historyPayments.Exception);
             }
 
-            amountToRefund = historyPayments.Items.Sum(x => x.Amount) * -1;
+            amountToRefund = paymentDue.AmountDue; // historyPayments.Items.Sum(x => x.Amount) * -1;
             if (amountToRefund < 0)
             {
                 _mediator.Send(new ProcessPaymentCommandRequest

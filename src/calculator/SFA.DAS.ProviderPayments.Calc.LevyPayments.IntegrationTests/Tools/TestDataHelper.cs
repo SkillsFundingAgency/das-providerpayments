@@ -143,6 +143,31 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId});
         }
+        internal static void AddPaymentHistoryForCommitment(long commitmentId, int deliveryMonth, int deliveryYear, decimal amountDue )
+        {
+            Execute("DELETE FROM Payments.Payments "
+                  + "WHERE DeliveryMonth = @deliveryMonth "
+                  + "AND DeliveryYear = @deliveryYear",
+                new { deliveryMonth, deliveryYear });
+
+            Execute("INSERT INTO Payments.Payments "
+                  + "SELECT "
+                  + "NEWID(), "
+                  + "Id, "
+                  + "DeliveryMonth, "
+                  + "DeliveryYear, "
+                  + "'2017-R01', "
+                  + "1, "
+                  + "2017, "
+                  + "1, "
+                  + "TransactionType, "
+                  + "@amountDue "
+                  + "FROM PaymentsDue.RequiredPayments "
+                  + "WHERE CommitmentId = @commitmentId "
+                  + "AND DeliveryMonth = @deliveryMonth "
+                  + "AND DeliveryYear = @deliveryYear",
+                new { commitmentId, deliveryMonth, deliveryYear, amountDue });
+        }
 
         internal static long AddProvider(long ukprn)
         {
