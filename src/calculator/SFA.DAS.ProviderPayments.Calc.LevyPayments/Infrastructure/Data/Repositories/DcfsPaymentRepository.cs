@@ -13,6 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
                                                   "DeliveryMonth," +
                                                   "DeliveryYear," +
                                                   "TransactionType," +
+                                                  "FundingSource," +
                                                   "Amount";
         private const string FilterPaymentsHistory = " WHERE DeliveryMonth = @deliveryMonth AND DeliveryYear = @deliveryYear AND TransactionType = @transactionType AND CommitmentId = @commitmentId";
 

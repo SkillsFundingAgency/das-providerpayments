@@ -33,6 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetLev
                             DeliveryMonth = p.DeliveryMonth,
                             DeliveryYear = p.DeliveryYear,
                             TransactionType = (TransactionType) p.TransactionType,
+                            FundingSource = (FundingSource)p.FundingSource,
                             Amount = p.Amount
                         }).ToArray()
                 };
