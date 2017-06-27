@@ -11,6 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
         public int DeliveryMonth { get; set; }
         public int DeliveryYear { get; set; }
         public TransactionType TransactionType { get; set; }
+        public FundingSource FundingSource { get; set; }
         public decimal Amount { get; set; }
     }
 }

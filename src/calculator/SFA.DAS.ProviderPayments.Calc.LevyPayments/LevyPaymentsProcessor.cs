@@ -85,7 +85,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                     {
                         continue;
                     }
-                    
+
                     foreach (var paymentDue in paymentsDue.Where(x => x.AmountDue > 0))
                     {
                         _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
@@ -196,7 +196,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             _logger.Info($"Making a levy refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
             decimal amountToRefund = 0;
 
-            var historyPayments = _mediator.Send(new GetLevyPaymentsHistoryQueryRequest
+            var historyPaymentsResponse = _mediator.Send(new GetLevyPaymentsHistoryQueryRequest
             {
                 DeliveryYear = paymentDue.DeliveryYear,
                 DeliveryMonth = paymentDue.DeliveryMonth,
@@ -204,12 +204,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 CommitmentId = paymentDue.CommitmentId
             });
 
-            if (!historyPayments.IsValid)
+            if (!historyPaymentsResponse.IsValid)
             {
-                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, historyPayments.Exception);
+                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, historyPaymentsResponse.Exception);
             }
 
-            amountToRefund = paymentDue.AmountDue; // historyPayments.Items.Sum(x => x.Amount) * -1;
+            var historyPayments = historyPaymentsResponse.Items;
+            var totalAmountPaidInPeriod = historyPayments.Sum(x => x.Amount);
+            var totalLevyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
+            var percentagePaidByLevyInPeriod = totalLevyPaidInPeriod / totalAmountPaidInPeriod;
+
+            amountToRefund = paymentDue.AmountDue * percentagePaidByLevyInPeriod; // historyPayments.Items.Sum(x => x.Amount) * -1;
             if (amountToRefund < 0)
             {
                 _mediator.Send(new ProcessPaymentCommandRequest

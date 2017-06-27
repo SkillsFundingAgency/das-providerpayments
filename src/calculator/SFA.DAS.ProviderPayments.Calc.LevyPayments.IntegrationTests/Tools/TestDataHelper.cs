@@ -16,8 +16,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             "02 PeriodEnd.Populate.Reference.Providers.dml.sql",
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql"
-           
-             
+
+
 
         };
 
@@ -36,14 +36,14 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         internal static decimal[] GetAccountBalance(long id)
         {
 
-          return Query<decimal>("SELECT BALANCE FROM dbo.DasAccounts WHERE AccountId = @id", new { id});
+            return Query<decimal>("SELECT BALANCE FROM dbo.DasAccounts WHERE AccountId = @id", new { id });
         }
 
-        internal static void AddCommitment(long id, 
-                                           string accountId, 
-                                           long uln = 0L, 
-                                           long ukprn = 0L, 
-                                           DateTime startDate = default(DateTime), 
+        internal static void AddCommitment(long id,
+                                           string accountId,
+                                           long uln = 0L,
+                                           long ukprn = 0L,
+                                           DateTime startDate = default(DateTime),
                                            DateTime endDate = default(DateTime),
                                            decimal agreedCost = 15000m,
                                            long? standardCode = null,
@@ -83,8 +83,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                     new { id, versionId, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority });
         }
 
-        internal static void AddPaymentDueForCommitment(long commitmentId, 
-                                                        string learnerRefNumber = null, 
+        internal static void AddPaymentDueForCommitment(long commitmentId,
+                                                        string learnerRefNumber = null,
                                                         int aimSequenceNumber = 1,
                                                         TransactionType transactionType = TransactionType.Learning,
                                                         decimal amountDue = 1000.00m,
@@ -126,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
         internal static void AddPaymentHistoryForCommitment(long commitmentId)
         {
-           
+
             Execute("INSERT INTO Payments.Payments "
                   + "SELECT "
                   + "NEWID(), "
@@ -141,14 +141,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "AmountDue * -1"
                   + "FROM PaymentsDue.RequiredPayments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId});
+                new { commitmentId });
         }
-        internal static void AddPaymentHistoryForCommitment(long commitmentId, int deliveryMonth, int deliveryYear, decimal amountDue )
+        internal static void AddPaymentHistoryForCommitment(long commitmentId, int deliveryMonth, int deliveryYear, decimal amountDue, FundingSource source = FundingSource.Levy)
         {
             Execute("DELETE FROM Payments.Payments "
                   + "WHERE DeliveryMonth = @deliveryMonth "
-                  + "AND DeliveryYear = @deliveryYear",
-                new { deliveryMonth, deliveryYear });
+                  + "AND DeliveryYear = @deliveryYear "
+                  + "AND FundingSource = @source",
+                new { deliveryMonth, deliveryYear, source = (int)source });
 
             Execute("INSERT INTO Payments.Payments "
                   + "SELECT "
@@ -159,14 +160,14 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "'2017-R01', "
                   + "1, "
                   + "2017, "
-                  + "1, "
+                  + "@source, "
                   + "TransactionType, "
                   + "@amountDue "
                   + "FROM PaymentsDue.RequiredPayments "
                   + "WHERE CommitmentId = @commitmentId "
                   + "AND DeliveryMonth = @deliveryMonth "
                   + "AND DeliveryYear = @deliveryYear",
-                new { commitmentId, deliveryMonth, deliveryYear, amountDue });
+                new { commitmentId, deliveryMonth, deliveryYear, amountDue, source = (int)source });
         }
 
         internal static long AddProvider(long ukprn)
@@ -231,7 +232,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             {
                 Execute(command);
             }
-            
+
         }
 
 
