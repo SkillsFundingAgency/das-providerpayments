@@ -172,6 +172,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.Provi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests", "SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests\SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.csproj", "{1560F0F3-8074-4225-8367-1F4E4D8F50B1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "MigrationScripts", "{3E920E31-D467-4A5E-AA98-F8E156C05BF9}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql = DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -268,5 +273,6 @@ Global
 		{13240C68-1925-4DC2-B975-00691DC524F8} = {64BDBAB7-72FF-45FA-9BC6-CD636DB3A450}
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E} = {8343343D-2416-4182-86BC-DC6614A958DD}
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1} = {8343343D-2416-4182-86BC-DC6614A958DD}
+		{3E920E31-D467-4A5E-AA98-F8E156C05BF9} = {682B1A75-A80F-4BBB-8188-E51C50FAFE67}
 	EndGlobalSection
 EndGlobal

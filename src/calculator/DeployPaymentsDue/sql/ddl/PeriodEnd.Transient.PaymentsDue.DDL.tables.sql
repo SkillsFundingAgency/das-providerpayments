@@ -37,7 +37,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 (
 	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 	CommitmentId bigint,
-	CommitmentVersionId varchar(50),
+	CommitmentVersionId varchar(25),
 	AccountId varchar(50),
 	AccountVersionId varchar(50),
 	Uln bigint,

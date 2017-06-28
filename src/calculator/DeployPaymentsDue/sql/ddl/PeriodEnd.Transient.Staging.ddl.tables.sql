@@ -124,7 +124,7 @@ GO
 CREATE TABLE Staging.ApprenticeshipEarnings
 (
 	CommitmentId int,
-	CommitmentVersionId int,
+	CommitmentVersionId varchar(25),
 	AccountId int,
 	AccountVersionId varchar(25),
 	Ukprn bigint,
@@ -184,7 +184,7 @@ GO
 CREATE TABLE Staging.ApprenticeshipEarnings1
 (
 	CommitmentId bigint,
-	CommitmentVersionId bigint,
+	CommitmentVersionId varchar(25),
 	AccountId bigint,
 	AccountVersionId varchar(50),
 	Ukprn bigint,
@@ -222,7 +222,7 @@ GO
 CREATE TABLE Staging.ApprenticeshipEarnings2
 (
 	CommitmentId bigint,
-	CommitmentVersionId bigint,
+	CommitmentVersionId varchar(25),
 	AccountId bigint,
 	AccountVersionId varchar(50),
 	Ukprn bigint,
@@ -260,7 +260,7 @@ GO
 CREATE TABLE Staging.ApprenticeshipEarnings3
 (
 	CommitmentId bigint,
-	CommitmentVersionId bigint,
+	CommitmentVersionId varchar(25),
 	AccountId bigint,
 	AccountVersionId varchar(50),
 	Ukprn bigint,
