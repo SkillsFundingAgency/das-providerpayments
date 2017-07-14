@@ -170,8 +170,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             paymentHistory = paymentHistory.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish ||
                                         x.TransactionType == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish).ToList();
-            Debugger.Break();
-
             var mathsEnglishEarnings = earningResponse.Items.Where(x => x.Payable &&
                                             (x.Type == Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish ||
                                              x.Type == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish)).ToList();
@@ -204,7 +202,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             e.ProgrammeType,
                                             e.CalendarMonth,
                                             e.CalendarYear,
-                                            e.CollectionAcademicYear,
                                             e.Type,
                                             e.LearnAimRef,
                                             e.LearningStartDate
@@ -222,7 +219,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             Type = x.Key.Type,
                                             LearnAimRef = x.Key.LearnAimRef,
                                             LearningStartDate = x.Key.LearningStartDate,
-                                            CollectionAcademicYear = x.Key.CollectionAcademicYear,
+                                            CollectionAcademicYear = x.First().CollectionAcademicYear,
                                             AccountId = x.First().AccountId,
                                             AccountVersionId = x.First().AccountVersionId,
                                             AimSequenceNumber = x.First().AimSequenceNumber,
