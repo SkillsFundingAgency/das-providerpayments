@@ -20,7 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
             try
             {
                 var entities =
-                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.Uln)
+                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.LearnRefNumber)
                     ?? new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryQueryResponse

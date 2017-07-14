@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
-        private const string SelectLearnerPayments = SelectProviderPayments + " AND Uln = @Uln";
+        private const string SelectLearnerPayments = SelectProviderPayments + " AND LearnRefNumber = @LearnRefNumber";
 
         public DcfsRequiredPaymentRepository(string connectionString)
             : base(connectionString)
@@ -40,9 +40,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln)
+        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, string learnRefNumber)
         {
-            return Query<RequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, uln });
+            return Query<RequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, learnRefNumber });
         }
     }
 }

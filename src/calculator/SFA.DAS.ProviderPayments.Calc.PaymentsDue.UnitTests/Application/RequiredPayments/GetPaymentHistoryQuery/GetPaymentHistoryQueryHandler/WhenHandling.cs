@@ -29,11 +29,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             _request = new GetPaymentHistoryQueryRequest
             {
                 Ukprn = Ukprn,
-                Uln = Uln
+                LearnRefNumber = LearnRefNumber
             };
 
             _requiredPaymentRepository = new Mock<IRequiredPaymentRepository>();
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, LearnRefNumber))
                 .Returns(new[]
                 {
                     new RequiredPaymentEntity
@@ -92,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         public void ThenItShouldReturnAnEmptyArrayOfItemsWhenNoneInTheRepository()
         {
             // Arrange
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, LearnRefNumber))
                 .Returns<RequiredPaymentEntity[]>(null);
 
             // Act
@@ -107,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         public void ThenItShouldReturnAnInvalidResponseWhenRepositoryErrors()
         {
             // Arrange
-            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, Uln))
+            _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, LearnRefNumber))
                 .Throws<Exception>();
 
             // Act

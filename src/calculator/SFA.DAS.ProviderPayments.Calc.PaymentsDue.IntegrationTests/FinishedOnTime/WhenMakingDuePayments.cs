@@ -147,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -180,7 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500, learnRefNumber: learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -575,6 +575,53 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
         [Test]
+        public void ThenItShouldMakeOnProgrammeAndBalancingMathsAndEnglishPaymentsByCombiningAllAimSequencesForAGivenMonth()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 7, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+  
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
+                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 1);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 5);
+
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 1);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 5);
+
+
+            TestDataHelper.SetOpenCollection(5);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5, earlyFinisher: true);
+
+            TestDataHelper.AddMathsAndEnglishEarningForCommitment(commitmentId, learnerRefNumber,2,currentPeriod: 5, earlyFinisher: true);
+            TestDataHelper.AddMathsAndEnglishEarningForCommitment(commitmentId, learnerRefNumber, 5, currentPeriod: 5, earlyFinisher: true);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(6, duePayments.Length);
+
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth==10 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 40));
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 78));
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.BalancingMathsAndEnglish && p.AmountDue == 349.50m));
+            
+        }
+
+        [Test]
         public void ThenItShouldMakeOnProgrammeMathsAndEnglishPaymentsForEachPeriodWhichGoesbeyondMainAim()
         {
             // Arrange
@@ -625,11 +672,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 9, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 11, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000,learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 9, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 11, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
 
             TestDataHelper.SetOpenCollection(6);
 

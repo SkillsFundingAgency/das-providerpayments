@@ -37,7 +37,7 @@ JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber
 LEFT JOIN Reference.RequiredPaymentsHistory ph
               ON ae.Ukprn = ph.Ukprn
-              AND ae.Uln = ph.Uln
+              AND ae.LearnRefNumber = ph.LearnRefNumber
               --AND ae.LearnRefNumber = ph.LearnRefNumber
               --AND ae.AimSeqNumber = ph.AimSeqNumber
               AND ae.StandardCode = ph.StandardCode
