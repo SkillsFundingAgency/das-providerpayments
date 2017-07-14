@@ -12,6 +12,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
+using System.Diagnostics;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -169,10 +170,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             paymentHistory = paymentHistory.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish ||
                                         x.TransactionType == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish).ToList();
+            Debugger.Break();
 
             var mathsEnglishEarnings = earningResponse.Items.Where(x => x.Payable &&
                                             (x.Type == Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish ||
-                                             x.Type == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish))
+                                             x.Type == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish)).ToList();
+
+            var candidateEarnings = new List<PeriodEarning>();
+
+            foreach (var earning in mathsEnglishEarnings)
+            {
+                // If this is a 0 earning but there is another equivilant earning with earning then ignore this one
+                if (earning.EarnedValue == 0 && PayableItemExists(mathsEnglishEarnings, earning))
+                {
+                    continue;
+                }
+
+                if (earning.CalendarYear > currentPeriod.Year
+                    || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                {
+                    continue;
+                }
+                candidateEarnings.Add(earning);
+            }
+
+                var aggregatedEarnings = candidateEarnings
                                         .GroupBy(e => new {
                                             e.Ukprn,
                                             e.LearnerReferenceNumber,
@@ -182,6 +204,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             e.ProgrammeType,
                                             e.CalendarMonth,
                                             e.CalendarYear,
+                                            e.CollectionAcademicYear,
                                             e.Type,
                                             e.LearnAimRef,
                                             e.LearningStartDate
@@ -199,6 +222,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             Type = x.Key.Type,
                                             LearnAimRef = x.Key.LearnAimRef,
                                             LearningStartDate = x.Key.LearningStartDate,
+                                            CollectionAcademicYear = x.Key.CollectionAcademicYear,
                                             AccountId = x.First().AccountId,
                                             AccountVersionId = x.First().AccountVersionId,
                                             AimSequenceNumber = x.First().AimSequenceNumber,
@@ -206,7 +230,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             SfaContributionPercentage = x.First().SfaContributionPercentage,
                                             Uln = x.First().Uln,
                                             UseLevyBalance = x.First().UseLevyBalance,
-                                            CollectionAcademicYear = x.First().CollectionAcademicYear,
                                             CollectionPeriodNumber = x.First().CollectionPeriodNumber,
                                             CommitmentId = x.First().CommitmentId,
                                             CommitmentVersionId = x.First().CommitmentVersionId,
@@ -217,7 +240,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             EarnedValue = x.Sum(c => c.EarnedValue),
                                         }).ToList();
 
-            GetPaymentsDue(provider, currentPeriod, mathsEnglishEarnings, paymentsDue, paymentHistory);
+            GetPaymentsDue(provider, currentPeriod, aggregatedEarnings, paymentsDue, paymentHistory);
         }
 
         private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod,

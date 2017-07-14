@@ -581,7 +581,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var ukprn = 863145;
             var commitmentId = 1L;
             var startDate = new DateTime(2016, 8, 12);
-            var plannedEndDate = new DateTime(2017, 7, 27);
+            var plannedEndDate = new DateTime(2018, 9, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
             TestDataHelper.AddProvider(ukprn);
@@ -590,11 +590,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
                 transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 1);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 5);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 1, "50086832");
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 5, "50086832");
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 1);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 5);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 1, "50086832");
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 5, "50086832");
 
 
             TestDataHelper.SetOpenCollection(5);
