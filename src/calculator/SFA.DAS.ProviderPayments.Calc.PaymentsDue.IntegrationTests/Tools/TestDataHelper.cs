@@ -450,8 +450,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, startDate, currentPeriod, amount }, false);
         }
 
-        internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount,string learnRefNumber = "1", int aimSequenceNumber = 1)
+        internal static void AddPaymentForCommitment(long commitmentId, int month, 
+            int year, int transactionType, decimal amount,string learnRefNumber = "1", 
+            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001")
         {
+            
+
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
                   + "NEWID(), " // Id
@@ -479,24 +483,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@amount, " // AmountDue
                   + "0.9, " // SfaContributionPercentage
                   + "'Non-Levy Funding Line', " // FundingLineType
-                   + "1 " // UseLevyBalane
+                   + "1, " // UseLevyBalane
+                   + "@learnAimref,"
+                   + "StartDate "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { month, year,learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber }, false);
+                  new { month, year,learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef}, false);
         }
 
-        internal static void AddPaymentForNonDas(long ukprn, long uln, int month, int year, int transactionType, decimal amount,
-                                        long? standardCode = null,
-                                        int? programmeType = null,
-                                        int? frameworkCode = null,
-                                        int? pathwayCode = null,
-                                        int? aimSequenceNumber =1,
-                                        string learnRefNumber = "1")
+        internal static void AddPaymentForNonDas(long ukprn, 
+                                                    long uln, 
+                                                    int month, 
+                                                    int year, 
+                                                    int transactionType, 
+                                                    decimal amount,
+                                                    long? standardCode = null,
+                                                    int? programmeType = null,
+                                                    int? frameworkCode = null,
+                                                    int? pathwayCode = null,
+                                                    int? aimSequenceNumber =1,
+                                                    string learnRefNumber = "1",
+                                                    DateTime? learningStartDate = null,
+                                                    string learnAimRef="ZPROG001"
+                                                    )
         {
             if (standardCode == null && programmeType == null && frameworkCode == null && pathwayCode == null)
             {
                 standardCode = 25;
             }
+
+            learningStartDate = learningStartDate ?? new DateTime(2016,10,10); 
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "VALUES ("
@@ -525,9 +541,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@amount, " // AmountDue
                   + "0.9, " // SfaContributionPercentage
                   + "'Non-Levy Funding Line', " // FundingLineType
-                  + "1" //UseLevyBalance
-                  + ")",
-                  new { uln, ukprn,learnRefNumber, aimSequenceNumber, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode }, false);
+                  + "1," //UseLevyBalance
+                  + "@LearnAimRef,"
+                  + "@learningStartDate)",
+                  new { uln, ukprn,learnRefNumber, aimSequenceNumber, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode, learnAimRef, learningStartDate }, false);
         }
 
         internal static void SetOpenCollection(int periodNumber)

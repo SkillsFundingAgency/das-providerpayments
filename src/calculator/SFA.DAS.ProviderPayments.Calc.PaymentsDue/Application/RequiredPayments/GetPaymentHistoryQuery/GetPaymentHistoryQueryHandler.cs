@@ -44,7 +44,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             TransactionType = (TransactionType)e.TransactionType,
                             CommitmentVersionId = e.CommitmentVersionId,
                             AccountId = e.AccountId,
-                            AccountVersionId = e.AccountVersionId
+                            AccountVersionId = e.AccountVersionId,
+                            LearnAimRef = e.LearnAimRef,
+                            LearningStartDate = e.LearningStartDate
                             
                         }).ToArray()
                 };

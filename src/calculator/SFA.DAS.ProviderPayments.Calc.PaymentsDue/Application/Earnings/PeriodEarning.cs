@@ -1,5 +1,6 @@
 ﻿
 using SFA.DAS.Payments.DCFS.Domain;
+using System;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 {
@@ -38,6 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 
         public bool Payable { get; set; }
         public bool IsSuccess { get; set; }
+
+        public string LearnAimRef { get; set; }
+        public DateTime LearningStartDate { get; set; }
 
     }
 }

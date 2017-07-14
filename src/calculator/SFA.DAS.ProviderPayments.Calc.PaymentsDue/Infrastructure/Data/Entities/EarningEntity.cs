@@ -33,5 +33,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public decimal Amount { get; set; }
         public bool Payable { get; set; }
         public bool IsSuccess { get; set; }
+
+        public string LearnAimRef { get; set; }
+        public DateTime LearningStartDate { get; set; }
+        
     }
 }

@@ -97,10 +97,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             var paymentsDue = new List<RequiredPayment>();
+            var paymentHistory = GetPaymentsHistory(earningResponse,provider.Ukprn);
 
-            GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
+            GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue,paymentHistory);
 
-            GetEnglishAndMathsPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
+            GetEnglishAndMathsPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue,paymentHistory);
 
             if (paymentsDue.Any())
             {
@@ -115,9 +116,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         }
 
 
-
-        private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod,
-                                    GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+        private List<RequiredPayment> GetPaymentsHistory(GetProviderEarningsQueryResponse earningResponse,long ukprn)
         {
             var paymentHistory = new List<RequiredPayment>();
             var earningsData = earningResponse.Items
@@ -134,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
                 {
-                    Ukprn = provider.Ukprn,
+                    Ukprn = ukprn,
                     LearnRefNumber = earningItem.LearnerReferenceNumber
                 });
                 if (!historyResponse.IsValid)
@@ -143,6 +142,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
                 paymentHistory.AddRange(historyResponse.Items);
             }
+
+            return paymentHistory;
+        }
+
+
+        private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod,
+                                    GetProviderEarningsQueryResponse earningResponse, 
+                                    List<RequiredPayment> paymentsDue,
+                                    List<RequiredPayment> paymentHistory)
+        {
+           
 
             var nonMathsEnglishEarnings = earningResponse.Items.Where(x => x.Type != Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish &&
                                                                     x.Type != Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish);
@@ -175,7 +185,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
-                                p.TransactionType == earning.Type)
+                                p.TransactionType == earning.Type &&
+                                p.LearnAimRef == earning.LearnAimRef &&
+                                p.LearningStartDate == earning.LearningStartDate)
                     .ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
@@ -215,34 +227,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         }
 
         private void GetEnglishAndMathsPaymentsDue(Provider provider, CollectionPeriod currentPeriod,
-                                  GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+                                  GetProviderEarningsQueryResponse earningResponse, 
+                                  List<RequiredPayment> paymentsDue,
+                                  List<RequiredPayment> paymentHistory )
         {
-            var paymentHistory = new List<RequiredPayment>();
-            var earningsData = earningResponse.Items
-                .Select(e =>
-                    new
-                    {
-                        e.Ukprn,
-                        e.LearnerReferenceNumber
-                    })
-                .Distinct()
-                .ToArray();
-
-
-            foreach (var earningItem in earningsData)
-            {
-                var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
-                {
-                    Ukprn = provider.Ukprn,
-                    LearnRefNumber = earningItem.LearnerReferenceNumber
-                });
-                if (!historyResponse.IsValid)
-                {
-                    throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
-                }
-                paymentHistory.AddRange(historyResponse.Items);
-            }
-
+            
             paymentHistory = paymentHistory.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.BalancingMathsAndEnglish ||
                                           x.TransactionType == Payments.DCFS.Domain.TransactionType.OnProgrammeMathsAndEnglish).ToList();
 
@@ -257,7 +246,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             e.ProgrammeType,
                                             e.CalendarMonth,
                                             e.CalendarYear,
-                                            e.Type
+                                            e.Type,
+                                            e.LearnAimRef,
+                                            e.LearningStartDate
                                         })
                                         .Select(x => new PeriodEarning
                                         {
@@ -270,6 +261,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                             PathwayCode = x.Key.PathwayCode,
                                             ProgrammeType = x.Key.ProgrammeType,
                                             Type= x.Key.Type,
+                                            LearnAimRef = x.Key.LearnAimRef,
+                                            LearningStartDate=x.Key.LearningStartDate,
                                             AccountId = x.First().AccountId,
                                             AccountVersionId = x.First().AccountVersionId,
                                             AimSequenceNumber = x.First().AimSequenceNumber,
@@ -307,7 +300,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
-                                p.TransactionType == earning.Type)
+                                p.TransactionType == earning.Type &&
+                                p.LearnAimRef == earning.LearnAimRef &&
+                                p.LearningStartDate == earning.LearningStartDate)
                     .ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
@@ -424,7 +419,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                 SfaContributionPercentage = earning.SfaContributionPercentage,
                 FundingLineType = earning.FundingLineType,
-                UseLevyBalance = earning.UseLevyBalance
+                UseLevyBalance = earning.UseLevyBalance,
+                LearnAimRef = earning.LearnAimRef,
+                LearningStartDate =earning.LearningStartDate
             });
         }
     }

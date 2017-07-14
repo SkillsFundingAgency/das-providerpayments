@@ -30,7 +30,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [PriceEpisodeFirstDisadvantagePayment],
     [PriceEpisodeSecondDisadvantagePayment],
     [LearningSupportPayment],
-	[EpisodeStartDate] )
+	[EpisodeStartDate],
+	[LearnAimRef] ,
+	[LearningStartDate] )
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -60,7 +62,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         ISNULL(pv.[PriceEpisodeFirstDisadvantagePayment], 0),
         ISNULL(pv.[PriceEpisodeSecondDisadvantagePayment], 0),
         ISNULL(pv.[PriceEpisodeLSFCash], 0),
-		pe.[EpisodeStartDate]	
+		pe.[EpisodeStartDate],
+		ld.LearnAimRef,
+		ld.LearnStartDate	
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
             AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
@@ -93,7 +97,9 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
     [ApprenticeshipContractType],
     [FundingLineType],
     [SfaContributionPercentage],
-    [LevyNonPayIndicator])
+    [LevyNonPayIndicator],
+	[LearnAimRef] ,
+	[LearningStartDate] )
     SELECT
         p.[Ukprn],
         l.[ULN],
@@ -110,12 +116,15 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
         CASE p.[LearnDelContType] WHEN 'Levy Contract' THEN 1 ELSE 2 END AS [ApprenticeshipContractType],
         p.[FundLineType] AS [FundingLineType],
         p.[LearnDelSFAContribPct] AS [SfaContributionPercentage],
-        p.[LearnDelLevyNonPayInd] AS [LevyNonPayIndicator]
+        p.[LearnDelLevyNonPayInd] AS [LevyNonPayIndicator],
+		ld.LearnAimRef,
+		ld.LearnStartDate	
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
         JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]
         JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
             AND p.[LearnRefNumber] = ld.[LearnRefNumber]
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
+		
     WHERE ld.[LearnAimRef] != 'ZPROG001'
 GO

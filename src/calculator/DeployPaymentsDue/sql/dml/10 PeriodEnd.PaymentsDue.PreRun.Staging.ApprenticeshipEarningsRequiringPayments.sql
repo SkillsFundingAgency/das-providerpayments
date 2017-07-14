@@ -31,7 +31,9 @@ SELECT
 	ae.PriceEpisodeApplic1618FrameworkUpliftBalancing,
 	ae.PriceEpisodeFirstDisadvantagePayment,
 	ae.PriceEpisodeSecondDisadvantagePayment,
-	ae.LearningSupportPayment
+	ae.LearningSupportPayment,
+	ae.LearnAimref,
+	ae.LearningStartDate
 FROM Reference.ApprenticeshipEarnings AE
 JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber

@@ -171,6 +171,10 @@
       <Link>DbSetupScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql">
+      <Link>DbSetupScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

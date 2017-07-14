@@ -88,7 +88,9 @@ SELECT
     StandardCode,
     ProgrammeType,
     FrameworkCode,
-    PathwayCode
+    PathwayCode,
+	LearnAimRef,
+	LearningStartDate
 FROM Reference.RequiredPaymentsHistory
 GO
 
@@ -129,6 +131,8 @@ SELECT
     PriceEpisodeIdentifier,
     SfaContributionPercentage,
     FundingLineType,
-    UseLevyBalance
+    UseLevyBalance,
+	LearnAimRef,
+	LearningStartDate
 FROM PaymentsDue.RequiredPayments
 GO

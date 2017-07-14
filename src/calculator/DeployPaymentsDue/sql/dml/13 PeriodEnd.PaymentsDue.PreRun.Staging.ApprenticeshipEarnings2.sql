@@ -31,7 +31,9 @@ SELECT
             END) AS EarningAmount,
 		ae.[EpisodeStartDate],
 		IsNull(pem.IsSuccess,0) As IsSuccess, 
-		IsNull(pepm.Payable,0) As Payable 
+		IsNull(pepm.Payable,0) As Payable,
+		ae.LearnAimref,
+		ae.LearningStartDate 
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae
@@ -65,7 +67,7 @@ SELECT
 
 			LEFT JOIN Reference.RequiredPaymentsHistory ph 
 		ON	ae.Ukprn = ph.Ukprn
-              AND ae.Uln = ph.Uln
+              AND ae.LearnrefNumber = ph.LearnrefNumber
               AND ae.StandardCode = ph.StandardCode
               AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
               AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)
