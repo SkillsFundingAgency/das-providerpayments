@@ -32,8 +32,8 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 			ae.[EpisodeStartDate],
 			IsNull(pem.IsSuccess,0) As IsSuccess, 
             IsNull(pepm.Payable,0) As Payable ,
-			ae.LearnAimref,
-			ae.LearningStartDate
+			ade.LearnAimref,
+			ade.LearningStartDate
         FROM (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
 				Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode
 				from Reference.ApprenticeshipEarnings 

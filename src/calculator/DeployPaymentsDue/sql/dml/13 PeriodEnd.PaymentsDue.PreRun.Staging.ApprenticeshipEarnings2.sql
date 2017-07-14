@@ -32,8 +32,8 @@ SELECT
 		ae.[EpisodeStartDate],
 		IsNull(pem.IsSuccess,0) As IsSuccess, 
 		IsNull(pepm.Payable,0) As Payable,
-		ae.LearnAimref,
-		ae.LearningStartDate 
+		ade.LearnAimref,
+		ade.LearningStartDate 
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae
