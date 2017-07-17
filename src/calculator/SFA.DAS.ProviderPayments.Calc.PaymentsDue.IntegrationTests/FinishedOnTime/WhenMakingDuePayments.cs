@@ -147,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -180,7 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 500, learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -625,11 +625,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 9, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 11, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 9, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 11, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
 
             TestDataHelper.SetOpenCollection(6);
 

@@ -14,6 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvide
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -39,6 +40,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             ArrangePaymentHistory();
             Mediator.Setup(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()))
                 .Returns(new AddRequiredPaymentsCommandResponse { IsValid = true });
+            Mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryWhereNoEarningQueryRequest>()))
+                .Returns(new GetPaymentHistoryWhereNoEarningQueryResponse
+                {
+                    IsValid = true,
+                    Items = new RequiredPayment[0]
+                });
 
             ExternalContext = new Mock<IExternalContext>();
             ExternalContext.Setup(c => c.Properties)
@@ -74,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         }
 
         protected abstract void ArrangeProviderEarnings();
-        
+
         protected void ArrangePaymentHistory()
         {
             Mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
@@ -98,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                    && payment.DeliveryMonth == earning.CalendarMonth
                    && payment.DeliveryYear == earning.CalendarYear
                    && payment.AmountDue == expectedAmountDue
-                   && (int) payment.TransactionType == (int) earning.Type
+                   && (int)payment.TransactionType == (int)earning.Type
                    && payment.StandardCode == earning.StandardCode
                    && payment.FrameworkCode == earning.FrameworkCode
                    && payment.ProgrammeType == earning.ProgrammeType

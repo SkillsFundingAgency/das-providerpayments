@@ -450,7 +450,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, startDate, currentPeriod, amount }, false);
         }
 
-        internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount)
+        internal static void AddPaymentForCommitment(long commitmentId, int month, int year, int transactionType, decimal amount, string learnRefNumber = "1")
         {
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
@@ -460,7 +460,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "AccountId, " // AccountId
                   + "'NA', " // AccountVersionId
                   + "Uln, " // Uln
-                  + "1, " // LearnRefNumber
+                  + "@learnRefNumber, " // LearnRefNumber
                   + "1, " // AimSeqNumber
                   + "Ukprn, " // Ukprn
                   + "GETDATE(), " // IlrSubmissionDateTime
@@ -482,14 +482,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                    + "1 " // UseLevyBalane
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { month, year, transactionType, amount, commitmentId }, false);
+                  new { month, year, transactionType, amount, commitmentId, learnRefNumber }, false);
         }
 
         internal static void AddPaymentForNonDas(long ukprn, long uln, int month, int year, int transactionType, decimal amount,
                                         long? standardCode = null,
                                         int? programmeType = null,
                                         int? frameworkCode = null,
-                                        int? pathwayCode = null)
+                                        int? pathwayCode = null,
+                                        string learnRefNumber = "1")
         {
             if (standardCode == null && programmeType == null && frameworkCode == null && pathwayCode == null)
             {
@@ -504,7 +505,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "NULL, " // AccountId
                   + "NULL, " // AccountVersionId
                   + "@uln, " // Uln
-                  + "1, " // LearnRefNumber
+                  + "@learnRefNumber, " // LearnRefNumber
                   + "1, " // AimSeqNumber
                   + "@ukprn, " // Ukprn
                   + "GETDATE(), " // IlrSubmissionDateTime
@@ -525,7 +526,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Non-Levy Funding Line', " // FundingLineType
                   + "1" //UseLevyBalance
                   + ")",
-                  new { uln, ukprn, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode }, false);
+                  new { uln, ukprn, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode, learnRefNumber }, false);
         }
 
         internal static void SetOpenCollection(int periodNumber)
