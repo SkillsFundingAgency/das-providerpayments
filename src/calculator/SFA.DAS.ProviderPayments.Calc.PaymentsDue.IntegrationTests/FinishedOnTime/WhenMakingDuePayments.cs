@@ -590,10 +590,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
                 transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 1, "50086832");
             TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 5, "50086832");
 
-            TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 1, "50086832");
             TestDataHelper.AddPaymentForCommitment(commitmentId, 12, 2016, 14, 100, learnerRefNumber, 5, "50086832");
 
 
@@ -602,7 +600,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5, earlyFinisher: true);
 
             TestDataHelper.AddMathsAndEnglishEarningForCommitment(commitmentId, learnerRefNumber,2,currentPeriod: 5, earlyFinisher: true);
-            TestDataHelper.AddMathsAndEnglishEarningForCommitment(commitmentId, learnerRefNumber, 5, currentPeriod: 5, earlyFinisher: true);
 
             TestDataHelper.CopyReferenceData();
 
@@ -615,9 +612,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
             Assert.AreEqual(6, duePayments.Length);
 
-            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth==10 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 40));
-            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 78));
-            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.BalancingMathsAndEnglish && p.AmountDue == 349.50m));
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth==10 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 20));
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 39));
+            Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.BalancingMathsAndEnglish && p.AmountDue == 174.75m));
             
         }
 
