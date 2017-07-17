@@ -177,6 +177,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "Migrati
 		DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql = DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ManualAdjustments", "ManualAdjustments", "{DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.ManualAdjustments", "SFA.DAS.ProviderPayments.Calc.ManualAdjustments\SFA.DAS.ProviderPayments.Calc.ManualAdjustments.csproj", "{9CFB966B-5096-4BB0-A29A-2559241A66BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{233DE576-A724-4A1E-9F8A-B9A586E944FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests", "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests\SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.csproj", "{08781448-554A-4E73-B7E2-15B926230994}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.csproj", "{204D62A1-5276-489A-9600-B51BA87BE57F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +245,18 @@ Global
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CFB966B-5096-4BB0-A29A-2559241A66BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CFB966B-5096-4BB0-A29A-2559241A66BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CFB966B-5096-4BB0-A29A-2559241A66BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CFB966B-5096-4BB0-A29A-2559241A66BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08781448-554A-4E73-B7E2-15B926230994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08781448-554A-4E73-B7E2-15B926230994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08781448-554A-4E73-B7E2-15B926230994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08781448-554A-4E73-B7E2-15B926230994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204D62A1-5276-489A-9600-B51BA87BE57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204D62A1-5276-489A-9600-B51BA87BE57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204D62A1-5276-489A-9600-B51BA87BE57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204D62A1-5276-489A-9600-B51BA87BE57F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -274,5 +296,9 @@ Global
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E} = {8343343D-2416-4182-86BC-DC6614A958DD}
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1} = {8343343D-2416-4182-86BC-DC6614A958DD}
 		{3E920E31-D467-4A5E-AA98-F8E156C05BF9} = {682B1A75-A80F-4BBB-8188-E51C50FAFE67}
+		{9CFB966B-5096-4BB0-A29A-2559241A66BC} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
+		{233DE576-A724-4A1E-9F8A-B9A586E944FA} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
+		{08781448-554A-4E73-B7E2-15B926230994} = {233DE576-A724-4A1E-9F8A-B9A586E944FA}
+		{204D62A1-5276-489A-9600-B51BA87BE57F} = {233DE576-A724-4A1E-9F8A-B9A586E944FA}
 	EndGlobalSection
 EndGlobal
