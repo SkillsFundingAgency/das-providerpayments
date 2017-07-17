@@ -110,6 +110,7 @@ LEFT JOIN Staging.ApprenticeshipEarningsRequiringPayments e
 	ON ph.Ukprn = e.Ukprn
 	AND ph.LearnRefNumber = e.LearnRefNumber
 WHERE e.LearnRefNumber IS NULL
+AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
