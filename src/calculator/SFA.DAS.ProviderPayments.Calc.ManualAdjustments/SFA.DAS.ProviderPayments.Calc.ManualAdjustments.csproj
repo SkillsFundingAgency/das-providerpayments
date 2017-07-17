@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="DependencyResolution\ManualAdjustmentsRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="ManualAdjustmentsProcessor.cs" />
     <Compile Include="ManualAdjustmentsTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
