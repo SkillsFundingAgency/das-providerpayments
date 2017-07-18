@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FinishedOnTime\WhenALearnerIsNoLongerInIlr.cs" />
     <Compile Include="FinishedOnTime\WhenMakingDuePaymentsForNonDasLearners.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />

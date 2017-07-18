@@ -187,7 +187,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Levy Funding Line', "
                   + "AgreedCost * 0.8, "
                   + "AgreedCost * 0.2 "
-                 
+
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
@@ -220,7 +220,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
                     + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
-                new {commitmentId, learnerRefNumber}, false);
+                new { commitmentId, learnerRefNumber }, false);
 
             Execute("INSERT INTO Valid.LearningDelivery "
                     + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
@@ -251,7 +251,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? frameworkCode = null,
                                         int? pathwayCode = null)
         {
-            var tnp1 =  agreedCost * 0.8m;
+            var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
             if (uln == 0)
             {
@@ -263,10 +263,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
-          
+
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
-                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate]," 
+                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
                   + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
                   + " SELECT "
@@ -278,7 +278,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@aimSequenceNumber, "
                   + "@endDate, "
                   + "@agreedCost, "
-                  +"'Non-Levy Contract',"
+                  + "'Non-Levy Contract',"
                   + "'Non-Levy Funding Line',"
                   + "@tnp1, "
                   + "@tnp2 ",
@@ -325,7 +325,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void AddApprenticeEarning(long ukprn,
                                         DateTime startDate,
                                         string learnerRefNumber,
-                                        int period ,
+                                        int period,
                                         decimal? onProgPayment = null,
                                         decimal? completionPayment = null,
                                         decimal? balancingPayment = null)
@@ -347,7 +347,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "0, "
                     + "0.9, "
                     + "1)",
-                    new { ukprn, learnerRefNumber,startDate, period , onProgPayment,completionPayment,balancingPayment}, false);
+                    new { ukprn, learnerRefNumber, startDate, period, onProgPayment, completionPayment, balancingPayment }, false);
 
         }
 
@@ -454,7 +454,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             int year, int transactionType, decimal amount,string learnRefNumber = "1", 
             int aimSequenceNumber = 1, string learnAimRef = "ZPROG001")
         {
-            
+            var academicYear = year - 2000;
+            if (month < 8)
+            {
+                academicYear--;
+            }
+            academicYear = (academicYear * 100) + (academicYear + 1);
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
@@ -476,7 +481,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'1', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
-                  + "'R01', " // CollectionPeriodName
+                  + "cast(@academicYear as char(4)) + '-R01', " // CollectionPeriodName
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType
@@ -488,7 +493,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                    + "StartDate "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { month, year,learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef}, false);
+                  new { month, year,learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear }, false);
         }
 
         internal static void AddPaymentForNonDas(long ukprn, 
@@ -613,7 +618,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
         internal static void ClearApprenticeshipPriceEpisodePeriod()
         {
-            Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period",null,false);
+            Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period", null, false);
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)
