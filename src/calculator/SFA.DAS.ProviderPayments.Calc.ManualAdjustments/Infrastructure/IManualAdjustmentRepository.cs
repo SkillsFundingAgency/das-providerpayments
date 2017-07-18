@@ -1,8 +1,10 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure
+﻿using System;
+
+namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure
 {
     public interface IManualAdjustmentRepository
     {
-        string[] GetRequiredPaymentIdsToReverse();
+        Guid[] GetRequiredPaymentIdsToReverse();
 
         void SetRequiredPaymentIdAsReversed(string requiredPaymentIdToReverse, string requiredPaymentIdForReversal);
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities
+namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents.Entities
 {
     public class RequiredPaymentEntity
     {

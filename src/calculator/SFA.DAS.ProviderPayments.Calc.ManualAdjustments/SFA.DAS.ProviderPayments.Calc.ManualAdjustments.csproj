@@ -83,7 +83,11 @@
     <Compile Include="Application\SetAdjustmentAsReversedCommand\SetAdjustmentAsReversedCommandResponse.cs" />
     <Compile Include="DependencyResolution\ManualAdjustmentsRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Dcfs\DcfsAccountRepository.cs" />
+    <Compile Include="Infrastructure\Dcfs\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Dcfs\DcfsManualAdjustmentRepository.cs" />
+    <Compile Include="Infrastructure\Dcfs\DcfsPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Dcfs\DcfsRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Entities\PaymentEntity.cs" />
     <Compile Include="Infrastructure\Entities\RequiredPaymentEntity.cs" />

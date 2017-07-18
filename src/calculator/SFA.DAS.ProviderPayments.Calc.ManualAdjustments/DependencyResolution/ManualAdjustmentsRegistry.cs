@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure;
+using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.DependencyResolution
@@ -18,6 +20,12 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.DependencyResolution
 
                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
                });
+
+            For<IAccountRepository>().Use<DcfsAccountRepository>();
+            For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
+            For<IManualAdjustmentRepository>().Use<DcfsManualAdjustmentRepository>();
+            For<IPaymentRepository>().Use<DcfsPaymentRepository>();
+            For<IRequiredPaymentRepository>().Use<DcfsRequiredPaymentRepository>();
 
             For<ContextWrapper>().Use(contextWrapper);
 

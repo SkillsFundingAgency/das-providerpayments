@@ -8,10 +8,10 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
 {
     public class WhenHandling
     {
-        private string[] _requiredPaymentIdsToReverse = new[]
+        private Guid[] _requiredPaymentIdsToReverse = 
         {
-            "5cebe7f2-dbee-42d3-a5ed-89158a3a9134",
-            "2ee35f65-17a8-461a-b7b0-51773860474f"
+            Guid.Parse("5cebe7f2-dbee-42d3-a5ed-89158a3a9134"),
+            Guid.Parse("2ee35f65-17a8-461a-b7b0-51773860474f")
         };
 
         private Mock<IManualAdjustmentRepository> _manualAdjustmentRepository;
@@ -49,8 +49,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
 
             // Assert
             Assert.AreEqual(2, actual.Items.Length);
-            Assert.AreEqual(_requiredPaymentIdsToReverse[0], actual.Items[0]);
-            Assert.AreEqual(_requiredPaymentIdsToReverse[1], actual.Items[1]);
+            Assert.AreEqual(_requiredPaymentIdsToReverse[0].ToString(), actual.Items[0]);
+            Assert.AreEqual(_requiredPaymentIdsToReverse[1].ToString(), actual.Items[1]);
         }
 
         [Test]

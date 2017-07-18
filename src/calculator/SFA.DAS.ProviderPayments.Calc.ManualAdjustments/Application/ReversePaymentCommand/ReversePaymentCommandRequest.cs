@@ -5,5 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
     public class ReversePaymentCommandRequest : IRequest<ReversePaymentCommandResponse>
     {
         public string RequiredPaymentIdToReverse { get; set; }
+        public string YearOfCollection { get; set; }
     }
 }

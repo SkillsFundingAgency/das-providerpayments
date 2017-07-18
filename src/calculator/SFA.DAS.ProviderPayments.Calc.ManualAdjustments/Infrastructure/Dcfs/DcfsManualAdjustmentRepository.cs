@@ -12,9 +12,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
         {
         }
 
-        public string[] GetRequiredPaymentIdsToReverse()
+        public Guid[] GetRequiredPaymentIdsToReverse()
         {
-            return Query<string>($"SELECT RequiredPaymentIdToReverse FROM {ManualAdjustmentsSource} WHERE RequiredPaymentIdForReversal IS NULL");
+            return Query<Guid>($"SELECT RequiredPaymentIdToReverse FROM {ManualAdjustmentsSource} WHERE RequiredPaymentIdForReversal IS NULL");
         }
 
         public void SetRequiredPaymentIdAsReversed(string requiredPaymentIdToReverse, string requiredPaymentIdForReversal)

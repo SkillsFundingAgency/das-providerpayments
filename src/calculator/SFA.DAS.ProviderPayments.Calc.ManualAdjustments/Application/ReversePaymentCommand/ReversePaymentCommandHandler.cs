@@ -12,19 +12,16 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
         private readonly IPaymentRepository _paymentRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private readonly string _yearOfCollection;
 
         public ReversePaymentCommandHandler(IRequiredPaymentRepository requiredPaymentRepository,
                                             IPaymentRepository paymentRepository,
                                             IAccountRepository accountRepository,
-                                            ICollectionPeriodRepository collectionPeriodRepository,
-                                            string yearOfCollection)
+                                            ICollectionPeriodRepository collectionPeriodRepository)
         {
             _requiredPaymentRepository = requiredPaymentRepository;
             _paymentRepository = paymentRepository;
             _accountRepository = accountRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
-            _yearOfCollection = yearOfCollection;
         }
 
         public ReversePaymentCommandResponse Handle(ReversePaymentCommandRequest message)
@@ -33,24 +30,24 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
             var paymentsToReverse = _paymentRepository.GetPaymentsForRequiredPayment(message.RequiredPaymentIdToReverse);
             var openCollectionPeriod = _collectionPeriodRepository.GetOpenCollectionPeriod();
 
-            var requiredPaymentIdForReversal = ReverseRequiredPayment(requiredPaymentToReverse, openCollectionPeriod);
+            var requiredPaymentIdForReversal = ReverseRequiredPayment(requiredPaymentToReverse, openCollectionPeriod, message.YearOfCollection);
             foreach (var payment in paymentsToReverse)
             {
-                ReversePayment(payment, requiredPaymentIdForReversal, openCollectionPeriod);
+                ReversePayment(payment, requiredPaymentIdForReversal, openCollectionPeriod, message.YearOfCollection);
             }
             AdjustLevyAccountBalance(requiredPaymentToReverse.AccountId, paymentsToReverse);
 
             return new ReversePaymentCommandResponse
             {
                 IsValid = true,
-                RequiredPaymentIdForReversal = requiredPaymentIdForReversal
+                RequiredPaymentIdForReversal = requiredPaymentIdForReversal.ToString()
             };
         }
 
-        private string ReverseRequiredPayment(RequiredPaymentEntity requiredPaymentToReverse, CollectionPeriodEntity openCollectionPeriod)
+        private Guid ReverseRequiredPayment(RequiredPaymentEntity requiredPaymentToReverse, CollectionPeriodEntity openCollectionPeriod, string yearOfCollection)
         {
-            var requiredPaymentIdForReversal = Guid.NewGuid().ToString();
-            _requiredPaymentRepository.CreateRequiredPayment(new Infrastructure.Entities.RequiredPaymentEntity
+            var requiredPaymentIdForReversal = Guid.NewGuid();
+            _requiredPaymentRepository.CreateRequiredPayment(new RequiredPaymentEntity
             {
                 Id = requiredPaymentIdForReversal,
                 CommitmentId = requiredPaymentToReverse.CommitmentId,
@@ -77,13 +74,13 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
 
                 AmountDue = -requiredPaymentToReverse.AmountDue,
 
-                CollectionPeriodName = $"{_yearOfCollection}-{openCollectionPeriod.Name}",
+                CollectionPeriodName = $"{yearOfCollection}-{openCollectionPeriod.Name}",
                 CollectionPeriodMonth = openCollectionPeriod.CalendarMonth,
                 CollectionPeriodYear = openCollectionPeriod.CalendarYear
             });
             return requiredPaymentIdForReversal;
         }
-        private void ReversePayment(PaymentEntity paymentToReverse, string requiredPaymentIdForReversal, CollectionPeriodEntity openCollectionPeriod)
+        private void ReversePayment(PaymentEntity paymentToReverse, Guid requiredPaymentIdForReversal, CollectionPeriodEntity openCollectionPeriod, string yearOfCollection)
         {
             _paymentRepository.CreatePayment(new PaymentEntity
             {
@@ -91,7 +88,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
                 RequiredPaymentId = requiredPaymentIdForReversal,
                 DeliveryMonth = paymentToReverse.DeliveryMonth,
                 DeliveryYear = paymentToReverse.DeliveryYear,
-                CollectionPeriodName = $"{_yearOfCollection}-{openCollectionPeriod.Name}",
+                CollectionPeriodName = $"{yearOfCollection}-{openCollectionPeriod.Name}",
                 CollectionPeriodMonth = openCollectionPeriod.CalendarMonth,
                 CollectionPeriodYear = openCollectionPeriod.CalendarYear,
                 FundingSource = paymentToReverse.FundingSource,

@@ -12,10 +12,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments
         private readonly IMediator _mediator;
         private readonly string _yearOfCollection;
 
-        public ManualAdjustmentsProcessor(ILogger logger, IMediator mediator)
+        public ManualAdjustmentsProcessor(ILogger logger, IMediator mediator, string yearOfCollection)
         {
             _logger = logger;
             _mediator = mediator;
+            _yearOfCollection = yearOfCollection;
         }
         protected ManualAdjustmentsProcessor()
         {
@@ -38,7 +39,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments
                 {
                     _logger.Info($"Started processing adjustment for {requiredPaymentIdToReverse}");
 
-                    var reversalResponse = _mediator.Send(new ReversePaymentCommandRequest { RequiredPaymentIdToReverse = requiredPaymentIdToReverse });
+                    var reversalResponse = _mediator.Send(new ReversePaymentCommandRequest
+                    {
+                        RequiredPaymentIdToReverse = requiredPaymentIdToReverse,
+                        YearOfCollection = _yearOfCollection
+                    });
                     if (!reversalResponse.IsValid)
                     {
                         throw reversalResponse.Exception;

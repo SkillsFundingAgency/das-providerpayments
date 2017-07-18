@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities
+namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents.Entities
 {
-    public class PaymentEntity
+    internal class PaymentEntity
     {
-        public string PaymentId { get; set; }
+        public Guid PaymentId { get; set; }
         public Guid RequiredPaymentId { get; set; }
+        public long CommitmentId { get; set; }
         public int DeliveryMonth { get; set; }
         public int DeliveryYear { get; set; }
         public string CollectionPeriodName { get; set; }

@@ -56,7 +56,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.ManualAdjust
                     IsValid = true
                 });
 
-            _processor = new ManualAdjustments.ManualAdjustmentsProcessor(_logger.Object, _mediator.Object);
+            _processor = new ManualAdjustments.ManualAdjustmentsProcessor(_logger.Object, _mediator.Object, "1617");
         }
 
         [Test]

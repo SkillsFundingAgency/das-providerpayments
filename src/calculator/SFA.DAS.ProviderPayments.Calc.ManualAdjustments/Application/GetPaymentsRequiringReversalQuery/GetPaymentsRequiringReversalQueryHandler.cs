@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using MediatR;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure;
 
@@ -21,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.GetPayment
                 return new GetPaymentsRequiringReversalQueryResponse
                 {
                     IsValid = true,
-                    Items = requiredPaymentIdsToReverse
+                    Items = requiredPaymentIdsToReverse.Select(p => p.ToString()).ToArray()
                 };
             }
             catch (Exception ex)

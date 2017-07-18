@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePaymentCommand;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities;
@@ -7,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
 {
     public abstract class WhenHandlingBase
     {
-        protected const string RequiredPaymentIdToReverse = "5cebe7f2-dbee-42d3-a5ed-89158a3a9134";
+        protected readonly static Guid RequiredPaymentIdToReverse = Guid.Parse("5cebe7f2-dbee-42d3-a5ed-89158a3a9134");
 
         protected readonly RequiredPaymentEntity OriginalRequiredPayment = new RequiredPaymentEntity
         {
@@ -87,11 +88,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
         public virtual void Arrange()
         {
             RequiredPaymentRepository = new Mock<IRequiredPaymentRepository>();
-            RequiredPaymentRepository.Setup(r => r.GetRequiredPayment(RequiredPaymentIdToReverse))
+            RequiredPaymentRepository.Setup(r => r.GetRequiredPayment(RequiredPaymentIdToReverse.ToString()))
                 .Returns(OriginalRequiredPayment);
 
             PaymentRepository = new Mock<IPaymentRepository>();
-            PaymentRepository.Setup(r => r.GetPaymentsForRequiredPayment(RequiredPaymentIdToReverse))
+            PaymentRepository.Setup(r => r.GetPaymentsForRequiredPayment(RequiredPaymentIdToReverse.ToString()))
                 .Returns(new[] { OriginalPayment1, OriginalPayment2, OriginalPayment3 });
 
             AccountRepository = new Mock<IAccountRepository>();
@@ -107,11 +108,12 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
                 .Returns(OpenCollectionPeriod);
 
             Handler = new ManualAdjustments.Application.ReversePaymentCommand.ReversePaymentCommandHandler(RequiredPaymentRepository.Object,
-                PaymentRepository.Object, AccountRepository.Object, CollectionPeriodRepository.Object, YearOfCollection);
+                PaymentRepository.Object, AccountRepository.Object, CollectionPeriodRepository.Object);
 
             Request = new ReversePaymentCommandRequest
             {
-                RequiredPaymentIdToReverse = RequiredPaymentIdToReverse
+                RequiredPaymentIdToReverse = RequiredPaymentIdToReverse.ToString(),
+                YearOfCollection = YearOfCollection
             };
         }
     }
