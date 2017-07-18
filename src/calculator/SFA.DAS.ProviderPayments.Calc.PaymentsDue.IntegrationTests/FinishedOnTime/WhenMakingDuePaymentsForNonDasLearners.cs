@@ -141,7 +141,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -172,7 +172,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 500);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 500, learnRefNumber: learnerRefNumber);
 
             TestDataHelper.CopyReferenceData();
 
@@ -363,11 +363,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddProvider(ukprn);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 9, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 10, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 11, 2016, (int)TransactionType.Learning, 1000);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 12, 2016, (int)TransactionType.Learning, 1000);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 9, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 10, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 11, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 12, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber);
 
 
             TestDataHelper.SetOpenCollection(6);

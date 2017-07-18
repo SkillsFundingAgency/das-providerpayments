@@ -12,6 +12,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -98,6 +99,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             var paymentsDue = new List<RequiredPayment>();
 
+            GetPaymentsDueForPaymentsWithoutEarnings(provider, currentPeriod, earningResponse, paymentsDue);
             GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
 
             if (paymentsDue.Any())
@@ -113,7 +115,44 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         }
 
 
+        private void GetPaymentsDueForPaymentsWithoutEarnings(Provider provider, CollectionPeriod currentPeriod,
+                                                              GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+        {
+            var historicalPaymentsResponse = _mediator.Send(new GetPaymentHistoryWhereNoEarningQueryRequest());
+            if (!historicalPaymentsResponse.IsValid)
+            {
+                throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryWithoutEarningsMessage, historicalPaymentsResponse.Exception);
+            }
 
+            foreach (var historicalPayment in historicalPaymentsResponse.Items)
+            {
+                paymentsDue.Add(new RequiredPayment
+                {
+                    CommitmentId = historicalPayment.CommitmentId,
+                    CommitmentVersionId = historicalPayment.CommitmentVersionId,
+                    AccountId = historicalPayment.AccountId,
+                    AccountVersionId = historicalPayment.AccountVersionId,
+                    Uln = historicalPayment.Uln,
+                    IlrSubmissionDateTime = provider.IlrSubmissionDateTime,
+                    Ukprn = historicalPayment.Ukprn,
+                    LearnerRefNumber = historicalPayment.LearnerRefNumber,
+                    AimSequenceNumber = historicalPayment.AimSequenceNumber,
+                    DeliveryMonth = historicalPayment.DeliveryMonth,
+                    DeliveryYear = historicalPayment.DeliveryYear,
+                    AmountDue = -historicalPayment.AmountDue,
+                    TransactionType = historicalPayment.TransactionType,
+                    StandardCode = historicalPayment.StandardCode,
+                    FrameworkCode = historicalPayment.FrameworkCode,
+                    ProgrammeType = historicalPayment.ProgrammeType,
+                    PathwayCode = historicalPayment.PathwayCode,
+                    ApprenticeshipContractType = historicalPayment.ApprenticeshipContractType,
+                    PriceEpisodeIdentifier = historicalPayment.PriceEpisodeIdentifier,
+                    SfaContributionPercentage = historicalPayment.SfaContributionPercentage,
+                    FundingLineType = historicalPayment.FundingLineType,
+                    UseLevyBalance = historicalPayment.UseLevyBalance
+                });
+            }
+        }
         private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod,
                                     GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
         {

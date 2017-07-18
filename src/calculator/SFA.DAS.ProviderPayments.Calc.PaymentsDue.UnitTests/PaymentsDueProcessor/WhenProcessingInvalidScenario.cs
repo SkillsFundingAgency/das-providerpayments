@@ -17,6 +17,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -97,6 +98,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             ApprenticeshipContractType = 1
                         }
                     }
+                });
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryWhereNoEarningQueryRequest>()))
+                .Returns(new GetPaymentHistoryWhereNoEarningQueryResponse
+                {
+                    IsValid = true,
+                    Items = new RequiredPayment[0]
                 });
         }
 
@@ -200,6 +207,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             // Assert
             var ex = Assert.Throws<PaymentsDueProcessorException>(() => _processor.Process());
             Assert.IsTrue(ex.Message.Contains(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage));
+        }
+
+        [Test]
+        public void ThenItShouldThrowExceptionIfGetPaymentHistoryWhereNoEarningQueryResponseIsInvalid()
+        {
+            // Arrange
+            var innerException = new Exception("Some underlying error");
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryWhereNoEarningQueryRequest>()))
+                .Returns(new GetPaymentHistoryWhereNoEarningQueryResponse
+                {
+                    IsValid = false,
+                    Exception = innerException
+                });
+
+            // Act + Assert
+            var ex = Assert.Throws<PaymentsDueProcessorException>(() => _processor.Process());
+            Assert.AreEqual(PaymentsDueProcessorException.ErrorReadingPaymentHistoryWithoutEarningsMessage, ex.Message);
+            Assert.AreSame(innerException, ex.InnerException);
         }
     }
 }
