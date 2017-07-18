@@ -108,11 +108,12 @@ AS
 SELECT
 	ph.*
 FROM Reference.RequiredPaymentsHistory ph
-LEFT JOIN Staging.ApprenticeshipEarningsRequiringPayments e
+LEFT JOIN Staging.vw_ApprenticeshipEarning e
 	ON ph.Ukprn = e.Ukprn
 	AND ph.LearnRefNumber = e.LearnRefNumber
 WHERE e.LearnRefNumber IS NULL
 AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
+
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
