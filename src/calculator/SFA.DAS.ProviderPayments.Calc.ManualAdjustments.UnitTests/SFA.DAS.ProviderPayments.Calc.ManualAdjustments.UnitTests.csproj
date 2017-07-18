@@ -46,6 +46,10 @@
       <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -72,7 +76,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\GetPaymentsRequiringReversalQuery\GetPaymentsRequiringReversalQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\ReversePaymentCommand\ReversePaymentCommandHandler\WhenHandlingBase.cs" />
+    <Compile Include="Application\ReversePaymentCommand\ReversePaymentCommandHandler\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\SetAdjustmentAsReversedCommand\SetAdjustmentAsReversedCommandHandler\WhenHandling.cs" />
     <Compile Include="Common\ExternalContextStub.cs" />
+    <Compile Include="ManualAdjustmentsProcessor\WhenProcessing.cs" />
     <Compile Include="ManualAdjustmentsTask\WhenExecutingWithInvalidContext.cs" />
     <Compile Include="ManualAdjustmentsTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +98,9 @@
       <Project>{9CFB966B-5096-4BB0-A29A-2559241A66BC}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.ManualAdjustments</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

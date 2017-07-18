@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments
 {
     public class ManualAdjustmentsTask : DcfsTask
     {
-        private const string DatabaseSchema = "ProviderAdjustments";
+        private const string DatabaseSchema = "Adjustments";
 
         private readonly IDependencyResolver _dependencyResolver;
 

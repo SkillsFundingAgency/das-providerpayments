@@ -17,18 +17,18 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.ManualAdjust
 
         private Mock<IDependencyResolver> _dependencyResolver;
         private Mock<ILogger> _logger;
-        private Mock<ManualAdjustmentsProcessor> _processor;
+        private Mock<ManualAdjustments.ManualAdjustmentsProcessor> _processor;
 
         [SetUp]
         public void Arrange()
         {
             _context = new ExternalContextStub();
             _logger = new Mock<ILogger>();
-            _processor = new Mock<ManualAdjustmentsProcessor>();
+            _processor = new Mock<ManualAdjustments.ManualAdjustmentsProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
             _dependencyResolver.Setup(dr => dr.GetInstance<ILogger>()).Returns(_logger.Object);
-            _dependencyResolver.Setup(dr => dr.GetInstance<ManualAdjustmentsProcessor>()).Returns(_processor.Object);
+            _dependencyResolver.Setup(dr => dr.GetInstance<ManualAdjustments.ManualAdjustmentsProcessor>()).Returns(_processor.Object);
 
             _task = new ManualAdjustments.ManualAdjustmentsTask(_dependencyResolver.Object);
         }

@@ -72,8 +72,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\GetPaymentsRequiringReversalQuery\GetPaymentsRequiringReversalQueryHandler.cs" />
+    <Compile Include="Application\GetPaymentsRequiringReversalQuery\GetPaymentsRequiringReversalQueryRequest.cs" />
+    <Compile Include="Application\GetPaymentsRequiringReversalQuery\GetPaymentsRequiringReversalQueryResponse.cs" />
+    <Compile Include="Application\ReversePaymentCommand\ReversePaymentCommandHandler.cs" />
+    <Compile Include="Application\ReversePaymentCommand\ReversePaymentCommandRequest.cs" />
+    <Compile Include="Application\ReversePaymentCommand\ReversePaymentCommandResponse.cs" />
+    <Compile Include="Application\SetAdjustmentAsReversedCommand\SetAdjustmentAsReversedCommandHandler.cs" />
+    <Compile Include="Application\SetAdjustmentAsReversedCommand\SetAdjustmentAsReversedCommandRequest.cs" />
+    <Compile Include="Application\SetAdjustmentAsReversedCommand\SetAdjustmentAsReversedCommandResponse.cs" />
     <Compile Include="DependencyResolution\ManualAdjustmentsRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Dcfs\DcfsManualAdjustmentRepository.cs" />
+    <Compile Include="Infrastructure\Entities\CollectionPeriodEntity.cs" />
+    <Compile Include="Infrastructure\Entities\PaymentEntity.cs" />
+    <Compile Include="Infrastructure\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Infrastructure\IAccountRepository.cs" />
+    <Compile Include="Infrastructure\ICollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\IManualAdjustmentRepository.cs" />
+    <Compile Include="Infrastructure\IPaymentRepository.cs" />
+    <Compile Include="Infrastructure\IRequiredPaymentRepository.cs" />
     <Compile Include="ManualAdjustmentsProcessor.cs" />
     <Compile Include="ManualAdjustmentsTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -187,6 +187,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests", "SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.csproj", "{204D62A1-5276-489A-9600-B51BA87BE57F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{CC050B10-AC21-4F4B-ACF0-74D35C773AB4}"
+	ProjectSection(SolutionItems) = preProject
+		DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql = DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql
+		DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql = DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{288C0C5C-02D8-4910-B580-955B8EF1FFE3}"
+	ProjectSection(SolutionItems) = preProject
+		DeployManualAdjustments\sql\dml\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql = DeployManualAdjustments\sql\dml\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -300,5 +313,8 @@ Global
 		{233DE576-A724-4A1E-9F8A-B9A586E944FA} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
 		{08781448-554A-4E73-B7E2-15B926230994} = {233DE576-A724-4A1E-9F8A-B9A586E944FA}
 		{204D62A1-5276-489A-9600-B51BA87BE57F} = {233DE576-A724-4A1E-9F8A-B9A586E944FA}
+		{A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
+		{CC050B10-AC21-4F4B-ACF0-74D35C773AB4} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
+		{288C0C5C-02D8-4910-B580-955B8EF1FFE3} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
 	EndGlobalSection
 EndGlobal
