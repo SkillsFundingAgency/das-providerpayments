@@ -57,6 +57,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(60),
-	UseLevyBalance bit 
+	UseLevyBalance bit ,
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 GO

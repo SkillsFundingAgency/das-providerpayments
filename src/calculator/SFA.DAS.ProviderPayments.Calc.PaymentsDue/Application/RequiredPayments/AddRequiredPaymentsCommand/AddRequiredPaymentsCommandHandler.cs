@@ -44,7 +44,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             PriceEpisodeIdentifier = p.PriceEpisodeIdentifier,
                             SfaContributionPercentage = p.SfaContributionPercentage,
                             UseLevyBalance = p.UseLevyBalance,
-                            FundingLineType = p.FundingLineType
+                            FundingLineType = p.FundingLineType,
+                            LearnAimRef=p.LearnAimRef,
+                            LearningStartDate=p.LearningStartDate
                         })
                     .ToArray();
 

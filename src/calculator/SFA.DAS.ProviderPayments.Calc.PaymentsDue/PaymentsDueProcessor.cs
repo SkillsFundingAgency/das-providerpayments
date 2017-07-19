@@ -149,7 +149,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     PriceEpisodeIdentifier = historicalPayment.PriceEpisodeIdentifier,
                     SfaContributionPercentage = historicalPayment.SfaContributionPercentage,
                     FundingLineType = historicalPayment.FundingLineType,
-                    UseLevyBalance = historicalPayment.UseLevyBalance
+                    UseLevyBalance = historicalPayment.UseLevyBalance,
+                    LearnAimRef = historicalPayment.LearnAimRef,
+                    LearningStartDate = historicalPayment.LearningStartDate
                 });
             }
         }
@@ -162,7 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     new
                     {
                         e.Ukprn,
-                        e.Uln
+                        e.LearnerReferenceNumber
                     })
                 .Distinct()
                 .ToArray();
@@ -172,7 +174,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
                 {
                     Ukprn = provider.Ukprn,
-                    Uln = earningItem.Uln
+                    LearnRefNumber = earningItem.LearnerReferenceNumber
                 });
                 if (!historyResponse.IsValid)
                 {
@@ -200,7 +202,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var alreadyPaidItems = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
-                                p.Uln == earning.Uln &&
+                                p.LearnerRefNumber == earning.LearnerReferenceNumber &&
                                 p.StandardCode == earning.StandardCode &&
                                 p.FrameworkCode == earning.FrameworkCode &&
                                 p.PathwayCode == earning.PathwayCode &&
@@ -208,7 +210,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear &&
                                 p.TransactionType == earning.Type &&
-                                p.AimSequenceNumber == earning.AimSequenceNumber)
+                                p.LearnAimRef == earning.LearnAimRef &&
+                                p.LearningStartDate == earning.LearningStartDate)
                     .ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
@@ -325,7 +328,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                 SfaContributionPercentage = earning.SfaContributionPercentage,
                 FundingLineType = earning.FundingLineType,
-                UseLevyBalance = earning.UseLevyBalance
+                UseLevyBalance = earning.UseLevyBalance,
+                LearnAimRef =earning.LearnAimRef,
+                LearningStartDate =earning.LearningStartDate
             });
         }
     }

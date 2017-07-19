@@ -88,7 +88,9 @@ SELECT
     StandardCode,
     ProgrammeType,
     FrameworkCode,
-    PathwayCode
+    PathwayCode,
+	LearnAimRef,
+	LearningStartDate
 FROM Reference.RequiredPaymentsHistory
 GO
 
@@ -106,11 +108,12 @@ AS
 SELECT
 	ph.*
 FROM Reference.RequiredPaymentsHistory ph
-LEFT JOIN Staging.ApprenticeshipEarningsRequiringPayments e
+LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
 	ON ph.Ukprn = e.Ukprn
 	AND ph.LearnRefNumber = e.LearnRefNumber
 WHERE e.LearnRefNumber IS NULL
 AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
+
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -150,6 +153,8 @@ SELECT
     PriceEpisodeIdentifier,
     SfaContributionPercentage,
     FundingLineType,
-    UseLevyBalance
+    UseLevyBalance,
+	LearnAimRef,
+	LearningStartDate
 FROM PaymentsDue.RequiredPayments
 GO

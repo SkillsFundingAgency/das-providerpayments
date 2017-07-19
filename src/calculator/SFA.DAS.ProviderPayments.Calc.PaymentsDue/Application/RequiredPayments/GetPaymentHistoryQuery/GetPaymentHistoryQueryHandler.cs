@@ -20,7 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
             try
             {
                 var entities =
-                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.Uln)
+                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.LearnRefNumber)
                     ?? new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryQueryResponse
@@ -44,7 +44,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             TransactionType = (TransactionType)e.TransactionType,
                             CommitmentVersionId = e.CommitmentVersionId,
                             AccountId = e.AccountId,
-                            AccountVersionId = e.AccountVersionId
+                            AccountVersionId = e.AccountVersionId,
+                            LearnAimRef = e.LearnAimRef,
+                            LearningStartDate = e.LearningStartDate
                             
                         }).ToArray()
                 };
