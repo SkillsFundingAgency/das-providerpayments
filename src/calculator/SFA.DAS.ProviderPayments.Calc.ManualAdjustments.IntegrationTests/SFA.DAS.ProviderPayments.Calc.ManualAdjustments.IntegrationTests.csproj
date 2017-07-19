@@ -78,6 +78,7 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specs\WhenProcessingAnAdjustmentForAnEmployerAccount.cs" />
+    <Compile Include="Specs\WhenProcessingAnAdjustmentForAnNonEmployerAccount.cs" />
     <Compile Include="SqlConnectionExtensions.cs" />
     <Compile Include="TestComponents\Entities\ManualAdjustmentEntity.cs" />
     <Compile Include="TestComponents\Entities\PaymentEntity.cs" />

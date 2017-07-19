@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
 {
-    public class WhenProcessingAnAdjustmentForAnEmployerAccount
+    public class WhenProcessingAnAdjustmentForAnNonEmployerAccount
     {
         private ManualAdjustmentsTask _task;
         private TestExternalTaskContext _taskContext;
@@ -28,19 +32,17 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var manualAdjustmentRequested = TestDataSets.GetManualAdjustmentEntity();
             TestDataHelper.WriteAdjustment(manualAdjustmentRequested);
 
-            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested.RequiredPaymentIdToReverse.ToString(), true);
+            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested.RequiredPaymentIdToReverse.ToString(), false);
             requiredPaymentMadePreviously.CollectionPeriodName = "1617";
             requiredPaymentMadePreviously.CollectionPeriodMonth = 8;
             requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
             TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
 
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, false, true);
             foreach (var payment in paymentsMadePerviously)
             {
                 TestDataHelper.WritePayment(payment);
             }
-
-            TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
 
             // Act
             TestDataHelper.CopyDataToTransient();
@@ -49,13 +51,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             // Assert
             var actualRequiredPayments = TestDataHelper.GetRequiredPayments();
             Assert.AreEqual(1, actualRequiredPayments.Length);
-            Assert.AreEqual(requiredPaymentMadePreviously.AccountId, actualRequiredPayments[0].AccountId);
-            Assert.AreEqual(requiredPaymentMadePreviously.AccountVersionId, actualRequiredPayments[0].AccountVersionId);
             Assert.AreEqual(requiredPaymentMadePreviously.AimSeqNumber, actualRequiredPayments[0].AimSeqNumber);
             Assert.AreEqual(-requiredPaymentMadePreviously.AmountDue, actualRequiredPayments[0].AmountDue);
             Assert.AreEqual(requiredPaymentMadePreviously.ApprenticeshipContractType, actualRequiredPayments[0].ApprenticeshipContractType);
-            Assert.AreEqual(requiredPaymentMadePreviously.CommitmentId, actualRequiredPayments[0].CommitmentId);
-            Assert.AreEqual(requiredPaymentMadePreviously.CommitmentVersionId, actualRequiredPayments[0].CommitmentVersionId);
             Assert.AreEqual(requiredPaymentMadePreviously.DeliveryMonth, actualRequiredPayments[0].DeliveryMonth);
             Assert.AreEqual(requiredPaymentMadePreviously.DeliveryYear, actualRequiredPayments[0].DeliveryYear);
             Assert.AreEqual(requiredPaymentMadePreviously.FrameworkCode, actualRequiredPayments[0].FrameworkCode);
@@ -82,19 +80,17 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var manualAdjustmentRequested = TestDataSets.GetManualAdjustmentEntity();
             TestDataHelper.WriteAdjustment(manualAdjustmentRequested);
 
-            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested.RequiredPaymentIdToReverse.ToString(), true);
+            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested.RequiredPaymentIdToReverse.ToString(), false);
             requiredPaymentMadePreviously.CollectionPeriodName = "1617";
             requiredPaymentMadePreviously.CollectionPeriodMonth = 8;
             requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
             TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
 
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, false, true);
             foreach (var payment in paymentsMadePerviously)
             {
                 TestDataHelper.WritePayment(payment);
             }
-
-            TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
 
             // Act
             TestDataHelper.CopyDataToTransient();
@@ -102,18 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
 
             // Assert
             var actualPayments = TestDataHelper.GetPayments();
-            Assert.AreEqual(3, actualPayments.Length);
-
-            var actualLevyPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 1);
-            var expectedLevyPayment = paymentsMadePerviously.Single(p => p.FundingSource == 1);
-            Assert.IsNotNull(actualLevyPayment);
-            Assert.AreEqual(expectedLevyPayment.DeliveryMonth, actualLevyPayment.DeliveryMonth);
-            Assert.AreEqual(expectedLevyPayment.DeliveryYear, actualLevyPayment.DeliveryYear);
-            Assert.AreEqual(9, actualLevyPayment.CollectionPeriodMonth);
-            Assert.AreEqual(2016, actualLevyPayment.CollectionPeriodYear);
-            Assert.AreEqual("1617-R02", actualLevyPayment.CollectionPeriodName);
-            Assert.AreEqual(expectedLevyPayment.TransactionType, actualLevyPayment.TransactionType);
-            Assert.AreEqual(-expectedLevyPayment.Amount, actualLevyPayment.Amount);
+            Assert.AreEqual(2, actualPayments.Length);
 
             var actualGovernmentPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 2);
             var expectedGovernmentPayment = paymentsMadePerviously.Single(p => p.FundingSource == 2);
@@ -136,40 +121,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual("1617-R02", actualEmployerPayment.CollectionPeriodName);
             Assert.AreEqual(expectedEmployerPayment.TransactionType, actualEmployerPayment.TransactionType);
             Assert.AreEqual(-expectedEmployerPayment.Amount, actualEmployerPayment.Amount);
-        }
-
-        [Test]
-        public void ThenItShouldAdjustEmployersAccountBalance()
-        {
-            // Arrange
-            TestDataHelper.WriteOpenCollectionPeriod("R02", 9, 2016);
-
-            var manualAdjustmentRequested = TestDataSets.GetManualAdjustmentEntity();
-            TestDataHelper.WriteAdjustment(manualAdjustmentRequested);
-
-            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested.RequiredPaymentIdToReverse.ToString(), true);
-            requiredPaymentMadePreviously.CollectionPeriodName = "1617";
-            requiredPaymentMadePreviously.CollectionPeriodMonth = 8;
-            requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
-            TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
-
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
-            foreach (var payment in paymentsMadePerviously)
-            {
-                TestDataHelper.WritePayment(payment);
-            }
-
-            TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
-
-            // Act
-            TestDataHelper.CopyDataToTransient();
-            _task.Execute(_taskContext);
-
-            // Assert
-            var actualAccountBalance = TestDataHelper.GetEmployerAccountBalance(requiredPaymentMadePreviously.AccountId);
-            var expectedAccountBalance = 10000 + paymentsMadePerviously.Single(p => p.FundingSource == 1).Amount;
-
-            Assert.AreEqual(expectedAccountBalance, actualAccountBalance);
         }
 
     }

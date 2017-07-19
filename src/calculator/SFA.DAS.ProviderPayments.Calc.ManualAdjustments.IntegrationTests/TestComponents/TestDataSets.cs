@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
             };
         }
 
-        internal static RequiredPaymentEntity GetRequiredPaymentEntity(string requiredPaymentId = null)
+        internal static RequiredPaymentEntity GetRequiredPaymentEntity(string requiredPaymentId = null, bool paymentForEmployerAccount = false)
         {
             Guid id = Guid.Empty;
             if (!string.IsNullOrEmpty(requiredPaymentId) && !Guid.TryParse(requiredPaymentId, out id))
@@ -39,13 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 id = Guid.NewGuid();
             }
 
-            return new RequiredPaymentEntity
+            var requiredPayment = new RequiredPaymentEntity
             {
                 Id = id,
-                CommitmentId = 1,
-                CommitmentVersionId = "1-001",
-                AccountId = "1",
-                AccountVersionId = "20170717",
                 Uln = 1478523960,
                 LearnRefNumber = "LRN-001",
                 AimSeqNumber = 1,
@@ -62,6 +58,16 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 FundingLineType = "abc",
                 UseLevyBalance = true
             };
+
+            if (paymentForEmployerAccount)
+            {
+                requiredPayment.CommitmentId = 1;
+                requiredPayment.CommitmentVersionId = "1-001";
+                requiredPayment.AccountId = "1";
+                requiredPayment.AccountVersionId = "20170717";
+            }
+
+            return requiredPayment;
         }
 
         internal static PaymentEntity[] GetPayments(RequiredPaymentEntity requiredPayment, bool includeLevyPayment = false, bool includeCoInvestedPayments = true)
