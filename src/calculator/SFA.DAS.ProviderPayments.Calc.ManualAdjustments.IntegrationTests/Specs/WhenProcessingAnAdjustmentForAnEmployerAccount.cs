@@ -171,5 +171,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
 
             Assert.AreEqual(expectedAccountBalance, actualAccountBalance);
         }
+
     }
 }

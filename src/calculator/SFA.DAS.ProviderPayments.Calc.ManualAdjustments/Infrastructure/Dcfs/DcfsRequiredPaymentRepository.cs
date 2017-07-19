@@ -15,19 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
 
         public RequiredPaymentEntity GetRequiredPayment(string requiredPaymentId)
         {
-            var result = QuerySingle<RequiredPaymentEntity>($"SELECT * FROM {HistorySource} WHERE Id = @requiredPaymentId", new { requiredPaymentId });
-
-            // TODO: Need to get this from DB
-            if (result != null)
-            {
-                result.IlrSubmissionDateTime = new System.DateTime(2016, 8, 1);
-                result.ApprenticeshipContractType = 1;
-                result.FundingLineType = "abc";
-                result.SfaContributionPercentage = 0.9m;
-                result.UseLevyBalance = true;
-            }
-
-            return result;
+            return QuerySingle<RequiredPaymentEntity>($"SELECT * FROM {HistorySource} WHERE Id = @requiredPaymentId", new { requiredPaymentId });
         }
 
         public void CreateRequiredPayment(RequiredPaymentEntity requiredPayment)
