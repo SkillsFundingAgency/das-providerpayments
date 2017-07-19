@@ -99,6 +99,10 @@
       <Link>DbSetupScripts\ExternalComponents\CoInvested\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql">
+      <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.LevyPayments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
