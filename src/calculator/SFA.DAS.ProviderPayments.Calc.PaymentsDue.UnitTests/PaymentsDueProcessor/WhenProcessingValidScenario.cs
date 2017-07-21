@@ -10,6 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -336,6 +337,53 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 request => request.Payments.Length == 1)), Times.Once, "Expected only 1 required payment");
             Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Any(p => PaymentForEarning(p, periodEarning, periodEarning.EarnedValue)))), Times.Once);
+        }
+
+        [Test]
+        public void ThenItShouldOutputPaymentsDueForHistoricalPaymentsThatNoLongerHaveEarnings()
+        {
+            // Arrange
+            Mediator.Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
+                .Returns(new GetProviderEarningsQueryResponse
+                {
+                    IsValid = true,
+                    Items = new PeriodEarning[0]
+                });
+            Mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryWhereNoEarningQueryRequest>()))
+                .Returns(new GetPaymentHistoryWhereNoEarningQueryResponse
+                {
+                    IsValid = true,
+                    Items = new[]
+                    {
+                        new RequiredPayment
+                        {
+                            CommitmentId = 2,
+                            CommitmentVersionId = "2",
+                            AccountId = "2",
+                            AccountVersionId = "B2",
+                            Ukprn = 2,
+                            Uln = 987654321,
+                            LearnerRefNumber = "LRN-002",
+                            AimSequenceNumber = 1,
+                            AmountDue = 1000,
+                            DeliveryMonth = 8,
+                            DeliveryYear = 2016
+                        }
+                    }
+                });
+
+            // Act
+            Processor.Process();
+
+            // Assert
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments.Length == 1)), Times.Once, "Expected only 1 required payment");
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments[0].AmountDue == -1000)), Times.Once, "Expected payment to be for -1000");
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments[0].DeliveryMonth == 8)), Times.Once, "Expected payment to be for delivery month 8");
+            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
+                request => request.Payments[0].DeliveryYear == 2016)), Times.Once, "Expected payment to be for delivery year 2016");
         }
     }
 }

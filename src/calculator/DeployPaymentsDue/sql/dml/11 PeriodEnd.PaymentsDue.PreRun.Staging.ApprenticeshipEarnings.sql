@@ -39,7 +39,9 @@ SELECT
 	PriceEpisodeApplic1618FrameworkUpliftBalancing,
 	PriceEpisodeFirstDisadvantagePayment,
 	PriceEpisodeSecondDisadvantagePayment,
-	LearningSupportPayment
+	LearningSupportPayment,
+	ae.LearnAimref,
+	ae.LearningStartDate
 FROM Staging.ApprenticeshipEarningsRequiringPayments ae
 	JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber
@@ -58,7 +60,7 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
 	LEFT JOIN Staging.NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ae.ApprenticeshipContractType
 	LEFT JOIN Reference.RequiredPaymentsHistory ph 
 		ON	ae.Ukprn = ph.Ukprn
-              AND ae.Uln = ph.Uln
+              AND ae.LearnRefNumber = ph.LearnRefNumber
               AND ae.StandardCode = ph.StandardCode
               AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
               AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)

@@ -29,7 +29,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                               + "TransactionType, "
                                               + "EarningAmount [Amount],"
                                               + "IsSuccess,"
-                                              + "Payable";
+                                              + "Payable,"
+                                              + "LearnAimRef,"
+                                              + "LearningStartDate";
         private const string SelectEarnings = "SELECT " + EarningColumns + " FROM " + EarningSource;
         private const string SelectProviderEarnings = SelectEarnings + " WHERE Ukprn = @Ukprn";
 

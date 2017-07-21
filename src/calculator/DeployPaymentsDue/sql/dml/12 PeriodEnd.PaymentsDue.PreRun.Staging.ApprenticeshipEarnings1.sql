@@ -40,7 +40,9 @@ SELECT
     END) AS EarningAmount,
     ae.[EpisodeStartDate],
     IsNull(ae.IsSuccess,0) As IsSuccess, 
-    IsNull(ae.Payable,0) As Payable
+    IsNull(ae.Payable,0) As Payable,
+	ae.LearnAimref,
+	ae.LearningStartDate
 
 FROM Staging.ApprenticeshipEarnings ae
 WHERE ae.EpisodeStartDate >= (

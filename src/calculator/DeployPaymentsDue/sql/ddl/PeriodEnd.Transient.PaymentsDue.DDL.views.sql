@@ -88,8 +88,32 @@ SELECT
     StandardCode,
     ProgrammeType,
     FrameworkCode,
-    PathwayCode
+    PathwayCode,
+	LearnAimRef,
+	LearningStartDate
 FROM Reference.RequiredPaymentsHistory
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_PaymentHistoryWithoutEarnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PaymentHistoryWithoutEarnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+    DROP VIEW PaymentsDue.vw_PaymentHistoryWithoutEarnings
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_PaymentHistoryWithoutEarnings
+AS
+SELECT
+	ph.*
+FROM Reference.RequiredPaymentsHistory ph
+LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
+	ON ph.Ukprn = e.Ukprn
+	AND ph.LearnRefNumber = e.LearnRefNumber
+WHERE e.LearnRefNumber IS NULL
+AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
+
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -129,6 +153,8 @@ SELECT
     PriceEpisodeIdentifier,
     SfaContributionPercentage,
     FundingLineType,
-    UseLevyBalance
+    UseLevyBalance,
+	LearnAimRef,
+	LearningStartDate
 FROM PaymentsDue.RequiredPayments
 GO

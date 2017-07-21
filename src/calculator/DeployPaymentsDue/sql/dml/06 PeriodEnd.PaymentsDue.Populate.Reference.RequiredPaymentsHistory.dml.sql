@@ -24,6 +24,8 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		FrameworkCode,
 		PathwayCode,
 		PriceEpisodeIdentifier,
+		LearnAimRef,
+		LearningStartDate,
 		IlrSubmissionDateTime,
 		ApprenticeshipContractType,
 		SfaContributionPercentage,

@@ -6,6 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data
     {
         void AddRequiredPayments(RequiredPaymentEntity[] payments);
 
-        RequiredPaymentEntity[] GetPreviousPayments(long ukprn, long uln);
+        RequiredPaymentEntity[] GetPreviousPayments(long ukprn, string learnRefNumber);
+        RequiredPaymentEntity[] GetPreviousPaymentsWithoutEarnings();
     }
 }

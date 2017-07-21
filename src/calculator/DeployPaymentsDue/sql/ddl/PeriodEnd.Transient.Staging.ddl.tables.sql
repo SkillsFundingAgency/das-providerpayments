@@ -109,7 +109,9 @@ CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 	PriceEpisodeApplic1618FrameworkUpliftBalancing decimal(15,5),
 	PriceEpisodeFirstDisadvantagePayment decimal(15,5),
 	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
-	LearningSupportPayment decimal(15,5)
+	LearningSupportPayment decimal(15,5),
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -159,7 +161,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	PriceEpisodeFirstDisadvantagePayment decimal(15,5),
 	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
 	LearningSupportPayment decimal(15,5),
-
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 GO
 
@@ -206,7 +209,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings1
 	EarningAmount decimal(15,5),
 	EpisodeStartDate date,
 	IsSuccess bit,
-	Payable bit
+	Payable bit,
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 GO
 
@@ -244,7 +249,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings2
 	EarningAmount decimal(15,5),
 	EpisodeStartDate date,
 	IsSuccess bit,
-	Payable bit
+	Payable bit,
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 GO
 
@@ -282,6 +289,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	EarningAmount decimal(15,5),
 	EpisodeStartDate date,
 	IsSuccess bit,
-	Payable bit
+	Payable bit,
+	LearnAimRef varchar(8),
+	LearningStartDate datetime	
 )
 GO

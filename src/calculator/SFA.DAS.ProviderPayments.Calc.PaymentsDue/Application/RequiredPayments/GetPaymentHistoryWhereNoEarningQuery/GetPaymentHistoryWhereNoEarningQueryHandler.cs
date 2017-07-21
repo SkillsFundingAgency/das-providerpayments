@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Linq;
 using MediatR;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery
 {
-    public class GetPaymentHistoryQueryHandler : IRequestHandler<GetPaymentHistoryQueryRequest, GetPaymentHistoryQueryResponse>
+    public class GetPaymentHistoryWhereNoEarningQueryHandler : IRequestHandler<GetPaymentHistoryWhereNoEarningQueryRequest, GetPaymentHistoryWhereNoEarningQueryResponse>
     {
         private readonly IRequiredPaymentRepository _requiredPaymentRepository;
 
-        public GetPaymentHistoryQueryHandler(IRequiredPaymentRepository requiredPaymentRepository)
+        public GetPaymentHistoryWhereNoEarningQueryHandler(IRequiredPaymentRepository requiredPaymentRepository)
         {
             _requiredPaymentRepository = requiredPaymentRepository;
         }
-
-        public GetPaymentHistoryQueryResponse Handle(GetPaymentHistoryQueryRequest message)
+        public GetPaymentHistoryWhereNoEarningQueryResponse Handle(GetPaymentHistoryWhereNoEarningQueryRequest message)
         {
             try
             {
                 var entities =
-                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.LearnRefNumber)
+                    _requiredPaymentRepository.GetPreviousPaymentsWithoutEarnings()
                     ?? new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
 
-                return new GetPaymentHistoryQueryResponse
+                return new GetPaymentHistoryWhereNoEarningQueryResponse
                 {
                     IsValid = true,
                     Items = entities.Select(e =>
@@ -45,15 +44,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             CommitmentVersionId = e.CommitmentVersionId,
                             AccountId = e.AccountId,
                             AccountVersionId = e.AccountVersionId,
+                            ApprenticeshipContractType = e.ApprenticeshipContractType,
+                            FundingLineType = e.FundingLineType,
+                            IlrSubmissionDateTime = e.IlrSubmissionDateTime,
+                            PriceEpisodeIdentifier = e.PriceEpisodeIdentifier,
+                            SfaContributionPercentage = e.SfaContributionPercentage,
+                            UseLevyBalance = e.UseLevyBalance,
                             LearnAimRef = e.LearnAimRef,
-                            LearningStartDate = e.LearningStartDate
-                            
+                            LearningStartDate =e.LearningStartDate
                         }).ToArray()
                 };
             }
             catch (Exception ex)
             {
-                return new GetPaymentHistoryQueryResponse
+                return new GetPaymentHistoryWhereNoEarningQueryResponse
                 {
                     IsValid = false,
                     Exception = ex
