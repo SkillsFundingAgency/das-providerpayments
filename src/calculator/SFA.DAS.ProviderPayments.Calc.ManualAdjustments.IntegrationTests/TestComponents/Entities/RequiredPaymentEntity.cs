@@ -30,5 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         public decimal SfaContributionPercentage { get; set; }
         public string FundingLineType { get; set; }
         public bool UseLevyBalance { get; set; }
+        public string LearnAimRef { get; set; }
+        public DateTime? LearningStartDate { get; set; }
     }
 }

@@ -71,6 +71,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(requiredPaymentMadePreviously.Ukprn, actualRequiredPayments[0].Ukprn);
             Assert.AreEqual(requiredPaymentMadePreviously.Uln, actualRequiredPayments[0].Uln);
             Assert.AreEqual(requiredPaymentMadePreviously.UseLevyBalance, actualRequiredPayments[0].UseLevyBalance);
+            Assert.AreEqual(requiredPaymentMadePreviously.LearnAimRef, actualRequiredPayments[0].LearnAimRef);
+            Assert.AreEqual(requiredPaymentMadePreviously.LearningStartDate, actualRequiredPayments[0].LearningStartDate);
         }
 
         [Test]

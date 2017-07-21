@@ -71,6 +71,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
                 SfaContributionPercentage = requiredPaymentToReverse.SfaContributionPercentage,
                 FundingLineType = requiredPaymentToReverse.FundingLineType,
                 UseLevyBalance = requiredPaymentToReverse.UseLevyBalance,
+                LearnAimRef = requiredPaymentToReverse.LearnAimRef,
+                LearningStartDate = requiredPaymentToReverse.LearningStartDate,
 
                 AmountDue = -requiredPaymentToReverse.AmountDue,
 

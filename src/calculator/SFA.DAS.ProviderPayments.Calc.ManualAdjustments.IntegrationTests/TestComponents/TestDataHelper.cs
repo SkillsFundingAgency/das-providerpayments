@@ -111,11 +111,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("INSERT INTO Reference.RequiredPaymentsHistory (Id,CommitmentId,CommitmentVersionId,AccountId,AccountVersionId,Uln,LearnRefNumber,AimSeqNumber,Ukprn," +
                                    "PriceEpisodeIdentifier,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,DeliveryMonth," +
                                    "DeliveryYear,CollectionPeriodName,CollectionPeriodMonth,CollectionPeriodYear,TransactionType,AmountDue," +
-                                   "IlrSubmissionDateTime,ApprenticeshipContractType,SfaContributionPercentage,FundingLineType,UseLevyBalance) " +
+                                   "IlrSubmissionDateTime,ApprenticeshipContractType,SfaContributionPercentage,FundingLineType,UseLevyBalance,LearnAimRef,LearningStartDate) " +
                                    "VALUES (@Id,@CommitmentId,@CommitmentVersionId,@AccountId,@AccountVersionId,@Uln,@LearnRefNumber,@AimSeqNumber,@Ukprn," +
                                    "@PriceEpisodeIdentifier,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,@DeliveryMonth," +
                                    "@DeliveryYear,@CollectionPeriodName,@CollectionPeriodMonth,@CollectionPeriodYear,@TransactionType,@AmountDue," +
-                                   "@IlrSubmissionDateTime,@ApprenticeshipContractType,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance)",
+                                   "@IlrSubmissionDateTime,@ApprenticeshipContractType,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance,@LearnAimRef,@LearningStartDate)",
                     requiredPayment);
             }
         }

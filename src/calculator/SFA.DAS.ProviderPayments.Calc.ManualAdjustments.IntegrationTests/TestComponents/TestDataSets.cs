@@ -56,7 +56,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 AmountDue = 500m,
                 SfaContributionPercentage = 0.9m,
                 FundingLineType = "abc",
-                UseLevyBalance = true
+                UseLevyBalance = true,
+                LearnAimRef = "AIM001",
+                LearningStartDate = new DateTime(2016, 7, 31)
             };
 
             if (paymentForEmployerAccount)
