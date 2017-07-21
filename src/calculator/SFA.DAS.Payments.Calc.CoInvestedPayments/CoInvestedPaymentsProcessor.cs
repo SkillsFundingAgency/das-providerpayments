@@ -220,9 +220,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorReadingPaymentsHistoryMessage, historyPayments.Exception);
             }
 
-            AddRefundPayment(payments,historyPayments.Items, FundingSource.FullyFundedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments,historyPayments.Items, FundingSource.CoInvestedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments,historyPayments.Items, FundingSource.CoInvestedEmployer, paymentDue, currentPeriod);
+            AddRefundPayment(payments, historyPayments.Items, FundingSource.FullyFundedSfa, paymentDue, currentPeriod);
+            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedSfa, paymentDue, currentPeriod);
+            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedEmployer, paymentDue, currentPeriod);
         }
 
         private void AddRefundPayment(ICollection<Payment> payments,
@@ -231,8 +231,13 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                                             PaymentDue paymentDue,
                                             CollectionPeriod currentPeriod)
         {
-            var amountPaidFromSource = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
             var amountPaidTotal = historyPayments.Sum(x => x.Amount);
+            if (amountPaidTotal == 0)
+            {
+                return;
+            }
+
+            var amountPaidFromSource = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
 
             var percentagePaidFromSource = amountPaidFromSource / amountPaidTotal;
             var amountToRefund = paymentDue.AmountDue * percentagePaidFromSource;
