@@ -211,6 +211,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
             var historyPayments = historyPaymentsResponse.Items;
             var totalAmountPaidInPeriod = historyPayments.Sum(x => x.Amount);
+            if (totalAmountPaidInPeriod == 0)
+            {
+                return 0m;
+            }
+
             var totalLevyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
             var percentagePaidByLevyInPeriod = totalLevyPaidInPeriod / totalAmountPaidInPeriod;
 
