@@ -25,7 +25,12 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		PathwayCode,
 		PriceEpisodeIdentifier,
 		LearnAimRef,
-		LearningStartDate
+		LearningStartDate,
+		IlrSubmissionDateTime,
+		ApprenticeshipContractType,
+		SfaContributionPercentage,
+		FundingLineType,
+		UseLevyBalance
     FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 GO
