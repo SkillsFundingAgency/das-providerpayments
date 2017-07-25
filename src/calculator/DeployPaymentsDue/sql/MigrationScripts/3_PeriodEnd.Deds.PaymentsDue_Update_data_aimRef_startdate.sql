@@ -1,8 +1,8 @@
  Update rp
- Set rp.LearnAimRef = ld.LearnAimRef,
- rp.LearningStartDate = ld.LearnStartDate 
+ Set rp.LearnAimRef = IsNull(ld.LearnAimRef,'ZPROG001'),
+ rp.LearningStartDate = IsNull(ld.LearnStartDate,'2017-05-01') 
 from PaymentsDue.RequiredPayments rp 
-join valid.LearningDelivery ld
+LEFT JOIN valid.LearningDelivery ld
 on rp.Ukprn = ld.UKPRN
 	and rp.LearnRefNumber = ld.LearnRefNumber
 	and rp.StandardCode = ld.StdCode
@@ -14,11 +14,11 @@ and TransactionType NOT IN (13,14)
 
 
  Update rp
- Set rp.LearnAimRef = ld.LearnAimRef,
- rp.LearningStartDate = ld.LearnStartDate 
+ Set rp.LearnAimRef = IsNull(ld.LearnAimRef,''),
+ rp.LearningStartDate = IsNull(ld.LearnStartDate,'2017-05-01') 
  
 from PaymentsDue.RequiredPayments rp 
-join valid.LearningDelivery ld
+LEFT JOIN valid.LearningDelivery ld
 on rp.Ukprn = ld.UKPRN
 	and rp.LearnRefNumber = ld.LearnRefNumber
 	and rp.StandardCode = ld.StdCode
