@@ -2,7 +2,7 @@
  Set rp.LearnAimRef = IsNull(ld.LearnAimRef,'ZPROG001'),
  rp.LearningStartDate = IsNull(ld.LearnStartDate,'2017-05-01') 
 from PaymentsDue.RequiredPayments rp 
-LEFT JOIN valid.LearningDelivery ld
+LEFT JOIN ${DS_SILR1617_Collection.databasename}.valid.LearningDelivery ld
 on rp.Ukprn = ld.UKPRN
 	and rp.LearnRefNumber = ld.LearnRefNumber
 	and rp.StandardCode = ld.StdCode
@@ -18,7 +18,7 @@ and TransactionType NOT IN (13,14)
  rp.LearningStartDate = IsNull(ld.LearnStartDate,'2017-05-01') 
  
 from PaymentsDue.RequiredPayments rp 
-LEFT JOIN valid.LearningDelivery ld
+LEFT JOIN ${DS_SILR1617_Collection.databasename}.valid.LearningDelivery ld
 on rp.Ukprn = ld.UKPRN
 	and rp.LearnRefNumber = ld.LearnRefNumber
 	and rp.StandardCode = ld.StdCode
