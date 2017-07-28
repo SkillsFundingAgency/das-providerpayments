@@ -279,28 +279,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                   .OrderByDescending(x => x.DeliveryYear)
                                                   .ThenByDescending(x => x.DeliveryMonth)
                                                   .ToArray();
-            var refundPeriodIndex = 0;
-            while (amountDue < 0)
+            // if there are no historical payments then just skip the execution
+            if (refundablePeriods.Any())
             {
-                var period = refundablePeriods[refundPeriodIndex];
 
-                // Attempt to get refund from payments due first
-                var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear).ToArray();
-                foreach (var paymentDue in paymentsDueInPeriod)
+                var refundPeriodIndex = 0;
+                while (amountDue < 0)
                 {
-                    amountDue -= -paymentDue.AmountDue;
-                    paymentsDue.Remove(paymentDue);
-                }
+                    var period = refundablePeriods[refundPeriodIndex];
 
-                // Attempt to get any remaining amount from previous payments
-                var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
-                if (refundedInPeriod != 0)
-                {
-                    AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth, period.DeliveryYear);
-                    amountDue -= refundedInPeriod;
-                }
+                    // Attempt to get refund from payments due first
+                    var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear).ToArray();
+                    foreach (var paymentDue in paymentsDueInPeriod)
+                    {
+                        amountDue -= -paymentDue.AmountDue;
+                        paymentsDue.Remove(paymentDue);
+                    }
 
-                refundPeriodIndex++;
+                    // Attempt to get any remaining amount from previous payments
+                    var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
+                    if (refundedInPeriod != 0)
+                    {
+                        AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth, period.DeliveryYear);
+                        amountDue -= refundedInPeriod;
+                    }
+
+                    refundPeriodIndex++;
+                }
+            }
+            else
+            {
+                AddPaymentsDue(provider, paymentsDue, earning, earning.EarnedValue, earning.CalendarMonth, earning.CalendarYear);
             }
         }
         private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, decimal amountDue, int deliveryMonth = 0, int deliveryYear = 0)
