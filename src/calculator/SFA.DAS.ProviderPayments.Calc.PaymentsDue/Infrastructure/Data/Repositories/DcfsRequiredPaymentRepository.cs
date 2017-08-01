@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
-        private const string SelectPaymentsWithoutEarnings = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistoryWithoutEarningSource;
+        private const string SelectPaymentsWithoutEarnings = "SELECT " + PaymentHistoryColumns + ",IlrSubmissionDateTime FROM " + PaymentHistoryWithoutEarningSource;
         private const string SelectLearnerPayments = SelectProviderPayments + " AND LearnRefNumber = @LearnRefNumber";
 
         public DcfsRequiredPaymentRepository(string connectionString)
