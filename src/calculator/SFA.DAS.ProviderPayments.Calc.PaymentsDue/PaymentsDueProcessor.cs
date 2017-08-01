@@ -58,9 +58,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             if (providers.Items != null && providers.Items.Any())
             {
+                var paymentsDue = new List<RequiredPayment>();
+
+                GetPaymentsDueForPaymentsWithoutEarnings(collectionPeriod.Period,  paymentsDue);
+                SavePaymentsDue(paymentsDue);
+
                 foreach (var provider in providers.Items)
                 {
                     ProcessProvider(provider, collectionPeriod.Period);
+                    _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
                 }
             }
             else
@@ -98,10 +104,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             var paymentsDue = new List<RequiredPayment>();
-
-            GetPaymentsDueForPaymentsWithoutEarnings(provider, currentPeriod, earningResponse, paymentsDue);
             GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
 
+            SavePaymentsDue(paymentsDue);
+          
+        }
+
+        private void SavePaymentsDue(List<RequiredPayment> paymentsDue)
+        {
             if (paymentsDue.Any())
             {
                 var addPaymentsDueResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest { Payments = paymentsDue.ToArray() });
@@ -110,13 +120,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage, addPaymentsDueResponse.Exception);
                 }
             }
-
-            _logger.Info($"Finished processing provider with ukprn {provider.Ukprn}.");
         }
 
-
-        private void GetPaymentsDueForPaymentsWithoutEarnings(Provider provider, CollectionPeriod currentPeriod,
-                                                              GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+        private void GetPaymentsDueForPaymentsWithoutEarnings(CollectionPeriod currentPeriod, List<RequiredPayment> paymentsDue)
         {
             var historicalPaymentsResponse = _mediator.Send(new GetPaymentHistoryWhereNoEarningQueryRequest());
             if (!historicalPaymentsResponse.IsValid)
@@ -133,7 +139,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     AccountId = historicalPayment.AccountId,
                     AccountVersionId = historicalPayment.AccountVersionId,
                     Uln = historicalPayment.Uln,
-                    IlrSubmissionDateTime = provider.IlrSubmissionDateTime,
+                    IlrSubmissionDateTime = historicalPayment.IlrSubmissionDateTime,
                     Ukprn = historicalPayment.Ukprn,
                     LearnerRefNumber = historicalPayment.LearnerRefNumber,
                     AimSequenceNumber = historicalPayment.AimSequenceNumber,

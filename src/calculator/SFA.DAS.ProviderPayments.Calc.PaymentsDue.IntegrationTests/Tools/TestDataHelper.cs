@@ -460,6 +460,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 academicYear--;
             }
             academicYear = (academicYear * 100) + (academicYear + 1);
+            var submissionDateTime = DateTime.Now;
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
@@ -472,7 +473,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@learnRefNumber, " // LearnRefNumber
                   + "@aimSequenceNumber, " // AimSeqNumber
                   + "Ukprn, " // Ukprn
-                  + "GETDATE(), " // IlrSubmissionDateTime
+                  + "@submissionDateTime, " // IlrSubmissionDateTime
                   + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
                   + "StandardCode, " // StandardCode
                   + "ProgrammeType, " // ProgrammeType
@@ -493,7 +494,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                    + "StartDate "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { month, year,learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear }, false);
+                  new { month, year, submissionDateTime, learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear }, false);
         }
 
         internal static void AddPaymentForNonDas(long ukprn, 
