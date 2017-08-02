@@ -35,5 +35,8 @@ GO
 CREATE TABLE Adjustments.ManualAdjustments
 (
     RequiredPaymentIdToReverse uniqueidentifier NOT NULL PRIMARY KEY,
+    ReasonForReversal nvarchar(max) NOT NULL,
+    RequestorName nvarchar(255) NOT NULL,
+    DateUploaded datetime NOT NULL DEFAULT(GETDATE()),
     RequiredPaymentIdForReversal uniqueidentifier NULL,
 )

@@ -193,6 +193,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{A3089EE5-D8D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{CC050B10-AC21-4F4B-ACF0-74D35C773AB4}"
 	ProjectSection(SolutionItems) = preProject
+		DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql = DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql
 		DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql = DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql
 		DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql = DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql
 	EndProjectSection
@@ -200,6 +201,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{288C0C5C-02D8-4910-B580-955B8EF1FFE3}"
 	ProjectSection(SolutionItems) = preProject
 		DeployManualAdjustments\sql\dml\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql = DeployManualAdjustments\sql\dml\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql
+		DeployManualAdjustments\sql\dml\PeriodEnd.ManualAdjustments.Cleanup.Deds.DML.sql = DeployManualAdjustments\sql\dml\PeriodEnd.ManualAdjustments.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappings", "{0B25AB35-2045-4383-969C-EF686F04A832}"
+	ProjectSection(SolutionItems) = preProject
+		DeployManualAdjustments\copy mappings\DasManualAdjustmentsCopyToDedsMapping.xml = DeployManualAdjustments\copy mappings\DasManualAdjustmentsCopyToDedsMapping.xml
 	EndProjectSection
 EndProject
 Global
@@ -318,5 +325,6 @@ Global
 		{A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
 		{CC050B10-AC21-4F4B-ACF0-74D35C773AB4} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
 		{288C0C5C-02D8-4910-B580-955B8EF1FFE3} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
+		{0B25AB35-2045-4383-969C-EF686F04A832} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
 	EndGlobalSection
 EndGlobal

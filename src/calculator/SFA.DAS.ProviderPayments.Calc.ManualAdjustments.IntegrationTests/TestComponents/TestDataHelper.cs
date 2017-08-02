@@ -2,6 +2,7 @@
 using System.Linq;
 using Dapper;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents.Entities;
+using System;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents
 {
@@ -100,6 +101,15 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("INSERT INTO Adjustments.ManualAdjustments (RequiredPaymentIdToReverse, ReasonForReversal, RequestorName, DateUploaded, RequiredPaymentIdForReversal) " +
                                    "VALUES (@RequiredPaymentIdToReverse, @ReasonForReversal, @RequestorName, @DateUploaded, @RequiredPaymentIdForReversal)",
                     adjustment);
+            }
+        }
+
+        internal static ManualAdjustmentEntity GetManualAdjustment(Guid requiredPaymentIdToReverse)
+        {
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
+            {
+                return connection.QuerySingle<ManualAdjustmentEntity>("Select * from Adjustments.ManualAdjustments Where RequiredPaymentIdToReverse = @requiredPaymentIdToReverse" ,
+                    new { requiredPaymentIdToReverse });
             }
         }
 
