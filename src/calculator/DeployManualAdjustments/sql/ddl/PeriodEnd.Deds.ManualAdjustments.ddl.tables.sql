@@ -4,18 +4,19 @@ BEGIN
 END
 GO
 
-IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='CleanupAdjustments' AND [schema_id] = SCHEMA_ID('Adjustments'))
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- ManualAdjustments
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='ManualAdjustments' AND [schema_id] = SCHEMA_ID('Adjustments'))
 BEGIN
-	DROP PROCEDURE [Adjustments].[CleanupAdjustments]
+    DROP TABLE Adjustments.ManualAdjustments
 END
 GO
-
-CREATE PROCEDURE [Adjustments].[CleanupAdjustments] 
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	DELETE FROM Adjustments.ManualAdjustments WHERE RequiredPaymentIdForReversal IS NULL
-
-END
-GO
+CREATE TABLE Adjustments.ManualAdjustments
+(
+    RequiredPaymentIdToReverse uniqueidentifier NOT NULL PRIMARY KEY,
+    ReasonForReversal nvarchar(max) NOT NULL,
+    RequestorName nvarchar(255) NOT NULL,
+    DateUploaded datetime NOT NULL DEFAULT(GETDATE()),
+    RequiredPaymentIdForReversal uniqueidentifier NULL,
+)
