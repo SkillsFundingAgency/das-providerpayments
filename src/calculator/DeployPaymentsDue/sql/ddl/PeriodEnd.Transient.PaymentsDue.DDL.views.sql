@@ -90,7 +90,12 @@ SELECT
     FrameworkCode,
     PathwayCode,
 	LearnAimRef,
-	LearningStartDate
+	LearningStartDate,
+	ApprenticeshipContractType,
+	FundingLineType,
+	PriceEpisodeIdentifier,
+	SfaContributionPercentage,
+	UseLevyBalance
 FROM Reference.RequiredPaymentsHistory
 GO
 
