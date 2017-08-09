@@ -73,6 +73,14 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(requiredPaymentMadePreviously.UseLevyBalance, actualRequiredPayments[0].UseLevyBalance);
             Assert.AreEqual(requiredPaymentMadePreviously.LearnAimRef, actualRequiredPayments[0].LearnAimRef);
             Assert.AreEqual(requiredPaymentMadePreviously.LearningStartDate, actualRequiredPayments[0].LearningStartDate);
+
+            var actualAdjustment = TestDataHelper.GetManualAdjustment(manualAdjustmentRequested.RequiredPaymentIdToReverse);
+            Assert.AreEqual(actualAdjustment.DateUploaded.Date, manualAdjustmentRequested.DateUploaded.Date);
+            Assert.AreEqual(actualAdjustment.ReasonForReversal, manualAdjustmentRequested.ReasonForReversal);
+            Assert.AreEqual(actualAdjustment.RequestorName, manualAdjustmentRequested.RequestorName);
+            Assert.AreEqual(actualAdjustment.RequiredPaymentIdToReverse, manualAdjustmentRequested.RequiredPaymentIdToReverse);
+            Assert.IsNotNull(actualAdjustment.RequiredPaymentIdForReversal);
+            Assert.AreNotEqual(actualAdjustment.RequiredPaymentIdForReversal,manualAdjustmentRequested.RequiredPaymentIdForReversal);
         }
 
         [Test]

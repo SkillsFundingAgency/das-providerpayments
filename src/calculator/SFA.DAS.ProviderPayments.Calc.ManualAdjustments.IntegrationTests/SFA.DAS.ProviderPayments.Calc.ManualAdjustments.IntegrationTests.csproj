@@ -112,6 +112,10 @@
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql">
+      <Link>DbSetupScripts\DDL\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql">
       <Link>DbSetupScripts\DDL\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

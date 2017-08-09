@@ -2,10 +2,13 @@ TRUNCATE TABLE Adjustments.ManualAdjustments
 GO
 
 INSERT INTO Adjustments.ManualAdjustments
-(RequiredPaymentIdToReverse, RequiredPaymentIdForReversal)
+(RequiredPaymentIdToReverse,ReasonForReversal,RequestorName,DateUploaded,RequiredPaymentIdForReversal)
 SELECT
-	RequiredPaymentIdToReverse,
-	RequiredPaymentIdForReversal
+	RequiredPaymentIdToReverse ,
+    ReasonForReversal,
+    RequestorName,
+    DateUploaded,
+    RequiredPaymentIdForReversal
 FROM ${DAS_PeriodEnd.FQ}.Adjustments.ManualAdjustments
 WHERE RequiredPaymentIdForReversal IS NULL
 GO
