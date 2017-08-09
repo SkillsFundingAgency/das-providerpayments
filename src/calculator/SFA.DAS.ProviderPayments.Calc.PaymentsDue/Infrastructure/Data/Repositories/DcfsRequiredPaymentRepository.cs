@@ -26,7 +26,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "FrameworkCode,"
                                                    + "PathwayCode,"
                                                    + "LearnAimRef,"
-                                                   + "LearningStartDate";
+                                                   + "LearningStartDate,"
+                                                   + "ApprenticeshipContractType,"
+                                                   + "FundingLineType,"
+                                                   + "PriceEpisodeIdentifier,"
+                                                   + "SfaContributionPercentage,"
+                                                   + "UseLevyBalance";
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
