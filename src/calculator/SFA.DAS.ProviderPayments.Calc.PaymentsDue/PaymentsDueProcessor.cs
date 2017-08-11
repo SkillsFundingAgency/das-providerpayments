@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using NLog;
@@ -60,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var paymentsDue = new List<RequiredPayment>();
 
-                GetPaymentsDueForPaymentsWithoutEarnings(collectionPeriod.Period,  paymentsDue);
+                GetPaymentsDueForPaymentsWithoutEarnings(collectionPeriod.Period, paymentsDue);
                 SavePaymentsDue(paymentsDue);
 
                 foreach (var provider in providers.Items)
@@ -107,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
 
             SavePaymentsDue(paymentsDue);
-          
+
         }
 
         private void SavePaymentsDue(List<RequiredPayment> paymentsDue)
@@ -280,7 +281,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         }
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
-            var refundablePeriods = paymentHistory.GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
+            var refundablePeriods = paymentHistory.Where(x => new DateTime(earning.CalendarYear, earning.CalendarMonth, 1) >= new DateTime(x.DeliveryYear, x.DeliveryMonth, 1))
+                                                  .GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
                                                   .Select(x => new { x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue) })
                                                   .OrderByDescending(x => x.DeliveryYear)
                                                   .ThenByDescending(x => x.DeliveryMonth)
@@ -344,8 +346,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 SfaContributionPercentage = earning.SfaContributionPercentage,
                 FundingLineType = earning.FundingLineType,
                 UseLevyBalance = earning.UseLevyBalance,
-                LearnAimRef =earning.LearnAimRef,
-                LearningStartDate =earning.LearningStartDate
+                LearnAimRef = earning.LearnAimRef,
+                LearningStartDate = earning.LearningStartDate
             });
         }
     }
