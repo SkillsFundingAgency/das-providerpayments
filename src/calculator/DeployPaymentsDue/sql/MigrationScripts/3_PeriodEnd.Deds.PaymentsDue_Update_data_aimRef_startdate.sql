@@ -36,4 +36,4 @@ Where ld.LearnAimRef != 'ZPROG001' and ld.FundModel=36
 Update PaymentsDue.RequiredPayments 
 Set LearnAimRef = '',
 LearningStartDate = '2017-05-01'
-Where rp.LearnAimRef is null and  rp.LearningStartDate is null
+Where LearnAimRef is null and  LearningStartDate is null
