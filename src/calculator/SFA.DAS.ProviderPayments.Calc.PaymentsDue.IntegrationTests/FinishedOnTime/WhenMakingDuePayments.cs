@@ -705,6 +705,75 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
         [Test]
+        public void ThenItShouldRefundPreviousPeriodIfPriceChangesRetrospectively()
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2017, 6, 12);
+            var plannedEndDate = new DateTime(2018, 6, 27);
+            var learnerRefNumber = "1"; //Guid.NewGuid().ToString("N").Substring(0, 12);
+            var uln = new Random().Next(10000000, int.MaxValue);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate, uln: uln);
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 6, 2017, (int)TransactionType.Learning, 210.52632m, accountVersionId: "20170401");
+
+            TestDataHelper.SetOpenCollection(12);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.ClearApprenticeshipPriceEpisodePeriod();
+
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 11, 190.47619m);  //06/17
+            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 12, 190.47619m);  //07/17
+
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn).OrderBy(p => p.DeliveryMonth).ToArray();
+            Assert.AreEqual(2, duePayments.Length);
+
+            var assertionFunc = new Func<RequiredPaymentEntity, int, decimal, bool>((actualPaymentDue, expectedMonth, expectedAmount) =>
+            {
+                Assert.AreEqual("123", actualPaymentDue.AccountId);
+                Assert.AreEqual("20170401", actualPaymentDue.AccountVersionId);
+                Assert.AreEqual(1, actualPaymentDue.AimSeqNumber);
+                Assert.AreEqual(expectedAmount, actualPaymentDue.AmountDue);
+                Assert.AreEqual(1, actualPaymentDue.ApprenticeshipContractType);
+                Assert.AreEqual(commitmentId, actualPaymentDue.CommitmentId);
+                Assert.AreEqual("1", actualPaymentDue.CommitmentVersionId);
+                Assert.AreEqual(expectedMonth, actualPaymentDue.DeliveryMonth);
+                Assert.AreEqual(2017, actualPaymentDue.DeliveryYear);
+                Assert.IsNull(actualPaymentDue.FrameworkCode);
+                Assert.AreEqual("Levy Funding Line", actualPaymentDue.FundingLineType);
+                Assert.AreEqual(DateTime.Today, actualPaymentDue.IlrSubmissionDateTime.Date);
+                Assert.AreEqual("ZPROG001", actualPaymentDue.LearnAimRef);
+                Assert.AreEqual(startDate, actualPaymentDue.LearningStartDate);
+                Assert.AreEqual(learnerRefNumber, actualPaymentDue.LearnRefNumber);
+                Assert.IsNull(actualPaymentDue.PathwayCode);
+                Assert.AreEqual("99-99-99-2017-06-12", actualPaymentDue.PriceEpisodeIdentifier);
+                Assert.IsNull(actualPaymentDue.ProgrammeType);
+                Assert.AreEqual(0.9m, actualPaymentDue.SfaContributionPercentage);
+                Assert.AreEqual(123456, actualPaymentDue.StandardCode);
+                Assert.AreEqual(1, actualPaymentDue.TransactionType);
+                Assert.AreEqual(ukprn, actualPaymentDue.Ukprn);
+                Assert.AreEqual(uln, actualPaymentDue.Uln);
+                Assert.AreEqual(false, actualPaymentDue.UseLevyBalance);
+                return true;
+            });
+
+            Assert.IsTrue(assertionFunc(duePayments[0], 6, -20.05013m));
+            Assert.IsTrue(assertionFunc(duePayments[1], 7, 190.47619m));
+        }
+
+        [Test]
         public void ThenItShouldMakeRefundPaymentsIfEarningIsNegativeByRefundingPreviousPeriodsToRequiredAmount()
         {
             // Arrange
