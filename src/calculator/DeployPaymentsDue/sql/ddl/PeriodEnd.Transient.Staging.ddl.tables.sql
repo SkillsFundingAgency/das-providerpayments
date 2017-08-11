@@ -294,3 +294,46 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	LearningStartDate datetime	
 )
 GO
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- EarningsWithoutPayments
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='EarningsWithoutPayments' AND [schema_id] = SCHEMA_ID('Staging'))
+BEGIN
+	DROP TABLE Staging.EarningsWithoutPayments
+END
+GO
+
+CREATE TABLE Staging.EarningsWithoutPayments (
+	Id uniqueidentifier,
+	CommitmentId bigint,
+	CommitmentVersionId varchar(25),
+	AccountId varchar(50),
+	AccountVersionId varchar(50),
+	LearnRefNumber varchar(12),
+	Uln bigint null,
+	AimSeqNumber int,
+	Ukprn bigint,
+	DeliveryMonth int,
+	DeliveryYear int,
+	CollectionPeriodName varchar(8) NOT NULL,
+	CollectionPeriodMonth int NOT NULL,
+	CollectionPeriodYear int NOT NULL,
+	TransactionType int,
+	AmountDue decimal(15,5),
+	StandardCode bigint null,
+	ProgrammeType int null,
+	FrameworkCode int null,
+	PathwayCode int null,
+	PriceEpisodeIdentifier varchar(25),
+	LearnAimRef varchar(8),
+	LearningStartDate datetime,
+	IlrSubmissionDateTime datetime,
+	ApprenticeshipContractType int,
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(60),
+	UseLevyBalance bit
+)
+GO

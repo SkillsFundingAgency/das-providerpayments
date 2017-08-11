@@ -27,6 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql",
             "13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql",
             "14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql",
+            "15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql",
         };
 
         private static readonly Random Random = new Random();
@@ -452,7 +453,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
         internal static void AddPaymentForCommitment(long commitmentId, int month, 
             int year, int transactionType, decimal amount,string learnRefNumber = "1", 
-            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001")
+            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode=null )
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -461,6 +462,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
             academicYear = (academicYear * 100) + (academicYear + 1);
             var submissionDateTime = DateTime.Now;
+            
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
@@ -477,7 +479,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
                   + "StandardCode, " // StandardCode
                   + "ProgrammeType, " // ProgrammeType
-                  + "FrameworkCode, " // FrameworkCode
+                  + (frameworkCode.HasValue ? frameworkCode.Value.ToString() :  "FrameworkCode") + "," // FrameworkCode
                   + "PathwayCode, " // PathwayCode
                   + "'1', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
