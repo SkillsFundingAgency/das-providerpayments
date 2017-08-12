@@ -6,19 +6,6 @@ Select ph.*
 
 FROM Reference.RequiredPaymentsHistory ph
 
-JOIN (
-
-	SELECT SUM(AmountDue) Amount, LearnRefNumber,Ukprn,DeliveryMonth,DeliveryYear, TransactionType
-	From Reference.RequiredPaymentsHistory 
-	Group By LearnRefNumber,Ukprn,DeliveryMonth,DeliveryYear,TransactionType
-	having Sum(AmountDue) <>0
-	) phTotal
-
-	On ph.LearnRefNumber = phTotal.LearnRefNumber
-	And ph.Ukprn = phTotal.Ukprn
-	And ph.DeliveryMonth = phTotal.DeliveryMonth
-	And ph.DeliveryYear = phTotal.DeliveryYear
-	and ph.TransactionType = phTotal.TransactionType
 
 LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
 	
@@ -32,4 +19,18 @@ ON ph.Ukprn = e.Ukprn
 
 WHERE (e.LearnRefNumber IS NULL or e.LearnAimRef is null)
 AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
-
+AND NOT EXISTS(
+Select 1 from Reference.RequiredPaymentsHistory p Where 
+	ph.LearnRefNumber = p.LearnRefNumber
+	And ph.Ukprn = p.Ukprn
+	And ph.DeliveryMonth = p.DeliveryMonth
+	And ph.DeliveryYear = p.DeliveryYear
+	and ph.TransactionType = p.TransactionType
+	And IsNull(ph.StandardCode,0) = IsNull(p.StandardCode,0)
+	And IsNull(ph.FrameworkCode,0) = IsNull(p.FrameworkCode,0)
+	And IsNull(ph.ProgrammeType,0) = IsNull(p.ProgrammeType,0)
+	And IsNull(ph.PathwayCode,0) = IsNull(p.PathwayCode,0)
+	And ph.LearnAimRef = p.LearnAimRef
+	And ph.AmountDue *-1  = p.AmountDue
+	And p.Id <> ph.Id
+)
