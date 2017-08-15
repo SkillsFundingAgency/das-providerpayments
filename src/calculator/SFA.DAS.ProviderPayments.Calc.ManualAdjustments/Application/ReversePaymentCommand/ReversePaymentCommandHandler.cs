@@ -35,7 +35,10 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
             {
                 ReversePayment(payment, requiredPaymentIdForReversal, openCollectionPeriod, message.YearOfCollection);
             }
-            AdjustLevyAccountBalance(requiredPaymentToReverse.AccountId, paymentsToReverse);
+            if (!string.IsNullOrEmpty(requiredPaymentToReverse.AccountId))
+            {
+                AdjustLevyAccountBalance(requiredPaymentToReverse.AccountId, paymentsToReverse);
+            }
 
             return new ReversePaymentCommandResponse
             {
