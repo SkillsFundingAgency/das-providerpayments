@@ -3,6 +3,7 @@ using System.Linq;
 using MediatR;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities;
+using NLog;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePaymentCommand
 {
@@ -12,16 +13,20 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
         private readonly IPaymentRepository _paymentRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
+        private readonly ILogger _logger;
+
 
         public ReversePaymentCommandHandler(IRequiredPaymentRepository requiredPaymentRepository,
                                             IPaymentRepository paymentRepository,
                                             IAccountRepository accountRepository,
-                                            ICollectionPeriodRepository collectionPeriodRepository)
+                                            ICollectionPeriodRepository collectionPeriodRepository,
+                                            ILogger logger)
         {
             _requiredPaymentRepository = requiredPaymentRepository;
             _paymentRepository = paymentRepository;
             _accountRepository = accountRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
+            _logger = logger;
         }
 
         public ReversePaymentCommandResponse Handle(ReversePaymentCommandRequest message)
@@ -30,7 +35,21 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
             var paymentsToReverse = _paymentRepository.GetPaymentsForRequiredPayment(message.RequiredPaymentIdToReverse);
             var openCollectionPeriod = _collectionPeriodRepository.GetOpenCollectionPeriod();
 
+            if (requiredPaymentToReverse != null)
+            {
+                _logger.Info($"Found requiredPaymentToReverse : {message.RequiredPaymentIdToReverse}");
+            }
+            else
+            {
+                _logger.Info($"Invalid requiredPaymentToReverse supplied, reversal will not happen for : {message.RequiredPaymentIdToReverse}");
+            }
+
             var requiredPaymentIdForReversal = ReverseRequiredPayment(requiredPaymentToReverse, openCollectionPeriod, message.YearOfCollection);
+
+            _logger.Info($"Reversed original requiredPaymentToReverse {message.RequiredPaymentIdToReverse}, new Requiredpayment id : {requiredPaymentIdForReversal}");
+
+            _logger.Info($"Found total {paymentsToReverse.Count()} for requiredPaymentToReverse : {message.RequiredPaymentIdToReverse}");
+
             foreach (var payment in paymentsToReverse)
             {
                 ReversePayment(payment, requiredPaymentIdForReversal, openCollectionPeriod, message.YearOfCollection);
@@ -87,9 +106,10 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
         }
         private void ReversePayment(PaymentEntity paymentToReverse, Guid requiredPaymentIdForReversal, CollectionPeriodEntity openCollectionPeriod, string yearOfCollection)
         {
+            var paymentId = Guid.NewGuid().ToString();
             _paymentRepository.CreatePayment(new PaymentEntity
             {
-                PaymentId = Guid.NewGuid().ToString(),
+                PaymentId = paymentId,
                 RequiredPaymentId = requiredPaymentIdForReversal,
                 DeliveryMonth = paymentToReverse.DeliveryMonth,
                 DeliveryYear = paymentToReverse.DeliveryYear,
@@ -100,6 +120,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
                 TransactionType = paymentToReverse.TransactionType,
                 Amount = -paymentToReverse.Amount
             });
+
+            _logger.Info($"For {requiredPaymentIdForReversal} created new payment with Id : {paymentId} for old payment id {paymentToReverse.PaymentId}");
+
         }
         private void AdjustLevyAccountBalance(string accountId, PaymentEntity[] paymentsToReverse)
         {
