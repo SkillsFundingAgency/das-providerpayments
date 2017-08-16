@@ -3,6 +3,7 @@ using Moq;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePaymentCommand;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities;
+using NLog;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.ReversePaymentCommand.ReversePaymentCommandHandler
 {
@@ -84,6 +85,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
         protected CollectionPeriodEntity OpenCollectionPeriod;
         protected ManualAdjustments.Application.ReversePaymentCommand.ReversePaymentCommandHandler Handler;
         protected ReversePaymentCommandRequest Request;
+        protected Mock<ILogger> _logger;
 
         public virtual void Arrange()
         {
@@ -96,6 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
                 .Returns(new[] { OriginalPayment1, OriginalPayment2, OriginalPayment3 });
 
             AccountRepository = new Mock<IAccountRepository>();
+            _logger = new Mock<ILogger>();
 
             OpenCollectionPeriod = new CollectionPeriodEntity
             {
@@ -108,7 +111,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
                 .Returns(OpenCollectionPeriod);
 
             Handler = new ManualAdjustments.Application.ReversePaymentCommand.ReversePaymentCommandHandler(RequiredPaymentRepository.Object,
-                PaymentRepository.Object, AccountRepository.Object, CollectionPeriodRepository.Object);
+                PaymentRepository.Object, AccountRepository.Object, CollectionPeriodRepository.Object,_logger.Object);
 
             Request = new ReversePaymentCommandRequest
             {

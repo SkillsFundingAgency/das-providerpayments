@@ -182,5 +182,48 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(expectedAccountBalance, actualAccountBalance);
         }
 
+            
+        [Test]
+        public void ThenItShouldCreateReversingRequiredPaymentForTwoPayments()
+        {
+            // Arrange
+            SetupManualAdjustment("1");
+            SetupManualAdjustment("2");
+
+
+            // Act
+            TestDataHelper.CopyDataToTransient();
+            _task.Execute(_taskContext);
+
+            //// Assert
+           var actualRequiredPayments = TestDataHelper.GetRequiredPayments();
+            Assert.AreEqual(actualRequiredPayments.Length, 2);
+
+        }
+
+
+        private void SetupManualAdjustment(string accountId)
+        {
+            TestDataHelper.WriteOpenCollectionPeriod("R02", 9, 2016);
+
+            var manualAdjustmentRequested1 = TestDataSets.GetManualAdjustmentEntity();
+            TestDataHelper.WriteAdjustment(manualAdjustmentRequested1);
+
+            var requiredPaymentMadePreviously = TestDataSets.GetRequiredPaymentEntity(manualAdjustmentRequested1.RequiredPaymentIdToReverse.ToString(), true);
+            requiredPaymentMadePreviously.AccountId = accountId;
+            requiredPaymentMadePreviously.CollectionPeriodName = "1617";
+            requiredPaymentMadePreviously.CollectionPeriodMonth = 8;
+            requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
+            TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
+
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, false);
+            foreach (var payment in paymentsMadePerviously)
+            {
+                TestDataHelper.WritePayment(payment);
+            }
+
+            TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
+
+        }
     }
 }
