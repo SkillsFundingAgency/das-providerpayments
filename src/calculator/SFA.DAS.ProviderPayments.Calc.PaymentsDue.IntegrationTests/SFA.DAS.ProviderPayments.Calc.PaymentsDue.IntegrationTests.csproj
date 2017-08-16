@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FinishedOnTime\WhenALearnerChangesCourseOrAimRef.cs" />
     <Compile Include="FinishedOnTime\WhenALearnerIsNoLongerInIlr.cs" />
     <Compile Include="FinishedOnTime\WhenMakingDuePaymentsForNonDasLearners.cs" />
     <Compile Include="GlobalSetup.cs" />
@@ -166,6 +167,10 @@
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql">
       <Link>Tools\Sql\Copy Reference Data\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql">
+      <Link>Tools\Sql\Copy Reference Data\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql">

@@ -110,14 +110,7 @@ GO
 
 CREATE VIEW PaymentsDue.vw_PaymentHistoryWithoutEarnings
 AS
-SELECT
-	ph.*
-FROM Reference.RequiredPaymentsHistory ph
-LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
-	ON ph.Ukprn = e.Ukprn
-	AND ph.LearnRefNumber = e.LearnRefNumber
-WHERE e.LearnRefNumber IS NULL
-AND ph.CollectionPeriodName LIKE '${YearOfCollection}-%'
+SELECT * from Staging.EarningsWithoutPayments
 
 GO
 

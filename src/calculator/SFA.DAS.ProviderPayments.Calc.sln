@@ -78,6 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{C7F29E92-3CD
 		DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql = DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql
 		DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql = DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql
 		DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql = DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql
+		DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql = DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql
 		DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql = DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
