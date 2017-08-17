@@ -136,6 +136,13 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 return connection.Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments").ToArray();
             }
         }
+        internal static RequiredPaymentEntity[] GetHistoryRequiredPayments()
+        {
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
+            {
+                return connection.Query<RequiredPaymentEntity>("SELECT * FROM Reference.RequiredPaymentsHistory").ToArray();
+            }
+        }
 
 
         internal static void WritePayment(PaymentEntity payment)
@@ -161,6 +168,18 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 return connection.Query<PaymentEntity>($"SELECT {columns} FROM LevyPayments.Payments " +
                                                        $"UNION ALL " +
                                                        $"SELECT {columns} FROM CoInvestedPayments.Payments ").ToArray();
+            }
+        }
+
+        internal static PaymentEntity[] GetHistoricalPayments()
+        {
+            const string columns = " RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
+                                   " FundingSource, TransactionType, Amount";
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
+            {
+                return connection.Query<PaymentEntity>($"SELECT {columns},CommitmentId FROM Reference.LevyPaymentsHistory " +
+                                                       $"UNION ALL " +
+                                                       $"SELECT {columns}, NULL as CommitmentId FROM Reference.CoInvestedPaymentsHistory ").ToArray();
             }
         }
 
