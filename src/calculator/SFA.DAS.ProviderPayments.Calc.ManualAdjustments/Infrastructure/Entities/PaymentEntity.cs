@@ -18,5 +18,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entitie
         public int FundingSource { get; set; }
         public int TransactionType { get; set; }
         public decimal Amount { get; set; }
+        public long? CommitmentId { get; set; }
     }
 }

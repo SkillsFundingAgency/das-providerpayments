@@ -118,7 +118,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Application.ReversePay
                 CollectionPeriodYear = openCollectionPeriod.CalendarYear,
                 FundingSource = paymentToReverse.FundingSource,
                 TransactionType = paymentToReverse.TransactionType,
-                Amount = -paymentToReverse.Amount
+                Amount = -paymentToReverse.Amount,
+                CommitmentId = paymentToReverse.CommitmentId
             });
 
             _logger.Info($"For {requiredPaymentIdForReversal} created new payment with Id : {paymentId} for old payment id {paymentToReverse.PaymentId}");

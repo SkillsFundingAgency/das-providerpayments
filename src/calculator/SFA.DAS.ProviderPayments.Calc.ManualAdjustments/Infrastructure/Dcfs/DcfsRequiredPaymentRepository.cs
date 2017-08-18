@@ -20,6 +20,12 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
 
         public void CreateRequiredPayment(RequiredPaymentEntity requiredPayment)
         {
+            CreateCurrentRequiredPayment(requiredPayment );
+            CreateHistoryRequiredPayment(requiredPayment);
+        }
+
+        private void CreateCurrentRequiredPayment(RequiredPaymentEntity requiredPayment)
+        {
             Execute($"INSERT INTO {CurrentSource} (Id,CommitmentId,CommitmentVersionId,AccountId,AccountVersionId,Uln,LearnRefNumber," +
                     $"AimSeqNumber,Ukprn,IlrSubmissionDateTime,PriceEpisodeIdentifier,StandardCode,ProgrammeType,FrameworkCode,PathwayCode," +
                     $"ApprenticeshipContractType,DeliveryMonth,DeliveryYear,TransactionType,AmountDue,SfaContributionPercentage,FundingLineType,UseLevyBalance,LearnAimRef,LearningStartDate) " +
@@ -28,5 +34,17 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
                     $"@ApprenticeshipContractType,@DeliveryMonth,@DeliveryYear,@TransactionType,@AmountDue,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance,@LearnAimRef,@LearningStartDate)",
                 requiredPayment);
         }
+
+        private void CreateHistoryRequiredPayment(RequiredPaymentEntity requiredPayment)
+        {
+            Execute($"INSERT INTO {HistorySource} (Id,CommitmentId,CommitmentVersionId,AccountId,AccountVersionId,Uln,LearnRefNumber," +
+                    $"AimSeqNumber,Ukprn,IlrSubmissionDateTime,PriceEpisodeIdentifier,StandardCode,ProgrammeType,FrameworkCode,PathwayCode," +
+                    $"ApprenticeshipContractType,DeliveryMonth,DeliveryYear,TransactionType,AmountDue,SfaContributionPercentage,FundingLineType,UseLevyBalance,LearnAimRef,LearningStartDate,CollectionPeriodName,CollectionPeriodMonth,CollectionPeriodYear) " +
+                    $"VALUES  (@Id,@CommitmentId,@CommitmentVersionId,@AccountId,@AccountVersionId,@Uln,@LearnRefNumber," +
+                    $"@AimSeqNumber,@Ukprn,@IlrSubmissionDateTime,@PriceEpisodeIdentifier,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode," +
+                    $"@ApprenticeshipContractType,@DeliveryMonth,@DeliveryYear,@TransactionType,@AmountDue,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance,@LearnAimRef,@LearningStartDate,@CollectionPeriodName,@CollectionPeriodMonth,@CollectionPeriodYear)",
+                   requiredPayment);
+        }
     }
+
 }

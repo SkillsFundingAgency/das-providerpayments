@@ -15,5 +15,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         public int FundingSource { get; set; }
         public int TransactionType { get; set; }
         public decimal Amount { get; set; }
+        
     }
 }

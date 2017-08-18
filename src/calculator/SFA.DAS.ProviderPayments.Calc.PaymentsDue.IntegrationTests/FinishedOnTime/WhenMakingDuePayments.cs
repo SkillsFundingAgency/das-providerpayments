@@ -783,6 +783,57 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
 
+        //[Test]
+        //public void ThenItShouldNotReverseApportionedRefundsFromPreviousMonths()
+        //{
+        //    // Arrange
+        //    var ukprn = 863145;
+        //    var commitmentId = 1L;
+        //    var startDate = new DateTime(2016, 8, 12);
+        //    var plannedEndDate = new DateTime(2017, 8, 27);
+        //    var learnerRefNumber = "1"; //Guid.NewGuid().ToString("N").Substring(0, 12);
+
+        //    TestDataHelper.AddProvider(ukprn);
+
+        //    TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+        //    var newcommitmentId = 2L;
+        //    var newLearnrefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+        //    TestDataHelper.AddCommitment(newcommitmentId, ukprn, newLearnrefNumber, startDate: startDate, endDate: plannedEndDate);
+
+        //    TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, -1100,learnRefNumber:learnerRefNumber);
+        //    TestDataHelper.AddPaymentForCommitment(newcommitmentId, 8, 2016, (int)TransactionType.Learning, 100, learnRefNumber: newLearnrefNumber);
+        //    TestDataHelper.AddPaymentForCommitment(newcommitmentId, 9, 2016, (int)TransactionType.Learning, 100, learnRefNumber: newLearnrefNumber);
+
+
+
+
+        //    TestDataHelper.SetOpenCollection(7);
+
+        //    TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
+        //    TestDataHelper.ClearApprenticeshipPriceEpisodePeriod();
+
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 1, 100);  //08/16
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 2, 100);  //09/16
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 3, 100);  //10/16
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 4, 100);  //11/16
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 5, 100);  //12/16
+        //    TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 6, -250); //01/17
+
+
+        //    TestDataHelper.CopyReferenceData();
+
+        //    // Act
+        //    var context = new ExternalContextStub();
+        //    var task = new PaymentsDueTask();
+        //    task.Execute(context);
+
+        //    // Assert
+        //    var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+        //    Assert.AreEqual(0, duePayments.Length);
+        //}
+
         [Test]
         public void ThenItShouldNotReverseApportionedRefundsFromPreviousMonths()
         {

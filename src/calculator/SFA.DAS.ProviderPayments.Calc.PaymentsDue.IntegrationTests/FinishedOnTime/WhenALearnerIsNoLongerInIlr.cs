@@ -15,14 +15,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         [SetUp]
         public void Arrange()
         {
-            TestDataHelper.Clean();
+            //TestDataHelper.Clean();
         }
 
         [Test]
         public void ThenItShouldCreateReversalPaymentsForPreviousMonthsInIlr()
         {
-            // Arrange
-            var ukprn = 863145;
+            //Arrange
+           var ukprn = 863145;
             var commitmentId = 1L;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
@@ -41,13 +41,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.CopyReferenceData();
 
-            // Act
-            var context = new ExternalContextStub();
+            //Act
+           var context = new ExternalContextStub();
             var task = new PaymentsDueTask();
             task.Execute(context);
 
-            // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            //Assert
+           var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
             Assert.AreEqual(1, duePayments.Length);
 
             var actualPaymentDue = duePayments[0];
