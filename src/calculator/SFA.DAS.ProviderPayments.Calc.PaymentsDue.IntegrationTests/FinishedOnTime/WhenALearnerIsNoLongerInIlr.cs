@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         [SetUp]
         public void Arrange()
         {
-            //TestDataHelper.Clean();
+            TestDataHelper.Clean();
         }
 
         [Test]
