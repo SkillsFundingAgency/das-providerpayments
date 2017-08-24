@@ -323,6 +323,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
         }
 
+
+
+        internal static void UpdateOnProgApprenticeEarning(long ukprn,
+                                                string learnerRefNumber,
+                                                int period,
+                                                decimal onProgPayment)
+        {
+            Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period "
+                  + "WHERE UKPRN = @Ukprn AND Learnrefnumber = @learnerRefNumber"
+                  ,new { ukprn, learnerRefNumber, onProgPayment }, false);
+        }
+
+
         internal static void AddApprenticeEarning(long ukprn,
                                         DateTime startDate,
                                         string learnerRefNumber,
