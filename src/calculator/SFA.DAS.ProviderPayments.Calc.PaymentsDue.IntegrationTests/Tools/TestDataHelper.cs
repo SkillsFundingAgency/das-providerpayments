@@ -325,7 +325,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
 
 
-        internal static void UpdateOnProgApprenticeEarning(long ukprn,
+        internal static void RemoveApprenticeEarning(long ukprn,
                                                 string learnerRefNumber,
                                                 int period,
                                                 decimal onProgPayment)
@@ -335,6 +335,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   ,new { ukprn, learnerRefNumber, onProgPayment }, false);
         }
 
+      
 
         internal static void AddApprenticeEarning(long ukprn,
                                         DateTime startDate,

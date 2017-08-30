@@ -13,8 +13,8 @@ ON ph.Ukprn = e.Ukprn
        and IsNull(ph.FrameworkCode,0) = IsNull(e.FrameworkCode,0)
        and IsNull(ph.PathwayCode ,0)= IsNull(e.PathwayCode,0)
        and (IsNull(ph.ProgrammeType,0) = IsNull(e.ProgrammeType,0) OR  IsNull(ph.StandardCode,0) > 0)
-       and e.Period =  case When DeliveryMonth between 1 and 7 Then DeliveryMonth + 5
-						Else DeliveryMonth - 7 END	 
+       AND case When DeliveryMonth between 1 and 7 Then DeliveryMonth + 5 Else DeliveryMonth - 7 END =  e.Period  
+	  AND ph.TransactionType = e.TransactionType
 WHERE 
 (e.LearnRefNumber IS NULL or e.LearnAimRef is null ) 
 AND
