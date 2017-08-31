@@ -4,16 +4,19 @@ using MediatR;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using System.Linq;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery
 {
     public class GetProviderEarningsQueryHandler : IRequestHandler<GetProviderEarningsQueryRequest, GetProviderEarningsQueryResponse>
     {
         private readonly IEarningRepository _earningRepository;
+        private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
-        public GetProviderEarningsQueryHandler(IEarningRepository earningRepository)
+        public GetProviderEarningsQueryHandler(IEarningRepository earningRepository,ICollectionPeriodRepository collectionPeriodRepository)
         {
             _earningRepository = earningRepository;
+            _collectionPeriodRepository = collectionPeriodRepository;
         }
 
         public GetProviderEarningsQueryResponse Handle(GetProviderEarningsQueryRequest message)
@@ -30,10 +33,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                     };
                 }
 
+                var collectionPeriods =_collectionPeriodRepository.GetAllCollectionPeriods();
+                if (collectionPeriods == null)
+                {
+                    return new GetProviderEarningsQueryResponse
+                    {
+                        IsValid = true,
+                        Items = new PeriodEarning[0]
+                    };
+                }
+
                 var periodEarnings = new List<PeriodEarning>();
                 foreach (var entity in earningEntities)
                 {
-                    periodEarnings.AddRange(GetEarningsForPeriod(entity, message.Period1Month, message.Period1Year, message.AcademicYear));
+                    periodEarnings.AddRange(GetEarningsForPeriod(entity, collectionPeriods, message.AcademicYear));
                 }
 
                 return new GetProviderEarningsQueryResponse
@@ -52,23 +65,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
             }
         }
 
-        private PeriodEarning[] GetEarningsForPeriod(EarningEntity entity, int period1Month, int period1Year, string academicYear)
+        private PeriodEarning[] GetEarningsForPeriod(EarningEntity entity, List<CollectionPeriodEntity> collectionPeriods, string academicYear)
         {
             var periodEarnings = new List<PeriodEarning>();
-            var academicStart = new DateTime(period1Year, period1Month, 1);
 
-            if (academicStart > entity.PriceEpisodeEndDate)
-            {
-                return periodEarnings.ToArray();
-            }
+            var collectionPeriod = collectionPeriods.Single(x => x.PeriodId == entity.Period);
 
-            var month = period1Month + entity.Period - 1;
-            var year = period1Year;
-            if (month > 12)
-            {
-                month -= 12;
-                year++;
-            }
+            var year = collectionPeriod.Year;
+            var month = collectionPeriod.Month;
+            
 
             AddEarningForPeriod(periodEarnings, entity, academicYear, month, year);
 

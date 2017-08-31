@@ -6,12 +6,88 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProvider
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using System.Collections.Generic;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnings.GetProviderEarningsQuery.GetProviderEarningsQueryHandler
 {
     public class WhenHandling
     {
         private const long Ukprn = 10007459;
+
+        private static readonly CollectionPeriodEntity[] CollectionPeriods =  {
+            new CollectionPeriodEntity {
+                Month=8,
+                PeriodId=1,
+                PeriodName="1718-R01",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=9,
+                PeriodId=2,
+                PeriodName="1718-R02",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=10,
+                PeriodId=3,
+                PeriodName="1718-R03",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=11,
+                PeriodId=4,
+                PeriodName="1718-R04",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=12,
+                PeriodId=5,
+                PeriodName="1718-R05",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=1,
+                PeriodId=6,
+                PeriodName="1718-R06",
+                Year=2018
+            },
+            new CollectionPeriodEntity {
+                Month=2,
+                PeriodId=7,
+                PeriodName="1718-R07",
+                Year=2018
+            },
+            new CollectionPeriodEntity {
+                Month=3,
+                PeriodId=8,
+                PeriodName="1718-R08",
+                Year=2018
+            },
+            new CollectionPeriodEntity {
+                Month=4,
+                PeriodId=9,
+                PeriodName="1718-R09",
+                Year=2018
+            },
+            new CollectionPeriodEntity {
+                Month=5,
+                PeriodId=10,
+                PeriodName="1718-R10",
+                Year=2017
+            },
+            new CollectionPeriodEntity {
+                Month=6,
+                PeriodId=11,
+                PeriodName="1718-R11",
+                Year=2018
+            },
+            new CollectionPeriodEntity {
+                Month=7,
+                PeriodId=12,
+                PeriodName="1718-R12",
+                Year=2018
+            }
+            };
 
         private static readonly EarningEntity[] EarningEntities = {
             new EarningEntity
@@ -291,6 +367,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         };
 
         private Mock<IEarningRepository> _repository;
+        private Mock<ICollectionPeriodRepository> _collectionPeriodRepository;
         private GetProviderEarningsQueryRequest _request;
         private PaymentsDue.Application.Earnings.GetProviderEarningsQuery.GetProviderEarningsQueryHandler _handler;
 
@@ -306,10 +383,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             };
 
             _repository = new Mock<IEarningRepository>();
+            _collectionPeriodRepository = new Mock<ICollectionPeriodRepository>();
+
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
                 .Returns(EarningEntities);
 
-            _handler = new PaymentsDue.Application.Earnings.GetProviderEarningsQuery.GetProviderEarningsQueryHandler(_repository.Object);
+            _collectionPeriodRepository.Setup(r => r.GetAllCollectionPeriods())
+                .Returns(CollectionPeriods.ToList());
+
+            _handler = new PaymentsDue.Application.Earnings.GetProviderEarningsQuery.GetProviderEarningsQueryHandler(_repository.Object,_collectionPeriodRepository.Object);
         }
 
         [Test]
