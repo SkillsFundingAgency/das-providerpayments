@@ -377,9 +377,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             _request = new GetProviderEarningsQueryRequest
             {
                 Ukprn = Ukprn,
-                AcademicYear = "1718",
-                Period1Month = 8,
-                Period1Year = 2017
+                AcademicYear = "1718"
             };
 
             _repository = new Mock<IEarningRepository>();

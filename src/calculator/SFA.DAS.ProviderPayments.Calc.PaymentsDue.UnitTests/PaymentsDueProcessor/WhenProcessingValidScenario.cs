@@ -170,7 +170,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             Processor.Process();
 
             // Assert
-            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == expectedPeriod1Month && r.Period1Year == expectedPeriod1Year)), Times.Once);
+            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.AcademicYear == expectedPeriod1Year.ToString())), Times.Never);
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             Processor.Process();
 
             // Assert
-            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.Period1Month == 8 && r.Period1Year == 2016)), Times.Once);
+            Mediator.Verify(m => m.Send(It.Is<GetProviderEarningsQueryRequest>(r => r.AcademicYear == string.Empty)), Times.Never);
         }
 
         [Test]
