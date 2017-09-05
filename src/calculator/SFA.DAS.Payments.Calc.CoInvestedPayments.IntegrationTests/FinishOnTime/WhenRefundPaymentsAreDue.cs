@@ -105,5 +105,39 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -675), $"Expected -675 CoInvestedSfa, {actualPaymentsMessage}");
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -75), $"Expected -75 CoInvestedEmployer, {actualPaymentsMessage}");
         }
+
+
+        [Test]
+        public void ThenCoInvestedRefundPaymentsAreMadeWhenFullyRefunding()
+        {
+            // Arrange
+            var requiredPaymentId = Guid.NewGuid().ToString();
+
+            TestDataHelper.AddPaymentDueForProvider2(
+                    _commitmentId,
+                    _ukprn, 8, 2016,
+                    amountDue: 1500,
+                    transactionType: TransactionType.Learning,
+                    requiredPaymentId: requiredPaymentId,
+                    isDeds: true);
+
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.PopulatePaymentsHistory();
+
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500, sfaContributionPercentage: 0.9m);
+
+            // Act
+            _uut.Execute(_taskContext);
+
+            //Assert
+            var payments = TestDataHelper.GetPaymentsForCommitment(_commitmentId);
+            Assert.IsTrue(payments.Count() == 2);
+
+            Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
+            Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -150));
+        }
+
+
     }
 }

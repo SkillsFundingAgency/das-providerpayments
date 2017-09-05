@@ -81,6 +81,7 @@
     <Compile Include="Specs\WhenProcessingAnAdjustmentForAnNonEmployerAccount.cs" />
     <Compile Include="SqlConnectionExtensions.cs" />
     <Compile Include="TestComponents\Entities\ManualAdjustmentEntity.cs" />
+    <Compile Include="TestComponents\Entities\CoInvestedPaymentHistoryEntity.cs" />
     <Compile Include="TestComponents\Entities\PaymentEntity.cs" />
     <Compile Include="TestComponents\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="TestComponents\TestDataHelper.cs" />

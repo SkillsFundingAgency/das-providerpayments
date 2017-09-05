@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents;
+using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
 {
@@ -41,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, false, true);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
             }
 
             // Act
@@ -91,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, false, true);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
             }
 
             // Act
@@ -123,7 +124,39 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual("1617-R02", actualEmployerPayment.CollectionPeriodName);
             Assert.AreEqual(expectedEmployerPayment.TransactionType, actualEmployerPayment.TransactionType);
             Assert.AreEqual(-expectedEmployerPayment.Amount, actualEmployerPayment.Amount);
+
+
+            var coInvestedHistoricalPayments = TestDataHelper.GetHistoricalCoInvestedPayments();
+
+            Assert.AreEqual(coInvestedHistoricalPayments.Count(), 4);
+            var employerHistoryPayment = coInvestedHistoricalPayments.SingleOrDefault(x => x.FundingSource == 3 && x.Amount < 0);
+            Assert.IsNotNull(employerHistoryPayment);
+            AssertHistoricalCoInvestedPayment(employerHistoryPayment, expectedEmployerPayment, requiredPaymentMadePreviously);
+
+
+            var governmentHistoryPayment = coInvestedHistoricalPayments.SingleOrDefault(x => x.FundingSource == 2 && x.Amount <0);
+            Assert.IsNotNull(governmentHistoryPayment);
+            AssertHistoricalCoInvestedPayment(governmentHistoryPayment, expectedGovernmentPayment, requiredPaymentMadePreviously);
         }
+
+        private void AssertHistoricalCoInvestedPayment(CoInvestedPaymentHistoryEntity actualPayment, PaymentEntity expectedPayment,RequiredPaymentEntity requiredPaymentMadePreviously)
+        {
+            Assert.AreEqual(-expectedPayment.Amount, actualPayment.Amount);
+            Assert.AreEqual(expectedPayment.DeliveryMonth, actualPayment.DeliveryMonth);
+            Assert.AreEqual(expectedPayment.DeliveryYear, actualPayment.DeliveryYear);
+            Assert.AreEqual(expectedPayment.TransactionType, actualPayment.TransactionType);
+            Assert.AreEqual(requiredPaymentMadePreviously.Ukprn, actualPayment.Ukprn);
+            Assert.AreEqual(requiredPaymentMadePreviously.Uln, actualPayment.Uln);
+            Assert.AreEqual(requiredPaymentMadePreviously.AimSeqNumber, actualPayment.AimSeqNumber);
+            Assert.AreEqual(requiredPaymentMadePreviously.StandardCode, actualPayment.StandardCode);
+            Assert.AreEqual(requiredPaymentMadePreviously.PathwayCode, actualPayment.PathwayCode);
+            Assert.AreEqual(requiredPaymentMadePreviously.ProgrammeType, actualPayment.ProgrammeType);
+            Assert.AreEqual(requiredPaymentMadePreviously.FrameworkCode, actualPayment.FrameworkCode);
+        }
+            
+        
+
+
 
     }
 }

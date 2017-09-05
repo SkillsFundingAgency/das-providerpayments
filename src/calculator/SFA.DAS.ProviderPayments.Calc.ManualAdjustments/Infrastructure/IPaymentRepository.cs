@@ -6,6 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure
     {
         PaymentEntity[] GetPaymentsForRequiredPayment(string requiredPaymentId);
 
-        void CreatePayment(PaymentEntity payment);
+        void CreatePayment(PaymentEntity payment, RequiredPaymentEntity requiredPayment);
     }
 }

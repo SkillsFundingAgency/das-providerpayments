@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment,requiredPaymentMadePreviously);
             }
 
             TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
@@ -83,7 +83,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
             }
 
             TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
@@ -122,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
             }
 
             TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);
@@ -175,7 +175,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, false);
             foreach (var payment in paymentsMadePerviously)
             {
-                TestDataHelper.WritePayment(payment);
+                TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
             }
 
             TestDataHelper.WriteEmployerAccount(requiredPaymentMadePreviously.AccountId, 10000);

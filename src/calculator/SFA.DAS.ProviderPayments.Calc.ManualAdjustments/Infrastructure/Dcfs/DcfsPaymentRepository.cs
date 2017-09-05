@@ -40,14 +40,29 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
                      "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@CommitmentId)", payment);
         }
 
-        private void CreateCoInvestmentHistoryPayment(PaymentEntity payment, string destinationTable)
+        private void CreateCoInvestmentHistoryPayment(PaymentEntity payment,RequiredPaymentEntity requiredPayment, string destinationTable)
         {
 
-            Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount) " +
-                     "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount)", payment);
+            Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
+                     "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode)", 
+                     new {
+                         RequiredPaymentId = payment.RequiredPaymentId,
+                         DeliveryMonth = payment.DeliveryMonth,
+                         DeliveryYear =payment.DeliveryYear,
+                         FundingSource = payment.FundingSource,
+                         TransactionType =payment.TransactionType,
+                         Amount = payment.Amount,
+                         ULN =requiredPayment.Uln,
+                         Ukprn = requiredPayment.Ukprn,
+                         AimSeqNumber = requiredPayment.AimSeqNumber,
+                         StandardCode =requiredPayment.StandardCode,
+                         ProgrammeType =requiredPayment.ProgrammeType,
+                         FrameworkCode =requiredPayment.FrameworkCode,
+                         PathwayCode =requiredPayment.PathwayCode
+                     } );
         }
 
-        public void CreatePayment(PaymentEntity payment)
+        public void CreatePayment(PaymentEntity payment, RequiredPaymentEntity requiredPayment)
         {
 
             var currentDestinationTable = payment.FundingSource == 1 ? CurrentLevySource : CurrentCoInvestedSource;
@@ -57,7 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
             if (payment.FundingSource == 1)
                 CreateLevyHistoryPayment(payment, HistoryLevySource);
             else
-                CreateCoInvestmentHistoryPayment(payment, HistoryCoInvestedSource);
+                CreateCoInvestmentHistoryPayment(payment, requiredPayment, HistoryCoInvestedSource);
         }
 
 
