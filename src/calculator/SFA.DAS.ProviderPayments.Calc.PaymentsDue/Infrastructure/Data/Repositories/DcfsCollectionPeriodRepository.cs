@@ -1,5 +1,7 @@
 ﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
@@ -23,6 +25,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public CollectionPeriodEntity GetCurrentCollectionPeriod()
         {
             return QuerySingle<CollectionPeriodEntity>(SelectOpenCollectionPeriod, new { CollectionOpen = OpenStatus });
+        }
+
+        public List<CollectionPeriodEntity> GetAllCollectionPeriods()
+        {
+            return Query<CollectionPeriodEntity>(SelectCollectionPeriods).ToList();
         }
     }
 }

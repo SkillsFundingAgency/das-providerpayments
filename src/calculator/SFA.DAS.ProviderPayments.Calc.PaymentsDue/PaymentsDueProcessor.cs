@@ -82,19 +82,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
 
-            var periodNumber = currentPeriod.PeriodNumber > 12 ? 12 : currentPeriod.PeriodNumber;
-            var period1Month = currentPeriod.Month - (periodNumber - 1);
-            var period1Year = period1Month > 0 ? currentPeriod.Year : currentPeriod.Year - 1;
-            if (period1Month < 1)
-            {
-                period1Month = period1Month + 12;
-            }
-
+          
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
-                Period1Month = period1Month,
-                Period1Year = period1Year,
                 AcademicYear = _context.GetPropertyValue(Common.Context.PaymentsContextPropertyKeys.YearOfCollection)
             });
 

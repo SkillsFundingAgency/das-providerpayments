@@ -932,5 +932,43 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual("Levy Funding Line", duePayments[0].FundingLineType);
         }
 
+
+        [Test]
+        [TestCase(25L, null, null, null)]
+        [TestCase(null, 550, 20, 6)]
+        public void ThenItShouldNotWritePaymentsDueForR13ForNextAcademicYear(long? standardCode, int? frameworkCode, int? programmeType, int? pathwayCode)
+        {
+            // Arrange
+            var ukprn = 863145;
+            var uln = 834734;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 11, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, uln: uln, startDate: startDate, endDate: plannedEndDate, standardCode: standardCode, frameworkCode: frameworkCode, programmeType: programmeType, pathwayCode: pathwayCode);
+
+            TestDataHelper.SetOpenCollection(13);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(13, duePayments.Length);
+
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 8 && x.DeliveryYear == 2017));
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 9 && x.DeliveryYear == 2017));
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 10 && x.DeliveryYear == 2017));
+        }
+
     }
 }
