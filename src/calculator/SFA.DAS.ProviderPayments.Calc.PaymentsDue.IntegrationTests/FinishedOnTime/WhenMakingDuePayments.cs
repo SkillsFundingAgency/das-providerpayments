@@ -936,14 +936,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         [Test]
         [TestCase(25L, null, null, null)]
         [TestCase(null, 550, 20, 6)]
-        public void ThenItShouldWriteCorrectDetailsForPaymentsDueForR13(long? standardCode, int? frameworkCode, int? programmeType, int? pathwayCode)
+        public void ThenItShouldNotWritePaymentsDueForR13ForNextAcademicYear(long? standardCode, int? frameworkCode, int? programmeType, int? pathwayCode)
         {
             // Arrange
             var ukprn = 863145;
             var uln = 834734;
             var commitmentId = 1L;
             var startDate = new DateTime(2016, 8, 12);
-            var plannedEndDate = new DateTime(2017, 8, 27);
+            var plannedEndDate = new DateTime(2017, 11, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
             TestDataHelper.AddProvider(ukprn);
@@ -965,27 +965,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
             Assert.AreEqual(13, duePayments.Length);
 
-            //Assert.AreEqual(commitmentId, duePayments[0].CommitmentId);
-            //Assert.AreEqual("1", duePayments[0].CommitmentVersionId);
-            //Assert.AreEqual("123", duePayments[0].AccountId);
-            //Assert.AreEqual("20170401", duePayments[0].AccountVersionId);
-            //Assert.AreEqual(uln, duePayments[0].Uln);
-            //Assert.AreEqual(learnerRefNumber, duePayments[0].LearnRefNumber);
-            //Assert.AreEqual(1, duePayments[0].AimSeqNumber);
-            //Assert.AreEqual(ukprn, duePayments[0].Ukprn);
-            //Assert.AreEqual(DateTime.Today, duePayments[0].IlrSubmissionDateTime);
-            //Assert.AreEqual(8, duePayments[0].DeliveryMonth);
-            //Assert.AreEqual(2016, duePayments[0].DeliveryYear);
-            //Assert.AreEqual((int)TransactionType.Learning, duePayments[0].TransactionType);
-            //Assert.AreEqual(1000, duePayments[0].AmountDue);
-
-            //Assert.AreEqual(standardCode, duePayments[0].StandardCode);
-            //Assert.AreEqual(frameworkCode, duePayments[0].FrameworkCode);
-            //Assert.AreEqual(programmeType, duePayments[0].ProgrammeType);
-            //Assert.AreEqual(pathwayCode, duePayments[0].PathwayCode);
-
-            //Assert.AreEqual(0.9m, duePayments[0].SfaContributionPercentage);
-            //Assert.AreEqual("Levy Funding Line", duePayments[0].FundingLineType);
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 8 && x.DeliveryYear == 2017));
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 9 && x.DeliveryYear == 2017));
+            Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 10 && x.DeliveryYear == 2017));
         }
 
     }
