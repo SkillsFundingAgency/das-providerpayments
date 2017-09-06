@@ -76,14 +76,16 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
         {
             // Arrange
             var createdPayments = new List<PaymentEntity>();
-            PaymentRepository.Setup(r => r.CreatePayment(It.IsAny<PaymentEntity>()))
-                .Callback((PaymentEntity entity) => createdPayments.Add(entity));
+            var createdRequiredPayments = new List<PaymentEntity>();
+
+            PaymentRepository.Setup(r => r.CreatePayment(It.IsAny<PaymentEntity>(), It.IsAny<RequiredPaymentEntity>()))
+                .Callback((PaymentEntity entity,RequiredPaymentEntity rq) => createdPayments.Add(entity));
 
             // Act
             Handler.Handle(Request);
 
             // Assert
-            PaymentRepository.Verify(r => r.CreatePayment(It.IsAny<PaymentEntity>()), Times.Exactly(3));
+            PaymentRepository.Verify(r => r.CreatePayment(It.IsAny<PaymentEntity>(),It.IsAny<RequiredPaymentEntity>()), Times.Exactly(3));
             Assert.AreEqual(3, createdPayments.Count);
 
             var actualLevyPayment = createdPayments.SingleOrDefault(e => e.FundingSource == 1);
