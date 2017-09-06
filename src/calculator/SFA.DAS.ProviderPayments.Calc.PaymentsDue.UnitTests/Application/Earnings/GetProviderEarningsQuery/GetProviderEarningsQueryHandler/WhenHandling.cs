@@ -649,40 +649,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             Assert.AreEqual(1, response.Items.Count(e => e.FundingLineType == "Levy Funding Line Type"));
         }
 
-        [Test]
-        [Ignore("This test looks like is trying to test something which will not happen, as in a given academic year we'll only have earnings for that year")]
-        public void ThenItShouldNotReturnAnyEarningsForAPriceEpisodeThatEndedBeforeTheCurrentAcademicYear()
-        {
-            // Arrange
-            _repository.Setup(r => r.GetProviderEarnings(Ukprn))
-                .Returns(new[]
-                {
-                    new EarningEntity
-                    {
-                        CommitmentId = 1,
-                        CommitmentVersionId = "1",
-                        AccountId = "1",
-                        AccountVersionId = "A1",
-                        Uln = 1,
-                        LearnerRefNumber = "Lrn-001",
-                        AimSequenceNumber = 1,
-                        Ukprn = Ukprn,
-                        Period = 6,
-                        Amount = 1000m,
-                        TransactionType = (int)TransactionType.Learning,
-                        StandardCode = 25,
-                        ApprenticeshipContractType = 1,
-                        PriceEpisodeSfaContribPct = 0.9m,
-                        PriceEpisodeFundLineType = "Levy Funding Line Type",
-                        PriceEpisodeEndDate = new DateTime(2017, 7, 31)
-                    }
-                });
-
-            // Act
-            var response = _handler.Handle(_request);
-
-            // Assert
-            Assert.AreEqual(0, response.Items.Length);
-        }
+       
     }
 }
