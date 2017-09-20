@@ -513,6 +513,44 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   new { month, year, submissionDateTime, learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear }, false);
         }
 
+        internal static void AddPaymentForNonDas(RequiredPaymentEntity requiredPayment)
+        {
+
+            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+                  + "VALUES ("
+                  + "NEWID(), " // Id
+                  + "@CommitmentId, " // CommitmentId
+                  + "@CommitmentVersionId, " // CommitmentVersionId
+                  + "@AccountId, " // AccountId
+                  + "@AccountVersionId, " // AccountVersionId
+                  + "@uln, " // Uln
+                  + "@learnRefNumber, " // LearnRefNumber
+                  + "@AimSeqNumber, " // AimSeqNumber
+                  + "@ukprn, " // Ukprn
+                  + "GETDATE(), " // IlrSubmissionDateTime
+                  + "@PriceEpisodeIdentifier, " // PriceEpisodeIdentifier
+                  + "@standardCode, " // StandardCode
+                  + "@programmeType, " // ProgrammeType
+                  + "@frameworkCode, " // FrameworkCode
+                  + "@pathwayCode, " // PathwayCode
+                  + "@ApprenticeshipContractType, " // ApprenticeshipContractType
+                  + "@DeliveryMonth, " // DeliveryMonth
+                  + "@DeliveryYear, " // DeliveryYear
+                  + "'1617-R10', " // CollectionPeriodName
+                  + "5, " // CollectionPeriodMonth
+                  + "2017, " // CollectionPeriodYear
+                  + "@TransactionType, " // TransactionType
+                  + "@AmountDue, " // AmountDue
+                  + "@SfaContributionPercentage, " // SfaContributionPercentage
+                  + "@FundingLineType, " // FundingLineType
+                  + "@UseLevyBalance," //UseLevyBalance
+                  + "@LearnAimRef,"
+                  + "@learningStartDate)",
+                  requiredPayment, false);
+        }
+
+
+
         internal static void AddPaymentForNonDas(long ukprn, 
                                                     long uln, 
                                                     int month, 

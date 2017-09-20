@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                connection.RunSqlScript("DML\\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql");
+                connection.RunSqlScript("DML\\01 PeriodEnd.Adjustments.Populate.ManualAdjustments.sql");
             }
         }
 

@@ -77,5 +77,83 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(true, actualPaymentDue.UseLevyBalance);
 
         }
+
+        [Test]
+        public void ThenItShouldCreateReversalPaymentsForPreviousMonthsInIlrWhenNegativePaymentIsAlreadyCreated()
+        {
+            //Arrange
+            var ukprn = 863145;
+        
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+            var uln = new Random().Next(10000000, int.MaxValue);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.SetOpenCollection(13);
+
+            var requiredPayment = new Infrastructure.Data.Entities.RequiredPaymentEntity
+            {
+                CommitmentId = null,
+                CommitmentVersionId = null,
+                AccountId = null,
+                AccountVersionId = null,
+                Uln = uln,
+                LearnRefNumber = learnerRefNumber,
+                AimSeqNumber = 1,
+                Ukprn = ukprn,
+                DeliveryMonth = 5,
+                DeliveryYear = 2017,
+                TransactionType = (int)TransactionType.Learning,
+                AmountDue = 1000,
+                IlrSubmissionDateTime = DateTime.Now,
+                StandardCode = null,
+                FrameworkCode = 3,
+                ProgrammeType = 490,
+                PathwayCode = 1,
+                ApprenticeshipContractType = 2,
+                PriceEpisodeIdentifier = "3-490-1-23/05/2017",
+                SfaContributionPercentage = 1,
+                UseLevyBalance = false,
+                FundingLineType = "16-18 Apprenticeship (From May 2017) Non-Levy Contract",
+                LearnAimRef = "0",
+                LearningStartDate = startDate
+            };
+
+            TestDataHelper.AddPaymentForNonDas(requiredPayment);
+
+            requiredPayment.PriceEpisodeIdentifier = null;
+            requiredPayment.ApprenticeshipContractType = 0;
+            requiredPayment.SfaContributionPercentage = 0;
+            requiredPayment.FundingLineType = null;
+            requiredPayment.AmountDue = requiredPayment.AmountDue * -1;
+            TestDataHelper.AddPaymentForNonDas(requiredPayment);
+
+            requiredPayment.AmountDue = requiredPayment.AmountDue * -1;
+            TestDataHelper.AddPaymentForNonDas(requiredPayment);
+
+            TestDataHelper.CopyReferenceData();
+
+            //Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            //Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(1, duePayments.Length);
+
+            //make sure total is 0
+            Assert.AreEqual(duePayments[0].AmountDue,-1000);
+            Assert.AreEqual(duePayments[0].ApprenticeshipContractType, 2);
+            Assert.AreEqual(duePayments[0].FundingLineType, "16-18 Apprenticeship (From May 2017) Non-Levy Contract");
+            Assert.AreEqual(duePayments[0].UseLevyBalance, false);
+            Assert.AreEqual(duePayments[0].TransactionType, 1);
+            Assert.AreEqual(duePayments[0].PriceEpisodeIdentifier , "3-490-1-23/05/2017");
+            Assert.AreEqual(duePayments[0].UseLevyBalance, false);
+
+
+        }
     }
 }
