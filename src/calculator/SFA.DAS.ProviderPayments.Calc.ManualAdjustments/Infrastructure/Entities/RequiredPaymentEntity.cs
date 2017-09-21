@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entitie
     public class RequiredPaymentEntity
     {
         public Guid Id { get; set; }
-        public long CommitmentId { get; set; }
+        public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
         public string AccountId { get; set; }
         public string AccountVersionId { get; set; }
