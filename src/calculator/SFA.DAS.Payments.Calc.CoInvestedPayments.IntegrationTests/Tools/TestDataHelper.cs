@@ -138,6 +138,28 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 new { commitmentId,requiredPaymentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
         }
 
+        internal static void AddRequiredPaymentForReversal(string requiredPaymentId)
+        {
+            
+            
+                Execute("Insert Into [Adjustments].[ManualAdjustments]" +
+                                "([RequiredPaymentIdToReverse]" +
+                                ",[ReasonForReversal]" +
+                                ",[RequestorName]" +
+                                ",[DateUploaded]" +
+                                ",[RequiredPaymentIdForReversal])" +
+                            "Values( NEWID()," +
+                                    "'Test scenario', " +
+                                    "'Test', " +
+                                    "getDate()," +
+                                    "@requiredPaymentId)" ,
+                  new
+                  {
+                     requiredPaymentId
+                  });
+            
+        }
+
         internal static void AddPaymentDueForProvider2(
             long commitmentId,
             long ukprn,
@@ -187,17 +209,23 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             int aimSequenceNumber = 1,
             TransactionType transactionType = TransactionType.Learning,
             decimal amountDue = 1000.00m,
-            decimal sfaContributionPercentage = 0.9m)
+            decimal sfaContributionPercentage = 0.9m,
+              string requiredPaymentId = null)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
+            if (string.IsNullOrEmpty(requiredPaymentId))
+            {
+                requiredPaymentId = Guid.NewGuid().ToString();
+            }
+
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
                   + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, ApprenticeshipContractType) "
                   + "VALUES ("
-                  + "NEWID(), "
+                  + "@requiredPaymentId, "
                   + "@uln, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
@@ -208,7 +236,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@amountDue, "
                   + "@sfaContributionPercentage, "
                   + "2)",
-                new { uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
+                new { requiredPaymentId,uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
 
         internal static void PopulatePaymentsHistory()
