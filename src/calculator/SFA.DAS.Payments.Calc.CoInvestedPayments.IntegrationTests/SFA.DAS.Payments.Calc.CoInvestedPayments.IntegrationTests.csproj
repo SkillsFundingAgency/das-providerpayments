@@ -165,6 +165,9 @@
     <Content Include="DbSetupScripts\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
