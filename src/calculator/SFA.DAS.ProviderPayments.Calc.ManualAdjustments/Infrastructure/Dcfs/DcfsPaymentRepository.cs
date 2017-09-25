@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
 
         public PaymentEntity[] GetPaymentsForRequiredPayment(string requiredPaymentId)
         {
-            return Query<PaymentEntity>($"SELECT RequiredPaymentId,DeliveryMonth,DeliveryYear,TransactionType,FundingSource,Amount,CommitmentId FROM {HistoryLevySource} WHERE RequiredPaymentId = @requiredPaymentId " +
+            return Query<PaymentEntity>($"SELECT RequiredPaymentId,DeliveryMonth,DeliveryYear,TransactionType,FundingSource,Amount,CommitmentId FROM {HistoryLevySource} WHERE FundingSource = 1 AND RequiredPaymentId = @requiredPaymentId " +
                                         $"UNION ALL " +
                                         $"SELECT RequiredPaymentId,DeliveryMonth,DeliveryYear,TransactionType,FundingSource,Amount, NULL as CommitmentId FROM {HistoryCoInvestedSource} WHERE RequiredPaymentId = @requiredPaymentId ",
                 new { requiredPaymentId });
