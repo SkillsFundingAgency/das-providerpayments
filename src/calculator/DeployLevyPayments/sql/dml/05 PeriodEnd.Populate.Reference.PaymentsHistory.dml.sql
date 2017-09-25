@@ -16,5 +16,6 @@ SELECT
 	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 	AND IsNull(rp.CommitmentId,0) > 0
+	AND p.FundingSource = 1
 
 GO
