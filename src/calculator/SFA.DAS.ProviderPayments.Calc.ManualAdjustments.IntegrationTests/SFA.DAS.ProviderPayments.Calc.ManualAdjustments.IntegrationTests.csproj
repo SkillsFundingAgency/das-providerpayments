@@ -125,8 +125,8 @@
       <Link>DbSetupScripts\DDL\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployManualAdjustments\sql\dml\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql">
-      <Link>DbSetupScripts\DML\PeriodEnd.Adjustments.Populate.ManualAdjustments.sql</Link>
+    <Content Include="..\DeployManualAdjustments\sql\dml\01 PeriodEnd.Adjustments.Populate.ManualAdjustments.sql">
+      <Link>DbSetupScripts\DML\01 PeriodEnd.Adjustments.Populate.ManualAdjustments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
