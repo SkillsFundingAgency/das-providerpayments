@@ -37,13 +37,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql", connection);
 
-                    
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
+                   
+                    
 
                 }
                 finally
