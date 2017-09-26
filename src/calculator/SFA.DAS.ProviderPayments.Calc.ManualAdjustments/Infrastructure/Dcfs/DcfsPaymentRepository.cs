@@ -43,8 +43,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
         private void CreateCoInvestmentHistoryPayment(PaymentEntity payment,RequiredPaymentEntity requiredPayment, string destinationTable)
         {
 
-            Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
-                     "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode)", 
+            Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,CommitmentId) " +
+                     "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,@CommitmentId)", 
                      new {
                          RequiredPaymentId = payment.RequiredPaymentId,
                          DeliveryMonth = payment.DeliveryMonth,
@@ -58,7 +58,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
                          StandardCode =requiredPayment.StandardCode,
                          ProgrammeType =requiredPayment.ProgrammeType,
                          FrameworkCode =requiredPayment.FrameworkCode,
-                         PathwayCode =requiredPayment.PathwayCode
+                         PathwayCode =requiredPayment.PathwayCode,
+                         CommitmentId = requiredPayment.CommitmentId
                      } );
         }
 
