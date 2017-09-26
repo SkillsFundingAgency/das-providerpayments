@@ -195,7 +195,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
                 return connection.Query<PaymentEntity>($"SELECT {columns} FROM LevyPayments.Payments " +
-                                                       $"UNION  " +
+                                                       $"UNION ALL " +
                                                        $"SELECT {columns} FROM CoInvestedPayments.Payments ").ToArray();
             }
         }
