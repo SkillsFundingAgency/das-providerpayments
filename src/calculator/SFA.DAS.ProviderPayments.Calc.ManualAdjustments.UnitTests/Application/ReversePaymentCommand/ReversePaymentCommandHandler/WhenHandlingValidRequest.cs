@@ -94,6 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.UnitTests.Application.
             Assert.AreEqual(OriginalPayment1.DeliveryYear, actualLevyPayment.DeliveryYear);
             Assert.AreEqual(OriginalPayment1.TransactionType, actualLevyPayment.TransactionType);
             Assert.AreEqual(OriginalPayment1.Amount, -actualLevyPayment.Amount);
+            Assert.AreEqual(OriginalPayment1.CommitmentId, -actualLevyPayment.CommitmentId);
             Assert.AreEqual($"{YearOfCollection}-{OpenCollectionPeriod.Name}", actualLevyPayment.CollectionPeriodName);
             Assert.AreEqual(OpenCollectionPeriod.CalendarMonth, actualLevyPayment.CollectionPeriodMonth);
             Assert.AreEqual(OpenCollectionPeriod.CalendarYear, actualLevyPayment.CollectionPeriodYear);
