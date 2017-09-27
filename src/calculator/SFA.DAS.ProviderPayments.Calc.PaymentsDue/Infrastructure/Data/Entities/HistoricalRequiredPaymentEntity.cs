@@ -1,23 +1,22 @@
 ﻿using System;
-using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RequiredPayment
+    public class HistoricalRequiredPaymentEntity
     {
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
-        public string LearnerRefNumber { get; set; }
-        public int AimSequenceNumber { get; set; }
-        public long Ukprn { get; set; }
-        public int DeliveryMonth { get; set; }
-        public int DeliveryYear { get; set; }
-        public TransactionType TransactionType { get; set; }
-        public decimal AmountDue { get; set; }
         public string AccountId { get; set; }
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }
+        public string LearnRefNumber { get; set; }
+        public int AimSeqNumber { get; set; }
+        public long Ukprn { get; set; }
         public DateTime IlrSubmissionDateTime { get; set; }
+        public int DeliveryMonth { get; set; }
+        public int DeliveryYear { get; set; }
+        public int TransactionType { get; set; }
+        public decimal AmountDue { get; set; }
 
         public long? StandardCode { get; set; }
         public int? ProgrammeType { get; set; }
@@ -30,11 +29,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
         public decimal SfaContributionPercentage { get; set; }
         public string FundingLineType { get; set; }
         public bool UseLevyBalance { get; set; }
-
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
+
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
-
     }
 }

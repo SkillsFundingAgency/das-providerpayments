@@ -96,6 +96,7 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryRequest.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
+    <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />

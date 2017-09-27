@@ -13,6 +13,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Add
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
+using System;
+using System.Diagnostics;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -235,13 +237,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 if (amountDue != 0 && isPayble)
                 {
-                    if (amountEarned >= 0)
+                    if (amountDue >= 0)
                     {
                         AddPaymentsDue(provider, paymentsDue, earning, amountDue);
                     }
                     else
                     {
-                        ApportionPaymentDuesOverPreviousPeriods(provider, paymentsDue, earning, paymentHistory.ToArray(), amountDue);
+                        ApportionPaymentDuesOverPreviouslyPaidSameMonths(provider, paymentsDue, earning, paymentHistory.ToArray(), amountDue);
                     }
                 }
             }
@@ -269,6 +271,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                p.EarnedValue != 0 &&
                                ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
         }
+
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
             var refundablePeriods = paymentHistory.GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
@@ -309,7 +312,72 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 AddPaymentsDue(provider, paymentsDue, earning, earning.EarnedValue, earning.CalendarMonth, earning.CalendarYear);
             }
         }
-        private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, decimal amountDue, int deliveryMonth = 0, int deliveryYear = 0)
+
+        private void ApportionPaymentDuesOverPreviouslyPaidSameMonths(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
+        {
+            Debugger.Break();
+            var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear && x.TransactionType == earning.Type)
+                                                  .GroupBy(x => new { x.CommitmentId, PaymentDate = new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) })
+                                                  .Select(x => new { x.Key.CommitmentId, x.Key.PaymentDate, AmountDue = x.Sum(y => y.AmountDue) })
+                                                  .OrderByDescending(x => x.PaymentDate)
+                                                  .ToArray();
+          
+            // if there are no historical payments then just skip the execution
+            if (refundablePeriods.Any())
+            {
+
+                var refundPeriodIndex = 0;
+                while (amountDue < 0)
+                {
+                    var period = refundablePeriods[refundPeriodIndex];
+
+                    // Attempt to get refund from payments due first
+                    var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.PaymentDate.Month && x.DeliveryYear == period.PaymentDate.Year && period.AmountDue >0).ToArray();
+                    foreach (var paymentDue in paymentsDueInPeriod)
+                    {
+                        amountDue -= -paymentDue.AmountDue;
+                        paymentsDue.Remove(paymentDue);
+                    }
+
+                    // Attempt to get any remaining amount from previous payments
+                    var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
+                    if (refundedInPeriod != 0)
+                    {
+                        UpdateCommitmentForRefund(paymentHistory, earning, period.CommitmentId, period.PaymentDate);
+
+                        AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
+                        amountDue -= refundedInPeriod;
+                    }
+
+                    refundPeriodIndex++;
+                }
+            }
+            else
+            {
+                ApportionPaymentDuesOverPreviousPeriods(provider, paymentsDue, earning, paymentHistory, amountDue);
+            }
+        }
+
+        private void UpdateCommitmentForRefund(RequiredPayment[] paymentHistory, PeriodEarning earning, long? historicalCommitmentId, DateTime historicalCollectionPeriodDate)
+        {
+            if (historicalCommitmentId.HasValue && earning.CommitmentId.HasValue)
+            {
+                var commitment = paymentHistory.FirstOrDefault(x => x.CommitmentId == historicalCommitmentId
+                                                    && x.DeliveryMonth == earning.CalendarMonth
+                                                    && x.DeliveryYear == earning.CalendarYear
+                                                    && x.CollectionPeriodMonth == historicalCollectionPeriodDate.Month
+                                                    && x.CollectionPeriodYear == historicalCollectionPeriodDate.Year);
+                if (commitment != null)
+                {
+                    earning.CommitmentId = commitment.CommitmentId;
+                    earning.CommitmentVersionId = commitment.CommitmentVersionId;
+                    earning.AccountId = commitment.AccountId;
+                    earning.AccountVersionId = commitment.AccountVersionId;
+                }
+            }
+        }
+
+        private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, decimal amountDue, int deliveryMonth = 0, int deliveryYear = 0 )
         {
             paymentsDue.Add(new RequiredPayment
             {
