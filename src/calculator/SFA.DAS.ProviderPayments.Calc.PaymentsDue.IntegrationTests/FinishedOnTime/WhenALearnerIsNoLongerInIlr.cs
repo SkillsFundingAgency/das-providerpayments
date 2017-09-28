@@ -50,6 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
             Assert.AreEqual(1, duePayments.Length);
 
+            //get first payment
             var actualPaymentDue = duePayments[0];
             Assert.AreEqual("123", actualPaymentDue.AccountId);
             Assert.AreEqual("NA", actualPaymentDue.AccountVersionId);
