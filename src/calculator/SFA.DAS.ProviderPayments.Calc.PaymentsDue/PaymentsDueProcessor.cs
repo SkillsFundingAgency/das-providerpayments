@@ -315,7 +315,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         private void ApportionPaymentDuesOverPreviouslyPaidSameMonths(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
-            Debugger.Break();
+            
             var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear && x.TransactionType == earning.Type)
                                                   .GroupBy(x => new { x.CommitmentId, PaymentDate = new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) })
                                                   .Select(x => new { x.Key.CommitmentId, x.Key.PaymentDate, AmountDue = x.Sum(y => y.AmountDue) })
@@ -362,17 +362,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             if (historicalCommitmentId.HasValue && earning.CommitmentId.HasValue)
             {
-                var commitment = paymentHistory.FirstOrDefault(x => x.CommitmentId == historicalCommitmentId
+                var historicalPayment = paymentHistory.FirstOrDefault(x => x.CommitmentId == historicalCommitmentId
                                                     && x.DeliveryMonth == earning.CalendarMonth
                                                     && x.DeliveryYear == earning.CalendarYear
                                                     && x.CollectionPeriodMonth == historicalCollectionPeriodDate.Month
                                                     && x.CollectionPeriodYear == historicalCollectionPeriodDate.Year);
-                if (commitment != null)
+                if (historicalPayment != null)
                 {
-                    earning.CommitmentId = commitment.CommitmentId;
-                    earning.CommitmentVersionId = commitment.CommitmentVersionId;
-                    earning.AccountId = commitment.AccountId;
-                    earning.AccountVersionId = commitment.AccountVersionId;
+                    earning.CommitmentId = historicalPayment.CommitmentId;
+                    earning.CommitmentVersionId = historicalPayment.CommitmentVersionId;
+                    earning.AccountId = historicalPayment.AccountId;
+                    earning.AccountVersionId = historicalPayment.AccountVersionId;
                 }
             }
         }
