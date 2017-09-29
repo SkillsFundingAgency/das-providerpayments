@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         public virtual void Process()
         {
-            
+           
             _logger.Info("Started Payments Due Processor.");
 
             var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
@@ -290,7 +290,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     var period = refundablePeriods[refundPeriodIndex];
 
                     // Attempt to get refund from payments due first
-                    var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear).ToArray();
+                    var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear && x.TransactionType == earning.Type).ToArray();
                     foreach (var paymentDue in paymentsDueInPeriod)
                     {
                         amountDue -= -paymentDue.AmountDue;
@@ -343,12 +343,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                     && x.CommitmentId == period.CommitmentId
                                                                     && x.TransactionType == earning.Type)
                                                                     .Sum(x => x.AmountDue);
-                    if (alreadyAdjustedTotal > 0)
+                    if (alreadyAdjustedTotal > 0 )
                     {
 
 
                         // Attempt to get refund from payments due first
-                        var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.PaymentDate.Month && x.DeliveryYear == period.PaymentDate.Year && period.AmountDue > 0).ToArray();
+                        var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.PaymentDate.Month 
+                                                                    && x.DeliveryYear == period.PaymentDate.Year 
+                                                                    && period.AmountDue > 0
+                                                                    && x.TransactionType == earning.Type).ToArray();
                         foreach (var paymentDue in paymentsDueInPeriod)
                         {
                             amountDue -= -paymentDue.AmountDue;
