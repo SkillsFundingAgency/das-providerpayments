@@ -28,6 +28,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql", connection);
+                    
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
