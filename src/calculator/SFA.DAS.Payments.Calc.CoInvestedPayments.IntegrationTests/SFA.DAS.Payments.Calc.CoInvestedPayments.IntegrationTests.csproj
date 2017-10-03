@@ -92,6 +92,12 @@
     <Compile Include="FinishOnTime\WhenLearner16To18DisadvantagePaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenLearner16To18IncentivePaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenLearnerIsNonDas.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenNoEmployerPaymentsAreDue.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenASinglePaymentOf1500IsDueForThisPeriodAndTheSfaContributionPercentageVaries.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenNoPaymentsAreDue.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenASinglePaymentOf1500IsDueForThisPeriod.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenAPaymentFromLastMonthOf1000AndAPaymentOf1500IsDueForThisPeriod.cs" />
+    <Compile Include="FinishOnTime\WhenNoPaymentsAreDue\WhenNoPaymentsAreDueBecauseManualAdjustmentsProcessedTransaction.cs" />
     <Compile Include="FinishOnTime\WhenRefundPaymentsAreDue.cs" />
     <Compile Include="FinishOnTime\WhenNoPaymentsAreDue.cs" />
     <Compile Include="GlobalSetup.cs" />
