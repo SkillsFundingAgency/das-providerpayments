@@ -244,7 +244,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                     else
                     {
-                        ApportionPaymentDuesOverPreviouslyPaidSameMonths(provider, paymentsDue, earning, paymentHistory.ToArray(), amountDue);
+                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, paymentHistory.ToArray(), amountDue);
                     }
                 }
             }
@@ -314,7 +314,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
-        private void ApportionPaymentDuesOverPreviouslyPaidSameMonths(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
+        private void ApportionPaymentDuesWithHistoricalPayments(Provider provider, 
+                                                                List<RequiredPayment> paymentsDue, 
+                                                                PeriodEarning earning, 
+                                                                RequiredPayment[] paymentHistory, 
+                                                                decimal amountDue)
         {
 
             var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear && x.TransactionType == earning.Type)
@@ -338,35 +342,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                     var period = refundablePeriods[refundPeriodIndex];
 
+                    //calculate the total which we have already adjusted for that month
                     var alreadyAdjustedTotal = paymentHistory.Where(x => x.DeliveryMonth == period.PaymentDate.Month
                                                                     && x.DeliveryYear == period.PaymentDate.Year
                                                                     && x.CommitmentId == period.CommitmentId
                                                                     && x.TransactionType == earning.Type)
                                                                     .Sum(x => x.AmountDue);
+                    //if there is money to reclaim then we can use the period
                     if (alreadyAdjustedTotal > 0 )
                     {
 
-
-                        // Attempt to get refund from payments due first
-                        var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.PaymentDate.Month 
-                                                                    && x.DeliveryYear == period.PaymentDate.Year 
-                                                                    && period.AmountDue > 0
-                                                                    && x.TransactionType == earning.Type).ToArray();
-                        foreach (var paymentDue in paymentsDueInPeriod)
-                        {
-                            amountDue -= -paymentDue.AmountDue;
-                            paymentsDue.Remove(paymentDue);
-                        }
-
-                        // Attempt to get any remaining amount from previous payments
-                        var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
-                        if (refundedInPeriod != 0)
-                        {
-                            UpdateCommitmentForRefund(paymentHistory, earning, period.CommitmentId, period.PaymentDate);
-
-                            AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
-                            amountDue -= refundedInPeriod;
-                        }
+                        AddRefundPaymentDue(provider, paymentsDue, period.PaymentDate, period.AmountDue, period.CommitmentId, earning, paymentHistory, amountDue);
                     }
                     refundPeriodIndex++;
                 }
@@ -374,6 +360,38 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             else
             {
                 ApportionPaymentDuesOverPreviousPeriods(provider, paymentsDue, earning, paymentHistory, amountDue);
+            }
+        }
+
+        private void AddRefundPaymentDue(Provider provider,
+                                        List<RequiredPayment> paymentsDue,
+                                        DateTime paymentDate, 
+                                        decimal alreadyPaidAmount, 
+                                        long? commitmentId,
+                                        PeriodEarning earning,
+                                        RequiredPayment[] paymentHistory,
+                                        decimal amountDue)
+        {
+
+            // Attempt to get refund from payments due first
+            var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == paymentDate.Month
+                                                        && x.DeliveryYear == paymentDate.Year
+                                                        && alreadyPaidAmount > 0
+                                                        && x.TransactionType == earning.Type).ToArray();
+            foreach (var paymentDue in paymentsDueInPeriod)
+            {
+                alreadyPaidAmount -= -paymentDue.AmountDue;
+                paymentsDue.Remove(paymentDue);
+            }
+
+            // Attempt to get any remaining amount from previous payments
+            var refundedInPeriod = alreadyPaidAmount>= -amountDue ? amountDue : -alreadyPaidAmount;
+            if (refundedInPeriod != 0)
+            {
+                UpdateCommitmentForRefund(paymentHistory, earning, commitmentId, paymentDate);
+
+                AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
+                amountDue -= refundedInPeriod;
             }
         }
 
