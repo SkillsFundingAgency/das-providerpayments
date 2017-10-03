@@ -84,8 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-
-
+        
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
@@ -200,19 +199,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                var alreadyPaidItems = paymentHistory
+                var historicalAllPayments = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.LearnerRefNumber == earning.LearnerReferenceNumber &&
                                 p.StandardCode == earning.StandardCode &&
                                 p.FrameworkCode == earning.FrameworkCode &&
                                 p.PathwayCode == earning.PathwayCode &&
                                 p.ProgrammeType == earning.ProgrammeType &&
-                                p.DeliveryMonth == earning.CalendarMonth &&
-                                p.DeliveryYear == earning.CalendarYear &&
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef &&
-                                p.LearningStartDate == earning.LearningStartDate)
-                    .ToArray();
+                                p.LearningStartDate == earning.LearningStartDate);
+
+                var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
+                                                                    p.DeliveryYear == earning.CalendarYear).ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
 
@@ -244,7 +243,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                     else
                     {
-                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, paymentHistory.ToArray(), amountDue);
+                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, historicalAllPayments.ToArray(), amountDue);
                     }
                 }
             }
@@ -275,7 +274,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
-            var refundablePeriods = paymentHistory.GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
+            var refundablePeriods = paymentHistory.Where(x=> x.LearnerRefNumber == earning.LearnerReferenceNumber )
+                                                   .GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
                                                   .Select(x => new { x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue) })
                                                   .OrderByDescending(x => x.DeliveryYear)
                                                   .ThenByDescending(x => x.DeliveryMonth)
@@ -290,7 +290,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     var period = refundablePeriods[refundPeriodIndex];
 
                     // Attempt to get refund from payments due first
-                    var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear && x.TransactionType == earning.Type).ToArray();
+                    var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber && x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear && x.TransactionType == earning.Type).ToArray();
                     foreach (var paymentDue in paymentsDueInPeriod)
                     {
                         amountDue -= -paymentDue.AmountDue;
@@ -321,7 +321,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                 decimal amountDue)
         {
 
-            var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear && x.TransactionType == earning.Type)
+            var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth 
+                                                            && x.DeliveryYear == earning.CalendarYear )
                                                   .GroupBy(x => new { x.CommitmentId, PaymentDate = new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) })
                                                   .Select(x => new { x.Key.CommitmentId, x.Key.PaymentDate, AmountDue = x.Sum(y => y.AmountDue) })
                                                   .OrderByDescending(x => x.PaymentDate)
@@ -351,8 +352,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     //if there is money to reclaim then we can use the period
                     if (alreadyAdjustedTotal > 0 )
                     {
-
-                        AddRefundPaymentDue(provider, paymentsDue, period.PaymentDate, period.AmountDue, period.CommitmentId, earning, paymentHistory, amountDue);
+                      amountDue -=  AddRefundPaymentDue(provider, paymentsDue, period.PaymentDate, period.AmountDue, period.CommitmentId, earning, paymentHistory, amountDue);
                     }
                     refundPeriodIndex++;
                 }
@@ -363,7 +363,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
-        private void AddRefundPaymentDue(Provider provider,
+        private decimal AddRefundPaymentDue(Provider provider,
                                         List<RequiredPayment> paymentsDue,
                                         DateTime paymentDate, 
                                         decimal alreadyPaidAmount, 
@@ -374,7 +374,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
 
             // Attempt to get refund from payments due first
-            var paymentsDueInPeriod = paymentsDue.Where(x => x.DeliveryMonth == paymentDate.Month
+            var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber  && x.DeliveryMonth == paymentDate.Month
                                                         && x.DeliveryYear == paymentDate.Year
                                                         && alreadyPaidAmount > 0
                                                         && x.TransactionType == earning.Type).ToArray();
@@ -391,8 +391,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 UpdateCommitmentForRefund(paymentHistory, earning, commitmentId, paymentDate);
 
                 AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
-                amountDue -= refundedInPeriod;
+                
             }
+            return refundedInPeriod;
         }
 
         private void UpdateCommitmentForRefund(RequiredPayment[] paymentHistory, PeriodEarning earning, long? historicalCommitmentId, DateTime historicalCollectionPeriodDate)
