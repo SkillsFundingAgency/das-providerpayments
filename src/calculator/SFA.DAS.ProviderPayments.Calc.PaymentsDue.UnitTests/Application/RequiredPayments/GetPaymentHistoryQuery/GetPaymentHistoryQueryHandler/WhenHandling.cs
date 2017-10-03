@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             _requiredPaymentRepository.Setup(r => r.GetPreviousPayments(Ukprn, LearnRefNumber))
                 .Returns(new[]
                 {
-                    new RequiredPaymentEntity
+                    new HistoricalRequiredPaymentEntity
                     {
                         Ukprn = Ukprn,
                         LearnRefNumber = LearnRefNumber,

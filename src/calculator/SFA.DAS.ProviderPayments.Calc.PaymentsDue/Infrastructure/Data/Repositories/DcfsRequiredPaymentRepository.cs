@@ -31,7 +31,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "FundingLineType,"
                                                    + "PriceEpisodeIdentifier,"
                                                    + "SfaContributionPercentage,"
-                                                   + "UseLevyBalance";
+                                                   + "UseLevyBalance,"
+                                                   + "CollectionPeriodMonth,"
+                                                   + "CollectionPeriodYear";
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
@@ -48,9 +50,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             ExecuteBatch(payments, PaymentsDestination);
         }
 
-        public RequiredPaymentEntity[] GetPreviousPayments(long ukprn, string learnRefNumber)
+        public HistoricalRequiredPaymentEntity[] GetPreviousPayments(long ukprn, string learnRefNumber)
         {
-            return Query<RequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, learnRefNumber });
+            return Query<HistoricalRequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, learnRefNumber });
         }
 
         public RequiredPaymentEntity[] GetPreviousPaymentsWithoutEarnings()

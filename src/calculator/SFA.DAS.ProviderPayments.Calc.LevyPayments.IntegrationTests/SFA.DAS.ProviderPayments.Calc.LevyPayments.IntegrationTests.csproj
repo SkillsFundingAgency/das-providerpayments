@@ -144,6 +144,9 @@
     <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\Summarisation.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

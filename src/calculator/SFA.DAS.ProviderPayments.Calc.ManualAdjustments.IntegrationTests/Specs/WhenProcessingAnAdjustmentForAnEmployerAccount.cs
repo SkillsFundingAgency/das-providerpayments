@@ -232,8 +232,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(expectedLevyPayment.TransactionType, actualLevyPayment.TransactionType);
             Assert.AreEqual(-expectedLevyPayment.Amount, actualLevyPayment.Amount);
 
-            var actualGovernmentPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 2);
-            var expectedGovernmentPayment = paymentsMadePerviously.Single(p => p.FundingSource == 2);
+            var actualGovernmentPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 2 && p.Amount <0);
+            var expectedGovernmentPayment = paymentsMadePerviously.Single(p => p.FundingSource == 2 && p.Amount > 0);
             Assert.IsNotNull(actualGovernmentPayment);
             Assert.AreEqual(expectedGovernmentPayment.DeliveryMonth, actualGovernmentPayment.DeliveryMonth);
             Assert.AreEqual(expectedGovernmentPayment.DeliveryYear, actualGovernmentPayment.DeliveryYear);
@@ -246,8 +246,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(expectedGovernmentPayment.TransactionType, actualGovernmentPayment.TransactionType);
             Assert.AreEqual(-expectedGovernmentPayment.Amount, actualGovernmentPayment.Amount);
 
-            var actualEmployerPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 3);
-            var expectedEmployerPayment = paymentsMadePerviously.Single(p => p.FundingSource == 3);
+            var actualEmployerPayment = actualPayments.SingleOrDefault(p => p.FundingSource == 3 && p.Amount < 0);
+            var expectedEmployerPayment = paymentsMadePerviously.Single(p => p.FundingSource == 3 && p.Amount > 0);
             Assert.IsNotNull(actualEmployerPayment);
             Assert.AreEqual(expectedEmployerPayment.DeliveryMonth, actualEmployerPayment.DeliveryMonth);
             Assert.AreEqual(expectedEmployerPayment.DeliveryYear, actualEmployerPayment.DeliveryYear);

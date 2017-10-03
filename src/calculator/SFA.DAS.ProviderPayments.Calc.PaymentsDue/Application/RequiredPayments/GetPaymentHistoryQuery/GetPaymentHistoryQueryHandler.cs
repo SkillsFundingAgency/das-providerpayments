@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
             {
                 var entities =
                     _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.LearnRefNumber)
-                    ?? new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
+                    ?? new Infrastructure.Data.Entities.HistoricalRequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryQueryResponse
                 {
@@ -46,7 +46,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             AccountId = e.AccountId,
                             AccountVersionId = e.AccountVersionId,
                             LearnAimRef = e.LearnAimRef,
-                            LearningStartDate = e.LearningStartDate
+                            LearningStartDate = e.LearningStartDate,
+                            CollectionPeriodMonth = e.CollectionPeriodMonth,
+                            CollectionPeriodYear = e.CollectionPeriodYear,
+                            ApprenticeshipContractType =e.ApprenticeshipContractType,
+                            FundingLineType =e.FundingLineType,
+                            IlrSubmissionDateTime=e.IlrSubmissionDateTime,
+                            PriceEpisodeIdentifier =e.PriceEpisodeIdentifier,
+                            SfaContributionPercentage =e.SfaContributionPercentage,
+                            UseLevyBalance =e.UseLevyBalance
                             
                         }).ToArray()
                 };

@@ -61,7 +61,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            bool passedDataLock = true,
                                            int[] notPayablePeriods = null,
                                            int[] notMatchedPeriods = null,
-                                           TransactionType[] transactionTypes = null)
+                                           TransactionType[] transactionTypes = null,
+                                           bool addPriceEpisodeMatches = true)
         {
             var minStartDate = new DateTime(2016, 8, 1);
 
@@ -93,35 +94,38 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
             var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
 
-            Execute("INSERT INTO DataLock.PriceEpisodeMatch "
-                  + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,IsSuccess) "
-                  + "VALUES "
-                  + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier,@passedDataLock)",
-                  new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, passedDataLock });
-
-            var censusDate = startDate.LastDayOfMonth();
-            var period = 1;
-
-            transactionTypes = transactionTypes ?? new[] { TransactionType.Balancing, TransactionType.Completion, TransactionType.Learning };
-
-            while (censusDate <= endDate && period <= 12)
+            if (addPriceEpisodeMatches)
             {
-                foreach (var traxType in transactionTypes)
+                Execute("INSERT INTO DataLock.PriceEpisodeMatch "
+                      + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,IsSuccess) "
+                      + "VALUES "
+                      + "(@ukprn,@learnerRefNumber,@aimSequenceNumber,@id,@priceEpisodeIdentifier,@passedDataLock)",
+                      new { id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, passedDataLock });
+
+                var censusDate = startDate.LastDayOfMonth();
+                var period = 1;
+
+                transactionTypes = transactionTypes ?? new[] { TransactionType.Balancing, TransactionType.Completion, TransactionType.Learning };
+
+                while (censusDate <= endDate && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
+                    foreach (var traxType in transactionTypes)
+                    {
+                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
+                    }
+
+                    censusDate = censusDate.AddMonths(1).LastDayOfMonth();
+                    period++;
                 }
 
-                censusDate = censusDate.AddMonths(1).LastDayOfMonth();
-                period++;
-            }
-
-            if (endDate != endDate.LastDayOfMonth() && period <= 12)
-            {
-                foreach (var traxType in transactionTypes)
+                if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
-                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
-                }
+                    foreach (var traxType in transactionTypes)
+                    {
+                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
+                    }
 
+                }
             }
 
             if (!passedDataLock)

@@ -147,28 +147,26 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
 
         internal static void WritePayment(PaymentEntity payment,RequiredPaymentEntity requiredPayment)
         {
-            var destinationTable = payment.FundingSource == 1 ? "Reference.LevyPaymentsHistory" : "Reference.CoInvestedPaymentsHistory";
-            var commitmentIdCol = payment.FundingSource == 1 ? ", CommitmentId" : "";
-            var commitmentIdVal = payment.FundingSource == 1 ? ", @CommitmentId" : "";
-
-            if (payment.FundingSource == 1)
+            
+        
+            if (payment.CommitmentId.HasValue && payment.CommitmentId.Value>0 )
             {
                 using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
                 {
-                    connection.Execute($"INSERT INTO {destinationTable} (RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
-                                       $"FundingSource, TransactionType, Amount{commitmentIdCol})" +
+                    connection.Execute($"INSERT INTO Reference.LevyPaymentsHistory (RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
+                                       $"FundingSource, TransactionType, Amount, CommitmentId)" +
                                         "VALUES (@RequiredPaymentId, @DeliveryMonth, @DeliveryYear, " +
-                                       $"@FundingSource, @TransactionType, @Amount{commitmentIdVal})",
+                                       $"@FundingSource, @TransactionType, @Amount, @CommitmentId)",
                         payment);
                 }
             }
-            else
+            if (payment.FundingSource!= 1)
             {
                 using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
                 {
 
-                    connection.Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode) " +
-                   "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode)",
+                    connection.Execute($"INSERT INTO Reference.CoInvestedPaymentsHistory (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,CommitmentId) " +
+                   "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,@CommitmentId)",
                    new
                    {
                        RequiredPaymentId = payment.RequiredPaymentId,
@@ -183,7 +181,9 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                        StandardCode = requiredPayment.StandardCode,
                        ProgrammeType = requiredPayment.ProgrammeType,
                        FrameworkCode = requiredPayment.FrameworkCode,
-                       PathwayCode = requiredPayment.PathwayCode
+                       PathwayCode = requiredPayment.PathwayCode,
+                       CommitmentId = requiredPayment.CommitmentId
+                       
                    });
                 }
             }
@@ -202,12 +202,12 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         internal static PaymentEntity[] GetHistoricalPayments()
         {
             const string columns = " RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
-                                   " FundingSource, TransactionType, Amount";
+                                   " FundingSource, TransactionType, Amount,CommitmentId";
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                return connection.Query<PaymentEntity>($"SELECT {columns},CommitmentId FROM Reference.LevyPaymentsHistory " +
-                                                       $"UNION ALL " +
-                                                       $"SELECT {columns}, NULL as CommitmentId FROM Reference.CoInvestedPaymentsHistory ").ToArray();
+                return connection.Query<PaymentEntity>($"SELECT {columns} FROM Reference.LevyPaymentsHistory " +
+                                                       $"UNION " +
+                                                       $"SELECT {columns} FROM Reference.CoInvestedPaymentsHistory ").ToArray();
             }
         }
 

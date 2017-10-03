@@ -74,3 +74,31 @@ SELECT
 	[Open] AS [Collection_Open]
 FROM Reference.CollectionPeriods
 GO
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_CollectionPeriods
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PaymentsDue' AND [schema_id] = SCHEMA_ID('LevyPayments'))
+BEGIN
+	DROP VIEW LevyPayments.vw_PaymentsDue
+END
+GO
+
+CREATE VIEW LevyPayments.vw_PaymentsDue
+AS
+SELECT
+	Id,
+	CommitmentId,
+	LearnRefNumber,
+	AimSeqNumber,
+	Ukprn,
+	DeliveryMonth,
+	DeliveryYear,
+	TransactionType,
+	AmountDue
+FROM PaymentsDue.RequiredPayments
+WHERE  UseLevyBalance = 1 AND TransactionType IN (1,2,3)
+	And Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
+GO

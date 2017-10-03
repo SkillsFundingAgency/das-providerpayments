@@ -16,7 +16,8 @@ SELECT
 	p.DeliveryYear ,
 	p.TransactionType ,
 	p.Amount,
-	p.FundingSource 
+	p.FundingSource ,
+	rp.CommitmentId
     FROM  ${DAS_PeriodEnd.FQ}.Payments.Payments p 
 	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
