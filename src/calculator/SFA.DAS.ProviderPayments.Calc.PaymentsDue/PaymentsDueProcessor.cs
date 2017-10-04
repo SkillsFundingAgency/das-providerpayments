@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         public virtual void Process()
         {
-           
+
             _logger.Info("Started Payments Due Processor.");
 
             var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-        
+           
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
@@ -243,7 +243,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                     else
                     {
-                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, historicalAllPayments.ToArray(), amountDue);
+                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, historicalAllPayments.ToArray(), amountDue, currentPeriod);
                     }
                 }
             }
@@ -274,7 +274,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
-            var refundablePeriods = paymentHistory.Where(x=> x.LearnerRefNumber == earning.LearnerReferenceNumber )
+            var refundablePeriods = paymentHistory.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber)
                                                    .GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
                                                   .Select(x => new { x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue) })
                                                   .OrderByDescending(x => x.DeliveryYear)
@@ -314,59 +314,74 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
-        private void ApportionPaymentDuesWithHistoricalPayments(Provider provider, 
-                                                                List<RequiredPayment> paymentsDue, 
-                                                                PeriodEarning earning, 
-                                                                RequiredPayment[] paymentHistory, 
-                                                                decimal amountDue)
+        private void ApportionPaymentDuesWithHistoricalPayments(Provider provider,
+                                                                List<RequiredPayment> paymentsDue,
+                                                                PeriodEarning earning,
+                                                                RequiredPayment[] paymentHistory,
+                                                                decimal amountDue,
+                                                                CollectionPeriod currentPeriod)
         {
 
-            var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth 
-                                                            && x.DeliveryYear == earning.CalendarYear )
-                                                  .GroupBy(x => new { x.CommitmentId, PaymentDate = new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) })
-                                                  .Select(x => new { x.Key.CommitmentId, x.Key.PaymentDate, AmountDue = x.Sum(y => y.AmountDue) })
-                                                  .OrderByDescending(x => x.PaymentDate)
-                                                  .ToArray();
+            var refundAdded = false;
+            var pastTransaction = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear);
 
-            // if there are no historical payments then just skip the execution
-            if (refundablePeriods.Any())
+            if (pastTransaction.Count() == 1)
+            {
+                var transaction = pastTransaction.First();
+                if (transaction.AmountDue == -amountDue)
+                {
+                    AddRefundPaymentDue(provider, paymentsDue, new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1), transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
+                    refundAdded = true;
+                }
+                
+            }
+            if (!refundAdded)
             {
 
-                var refundPeriodIndex = 0;
-                while (amountDue < 0)
+                var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth
+                                                                && x.DeliveryYear == earning.CalendarYear
+                                                                && x.AmountDue > 0
+                                                                && new DateTime(x.CollectionPeriodYear,x.CollectionPeriodMonth,1) !=
+                                                                    new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
+                                                                .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
+                                                               .ToArray();
+
+                // if there are no historical payments then just skip the execution
+                if (refundablePeriods.Any())
                 {
 
-                    //We should not get this, but added here otherwise it could well stuck into infinite loop
-                    if (refundablePeriods.Length == refundPeriodIndex)
+                    var refundPeriodIndex = 0;
+                    while (amountDue < 0)
                     {
-                        break;
-                    }
-                    var period = refundablePeriods[refundPeriodIndex];
 
-                    //calculate the total which we have already adjusted for that month
-                    var alreadyAdjustedTotal = paymentHistory.Where(x => x.DeliveryMonth == period.PaymentDate.Month
-                                                                    && x.DeliveryYear == period.PaymentDate.Year
-                                                                    && x.CommitmentId == period.CommitmentId
-                                                                    && x.TransactionType == earning.Type)
-                                                                    .Sum(x => x.AmountDue);
-                    //if there is money to reclaim then we can use the period
-                    if (alreadyAdjustedTotal > 0 )
-                    {
-                      amountDue -=  AddRefundPaymentDue(provider, paymentsDue, period.PaymentDate, period.AmountDue, period.CommitmentId, earning, paymentHistory, amountDue);
+                        //We should not get this, but added here otherwise it could well stuck into infinite loop
+                        if (refundablePeriods.Length == refundPeriodIndex)
+                        {
+                            break;
+                        }
+                        var period = refundablePeriods[refundPeriodIndex];
+
+                        amountDue -= AddRefundPaymentDue(provider, paymentsDue,
+                                                        new DateTime(period.CollectionPeriodYear, period.CollectionPeriodMonth, 1),
+                                                        period.AmountDue,
+                                                        period.CommitmentId,
+                                                        earning,
+                                                        paymentHistory,
+                                                        amountDue);
+                        refundAdded = true; 
+                        refundPeriodIndex++;
                     }
-                    refundPeriodIndex++;
                 }
             }
-            else
+            if (!refundAdded)
             {
                 ApportionPaymentDuesOverPreviousPeriods(provider, paymentsDue, earning, paymentHistory, amountDue);
             }
         }
-
         private decimal AddRefundPaymentDue(Provider provider,
                                         List<RequiredPayment> paymentsDue,
-                                        DateTime paymentDate, 
-                                        decimal alreadyPaidAmount, 
+                                        DateTime paymentDate,
+                                        decimal alreadyPaidAmount,
                                         long? commitmentId,
                                         PeriodEarning earning,
                                         RequiredPayment[] paymentHistory,
@@ -374,7 +389,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
 
             // Attempt to get refund from payments due first
-            var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber  && x.DeliveryMonth == paymentDate.Month
+            var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber && x.DeliveryMonth == paymentDate.Month
                                                         && x.DeliveryYear == paymentDate.Year
                                                         && alreadyPaidAmount > 0
                                                         && x.TransactionType == earning.Type).ToArray();
@@ -385,13 +400,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             // Attempt to get any remaining amount from previous payments
-            var refundedInPeriod = alreadyPaidAmount>= -amountDue ? amountDue : -alreadyPaidAmount;
+            var refundedInPeriod = alreadyPaidAmount >= -amountDue ? amountDue : -alreadyPaidAmount;
             if (refundedInPeriod != 0)
             {
                 UpdateCommitmentForRefund(paymentHistory, earning, commitmentId, paymentDate);
 
                 AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
-                
+
             }
             return refundedInPeriod;
         }
