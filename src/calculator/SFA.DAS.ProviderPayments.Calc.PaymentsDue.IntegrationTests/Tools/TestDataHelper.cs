@@ -471,7 +471,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
         internal static void AddPaymentForCommitment(long commitmentId, int month, 
             int year, int transactionType, decimal amount,string learnRefNumber = "1", 
-            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode=null )
+            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode=null, 
+            int? collectionperiodMonth = null , int? collectionPeriodYear  =null)
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -503,8 +504,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
                   + "cast(@academicYear as char(4)) + '-R01', " // CollectionPeriodName
-                  + "@month, " // CollectionPeriodMonth
-                  + "@year, " // CollectionPeriodYear
+                  + "@CollectionPeriodMonth, " // CollectionPeriodMonth
+                  + "@CollectionPeriodYear, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType
                   + "@amount, " // AmountDue
                   + "0.9, " // SfaContributionPercentage
@@ -514,7 +515,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                    + "StartDate "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                  new { month, year, submissionDateTime, learnRefNumber, transactionType, amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear }, false);
+                  new { month, year, submissionDateTime, learnRefNumber, transactionType,
+                      amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear,
+                      CollectionPeriodYear = collectionPeriodYear.HasValue? collectionPeriodYear.Value: year,
+                      CollectionPeriodMonth = collectionperiodMonth.HasValue ? collectionperiodMonth.Value : month
+                  }, false);
         }
 
         internal static void AddPaymentForNonDas(RequiredPaymentEntity requiredPayment)
