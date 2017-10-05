@@ -469,10 +469,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, startDate, currentPeriod, amount }, false);
         }
 
-        internal static void AddPaymentForCommitment(long commitmentId, int month, 
-            int year, int transactionType, decimal amount,string learnRefNumber = "1", 
-            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode=null, 
-            int? collectionperiodMonth = null , int? collectionPeriodYear  =null)
+        internal static void AddPaymentForCommitment(long commitmentId, int month,
+            int year, int transactionType, decimal amount, string learnRefNumber = "1",
+            int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode = null,
+            int? collectionperiodMonth = null, int? collectionPeriodYear = null)
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -482,44 +482,53 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             academicYear = (academicYear * 100) + (academicYear + 1);
             var submissionDateTime = DateTime.Now;
             
-
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
-                  + "SELECT "
-                  + "NEWID(), " // Id
-                  + "CommitmentId, " // CommitmentId
-                  + "VersionId, " // CommitmentVersionId
-                  + "AccountId, " // AccountId
-                  + "'NA', " // AccountVersionId
-                  + "Uln, " // Uln
-                  + "@learnRefNumber, " // LearnRefNumber
-                  + "@aimSequenceNumber, " // AimSeqNumber
-                  + "Ukprn, " // Ukprn
-                  + "@submissionDateTime, " // IlrSubmissionDateTime
-                  + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
-                  + "StandardCode, " // StandardCode
-                  + "ProgrammeType, " // ProgrammeType
-                  + (frameworkCode.HasValue ? frameworkCode.Value.ToString() :  "FrameworkCode") + "," // FrameworkCode
-                  + "PathwayCode, " // PathwayCode
-                  + "'1', " // ApprenticeshipContractType
-                  + "@month, " // DeliveryMonth
-                  + "@year, " // DeliveryYear
-                  + "cast(@academicYear as char(4)) + '-R01', " // CollectionPeriodName
-                  + "@CollectionPeriodMonth, " // CollectionPeriodMonth
-                  + "@CollectionPeriodYear, " // CollectionPeriodYear
-                  + "@transactionType, " // TransactionType
-                  + "@amount, " // AmountDue
-                  + "0.9, " // SfaContributionPercentage
-                  + "'Non-Levy Funding Line', " // FundingLineType
-                   + "1, " // UseLevyBalane
-                   + "@learnAimref,"
-                   + "StartDate "
-                  + "FROM dbo.DasCommitments "
-                  + "WHERE CommitmentId = @commitmentId",
-                  new { month, year, submissionDateTime, learnRefNumber, transactionType,
-                      amount, commitmentId,aimSequenceNumber,learnAimRef, academicYear,
-                      CollectionPeriodYear = collectionPeriodYear.HasValue? collectionPeriodYear.Value: year,
-                      CollectionPeriodMonth = collectionperiodMonth.HasValue ? collectionperiodMonth.Value : month
-                  }, false);
+                    + "SELECT "
+                    + "NEWID(), " // Id
+                    + "CommitmentId, " // CommitmentId
+                    + "VersionId, " // CommitmentVersionId
+                    + "AccountId, " // AccountId
+                    + "'NA', " // AccountVersionId
+                    + "Uln, " // Uln
+                    + "@learnRefNumber, " // LearnRefNumber
+                    + "@aimSequenceNumber, " // AimSeqNumber
+                    + "Ukprn, " // Ukprn
+                    + "@submissionDateTime, " // IlrSubmissionDateTime
+                    + "'25-27-01/04/2017', " // PriceEpisodeIdentifier
+                    + "StandardCode, " // StandardCode
+                    + "ProgrammeType, " // ProgrammeType
+                    + (frameworkCode?.ToString() ?? "FrameworkCode") + "," // FrameworkCode
+                    + "PathwayCode, " // PathwayCode
+                    + "'1', " // ApprenticeshipContractType
+                    + "@month, " // DeliveryMonth
+                    + "@year, " // DeliveryYear
+                    + "cast(@academicYear as char(4)) + '-R01', " // CollectionPeriodName
+                    + "@CollectionPeriodMonth, " // CollectionPeriodMonth
+                    + "@CollectionPeriodYear, " // CollectionPeriodYear
+                    + "@transactionType, " // TransactionType
+                    + "@amount, " // AmountDue
+                    + "0.9, " // SfaContributionPercentage
+                    + "'Non-Levy Funding Line', " // FundingLineType
+                    + "1, " // UseLevyBalane
+                    + "@learnAimref,"
+                    + "StartDate "
+                    + "FROM dbo.DasCommitments "
+                    + "WHERE CommitmentId = @commitmentId",
+                new
+                {
+                    month,
+                    year,
+                    submissionDateTime,
+                    learnRefNumber,
+                    transactionType,
+                    amount,
+                    commitmentId,
+                    aimSequenceNumber,
+                    learnAimRef,
+                    academicYear,
+                    CollectionPeriodYear = collectionPeriodYear ?? year,
+                    CollectionPeriodMonth = collectionperiodMonth ?? month
+                }, false);
         }
 
         internal static void AddPaymentForNonDas(RequiredPaymentEntity requiredPayment)
@@ -557,9 +566,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@learningStartDate)",
                   requiredPayment, false);
         }
-
-
-
+        
         internal static void AddPaymentForNonDas(long ukprn, 
                                                     long uln, 
                                                     int month, 

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
@@ -64,10 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(1, duePayments.Count(x => x.DeliveryMonth == 10 && x.AmountDue == 0.06667m && x.CommitmentId == commitmentId2 && x.TransactionType == (int)TransactionType.Learning));
             Assert.AreEqual(1, duePayments.Count(x => x.DeliveryMonth == 11 && x.AmountDue == 0.06667m && x.CommitmentId == commitmentId2 && x.TransactionType == (int)TransactionType.Learning));
             Assert.AreEqual(1, duePayments.Count(x => x.DeliveryMonth == 12 && x.AmountDue == 0.06667m && x.CommitmentId == commitmentId2 && x.TransactionType == (int)TransactionType.Learning));
-
-
         }
-
 
         [Test]
         public void ThenItShouldNotUseCurrentCollectionPeriodTransactionForReversal()
@@ -82,8 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var uln = new Random().Next(10000000, int.MaxValue);
 
             TestDataHelper.AddProvider(ukprn);
-
-
+            
             TestDataHelper.AddCommitment(commitmentId1, ukprn, learnerRefNumber,
                                         startDate: startDate, endDate: plannedEndDate, uln: uln, frameworkCode: 14231, addPriceEpisodeMatches: false);
             TestDataHelper.AddPaymentForCommitment(commitmentId1, 8, 2016, (int)TransactionType.Learning, 1000, learnerRefNumber);
@@ -96,8 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddPaymentForCommitment(commitmentId2, 9, 2016, (int)TransactionType.Learning, 500, learnerRefNumber);
 
             TestDataHelper.AddEarningForCommitment(commitmentId2, learnerRefNumber, currentPeriod: 2);
-
-
+            
             TestDataHelper.CopyReferenceData();
 
             // Act
@@ -110,14 +102,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             //there should be 1 transactions for Sep
             Assert.AreEqual(1, duePayments.Count(x => x.DeliveryMonth == 9 && x.AmountDue == -0.06667m && x.CommitmentId == commitmentId1 && x.TransactionType == (int)TransactionType.Learning));
-
-
-
-
-
-
         }
-
-
     }
 }
