@@ -133,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "Id, "
                   + "DeliveryMonth, "
                   + "DeliveryYear, "
-                  + "'2017-R01', "
+                  + "'1617-R01', "
                   + "1, "
                   + "2017, "
                   + "1, "

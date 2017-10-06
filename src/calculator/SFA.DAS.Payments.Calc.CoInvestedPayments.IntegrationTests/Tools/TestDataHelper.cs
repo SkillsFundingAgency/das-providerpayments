@@ -46,9 +46,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@requiredPaymentId, "
                   + "@deliveryMonth, "
                   + "@deliveryYear, "
-                  + "'2017-R01', "
-                  + "1, "
-                  + "2017, "
+                  + "'1617-R01', "
+                  + "@deliveryMonth, "
+                  + "@deliveryYear, "
                   + "@fundingSource, "
                   + "@transactionType, "
                   + "@amount) ",

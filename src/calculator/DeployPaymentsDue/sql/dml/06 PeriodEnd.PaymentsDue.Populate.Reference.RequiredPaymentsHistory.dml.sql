@@ -33,4 +33,5 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		UseLevyBalance
     FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+	And CollectionPeriodName LIKE '${YearOfCollection}-%' 
 GO
