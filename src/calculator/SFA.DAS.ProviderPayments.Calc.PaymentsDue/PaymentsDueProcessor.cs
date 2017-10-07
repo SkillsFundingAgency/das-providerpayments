@@ -14,7 +14,6 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Get
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 using System;
-using System.Diagnostics;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -30,6 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _mediator = mediator;
             _context = context;
         }
+
         protected PaymentsDueProcessor()
         {
             // So we can mock
@@ -37,7 +37,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         public virtual void Process()
         {
-
             _logger.Info("Started Payments Due Processor.");
 
             var collectionPeriod = _mediator.Send(new GetCurrentCollectionPeriodQueryRequest());
@@ -61,9 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             if (providers.Items != null && providers.Items.Any())
             {
-                var paymentsDue = new List<RequiredPayment>();
-
-                GetPaymentsDueForPaymentsWithoutEarnings(collectionPeriod.Period, paymentsDue);
+                var paymentsDue = GetPaymentsDueForPaymentsWithoutEarnings();
                 SavePaymentsDue(paymentsDue);
 
                 foreach (var provider in providers.Items)
@@ -79,7 +76,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             _logger.Info("Finished Payments Due Processor.");
         }
-
 
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
@@ -100,7 +96,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             GetPaymentsDue(provider, currentPeriod, earningResponse, paymentsDue);
 
             SavePaymentsDue(paymentsDue);
-
         }
 
         private void SavePaymentsDue(List<RequiredPayment> paymentsDue)
@@ -115,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
-        private void GetPaymentsDueForPaymentsWithoutEarnings(CollectionPeriod currentPeriod, List<RequiredPayment> paymentsDue)
+        private List<RequiredPayment> GetPaymentsDueForPaymentsWithoutEarnings()
         {
             var historicalPaymentsResponse = _mediator.Send(new GetPaymentHistoryWhereNoEarningQueryRequest());
             if (!historicalPaymentsResponse.IsValid)
@@ -123,9 +118,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryWithoutEarningsMessage, historicalPaymentsResponse.Exception);
             }
 
-            foreach (var historicalPayment in historicalPaymentsResponse.Items)
-            {
-                paymentsDue.Add(new RequiredPayment
+            var paymentsDue = historicalPaymentsResponse.Items
+                .Select(historicalPayment => new RequiredPayment
                 {
                     CommitmentId = historicalPayment.CommitmentId,
                     CommitmentVersionId = historicalPayment.CommitmentVersionId,
@@ -151,11 +145,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     UseLevyBalance = historicalPayment.UseLevyBalance,
                     LearnAimRef = historicalPayment.LearnAimRef,
                     LearningStartDate = historicalPayment.LearningStartDate
-                });
-            }
+                }).ToList();
+
+            return paymentsDue;
         }
-        private void GetPaymentsDue(Provider provider, CollectionPeriod currentPeriod,
-                                    GetProviderEarningsQueryResponse earningResponse, List<RequiredPayment> paymentsDue)
+
+        private void GetPaymentsDue(
+            Provider provider,
+            CollectionPeriod currentPeriod,
+            GetProviderEarningsQueryResponse earningResponse,
+            List<RequiredPayment> paymentsDue)
         {
             var paymentHistory = new List<RequiredPayment>();
             var earningsData = earningResponse.Items
@@ -177,11 +176,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 });
                 if (!historyResponse.IsValid)
                 {
-                    throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
+                    throw new PaymentsDueProcessorException(
+                        PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
                 }
                 paymentHistory.AddRange(historyResponse.Items);
             }
-
 
             foreach (var earning in earningResponse.Items)
             {
@@ -193,8 +192,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                if (earning.CalendarYear > currentPeriod.Year
-                    || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                if (earning.CalendarYear > currentPeriod.Year ||
+                    (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
                 {
                     continue;
                 }
@@ -210,11 +209,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.LearnAimRef == earning.LearnAimRef &&
                                 p.LearningStartDate == earning.LearningStartDate);
 
-                var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
-                                                                    p.DeliveryYear == earning.CalendarYear).ToArray();
+                var alreadyPaidItems = historicalAllPayments
+                    .Where(p => p.DeliveryMonth == earning.CalendarMonth &&
+                                p.DeliveryYear == earning.CalendarYear)
+                    .ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
-
 
                 var isPayble = false;
                 if (EarningIsPayableDasEarning(earning) || EarningIsPayableNonDasEarning(earning))
@@ -243,7 +243,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     }
                     else
                     {
-                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, historicalAllPayments.ToArray(), amountDue, currentPeriod);
+                        ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning,
+                            historicalAllPayments.ToArray(), amountDue, currentPeriod);
                     }
                 }
             }
@@ -253,6 +254,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             return earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 1 && earning.Payable && earning.IsSuccess;
         }
+
         private bool EarningIsPayableNonDasEarning(PeriodEarning earning)
         {
             return earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2;
@@ -260,37 +262,49 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
         {
-            return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
-                               p.Uln == currentEarning.Uln &&
-                               p.StandardCode == currentEarning.StandardCode &&
-                               p.FrameworkCode == currentEarning.FrameworkCode &&
-                               p.PathwayCode == currentEarning.PathwayCode &&
-                               p.ProgrammeType == currentEarning.ProgrammeType &&
-                               p.CalendarMonth == currentEarning.CalendarMonth &&
-                               p.CalendarYear == currentEarning.CalendarYear &&
-                               p.EarnedValue != 0 &&
-                               ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
+            return earnings
+                .Any(p => p.Ukprn == currentEarning.Ukprn &&
+                          p.Uln == currentEarning.Uln &&
+                          p.StandardCode == currentEarning.StandardCode &&
+                          p.FrameworkCode == currentEarning.FrameworkCode &&
+                          p.PathwayCode == currentEarning.PathwayCode &&
+                          p.ProgrammeType == currentEarning.ProgrammeType &&
+                          p.CalendarMonth == currentEarning.CalendarMonth &&
+                          p.CalendarYear == currentEarning.CalendarYear &&
+                          p.EarnedValue != 0 &&
+                          ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) ||
+                           p.ApprenticeshipContractType == 2));
         }
 
-        private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
+        private void ApportionPaymentDuesOverPreviousPeriods(
+            Provider provider,
+            List<RequiredPayment> paymentsDue,
+            PeriodEarning earning,
+            RequiredPayment[] paymentHistory,
+            decimal amountDue)
         {
-            var refundablePeriods = paymentHistory.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber)
-                                                   .GroupBy(x => new { x.DeliveryMonth, x.DeliveryYear })
-                                                  .Select(x => new { x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue) })
-                                                  .OrderByDescending(x => x.DeliveryYear)
-                                                  .ThenByDescending(x => x.DeliveryMonth)
-                                                  .ToArray();
+            var refundablePeriods = paymentHistory
+                .Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber)
+                .GroupBy(x => new {x.DeliveryMonth, x.DeliveryYear})
+                .Select(x => new {x.Key.DeliveryMonth, x.Key.DeliveryYear, AmountDue = x.Sum(y => y.AmountDue)})
+                .OrderByDescending(x => x.DeliveryYear)
+                .ThenByDescending(x => x.DeliveryMonth)
+                .ToArray();
+
             // if there are no historical payments then just skip the execution
             if (refundablePeriods.Any())
             {
-
                 var refundPeriodIndex = 0;
                 while (amountDue < 0)
                 {
                     var period = refundablePeriods[refundPeriodIndex];
 
                     // Attempt to get refund from payments due first
-                    var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber && x.DeliveryMonth == period.DeliveryMonth && x.DeliveryYear == period.DeliveryYear && x.TransactionType == earning.Type).ToArray();
+                    var paymentsDueInPeriod = paymentsDue
+                        .Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber &&
+                                    x.DeliveryMonth == period.DeliveryMonth && 
+                                    x.DeliveryYear == period.DeliveryYear &&
+                                    x.TransactionType == earning.Type).ToArray();
                     foreach (var paymentDue in paymentsDueInPeriod)
                     {
                         amountDue -= -paymentDue.AmountDue;
@@ -301,7 +315,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     var refundedInPeriod = period.AmountDue >= -amountDue ? amountDue : -period.AmountDue;
                     if (refundedInPeriod != 0)
                     {
-                        AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth, period.DeliveryYear);
+                        AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod, period.DeliveryMonth,
+                            period.DeliveryYear);
                         amountDue -= refundedInPeriod;
                     }
 
@@ -310,50 +325,53 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
             else
             {
-                AddPaymentsDue(provider, paymentsDue, earning, earning.EarnedValue, earning.CalendarMonth, earning.CalendarYear);
+                AddPaymentsDue(provider, paymentsDue, earning, earning.EarnedValue, earning.CalendarMonth,
+                    earning.CalendarYear);
             }
         }
 
         private void ApportionPaymentDuesWithHistoricalPayments(Provider provider,
-                                                                List<RequiredPayment> paymentsDue,
-                                                                PeriodEarning earning,
-                                                                RequiredPayment[] paymentHistory,
-                                                                decimal amountDue,
-                                                                CollectionPeriod currentPeriod)
+            List<RequiredPayment> paymentsDue,
+            PeriodEarning earning,
+            RequiredPayment[] paymentHistory,
+            decimal amountDue,
+            CollectionPeriod currentPeriod)
         {
-
             var refundAdded = false;
-            var pastTransaction = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth && x.DeliveryYear == earning.CalendarYear);
+            var pastTransaction =
+                paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth &&
+                                          x.DeliveryYear == earning.CalendarYear);
 
             if (pastTransaction.Count() == 1)
             {
                 var transaction = pastTransaction.First();
                 if (transaction.AmountDue == -amountDue)
                 {
-                    AddRefundPaymentDue(provider, paymentsDue, new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1), transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
+                    AddRefundPaymentDue(provider, paymentsDue,
+                        new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1),
+                        transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
-                
+
             }
             if (!refundAdded)
             {
 
-                var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth
-                                                                && x.DeliveryYear == earning.CalendarYear
-                                                                && x.AmountDue > 0
-                                                                && new DateTime(x.CollectionPeriodYear,x.CollectionPeriodMonth,1) !=
-                                                                    new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
-                                                                .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
-                                                               .ToArray();
+                var refundablePeriods = paymentHistory
+                    .Where(x => x.DeliveryMonth == earning.CalendarMonth &&
+                                x.DeliveryYear == earning.CalendarYear &&
+                                x.AmountDue > 0 &&
+                                new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) !=
+                                new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
+                    .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
+                    .ToArray();
 
                 // if there are no historical payments then just skip the execution
                 if (refundablePeriods.Any())
                 {
-
                     var refundPeriodIndex = 0;
                     while (amountDue < 0)
                     {
-
                         //We should not get this, but added here otherwise it could well stuck into infinite loop
                         if (refundablePeriods.Length == refundPeriodIndex)
                         {
@@ -362,13 +380,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         var period = refundablePeriods[refundPeriodIndex];
 
                         amountDue -= AddRefundPaymentDue(provider, paymentsDue,
-                                                        new DateTime(period.CollectionPeriodYear, period.CollectionPeriodMonth, 1),
-                                                        period.AmountDue,
-                                                        period.CommitmentId,
-                                                        earning,
-                                                        paymentHistory,
-                                                        amountDue);
-                        refundAdded = true; 
+                            new DateTime(period.CollectionPeriodYear, period.CollectionPeriodMonth, 1),
+                            period.AmountDue,
+                            period.CommitmentId,
+                            earning,
+                            paymentHistory,
+                            amountDue);
+                        refundAdded = true;
                         refundPeriodIndex++;
                     }
                 }
@@ -378,21 +396,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 ApportionPaymentDuesOverPreviousPeriods(provider, paymentsDue, earning, paymentHistory, amountDue);
             }
         }
-        private decimal AddRefundPaymentDue(Provider provider,
-                                        List<RequiredPayment> paymentsDue,
-                                        DateTime paymentDate,
-                                        decimal alreadyPaidAmount,
-                                        long? commitmentId,
-                                        PeriodEarning earning,
-                                        RequiredPayment[] paymentHistory,
-                                        decimal amountDue)
+
+        private decimal AddRefundPaymentDue(
+            Provider provider,
+            List<RequiredPayment> paymentsDue,
+            DateTime paymentDate,
+            decimal alreadyPaidAmount,
+            long? commitmentId,
+            PeriodEarning earning,
+            RequiredPayment[] paymentHistory,
+            decimal amountDue)
         {
 
             // Attempt to get refund from payments due first
-            var paymentsDueInPeriod = paymentsDue.Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber && x.DeliveryMonth == paymentDate.Month
-                                                        && x.DeliveryYear == paymentDate.Year
-                                                        && alreadyPaidAmount > 0
-                                                        && x.TransactionType == earning.Type).ToArray();
+            var paymentsDueInPeriod = paymentsDue
+                .Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber &&
+                            x.DeliveryMonth == paymentDate.Month &&
+                            x.DeliveryYear == paymentDate.Year &&
+                            alreadyPaidAmount > 0 &&
+                            x.TransactionType == earning.Type)
+                .ToArray();
+
             foreach (var paymentDue in paymentsDueInPeriod)
             {
                 alreadyPaidAmount -= -paymentDue.AmountDue;
@@ -406,20 +430,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 UpdateCommitmentForRefund(paymentHistory, earning, commitmentId, paymentDate);
 
                 AddPaymentsDue(provider, paymentsDue, earning, refundedInPeriod);
-
             }
             return refundedInPeriod;
         }
 
-        private void UpdateCommitmentForRefund(RequiredPayment[] paymentHistory, PeriodEarning earning, long? historicalCommitmentId, DateTime historicalCollectionPeriodDate)
+        private void UpdateCommitmentForRefund(
+            RequiredPayment[] paymentHistory,
+            PeriodEarning earning,
+            long? historicalCommitmentId,
+            DateTime historicalCollectionPeriodDate)
         {
             if (historicalCommitmentId.HasValue && earning.CommitmentId.HasValue)
             {
-                var historicalPayment = paymentHistory.FirstOrDefault(x => x.CommitmentId == historicalCommitmentId
-                                                    && x.DeliveryMonth == earning.CalendarMonth
-                                                    && x.DeliveryYear == earning.CalendarYear
-                                                    && x.CollectionPeriodMonth == historicalCollectionPeriodDate.Month
-                                                    && x.CollectionPeriodYear == historicalCollectionPeriodDate.Year);
+                var historicalPayment =
+                    paymentHistory
+                        .FirstOrDefault(x => x.CommitmentId == historicalCommitmentId &&
+                                             x.DeliveryMonth == earning.CalendarMonth &&
+                                             x.DeliveryYear == earning.CalendarYear &&
+                                             x.CollectionPeriodMonth == historicalCollectionPeriodDate.Month &&
+                                             x.CollectionPeriodYear == historicalCollectionPeriodDate.Year);
                 if (historicalPayment != null)
                 {
                     earning.CommitmentId = historicalPayment.CommitmentId;
@@ -430,7 +459,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
         }
 
-        private void AddPaymentsDue(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, decimal amountDue, int deliveryMonth = 0, int deliveryYear = 0)
+        private void AddPaymentsDue(
+            Provider provider,
+            List<RequiredPayment> paymentsDue,
+            PeriodEarning earning,
+            decimal amountDue,
+            int deliveryMonth = 0,
+            int deliveryYear = 0)
         {
             paymentsDue.Add(new RequiredPayment
             {

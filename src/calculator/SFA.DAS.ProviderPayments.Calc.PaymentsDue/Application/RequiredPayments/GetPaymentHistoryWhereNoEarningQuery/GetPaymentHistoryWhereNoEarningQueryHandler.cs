@@ -18,9 +18,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
         {
             try
             {
-                var entities =
-                    _requiredPaymentRepository.GetPreviousPaymentsWithoutEarnings()
-                    ?? new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
+                var entities = _requiredPaymentRepository
+                                   .GetPreviousPaymentsWithoutEarnings() ??
+                               new Infrastructure.Data.Entities.RequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryWhereNoEarningQueryResponse
                 {

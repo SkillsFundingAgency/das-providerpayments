@@ -23,14 +23,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetPro
                 return new GetProvidersQueryResponse
                 {
                     IsValid = true,
-                    Items = providerEntities == null
-                        ? null
-                        : providerEntities.Select(p =>
-                            new Provider
-                            {
-                                Ukprn = p.Ukprn,
-                                IlrSubmissionDateTime = p.IlrSubmissionDateTime
-                            }).ToArray()
+                    Items = providerEntities?.Select(p =>
+                        new Provider
+                        {
+                            Ukprn = p.Ukprn,
+                            IlrSubmissionDateTime = p.IlrSubmissionDateTime
+                        }).ToArray()
                 };
             }
             catch (Exception ex)
