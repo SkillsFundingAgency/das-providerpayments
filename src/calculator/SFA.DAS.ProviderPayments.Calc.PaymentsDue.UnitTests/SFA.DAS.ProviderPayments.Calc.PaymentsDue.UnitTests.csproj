@@ -46,6 +46,12 @@
       <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentAssertions, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +67,15 @@
     <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.3.51.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.AutoMoq, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.AutoMoq.3.51.0\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.NUnit3, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.NUnit3.3.51.0\lib\net40\Ploeh.AutoFixture.NUnit3.dll</HintPath>
     </Reference>
     <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
@@ -78,6 +93,7 @@
   <ItemGroup>
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\Payments\PaymentHistoryForMultipleLearnersQuery\WhenHandling.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
@@ -93,6 +109,7 @@
     <Compile Include="Tools\ExternalContextStub.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +120,10 @@
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.PaymentsDue\SFA.DAS.ProviderPayments.Calc.PaymentsDue.csproj">
       <Project>{7ea464ec-6eda-45d9-be48-47e8afdaa853}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.PaymentsDue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.Testing.Shared\SFA.DAS.Testing.Shared.csproj">
+      <Project>{7d106d1c-90b9-42dc-acdc-7f1912295a8d}</Project>
+      <Name>SFA.DAS.Testing.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

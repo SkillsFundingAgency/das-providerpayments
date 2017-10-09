@@ -19,9 +19,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
         {
             try
             {
-                var entities =
-                    _requiredPaymentRepository.GetPreviousPayments(message.Ukprn, message.LearnRefNumber)
-                    ?? new Infrastructure.Data.Entities.HistoricalRequiredPaymentEntity[0];
+                var entities = _requiredPaymentRepository
+                                   .GetPreviousPayments(message.Ukprn, message.LearnRefNumber) ??
+                               new Infrastructure.Data.Entities.HistoricalRequiredPaymentEntity[0];
 
                 return new GetPaymentHistoryQueryResponse
                 {
@@ -55,7 +55,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             PriceEpisodeIdentifier =e.PriceEpisodeIdentifier,
                             SfaContributionPercentage =e.SfaContributionPercentage,
                             UseLevyBalance =e.UseLevyBalance
-                            
                         }).ToArray()
                 };
             }

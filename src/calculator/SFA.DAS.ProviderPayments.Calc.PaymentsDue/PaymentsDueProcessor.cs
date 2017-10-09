@@ -159,8 +159,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             var paymentHistory = new List<RequiredPayment>();
 
             var earningsData = earnings
-                .Select(e =>
-                    new
+                .Select(e => new
                     {
                         e.Ukprn,
                         e.LearnerReferenceNumber
@@ -199,7 +198,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                var historicalAllPayments = paymentHistory
+                var allHistoricalPayments = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.LearnerRefNumber == earning.LearnerReferenceNumber &&
                                 p.StandardCode == earning.StandardCode &&
@@ -211,7 +210,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.LearningStartDate == earning.LearningStartDate)
                     .ToList();
 
-                var alreadyPaidItems = historicalAllPayments
+                var alreadyPaidItems = allHistoricalPayments
                     .Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                 p.DeliveryYear == earning.CalendarYear)
                     .ToArray();
@@ -246,7 +245,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     else
                     {
                         ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning,
-                            historicalAllPayments.ToArray(), amountDue, currentPeriod);
+                            allHistoricalPayments.ToArray(), amountDue, currentPeriod);
                     }
                 }
             }

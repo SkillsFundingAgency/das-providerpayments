@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+﻿using System.Collections.Generic;
+using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
@@ -39,6 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";
         private const string SelectPaymentsWithoutEarnings = "SELECT " + PaymentHistoryColumns + ",IlrSubmissionDateTime FROM " + PaymentHistoryWithoutEarningSource;
         private const string SelectLearnerPayments = SelectProviderPayments + " AND LearnRefNumber = @LearnRefNumber";
+        private const string SelectLearnersPayments = SelectProviderPayments + " AND LearnRefNumber IN (@LearnRefNumbers)";
 
         public DcfsRequiredPaymentRepository(string connectionString)
             : base(connectionString)
@@ -53,6 +55,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public HistoricalRequiredPaymentEntity[] GetPreviousPayments(long ukprn, string learnRefNumber)
         {
             return Query<HistoricalRequiredPaymentEntity>(SelectLearnerPayments, new { ukprn, learnRefNumber });
+        }
+
+        public HistoricalRequiredPaymentEntity[] GetPreviousPaymentsForMultipleLearners(
+            long ukprn,
+            IEnumerable<string> learnRefNumbers)
+        {
+            return Query<HistoricalRequiredPaymentEntity>(SelectLearnersPayments, new { ukprn, learnRefNumbers });
         }
 
         public RequiredPaymentEntity[] GetPreviousPaymentsWithoutEarnings()

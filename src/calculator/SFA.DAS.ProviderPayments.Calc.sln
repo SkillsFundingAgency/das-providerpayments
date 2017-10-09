@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments", "SFA.DAS.ProviderPayments.Calc.LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.csproj", "{CA3748B0-C749-444A-BC59-1F03A10436C7}"
 EndProject
@@ -211,6 +211,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappi
 		DeployManualAdjustments\copy mappings\DasManualAdjustmentsCopyToDedsMapping.xml = DeployManualAdjustments\copy mappings\DasManualAdjustmentsCopyToDedsMapping.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Testing.Shared", "SFA.DAS.Testing.Shared\SFA.DAS.Testing.Shared.csproj", "{7D106D1C-90B9-42DC-ACDC-7F1912295A8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +283,10 @@ Global
 		{204D62A1-5276-489A-9600-B51BA87BE57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{204D62A1-5276-489A-9600-B51BA87BE57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{204D62A1-5276-489A-9600-B51BA87BE57F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D106D1C-90B9-42DC-ACDC-7F1912295A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D106D1C-90B9-42DC-ACDC-7F1912295A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D106D1C-90B9-42DC-ACDC-7F1912295A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D106D1C-90B9-42DC-ACDC-7F1912295A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -328,5 +334,8 @@ Global
 		{CC050B10-AC21-4F4B-ACF0-74D35C773AB4} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
 		{288C0C5C-02D8-4910-B580-955B8EF1FFE3} = {A3089EE5-D8D0-4A5E-ABDE-87A93580BAB2}
 		{0B25AB35-2045-4383-969C-EF686F04A832} = {DA78BDA2-26A2-43CF-9043-19C2D40B6CFE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6420575F-F3AE-447C-9362-8B7857595789}
 	EndGlobalSection
 EndGlobal
