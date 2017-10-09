@@ -92,8 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingProviderEarningsMessage, providerEarningsResponse.Exception);
             }
 
-            var paymentsDue = new List<RequiredPayment>();
-            paymentsDue.AddRange(GetPaymentsDue(provider, currentPeriod, providerEarningsResponse));
+            var paymentsDue = GetPaymentsDue(provider, currentPeriod, providerEarningsResponse.Items);
 
             SavePaymentsDue(paymentsDue);
         }
@@ -153,13 +152,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private List<RequiredPayment> GetPaymentsDue(
             Provider provider,
             CollectionPeriod currentPeriod,
-            GetProviderEarningsQueryResponse earningResponse
+            PeriodEarning[] earnings
             )
         {
             var paymentsDue = new List<RequiredPayment>();
             var paymentHistory = new List<RequiredPayment>();
 
-            var earningsData = earningResponse.Items
+            var earningsData = earnings
                 .Select(e =>
                     new
                     {
@@ -184,12 +183,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 paymentHistory.AddRange(historyResponse.Items);
             }
 
-            foreach (var earning in earningResponse.Items)
+            foreach (var earning in earnings)
             {
                 var amountEarned = earning.EarnedValue;
 
                 // If this is a 0 earning but there is another equivilant earning with earning then ignore this one
-                if (amountEarned == 0 && PayableItemExists(earningResponse.Items, earning))
+                if (amountEarned == 0 && PayableItemExists(earnings, earning))
                 {
                     continue;
                 }
@@ -357,7 +356,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
-
             }
             if (!refundAdded)
             {
