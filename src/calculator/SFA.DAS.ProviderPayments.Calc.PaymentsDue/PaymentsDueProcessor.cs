@@ -358,8 +358,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 if (transaction.AmountDue == -amountDue)
                 {
                     AddRefundPaymentDue(provider, paymentsDue,
-                        new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1),
-                        transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
+                        transaction, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
             }
@@ -385,12 +384,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                         {
                             break;
                         }
-                        var period = refundablePeriods[refundPeriodIndex];
+                        var refundablePeriod = refundablePeriods[refundPeriodIndex];
 
                         amountDue -= AddRefundPaymentDue(provider, paymentsDue,
-                            new DateTime(period.CollectionPeriodYear, period.CollectionPeriodMonth, 1),
-                            period.AmountDue,
-                            period.CommitmentId,
+                            refundablePeriod,
                             earning,
                             paymentHistory,
                             amountDue);
@@ -408,19 +405,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private decimal AddRefundPaymentDue(
             Provider provider,
             List<RequiredPayment> paymentsDue,
-            DateTime paymentDate,
-            decimal alreadyPaidAmount,
-            long? commitmentId,
+            RequiredPayment existingTransaction,
             PeriodEarning earning,
             RequiredPayment[] paymentHistory,
             decimal amountDue)
         {
+            var alreadyPaidAmount = existingTransaction.AmountDue;
+
             // Attempt to get refund from payments due first
             var paymentsDueInPeriod = paymentsDue
                 .Where(x => x.LearnerRefNumber == earning.LearnerReferenceNumber &&
-                            x.DeliveryMonth == paymentDate.Month &&
-                            x.DeliveryYear == paymentDate.Year &&
-                            alreadyPaidAmount > 0 &&
+                            x.DeliveryMonth == existingTransaction.CollectionPeriodMonth &&
+                            x.DeliveryYear == existingTransaction.CollectionPeriodYear &&
+                            existingTransaction.AmountDue > 0 &&
                             x.TransactionType == earning.Type)
                 .ToArray();
 
@@ -434,7 +431,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             var refundedInPeriod = alreadyPaidAmount >= -amountDue ? amountDue : -alreadyPaidAmount;
             if (refundedInPeriod != 0)
             {
-                UpdateCommitmentForRefund(paymentHistory, earning, commitmentId, paymentDate);
+                var existingTransactionPaymentDate = new DateTime(existingTransaction.CollectionPeriodYear,
+                    existingTransaction.CollectionPeriodMonth, 1);
+                UpdateCommitmentForRefund(paymentHistory, earning, existingTransaction.CommitmentId,
+                    existingTransactionPaymentDate);
 
                 paymentsDue.Add(CreatePaymentDue(provider, earning, refundedInPeriod));
             }
