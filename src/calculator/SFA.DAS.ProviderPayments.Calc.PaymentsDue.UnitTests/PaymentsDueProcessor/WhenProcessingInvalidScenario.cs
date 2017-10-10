@@ -15,8 +15,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Providers.GetProvidersQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Payments.PaymentHistoryForMultipleLearnersQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
@@ -51,8 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
 
         private void InitialMockSetup()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
-                .Returns(new GetPaymentHistoryQueryResponse
+            _mediator.Setup(m => m.Send(It.IsAny<PaymentHistoryForMultipleLearnersRequest>()))
+                .Returns(new PaymentHistoryForMultipleLearnersResponse
                 {
                     IsValid = true,
                     Items = new RequiredPayment[0]
@@ -180,8 +180,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         {
             // Arrange
             _mediator
-                .Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
-                .Returns(new GetPaymentHistoryQueryResponse
+                .Setup(m => m.Send(It.IsAny<PaymentHistoryForMultipleLearnersRequest>()))
+                .Returns(new PaymentHistoryForMultipleLearnersResponse
                 {
                     IsValid = false,
                     Exception = new Exception("Exception.")

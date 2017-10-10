@@ -7,8 +7,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProviderEarningsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Payments.PaymentHistoryForMultipleLearnersQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -125,8 +125,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         public void ThenItShouldNotOuputPaymentsDueForEarningsThatHaveBeenFullyPaidInPreviousRuns()
         {
             // Arrange
-            Mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
-                .Returns(new GetPaymentHistoryQueryResponse
+            Mediator.Setup(m => m.Send(It.IsAny<PaymentHistoryForMultipleLearnersRequest>()))
+                .Returns(new PaymentHistoryForMultipleLearnersResponse
                 {
                     IsValid = true,
                     Items = new[]
@@ -169,8 +169,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         public void ThenItShouldOutputPartPaymentsDueForEarningsThatHavePaymentsThatDoNotCoverTheFullAmountInPreviousRuns()
         {
             // Arrange
-            Mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
-                .Returns(new GetPaymentHistoryQueryResponse
+            Mediator.Setup(m => m.Send(It.IsAny<PaymentHistoryForMultipleLearnersRequest>()))
+                .Returns(new PaymentHistoryForMultipleLearnersResponse
                 {
                     IsValid = true,
                     Items = new[]

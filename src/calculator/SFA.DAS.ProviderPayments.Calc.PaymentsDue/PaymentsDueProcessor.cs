@@ -14,6 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Get
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 using System;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Payments.PaymentHistoryForMultipleLearnersQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -149,6 +150,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             return paymentsDue;
         }
 
+        private List<RequiredPayment> ProviderPaymentHistory(long ukprn, IEnumerable<string> learnRefNumbers)
+        {
+            var historyResponse = _mediator.Send(new PaymentHistoryForMultipleLearnersRequest
+            {
+                Ukprn = ukprn,
+                LearnRefNumbers = learnRefNumbers,
+            });
+            if (!historyResponse.IsValid)
+            {
+                throw new PaymentsDueProcessorException(
+                    PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
+            }
+            return historyResponse.Items.ToList();
+        }
+
+        private bool IsEarningPriorToPeriod(PeriodEarning earning, CollectionPeriod period)
+        {
+            if (earning.CalendarYear > period.Year ||
+                (earning.CalendarYear == period.Year && earning.CalendarMonth > period.Month))
+            {
+                return false;
+            }
+            return true;
+        }
+
         private List<RequiredPayment> GetPaymentsDue(
             Provider provider,
             CollectionPeriod currentPeriod,
@@ -159,41 +185,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             var paymentHistory = new List<RequiredPayment>();
 
             var earningsData = earnings
-                .Select(e => new
-                    {
-                        e.Ukprn,
-                        e.LearnerReferenceNumber
-                    })
-                .Distinct()
-                .ToArray();
+                .Select(e => e.LearnerReferenceNumber)
+                .Distinct();
 
-            foreach (var earningItem in earningsData)
-            {
-                var historyResponse = _mediator.Send(new GetPaymentHistoryQueryRequest
-                {
-                    Ukprn = provider.Ukprn,
-                    LearnRefNumber = earningItem.LearnerReferenceNumber
-                });
-                if (!historyResponse.IsValid)
-                {
-                    throw new PaymentsDueProcessorException(
-                        PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
-                }
-                paymentHistory.AddRange(historyResponse.Items);
-            }
-
+            var providerPaymentHistory = ProviderPaymentHistory(provider.Ukprn, earningsData);
+            paymentHistory.AddRange(providerPaymentHistory);
+            
             foreach (var earning in earnings)
             {
                 var amountEarned = earning.EarnedValue;
 
-                // If this is a 0 earning but there is another equivilant earning with earning then ignore this one
                 if (amountEarned == 0 && PayableItemExists(earnings, earning))
                 {
                     continue;
                 }
 
-                if (earning.CalendarYear > currentPeriod.Year ||
-                    (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                if (!IsEarningPriorToPeriod(earning, currentPeriod))
                 {
                     continue;
                 }
