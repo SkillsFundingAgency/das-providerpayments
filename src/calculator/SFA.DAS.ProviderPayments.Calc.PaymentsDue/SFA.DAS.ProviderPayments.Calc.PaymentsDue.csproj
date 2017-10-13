@@ -99,6 +99,7 @@
     <Compile Include="Application\Payments\PaymentHistoryForMultipleLearnersQuery\PaymentHistoryForMultipleLearnersRequest.cs" />
     <Compile Include="Application\Payments\PaymentHistoryForMultipleLearnersQuery\PaymentHistoryForMultipleLearnersResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
+    <Compile Include="Infrastructure\Data\Entities\EarningRelatedToPaymentDueEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />

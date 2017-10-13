@@ -42,3 +42,25 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	FundingLineType varchar(60),
 	UseLevyBalance bit
 )
+GO
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Earnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Earnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP TABLE PaymentsDue.Earnings
+END
+GO
+
+CREATE TABLE PaymentsDue.Earnings
+(
+	Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT(NEWID()),
+	RequiredPaymentId UNIQUEIDENTIFIER NOT NULL,
+	MonthlyInstallmentAmount decimal(15,5),
+	CompletionAmount decimal(15,5),
+	NumberOfInstallments int
+)
+GO

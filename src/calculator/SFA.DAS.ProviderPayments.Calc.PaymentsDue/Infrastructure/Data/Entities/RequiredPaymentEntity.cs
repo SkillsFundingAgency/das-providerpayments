@@ -4,6 +4,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class RequiredPaymentEntity
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
         public string AccountId { get; set; }

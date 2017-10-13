@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var paymentsDue = GetPaymentsDueForPaymentsWithoutEarnings();
                 SavePaymentsDue(paymentsDue);
-
+                
                 foreach (var provider in providers.Items)
                 {
                     ProcessProvider(provider, collectionPeriod.Period);
@@ -93,8 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             var paymentsDue = GetPaymentsDue(provider, currentPeriod, providerEarningsResponse.Items);
-
-            SavePaymentsDue(paymentsDue);
+            SavePaymentsDue(paymentsDue, providerEarningsResponse.Items);
         }
 
         private void SavePaymentsDue(List<RequiredPayment> paymentsDue)
@@ -102,6 +101,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             if (paymentsDue.Any())
             {
                 var addPaymentsDueResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest { Payments = paymentsDue.ToArray() });
+                if (!addPaymentsDueResponse.IsValid)
+                {
+                    throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage, addPaymentsDueResponse.Exception);
+                }
+            }
+        }
+
+        private void SaveProviderPaymentsDue(List<RequiredPayment> paymentsDue, PeriodEarning[] earnings)
+        {
+            if (paymentsDue.Any())
+            {
+                var addPaymentsDueResponse = _mediator.Send(new AddRequiredPaymentsCommandRequest
+                {
+                    Payments = paymentsDue.ToArray(),
+                    Earnings = earnings,
+                });
                 if (!addPaymentsDueResponse.IsValid)
                 {
                     throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorWritingRequiredProviderPaymentsMessage, addPaymentsDueResponse.Exception);

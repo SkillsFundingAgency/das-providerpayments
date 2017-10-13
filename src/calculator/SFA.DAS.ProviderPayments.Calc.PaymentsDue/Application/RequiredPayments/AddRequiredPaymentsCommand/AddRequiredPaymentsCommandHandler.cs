@@ -19,10 +19,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
         {
             try
             {
+                var requiredPaymentId = Guid.NewGuid();
                 var paymentEntities = message.Payments
                     .Select(
                         p => new RequiredPaymentEntity
                         {
+                            Id = requiredPaymentId,
                             CommitmentId = p.CommitmentId,
                             CommitmentVersionId = p.CommitmentVersionId,
                             AccountId = p.AccountId,

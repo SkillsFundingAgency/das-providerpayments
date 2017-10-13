@@ -122,5 +122,33 @@
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
+
+    <TableMapping>
+      <Source>[PaymentsDue].[Earnings]</Source>
+      <Destination>[PaymentsDue].[Earnings]</Destination>
+      <Ordinal>1</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>Id</Source>
+          <Destination>Id</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>RequiredPaymentId</Source>
+          <Destination>RequiredPaymentId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>MonthlyInstallmentAmount</Source>
+          <Destination>MonthlyInstallmentAmount</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CompletionAmount</Source>
+          <Destination>CompletionAmount</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>NumberOfInstallments</Source>
+          <Destination>NumberOfInstallments</Destination>
+        </ColumnMapping>>
+      </ColumnMappings>
+    </TableMapping>
   </TableMappings>
 </CopyCatConfig>
