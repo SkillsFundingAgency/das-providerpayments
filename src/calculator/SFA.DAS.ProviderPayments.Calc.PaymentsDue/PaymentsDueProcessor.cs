@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             var paymentsDue = GetPaymentsDue(provider, currentPeriod, providerEarningsResponse.Items);
-            SavePaymentsDue(paymentsDue, providerEarningsResponse.Items);
+            SaveProviderPaymentsDue(paymentsDue, providerEarningsResponse.Items);
         }
 
         private void SavePaymentsDue(List<RequiredPayment> paymentsDue)
