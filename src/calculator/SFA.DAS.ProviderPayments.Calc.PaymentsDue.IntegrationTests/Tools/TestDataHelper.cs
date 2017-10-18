@@ -178,7 +178,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
-                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],[PriceEpisodeCompletionElement])"
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
@@ -191,8 +191,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Levy Contract', "
                   + "'Levy Funding Line', "
                   + "AgreedCost * 0.8, "
-                  + "AgreedCost * 0.2 "
-
+                  + "AgreedCost * 0.2, "
+                  + "12,"
+                  + "100 "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
@@ -273,7 +274,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                   + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
-                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2])"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],[PriceEpisodeCompletionElement])"
                   + " SELECT "
                   + "@ukprn, "
                   + "@learnerRefNumber, "
@@ -286,7 +287,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Non-Levy Contract',"
                   + "'Non-Levy Funding Line',"
                   + "@tnp1, "
-                  + "@tnp2 ",
+                  + "@tnp2, "
+                  + "12,"
+                  + "100",
                 new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2 }, false);
 
             for (var x = 1; x <= 12; x++)

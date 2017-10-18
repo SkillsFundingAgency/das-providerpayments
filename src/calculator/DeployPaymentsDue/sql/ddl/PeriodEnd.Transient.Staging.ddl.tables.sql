@@ -111,7 +111,12 @@ CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
 	LearningSupportPayment decimal(15,5),
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime,
+	LearningPlannedEndDate datetime NOT NULL,
+	LearningActualEndDate datetime,
+	CompletionStatus int,
+	CompletionAmount decimal(15,5),
+	TotalInstallments int NOT NULL	
 )
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -162,7 +167,12 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	PriceEpisodeSecondDisadvantagePayment decimal(15,5),
 	LearningSupportPayment decimal(15,5),
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime,
+	LearningPlannedEndDate datetime NOT NULL,
+	LearningActualEndDate datetime,
+	CompletionStatus int,
+	CompletionAmount decimal(15,5),
+	TotalInstallments int NOT NULL	
 )
 GO
 
@@ -211,7 +221,12 @@ CREATE TABLE Staging.ApprenticeshipEarnings1
 	IsSuccess bit,
 	Payable bit,
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime,
+	LearningPlannedEndDate datetime NOT NULL,
+	LearningActualEndDate datetime,
+	CompletionStatus int,
+	CompletionAmount decimal(15,5),
+	TotalInstallments int NOT NULL		
 )
 GO
 
@@ -251,7 +266,12 @@ CREATE TABLE Staging.ApprenticeshipEarnings2
 	IsSuccess bit,
 	Payable bit,
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime,
+	LearningPlannedEndDate datetime NOT NULL,
+	LearningActualEndDate datetime,
+	CompletionStatus int,
+	CompletionAmount decimal(15,5),
+	TotalInstallments int NOT NULL		
 )
 GO
 
@@ -291,7 +311,12 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	IsSuccess bit,
 	Payable bit,
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime	,
+	LearningPlannedEndDate datetime NOT NULL,
+	LearningActualEndDate datetime,
+	CompletionStatus int,
+	CompletionAmount decimal(15,5),
+	TotalInstallments int NOT NULL	
 )
 GO
 

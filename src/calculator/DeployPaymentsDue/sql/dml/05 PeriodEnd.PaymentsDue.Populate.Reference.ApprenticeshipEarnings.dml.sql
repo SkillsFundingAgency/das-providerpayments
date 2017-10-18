@@ -32,7 +32,12 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [LearningSupportPayment],
 	[EpisodeStartDate],
 	[LearnAimRef] ,
-	[LearningStartDate] )
+	[LearningStartDate],
+	[LearningPlannedEndDate],
+	[LearningActualEndDate] ,
+	[CompletionStatus],
+	[CompletionAmount],
+	[TotalInstallments] 	 )
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -64,7 +69,13 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         ISNULL(pv.[PriceEpisodeLSFCash], 0),
 		pe.[EpisodeStartDate],
 		ld.LearnAimRef,
-		ld.LearnStartDate	
+		ld.LearnStartDate,
+		ld.LearnPlanEndDate,
+		ld.LearnActEndDate,
+		ld.CompStatus,
+		pe.PriceEpisodeCompletionElement,
+		pe.PriceEpisodePlannedInstalments
+			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
             AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
@@ -99,7 +110,12 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
     [SfaContributionPercentage],
     [LevyNonPayIndicator],
 	[LearnAimRef] ,
-	[LearningStartDate] )
+	[LearningStartDate],
+	[LearningPlannedEndDate],
+	[LearningActualEndDate] ,
+	[CompletionStatus],
+	[CompletionAmount],
+	[TotalInstallments]  )
     SELECT
         p.[Ukprn],
         l.[ULN],
@@ -118,7 +134,12 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
         p.[LearnDelSFAContribPct] AS [SfaContributionPercentage],
         p.[LearnDelLevyNonPayInd] AS [LevyNonPayIndicator],
 		ld.LearnAimRef,
-		ld.LearnStartDate	
+		ld.LearnStartDate,
+		ld.LearnPlanEndDate,
+		ld.LearnActEndDate,
+		ld.CompStatus,
+		0,
+		1
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
         JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]

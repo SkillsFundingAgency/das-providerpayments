@@ -42,7 +42,12 @@ SELECT
     IsNull(ae.IsSuccess,0) As IsSuccess, 
     IsNull(ae.Payable,0) As Payable,
 	ae.LearnAimref,
-	ae.LearningStartDate
+	ae.LearningStartDate,
+	ae.LearningPlannedEndDate,
+	ae.LearningActualEndDate ,
+	ae.CompletionStatus,
+	ae.CompletionAmount,
+	ae.TotalInstallments 	
 
 FROM Staging.ApprenticeshipEarnings ae
 WHERE ae.EpisodeStartDate >= (

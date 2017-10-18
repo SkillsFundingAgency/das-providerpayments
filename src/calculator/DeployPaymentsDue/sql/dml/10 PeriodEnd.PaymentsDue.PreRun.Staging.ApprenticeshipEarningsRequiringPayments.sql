@@ -33,7 +33,12 @@ SELECT
 	ae.PriceEpisodeSecondDisadvantagePayment,
 	ae.LearningSupportPayment,
 	ae.LearnAimref,
-	ae.LearningStartDate
+	ae.LearningStartDate,
+	ae.LearningPlannedEndDate,
+	ae.LearningActualEndDate ,
+	ae.CompletionStatus,
+	ae.CompletionAmount,
+	ae.TotalInstallments 	
 FROM Reference.ApprenticeshipEarnings AE
 JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber
