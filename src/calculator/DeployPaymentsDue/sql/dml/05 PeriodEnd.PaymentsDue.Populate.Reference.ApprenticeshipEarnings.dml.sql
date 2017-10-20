@@ -37,7 +37,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[LearningActualEndDate] ,
 	[CompletionStatus],
 	[CompletionAmount],
-	[TotalInstallments] 	 )
+	[TotalInstallments],
+	[MonthlyInstallment] )
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -74,7 +75,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 		ld.LearnActEndDate,
 		ld.CompStatus,
 		pe.PriceEpisodeCompletionElement,
-		pe.PriceEpisodePlannedInstalments
+		aecld.[ActualNumInstalm],
+		pe.PriceEpisodeInstalmentValue
 			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
@@ -85,6 +87,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
             AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
             AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
+            AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
+            AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
     WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
         
 GO
@@ -115,7 +120,8 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 	[LearningActualEndDate] ,
 	[CompletionStatus],
 	[CompletionAmount],
-	[TotalInstallments]  )
+	[TotalInstallments],
+	[MonthlyInstallment]  )
     SELECT
         p.[Ukprn],
         l.[ULN],
@@ -146,6 +152,9 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
         JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
             AND p.[LearnRefNumber] = ld.[LearnRefNumber]
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON p.[Ukprn] = aecld.[Ukprn]
+            AND p.[LearnRefNumber] = aecld.[LearnRefNumber]
+            AND p.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
 		
     WHERE ld.[LearnAimRef] != 'ZPROG001'
 GO
