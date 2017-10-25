@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08D3D28B-B618-4346-8515-E93B23BC04D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests</RootNamespace>
+    <AssemblyName>SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\CS.Common.External.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SFA.DAS.Payments.DCFS.StructureMap, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.StructureMap.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.4.3.564, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.3\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler\Handle\WhenHandlingRequestForAccountWithEnoughLevy.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler\Handle\WhenHandlingRequestForAccountWithoutEnoughLevy.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhenNoAccountsOutstanding.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingRequestWhereNextAccountHasNoCommitments.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler\Handle\WhenHandlingValidRequest.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler\Handle\WhenHandlingAValidRequest.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\Payments\GetLevyPaymentsHistory\GetLevyPaymentsHistory\WhenHandling.cs" />
+    <Compile Include="Application\Payments\GetPaymentsDueForCommitmentQuery\GetPaymentsDueForCommitmentQueryHandler\WhenHandling.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler\Handle\WhenHandlingValidRequest.cs" />
+    <Compile Include="Common\ExternalContextStub.cs" />
+    <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
+    <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingCompletionSubmission.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingInvalidScenario.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNormalMonthlySubmission.cs" />
+    <Compile Include="LevyPaymentsProcessor\Process\WhenProcessingNotEnoughLevyScenario.cs" />
+    <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithInvalidContext.cs" />
+    <Compile Include="LevyPaymentsTask\Execute\WhenCalledWithValidContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.csproj">
+      <Project>{ca3748b0-c749-444a-bc59-1f03a10436c7}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.LevyPayments</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

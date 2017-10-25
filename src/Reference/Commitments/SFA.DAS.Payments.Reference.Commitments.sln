@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments", "SFA.DAS.Payments.Reference.Commitments\SFA.DAS.Payments.Reference.Commitments.csproj", "{BAE01073-3F46-44F0-AA20-86D091953329}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildAndDeploy", "BuildAndDeploy", "{B8898CE0-F42B-4DD3-B531-BF44FF489160}"
+	ProjectSection(SolutionItems) = preProject
+		Build.fsx = Build.fsx
+		RunBuild.bat = RunBuild.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0D6597A2-0E6A-4D2A-B90B-A9E6411CDF44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments.UnitTests", "SFA.DAS.Payments.Reference.Commitments.UnitTests\SFA.DAS.Payments.Reference.Commitments.UnitTests.csproj", "{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{AFB37EFD-6E11-4E5E-BC98-C3783E6EF3CC}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\ddl.deds.commitments.tables.sql = Deploy\sql\ddl\ddl.deds.commitments.tables.sql
+		Deploy\sql\ddl\ddl.deds.commitments.views.sql = Deploy\sql\ddl\ddl.deds.commitments.views.sql
+		Deploy\sql\ddl\ddl.transient.commitments.tables.sql = Deploy\sql\ddl\ddl.transient.commitments.tables.sql
+		Deploy\sql\ddl\ddl.transient.commitments.views.sql = Deploy\sql\ddl\ddl.transient.commitments.views.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments.IntegrationTests", "SFA.DAS.Payments.Reference.Commitments.IntegrationTests\SFA.DAS.Payments.Reference.Commitments.IntegrationTests.csproj", "{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{A5DABCB3-A33E-4E12-8D94-E95AD0E914B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTaskRunner", "ManualTaskRunner\ManualTaskRunner.csproj", "{4010A596-DDE8-4F70-8ED1-869D3FFF05CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPublisher", "EventPublisher\EventPublisher.csproj", "{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings", "Copy mappings", "{579EDBC6-DA8A-4D33-813A-7AED8F871FC9}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\copy mappings\DasCommitmentsCopyToDedsMapping.xml = Deploy\copy mappings\DasCommitmentsCopyToDedsMapping.xml
+		Deploy\copy mappings\DasCommitmentsCopyToTransientMapping.xml = Deploy\copy mappings\DasCommitmentsCopyToTransientMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "MigrationScripts", "{523CD4C1-28D2-44CA-9009-0557FABB0D7F}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E} = {0D6597A2-0E6A-4D2A-B90B-A9E6411CDF44}
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035} = {0D6597A2-0E6A-4D2A-B90B-A9E6411CDF44}
+		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE} = {A5DABCB3-A33E-4E12-8D94-E95AD0E914B0}
+		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E} = {A5DABCB3-A33E-4E12-8D94-E95AD0E914B0}
+	EndGlobalSection
+EndGlobal

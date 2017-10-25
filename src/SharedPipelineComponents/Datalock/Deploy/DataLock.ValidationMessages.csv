@@ -1,0 +1,12 @@
+RuleID,Severity,ErrorMessage
+DLOCK_01,W,No matching record found in an employer digital account for the UKPRN
+DLOCK_02,W,No matching record found in the employer digital account for the ULN
+DLOCK_03,W,No matching record found in the employer digital account for the standard code
+DLOCK_04,W,No matching record found in the employer digital account for the framework code
+DLOCK_05,W,No matching record found in the employer digital account for the programme type
+DLOCK_06,W,No matching record found in the employer digital account for the pathway code
+DLOCK_07,W,No matching record found in the employer digital account for the negotiated cost of training
+DLOCK_08,W,Multiple matching records found in the employer digital account
+DLOCK_09,W,The start date for this negotiated price is before the corresponding price start date in the employer digital account
+DLOCK_10,W,The employer has stopped payments for this apprentice
+DLOCK_11,W,The employer is not currently a levy payer

@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock", "SFA.DAS.CollectionEarnings.DataLock\SFA.DAS.CollectionEarnings.DataLock.csproj", "{E0B60D5B-969C-4C05-A636-27788CD19BE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C69707A2-A4B1-497A-B10E-74BF405DFB13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.UnitTests", "SFA.DAS.CollectionEarnings.DataLock.UnitTests\SFA.DAS.CollectionEarnings.DataLock.UnitTests.csproj", "{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.IntegrationTests", "SFA.DAS.CollectionEarnings.DataLock.IntegrationTests\SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.csproj", "{44D50594-88B7-4573-8C82-9DAB9937A5BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Ilr Submission", "Sql - Ilr Submission", "{5FFE098D-04DD-4C9A-BD31-7867009C8719}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Ilr Period End", "Sql - Ilr Period End", "{5924484A-3E97-41A7-9567-9AAA751B7BB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{5DE2B258-6E87-4BF8-BF79-56A39791D4E2}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.Tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.Tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Views.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Views.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
+		DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{6C9AEB38-0684-4214-BD60-4E2CC65EE0B1}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
+		DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
+		DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql = DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql
+		DeployPeriodEnd\sql\dml\06 PeriodEnd.Populate.Reference.Accounts.dml.sql = DeployPeriodEnd\sql\dml\06 PeriodEnd.Populate.Reference.Accounts.dml.sql
+		DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql = DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql
+		DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql = DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{40844862-C0DB-45AD-AFDE-E5E689BEB7D6}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql = Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql
+		Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql = Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql
+		Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql = Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql
+		Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql = Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql
+		Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql = Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql = Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql
+		Deploy\sql\ddl\Ilr.Transient.Reference.DDL.Tables.sql = Deploy\sql\ddl\Ilr.Transient.Reference.DDL.Tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{39C07E8F-F956-4896-8B08-7056BC637286}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql = Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql
+		Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql = Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql
+		Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql = Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql
+		Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql = Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings - Ilr Submission", "Copy mappings - Ilr Submission", "{95789FD2-A404-4040-A9BE-5FBC61E74FF8}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\copy mappings\DasDataLockCopyToDedsMapping.xml = Deploy\copy mappings\DasDataLockCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy mappings - Ilr Period End", "Copy mappings - Ilr Period End", "{CE782C50-00F6-4E73-B2AF-FDD63A4B70EF}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPeriodEnd\copy mappings\DasPeriodEndDataLockCopyToDedsMapping.xml = DeployPeriodEnd\copy mappings\DasPeriodEndDataLockCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "MigrationScripts", "{85E2D882-D92B-4553-80B9-442384149DB3}"
+	ProjectSection(SolutionItems) = preProject
+		DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql = DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql
+		DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql = DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "MigrationScripts", "{4D4BE611-4D3A-424E-AB8B-895B1CBB4C97}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql = Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql
+		Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql = Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D50594-88B7-4573-8C82-9DAB9937A5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D50594-88B7-4573-8C82-9DAB9937A5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D50594-88B7-4573-8C82-9DAB9937A5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D50594-88B7-4573-8C82-9DAB9937A5BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0} = {C69707A2-A4B1-497A-B10E-74BF405DFB13}
+		{44D50594-88B7-4573-8C82-9DAB9937A5BB} = {C69707A2-A4B1-497A-B10E-74BF405DFB13}
+		{5DE2B258-6E87-4BF8-BF79-56A39791D4E2} = {5924484A-3E97-41A7-9567-9AAA751B7BB5}
+		{6C9AEB38-0684-4214-BD60-4E2CC65EE0B1} = {5924484A-3E97-41A7-9567-9AAA751B7BB5}
+		{40844862-C0DB-45AD-AFDE-E5E689BEB7D6} = {5FFE098D-04DD-4C9A-BD31-7867009C8719}
+		{39C07E8F-F956-4896-8B08-7056BC637286} = {5FFE098D-04DD-4C9A-BD31-7867009C8719}
+		{85E2D882-D92B-4553-80B9-442384149DB3} = {5924484A-3E97-41A7-9567-9AAA751B7BB5}
+		{4D4BE611-4D3A-424E-AB8B-895B1CBB4C97} = {5FFE098D-04DD-4C9A-BD31-7867009C8719}
+	EndGlobalSection
+EndGlobal
