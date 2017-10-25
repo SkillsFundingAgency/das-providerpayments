@@ -53,9 +53,6 @@
       <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IlrGenerator">
-      <HintPath>..\assemblies\IlrGenerator.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -63,12 +60,6 @@
     <Reference Include="nunit.framework, Version=3.0.5797.27534, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.0.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ProviderPayments.TestStack.Core">
-      <HintPath>..\assemblies\ProviderPayments.TestStack.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ProviderPayments.TestStack.Core.ExecutionProxy">
-      <HintPath>..\assemblies\ProviderPayments.TestStack.Core.ExecutionProxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -135,6 +126,7 @@
     <Compile Include="Features\learner_finishes_early.feature.cs" />
     <Compile Include="Features\learner_finishes_late.feature.cs" />
     <Compile Include="Features\learner_finishes_on_time.feature.cs" />
+    <Compile Include="Features\manual_adjustments.feature.cs" />
     <Compile Include="Features\maths_and_english.feature.cs" />
     <Compile Include="Features\payments_calc.feature.cs" />
     <Compile Include="Features\provider_adjustments.feature.cs" />
@@ -307,6 +299,9 @@
     <None Include="..\..\features\learner_finishes_on_time.feature">
       <Link>Features\learner_finishes_on_time.feature</Link>
     </None>
+    <None Include="..\..\features\manual_adjustments.feature">
+      <Link>Features\manual_adjustments.feature</Link>
+    </None>
     <None Include="..\..\features\maths_and_english.feature">
       <Link>Features\maths_and_english.feature</Link>
       <LastGenOutput>maths_and_english.feature.cs</LastGenOutput>
@@ -358,7 +353,20 @@
   <ItemGroup>
     <None Include="Resources\ddl.AT.deds.tables.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\IlrGenerator\IlrGenerator.csproj">
+      <Project>{5076ba97-2e9e-4845-9359-0e16dff7b3a6}</Project>
+      <Name>IlrGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\ProviderPayments.TestStack.Core.ExecutionProxy\ProviderPayments.TestStack.Core.ExecutionProxy.csproj">
+      <Project>{c7ad11e0-04af-4d3a-9166-296ff68cc416}</Project>
+      <Name>ProviderPayments.TestStack.Core.ExecutionProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\ProviderPayments.TestStack.Core\ProviderPayments.TestStack.Core.csproj">
+      <Project>{ed159396-0d7d-4b64-8369-6c1bad8aae15}</Project>
+      <Name>ProviderPayments.TestStack.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

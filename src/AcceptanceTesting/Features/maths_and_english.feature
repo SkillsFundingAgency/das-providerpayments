@@ -539,8 +539,7 @@ Scenario: DPP-678 A Payment for a non-DAS learner, funding agreed within band ma
 		  
 	
 	
-Scenario: DPP-678 B DAS learner, other funding adjustment on English/maths aim  is 70%, prior funding adjustment is 90%
-# Payment for a DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time), other funding adjustment is 75%, prior funding adjustment is 10%
+Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time), other funding adjutsment is 75%, prior funding adjustment is 10%
 #	Providers are paid £471 per aim. this is funded from outside the total proce and is flat-profiled across the planned number of months in learning for that aim. There is no N+1, there is no money held back for completion. 
 #	Tech Guide 102. If an adjustment is required due to prior learning, you must record data in the ‘Funding adjustment for prior learning’ field on the ILR. 
 	Given levy balance > agreed price for all months
@@ -556,7 +555,7 @@ Scenario: DPP-678 B DAS learner, other funding adjustment on English/maths aim  
 	| provider A | learner a | 19-24 programme only DAS | 15000        | 06/08/2017 | 08/08/2018       | 08/01/2018      | planned break     | n/a                                   | n/a                      | NO                | programme        |
 	| provider A | learner a | 19-24 programme only DAS | 471          | 06/08/2017 | 08/08/2018       | 08/01/2018      | planned break     | n/a                                   | n/a                      | NO                | maths or english |
 	| provider B | learner a | 19-24 programme only DAS | 15000        | 09/01/2018 | 08/08/2018       |                 | continuing        | n/a                                   | n/a                      | YES               | programme        |
-	| provider B | learner a | 19-24 programme only DAS | 471          | 09/01/2018 | 08/08/2018       | 08/08/2018      | completed         | 90%                                   | 70%                      | YES               | maths or english |
+	| provider B | learner a | 19-24 programme only DAS | 471          | 09/01/2018 | 08/08/2018       | 08/08/2018      | completed         | 70%                                   | n/a                      | YES               | maths or english |
 	  
 #	The English or maths aim is submitted with the same start and planned end date
       
@@ -590,14 +589,14 @@ Scenario: DPP-678 B DAS learner, other funding adjustment on English/maths aim  
 		  | SFA Levy employer budget                | 1142.86 | 1142.86 | 1142.86 | ... | 1142.86 | 0       |
 		  | SFA Levy co-funding budget              | 0       | 0       | 0       | ... | 0       | 0       |
 		  | SFA non-Levy additional payments budget | 0       | 0       | 0       | ... | 0       | 0       |
-		  | SFA levy additional payments budget     | 42.39   | 42.39   | 42.39   | ... | 42.39   | 0       |
+		  | SFA levy additional payments budget     | 47.10   | 47.10   | 47.10   | ... | 47.10   | 0       |
 		  
     And the transaction types for the payments for provider B are:
 		  | Payment type                   | 02/18   | 03/18   | ... | 07/18   | 08/18   | 
 		  | On-program                     | 1142.86 | 1142.86 | ... | 1142.86 | 1142.86 | 
 		  | Completion                     | 0       | 0       | ... | 0       | 0       | 
 		  | Balancing                      | 0       | 0       | ... | 0       | 0       | 
-		  | English and maths on programme | 42.39   | 42.39   | ... | 42.39   | 42.39   | 
+		  | English and maths on programme | 47.10   | 47.10   | ... | 47.10   | 47.10   | 
 		  | English and maths Balancing    | 0       | 0       | ... | 0       | 0       | 
 
 

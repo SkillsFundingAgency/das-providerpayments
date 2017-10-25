@@ -25,16 +25,16 @@ GO
 IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name] = 'Logs' AND [schema_id] = SCHEMA_ID('AT'))
 	BEGIN
 		CREATE TABLE [AT].[Logs](
-			[LogId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
+			[LogId] [uniqueidentifier] NOT NULL CONSTRAINT [DF__Logs__LogId__145C0A3F]  DEFAULT (newid()),
 			[RunId] [varchar](50) NOT NULL,
 			[LogLevel] [int] NOT NULL,
-			[LogDtTm] [datetime] NOT NULL DEFAULT(GETDATE()),
+			[LogDtTm] [datetime] NOT NULL,
 			[LogMessage] [nvarchar](max) NOT NULL,
 			[ExceptionDetails] [nvarchar](max) NULL,
 			[ScenarioTitle] [nvarchar](max) NULL
-			PRIMARY KEY CLUSTERED 
+			CONSTRAINT [PK__Logs__5E54864804C01630] PRIMARY KEY CLUSTERED 
 			(
-				[LogId] ASC
+			[LogId] ASC
 			)
 		)
 	END
@@ -75,29 +75,5 @@ IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name]='ReferenceData' A
 				[Type]
 			)
 		)
-	END
-GO
-
-----------------------------------------------------------------------------------------------------------------------------
--- ReferenceData
-----------------------------------------------------------------------------------------------------------------------------
-IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name]='Collection_Period_Mapping')
-	BEGIN
-		CREATE TABLE [dbo].[Collection_Period_Mapping](
-			   [Collection_Year] [int] NOT NULL,
-			   [Period_ID] [int] NOT NULL,
-			   [Return_Code] [varchar](10) NOT NULL,
-			   [Collection_Period_Name] [nvarchar](20) NOT NULL,
-			   [Collection_ReturnCode] [varchar](10) NOT NULL,
-			   [Calendar_Month] [int] NOT NULL,
-			   [Calendar_Year] [int] NOT NULL,
-			   [Collection_Open] [bit] NOT NULL,
-			   [ActualsSchemaPeriod] [int] NOT NULL
-       
-		CONSTRAINT [PK_Collection_Period_Mapping] PRIMARY KEY CLUSTERED 
-		(
-			   [Collection_Year],[Period_ID] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY]
 	END
 GO

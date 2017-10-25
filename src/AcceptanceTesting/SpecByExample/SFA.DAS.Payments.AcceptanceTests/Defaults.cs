@@ -9,7 +9,7 @@
         internal const int CommitmentPriority = 1;
         internal const string CommitmentVersionId = "1-001";
         internal const string CommitmentStatus = "active";
-        internal const long StandardCode = 114L;
+        internal const long StandardCode = 23L;
         internal const string LearnerId = "learner a";
     }
 }
