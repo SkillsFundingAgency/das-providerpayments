@@ -86,4 +86,3 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
 	OR ph.AmountDue> 0
 	)
 	AND (pepm.Period Is Null OR ae.Period = pepm.Period OR ph.AmountDue >0)
-
