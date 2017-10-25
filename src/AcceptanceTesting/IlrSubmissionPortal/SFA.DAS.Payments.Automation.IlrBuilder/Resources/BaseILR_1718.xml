@@ -1,0 +1,77 @@
+﻿<Message xmlns="SFA/ILR/2017-18" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header>
+    <CollectionDetails>
+      <Collection>ILR</Collection>
+      <Year>1718</Year>
+      <FilePreparationDate>2017-05-05</FilePreparationDate>
+    </CollectionDetails>
+    <Source>
+      <ProtectiveMarking>OFFICIAL-SENSITIVE-Personal</ProtectiveMarking>
+      <UKPRN>10007459</UKPRN>
+      <SoftwareSupplier>Software Supplier</SoftwareSupplier>
+      <SoftwarePackage>Software Package</SoftwarePackage>
+      <Release>Release</Release>
+      <SerialNo>01</SerialNo>
+      <DateTime>2017-05-05T11:58:33</DateTime>
+    </Source>
+  </Header>
+  <LearningProvider>
+    <UKPRN>10007459</UKPRN>
+  </LearningProvider>
+  <Learner>
+    <LearnRefNumber>2</LearnRefNumber>
+    <ULN>1000000019</ULN>
+    <FamilyName>FamilyName</FamilyName>
+    <GivenNames>GivenNames</GivenNames>
+    <DateOfBirth>1988-10-23</DateOfBirth>
+    <Ethnicity>98</Ethnicity>
+    <Sex>F</Sex>
+    <LLDDHealthProb>2</LLDDHealthProb>
+    <NINumber>AB123456C</NINumber>
+    <PriorAttain>1</PriorAttain>
+    <PostcodePrior>OX17 1EZ</PostcodePrior>
+    <Postcode>OX17 1EZ</Postcode>
+    <AddLine1>Address Line 1</AddLine1>
+    <AddLine2>Address Line 2</AddLine2>
+    <LearnerEmploymentStatus>
+      <EmpStat>10</EmpStat>
+      <DateEmpStatApp>2015-04-09</DateEmpStatApp>
+      <EmpId>101183291</EmpId>
+      <EmploymentStatusMonitoring>
+        <ESMType>EII</ESMType>
+        <ESMCode>4</ESMCode>
+      </EmploymentStatusMonitoring>
+      <EmploymentStatusMonitoring>
+        <ESMType>LOE</ESMType>
+        <ESMCode>4</ESMCode>
+      </EmploymentStatusMonitoring>
+    </LearnerEmploymentStatus>
+    <LearningDelivery>
+      <LearnAimRef>ZPROG001</LearnAimRef>
+      <AimType>1</AimType>
+      <AimSeqNumber>1</AimSeqNumber>
+      <LearnStartDate>2015-07-31</LearnStartDate>
+      <LearnPlanEndDate>2018-05-12</LearnPlanEndDate>
+      <FundModel>36</FundModel>
+      <DelLocPostCode>OX17 1EZ</DelLocPostCode>
+      <CompStatus>1</CompStatus>
+      <SWSupAimId>83282eb2aa2230439a9964374c163b9c</SWSupAimId>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>SOF</LearnDelFAMType>
+        <LearnDelFAMCode>105</LearnDelFAMCode>
+      </LearningDeliveryFAM>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>ACT</LearnDelFAMType>
+        <LearnDelFAMCode>1</LearnDelFAMCode>
+        <LearnDelFAMDateFrom>2015-07-31</LearnDelFAMDateFrom>
+        <LearnDelFAMDateTo>2015-07-31</LearnDelFAMDateTo>
+      </LearningDeliveryFAM>
+      <AppFinRecord>
+        <AFinType>TNP</AFinType>
+        <AFinCode>1</AFinCode>
+        <AFinDate>2015-07-31</AFinDate>
+        <AFinAmount>2750</AFinAmount>
+      </AppFinRecord>
+    </LearningDelivery>
+  </Learner>
+</Message>

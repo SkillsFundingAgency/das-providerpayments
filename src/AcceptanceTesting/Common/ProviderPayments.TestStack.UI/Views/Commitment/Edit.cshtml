@@ -1,0 +1,13 @@
+﻿@model ProviderPayments.TestStack.UI.Models.CommitmentModel
+
+<h2>Edit Commitment</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_CreateOrEdit", Model)
+    <div>
+        <button type="submit">Update</button>
+        <a href="@Url.Action("Index")">Cancel</a>
+    </div>
+</form>

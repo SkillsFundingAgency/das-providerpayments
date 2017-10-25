@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator", "SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj", "{49D934F3-2120-4268-8143-C3C85EF85BA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{D53DFB72-0240-4DB9-953B-DD626D871E76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{A097DB8C-2A9A-4739-BC6D-EBBB0C8E85E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunOpaEarningsCalculatorTask", "RunOpaEarningsCalculatorTask\RunOpaEarningsCalculatorTask.csproj", "{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{182B45DF-FC22-43D2-A009-052CA3B72B6C}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql = Deploy\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql
+		Deploy\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql = Deploy\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql
+		Deploy\sql\ddl\OPA.Transient.Reference.ddl.tables.sql = Deploy\sql\ddl\OPA.Transient.Reference.ddl.tables.sql
+		Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql = Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql
+		Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql = Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql
+		Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql = Deploy\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{47FAEC8F-CE0C-4D34-87D0-91D48D8599E5}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\sql\dml\01 Ilr.Transient.OPA.Populate.Reference.dml.sql = Deploy\sql\dml\01 Ilr.Transient.OPA.Populate.Reference.dml.sql
+		Deploy\sql\dml\Ilr.Earnings.Cleanup.Deds.DML.sql = Deploy\sql\dml\Ilr.Earnings.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Column mappings", "Column mappings", "{817A306B-70F6-4BE9-8ADB-5DBBB6230E87}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\copy mappings\DasEarningsCopyToDedsMapping.xml = Deploy\copy mappings\DasEarningsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018} = {A097DB8C-2A9A-4739-BC6D-EBBB0C8E85E0}
+		{182B45DF-FC22-43D2-A009-052CA3B72B6C} = {D53DFB72-0240-4DB9-953B-DD626D871E76}
+		{47FAEC8F-CE0C-4D34-87D0-91D48D8599E5} = {D53DFB72-0240-4DB9-953B-DD626D871E76}
+	EndGlobalSection
+EndGlobal

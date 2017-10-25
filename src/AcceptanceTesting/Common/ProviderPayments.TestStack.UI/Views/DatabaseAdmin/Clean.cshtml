@@ -1,0 +1,6 @@
+﻿<h2>Clean Deds</h2>
+<p>This will remove all data in deds. Are you sure you want to continue?</p>
+<form method="post" action="@Url.Action("ConfirmClean")">
+    @Html.AntiForgeryToken()
+    <button type="submit">Yes. Delete it all!</button>
+</form>

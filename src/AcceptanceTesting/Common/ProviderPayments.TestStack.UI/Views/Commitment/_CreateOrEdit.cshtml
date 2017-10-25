@@ -1,0 +1,96 @@
+﻿@using ProviderPayments.TestStack.Domain
+@model ProviderPayments.TestStack.UI.Models.CommitmentModel
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="error">
+        <div class="error-message">
+            @ViewBag.ErrorMessage
+        </div>
+    </div>
+}
+
+<div>
+    <label>Id</label>
+    <input name="Id" type="text" maxlength="50" required="required" autofocus="autofocus" value="@Model.Id" />
+</div>
+<div>
+    <label>Version</label>
+    <input name="Version" type="text" maxlength="50" required="required" autofocus="autofocus" value="@Model.Version" />
+</div>
+<div>
+    <label>Account</label>
+    <select name="Account.Id" required="required">
+        @foreach (var account in Model.Accounts)
+        {
+            <option value="@account.Id" @(Model.Account != null && account.Id == Model.Account.Id ? "selected=\"selected\"" : ""))>@account.Name (@account.Id)</option>
+        }
+    </select>
+</div>
+<div>
+    <label>Provider</label>
+    <select name="Provider.Ukprn" required="required">
+        @foreach (var provider in Model.Providers)
+        {
+            <option value="@provider.Ukprn" @(Model.Provider != null && provider.Ukprn == Model.Provider.Ukprn ? "selected=\"selected\"" : ""))>@provider.Name (@provider.Ukprn)</option>
+        }
+    </select>
+</div>
+<div>
+    <label>Learner</label>
+    <select name="Learner.Uln" required="required">
+        @foreach (var learner in Model.Learners)
+        {
+            <option value="@learner.Uln" @(Model.Learner != null && learner.Uln == Model.Learner.Uln ? "selected=\"selected\"" : ""))>@learner.Name (@learner.Uln)</option>
+        }
+    </select>
+</div>
+<div>
+    <label>Course</label>
+    <select name="SelectedCourse" required="required">
+        <optgroup label="Standard">
+            @foreach (var standard in Model.Standards)
+            {
+                <option value="@standard.Code" @(standard.Code == Model.Course?.StandardCode ? "selected=\"selected\"" : ""))>@standard.DisplayName (@standard.Code)</option>
+            }
+        </optgroup>
+        <optgroup label="Framework">
+            @foreach (var framework in Model.Frameworks)
+            {
+                var isSelectedFramework = Model.Course?.PathwayCode == framework.PathwayCode && Model.Course?.FrameworkCode == framework.FrameworkCode && Model.Course?.ProgrammeType == framework.ProgrammeType;
+                <option value="@($"{framework.PathwayCode}-{framework.FrameworkCode}-{framework.ProgrammeType}")"
+                         @(isSelectedFramework ? "selected=\"selected\"" : ""))>@framework.DisplayName (@framework.FrameworkCode / @framework.ProgrammeType / @framework.PathwayCode)</option>
+            }
+        </optgroup>
+    </select>
+</div>
+<div>
+    <label>Start Date</label>
+    <input name="StartDate" type="date" required="required" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+</div>
+<div>
+    <label>End Date</label>
+    <input name="EndDate" type="date" required="required" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+</div>
+<div>
+    <label>Agreed Cost</label>
+    <input name="Cost" type="number" min="1" value="@Model.Cost.ToString("0.00")"/>
+</div>
+<div>
+    <label>Priority</label>
+    <input name="Priority" type="number" min="1" value="@Model.Priority.ToString()"/>
+</div>
+<div>
+    <label>Status</label>
+    <select name="Status" required="required">
+        @foreach (var status in typeof (PaymentStatus).GetEnumNames())
+        {
+            var intStatus = (int) Enum.Parse(typeof (PaymentStatus), status);
+            <option value="@intStatus" @(intStatus == (int) Model.Status ? "selected=\"selected\"" : "")>@status</option>
+        }
+    </select>
+</div>
+<div>
+    <label>Effective From</label>
+    <input name="EffectiveFrom" type="date" required="required" value="@Model.EffectiveFrom.ToString("yyyy-MM-dd")" />
+</div>

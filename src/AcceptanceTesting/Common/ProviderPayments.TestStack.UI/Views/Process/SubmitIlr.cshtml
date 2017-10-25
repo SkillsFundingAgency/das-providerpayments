@@ -1,0 +1,173 @@
+﻿@model ProviderPayments.TestStack.UI.Models.IlrSubmissionModel
+
+<h2>Submit ILR</h2>
+
+<h3>Upload File</h3>
+<form method="post" action="@Url.Action("UploadIlr")" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <input type="file" id="ilrFile" name="ilrFile" accept=".xml" />
+    </div>
+    
+    <div>
+        <label>Collection period (eg. 1617, 1718)</label>
+        <input name="YearOfCollection" type="number" min="1617"/>
+    </div>
+
+    <div>
+        <button name="button" type="submit" value="submit">Upload</button>
+        <a href="@Url.Action("Index", "Home")">Cancel</a>
+    </div>
+</form>
+
+<h3 style="margin-top:50px;">Create ILR</h3>
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    @if (Model.Learners != null)
+    {
+        for (var x = 0; x < Model.Learners.Count; x++)
+        {
+            var learner = Model.Learners[x];
+
+            <h3>Learner @(x + 1)</h3>
+
+            <div>
+                <button name="button" type="submit" value="remove-@x" class="button button-link">Remove learner</button>
+            </div>
+
+            <div>
+                <label>FAM code</label>
+                <select name="Learners[@x].FamCode">
+                    <option value="1" @(learner.FamCode == 1 ? "selected=\"selected\"" : "")>DAS</option>
+                    <option value="2" @(learner.FamCode == 2 ? "selected=\"selected\"" : "")>Not-DAS</option>
+                </select>
+            </div>
+            <div>
+                <label>ULN</label>
+                <input name="Learners[@x].Uln" type="number" value="@learner.Uln" />
+            </div>
+            <div>
+                <label>Course</label>
+                <select name="Learners[@x].SelectedCourse">
+                    <optgroup label="Standard">
+                        @foreach (var standard in Model.Standards)
+                        {
+                            var isSelected = learner.StandardCode == standard.Code;
+                            <option value="@standard.Code" @(isSelected ? "selected=\"selected\"" : "")>@standard.DisplayName</option>
+                        }
+                    </optgroup>
+                    <optgroup label="Framework">
+                        @foreach (var framework in Model.Frameworks)
+                        {
+                            var isSelected = learner.FrameworkCode == framework.FrameworkCode && learner.ProgrammeType == framework.ProgrammeType && learner.PathwayCode == framework.PathwayCode;
+                            <option value="@($"{framework.PathwayCode}-{framework.FrameworkCode}-{framework.ProgrammeType}")" @(isSelected ? "selected=\"selected\"" : "")>@framework.DisplayName</option>
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <div>
+                <label>Actual start date</label>
+                <input name="Learners[@x].ActualStartDate" value="@learner.ActualStartDate.ToString("yyyy-MM-dd")" type="date" />
+            </div>
+            <div>
+                <label>Planned end date</label>
+                <input name="Learners[@x].PlannedEndDate" value="@learner.PlannedEndDate.ToString("yyyy-MM-dd")" type="date" />
+            </div>
+            <div>
+                <label>Actual end date</label>
+                <input name="Learners[@x].ActualEndDate" value="@learner.ActualEndDate.ToString("yyyy-MM-dd")" type="date" />
+            </div>
+            <div>
+                <label>Training Cost (TNP1)</label>
+                <input name="Learners[@x].TrainingCost" value="@learner.TrainingCost" type="number"/>
+            </div>
+            <div>
+                <label>Endpoint Assesment Cost (TNP2)</label>
+                <input name="Learners[@x].EndpointAssementCost" value="@learner.EndpointAssementCost" type="number"/>
+            </div>
+
+            <hr/>
+        }
+    }
+
+    <h3>New learner</h3>
+
+    <div>
+        <label>FAM code</label>
+        <select name="FamCode">
+            <option value="1">DAS</option>
+            <option value="2">Not-DAS</option>
+        </select>
+    </div>
+    <div>
+        <label>ULN</label>
+        <input name="Uln" type="number" />
+    </div>
+    <div>
+        <label>Course</label>
+        <select name="SelectedCourse">
+            <optgroup label="Standard">
+                @foreach (var standard in Model.Standards)
+            {
+                    <option value="@standard.Code">@standard.DisplayName</option>
+                }
+            </optgroup>
+            <optgroup label="Framework">
+                @foreach (var framework in Model.Frameworks)
+            {
+                    <option value="@($"{framework.PathwayCode}-{framework.FrameworkCode}-{framework.ProgrammeType}")">@framework.DisplayName</option>
+                }
+            </optgroup>
+        </select>
+    </div>
+    <div>
+        <label>Actual start date</label>
+        <input name="ActualStartDate" type="date" />
+    </div>
+    <div>
+        <label>Planned end date</label>
+        <input name="PlannedEndDate" type="date" />
+    </div>
+    <div>
+        <label>Actual end date</label>
+        <input name="ActualEndDate" type="date" />
+    </div>
+    <div>
+        <label>Training Cost (TNP1)</label>
+        <input name="TrainingCost" type="number" />
+    </div>
+    <div>
+        <label>Endpoint Assesment Cost (TNP2)</label>
+        <input name="EndpointAssementCost" type="number" />
+    </div>
+
+    <div>
+        <button name="button" type="submit" value="add">Add another learner</button>
+    </div>
+
+    <hr/>
+
+    <h3>Provider</h3>
+
+    <div>
+        <label>Provider</label>
+        <select name="Ukprn">
+            @foreach (var provider in Model.Providers)
+            {
+                <option value="@provider.Ukprn">@provider.Name</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Collection period (eg. 1617, 1718)</label>
+        <input name="YearOfCollection" type="number" min="1617" />
+    </div>
+
+    <div>
+        <button name="button" type="submit" value="submit">Submit</button>
+        <a href="@Url.Action("Index", "Home")">Cancel</a>
+    </div>
+</form>

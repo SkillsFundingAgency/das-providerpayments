@@ -1,0 +1,10 @@
+﻿<h2>Run Commitments Reference Data</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <button type="submit">Run</button>
+        <a href="@Url.Action("Index", "Home")">Cancel</a>
+    </div>
+</form>

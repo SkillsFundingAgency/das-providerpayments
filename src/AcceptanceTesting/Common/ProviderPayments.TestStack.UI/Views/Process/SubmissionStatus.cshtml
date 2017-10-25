@@ -1,0 +1,32 @@
+﻿@model ProviderPayments.TestStack.UI.Models.SubmissionStatusModel
+
+<h2>Status of @Model.Status.Id</h2>
+
+<ol class="task-list">
+    @foreach (var step in Model.Status.Steps)
+    {
+        <li>
+            @if (!step.EndTime.HasValue)
+            {
+                <i class="fa fa-clock-o"></i>
+            }
+            else if (!string.IsNullOrEmpty(step.ErrorMessage))
+            {
+                <i class="fa fa-exclamation-circle"></i>
+            }
+            else
+            {
+                <i class="fa fa-check"></i>
+            }
+
+            @step.Description
+
+            @if (!string.IsNullOrEmpty(step.ErrorMessage))
+            {
+                <div class="error">
+                    <div class="error-message">@step.ErrorMessage</div>
+                </div>
+            }
+        </li>
+    }
+</ol>

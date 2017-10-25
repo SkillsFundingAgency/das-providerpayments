@@ -1,0 +1,13 @@
+﻿@model ProviderPayments.TestStack.UI.Models.AccountModel
+
+<h2>Create Account</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_CreateOrEdit", Model)
+    <div>
+        <button type="submit">Create</button>
+        <a href="@Url.Action("Index")">Cancel</a>
+    </div>
+</form>

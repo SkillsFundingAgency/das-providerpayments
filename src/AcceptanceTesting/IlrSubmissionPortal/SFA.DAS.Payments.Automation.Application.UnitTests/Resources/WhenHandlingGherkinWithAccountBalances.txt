@@ -1,0 +1,30 @@
+Feature: When Handling Gherkin With Account Balances
+
+Scenario: Multiple employers with indefinate levy
+    Given the employer 1 has a levy balance > agreed price for all months
+    And the employer 2 has a levy balance > agreed price for all months
+    
+Scenario: Single employer with indefinate levy
+    Given levy balance > agreed price for all months
+    
+Scenario: Single employer with no levy
+    Given levy balance = 0 for all months
+    
+Scenario: Multiple employers with specific levy per period
+    Given the employer 1 has a levy balance of:
+        | 05/17 | 06/17 | ... | 11/17 | 12/17 |
+        | 1000  | 2000  | ... | 500   | 250   |
+    And the employer 2 has a levy balance of:
+        | 01/18 | 02/18 | ... | 06/18 | 07/18 |
+        | 5000  | 5000  | ... | 5000  | 5000  |
+        
+Scenario: Single employer with specific levy per period
+    Given the employer's levy balance is:
+        | 05/17 | 06/17 | ... | 11/17 | 12/17 |
+        | 1000  | 2000  | ... | 500   | 250   |
+    
+Scenario: Mixed levy types per employer
+    Given the employer 1 has a levy balance > agreed price for all months
+    And the employer 2 has a levy balance of:
+        | 01/18 | 02/18 | ... | 06/18 | 07/18 |
+        | 5000  | 5000  | ... | 5000  | 5000  |

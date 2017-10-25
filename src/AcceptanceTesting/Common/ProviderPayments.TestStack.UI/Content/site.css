@@ -1,0 +1,79 @@
+﻿body {
+    font-family: sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+th, td {
+    text-align: left;
+    padding: 5px;
+    border-bottom: solid 1px #999;
+}
+
+a, a:visited {
+    color: blue;
+}
+
+.button {
+    background-color: #ccc;
+    border: solid 1px #999;
+    padding: 5px;
+    font-weight: bold;
+}
+.button.button-link {
+    background-color: transparent;
+    border: solid 0 transparent;
+    color: blue;
+    font-weight: normal;
+    font-size: 16px;
+    text-decoration: underline;
+    display: inline-block;
+    cursor: pointer;
+}
+.button.button-link:active {
+    color: red;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.error {
+    display: block;
+    border: solid 1px #f2dede;
+    background-color: #f2dede;
+    padding: 15px 25px;
+}
+    .error-message {
+        color: #a94442;
+    }
+
+
+label {
+    display: block;
+}
+form > div {
+    margin-top: 15px;
+}
+
+
+
+ol.task-list {
+    list-style-type: none;
+}
+ol.task-list li {
+    margin-bottom: 10px;
+}
+ol.task-list i.fa-clock-o {
+    color: #ccc;
+}
+ol.task-list i.fa-exclamation-circle {
+    color: red;
+}
+ol.task-list i.fa-check {
+    color: #1e961e;
+}
+ol.task-list div.error {
+    margin: 5px 25px;
+}

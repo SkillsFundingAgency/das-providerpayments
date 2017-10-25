@@ -1,0 +1,14 @@
+﻿
+CREATE TABLE [Learners].[ULNs](
+	[Id]	BIGINT identity,
+	[ULN] [bigint] NOT NULL,
+	[Used] [bit]  NULL,
+	[ScenarioName] [nvarchar](max) NULL,
+	[LearnRefNumber] [nvarchar](12) NULL,
+ [Ukprn] BIGINT NULL, 
+    CONSTRAINT [PK_AvailableULNs] PRIMARY KEY CLUSTERED 
+(
+	[ULN] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+

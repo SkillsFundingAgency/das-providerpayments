@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ProviderPayments.TestStack.Domain.Account>
+
+<h2>Accounts</h2>
+
+<a href="@Url.Action("Create")">Create Account</a>
+
+<table class="margin-top-20">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Levy balance</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var account in Model)
+    {
+        <tr>
+            <td>@account.Id</td>
+            <td>@account.Name</td>
+            <td>£@account.Balance.ToString("0.00")</td>
+            <td>
+                <form action="@Url.Action("Delete")" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <a href="@Url.Action("Edit", new {id = account.Id})">Edit</a>
+
+                    <input type="hidden" name="accountId" value="@account.Id" />
+                    <button type="submit" class="button button-link">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

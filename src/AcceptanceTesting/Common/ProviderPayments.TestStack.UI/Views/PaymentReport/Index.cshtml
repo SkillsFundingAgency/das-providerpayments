@@ -1,0 +1,36 @@
+﻿@model ProviderPayments.TestStack.UI.Models.PaymentsReportModel
+
+<h2>Payments</h2>
+
+<table class="margin-top-20">
+    <thead>
+        <tr>
+            <th>Commitment</th>
+            <th>Account</th>
+            <th>Priority</th>
+            <th>Provider</th>
+            <th>Learner</th>
+            <th>Funding Source</th>
+            <th>Payment for</th>
+            <th>Calculated in</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var payment in Model.Payments)
+        {
+            var account = Model.Accounts.FirstOrDefault(a => a.Id == payment.AccountId);
+            <tr>
+                <td>@payment.CommitmentId</td>
+                <td>@(account == null ? "" : $"{account.Name} ({account.Id})")</td>
+                <td>@payment.Priority</td>
+                <td>@payment.ProviderName</td>
+                <td>@payment.LearnerName (@payment.Uln)</td>
+                <td>@payment.FundingSource.ToString()</td>
+                <td>@(payment.DeliveryMonth < 10 ? "0" : "")@payment.DeliveryMonth/@payment.DeliveryYear</td>
+                <td>@payment.CollectionPeriodName</td>
+                <td>£@payment.Amount.ToString("0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>

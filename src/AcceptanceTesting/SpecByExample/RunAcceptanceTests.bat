@@ -1,0 +1,1 @@
+packages\NUnit.ConsoleRunner.3.4.1\tools\nunit3-console.exe "SFA.DAS.Payments.AcceptanceTests\bin\debug\SFA.DAS.Payments.AcceptanceTests.dll" --workers=1 --noresult 

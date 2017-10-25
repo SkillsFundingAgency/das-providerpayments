@@ -1,0 +1,23 @@
+﻿@model  SFA.DAS.Payments.Automation.WebUI.ViewModels.UsedUlnViewModel
+ 
+<h1>Used ULNs</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped ">
+        <tr>
+            <th>ULN</th>
+            <th>UKPRN</th>
+            <th>Learn Ref Number</th>
+            <th>Scenario</th>
+        </tr>
+        @foreach (var item in Model.UsedUlns)
+        {
+           <tr>
+               <td>@item.Uln</td>
+               <td>@item.Ukprn</td>
+               <td>@item.LearnRefNumber</td>
+               <td>@item.ScenarioName</td>
+           </tr>
+        }
+    </table>
+</div>

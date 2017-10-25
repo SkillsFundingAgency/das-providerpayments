@@ -1,0 +1,85 @@
+﻿@model  SFA.DAS.Payments.Automation.WebUI.ViewModels.IlrSubmissionModel
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Build an ILR from specs</h2>
+
+
+@using (Html.BeginForm("Index", "IlrBuilder", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">@Html.LabelFor(m => m.Ukprn)</label>
+            <div class="col-sm-10" style="padding-bottom:5px;">
+                @Html.EditorFor(m => m.Ukprn)
+                <span class="error" >@Html.ValidationMessageFor(m => m.Ukprn) </span>
+            </div>
+            
+        </div>
+        <div class="class=" form-group"">
+            <label class="col-sm-2 control-label">Academic Year</label>
+            <div class="col-sm-10" style="padding-bottom:5px;">
+                @Html.DropDownListFor(m => m.AcademicYear, new List<SelectListItem>
+                    {
+                                        new SelectListItem() {Text = "1617", Value="1617"},
+                                        new SelectListItem() {Text = "1718", Value="1718"},
+                                        new SelectListItem() {Text = "1819", Value="1819"},
+                                        new SelectListItem() {Text = "1920", Value="1920"}
+
+                    })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Shift Month/Year</label>
+            <div class="col-sm-10" style="padding-bottom:5px;">
+                @Html.DropDownListFor(m => m.ShiftMonth, new List<SelectListItem>
+                    {
+                                    new SelectListItem() {Text = "", Selected=true},
+                                    new SelectListItem() {Text = "1"},
+                                    new SelectListItem() {Text = "2"},
+                                    new SelectListItem() {Text = "3"},
+                                    new SelectListItem() {Text = "4"},
+                                    new SelectListItem() {Text = "5"},
+                                    new SelectListItem() {Text = "6"},
+                                    new SelectListItem() {Text = "7"},
+                                    new SelectListItem() {Text = "8"},
+                                    new SelectListItem() {Text = "9"},
+                                    new SelectListItem() {Text = "10"},
+                                    new SelectListItem() {Text = "11"},
+                                    new SelectListItem() {Text = "12"}
+
+                    })
+                &nbsp;
+                    @Html.DropDownListFor(m => m.ShiftYear, new List<SelectListItem>
+                {
+                                    new SelectListItem() {Text = "", Selected=true},
+                                    new SelectListItem() {Text = "2017"},
+                                    new SelectListItem() {Text = "2018"},
+                                    new SelectListItem() {Text = "2019"},
+                                    new SelectListItem() {Text = "202"}
+                })
+            </div>
+        </div>
+    
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Specs</label>
+            <div class="col-sm-10" style="padding-bottom:5px;">
+                @Html.TextAreaFor(m=>m.Specs, new { @style = "width:980px; max-width:980px; height:400px;" })
+                @Html.ValidationMessageFor1(m => m.Specs)
+            </div>
+          
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">&nbsp;</label>
+            <div class="col-sm-10"><button type="submit">Make ILR</button></div>
+        </div>
+    </fieldset>
+}
+

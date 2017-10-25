@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ProviderPayments.TestStack.Domain.Commitment>
+
+<h2>Commitments</h2>
+
+<a href="@Url.Action("Create")">Create Commitment</a>
+
+<table class="margin-top-20">
+    <thead>
+    <tr>
+        <th>Id, Version</th>
+        <th>Account</th>
+        <th>Provider</th>
+        <th>Learner</th>
+        <th>Course</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Effective From</th>
+        <th>Cost</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var commitment in Model)
+    {
+        <tr>
+            <td>@commitment.Id, @commitment.Version</td>
+            <td>@commitment.Account.Name (@commitment.Account.Id)</td>
+            <td>@commitment.Provider.Name (@commitment.Provider.Ukprn)</td>
+            <td>@commitment.Learner.Name (@commitment.Learner.Uln)</td>
+            <td>@commitment.Course.DisplayName (@(commitment.Course.StandardCode > 0 ? @commitment.Course.StandardCode.ToString() : $"{commitment.Course.FrameworkCode}/{commitment.Course.ProgrammeType}/{commitment.Course.PathwayCode}"))</td>
+            <td>@commitment.StartDate.ToString("dd/MM/yyyy")</td>
+            <td>@commitment.EndDate.ToString("dd/MM/yyyy")</td>
+            <td>@commitment.EffectiveFrom.ToString("dd/MM/yyyy")</td>
+            <td>£@commitment.Cost.ToString("0.00")</td>
+            <td>@commitment.Priority</td>
+            <td>@commitment.Status</td>
+            <td>
+                <form action="@Url.Action("Delete")" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <a href="@Url.Action("Edit", new {id = commitment.Id, version = commitment.Version})">Edit</a>
+
+                    <input type="hidden" name="commitmentId" value="@commitment.Id" />
+                    <input type="hidden" name="versionId" value="@commitment.Version" />
+                    <button type="submit" class="button button-link">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

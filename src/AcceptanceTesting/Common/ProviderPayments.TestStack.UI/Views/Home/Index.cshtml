@@ -1,0 +1,26 @@
+﻿<h2>Provider Payments Test Stack</h2>
+
+<h3>Reference Data</h3>
+<ul>
+    <li><a href="@Url.Action("Index", "Account")">Accounts</a></li>
+    <li><a href="@Url.Action("Index", "Commitment")">Commitments</a></li>
+</ul>
+
+<h3>Process</h3>
+<ul>
+    <li><a href="@Url.Action("SubmitIlr", "Process")">Submit ILR</a></li>
+    <li><a href="@Url.Action("RunSummarisation", "Process")">Run month end</a></li>
+    <li><a href="@Url.Action("RunAccountsReferenceData", "Process")">Run accounts reference data</a></li>
+    <li><a href="@Url.Action("RunCommitmentsReferenceData", "Process")">Run commitments reference data</a></li>
+</ul>
+
+<h3>Reporting</h3>
+<ul>
+    <li><a href="@Url.Action("Index", "PaymentReport")">Month end payments</a></li>
+</ul>
+
+<h3>Admin</h3>
+<ul>
+    <li><a href="@Url.Action("Index", "ComponentAdmin")">Manage Components</a></li>
+    <li><a href="@Url.Action("Clean", "DatabaseAdmin")">Clean Database</a></li>
+</ul>

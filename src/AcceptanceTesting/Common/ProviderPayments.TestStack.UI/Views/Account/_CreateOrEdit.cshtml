@@ -1,0 +1,23 @@
+﻿@model ProviderPayments.TestStack.UI.Models.AccountModel
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="error">
+        <div class="error-message">
+            @ViewBag.ErrorMessage
+        </div>
+    </div>
+}
+
+<div>
+    <label>Id</label>
+    <input name="Id" type="number" min="1" required="required" autofocus="autofocus" value="@Model.Id" />
+</div>
+<div>
+    <label>Name</label>
+    <input name="Name" type="text" maxlength="50" required="required" value="@Model.Name" />
+</div>
+<div>
+    <label>Balance</label>
+    <input name="Balance" type="number" min="1" value="@Model.Balance.ToString("0.00")" />
+</div>

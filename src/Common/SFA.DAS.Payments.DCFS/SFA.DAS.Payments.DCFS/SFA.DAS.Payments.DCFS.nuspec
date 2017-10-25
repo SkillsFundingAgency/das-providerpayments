@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>SFA.DAS.Payments.DCFS</id>
+    <version>1.0.0</version>
+    <authors>DAS</authors>
+    <owners>DAS</owners>
+    <licenseUrl>https://github.com/SkillsFundingAgency/das-paymentscommon/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/SkillsFundingAgency/das-paymentscommon</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Common code for Das payments DCFS components</description>
+    <summary>Common code for Das payments DCFS components</summary>
+    <releaseNotes />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Dapper" version="1.50.2"/>
+        <dependency id="FastMember" version="1.1.0"/>
+        <dependency id="NLog" version="4.3.9"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\CS.Common.External.dll" target="lib\net45\CS.Common.External.dll" />
+    <file src="bin\Release\SFA.DAS.Payments.DCFS.dll" target="lib\net45\SFA.DAS.Payments.DCFS.dll" />
+  </files>
+</package>

@@ -1,0 +1,31 @@
+<<<<<<< HEAD
+﻿namespace ProviderPayments.TestStack.Core.Workflow.AccountsReferenceData.Tasks
+{
+    internal class CopyDataToTransientTask : RunSqlScriptsTask
+    {
+        private static readonly string[] TransientSqlScripts = { Properties.Resources.CopyAccountsToTransient };
+
+        public CopyDataToTransientTask(ILogger logger)
+            : base(TransientSqlScripts, null, logger)
+        {
+            Id = "CopyAccountsToTransient";
+            Description = "Copy data to transient";
+        }
+    }
+}
+=======
+﻿namespace ProviderPayments.TestStack.Core.Workflow.AccountsReferenceData.Tasks
+{
+    internal class CopyDataToTransientTask : RunSqlScriptsTask
+    {
+        private static readonly string[] TransientSqlScripts = { Properties.Resources.CopyAccountsDataFromDedsToTransient };
+
+        public CopyDataToTransientTask(ILogger logger)
+            : base(TransientSqlScripts, null, logger)
+        {
+            Id = "CopyAccountsDataToTransient";
+            Description = "Copy data to transient";
+        }
+    }
+}
+>>>>>>> 6244b0ac0a40d90017fde7538dfa0ae578740e7f

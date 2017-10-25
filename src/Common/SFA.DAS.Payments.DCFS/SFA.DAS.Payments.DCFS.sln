@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS", "SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj", "{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.UnitTests", "SFA.DAS.Payments.DCFS.UnitTests\SFA.DAS.Payments.DCFS.UnitTests.csproj", "{7ABB3F07-330C-4A91-8BFC-14A88D904C02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDependencies", "ExternalDependencies", "{3CC0839C-251E-46FC-AEAF-0FDAA8B89E4C}"
+	ProjectSection(SolutionItems) = preProject
+		assemblies\CS.Common.External.dll = assemblies\CS.Common.External.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildAndRelease", "BuildAndRelease", "{EFABFEC7-C95D-49C1-920F-11E34AE5D53B}"
+	ProjectSection(SolutionItems) = preProject
+		Build.fsx = Build.fsx
+		RunBuild.bat = RunBuild.bat
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.StructureMap", "SFA.DAS.Payments.DCFS.StructureMap\SFA.DAS.Payments.DCFS.StructureMap.csproj", "{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F7CCDDBA-9DEC-49FB-8249-03E701608E37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.StructureMap.UnitTests", "SFA.DAS.Payments.DCFS.StructureMap.UnitTests\SFA.DAS.Payments.DCFS.StructureMap.UnitTests.csproj", "{55F542EF-79F6-40C1-A4E1-6D1511D4F633}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABB3F07-330C-4A91-8BFC-14A88D904C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABB3F07-330C-4A91-8BFC-14A88D904C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABB3F07-330C-4A91-8BFC-14A88D904C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABB3F07-330C-4A91-8BFC-14A88D904C02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F542EF-79F6-40C1-A4E1-6D1511D4F633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F542EF-79F6-40C1-A4E1-6D1511D4F633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F542EF-79F6-40C1-A4E1-6D1511D4F633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F542EF-79F6-40C1-A4E1-6D1511D4F633}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7ABB3F07-330C-4A91-8BFC-14A88D904C02} = {F7CCDDBA-9DEC-49FB-8249-03E701608E37}
+		{55F542EF-79F6-40C1-A4E1-6D1511D4F633} = {F7CCDDBA-9DEC-49FB-8249-03E701608E37}
+	EndGlobalSection
+EndGlobal

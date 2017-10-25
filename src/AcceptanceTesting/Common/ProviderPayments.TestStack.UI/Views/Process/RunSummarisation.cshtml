@@ -1,0 +1,35 @@
+﻿@model ProviderPayments.TestStack.UI.Models.RunSummarisationModel
+
+<h2>Run month end</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label>Collection academic year (eg 1617, 1718)</label>
+        <input name="YearOfCollection" type="number" min="1617" />
+    </div>
+
+    <div>
+        <label>Collection period</label>
+        <select name="Period">
+            <option value="R01">R01 - Aug</option>
+            <option value="R02">R02 - Sep</option>
+            <option value="R03">R03 - Oct</option>
+            <option value="R04">R04 - Nov</option>
+            <option value="R05">R05 - Dec</option>
+            <option value="R06">R06 - Jan</option>
+            <option value="R07">R07 - Feb</option>
+            <option value="R08">R08 - Mar</option>
+            <option value="R09">R09 - Apr</option>
+            <option value="R10">R10 - May</option>
+            <option value="R11">R11 - Jun</option>
+            <option value="R12">R12 - Jul</option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit">Run</button>
+        <a href="@Url.Action("Index", "Home")">Cancel</a>
+    </div>
+</form>

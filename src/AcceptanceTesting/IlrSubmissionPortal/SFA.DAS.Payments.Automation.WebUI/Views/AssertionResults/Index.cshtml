@@ -1,0 +1,19 @@
+﻿@model  SFA.DAS.Payments.Automation.WebUI.ViewModels.AssertionResults
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Assertion Results</h2>
+
+    @foreach (var item in Model.Results)
+    {
+        <h3>@Html.DisplayFor(modelItem => item.Key)</h3>
+        <ul>
+            @foreach (var value in item.Value)
+            {
+                <li>@Html.DisplayFor(x => value.Message)</li>
+            }
+        </ul>
+    }

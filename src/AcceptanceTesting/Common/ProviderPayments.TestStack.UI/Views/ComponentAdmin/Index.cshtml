@@ -1,0 +1,38 @@
+﻿@model ProviderPayments.TestStack.UI.Models.ComponentAdminModel
+
+<h2>Component Admin</h2>
+
+<div style="margin-bottom: 25px;">
+    <form method="post" enctype="multipart/form-data">
+        <label for="componentFile">Upload build</label>
+        <input type="file" id="componentFile" name="componentFile" accept=".zip" />
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
+<table style="min-width: 500px">
+    <thead>
+        <tr>
+            <th>Component</th>
+            <th>Current Version</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var component in Model.Components)
+        {
+            <tr>
+                <td>@component.Type.ToString()</td>
+                <td>@component.CurrentVersion</td>
+                <td>
+                    <form method="post" action="@Url.Action("RebuildDedsTables")">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="componentType" value="@((int)component.Type)" />
+                        
+                        <button type="submit" class="button button-link">Rebuild DEDS</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
