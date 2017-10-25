@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA3748B0-C749-444A-BC59-1F03A10436C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SFA.DAS.ProviderPayments.Calc.LevyPayments</RootNamespace>
+    <AssemblyName>SFA.DAS.ProviderPayments.Calc.LevyPayments</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\CS.Common.External.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SFA.DAS.Payments.DCFS.StructureMap, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Payments.DCFS.StructureMap.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.4.3.564, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.3\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\Accounts\Account.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandHandler.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandRequest.cs" />
+    <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandResponse.cs" />
+    <Compile Include="Application\Accounts\Commitment.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryRequest.cs" />
+    <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryResponse.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandHandler.cs" />
+    <Compile Include="Application\Accounts\MarkAccountAsProcessedCommand\MarkAccountAsProcessedCommandRequest.cs" />
+    <Compile Include="Application\CollectionPeriods\CollectionPeriod.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
+    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
+    <Compile Include="Application\InvalidRequestException.cs" />
+    <Compile Include="Application\Payments\GetLevyPaymentsHistory\GetLevyPaymentsHistoryQueryHandler.cs" />
+    <Compile Include="Application\Payments\GetLevyPaymentsHistory\GetLevyPaymentsHistoryQueryRequest.cs" />
+    <Compile Include="Application\Payments\GetLevyPaymentsHistory\GetLevyPaymentsHistoryQueryResponse.cs" />
+    <Compile Include="Application\Payments\GetPaymentsDueForCommitmentQuery\GetPaymentsDueForCommitmentQueryHandler.cs" />
+    <Compile Include="Application\Payments\GetPaymentsDueForCommitmentQuery\GetPaymentsDueForCommitmentQueryRequest.cs" />
+    <Compile Include="Application\Payments\PaymentHistory.cs" />
+    <Compile Include="Application\Payments\PaymentDue.cs" />
+    <Compile Include="Application\Payments\FundingSource.cs" />
+    <Compile Include="Application\Payments\GetPaymentsDueForCommitmentQuery\GetPaymentsDueForCommitmentQueryResponse.cs" />
+    <Compile Include="Application\Payments\Payment.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandHandler.cs" />
+    <Compile Include="Application\Payments\ProcessPaymentCommand\ProcessPaymentCommandRequest.cs" />
+    <Compile Include="Application\QueryResponse.cs" />
+    <Compile Include="Application\Response.cs" />
+    <Compile Include="DependencyResolution\CalcRegistry.cs" />
+    <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentHistoryEntity.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsAccountRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsCommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsPaymentDueRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentDueEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AccountEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\IAccountRepository.cs" />
+    <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\ICommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\IPaymentDueRepository.cs" />
+    <Compile Include="Infrastructure\Data\IPaymentRepository.cs" />
+    <Compile Include="LevyPaymentsProcessor.cs" />
+    <Compile Include="LevyPaymentsProcessorException.cs" />
+    <Compile Include="LevyPaymentsTask.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
