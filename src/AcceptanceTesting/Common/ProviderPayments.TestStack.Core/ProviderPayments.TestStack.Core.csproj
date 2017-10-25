@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ED159396-0D7D-4B64-8369-6C1BAD8AAE15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProviderPayments.TestStack.Core</RootNamespace>
+    <AssemblyName>ProviderPayments.TestStack.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Amor.DCFT.BinaryTask">
+      <HintPath>..\assemblies\Amor.DCFT.BinaryTask.dll</HintPath>
+    </Reference>
+    <Reference Include="CS.Common">
+      <HintPath>..\assemblies\CS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CS.Common.External">
+      <HintPath>..\assemblies\CS.Common.External.dll</HintPath>
+    </Reference>
+    <Reference Include="CS.Common.SqlBulkCopyCat">
+      <HintPath>..\assemblies\CS.Common.SqlBulkCopyCat.dll</HintPath>
+    </Reference>
+    <Reference Include="CS.Common.XmlToSql">
+      <HintPath>..\assemblies\CS.Common.XmlToSql.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComponentType.cs" />
+    <Compile Include="Context\KnownContextKeys.cs" />
+    <Compile Include="Context\TestStackContext.cs" />
+    <Compile Include="Context\TestStackContextKeys.cs" />
+    <Compile Include="DataCopyDirection.cs" />
+    <Compile Include="Domain\CollectionPeriod.cs" />
+    <Compile Include="EnvironmentVariables.cs" />
+    <Compile Include="ExecutionStatus\NullStatusWatcher.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IlrAimRefLookup.cs" />
+    <Compile Include="ProcessService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExecutionStatus\StatusWatcherBase.cs" />
+    <Compile Include="ExecutionStatus\TaskDescriptor.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\AccountsReferenceData\Tasks\CleanupAccountsTask.cs" />
+    <Compile Include="Workflow\AccountsReferenceData\Tasks\CopyDataToDedsTask.cs" />
+    <Compile Include="Workflow\AccountsReferenceData\Tasks\CopyDataToTransientTask.cs" />
+    <Compile Include="Workflow\CommitmentsReferenceData\Tasks\CopyDataToDedsTask.cs" />
+    <Compile Include="Workflow\CommitmentsReferenceData\Tasks\CopyDataToTransientTask.cs" />
+    <Compile Include="Workflow\Common\DataLockEventsTaskBase.cs" />
+    <Compile Include="Workflow\CopyDataTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\IlrSubmissionWorkflow.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CleanuplrDedsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CopyDasIlrDataToDedsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\DataLockEventsSubmissionTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\SubmissionEventsTask.cs" />
+    <Compile Include="Workflow\RebuildDedsDatabase\Tasks\BaseRebuildDedsDatabaseTask.cs" />
+    <Compile Include="Workflow\RebuildDedsDatabase\Tasks\ExecuteMigrationScriptsTask.cs" />
+    <Compile Include="Workflow\RunTransientSqlScriptsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CleanupPeriodEndDedsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndDataToDedsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndReferenceDataTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\DataLockEventsPeriodEndTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\ManualAdjustmentsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\PeriodEndScriptsTask.cs" />
+    <Compile Include="Workflow\RebuildDedsDatabase\RebuildDedsDatabaseWorkflow.cs" />
+    <Compile Include="Workflow\RebuildDedsDatabase\Tasks\ExecuteDedsScriptsTask.cs" />
+    <Compile Include="Workflow\AccountsReferenceData\AccountsReferenceDataWorkflow.cs" />
+    <Compile Include="Workflow\AccountsReferenceData\Tasks\AccountsReferenceDataTask.cs" />
+    <Compile Include="Workflow\CommitmentsReferenceData\CommitmentsReferenceDataWorkflow.cs" />
+    <Compile Include="Workflow\CommitmentsReferenceData\Tasks\CommitmentsReferenceDataTask.cs" />
+    <Compile Include="Workflow\RunExternalTask.cs" />
+    <Compile Include="Workflow\RunSqlScriptsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CalculateEarningsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CopyIlrDataToDedsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CopyIlrReferenceDataTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CopyValidLearnerDataTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\DataLockSubmissionTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\ExportIlrFileTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\ShredIlrTask.cs" />
+    <Compile Include="Workflow\Summarisation\SummarisationWorkflow.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CoInvestedPaymentsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\DataLockPeriodEndTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\LevyCalculatorTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\PaymentsDueTask.cs" />
+    <Compile Include="Workflow\Common\SetCollectionPeriodTask.cs" />
+    <Compile Include="Workflow\Workflow.cs" />
+    <Compile Include="Workflow\WorkflowTask.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CopyValidLearnerRecordsTaskScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CopyIlrDataToDeds_1617.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ILRTableMap_1617.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseIlr_1617.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IlrGenerator\IlrGenerator.csproj">
+      <Project>{5076ba97-2e9e-4845-9359-0e16dff7b3a6}</Project>
+      <Name>IlrGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProviderPayments.TestStack.Core.ExecutionProxy\ProviderPayments.TestStack.Core.ExecutionProxy.csproj">
+      <Project>{c7ad11e0-04af-4d3a-9166-296ff68cc416}</Project>
+      <Name>ProviderPayments.TestStack.Core.ExecutionProxy</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\BaseILR_1718.xml" />
+    <None Include="Resources\CopyIlrDataToDeds_1718.sql" />
+    <None Include="Resources\ILRTableMap_1718.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

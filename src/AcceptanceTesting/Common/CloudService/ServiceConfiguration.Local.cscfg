@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="ProviderPayments.TestStack" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="ProviderPayments.TestStack.UI">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="RequestQueueConnectionString" value="UseDevelopmentStorage=true;" />
+      <Setting name="TransientConnectionString" value="server=.;database=ProvPayTestStack_Transient;trusted_connection=true;" />
+      <Setting name="DedsConnectionString" value="server=.;database=ProvPayTestStack_Deds;trusted_connection=true;" />
+      <Setting name="LogLevel" value="Debug" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="ProviderPayments.TestStack.Engine">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="RequestQueueConnectionString" value="UseDevelopmentStorage=true;" />
+      <Setting name="TransientConnectionString" value="server=.;database=ProvPayTestStack_Transient;trusted_connection=true;" />
+      <Setting name="DedsConnectionString" value="server=.;database=ProvPayTestStack_Deds;trusted_connection=true;" />
+      <Setting name="LogLevel" value="Debug" />
+      <Setting name="CommitmentApiBaseUrl" value="" />
+      <Setting name="CommitmentApiClientToken" value="" />
+      <Setting name="AccountsApiBaseUrl" value="https://at-accounts.apprenticeships.sfa.bis.gov.uk" />
+      <Setting name="AccountsApiClientToken" value="" />
+      <Setting name="AccountsApiClientId" value="58a3a7b2-bae2-4333-8a79-8f39720b2a6e" />
+      <Setting name="AccountsApiClientSecret" value="7PrJ57WnGwHog6N7SanpXduDGdTrN/redY/22iKEulE=" />
+      <Setting name="AccountsApiIdentifierUri" value="https://citizenazuresfabisgov.onmicrosoft.com/eas-api" />
+      <Setting name="AccountsApiTenant" value="citizenazuresfabisgov.onmicrosoft.com" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

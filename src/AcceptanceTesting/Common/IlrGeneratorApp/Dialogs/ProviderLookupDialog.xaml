@@ -1,0 +1,51 @@
+﻿<Window x:Class="IlrGeneratorApp.Dialogs.ProviderLookupDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dsprov="clr-namespace:IlrGeneratorApp.DataSources.Provider"
+        mc:Ignorable="d"
+        Title="ProviderLookupDialog" Width="640" Height="480"
+        Loaded="Window_Loaded">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" Margin="0,0,50,0" Text="{Binding SearchCriteria, Mode=TwoWay}" />
+            <Button Grid.Column="0" HorizontalAlignment="Right" Command="{Binding SearchCommand}">Search</Button>
+
+            <ComboBox Grid.Column="1" HorizontalAlignment="Right" MinWidth="100" Margin="50,0,0,0"
+                      ItemsSource="{Binding DataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource, Mode=TwoWay}" />
+        </Grid>
+
+        <ListBox Grid.Row="1" Margin="0,20,0,20"
+                 ItemsSource="{Binding Providers}" SelectedItem="{Binding SelectedProvider, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type dsprov:Provider}">
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat=" {0} ({1})">
+                                <Binding Path="Name" />
+                                <Binding Path="Ukprn" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="100" Margin="10,0,0,0" Command="{Binding SelectProviderCommand}">Select</Button>
+            <Button Width="100" Margin="10,0,0,0" Command="{Binding CancelCommand}">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

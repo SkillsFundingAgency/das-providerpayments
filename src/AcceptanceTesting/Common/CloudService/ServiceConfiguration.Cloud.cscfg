@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="ProviderPayments.TestStack" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="ProviderPayments.TestStack.UI">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="RequestQueueConnectionString" value="__RequestQueueConnectionString__" />
+      <Setting name="TransientConnectionString" value="__TransientConnectionString__" />
+      <Setting name="DedsConnectionString" value="__DedsConnectionString__" />
+      <Setting name="LogLevel" value="Warn" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="ProviderPayments.TestStack.Engine">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="RequestQueueConnectionString" value="__RequestQueueConnectionString__" />
+      <Setting name="TransientConnectionString" value="__TransientConnectionString__" />
+      <Setting name="DedsConnectionString" value="__DedsConnectionString__" />
+      <Setting name="LogLevel" value="Warn" />
+      <Setting name="CommitmentApiBaseUrl" value="__CommitmentApiBaseUrl__" />
+      <Setting name="CommitmentApiClientToken" value="__CommitmentApiClientToken__" />
+      <Setting name="AccountsApiBaseUrl" value="__AccountsApiBaseUrl__" />
+      <Setting name="AccountsApiClientToken" value="__AccountsApiClientToken__" />
+      <Setting name="AccountsApiClientId" value="__AccountsApiClientId__" />
+      <Setting name="AccountsApiClientSecret" value="__AccountsApiClientSecret__" />
+      <Setting name="AccountsApiIdentifierUri" value="__AccountsApiIdentifierUri__" />
+      <Setting name="AccountsApiTenant" value="__AccountsApiTenant__" />
+    </ConfigurationSettings>
+  </Role>
+  <NetworkConfiguration>
+    <VirtualNetworkSite name="das-pprovider-dev" />
+    <AddressAssignments>
+	   <ReservedIPs>
+        <ReservedIP name="__reservedIP__" />
+      </ReservedIPs>
+    </AddressAssignments>
+  </NetworkConfiguration> 
+</ServiceConfiguration>
