@@ -246,8 +246,13 @@ _Pvt_Extensions
 paket-files/
 
 # FAKE - F# Make
-.fake/
+**/.fake/
+**/tools/**/*.*
+!**/tools/nuget/**/*.*
 
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# External depencies (Not provided by NuGet)
+!**/assemblies/**/*.dll
