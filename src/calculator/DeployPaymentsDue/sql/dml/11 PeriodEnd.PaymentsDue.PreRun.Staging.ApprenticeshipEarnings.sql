@@ -68,7 +68,7 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
               AND cp.CalendarMonth = ph.DeliveryMonth
               AND cp.CalendarYear = ph.DeliveryYear
                      AND ph.AmountDue > 0
-      WHERE CP.PeriodNumber IN (1, 2, 3) AND
+      WHERE CP.PeriodNumber <= (SELECT TOP 1 PeriodNumber FROM Staging.CollectionPeriods WHERE [Open] = 1) AND
       (
       (COALESCE(pepm.TransactionType, ndtt.TransactionType) = 1 AND PriceEpisodeOnProgPayment <> 0 ) OR
       (COALESCE(pepm.TransactionType, ndtt.TransactionType) = 2 AND PriceEpisodeCompletionPayment <> 0 ) OR
