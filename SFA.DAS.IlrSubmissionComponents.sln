@@ -1,0 +1,205 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Lock", "Data Lock", "{D61ECB0C-206F-47A9-BA08-47E6804C6C0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ilr Submission Events", "Ilr Submission Events", "{65AA9766-1747-491F-A985-F2056BD5E289}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Lock Events", "Data Lock Events", "{9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock", "src\SharedPipelineComponents\Datalock\SFA.DAS.CollectionEarnings.DataLock\SFA.DAS.CollectionEarnings.DataLock.csproj", "{E0B60D5B-969C-4C05-A636-27788CD19BE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.IntegrationTests", "src\SharedPipelineComponents\Datalock\SFA.DAS.CollectionEarnings.DataLock.IntTests\SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.csproj", "{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.UnitTests", "src\SharedPipelineComponents\Datalock\SFA.DAS.CollectionEarnings.DataLock.UnitTests\SFA.DAS.CollectionEarnings.DataLock.UnitTests.csproj", "{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{3AA523A4-A329-4A98-AB4F-23F96AB2BA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS", "src\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj", "{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.StructureMap", "src\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.StructureMap\SFA.DAS.Payments.DCFS.StructureMap.csproj", "{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{5B04174E-8712-4275-B3BF-CA1DC08D65DB}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\copy mappings\DasDataLockCopyToDedsMapping.xml = src\SharedPipelineComponents\Datalock\Deploy\copy mappings\DasDataLockCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{6DB6B3E3-7143-48D7-8E47-2D26275EDEEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{10280163-AA4A-4C9E-960D-1CA9AE4FA0A7}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Procs.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Procs.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{04738DD2-4F91-4255-8687-DF2C54FDB3DF}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{51C2A730-2532-4391-923F-66C84EFC65DB}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock", "src\SharedPipelineComponents\DataLockEvents\SFA.DAS.Provider.Events.DataLock\SFA.DAS.Provider.Events.DataLock.csproj", "{FA1F038D-F0A5-4A3E-A642-62D294E5521D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock.IntegrationTests", "src\SharedPipelineComponents\DataLockEvents\SFA.DAS.Provider.Events.DataLock.IntegrationTests\SFA.DAS.Provider.Events.DataLock.IntegrationTests.csproj", "{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock.UnitTests", "src\SharedPipelineComponents\DataLockEvents\SFA.DAS.Provider.Events.DataLock.UnitTests\SFA.DAS.Provider.Events.DataLock.UnitTests.csproj", "{5011105D-1ED2-4682-A53E-61CF8A2FF902}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{63AA2790-3DB6-4D92-8582-F45E8381E9A1}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\copy mappings\DasDataLockEventsCopyToDedsMapping.xml = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\copy mappings\DasDataLockEventsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{AAC75CE9-74F2-40C5-AE45-84AB5A8CDF91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{B1217B62-4F58-49EC-9A88-9A1C81D4BCB9}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.submission.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.submission.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.reference.ddl.tables.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.reference.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{48BB91C2-AA59-4C56-B072-8F78F7B75BDD}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.populate.reference.history.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.populate.reference.history.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.PreRun.DataLockEvents.PopulateDataLockEventsData.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.PreRun.DataLockEvents.PopulateDataLockEventsData.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{DF288316-D55C-4A45-BCF7-508D1217C6D9}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\001_DataLockEvents_Add_EventStatus.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\001_DataLockEvents_Add_EventStatus.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Transient_Change_LearnRef_AimSequence_ColumnType.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Transient_Change_LearnRef_AimSequence_ColumnType.sql
+		src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Submission_Change_LearnRef_AimSequence_ColumnType.sql = src\SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Submission_Change_LearnRef_AimSequence_ColumnType.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.Submission", "src\SharedPipelineComponents\IlrSubmissionEvents\SFA.DAS.Provider.Events.Submission\SFA.DAS.Provider.Events.Submission.csproj", "{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.Submission.IntegrationTests", "src\SharedPipelineComponents\IlrSubmissionEvents\SFA.DAS.Provider.Events.Submission.IntegrationTests\SFA.DAS.Provider.Events.Submission.IntegrationTests.csproj", "{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.Submission.UnitTests", "src\SharedPipelineComponents\IlrSubmissionEvents\SFA.DAS.Provider.Events.Submission.UnitTests\SFA.DAS.Provider.Events.Submission.UnitTests.csproj", "{DD3BB96D-6257-4EF6-A804-282DEA31A1DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{19805F50-59D4-4FBA-B16D-1B1749C9327A}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\copy mappings\DasSubmissionEventsCopyToDedsMapping.xml = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\copy mappings\DasSubmissionEventsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{2993937B-684A-4B4C-93DE-8571A26434AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{B961D50A-0687-4CA5-ACCB-C33C482313A4}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.deds.ddl.tables.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.deds.ddl.tables.sql
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.functions.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.functions.sql
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.tables.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.tables.sql
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.views.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\ddl\submissions.transient.ddl.views.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{23BA5E3C-BC3D-40F3-9CA6-93813A9866FC}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\dml\01 submissions.populate.submissions.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\dml\01 submissions.populate.submissions.sql
+		src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\dml\02 Submissions.Cleanup.Deds.DML.sql = src\SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\dml\02 Submissions.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD3BB96D-6257-4EF6-A804-282DEA31A1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3BB96D-6257-4EF6-A804-282DEA31A1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3BB96D-6257-4EF6-A804-282DEA31A1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3BB96D-6257-4EF6-A804-282DEA31A1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0B60D5B-969C-4C05-A636-27788CD19BE0} = {D61ECB0C-206F-47A9-BA08-47E6804C6C0B}
+		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71} = {D61ECB0C-206F-47A9-BA08-47E6804C6C0B}
+		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0} = {D61ECB0C-206F-47A9-BA08-47E6804C6C0B}
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4} = {3AA523A4-A329-4A98-AB4F-23F96AB2BA6E}
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749} = {3AA523A4-A329-4A98-AB4F-23F96AB2BA6E}
+		{5B04174E-8712-4275-B3BF-CA1DC08D65DB} = {D61ECB0C-206F-47A9-BA08-47E6804C6C0B}
+		{6DB6B3E3-7143-48D7-8E47-2D26275EDEEF} = {D61ECB0C-206F-47A9-BA08-47E6804C6C0B}
+		{10280163-AA4A-4C9E-960D-1CA9AE4FA0A7} = {6DB6B3E3-7143-48D7-8E47-2D26275EDEEF}
+		{04738DD2-4F91-4255-8687-DF2C54FDB3DF} = {6DB6B3E3-7143-48D7-8E47-2D26275EDEEF}
+		{51C2A730-2532-4391-923F-66C84EFC65DB} = {6DB6B3E3-7143-48D7-8E47-2D26275EDEEF}
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D} = {9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076} = {9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902} = {9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}
+		{63AA2790-3DB6-4D92-8582-F45E8381E9A1} = {9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}
+		{AAC75CE9-74F2-40C5-AE45-84AB5A8CDF91} = {9F6EBA2D-D3F0-43C8-AE01-50DA3DC18AAE}
+		{B1217B62-4F58-49EC-9A88-9A1C81D4BCB9} = {AAC75CE9-74F2-40C5-AE45-84AB5A8CDF91}
+		{48BB91C2-AA59-4C56-B072-8F78F7B75BDD} = {AAC75CE9-74F2-40C5-AE45-84AB5A8CDF91}
+		{DF288316-D55C-4A45-BCF7-508D1217C6D9} = {AAC75CE9-74F2-40C5-AE45-84AB5A8CDF91}
+		{A0ED5AC8-2E8D-4F37-951C-66F9B128E79A} = {65AA9766-1747-491F-A985-F2056BD5E289}
+		{2EFC4146-CCA9-4B3F-8921-76EC2B5B4C68} = {65AA9766-1747-491F-A985-F2056BD5E289}
+		{DD3BB96D-6257-4EF6-A804-282DEA31A1DC} = {65AA9766-1747-491F-A985-F2056BD5E289}
+		{19805F50-59D4-4FBA-B16D-1B1749C9327A} = {65AA9766-1747-491F-A985-F2056BD5E289}
+		{2993937B-684A-4B4C-93DE-8571A26434AC} = {65AA9766-1747-491F-A985-F2056BD5E289}
+		{B961D50A-0687-4CA5-ACCB-C33C482313A4} = {2993937B-684A-4B4C-93DE-8571A26434AC}
+		{23BA5E3C-BC3D-40F3-9CA6-93813A9866FC} = {2993937B-684A-4B4C-93DE-8571A26434AC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAE4DDD5-0530-4C05-997C-D900E1B895BA}
+	EndGlobalSection
+EndGlobal

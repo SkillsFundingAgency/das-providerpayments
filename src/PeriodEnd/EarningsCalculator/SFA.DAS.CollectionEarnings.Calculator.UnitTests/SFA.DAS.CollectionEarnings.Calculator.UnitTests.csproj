@@ -30,39 +30,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="CS.Common.External">
-      <HintPath>..\Lib\CS.Common.External.dll</HintPath>
+      <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.5.22.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.5.22\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.11709\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS.StructureMap">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.StructureMap.1.0.0.11709\lib\net45\SFA.DAS.Payments.DCFS.StructureMap.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\StructureMap.4.4.1\lib\net45\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,10 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\GetLearningDeliveriesEarningsQueryHandler\WhenHandlingEarlyFinishers.cs" />
-    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\GetLearningDeliveriesEarningsQueryHandler\WhenHandlingLateFinishers.cs" />
-    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\GetLearningDeliveriesEarningsQueryHandler\WhenHandlingInLearningOrOnTimeFinishers.cs" />
-    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\GetLearningDeliveriesEarningsQueryHandler\WhenHandlingMultipleLearners.cs" />
+    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\Handler\WhenHandlingEarlyFinishers.cs" />
+    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\Handler\WhenHandlingLateFinishers.cs" />
+    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\Handler\WhenHandlingInLearningOrOnTimeFinishers.cs" />
+    <Compile Include="Application\EarningsCalculation\GetLearningDeliveriesEarningsQuery\Handler\WhenHandlingMultipleLearners.cs" />
     <Compile Include="Application\LearningDeliveryToProcess\GetAllLearningDeliveriesToProcessQuery\GetAllLearningDeliveriesToProcessQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\ApprenticeshipPriceEpisodePeriodisedValues\ProcessAddPeriodisedValuesCommand\CommandHandler\WhenHandling.cs" />
     <Compile Include="Application\ApprenticeshipPriceEpisodePeriod\AddPriceEpisodePeriodCommand\AddPriceEpisodePeriodCommandHandler\WhenHandling.cs" />
@@ -86,18 +82,26 @@
     <Compile Include="DependencyResolution\TaskDependencyResolver\GetInstance\WhenCalled.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver\Init\WhenCalled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\Builders\ApprenticeshipPriceEpisodeBuilder.cs" />
-    <Compile Include="Tools\Builders\IEntityBuilder.cs" />
-    <Compile Include="Tools\Builders\LearningDeliveryBuilder.cs" />
-    <Compile Include="Tools\Builders\ApprenticeshipPriceEpisodeEntityBuilder.cs" />
-    <Compile Include="Tools\Builders\ApprenticeshipPriceEpisodePeriodEntityBuilder.cs" />
-    <Compile Include="Tools\Builders\ApprenticeshipPriceEpisodePeriodisedValuesEntityBuilder.cs" />
-    <Compile Include="Tools\ExternalContextStub.cs" />
+    <Compile Include="Builders\ApprenticeshipPriceEpisodeBuilder.cs" />
+    <Compile Include="Builders\IEntityBuilder.cs" />
+    <Compile Include="Builders\LearningDeliveryBuilder.cs" />
+    <Compile Include="Builders\ApprenticeshipPriceEpisodeEntityBuilder.cs" />
+    <Compile Include="Builders\ApprenticeshipPriceEpisodePeriodEntityBuilder.cs" />
+    <Compile Include="Builders\ApprenticeshipPriceEpisodePeriodisedValuesEntityBuilder.cs" />
+    <Compile Include="Builders\ExternalContextStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.StructureMap\SFA.DAS.Payments.DCFS.StructureMap.csproj">
+      <Project>{51c3f2ce-8e30-4daa-9edb-5bf7b779c749}</Project>
+      <Name>SFA.DAS.Payments.DCFS.StructureMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
+      <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
+      <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj">
       <Project>{49d934f3-2120-4268-8143-c3c85ef85ba7}</Project>
       <Name>SFA.DAS.CollectionEarnings.Calculator</Name>

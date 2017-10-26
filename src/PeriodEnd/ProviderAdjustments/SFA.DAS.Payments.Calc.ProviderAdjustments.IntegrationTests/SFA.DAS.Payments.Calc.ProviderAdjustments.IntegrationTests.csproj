@@ -30,29 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\CS.Common.External.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CS.Common.External">
+      <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -73,15 +64,19 @@
     <Compile Include="Infrastructure\Data\Repositories\DcfsPaymentRepository\WhenWritingPaymentsToTheDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderAdjustmentsTask\WhenExecuting.cs" />
-    <Compile Include="Tools\IntegrationTaskContext.cs" />
-    <Compile Include="Tools\TestDataHelper.cs" />
+    <Compile Include="Utilities\IntegrationTaskContext.cs" />
+    <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
+      <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
+      <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.Payments.Calc.ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments.csproj">
       <Project>{13240c68-1925-4dc2-b975-00691dc524f8}</Project>
       <Name>SFA.DAS.Payments.Calc.ProviderAdjustments</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+    <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>

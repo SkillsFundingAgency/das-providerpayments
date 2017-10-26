@@ -31,36 +31,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CS.Common.External, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\CS.Common.External.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="CS.Common.External">
+      <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SFA.DAS.Payments.DCFS, Version=1.0.0.23003, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SFA.DAS.Payments.DCFS.1.0.0.23003\lib\net45\SFA.DAS.Payments.DCFS.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -93,23 +85,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql">
+    <Content Include="..\..\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\CoInvested\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql">
+    <Content Include="..\..\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\CoInvested\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql">
+    <Content Include="..\..\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql">
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql">
+    <Content Include="..\..\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.LevyPayments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql">
+    <Content Include="..\..\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -129,23 +121,23 @@
       <Link>DbSetupScripts\DML\01 PeriodEnd.Adjustments.Populate.ManualAdjustments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql">
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql">
       <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -154,7 +146,11 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
+      <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
+      <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>

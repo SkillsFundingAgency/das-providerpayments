@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3D3E1EF2-C096-416A-B431-B102B25FF6B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SFA.DAS.CollectionEarnings.Calculator.IntegrationTests</RootNamespace>
+    <AssemblyName>SFA.DAS.CollectionEarnings.Calculator.IntegrationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CS.Common.External">
+      <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApprenticeshipEarningsTask\Execute\WhenCalled.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\LearningDeliveryToProcessRepository\GetAllLearningDeliveriesToProcess\WhenCalled.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\ProcessedLearningDeliveryPeriodisedValuesRepository\AddProcessedLearningDeliveryPeriodisedValues\WhenCalled.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\ProcessedLearningDeliveryPeriodRepository\AddProcessedLearningDeliveryPeriod\WhenCalled.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\ProcessedLearningDeliveryRepository\AddProcessedLearningDeliveries\WhenCalled.cs" />
+    <Compile Include="GlobalSetup.cs" />
+    <Compile Include="GlobalTestContext.cs" />
+    <Compile Include="GlobalTestContextSetupException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\TestDataHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
+      <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
+      <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.CollectionEarnings.Calculator.UnitTests\SFA.DAS.CollectionEarnings.Calculator.UnitTests.csproj">
+      <Project>{2E68F7BD-D201-4D64-88E2-3649F3A79208}</Project>
+      <Name>SFA.DAS.CollectionEarnings.Calculator.UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj">
+      <Project>{49d934f3-2120-4268-8143-c3c85ef85ba7}</Project>
+      <Name>SFA.DAS.CollectionEarnings.Calculator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Earnings.DDL.Tables.sql">
+      <Link>DbSetupScripts\Ilr.Transient.Earnings.DDL.Tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Earnings.DDL.Views.sql">
+      <Link>DbSetupScripts\Ilr.Transient.Earnings.DDL.Views.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DbSetupScripts\Ilr.Transient.DDL.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataOneLearningDeliveryWitnMultiplePriceEpisodesToProcess.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataOneLearningDeliveryToProcessEarlyFinisher.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataOneLearningDeliveryToProcessLateFinisher.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataOneLearningDeliveryToProcess.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataNoLearningDeliveriesToProcess.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataMultipleLearningDeliveriesToProcess.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IlrDataPlannedBreakLearningDeliveriesToProcess.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
