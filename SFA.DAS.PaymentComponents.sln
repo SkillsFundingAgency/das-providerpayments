@@ -338,6 +338,76 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{124187AA-CB8
 		src\PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql = src\PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Period End", "Period End", "{5C29E856-81C8-47CC-A5CB-DADA36EF9DED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ilr Submission", "Ilr Submission", "{0E9D5F26-B91D-40C7-96C2-4B10986C3263}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Pipeline Components", "Shared Pipeline Components", "{A4346455-A577-4205-961C-3F0D23D2B8B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{7C7E47A5-4F29-4AB8-A990-D79D42FBB088}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commitements", "Commitements", "{05FDF2FF-44D2-459B-ACFF-F5B411164BD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{8641ACF9-FFD1-4399-A79B-1815BF23A84C}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Accounts\Deploy\copy mappings\DasAccountsCopyToDedsMapping.xml = src\Reference\Accounts\Deploy\copy mappings\DasAccountsCopyToDedsMapping.xml
+		src\Reference\Accounts\Deploy\copy mappings\DasAccountsCopyToTransientMapping.xml = src\Reference\Accounts\Deploy\copy mappings\DasAccountsCopyToTransientMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{45570736-AB41-4FDD-8753-BAE2B62D1829}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{E760AA10-7E33-40D8-BCA9-D7310B7BA191}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.procs.sql = src\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.procs.sql
+		src\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.tables.sql = src\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.tables.sql
+		src\Reference\Accounts\Deploy\sql\ddl\ddl.transient.accounts.tables.sql = src\Reference\Accounts\Deploy\sql\ddl\ddl.transient.accounts.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{EEC239F7-47E8-4945-BE0D-990B66C0A377}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Accounts\Deploy\sql\dml\dml.accounts.cleanup.deds.sql = src\Reference\Accounts\Deploy\sql\dml\dml.accounts.cleanup.deds.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{51C063CE-2319-4BC7-84A9-9A438621569B}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Commitments\Deploy\copy mappings\DasCommitmentsCopyToDedsMapping.xml = src\Reference\Commitments\Deploy\copy mappings\DasCommitmentsCopyToDedsMapping.xml
+		src\Reference\Commitments\Deploy\copy mappings\DasCommitmentsCopyToTransientMapping.xml = src\Reference\Commitments\Deploy\copy mappings\DasCommitmentsCopyToTransientMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{47A833CA-10CB-4905-9B14-837B3F8EA4C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{1F5F4D8B-4CB3-4EEA-95CD-BF0924175F52}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.tables.sql = src\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.tables.sql
+		src\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.views.sql = src\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.views.sql
+		src\Reference\Commitments\Deploy\sql\ddl\ddl.transient.commitments.tables.sql = src\Reference\Commitments\Deploy\sql\ddl\ddl.transient.commitments.tables.sql
+		src\Reference\Commitments\Deploy\sql\ddl\ddl.transient.commitments.views.sql = src\Reference\Commitments\Deploy\sql\ddl\ddl.transient.commitments.views.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{9573A0CF-6EEA-4312-AA03-CB45179FCBB8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Commitments\Deploy\sql\dml\dml.commitments.cleanup.deds.sql = src\Reference\Commitments\Deploy\sql\dml\dml.commitments.cleanup.deds.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{EBD70F04-9E08-46DD-A968-3BFE8AF9BE34}"
+	ProjectSection(SolutionItems) = preProject
+		src\Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = src\Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Accounts", "src\Reference\Accounts\SFA.DAS.Payments.Reference.Accounts\SFA.DAS.Payments.Reference.Accounts.csproj", "{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Accounts.IntegrationTests", "src\Reference\Accounts\SFA.DAS.Payments.Reference.Accounts.IntegrationTests\SFA.DAS.Payments.Reference.Accounts.IntegrationTests.csproj", "{B7C05669-74DB-4F71-A052-1786333AAC8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Accounts.UnitTests", "src\Reference\Accounts\SFA.DAS.Payments.Reference.Accounts.UnitTests\SFA.DAS.Payments.Reference.Accounts.UnitTests.csproj", "{CC14A821-4017-44BE-895F-55EAD0BC7C99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments", "src\Reference\Commitments\SFA.DAS.Payments.Reference.Commitments\SFA.DAS.Payments.Reference.Commitments.csproj", "{BAE01073-3F46-44F0-AA20-86D091953329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments.IntegrationTests", "src\Reference\Commitments\SFA.DAS.Payments.Reference.Commitments.IntegrationTests\SFA.DAS.Payments.Reference.Commitments.IntegrationTests.csproj", "{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments.UnitTests", "src\Reference\Commitments\SFA.DAS.Payments.Reference.Commitments.UnitTests\SFA.DAS.Payments.Reference.Commitments.UnitTests.csproj", "{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -472,11 +542,41 @@ Global
 		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7C05669-74DB-4F71-A052-1786333AAC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C05669-74DB-4F71-A052-1786333AAC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C05669-74DB-4F71-A052-1786333AAC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C05669-74DB-4F71-A052-1786333AAC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC14A821-4017-44BE-895F-55EAD0BC7C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC14A821-4017-44BE-895F-55EAD0BC7C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC14A821-4017-44BE-895F-55EAD0BC7C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC14A821-4017-44BE-895F-55EAD0BC7C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAE01073-3F46-44F0-AA20-86D091953329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{5A408B2C-02FA-4245-9D4E-DBF01978CB0C} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{0DE86180-81EF-4DEA-9E89-E3E674BF48BF} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{6CF4F801-33C8-4476-88F9-C4F70E40E904} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{823207C9-0E35-476B-B98D-A5EB1B727D61} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{500BDFBA-7A32-4A91-89CA-D71298C44757} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{62399DFF-721A-420D-82EC-AFB2F6971914} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
 		{E8AED497-09E3-417F-89F8-5A45BBADD08F} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
 		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
 		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
@@ -485,6 +585,9 @@ Global
 		{C2E9CFF9-5616-48B7-9DB4-B25F787DD93D} = {5A408B2C-02FA-4245-9D4E-DBF01978CB0C}
 		{D2948742-339F-4D56-8C40-437A0AE79027} = {5A408B2C-02FA-4245-9D4E-DBF01978CB0C}
 		{0DCE1F04-E87E-4CA7-9AE5-0A1500814B7F} = {5A408B2C-02FA-4245-9D4E-DBF01978CB0C}
+		{D14635FD-16FF-4100-A2EB-A1C34F8A212A} = {A4346455-A577-4205-961C-3F0D23D2B8B5}
+		{13295A1A-EA50-4E46-9C7E-41B74030BEA8} = {A4346455-A577-4205-961C-3F0D23D2B8B5}
+		{08DB0179-907B-4334-BC64-3150B345F3D5} = {0E9D5F26-B91D-40C7-96C2-4B10986C3263}
 		{E0B60D5B-969C-4C05-A636-27788CD19BE0} = {D14635FD-16FF-4100-A2EB-A1C34F8A212A}
 		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0} = {D14635FD-16FF-4100-A2EB-A1C34F8A212A}
 		{FA1F038D-F0A5-4A3E-A642-62D294E5521D} = {13295A1A-EA50-4E46-9C7E-41B74030BEA8}
@@ -549,6 +652,23 @@ Global
 		{91439C4C-CC2D-4F10-9D51-595F4FF288D0} = {62399DFF-721A-420D-82EC-AFB2F6971914}
 		{67250CFF-8116-480C-85DF-7A1F258FE988} = {91439C4C-CC2D-4F10-9D51-595F4FF288D0}
 		{124187AA-CB8A-499F-86AE-049FCF95DD42} = {91439C4C-CC2D-4F10-9D51-595F4FF288D0}
+		{09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9} = {7C7E47A5-4F29-4AB8-A990-D79D42FBB088}
+		{05FDF2FF-44D2-459B-ACFF-F5B411164BD1} = {7C7E47A5-4F29-4AB8-A990-D79D42FBB088}
+		{8641ACF9-FFD1-4399-A79B-1815BF23A84C} = {09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}
+		{45570736-AB41-4FDD-8753-BAE2B62D1829} = {09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}
+		{E760AA10-7E33-40D8-BCA9-D7310B7BA191} = {45570736-AB41-4FDD-8753-BAE2B62D1829}
+		{EEC239F7-47E8-4945-BE0D-990B66C0A377} = {45570736-AB41-4FDD-8753-BAE2B62D1829}
+		{51C063CE-2319-4BC7-84A9-9A438621569B} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
+		{47A833CA-10CB-4905-9B14-837B3F8EA4C3} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
+		{1F5F4D8B-4CB3-4EEA-95CD-BF0924175F52} = {47A833CA-10CB-4905-9B14-837B3F8EA4C3}
+		{9573A0CF-6EEA-4312-AA03-CB45179FCBB8} = {47A833CA-10CB-4905-9B14-837B3F8EA4C3}
+		{EBD70F04-9E08-46DD-A968-3BFE8AF9BE34} = {47A833CA-10CB-4905-9B14-837B3F8EA4C3}
+		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3} = {09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}
+		{B7C05669-74DB-4F71-A052-1786333AAC8E} = {09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}
+		{CC14A821-4017-44BE-895F-55EAD0BC7C99} = {09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}
+		{BAE01073-3F46-44F0-AA20-86D091953329} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
+		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
+		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72CA29A5-408A-462A-B5B5-A8F96FC1F58A}
