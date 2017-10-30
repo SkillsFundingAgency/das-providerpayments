@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{92A698D9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator.UnitTests", "SFA.DAS.CollectionEarnings.Calculator.UnitTests\SFA.DAS.CollectionEarnings.Calculator.UnitTests.csproj", "{2E68F7BD-D201-4D64-88E2-3649F3A79208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator.IntegrationTests", "SFA.DAS.CollectionEarnings.Calculator.IntTests\SFA.DAS.CollectionEarnings.Calculator.IntegrationTests.csproj", "{3D3E1EF2-C096-416A-B431-B102B25FF6B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator.IntegrationTests", "SFA.DAS.CollectionEarnings.Calculator.IntegrationTests\SFA.DAS.CollectionEarnings.Calculator.IntegrationTests.csproj", "{3D3E1EF2-C096-416A-B431-B102B25FF6B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - ddl", "Sql - ddl", "{D53DFB72-0240-4DB9-953B-DD626D871E76}"
 	ProjectSection(SolutionItems) = preProject
