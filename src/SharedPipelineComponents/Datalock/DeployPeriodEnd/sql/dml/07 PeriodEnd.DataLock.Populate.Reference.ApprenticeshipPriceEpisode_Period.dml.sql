@@ -37,7 +37,7 @@ INSERT INTO [Reference].[ApprenticeshipPriceEpisode_Period] (
 	[PriceEpisodeFirstDisadvantagePayment],
 	[PriceEpisodeFirstEmp1618Pay],
 	[PriceEpisodeFirstProv1618Pay],
-	[PriceEpisodeFundLineType] ,
+	NULL ,
 	[PriceEpisodeInstalmentsThisPeriod] ,
 	[PriceEpisodeLSFCash],
 	[PriceEpisodeOnProgPayment],
