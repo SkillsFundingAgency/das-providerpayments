@@ -35,6 +35,7 @@ bld/
 *.VisualState.xml
 TestResult.xml
 TestResult-Integration.xml
+TestResult*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -256,4 +257,5 @@ paket-files/
 
 # External depencies (Not provided by NuGet)
 !**/assemblies/**/*.dll
-/src/AcceptanceTesting/SpecByExample/Tools/PhantomJS/tools/phantomjs/ChangeLog
+**/Tools/PhantomJS/
+/src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component

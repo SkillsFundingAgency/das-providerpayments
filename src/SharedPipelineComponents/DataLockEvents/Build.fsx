@@ -8,7 +8,11 @@ open Fake.IISHelper
 
 let findNuget = @"tools/nuget"
 
-RestorePackages()
+let nugetRestoreDirectory = @"../../../packages"
+
+"./SFA.DAS.DataLockEvents.sln" |> RestoreMSSolutionPackages(fun p -> 
+    { p with OutputPath = nugetRestoreDirectory }
+)
 
 let nUnitToolPath = @"tools\NUnit.ConsoleRunner\tools\nunit3-console.exe"
 let rootPublishDirectory = getBuildParamOrDefault "publishDirectory"  @"C:\CompiledSource"
