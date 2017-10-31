@@ -1,18 +1,23 @@
 if not exists(select schema_id from sys.schemas where name='Rulebase')
 	exec('create schema Rulebase')
 GO
+
 if object_id('[Rulebase].[vw_AEC_Cases]','v') is not null
 	drop view [Rulebase].[vw_AEC_Cases]
 GO
+
 create view [Rulebase].[vw_AEC_Cases]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
     ,[CaseData]
 FROM [Rulebase].[AEC_Cases]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_global]','v') is not null
 	drop view [Rulebase].[vw_AEC_global]
 GO
+
 create view [Rulebase].[vw_AEC_global]
 AS SELECT '' AS [Nothing]
     ,[UKPRN]
@@ -21,9 +26,12 @@ AS SELECT '' AS [Nothing]
     ,[Year]
 FROM [Rulebase].[AEC_global]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_LearningDelivery]','v') is not null
 	drop view [Rulebase].[vw_AEC_LearningDelivery]
 GO
+
 create view [Rulebase].[vw_AEC_LearningDelivery]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -73,9 +81,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[ThresholdDays]
 FROM [Rulebase].[AEC_LearningDelivery]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_LearningDelivery_Period]','v') is not null
 	drop view [Rulebase].[vw_AEC_LearningDelivery_Period]
 GO
+
 create view [Rulebase].[vw_AEC_LearningDelivery_Period]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -110,9 +121,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[ProgrammeAimTotProgFund]
 FROM [Rulebase].[AEC_LearningDelivery_Period]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_LearningDelivery_PeriodisedValues]','v') is not null
 	drop view [Rulebase].[vw_AEC_LearningDelivery_PeriodisedValues]
 GO
+
 create view [Rulebase].[vw_AEC_LearningDelivery_PeriodisedValues]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -132,9 +146,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[Period_12]
 FROM [Rulebase].[AEC_LearningDelivery_PeriodisedValues]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_LearningDelivery_PeriodisedTextValues]','v') is not null
 	drop view [Rulebase].[vw_AEC_LearningDelivery_PeriodisedTextValues]
 GO
+
 create view [Rulebase].[vw_AEC_LearningDelivery_PeriodisedTextValues]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -154,9 +171,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[Period_12]
 FROM [Rulebase].[AEC_LearningDelivery_PeriodisedTextValues]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_HistoricEarningOutput]','v') is not null
 	drop view [Rulebase].[vw_AEC_HistoricEarningOutput]
 GO
+
 create view [Rulebase].[vw_AEC_HistoricEarningOutput]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -186,9 +206,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[HistoricVirtualTNP4EndofThisYearOutput]
 FROM [Rulebase].[AEC_HistoricEarningOutput]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_ApprenticeshipPriceEpisode]','v') is not null
 	drop view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode]
 GO
+
 create view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -226,9 +249,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[TNP4]
 FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_Period]','v') is not null
 	drop view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_Period]
 GO
+
 create view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_Period]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -256,9 +282,12 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[PriceEpisodeTotProgFunding]
 FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]
 GO
+
+
 if object_id('[Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_PeriodisedValues]','v') is not null
 	drop view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_PeriodisedValues]
 GO
+
 create view [Rulebase].[vw_AEC_ApprenticeshipPriceEpisode_PeriodisedValues]
 AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[LearnRefNumber]
@@ -278,7 +307,46 @@ AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]
     ,[Period_12]
 FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues]
 GO
-IF EXISTS (SELECT [object_id] FROM sys.views WHERE [name] = 'vw_AEC_EarningHistory' and [schema_id] = SCHEMA_ID('Rulebase')) BEGIN DROP VIEW Rulebase.vw_AEC_EarningHistory END
+
+
+IF EXISTS (SELECT [object_id] FROM sys.views WHERE [name] = 'vw_AEC_EarningHistory' and [schema_id] = SCHEMA_ID('Rulebase')) 
+BEGIN 
+	DROP VIEW Rulebase.vw_AEC_EarningHistory 
+END
 GO
-CREATE VIEW [Rulebase].[vw_AEC_EarningHistory] AS SELECT [AppIdentifierOutput] [AppIdentifier], [AppProgCompletedInTheYearOutput][AppProgCompletedInTheYearInput], (SELECT[Name] FROM[Reference].[CollectionPeriods]) AS[CollectionReturnCode], '${YearOfCollection}' AS[CollectionYear], [HistoricDaysInYearOutput] [DaysInYear], [HistoricFworkCodeOutput] [FworkCode], [HistoricEffectiveTNPStartDateOutput] [HistoricEffectiveTNPStartDateInput], [HistoricLearner1618AtStartOutput] [HistoricLearner1618StartInput], [HistoricTNP1Output] [HistoricTNP1Input], [HistoricTNP2Output] [HistoricTNP2Input], [HistoricTNP3Output] [HistoricTNP3Input], [HistoricTNP4Output] [HistoricTNP4Input], [HistoricTotal1618UpliftPaymentsInTheYear] [HistoricTotal1618UpliftPaymentsInTheYearInput], [HistoricVirtualTNP3EndofThisYearOutput] [HistoricVirtualTNP3EndOfTheYearInput], [HistoricVirtualTNP4EndofThisYearOutput] [HistoricVirtualTNP4EndOfTheYearInput], 1 AS[LatestInYear], [LearnRefNumber], [HistoricProgrammeStartDateIgnorePathwayOutput] [ProgrammeStartDateIgnorePathway], [HistoricProgrammeStartDateMatchPathwayOutput] [ProgrammeStartDateMatchPathway], [HistoricProgTypeOutput] [ProgType], [HistoricPwayCodeOutput] [PwayCode], [HistoricSTDCodeOutput] [STDCode], [HistoricTotalProgAimPaymentsInTheYear] [TotalProgAimPaymentsInTheYear], (SELECT Ukprn FROM Valid.LearningProvider) [UKPRN], [HistoricULNOutput] [ULN], [HistoricUptoEndDateOutput] [UptoEndDate], 0.00 [BalancingProgAimPaymentsInTheYear], 0.00 [CompletionProgAimPaymentsInTheYear], 0.00 [OnProgProgAimPaymentsInTheYear]FROM [Rulebase].[AEC_HistoricEarningOutput]
+
+CREATE VIEW [Rulebase].[vw_AEC_EarningHistory] 
+AS SELECT 
+	[AppIdentifierOutput] [AppIdentifier], 
+	[AppProgCompletedInTheYearOutput][AppProgCompletedInTheYearInput], 
+	(SELECT[Name] FROM[Reference].[CollectionPeriods]) AS[CollectionReturnCode], 
+	'${YearOfCollection}' AS[CollectionYear], 
+	[HistoricDaysInYearOutput] [DaysInYear], 
+	[HistoricFworkCodeOutput] [FworkCode], 
+	[HistoricEffectiveTNPStartDateOutput] [HistoricEffectiveTNPStartDateInput], 
+	[HistoricLearner1618AtStartOutput] [HistoricLearner1618StartInput],
+	[HistoricTNP1Output] [HistoricTNP1Input], 
+	[HistoricTNP2Output] [HistoricTNP2Input],
+	[HistoricTNP3Output] [HistoricTNP3Input], 
+	[HistoricTNP4Output] [HistoricTNP4Input], 
+	[HistoricTotal1618UpliftPaymentsInTheYear] 
+	[HistoricTotal1618UpliftPaymentsInTheYearInput],
+	[HistoricVirtualTNP3EndofThisYearOutput] [HistoricVirtualTNP3EndOfTheYearInput],
+	[HistoricVirtualTNP4EndofThisYearOutput] [HistoricVirtualTNP4EndOfTheYearInput], 
+	1 AS[LatestInYear],
+	[LearnRefNumber],
+	[HistoricProgrammeStartDateIgnorePathwayOutput] [ProgrammeStartDateIgnorePathway], 
+	[HistoricProgrammeStartDateMatchPathwayOutput] [ProgrammeStartDateMatchPathway], 
+	[HistoricProgTypeOutput] [ProgType], 
+	[HistoricPwayCodeOutput] [PwayCode], 
+	[HistoricSTDCodeOutput] [STDCode], 
+	[HistoricTotalProgAimPaymentsInTheYear] [TotalProgAimPaymentsInTheYear], 
+	(SELECT Ukprn FROM Valid.LearningProvider) [UKPRN],
+	[HistoricULNOutput] [ULN],
+	[HistoricUptoEndDateOutput] [UptoEndDate], 
+	0.00 [BalancingProgAimPaymentsInTheYear], 
+	0.00 [CompletionProgAimPaymentsInTheYear], 
+	0.00 [OnProgProgAimPaymentsInTheYear]
+	
+FROM [Rulebase].[AEC_HistoricEarningOutput]
 GO

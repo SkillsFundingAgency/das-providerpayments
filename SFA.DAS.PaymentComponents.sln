@@ -49,8 +49,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock.UnitTests", "src\SharedPipelineComponents\DataLockEvents\SFA.DAS.Provider.Events.DataLock.UnitTests\SFA.DAS.Provider.Events.DataLock.UnitTests.csproj", "{5011105D-1ED2-4682-A53E-61CF8A2FF902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator", "src\PeriodEnd\EarningsCalculator\SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj", "{49D934F3-2120-4268-8143-C3C85EF85BA7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments", "src\PeriodEnd\LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.csproj", "{CA3748B0-C749-444A-BC59-1F03A10436C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests", "src\PeriodEnd\LevyPayments\SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.csproj", "{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3}"
@@ -81,11 +79,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.Provi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests", "src\PeriodEnd\ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests\SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.csproj", "{E2A1EA29-FA08-4DEE-B894-0B51376A546E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator.UnitTests", "src\PeriodEnd\EarningsCalculator\SFA.DAS.CollectionEarnings.Calculator.UnitTests\SFA.DAS.CollectionEarnings.Calculator.UnitTests.csproj", "{2E68F7BD-D201-4D64-88E2-3649F3A79208}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.IntegrationTests", "src\SharedPipelineComponents\Datalock\SFA.DAS.CollectionEarnings.DataLock.IntTests\SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.csproj", "{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator.IntegrationTests", "src\PeriodEnd\EarningsCalculator\SFA.DAS.CollectionEarnings.Calculator.IntTests\SFA.DAS.CollectionEarnings.Calculator.IntegrationTests.csproj", "{3D3E1EF2-C096-416A-B431-B102B25FF6B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{1014C414-FFAC-4A09-B42C-AE5EE290E429}"
 	ProjectSection(SolutionItems) = preProject
@@ -408,6 +402,44 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments.UnitTests", "src\Reference\Commitments\SFA.DAS.Payments.Reference.Commitments.UnitTests\SFA.DAS.Payments.Reference.Commitments.UnitTests.csproj", "{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{660BF530-21D2-4766-8FC8-92E1587C8E5B}"
+	ProjectSection(SolutionItems) = preProject
+		src\OpaEarning\Build\Deploy\1718\copy mappings\DasEarningsCopyToDedsMapping.xml = src\OpaEarning\Build\Deploy\1718\copy mappings\DasEarningsCopyToDedsMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{0E1C5336-9533-46EB-BAFA-6CF54E0E9B31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{22ECAFFA-DD36-4D90-A0BA-91111AD21312}"
+	ProjectSection(SolutionItems) = preProject
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql
+		src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql = src\OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{152D9690-408E-4418-A7EA-A2C1A1DA147D}"
+	ProjectSection(SolutionItems) = preProject
+		src\OpaEarning\Build\Deploy\1718\sql\dml\01 Ilr.Transient.OPA.Populate.Reference.dml.sql = src\OpaEarning\Build\Deploy\1718\sql\dml\01 Ilr.Transient.OPA.Populate.Reference.dml.sql
+		src\OpaEarning\Build\Deploy\1718\sql\dml\02 Ilr.Transient.OPA.Transform.InputToValid.dml.sql = src\OpaEarning\Build\Deploy\1718\sql\dml\02 Ilr.Transient.OPA.Transform.InputToValid.dml.sql
+		src\OpaEarning\Build\Deploy\1718\sql\dml\Ilr.Earnings.Cleanup.Deds.DML.sql = src\OpaEarning\Build\Deploy\1718\sql\dml\Ilr.Earnings.Cleanup.Deds.DML.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1718", "1718", "{114F88B7-61B5-4268-B3AE-9C23D67E8438}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunOpaEarningsCalculatorTask", "src\OpaEarning\Build\RunOpaEarningsCalculatorTask\RunOpaEarningsCalculatorTask.csproj", "{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator", "src\OpaEarning\Build\SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj", "{49D934F3-2120-4268-8143-C3C85EF85BA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -466,10 +498,6 @@ Global
 		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA3748B0-C749-444A-BC59-1F03A10436C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -530,18 +558,10 @@ Global
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E68F7BD-D201-4D64-88E2-3649F3A79208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E68F7BD-D201-4D64-88E2-3649F3A79208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E68F7BD-D201-4D64-88E2-3649F3A79208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E68F7BD-D201-4D64-88E2-3649F3A79208}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D3E1EF2-C096-416A-B431-B102B25FF6B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -566,6 +586,14 @@ Global
 		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D934F3-2120-4268-8143-C3C85EF85BA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -593,7 +621,6 @@ Global
 		{FA1F038D-F0A5-4A3E-A642-62D294E5521D} = {13295A1A-EA50-4E46-9C7E-41B74030BEA8}
 		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076} = {13295A1A-EA50-4E46-9C7E-41B74030BEA8}
 		{5011105D-1ED2-4682-A53E-61CF8A2FF902} = {13295A1A-EA50-4E46-9C7E-41B74030BEA8}
-		{49D934F3-2120-4268-8143-C3C85EF85BA7} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{CA3748B0-C749-444A-BC59-1F03A10436C7} = {6CF4F801-33C8-4476-88F9-C4F70E40E904}
 		{B4348331-0B49-49A3-B6CC-DE7A9A19A8E3} = {6CF4F801-33C8-4476-88F9-C4F70E40E904}
 		{08D3D28B-B618-4346-8515-E93B23BC04D6} = {6CF4F801-33C8-4476-88F9-C4F70E40E904}
@@ -609,9 +636,7 @@ Global
 		{13240C68-1925-4DC2-B975-00691DC524F8} = {62399DFF-721A-420D-82EC-AFB2F6971914}
 		{1560F0F3-8074-4225-8367-1F4E4D8F50B1} = {62399DFF-721A-420D-82EC-AFB2F6971914}
 		{E2A1EA29-FA08-4DEE-B894-0B51376A546E} = {62399DFF-721A-420D-82EC-AFB2F6971914}
-		{2E68F7BD-D201-4D64-88E2-3649F3A79208} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71} = {D14635FD-16FF-4100-A2EB-A1C34F8A212A}
-		{3D3E1EF2-C096-416A-B431-B102B25FF6B7} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{1014C414-FFAC-4A09-B42C-AE5EE290E429} = {5A408B2C-02FA-4245-9D4E-DBF01978CB0C}
 		{3DC40140-C9F4-442A-8470-0E5191642265} = {5A408B2C-02FA-4245-9D4E-DBF01978CB0C}
 		{E9E97DA8-052B-46A5-A247-69280F2916EE} = {3DC40140-C9F4-442A-8470-0E5191642265}
@@ -669,6 +694,13 @@ Global
 		{BAE01073-3F46-44F0-AA20-86D091953329} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
 		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
 		{E42DF4FE-9615-4B9A-9AA5-4ECEE1EB2B5E} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
+		{660BF530-21D2-4766-8FC8-92E1587C8E5B} = {114F88B7-61B5-4268-B3AE-9C23D67E8438}
+		{0E1C5336-9533-46EB-BAFA-6CF54E0E9B31} = {114F88B7-61B5-4268-B3AE-9C23D67E8438}
+		{22ECAFFA-DD36-4D90-A0BA-91111AD21312} = {0E1C5336-9533-46EB-BAFA-6CF54E0E9B31}
+		{152D9690-408E-4418-A7EA-A2C1A1DA147D} = {0E1C5336-9533-46EB-BAFA-6CF54E0E9B31}
+		{114F88B7-61B5-4268-B3AE-9C23D67E8438} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
+		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
+		{49D934F3-2120-4268-8143-C3C85EF85BA7} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72CA29A5-408A-462A-B5B5-A8F96FC1F58A}

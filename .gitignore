@@ -256,3 +256,4 @@ paket-files/
 
 # External depencies (Not provided by NuGet)
 !**/assemblies/**/*.dll
+/src/AcceptanceTesting/SpecByExample/Tools/PhantomJS/tools/phantomjs/ChangeLog
