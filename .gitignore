@@ -259,3 +259,4 @@ paket-files/
 !**/assemblies/**/*.dll
 **/Tools/PhantomJS/
 /src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
+/src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
