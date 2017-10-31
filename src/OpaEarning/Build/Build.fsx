@@ -8,7 +8,11 @@ open Fake.IISHelper
 
 let findNuget = @"tools/nuget"
 
-RestorePackages()
+let nugetRestoreDirectory = @"../../../packages"
+
+"./SFA.DAS.OPA.CollectionEarnings.Calculator.sln" |> RestoreMSSolutionPackages(fun p -> 
+    { p with OutputPath = nugetRestoreDirectory }
+)
 
 let nUnitToolPath = @"tools\NUnit.ConsoleRunner\tools\nunit3-console.exe"
 let rootPublishDirectory = getBuildParamOrDefault "publishDirectory"  @"C:\CompiledSource"
@@ -59,8 +63,6 @@ Target "Set version number" (fun _ ->
 Target "Set Solution Name" (fun _ ->
     
     let directoryHelper = FileSystemHelper.directoryInfo(currentDirectory).Name
-
-    
 
     let mutable solutionNameToMatch = ""
     if isAutomationProject.ToLower() = "false" then 

@@ -260,3 +260,4 @@ paket-files/
 **/Tools/PhantomJS/
 /src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
 /src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
+/src/OpaEarning/Build/Deploy/1718/component
