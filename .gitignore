@@ -263,3 +263,4 @@ paket-files/
 /src/OpaEarning/Build/Deploy/1718/component
 /src/Reference/Accounts/Deploy/component
 /Build.fsx
+/src/Reference/Commitments/Deploy/component

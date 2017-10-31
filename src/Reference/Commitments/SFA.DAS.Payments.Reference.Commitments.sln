@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Commitments", "SFA.DAS.Payments.Reference.Commitments\SFA.DAS.Payments.Reference.Commitments.csproj", "{BAE01073-3F46-44F0-AA20-86D091953329}"
 EndProject
@@ -42,6 +42,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "Migrati
 		Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{86D5EB04-5565-4F75-9C40-E248C212E8B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS", "..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj", "{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.StructureMap", "..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.StructureMap\SFA.DAS.Payments.DCFS.StructureMap.csproj", "{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +74,14 @@ Global
 		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,5 +91,10 @@ Global
 		{72A2649A-B114-4CA3-BB8A-D8A9B4BD7035} = {0D6597A2-0E6A-4D2A-B90B-A9E6411CDF44}
 		{4010A596-DDE8-4F70-8ED1-869D3FFF05CE} = {A5DABCB3-A33E-4E12-8D94-E95AD0E914B0}
 		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E} = {A5DABCB3-A33E-4E12-8D94-E95AD0E914B0}
+		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4} = {86D5EB04-5565-4F75-9C40-E248C212E8B2}
+		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749} = {86D5EB04-5565-4F75-9C40-E248C212E8B2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D542FDC-5AFC-4FD0-9881-6F13E2FD7CCD}
 	EndGlobalSection
 EndGlobal
