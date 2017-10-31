@@ -4,6 +4,7 @@ using SFA.DAS.Payments.Automation.Application.Payments.GetPaymentsForUkprn;
 using SFA.DAS.Payments.Automation.Infrastructure.Data;
 using SFA.DAS.Payments.Automation.Infrastructure.PaymentResults;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.Automation.Application.UnitTests.Payments.GetPaymentsForUkprn
 {
@@ -33,12 +34,15 @@ namespace SFA.DAS.Payments.Automation.Application.UnitTests.Payments.GetPayments
         }
 
         [Test]
-        public void ThenItShouldReturnSuccessfulResponse()
+        public async Task ThenItShouldReturnSuccessfulResponse()
         {
-
+            var data = new List<PaymentResult>();
             
+            _paymentsClient.Setup(r => r.GetPayments(It.IsAny<long>()))
+                .ReturnsAsync(data);
+
             // Act
-            var actual = _handler.Handle(_request);
+            var actual = await _handler.Handle(_request).ConfigureAwait(false);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -47,7 +51,7 @@ namespace SFA.DAS.Payments.Automation.Application.UnitTests.Payments.GetPayments
         }
 
         [Test]
-        public void ThenItShouldReturnCorrectUln()
+        public async Task ThenItShouldReturnCorrectUln()
         {
             var data = new List<PaymentResult>();
             data.Add( new PaymentResult {
@@ -69,11 +73,11 @@ namespace SFA.DAS.Payments.Automation.Application.UnitTests.Payments.GetPayments
             });
 
             _paymentsClient.Setup(r => r.GetPayments(It.IsAny<long>()))
-                 .Returns(data);
+                 .ReturnsAsync(data);
 
 
             // Act
-            var actual = _handler.Handle(_request);
+            var actual = await _handler.Handle(_request).ConfigureAwait(false);
 
             // Assert
             Assert.IsNotNull(actual);

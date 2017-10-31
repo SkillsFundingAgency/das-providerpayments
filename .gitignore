@@ -264,3 +264,5 @@ paket-files/
 /src/Reference/Accounts/Deploy/component
 /Build.fsx
 /src/Reference/Commitments/Deploy/component
+/DefaultTargets.fsx
+/RunBuild.bat

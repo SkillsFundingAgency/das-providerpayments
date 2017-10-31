@@ -8,7 +8,11 @@ open Fake.IISHelper
 
 let findNuget = @"tools/nuget"
 
-RestorePackages()
+let nugetRestoreDirectory = @"../../../packages"
+
+"./SFA.DAS.Payments.Automation.sln" |> RestoreMSSolutionPackages(fun p -> 
+    { p with OutputPath = nugetRestoreDirectory }
+)
 
 let nUnitToolPath = @"tools\NUnit.ConsoleRunner\tools\nunit3-console.exe"
 let xUnitToolPath = @"tools\xunit.runner.console\tools\xunit.console.exe"

@@ -5,7 +5,6 @@
 open Fake
 
 #load "DefaultTargets.fsx"
-#load "CustomTargets.fsx"
 
 "Set version number"
    ==>"Set Solution Name"
