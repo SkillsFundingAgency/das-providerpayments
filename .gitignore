@@ -261,3 +261,5 @@ paket-files/
 /src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
 /src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
 /src/OpaEarning/Build/Deploy/1718/component
+/src/Reference/Accounts/Deploy/component
+/Build.fsx
