@@ -266,3 +266,8 @@ paket-files/
 /src/Reference/Commitments/Deploy/component
 /DefaultTargets.fsx
 /RunBuild.bat
+/src/PeriodEnd/Deploycoinvestedpayments
+/src/PeriodEnd/DeployLevyPayments
+/src/PeriodEnd/Deploymanualadjustments
+/src/PeriodEnd/Deploypaymentsdue
+/src/PeriodEnd/Deployprovideradjustments
