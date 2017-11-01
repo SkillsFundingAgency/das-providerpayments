@@ -228,7 +228,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 EmploymentStatuses = employmentStatuses.Any() ? employmentStatuses : null
             };
 
-            long.TryParse(learnerDetails[0].Uln, out var uln);
+            long uln;
+            long.TryParse(learnerDetails[0].Uln, out uln);
 
             learner.Uln = uln > 0 ? uln : lookupContext.AddOrGetUln(learnerDetails[0].LearnerReference);
         

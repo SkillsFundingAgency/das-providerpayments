@@ -83,7 +83,8 @@ namespace SFA.DAS.Payments.AcceptanceTests
             if (columnIndex > -1 && !string.IsNullOrWhiteSpace(row[columnIndex]))
             {
                 var value = row[columnIndex].Trim(' ', '%');
-                if (int.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
+                int result;
+                if (int.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
                 {
                     return result;
                 }

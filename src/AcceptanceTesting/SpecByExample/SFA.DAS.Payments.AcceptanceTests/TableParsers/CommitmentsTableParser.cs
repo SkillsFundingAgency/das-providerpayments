@@ -148,12 +148,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 }
             }
 
-            if (!DateTime.TryParse(row[structure.StartDateIndex], out var startDate))
+            DateTime startDate;
+            if (!DateTime.TryParse(row[structure.StartDateIndex], out startDate))
             {
                 throw new ArgumentException($"'{row[structure.StartDateIndex]}' is not a valid start date");
             }
 
-            if (!DateTime.TryParse(row[structure.EndDateIndex], out var endDate))
+            DateTime endDate;
+            if (!DateTime.TryParse(row[structure.EndDateIndex], out endDate))
             {
                 throw new ArgumentException($"'{row[structure.EndDateIndex]}' is not a valid end date");
             }
@@ -209,7 +211,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static bool TryParseNullableDateTime(string value, out DateTime? dateTime)
         {
-            if (DateTime.TryParse(value, out var temp))
+            DateTime temp;
+            if (DateTime.TryParse(value, out temp))
             {
                 dateTime = temp;
                 return true;
