@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
@@ -14,6 +15,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             TestDataHelper.Clean();
         }
+
+      
 
         [Test]
         [TestCase(25L, null, null, null)]
@@ -68,6 +71,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             Assert.AreEqual(0.9m, duePayments[0].SfaContributionPercentage);
             Assert.AreEqual("Levy Funding Line", duePayments[0].FundingLineType);
+
+            
         }
 
         [Test]
@@ -969,6 +974,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 9 && x.DeliveryYear == 2017));
             Assert.IsEmpty(duePayments.Where(x => x.DeliveryMonth == 10 && x.DeliveryYear == 2017));
         }
+
+
+       
+
 
     }
 }

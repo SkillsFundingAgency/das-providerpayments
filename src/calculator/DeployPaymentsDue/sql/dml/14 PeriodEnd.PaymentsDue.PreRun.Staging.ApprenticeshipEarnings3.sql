@@ -38,7 +38,8 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 			ade.LearningActualEndDate ,
 			ade.CompletionStatus,
 			ade.CompletionAmount,
-			ade.TotalInstallments 	
+			ade.TotalInstallments ,
+			ade.MonthlyInstallment	
         FROM (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
 				Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode
 				from Reference.ApprenticeshipEarnings 

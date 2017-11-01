@@ -59,7 +59,7 @@ CREATE TABLE PaymentsDue.Earnings
     PlannedEndDate datetime NOT NULL,
 	ActualEnddate datetime,
     CompletionStatus int,
-    CompletionAmount decimal(10,5),
-	MonthlyInstallment decimal(10,5) NOT NULL,
+    CompletionAmount decimal(15,5),
+	MonthlyInstallment decimal(15,5) NOT NULL,
 	TotalInstallments int NOT NULL
 )

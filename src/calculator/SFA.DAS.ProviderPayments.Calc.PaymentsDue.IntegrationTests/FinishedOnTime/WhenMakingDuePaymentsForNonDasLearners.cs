@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
@@ -13,6 +14,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         {
             TestDataHelper.Clean();
         }
+
+        private static readonly EarningsToPaymentEntity[] _earningsToPayments = new[]
+      {
+            new EarningsToPaymentEntity {
+                            StartDate =new DateTime(2016,8,10),
+                            PlannedEndDate =new DateTime(2017,8,10),
+                            ActualEndDate = null,
+                            CompletionStatus=1
+            },
+              new EarningsToPaymentEntity {
+                            StartDate =new DateTime(2016,8,10),
+                            PlannedEndDate =new DateTime(2017,8,10),
+                            ActualEndDate = new DateTime(2017,06,10),
+                            CompletionStatus=2
+            }
+
+        };
 
         [Test]
         [TestCase(25L, null, null, null)]
@@ -463,6 +481,55 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             var actualPayment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016);
             Assert.IsNotNull(actualPayment);
             Assert.AreEqual(800m, actualPayment.AmountDue);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(_earningsToPayments))]
+        public void ThenItShouldReturnCorrectDetailsForEarningsToPayments(EarningsToPaymentEntity sourceData)
+        {
+            // Arrange
+            var ukprn = 863145;
+            var uln = 834734;
+            var startDate = sourceData.StartDate;
+            var plannedEndDate = sourceData.PlannedEndDate;
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+
+            var periods = ((sourceData.PlannedEndDate.Year - sourceData.StartDate.Year) * 12) 
+                            + sourceData.PlannedEndDate.Month - sourceData.StartDate.Month;
+                    
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.SetOpenCollection(1);
+
+            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, 
+                                                uln: uln,numberOfPeriods:periods,
+                                                completionStatus:sourceData.CompletionStatus,actualEndDate:sourceData.ActualEndDate);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var requiredPaymentId = TestDataHelper.GetRequiredPaymentId(ukprn);
+            Assert.IsNotNull(requiredPaymentId);
+
+            var earningsToPayments = TestDataHelper.GetEarningsToPaymentsData(requiredPaymentId);
+            Assert.IsNotNull(earningsToPayments);
+
+            Assert.AreEqual(earningsToPayments.StartDate, sourceData.StartDate);
+            Assert.AreEqual(earningsToPayments.PlannedEndDate, sourceData.PlannedEndDate);
+            Assert.AreEqual(earningsToPayments.ActualEndDate, sourceData.ActualEndDate);
+            Assert.AreEqual(earningsToPayments.TotalInstallments, periods);
+            Assert.AreEqual(earningsToPayments.CompletionAmount, 12000 * 0.2);
+            Assert.AreEqual(earningsToPayments.MonthlyInstallment, 15000 *0.8/periods);
+            Assert.AreEqual(earningsToPayments.CompletionStatus, sourceData.CompletionStatus);
+
+
         }
     }
 }

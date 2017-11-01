@@ -6,6 +6,7 @@ using Dapper;
 using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 {
@@ -178,7 +179,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                  + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
-                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],[PriceEpisodeCompletionElement])"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments]," 
+                  + "[PriceEpisodeCompletionElement],[PriceEpisodeInstalmentValue])"
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
@@ -193,7 +195,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "AgreedCost * 0.8, "
                   + "AgreedCost * 0.2, "
                   + "12,"
-                  + "100 "
+                  + "100, "
+                  + "100"
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
@@ -239,6 +242,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "SELECT Ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '1', StartDate, EndDate FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
+
+
+            Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
+                + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
+                 + "SELECT "
+                 + "Ukprn, "
+                 + "@learnerRefNumber, "
+                 + "@aimSequenceNumber, "
+                 + "'ZPROG001', "
+                 + "12 "
+                 + "FROM dbo.DasCommitments "
+                 + "WHERE CommitmentId = @commitmentId",
+               new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
 
@@ -255,7 +271,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         long? standardCode = null,
                                         int? programmeType = null,
                                         int? frameworkCode = null,
-                                        int? pathwayCode = null)
+                                        int? pathwayCode = null,
+                                        int? completionStatus = 1,
+                                        DateTime? actualEndDate = null)
         {
             var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
@@ -274,7 +292,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                   + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
                   + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
-                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],[PriceEpisodeCompletionElement])"
+                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],[PriceEpisodeCompletionElement],PriceEpisodeInstalmentValue)"
                   + " SELECT "
                   + "@ukprn, "
                   + "@learnerRefNumber, "
@@ -288,9 +306,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Non-Levy Funding Line',"
                   + "@tnp1, "
                   + "@tnp2, "
-                  + "12,"
-                  + "100",
-                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2 }, false);
+                  + "@numberOfPeriods,"
+                  + "@tnp1 * 0.2,"
+                  + "@tnp1 / @numberOfPeriods ",
+                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher,numberOfPeriods }, false);
 
             for (var x = 1; x <= 12; x++)
             {
@@ -320,14 +339,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, uln }, false);
 
             Execute("INSERT INTO Valid.LearningDelivery "
-                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
-                    + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode)",
-                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, standardCode, programmeType, frameworkCode, pathwayCode }, false);
+                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus) "
+                    + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus )",
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode,completionStatus }, false);
 
             Execute("INSERT INTO Valid.LearningDeliveryFAM "
                     + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
                     + "VALUES (@ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '2', @startDate, @endDate)",
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
+
+
+            Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
+                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
+                  + "VALUES ( "
+                  + "@Ukprn, "
+                  + "@learnerRefNumber, "
+                  + "@aimSequenceNumber, "
+                  + "'ZPROG001', "
+                  + "12) ",
+                new { ukprn, learnerRefNumber, aimSequenceNumber }, false);
         }
 
 
@@ -381,12 +411,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                      bool earlyFinisher = false)
         {
             Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
-                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef])"
+                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
                   + "SELECT "
                   + "Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
-                  + "'50086832' "
+                  + "'50086832', "
+                  + "12 "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
@@ -417,6 +448,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "SELECT Ukprn, @learnerRefNumber, '50086832', 3, @aimSequenceNumber, StartDate, EndDate, 36, StandardCode, ProgrammeType, FrameworkCode, PathwayCode FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
+        }
+
+        internal static EarningsToPaymentEntity GetEarningsToPaymentsData(Guid requiredPaymentId)
+        {
+            return Query<EarningsToPaymentEntity>("SELECT * FROM [PaymentsDue].[vw_EarningsToPayments]"
+                            +" WHERE Id= @requiredPaymentId", new { requiredPaymentId }).SingleOrDefault();
+
         }
 
         internal static void AddAdditionalPayments(long ukprn,
@@ -640,6 +678,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn)
         {
             return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
+        }
+
+
+        internal static Guid GetRequiredPaymentId(long ukprn)
+        {
+            return Query<Guid>("SELECT Top 1 Id FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn }).SingleOrDefault();
         }
 
         public static void Clean()

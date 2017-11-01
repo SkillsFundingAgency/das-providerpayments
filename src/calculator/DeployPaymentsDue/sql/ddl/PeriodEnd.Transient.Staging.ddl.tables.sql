@@ -116,7 +116,8 @@ CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 	LearningActualEndDate datetime,
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
-	TotalInstallments int NOT NULL	
+	TotalInstallments int NOT NULL	,
+	MonthlyInstallment decimal(15,5) NOT NULL,
 )
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,7 +173,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	LearningActualEndDate datetime,
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
-	TotalInstallments int NOT NULL	
+	TotalInstallments int NOT NULL	,
+	MonthlyInstallment decimal(15,5) NOT NULL,
 )
 GO
 
@@ -226,7 +228,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings1
 	LearningActualEndDate datetime,
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
-	TotalInstallments int NOT NULL		
+	TotalInstallments int NOT NULL,
+	MonthlyInstallment decimal(15,5) NOT NULL,
 )
 GO
 
@@ -271,7 +274,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings2
 	LearningActualEndDate datetime,
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
-	TotalInstallments int NOT NULL		
+	TotalInstallments int NOT NULL		,
+	MonthlyInstallment decimal(15,5) NOT NULL,
 )
 GO
 
@@ -316,7 +320,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	LearningActualEndDate datetime,
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
-	TotalInstallments int NOT NULL	
+	TotalInstallments int NOT NULL,
+	MonthlyInstallment	decimal(15,5) not null
 )
 GO
 

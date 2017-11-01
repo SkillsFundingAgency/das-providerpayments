@@ -38,7 +38,8 @@ SELECT
 		ade.LearningActualEndDate ,
 		ade.CompletionStatus,
 		ade.CompletionAmount,
-		ade.TotalInstallments 	
+		ade.TotalInstallments ,
+		ade.MonthlyInstallment	
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae

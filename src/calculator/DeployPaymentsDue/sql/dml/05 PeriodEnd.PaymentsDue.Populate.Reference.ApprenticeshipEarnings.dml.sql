@@ -75,7 +75,7 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 		ld.LearnActEndDate,
 		ld.CompStatus,
 		pe.PriceEpisodeCompletionElement,
-		aecld.[ActualNumInstalm],
+		aecld.PlannedNumOnProgInstalm,
 		pe.PriceEpisodeInstalmentValue
 			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
@@ -145,6 +145,7 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 		ld.LearnActEndDate,
 		ld.CompStatus,
 		0,
+		aecld.PlannedNumOnProgInstalm,
 		1
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
         JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
@@ -154,7 +155,7 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON p.[Ukprn] = aecld.[Ukprn]
             AND p.[LearnRefNumber] = aecld.[LearnRefNumber]
-            AND p.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
+            AND p.[AimSeqNumber] = aecld.[AimSeqNumber]
 		
     WHERE ld.[LearnAimRef] != 'ZPROG001'
 GO

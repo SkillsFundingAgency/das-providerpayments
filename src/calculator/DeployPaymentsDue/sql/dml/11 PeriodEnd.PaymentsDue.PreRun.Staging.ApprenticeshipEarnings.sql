@@ -46,7 +46,8 @@ SELECT
 	ae.LearningActualEndDate ,
 	ae.CompletionStatus,
 	ae.CompletionAmount,
-	ae.TotalInstallments 	
+	ae.TotalInstallments,
+	ae.MonthlyInstallment 	
 FROM Staging.ApprenticeshipEarningsRequiringPayments ae
 	JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber
