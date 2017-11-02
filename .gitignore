@@ -258,6 +258,8 @@ paket-files/
 # External depencies (Not provided by NuGet)
 !**/assemblies/**/*.dll
 **/Tools/PhantomJS/
+*.jfa
+
 /src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
 /src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
 /src/OpaEarning/Build/Deploy/1718/component
