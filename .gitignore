@@ -140,7 +140,6 @@ DocProject/Help/html
 publish/
 
 # Publish Web Output
-*.[Pp]ublish.xml
 *.azurePubxml
 # TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
@@ -258,7 +257,7 @@ paket-files/
 # External depencies (Not provided by NuGet)
 !**/assemblies/**/*.dll
 **/Tools/PhantomJS/
-*.jfa
+*.jfm
 
 /src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
 /src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
