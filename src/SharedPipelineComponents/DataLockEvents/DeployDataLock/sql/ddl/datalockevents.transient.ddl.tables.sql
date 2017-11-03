@@ -140,8 +140,8 @@ CREATE TABLE [DataLockEvents].[DataLockEventsData]
 (
 	Ukprn						bigint			NOT NULL,
 	PriceEpisodeIdentifier		varchar(25)		NULL,
-	LearnRefNumber				varchar(100)	NULL,
-	AimSeqNumber				bigint			NULL,
+	LearnRefNumber				varchar(12)		NULL,
+	AimSeqNumber				int				NULL,
 	CommitmentId				bigint			NULL,
 	IsSuccess					bit				NULL,
 	IlrFilename					nvarchar(50)	NULL,
