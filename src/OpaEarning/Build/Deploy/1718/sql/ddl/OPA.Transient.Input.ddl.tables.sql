@@ -156,7 +156,7 @@ create table [Input].[LLDDandHealthProblem]
 (
 	[LLDDandHealthProblem_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[LLDDCat] bigint,
 	[PrimaryLLDD] bigint
 )
@@ -181,7 +181,7 @@ create table [Input].[LearnerFAM]
 (
 	[LearnerFAM_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[LearnFAMType] varchar(1000),
 	[LearnFAMCode] bigint
 )
@@ -205,7 +205,7 @@ create table [Input].[ProviderSpecLearnerMonitoring]
 (
 	[ProviderSpecLearnerMonitoring_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[ProvSpecLearnMonOccur] varchar(100),
 	[ProvSpecLearnMon] varchar(1000)
 )
@@ -230,7 +230,7 @@ create table [Input].[LearnerEmploymentStatus]
 (
 	[LearnerEmploymentStatus_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[EmpStat] bigint,
 	[DateEmpStatApp] date,
 	[EmpId] bigint
@@ -256,7 +256,7 @@ create table [Input].[EmploymentStatusMonitoring]
 (
 	[EmploymentStatusMonitoring_Id] int  primary key,
 	[LearnerEmploymentStatus_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[DateEmpStatApp] date,
 	[ESMType] varchar(100),
 	[ESMCode] bigint
@@ -283,7 +283,7 @@ create table [Input].[LearnerHE]
 (
 	[LearnerHE_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[UCASPERID] varchar(1000),
 	[TTACCOM] bigint
 )
@@ -307,7 +307,7 @@ create table [Input].[LearnerHEFinancialSupport]
 (
 	[LearnerHEFinancialSupport_Id] int  primary key,
 	[LearnerHE_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[FINTYPE] bigint,
 	[FINAMOUNT] bigint
 )
@@ -331,10 +331,10 @@ create table [Input].[LearningDelivery]
 (
 	[LearningDelivery_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[LearnAimRef] varchar(1000),
 	[AimType] bigint,
-	[AimSeqNumber] bigint,
+	[AimSeqNumber] int,
 	[LearnStartDate] date,
 	[OrigLearnStartDate] date,
 	[LearnPlanEndDate] date,
@@ -380,8 +380,8 @@ create table [Input].[LearningDeliveryFAM]
 (
 	[LearningDeliveryFAM_Id] int  primary key,
 	[LearningDelivery_Id] int  not null,
-	[LearnRefNumber] varchar(100),
-	[AimSeqNumber] bigint,
+	[LearnRefNumber] varchar(12),
+	[AimSeqNumber] int,
 	[LearnDelFAMType] varchar(100),
 	[LearnDelFAMCode] varchar(1000),
 	[LearnDelFAMDateFrom] date,
@@ -410,8 +410,8 @@ create table [Input].[LearningDeliveryWorkPlacement]
 (
 	[LearningDeliveryWorkPlacement_Id] int  primary key,
 	[LearningDelivery_Id] int  not null,
-	[LearnRefNumber] varchar(100),
-	[AimSeqNumber] bigint,
+	[LearnRefNumber] varchar(12),
+	[AimSeqNumber] int,
 	[WorkPlaceStartDate] date,
 	[WorkPlaceEndDate] date,
 	[WorkPlaceHours] bigint,
@@ -442,8 +442,8 @@ create table [Input].[AppFinRecord]
 (
 	[AppFinRecord_Id] int  primary key,
 	[LearningDelivery_Id] int  not null,
-	[LearnRefNumber] varchar(100),
-	[AimSeqNumber] bigint,
+	[LearnRefNumber] varchar(12),
+	[AimSeqNumber] int,
 	[AFinType] varchar(100),
 	[AFinCode] bigint,
 	[AFinDate] date,
@@ -471,8 +471,8 @@ create table [Input].[ProviderSpecDeliveryMonitoring]
 (
 	[ProviderSpecDeliveryMonitoring_Id] int  primary key,
 	[LearningDelivery_Id] int  not null,
-	[LearnRefNumber] varchar(100),
-	[AimSeqNumber] bigint,
+	[LearnRefNumber] varchar(12),
+	[AimSeqNumber] int,
 	[ProvSpecDelMonOccur] varchar(100),
 	[ProvSpecDelMon] varchar(1000)
 )
@@ -498,8 +498,8 @@ create table [Input].[LearningDeliveryHE]
 (
 	[LearningDeliveryHE_Id] int  primary key,
 	[LearningDelivery_Id] int  not null,
-	[LearnRefNumber] varchar(100),
-	[AimSeqNumber] bigint,
+	[LearnRefNumber] varchar(12),
+	[AimSeqNumber] int,
 	[NUMHUS] varchar(1000),
 	[SSN] varchar(1000),
 	[QUALENT3] varchar(1000),
@@ -543,7 +543,7 @@ GO
 create table [Input].[LearnerDestinationandProgression]
 (
 	[LearnerDestinationandProgression_Id] int  primary key,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[ULN] bigint
 )
 create index [IX_Input_LearnerDestinationandProgression] on [Input].[LearnerDestinationandProgression]
@@ -562,7 +562,7 @@ create table [Input].[DPOutcome]
 (
 	[DPOutcome_Id] int  primary key,
 	[LearnerDestinationandProgression_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[OutType] varchar(100),
 	[OutCode] bigint,
 	[OutStartDate] date,
