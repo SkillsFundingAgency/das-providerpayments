@@ -204,8 +204,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\001_DataLockEvents_Add_EventStatus.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\001_DataLockEvents_Add_EventStatus.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql
-		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Transient_Change_LearnRef_AimSequence_ColumnType.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Transient_Change_LearnRef_AimSequence_ColumnType.sql
-		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Submission_Change_LearnRef_AimSequence_ColumnType.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Submission_Change_LearnRef_AimSequence_ColumnType.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{A590490B-BEE4-46EE-ADC8-016D973F184A}"
