@@ -353,7 +353,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
                 ? GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName
                 : GlobalTestContext.Instance.BracketedSubmissionDatabaseName;
 
-            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\{script}");
+            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\{script}");
 
             ExecuteScript(
                 GlobalTestContext.Instance.SubmissionConnectionString,
@@ -367,7 +367,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
                 ? GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName
                 : GlobalTestContext.Instance.BracketedPeriodEndDatabaseName;
 
-            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\{script}");
+            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\{script}");
 
             ExecuteScript(
                 GlobalTestContext.Instance.PeriodEndConnectionString,
@@ -379,7 +379,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
         {
             foreach (var script in SubmissionCopyReferenceDataScripts)
             {
-                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\{script}");
+                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\{script}");
 
                 ExecuteScript(
                     GlobalTestContext.Instance.SubmissionConnectionString,
@@ -392,7 +392,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
         {
             foreach (var script in PeriodEndCopyReferenceDataScripts)
             {
-                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\{script}");
+                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\{script}");
 
                 ExecuteScript(
                     GlobalTestContext.Instance.PeriodEndConnectionString,
