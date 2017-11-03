@@ -11,7 +11,7 @@ IF (@RequireBackfill = 1)
 		CREATE TABLE #NewEvents
 		(
 			PriceEpisodeIdentifier varchar(25),
-			LearnRefNumber varchar(100),
+			LearnRefNumber varchar(12),
 			UKPRN bigint,
 			EventId bigint
 		)

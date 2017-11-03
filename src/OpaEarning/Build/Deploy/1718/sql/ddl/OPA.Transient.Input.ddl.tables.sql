@@ -87,7 +87,7 @@ GO
 create table [Input].[Learner]
 (		
 	[Learner_Id] int  primary key,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[PrevLearnRefNumber] varchar(1000),
 	[PrevUKPRN] bigint,
 	[PMUKPRN] bigint,
@@ -131,7 +131,7 @@ create table [Input].[ContactPreference]
 (
 	[ContactPreference_Id] int  primary key,
 	[Learner_Id] int  not null,
-	[LearnRefNumber] varchar(100),
+	[LearnRefNumber] varchar(12),
 	[ContPrefType] varchar(100),
 	[ContPrefCode] bigint
 )

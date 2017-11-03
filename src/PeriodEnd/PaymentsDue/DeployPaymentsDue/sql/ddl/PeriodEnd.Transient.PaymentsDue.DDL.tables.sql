@@ -62,3 +62,9 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	LearningStartDate datetime	
 )
 GO
+
+CREATE NONCLUSTERED INDEX [IX_RequiredPayments_LevyBalanceLookup]
+ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
+
+GO
+

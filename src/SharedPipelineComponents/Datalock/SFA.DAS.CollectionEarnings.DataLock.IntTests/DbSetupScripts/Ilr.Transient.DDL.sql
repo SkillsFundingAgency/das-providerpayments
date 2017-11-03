@@ -45,7 +45,7 @@ BEGIN
 CREATE TABLE [Input].[ContactPreference](
 	[ContactPreference_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ContPrefType] [varchar](100) NULL,
 	[ContPrefCode] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -69,7 +69,7 @@ BEGIN
 CREATE TABLE [Input].[DPOutcome](
 	[DPOutcome_Id] [int] NOT NULL,
 	[LearnerDestinationandProgression_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[OutType] [varchar](100) NULL,
 	[OutCode] [bigint] NULL,
 	[OutStartDate] [date] NULL,
@@ -96,7 +96,7 @@ BEGIN
 CREATE TABLE [Input].[EmploymentStatusMonitoring](
 	[EmploymentStatusMonitoring_Id] [int] NOT NULL,
 	[LearnerEmploymentStatus_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[DateEmpStatApp] [date] NULL,
 	[ESMType] [varchar](100) NULL,
 	[ESMCode] [bigint] NULL,
@@ -120,7 +120,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Input].[
 BEGIN
 CREATE TABLE [Input].[Learner](
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[PrevLearnRefNumber] [varchar](1000) NULL,
 	[PrevUKPRN] [bigint] NULL,
 	[ULN] [bigint] NULL,
@@ -159,7 +159,7 @@ BEGIN
 CREATE TABLE [Input].[LearnerContact](
 	[LearnerContact_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LocType] [bigint] NULL,
 	[ContType] [bigint] NULL,
 	[PostCode] [varchar](1000) NULL,
@@ -185,7 +185,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Input].[
 BEGIN
 CREATE TABLE [Input].[LearnerDestinationandProgression](
 	[LearnerDestinationandProgression_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ULN] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -208,7 +208,7 @@ BEGIN
 CREATE TABLE [Input].[LearnerEmploymentStatus](
 	[LearnerEmploymentStatus_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[EmpStat] [bigint] NULL,
 	[DateEmpStatApp] [date] NULL,
 	[EmpId] [bigint] NULL,
@@ -233,7 +233,7 @@ BEGIN
 CREATE TABLE [Input].[LearnerFAM](
 	[LearnerFAM_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LearnFAMType] [varchar](100) NULL,
 	[LearnFAMCode] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -257,7 +257,7 @@ BEGIN
 CREATE TABLE [Input].[LearnerHE](
 	[LearnerHE_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[UCASPERID] [varchar](1000) NULL,
 	[TTACCOM] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -281,7 +281,7 @@ BEGIN
 CREATE TABLE [Input].[LearnerHEFinancialSupport](
 	[LearnerHEFinancialSupport_Id] [int] NOT NULL,
 	[LearnerHE_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[FINTYPE] [bigint] NULL,
 	[FINAMOUNT] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -305,10 +305,10 @@ BEGIN
 CREATE TABLE [Input].[LearningDelivery](
 	[LearningDelivery_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LearnAimRef] [varchar](1000) NULL,
 	[AimType] [bigint] NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[AimSeqNumber] int NULL,
 	[LearnStartDate] [date] NULL,
 	[OrigLearnStartDate] [date] NULL,
 	[LearnPlanEndDate] [date] NULL,
@@ -352,8 +352,8 @@ BEGIN
 CREATE TABLE [Input].[LearningDeliveryFAM](
 	[LearningDeliveryFAM_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[LearnDelFAMType] [varchar](100) NULL,
 	[LearnDelFAMCode] [varchar](1000) NULL,
 	[LearnDelFAMDateFrom] [date] NULL,
@@ -379,8 +379,8 @@ BEGIN
 CREATE TABLE [Input].[LearningDeliveryHE](
 	[LearningDeliveryHE_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[NUMHUS] [varchar](1000) NULL,
 	[SSN] [varchar](1000) NULL,
 	[QUALENT3] [varchar](1000) NULL,
@@ -425,8 +425,8 @@ BEGIN
 CREATE TABLE [Input].[LearningDeliveryWorkPlacement](
 	[LearningDeliveryWorkPlacement_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[WorkPlaceStartDate] [date] NULL,
 	[WorkPlaceEndDate] [date] NULL,
 	[WorkPlaceMode] [bigint] NULL,
@@ -469,7 +469,7 @@ BEGIN
 CREATE TABLE [Input].[LLDDandHealthProblem](
 	[LLDDandHealthProblem_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LLDDCat] [bigint] NULL,
 	[PrimaryLLDD] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -493,7 +493,7 @@ BEGIN
 CREATE TABLE [Input].[PostAdd](
 	[PostAdd_Id] [int] NOT NULL,
 	[LearnerContact_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ContType] [bigint] NULL,
 	[LocType] [bigint] NULL,
 	[AddLine1] [varchar](1000) NULL,
@@ -521,8 +521,8 @@ BEGIN
 CREATE TABLE [Input].[ProviderSpecDeliveryMonitoring](
 	[ProviderSpecDeliveryMonitoring_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[ProvSpecDelMonOccur] [varchar](100) NULL,
 	[ProvSpecDelMon] [varchar](1000) NULL,
 PRIMARY KEY CLUSTERED 
@@ -546,7 +546,7 @@ BEGIN
 CREATE TABLE [Input].[ProviderSpecLearnerMonitoring](
 	[ProviderSpecLearnerMonitoring_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ProvSpecLearnMonOccur] [varchar](100) NULL,
 	[ProvSpecLearnMon] [varchar](1000) NULL,
 PRIMARY KEY CLUSTERED 
@@ -626,8 +626,8 @@ BEGIN
 CREATE TABLE [Input].[TrailblazerApprenticeshipFinancialRecord](
 	[TrailblazerApprenticeshipFinancialRecord_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[TBFinType] [varchar](100) NULL,
 	[TBFinCode] [bigint] NULL,
 	[TBFinDate] [date] NULL,
@@ -676,7 +676,7 @@ BEGIN
 CREATE TABLE [Invalid].[ContactPreference](
 	[ContactPreference_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ContPrefType] [varchar](100) NULL,
 	[ContPrefCode] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -700,7 +700,7 @@ BEGIN
 CREATE TABLE [Invalid].[DPOutcome](
 	[DPOutcome_Id] [int] NOT NULL,
 	[LearnerDestinationandProgression_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[OutType] [varchar](100) NULL,
 	[OutCode] [bigint] NULL,
 	[OutStartDate] [date] NULL,
@@ -727,7 +727,7 @@ BEGIN
 CREATE TABLE [Invalid].[EmploymentStatusMonitoring](
 	[EmploymentStatusMonitoring_Id] [int] NOT NULL,
 	[LearnerEmploymentStatus_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[DateEmpStatApp] [date] NULL,
 	[ESMType] [varchar](100) NULL,
 	[ESMCode] [bigint] NULL,
@@ -751,7 +751,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Invalid]
 BEGIN
 CREATE TABLE [Invalid].[Learner](
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[PrevLearnRefNumber] [varchar](1000) NULL,
 	[PrevUKPRN] [bigint] NULL,
 	[ULN] [bigint] NULL,
@@ -790,7 +790,7 @@ BEGIN
 CREATE TABLE [Invalid].[LearnerContact](
 	[LearnerContact_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LocType] [bigint] NULL,
 	[ContType] [bigint] NULL,
 	[PostCode] [varchar](1000) NULL,
@@ -816,7 +816,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Invalid]
 BEGIN
 CREATE TABLE [Invalid].[LearnerDestinationandProgression](
 	[LearnerDestinationandProgression_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ULN] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -839,7 +839,7 @@ BEGIN
 CREATE TABLE [Invalid].[LearnerEmploymentStatus](
 	[LearnerEmploymentStatus_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[EmpStat] [bigint] NULL,
 	[DateEmpStatApp] [date] NULL,
 	[EmpId] [bigint] NULL,
@@ -864,7 +864,7 @@ BEGIN
 CREATE TABLE [Invalid].[LearnerFAM](
 	[LearnerFAM_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LearnFAMType] [varchar](100) NULL,
 	[LearnFAMCode] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -888,7 +888,7 @@ BEGIN
 CREATE TABLE [Invalid].[LearnerHE](
 	[LearnerHE_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[UCASPERID] [varchar](1000) NULL,
 	[TTACCOM] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -912,7 +912,7 @@ BEGIN
 CREATE TABLE [Invalid].[LearnerHEFinancialSupport](
 	[LearnerHEFinancialSupport_Id] [int] NOT NULL,
 	[LearnerHE_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[FINTYPE] [bigint] NULL,
 	[FINAMOUNT] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -936,10 +936,10 @@ BEGIN
 CREATE TABLE [Invalid].[LearningDelivery](
 	[LearningDelivery_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LearnAimRef] [varchar](1000) NULL,
 	[AimType] [bigint] NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[AimSeqNumber] int NULL,
 	[LearnStartDate] [date] NULL,
 	[OrigLearnStartDate] [date] NULL,
 	[LearnPlanEndDate] [date] NULL,
@@ -983,8 +983,8 @@ BEGIN
 CREATE TABLE [Invalid].[LearningDeliveryFAM](
 	[LearningDeliveryFAM_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[LearnDelFAMType] [varchar](100) NULL,
 	[LearnDelFAMCode] [varchar](1000) NULL,
 	[LearnDelFAMDateFrom] [date] NULL,
@@ -1010,8 +1010,8 @@ BEGIN
 CREATE TABLE [Invalid].[LearningDeliveryHE](
 	[LearningDeliveryHE_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[NUMHUS] [varchar](1000) NULL,
 	[SSN] [varchar](1000) NULL,
 	[QUALENT3] [varchar](1000) NULL,
@@ -1056,8 +1056,8 @@ BEGIN
 CREATE TABLE [Invalid].[LearningDeliveryWorkPlacement](
 	[LearningDeliveryWorkPlacement_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[WorkPlaceStartDate] [date] NULL,
 	[WorkPlaceEndDate] [date] NULL,
 	[WorkPlaceMode] [bigint] NULL,
@@ -1100,7 +1100,7 @@ BEGIN
 CREATE TABLE [Invalid].[LLDDandHealthProblem](
 	[LLDDandHealthProblem_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[LLDDCat] [bigint] NULL,
 	[PrimaryLLDD] [bigint] NULL,
 PRIMARY KEY CLUSTERED 
@@ -1124,7 +1124,7 @@ BEGIN
 CREATE TABLE [Invalid].[PostAdd](
 	[PostAdd_Id] [int] NOT NULL,
 	[LearnerContact_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ContType] [bigint] NULL,
 	[LocType] [bigint] NULL,
 	[AddLine1] [varchar](1000) NULL,
@@ -1152,8 +1152,8 @@ BEGIN
 CREATE TABLE [Invalid].[ProviderSpecDeliveryMonitoring](
 	[ProviderSpecDeliveryMonitoring_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[ProvSpecDelMonOccur] [varchar](100) NULL,
 	[ProvSpecDelMon] [varchar](1000) NULL,
 PRIMARY KEY CLUSTERED 
@@ -1177,7 +1177,7 @@ BEGIN
 CREATE TABLE [Invalid].[ProviderSpecLearnerMonitoring](
 	[ProviderSpecLearnerMonitoring_Id] [int] NOT NULL,
 	[Learner_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
+	[LearnRefNumber] [varchar](12) NULL,
 	[ProvSpecLearnMonOccur] [varchar](100) NULL,
 	[ProvSpecLearnMon] [varchar](1000) NULL,
 PRIMARY KEY CLUSTERED 
@@ -1257,8 +1257,8 @@ BEGIN
 CREATE TABLE [Invalid].[TrailblazerApprenticeshipFinancialRecord](
 	[TrailblazerApprenticeshipFinancialRecord_Id] [int] NOT NULL,
 	[LearningDelivery_Id] [int] NOT NULL,
-	[LearnRefNumber] [varchar](100) NULL,
-	[AimSeqNumber] [bigint] NULL,
+	[LearnRefNumber] [varchar](12) NULL,
+	[AimSeqNumber] int NULL,
 	[TBFinType] [varchar](100) NULL,
 	[TBFinCode] [bigint] NULL,
 	[TBFinDate] [date] NULL,
