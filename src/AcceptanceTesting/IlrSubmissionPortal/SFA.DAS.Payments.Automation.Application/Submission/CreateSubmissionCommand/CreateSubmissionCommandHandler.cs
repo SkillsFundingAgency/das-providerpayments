@@ -133,18 +133,10 @@ namespace SFA.DAS.Payments.Automation.Application.CreateSubmissionCommand
             foreach (var c in commitments)
             {
                 commitmentId += 1;
-                var accountId = accountEntities.Single(x =>
-                    x.AccountName.Equals(c.EmployerKey, StringComparison.CurrentCultureIgnoreCase)).AccountId;
-                if (!learnerScenarios.ContainsKey(c.LearnerKey))
-                {
-                    throw new Exception($"No learner scenario for learner: {c.LearnerKey}");
-                }
-                var uln = GetNextUln(c.LearnerKey, learnerScenarios[c.LearnerKey], ukprn);
-
                 items.Add(
                     new CommitmentEntity
                     {
-                        AccountId = accountId,
+                        AccountId = accountEntities.Single(x => x.AccountName.Equals(c.EmployerKey, StringComparison.CurrentCultureIgnoreCase)).AccountId,
                         AgreedPrice = c.AgreedPrice,
                         CommitmentId = commitmentId,
                         EffectiveFrom = c.EffectiveFrom,
@@ -161,10 +153,10 @@ namespace SFA.DAS.Payments.Automation.Application.CreateSubmissionCommand
                         StartDate = c.StartDate,
                         Status = (int)c.Status,
                         Ukprn = ukprn,
-                        Uln =uln,
+                        Uln = GetNextUln(c.LearnerKey, learnerScenarios[c.LearnerKey], ukprn),
                         VersionId = c.VersionId
                     }
-                );
+                    );
             }
 
             return items;

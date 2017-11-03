@@ -111,26 +111,7 @@ namespace SFA.DAS.Payments.Automation.Application.UnitTests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Feature: When Handling Gherkin With Submissions
-        ///
-        ///    Scenario: Standard ILR
-        ///        When an ILR file is submitted with the following data:
-        ///            | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
-        ///            | learner a | 04/08/2017 | 04/08/2018       |                 | continuing        | 12000                | 04/08/2017                  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string WhenHandlingGherkinWithEarningsAndPayments {
-            get {
-                return ResourceManager.GetString("WhenHandlingGherkinWithEarningsAndPayments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Feature: When Handling Gherkin With Employment Statuses
-        ///
-        ///Scenario: With small employer
-        ///When an ILR file is submitted with the following data:
-        ///    | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        ///    | learner a | 16-18 programme only non-DAS | 7500         | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 403            | 2              | 1            | [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Scenario:1.
         /// </summary>
         internal static string WhenHandlingGherkinWithEmploymentStatuses {
             get {

@@ -33,18 +33,6 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Apprenticeships.Api.Types, Version=0.10.65.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Apprenticeships.Api.Types.0.10.64\lib\net45\SFA.DAS.Apprenticeships.Api.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Provider.Events.Api.Client, Version=2.0.0.40478, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Provider.Events.Api.Client.2.0.0.40478\lib\net45\SFA.DAS.Provider.Events.Api.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Provider.Events.Api.Types, Version=2.0.0.40478, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Provider.Events.Api.Client.2.0.0.40478\lib\net45\SFA.DAS.Provider.Events.Api.Types.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,29 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\PaymentsApiClient.cs" />
-    <Compile Include="Data\IPaymentsClient.cs" />
     <Compile Include="Data\IReferenceDataRepository.cs" />
     <Compile Include="Data\ILearnersRepository.cs" />
     <Compile Include="Data\ReferenceDataRepository.cs" />
-    <Compile Include="PaymentResults\CalendarPeriod.cs" />
-    <Compile Include="PaymentResults\ContractType.cs" />
-    <Compile Include="PaymentResults\FundingSource.cs" />
-    <Compile Include="PaymentResults\PaymentResult.cs" />
-    <Compile Include="PaymentResults\TransactionType.cs" />
     <Compile Include="Data\LearnersRepository.cs" />
     <Compile Include="Entities\UsedUlnEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.Payments.Automation.Domain\SFA.DAS.Payments.Automation.Domain.csproj">
       <Project>{D4E9E693-B49F-4047-8EDB-6938B2B31BE0}</Project>
       <Name>SFA.DAS.Payments.Automation.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

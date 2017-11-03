@@ -20,8 +20,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.ParseGherkinQuery
             new SpecificLevyBalanceStepParser(),
             new SubmissionStepParser(),
             new ContractTypeStepParser(),
-            new EmploymentStatusStepParser(),
-            new EarningsAndPaymentsStepParser()
+            new EmploymentStatusStepParser()
         };
 
         public ParseGherkinQueryResponse Handle(ParseGherkinQueryRequest message)

@@ -15,7 +15,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers
         public override void Parse(Step step, Specification specification)
         {
             var table = step.Argument as DataTable;
-            var employmentStatuses = TableParser.ParseValueTable<LearnerEmploymentStatusEntity>("Employment statuses", table);
+            var employmentStatuses = TableParser.ParseTable<LearnerEmploymentStatusEntity>("Employment statuses", table);
             foreach (var status in employmentStatuses)
             {
                 if (string.IsNullOrEmpty(status.SmallEmployer))

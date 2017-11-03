@@ -47,7 +47,7 @@ namespace SFA.DAS.Payments.Automation.Application.Entities
         [Order(12)]
         public string EPAOrgID { get; set; } = "";
         [Order(13)]
-        public string ProviderRef { get; set; } = "";
+        public string ProviderRef { get; set; } = Guid.NewGuid().ToString();
         
     }
 }

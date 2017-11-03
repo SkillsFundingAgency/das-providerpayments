@@ -54,8 +54,6 @@
     <Compile Include="Specifications\LearnerRecord.cs" />
     <Compile Include="Specifications\LearnerType.cs" />
     <Compile Include="Specifications\LearningSupportRecord.cs" />
-    <Compile Include="Specifications\PeriodEarningAndPayments.cs" />
-    <Compile Include="Specifications\ProviderEarningsAndPayments.cs" />
     <Compile Include="Specifications\Specification.cs" />
     <Compile Include="Specifications\SpecificationArrangement.cs" />
     <Compile Include="Specifications\SpecificationExpectations.cs" />

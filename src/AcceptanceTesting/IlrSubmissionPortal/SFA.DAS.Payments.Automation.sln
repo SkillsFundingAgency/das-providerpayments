@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Automation.IlrBuilder", "SFA.DAS.Payments.Automation.IlrBuilder\SFA.DAS.Payments.Automation.IlrBuilder.csproj", "{E041F281-A36C-4D75-885E-768F1DFAA487}"
 EndProject
@@ -40,15 +40,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{649A8F88-9526-4A7D-B8AC-D0EFA3E0BB4D}"
 	ProjectSection(SolutionItems) = preProject
 		Build.fsx = Build.fsx
+		CustomTargets.fsx = CustomTargets.fsx
 		DefaultTargets.fsx = DefaultTargets.fsx
 		RunBuild.bat = RunBuild.bat
 	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.Payments.Automation.Database", "SFA.DAS.Payments.Automation.Database\SFA.DAS.Payments.Automation.Database.sqlproj", "{731837C9-90F5-4590-80C3-2567CCE6B4F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.payments.Automation.Assertions", "SFA.DAS.payments.Automation.Assertions\SFA.DAS.payments.Automation.Assertions.csproj", "{B8608D1B-D409-466E-90FF-2D932AFE1ACB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Automation.Assertions.UnitTests", "SFA.DAS.Payments.Automation.Assertions.UnitTests\SFA.DAS.Payments.Automation.Assertions.UnitTests.csproj", "{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,14 +103,6 @@ Global
 		{731837C9-90F5-4590-80C3-2567CCE6B4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{731837C9-90F5-4590-80C3-2567CCE6B4F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{731837C9-90F5-4590-80C3-2567CCE6B4F2}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{B8608D1B-D409-466E-90FF-2D932AFE1ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8608D1B-D409-466E-90FF-2D932AFE1ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8608D1B-D409-466E-90FF-2D932AFE1ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8608D1B-D409-466E-90FF-2D932AFE1ACB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,10 +123,5 @@ Global
 		{E0006CBA-9895-4B4A-AD8C-7E8DD65481EC} = {5FD51EFE-BAC3-4D3A-84EF-0E7607E12C96}
 		{5FD51EFE-BAC3-4D3A-84EF-0E7607E12C96} = {07F86F33-37B4-48FA-B197-354EBFD9D2CA}
 		{731837C9-90F5-4590-80C3-2567CCE6B4F2} = {07F86F33-37B4-48FA-B197-354EBFD9D2CA}
-		{B8608D1B-D409-466E-90FF-2D932AFE1ACB} = {522A46A7-E428-4703-BFAA-621E18E27DEC}
-		{4DBDC10A-E8BA-4F8E-B724-F1386D3D20A5} = {815A6BD5-DB82-4454-9C2F-11E9E686F396}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2F4EF88F-6B0C-44D3-B271-9616D182CDD1}
 	EndGlobalSection
 EndGlobal

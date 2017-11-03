@@ -45,17 +45,8 @@
     <Reference Include="Moq, Version=4.7.9.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Moq.4.7.9\lib\net45\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Provider.Events.Api.Client, Version=2.0.0.40478, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Provider.Events.Api.Client.2.0.0.40478\lib\net45\SFA.DAS.Provider.Events.Api.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="SFA.DAS.Provider.Events.Api.Types, Version=2.0.0.40478, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Provider.Events.Api.Client.2.0.0.40478\lib\net45\SFA.DAS.Provider.Events.Api.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,14 +61,12 @@
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithAccountBalances.cs" />
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithCommitments.cs" />
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithContractTypes.cs" />
-    <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithEarningsAndPayments.cs" />
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithEmploymentStatuses.cs" />
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingGherkinWithSubmissions.cs" />
     <Compile Include="GherkinSpecs\ParseGherkinQuery\ParseGherkinQueryRequestHandlerTests\WhenHandlingInvalidGherkin.cs" />
     <Compile Include="GherkinSpecs\ValidateSpecsQuery\HandlerTests\TestData.cs" />
-    <Compile Include="GherkinSpecs\ValidateSpecsQuery\HandlerTests\WhenHandlingASpecWithAnInvalidCourseDuration.cs" />
-    <Compile Include="GherkinSpecs\ValidateSpecsQuery\HandlerTests\WhenHandlingASpecWithAnInvalidPriceEffectiveDate.cs" />
-    <Compile Include="Payments\GetPaymentsForUkprn\WhenHandlingGetPaymentsForUkprnQuery.cs" />
+    <Compile Include="GherkinSpecs\ValidateSpecsQuery\HandlerTests\WhenHandlingASpecificationWithAnInvalidCourseDuration.cs" />
+    <Compile Include="GherkinSpecs\ValidateSpecsQuery\HandlerTests\WhenHandlingASpecificationWithAnInvalidPriceEffectiveDate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -88,9 +77,6 @@
     <Compile Include="Submission\CreateSubmissionCommand\WhenHandlingCreateSubmissionCommand.cs" />
     <Compile Include="Submission\GetAllUsedUlnQuery\WhenHandlingGetAllUsedUlnsCommand.cs" />
     <Compile Include="Submission\TransformSubmissionCommand\TransformSubmissionCommandHandlerTests\WhenHandlingRequestWithDateShifts.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.Payments.Automation.Application\SFA.DAS.Payments.Automation.Application.csproj">
@@ -135,9 +121,7 @@
   <ItemGroup>
     <None Include="Resources\WhenHandlingGherkinWithEmploymentStatuses.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WhenHandlingGherkinWithEarningsAndPayments.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -39,13 +39,9 @@ namespace SFA.DAS.Payments.Automation.WebUI.DependencyResolution {
                 });
 
             _connectionString = Microsoft.Azure.CloudConfigurationManager.GetSetting("ConnectionString");
-            var apiBaseUrl = System.Configuration.ConfigurationManager.AppSettings["PaymentsApiUrl"];
-
             For<IReferenceDataRepository>().Use<ReferenceDataRepository>().Ctor<string>("connectionString").Is(_connectionString);
             For<ILarsRepository>().Use<AutomationLarsSqlRepository>().Ctor<string>("connectionString").Is(_connectionString);
             For<ILearnersRepository>().Use<LearnersRepository>().Ctor<string>("connectionString").Is(_connectionString);
-           For<IPaymentsClient>().Use<PaymentsApiClient>().Ctor<string>("apiBaseUrl").Is(apiBaseUrl)
-                                                            .Ctor<string>("clientToken").Is("");
 
 
             RegisterMediator();

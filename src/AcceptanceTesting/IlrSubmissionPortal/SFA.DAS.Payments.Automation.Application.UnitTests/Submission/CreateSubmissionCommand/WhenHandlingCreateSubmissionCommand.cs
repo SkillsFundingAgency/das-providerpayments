@@ -51,7 +51,6 @@ namespace SFA.DAS.Payments.Automation.Application.UnitTests.Submission.CreateSub
                         TotalTrainingPrice1 = 100,
                         CompletionStatus = CompletionStatus.Continuing,
                         LearnerType = LearnerType.ProgrammeOnlyNonDas
-                        
                     }
                 },
                 LearningSupports = new List<LearningSupportRecord>(),

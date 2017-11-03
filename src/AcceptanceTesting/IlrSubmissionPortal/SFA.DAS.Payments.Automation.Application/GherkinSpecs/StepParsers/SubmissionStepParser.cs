@@ -19,7 +19,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers
         public override void Parse(Step step, Specification specification)
         {
             var table = step.Argument as DataTable;
-            var learnerRecords = TableParser.ParseValueTable<LearnerRecordEntity>("Submission", table);
+            var learnerRecords = TableParser.ParseTable<LearnerRecordEntity>("Submission", table);
             foreach (var learnerRecord in learnerRecords)
             {
                 if (!learnerRecord.StandardCode.HasValue && !learnerRecord.FrameworkCode.HasValue)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -11,10 +10,8 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers.StepT
     internal static class TableParser
     {
         private static readonly string[] ValidDateTimeFormats = { "dd/MM/yy", "dd/MM/yyyy" };
-        private static readonly string[] ValidPeriodPropertyNames = { "Period", "PeriodName" };
-        private static readonly string ValidPropertyNamesForException = ValidPeriodPropertyNames.Aggregate((x, y) => $"{x} or {y}");
 
-        public static T[] ParseValueTable<T>(string tableName, DataTable table) where T : new()
+        public static T[] ParseTable<T>(string tableName, DataTable table) where T : new()
         {
             var def = ParseReturnTypeDefinition(typeof(T));
 
@@ -38,55 +35,13 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers.StepT
                 {
                     var colName = headers[j];
                     var col = cols[j].Value;
-                    var propDef = def.Single(p => p.Name.Equals(FixSpecPropName(colName), StringComparison.CurrentCultureIgnoreCase));
+                    var propDef = def.Single(p => p.Name.Equals(colName.Replace(" ", ""), StringComparison.CurrentCultureIgnoreCase));
                     propDef.SetValue(result, col);
                 }
 
                 results[i - 1] = result;
             }
             return results;
-        }
-        public static T[] ParsePeriodTable<T>(string tableName, DataTable table) where T : new()
-        {
-            var def = ParseReturnTypeDefinition(typeof(T));
-            var periodProperty = def.FirstOrDefault(p => ValidPeriodPropertyNames.Any(pn => pn.Equals(p.Name, StringComparison.CurrentCultureIgnoreCase)));
-            if (periodProperty == null)
-            {
-                throw new Exception($"Type {typeof(T).Name} does not have a valid Period property. It must be of type string and named {ValidPropertyNamesForException}");
-            }
-
-            var rows = table.Rows.ToArray();
-            var headers = rows[0].Cells.Select(x => x.Value).ToArray();
-            EnsureTableStructure(tableName, def, rows.Select(r => r.Cells.ElementAt(0).Value).Skip(1).ToArray());
-
-            var results = new List<T>();
-            for (var j = 1; j < headers.Length; j++)
-            {
-                if (headers[j] == "...")
-                {
-                    continue;
-                }
-
-                var result = new T();
-                foreach (var prop in def.Where(p => p.DefaultValue != null))
-                {
-                    prop.SetValue(result, prop.DefaultValue.ToString());
-                }
-                periodProperty.SetValue(result, headers[j]);
-
-                for (var i = 1; i < rows.Length; i++)
-                {
-                    var row = rows[i];
-                    var propName = row.Cells.ElementAt(0).Value;
-                    var col = row.Cells.ElementAt(j).Value;
-                    var propDef = def.Single(p => p.Name.Equals(FixSpecPropName(propName), StringComparison.CurrentCultureIgnoreCase));
-                    propDef.SetValue(result, col);
-                }
-
-                results.Add(result);
-            }
-
-            return results.ToArray(); ;
         }
 
         private static PropertyDefinition[] ParseReturnTypeDefinition(Type type)
@@ -123,7 +78,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers.StepT
         }
         private static void EnsureTableStructure(string tableName, PropertyDefinition[] def, string[] headers)
         {
-            var unknownHeaders = headers.Where(h => !def.Any(p => p.Name.Equals(FixSpecPropName(h), StringComparison.CurrentCultureIgnoreCase))).ToArray();
+            var unknownHeaders = headers.Where(h => !def.Any(p => p.Name.Equals(h.Replace(" ", ""), StringComparison.CurrentCultureIgnoreCase))).ToArray();
             if (unknownHeaders.Length > 0)
             {
                 var list = unknownHeaders.Select(x => $"   {x}").Aggregate((x, y) => $"{x}\n{y}");
@@ -136,10 +91,6 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers.StepT
                 var list = requiredFieldsWithNoColumns.Select(x => $"   {x.Name}").Aggregate((x, y) => $"{x}\n{y}");
                 throw new InvalidTableStructureException($"{tableName} table is missing requried columns:\n{list}");
             }
-        }
-        private static string FixSpecPropName(string specPropName)
-        {
-            return specPropName.Replace(" ", "").Replace("-", "");
         }
 
         private class PropertyDefinition
@@ -201,7 +152,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers.StepT
                 }
                 else if (propertyType == typeof(decimal))
                 {
-                    decimal x = 0;
+                    decimal x =0;
                     if (!string.IsNullOrEmpty(value) && !decimal.TryParse(value, out x))
                     {
                         throw new Exception(); //TODO

@@ -27,7 +27,8 @@ namespace SFA.DAS.Payments.Automation.Application
             //Convert all properties to strings, escape and enclose in double quotes
             var propq = (from prop in props
                          let tostringcall = Expression.Call(Expression.Property(param, prop), prop.ReflectedType.GetMethod("ToString", new Type[0]))
-                         select Expression.Call(typeof(string).GetMethod("Concat", new Type[] { typeof(String)}),  tostringcall)
+                         let replacecall = Expression.Call(tostringcall, typeof(string).GetMethod("Replace", new Type[] { typeof(String), typeof(String) }), doublequote, doublequoteescape)
+                         select Expression.Call(typeof(string).GetMethod("Concat", new Type[] { typeof(String), typeof(String), typeof(String) }), doublequote, replacecall, doublequote)
                          ).ToArray();
 
             var concatLine = propq[0];
@@ -39,15 +40,6 @@ namespace SFA.DAS.Payments.Automation.Application
             var header = String.Join(",", props.Select(p => p.Name).ToArray());
 
             return header + Environment.NewLine + String.Join(Environment.NewLine, list.Select(method).ToArray());
-        }
-
-        internal static DateTime ToPeriodDateTime(this string name)
-        {
-            return new DateTime(int.Parse(name.Substring(3, 2)) + 2000, int.Parse(name.Substring(0, 2)), 1);
-        }
-        internal static string ToPeriodName(this DateTime date)
-        {
-            return $"{date.Month:00}/{date.Year - 2000:00}";
         }
     }
 }

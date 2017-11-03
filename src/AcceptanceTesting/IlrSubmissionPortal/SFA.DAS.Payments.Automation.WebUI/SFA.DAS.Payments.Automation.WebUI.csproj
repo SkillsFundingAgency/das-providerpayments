@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -205,8 +203,6 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AssertionResultsController.cs" />
-    <Compile Include="Controllers\AssertionsController.cs" />
     <Compile Include="Controllers\IlrBuilderController.cs" />
     <Compile Include="Controllers\NewUlnController.cs" />
     <Compile Include="Controllers\UlnsListController.cs" />
@@ -221,19 +217,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlExtensions.cs" />
-    <Compile Include="Infrastructure\Assertions\AssertionsService.cs" />
     <Compile Include="Infrastructure\AuthenticationService.cs" />
-    <Compile Include="Infrastructure\Assertions\IAssertionsService.cs" />
-    <Compile Include="Infrastructure\TransformationHelpers.cs" />
     <Compile Include="Infrastructure\IAuthenticationService.cs" />
-    <Compile Include="Infrastructure\IlrBuilder\IIlrBuilderService.cs" />
-    <Compile Include="Infrastructure\IlrBuilder\IlrBuilderRequest.cs" />
-    <Compile Include="Infrastructure\IlrBuilder\IlrBuilderService.cs" />
-    <Compile Include="Infrastructure\IlrBuilder\IlrBuilderResponse.cs" />
+    <Compile Include="Infrastructure\IIlrBuilderService.cs" />
+    <Compile Include="Infrastructure\IlrBuilderRequest.cs" />
+    <Compile Include="Infrastructure\IlrBuilderService.cs" />
+    <Compile Include="Infrastructure\IlrBuilderResponse.cs" />
     <Compile Include="Infrastructure\IUlnService.cs" />
     <Compile Include="Infrastructure\UlnService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AssertionResults.cs" />
     <Compile Include="ViewModels\IlrSubmissionModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\UsedUlnModel.cs" />
@@ -248,8 +240,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\IlrBuilder\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Assertions\Index.cshtml" />
-    <Content Include="Views\AssertionResults\Index.cshtml" />
     <Content Include="Views\UlnsList\Index.cshtml" />
     <Content Include="Views\NewUln\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -267,10 +257,6 @@
     <ProjectReference Include="..\SFA.DAS.Payments.Automation.Application\SFA.DAS.Payments.Automation.Application.csproj">
       <Project>{6ecf0086-cd22-4a43-a551-5acdc67efbcc}</Project>
       <Name>SFA.DAS.Payments.Automation.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.payments.Automation.Assertions\SFA.DAS.payments.Automation.Assertions.csproj">
-      <Project>{b8608d1b-d409-466e-90ff-2d932afe1acb}</Project>
-      <Name>SFA.DAS.payments.Automation.Assertions</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.Payments.Automation.Domain\SFA.DAS.Payments.Automation.Domain.csproj">
       <Project>{d4e9e693-b49f-4047-8edb-6938b2b31be0}</Project>
@@ -322,10 +308,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

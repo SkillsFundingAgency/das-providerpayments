@@ -152,10 +152,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{A239066C-AB6C-433D-B0C8-53A06D671A09}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Procs.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Procs.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{F3FEA2F4-2BD8-444F-8FA8-3B361982D18B}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql
+	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{52CAEA9D-0A2E-4976-A73A-27C4B415C898}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{52CAEA9D-0A2E-4976-A73A-27C4B415C898}"
+	ProjectSection(SolutionItems) = preProject
+		src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql
+		src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql = src\SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{6B20CCA5-0791-44AB-814F-A80A8A0A99AC}"
 	ProjectSection(SolutionItems) = preProject

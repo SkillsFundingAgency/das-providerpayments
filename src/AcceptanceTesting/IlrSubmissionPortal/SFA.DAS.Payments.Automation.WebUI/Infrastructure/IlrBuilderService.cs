@@ -20,9 +20,6 @@ namespace SFA.DAS.Payments.Automation.WebUI.Infrastructure
             _mediator = mediator;
         }
 
-       
-
-
         public IlrBuilderResponse BuildIlrWithRefenceData(IlrBuilderRequest request)
         {
             try
@@ -32,8 +29,8 @@ namespace SFA.DAS.Payments.Automation.WebUI.Infrastructure
                 TransformLearnerKeysForCommitments(specifications);
                 TransformSpecifications(specifications, request);
 
-                var learnerScenarios  = TransformationHelpers.TransformLearnerKeysForLearners(specifications);
-                
+                var learnerScenarios = TransformLearnerKeysForLearners(specifications);
+
                 ValidateScenarios(specifications);
 
                 var contentResponse = CreateSubmissionContent(specifications, request.Ukprn, learnerScenarios, request.AcademicYear);
@@ -102,17 +99,51 @@ namespace SFA.DAS.Payments.Automation.WebUI.Infrastructure
             }
         }
 
+        private Dictionary<string, string> TransformLearnerKeysForLearners(Specification[] specifications)
+        {
+            var index = 1;
+
+            var learnerScenarios = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            var processedLearners = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var spec in specifications)
+            {
+                processedLearners = new Dictionary<string, string>();
+
+                foreach (var learner in spec.Arrangement.LearnerRecords)
+                {
+                    if (!processedLearners.ContainsKey(learner.LearnerKey))
+                    {
+                        var key = $"{learner.LearnerKey}{index}";
+                        processedLearners.Add(learner.LearnerKey, key);
+                        learnerScenarios.Add(key, spec.Name);
+
+                        learner.LearnerKey = $"{learner.LearnerKey}{index}";
+                    }
+                    else
+                    {
+                        learner.LearnerKey = processedLearners[learner.LearnerKey];
+                    }
+                }
+                index += 1;
+
+            }
+            return learnerScenarios;
+        }
 
         private void TransformLearnerKeysForCommitments(Specification[] specifications)
         {
             var index = 1;
-            
+            var processedLearners = new Dictionary<string, string>();
+
             foreach (var spec in specifications)
             {
-                var processedLearners = new Dictionary<string, string>();
+                processedLearners = new Dictionary<string, string>();
 
-                if (spec.Arrangement.Commitments != null && spec.Arrangement.Commitments.Any())
+                if (spec.Arrangement.Commitments != null || spec.Arrangement.Commitments.Any())
                 {
+
                     foreach (var c in spec.Arrangement.Commitments)
                     {
                         if (!processedLearners.ContainsKey(c.LearnerKey))
@@ -121,15 +152,18 @@ namespace SFA.DAS.Payments.Automation.WebUI.Infrastructure
                             processedLearners.Add(c.LearnerKey, key);
 
                             c.LearnerKey = $"{c.LearnerKey}{index}";
+
                         }
                         else
                         {
                             c.LearnerKey = processedLearners[c.LearnerKey];
                         }
+
                     }
                 }
                 index += 1;
             }
+
         }
 
         private CreateSubmissionCommandResponse CreateSubmissionContent(Specification[] specifications, long ukprn, Dictionary<string, string> learnerScenarios, string academicYear)

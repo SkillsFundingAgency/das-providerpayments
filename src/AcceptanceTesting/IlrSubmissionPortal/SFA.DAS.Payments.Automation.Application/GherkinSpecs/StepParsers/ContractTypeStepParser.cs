@@ -13,7 +13,7 @@ namespace SFA.DAS.Payments.Automation.Application.GherkinSpecs.StepParsers
         public override void Parse(Step step, Specification specification)
         {
             var table = step.Argument as DataTable;
-            var contractTypes = TableParser.ParseValueTable<ContractTypeRecord>("Contract types", table);
+            var contractTypes = TableParser.ParseTable<ContractTypeRecord>("Contract types", table);
             specification.Arrangement.ContractTypes.AddRange(contractTypes);
         }
     }

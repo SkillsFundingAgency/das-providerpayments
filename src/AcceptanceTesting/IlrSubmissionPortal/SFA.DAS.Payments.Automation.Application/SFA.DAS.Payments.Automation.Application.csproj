@@ -53,7 +53,6 @@
     <Compile Include="Entities\CommitmentEntity.cs" />
     <Compile Include="Entities\UsedUlnRecord.cs" />
     <Compile Include="ExtensionMethods\ExtensionMethods.cs" />
-    <Compile Include="GherkinSpecs\StepParsers\EarningsAndPaymentsStepParser.cs" />
     <Compile Include="GherkinSpecs\StepParsers\EmploymentStatusStepParser.cs" />
     <Compile Include="GherkinSpecs\ValidateSpecificationsQuery\ValidateSpecificationsQueryRequest.cs" />
     <Compile Include="GherkinSpecs\ValidateSpecificationsQuery\ValidateSpecificationsQueryRequestHandler.cs" />
@@ -64,12 +63,6 @@
     <Compile Include="GherkinSpecs\InvalidSpecificationsException.cs" />
     <Compile Include="GherkinSpecs\ValidationRuleIds.cs" />
     <Compile Include="GherkinSpecs\ValidationViolation.cs" />
-    <Compile Include="Payments\GetPaymentsForUkprn\GetPaymentsForUkprnResponse.cs" />
-    <Compile Include="Payments\GetPaymentsForUkprn\GetPaymentsForUkprnQueryHandler.cs" />
-    <Compile Include="Payments\GetPaymentsForUkprn\GetPaymentsForUkprnRequest.cs" />
-    <Compile Include="Payments\TransformExpecationsCommand\TransformExpecationsCommandHandler.cs" />
-    <Compile Include="Payments\TransformExpecationsCommand\TransformExpecationsCommandRequest.cs" />
-    <Compile Include="Payments\TransformExpecationsCommand\TransformExpecationsCommandResponse.cs" />
     <Compile Include="Submission\GetAllUsedUlns\GetAllUsedUlnsQueryResponse.cs" />
     <Compile Include="Submission\GetAllUsedUlns\GetAllUsedUlnsQueryHandler.cs" />
     <Compile Include="Submission\GetAllUsedUlns\GetAllUsedUlnsQueryRequest.cs" />
@@ -109,10 +102,6 @@
     <Compile Include="Submission\TransformSubmissionCommand\TransformSubmissionCommandResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.Payments.Automation.Domain\SFA.DAS.Payments.Automation.Domain.csproj">
       <Project>{D4E9E693-B49F-4047-8EDB-6938B2B31BE0}</Project>
       <Name>SFA.DAS.Payments.Automation.Domain</Name>
@@ -133,6 +122,9 @@
       <Project>{a0bee054-0094-4f00-8c71-57ddafa7a34d}</Project>
       <Name>SFA.DAS.Payments.Automation.RefernceData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
