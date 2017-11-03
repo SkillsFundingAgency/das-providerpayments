@@ -148,6 +148,10 @@
           <Destination>CompletionStatus</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>CompletionAmount</Source>
+          <Destination>CompletionAmount</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>MonthlyInstallment</Source>
           <Destination>MonthlyInstallment</Destination>
         </ColumnMapping>

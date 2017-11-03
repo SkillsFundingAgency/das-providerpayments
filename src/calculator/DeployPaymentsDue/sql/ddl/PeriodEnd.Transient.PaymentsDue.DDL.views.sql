@@ -170,7 +170,7 @@ GO
 CREATE VIEW PaymentsDue.vw_EarningsToPayments
 AS
 SELECT 
-	rp.Id,
+	rp.Id as RequiredPaymentId,
 	ae.MonthlyInstallment As MonthlyInstallment,
 	ae.LearningStartDate As StartDate,
 	ae.LearningPlannedEndDate As PlannedEndDate ,

@@ -453,7 +453,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static EarningsToPaymentEntity GetEarningsToPaymentsData(Guid requiredPaymentId)
         {
             return Query<EarningsToPaymentEntity>("SELECT * FROM [PaymentsDue].[vw_EarningsToPayments]"
-                            +" WHERE Id= @requiredPaymentId", new { requiredPaymentId }).SingleOrDefault();
+                            + " WHERE RequiredPaymentId = @requiredPaymentId", new { requiredPaymentId }).SingleOrDefault();
 
         }
 
