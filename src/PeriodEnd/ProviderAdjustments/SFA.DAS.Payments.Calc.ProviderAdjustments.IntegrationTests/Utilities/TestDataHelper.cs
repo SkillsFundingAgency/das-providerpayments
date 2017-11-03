@@ -53,7 +53,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
         {
             foreach (var script in PeriodEndCopyReferenceDataScripts)
             {
-                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Tools\Sql\Copy Reference Data\{script}");
+                var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\{script}");
 
                 var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 

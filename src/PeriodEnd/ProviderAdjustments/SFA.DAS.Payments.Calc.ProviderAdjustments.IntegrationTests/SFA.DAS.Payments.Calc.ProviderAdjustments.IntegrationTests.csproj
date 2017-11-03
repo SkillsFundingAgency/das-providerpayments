@@ -107,19 +107,19 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\EAS.Deds.PaymentTypes.dml.sql">

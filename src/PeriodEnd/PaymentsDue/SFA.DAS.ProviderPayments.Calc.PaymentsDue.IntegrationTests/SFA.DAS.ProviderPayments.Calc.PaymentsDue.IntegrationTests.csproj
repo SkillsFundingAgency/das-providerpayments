@@ -107,63 +107,63 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql">
-      <Link>Tools\Sql\Copy Reference Data\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql">
-      <Link>Tools\Sql\Copy Reference Data\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql">
-      <Link>Tools\Sql\Copy Reference Data\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql">
-      <Link>Tools\Sql\Copy Reference Data\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql">
-      <Link>Tools\Sql\Copy Reference Data\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql">
-      <Link>Tools\Sql\Copy Reference Data\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql">
-      <Link>Tools\Sql\Copy Reference Data\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql">
-      <Link>Tools\Sql\Copy Reference Data\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql">
-      <Link>Tools\Sql\Copy Reference Data\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql">
