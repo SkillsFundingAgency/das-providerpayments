@@ -32,7 +32,13 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [LearningSupportPayment],
 	[EpisodeStartDate],
 	[LearnAimRef] ,
-	[LearningStartDate] )
+	[LearningStartDate],
+	[LearningPlannedEndDate],
+	[LearningActualEndDate] ,
+	[CompletionStatus],
+	[CompletionAmount],
+	[TotalInstallments],
+	[MonthlyInstallment] )
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -64,7 +70,14 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         ISNULL(pv.[PriceEpisodeLSFCash], 0),
 		pe.[EpisodeStartDate],
 		ld.LearnAimRef,
-		ld.LearnStartDate	
+		ld.LearnStartDate,
+		ld.LearnPlanEndDate,
+		ld.LearnActEndDate,
+		ld.CompStatus,
+		pe.PriceEpisodeCompletionElement,
+		aecld.PlannedNumOnProgInstalm,
+		pe.PriceEpisodeInstalmentValue
+			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
             AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
@@ -74,6 +87,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
             AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
             AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
+            AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
+            AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
     WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
         
 GO
@@ -99,7 +115,13 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
     [SfaContributionPercentage],
     [LevyNonPayIndicator],
 	[LearnAimRef] ,
-	[LearningStartDate] )
+	[LearningStartDate],
+	[LearningPlannedEndDate],
+	[LearningActualEndDate] ,
+	[CompletionStatus],
+	[CompletionAmount],
+	[TotalInstallments],
+	[MonthlyInstallment]  )
     SELECT
         p.[Ukprn],
         l.[ULN],
@@ -118,13 +140,22 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
         p.[LearnDelSFAContribPct] AS [SfaContributionPercentage],
         p.[LearnDelLevyNonPayInd] AS [LevyNonPayIndicator],
 		ld.LearnAimRef,
-		ld.LearnStartDate	
+		ld.LearnStartDate,
+		ld.LearnPlanEndDate,
+		ld.LearnActEndDate,
+		ld.CompStatus,
+		0,
+		aecld.PlannedNumOnProgInstalm,
+		1
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
         JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]
         JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
             AND p.[LearnRefNumber] = ld.[LearnRefNumber]
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON p.[Ukprn] = aecld.[Ukprn]
+            AND p.[LearnRefNumber] = aecld.[LearnRefNumber]
+            AND p.[AimSeqNumber] = aecld.[AimSeqNumber]
 		
     WHERE ld.[LearnAimRef] != 'ZPROG001'
 GO

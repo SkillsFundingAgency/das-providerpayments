@@ -156,3 +156,37 @@ SELECT
 	LearningStartDate
 FROM PaymentsDue.RequiredPayments
 GO
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_RequiredPayments
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_EarningsToPayments' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+    DROP VIEW PaymentsDue.vw_EarningsToPayments
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_EarningsToPayments
+AS
+SELECT 
+	rp.Id as RequiredPaymentId,
+	ae.MonthlyInstallment As MonthlyInstallment,
+	ae.LearningStartDate As StartDate,
+	ae.LearningPlannedEndDate As PlannedEndDate ,
+	ae.LearningActualEndDate as ActualEndDate,
+	ae.CompletionStatus,
+	ae.CompletionAmount,
+	ae.TotalInstallments
+
+  FROM PaymentsDue.RequiredPayments rp
+  JOIN 	[PaymentsDue].[vw_ApprenticeshipEarning] ae
+	on rp.Ukprn = ae.Ukprn
+	And rp.Uln = ae.Uln
+	And rp.LearnRefNumber = ae.LearnRefNumber
+	And rp.LearnAimRef = ae.LearnAimRef
+	And rp.AimSeqNumber = ae.AimSeqNumber
+	And rp.PriceEpisodeIdentifier =ae.PriceEpisodeIdentifier
+	And case When DeliveryMonth between 1 and 7 Then DeliveryMonth + 5 Else DeliveryMonth - 7 END =  ae.Period  
+	And rp.TransactionType = ae.TransactionType
+GO	
