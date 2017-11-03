@@ -148,31 +148,31 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\06 PeriodEnd.Populate.Reference.Accounts.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\06 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\06 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql">
-      <Link>Tools\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
+      <Link>Utilities\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql">
@@ -204,19 +204,19 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql">
-      <Link>Tools\Sql\Copy Reference Data\03 ilr.Populate.Reference.Accounts.dml.sql</Link>
+      <Link>Utilities\Sql\Copy Reference Data\03 ilr.Populate.Reference.Accounts.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql">
-      <Link>Tools\Sql\Deds Cleanup\Ilr.DataLock.Cleanup.Deds.DML.sql</Link>
+      <Link>Utilities\Sql\Deds Cleanup\Ilr.DataLock.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql">
