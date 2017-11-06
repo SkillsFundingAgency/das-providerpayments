@@ -33,7 +33,13 @@ SELECT
 		IsNull(pem.IsSuccess,0) As IsSuccess, 
 		IsNull(pepm.Payable,0) As Payable,
 		ade.LearnAimref,
-		ade.LearningStartDate 
+		ade.LearningStartDate ,
+		ade.LearningPlannedEndDate,
+		ade.LearningActualEndDate ,
+		ade.CompletionStatus,
+		ade.CompletionAmount,
+		ade.TotalInstallments ,
+		ade.MonthlyInstallment	
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae

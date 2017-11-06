@@ -122,5 +122,44 @@
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
+    <TableMapping>
+      <Source>[PaymentsDue].[vw_EarningsToPayments]</Source>
+      <Destination>[PaymentsDue].[Earnings]</Destination>
+      <Ordinal>2</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>RequiredPaymentId</Source>
+          <Destination>RequiredPaymentId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>StartDate</Source>
+          <Destination>StartDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PlannedEndDate</Source>
+          <Destination>PlannedEndDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ActualEnddate</Source>
+          <Destination>ActualEnddate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CompletionStatus</Source>
+          <Destination>CompletionStatus</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CompletionAmount</Source>
+          <Destination>CompletionAmount</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>MonthlyInstallment</Source>
+          <Destination>MonthlyInstallment</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>TotalInstallments</Source>
+          <Destination>TotalInstallments</Destination>
+        </ColumnMapping>
+      </ColumnMappings>
+    </TableMapping>
   </TableMappings>
 </CopyCatConfig>
