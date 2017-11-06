@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using CS.Common.External.Interfaces;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
-using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities;
 using SFA.DAS.Payments.DCFS.Context;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Context;
+using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.AcceptanceCriteria
 {

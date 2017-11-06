@@ -111,6 +111,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.sprocs.sql">
+      <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.Tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -175,6 +179,14 @@
       <Link>Utilities\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql">
+      <Link>DbSetupScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.sprocs.sql">
+      <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.sprocs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql">
       <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -225,6 +237,10 @@
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql">
       <Link>DbSetupScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql">
+      <Link>DbSetupScripts\3_Ilr.Deds.DataLock.Tables.Index.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasCommitments.deds.DDL.sql">

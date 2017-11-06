@@ -55,8 +55,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 {
                     // Component scripts
                     RunSqlScript(@"Ilr.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Ilr.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                     RunSqlScript(@"1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
                     RunSqlScript(@"2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"3_Ilr.Deds.DataLock.Tables.Index.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
                 }
                 finally
                 {
@@ -87,7 +89,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
 
-
+                    RunSqlScript(@"PeriodEnd.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
@@ -106,6 +108,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 {
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"PeriodEnd.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                 }
                 finally
                 {

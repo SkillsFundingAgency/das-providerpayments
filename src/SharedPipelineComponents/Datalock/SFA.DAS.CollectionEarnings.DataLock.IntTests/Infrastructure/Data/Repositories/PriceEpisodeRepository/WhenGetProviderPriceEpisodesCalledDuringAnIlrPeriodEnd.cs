@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
-using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools;
+using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Data.Repositories.PriceEpisodeRepository
 {

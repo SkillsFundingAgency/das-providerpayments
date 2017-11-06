@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
-using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools;
+using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Data.Repositories.CommitmentRepository
@@ -23,8 +23,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
         public void Arrange()
         {
             TestDataHelper.Clean();
-            TestDataHelper.AddProvider(_ukprn);
-
+            
             _commitmentRepository = new DataLock.Infrastructure.Data.Repositories.CommitmentRepository(GlobalTestContext.Instance.SubmissionConnectionString);
         }
 

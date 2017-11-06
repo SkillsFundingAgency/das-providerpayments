@@ -3,10 +3,10 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using Dapper;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
+namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 {
     public class TestDataHelper
     {
@@ -161,6 +161,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
 
         internal static void AddProvider(long ukprn)
         {
+            AddProvider(ukprn, GlobalTestContext.Instance.SubmissionDedsConnectionString);
             Execute(GlobalTestContext.Instance.SubmissionConnectionString,
                 "INSERT INTO [Input].[LearningProvider] (LearningProvider_Id, UKPRN) VALUES (@id, @ukprn)",
                 new
@@ -172,16 +173,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
 
         internal static void AddValidProvider(long ukprn, bool inDeds = false)
         {
-            var connectionString = inDeds
-                ? GlobalTestContext.Instance.SubmissionDedsConnectionString
-                : GlobalTestContext.Instance.SubmissionConnectionString;
-
-            Execute(connectionString,
-                "INSERT INTO [Valid].[LearningProvider] (UKPRN) VALUES (@ukprn)",
-                new
-                {
-                    ukprn = ukprn
-                });
+            AddProvider(ukprn, GlobalTestContext.Instance.SubmissionDedsConnectionString);
+            AddProvider(ukprn, GlobalTestContext.Instance.SubmissionConnectionString);
         }
 
         internal static void AddValidLearner(long uln, bool inDeds = false)
@@ -220,13 +213,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
 
         internal static void PeriodEndAddProvider(long ukprn)
         {
-            Execute(GlobalTestContext.Instance.PeriodEndConnectionString,
-                "INSERT INTO [Valid].[LearningProvider] (UKPRN) VALUES (@ukprn)",
-                new
-                {
-                    ukprn = ukprn
-                });
-
+            AddProvider(ukprn, GlobalTestContext.Instance.PeriodEndDedsConnectionString);
+            AddProvider(ukprn, GlobalTestContext.Instance.PeriodEndConnectionString);
 
             Execute(GlobalTestContext.Instance.PeriodEndConnectionString,
                 "INSERT INTO dbo.FileDetails (UKPRN, SubmittedTime) VALUES (@ukprn, @submittedTime)",
@@ -252,6 +240,16 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Tools
             Execute(connectionString,
                 " INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod]) " +
                 " VALUES (1617,1, 'R01','1617-R01','', 8, 2016, 1, 201608)");
+        }
+
+        private static void AddProvider(long ukprn, string connectionString)
+        {
+            Execute(connectionString,
+                   "INSERT INTO [Valid].[LearningProvider] (UKPRN) VALUES (@ukprn)",
+                   new
+                   {
+                       ukprn = ukprn
+                   });
         }
 
         internal static PriceEpisodeMatchEntity[] GetPriceEpisodeMatches(bool inDeds = false)
