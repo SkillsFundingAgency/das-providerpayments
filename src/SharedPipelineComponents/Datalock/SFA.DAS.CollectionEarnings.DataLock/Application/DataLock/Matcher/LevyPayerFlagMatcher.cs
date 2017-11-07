@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
-    public class LevyPayerFlagMatcher :MatchHandler
+    public class LevyPayerFlagMatcher : MatchHandler
     {
         public LevyPayerFlagMatcher(MatchHandler nextMatchHandler) :
                 base(nextMatchHandler)
@@ -24,8 +24,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.ErrorCodes.Add(DataLockErrorCodes.NotLevyPayer);
             }
 
-            matchResult.Commitments = commitments.ToArray();
-            return ExecuteNextHandler(commitments, priceEpisode,dasAccounts, matchResult);
+
+            return ExecuteNextHandler(commitments, priceEpisode, dasAccounts, matchResult);
         }
     }
 }
