@@ -29,7 +29,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         {
             try
             {
-                
+
                 var validationErrors = new ConcurrentBag<ValidationError.ValidationError>();
                 var priceEpisodeMatches = new ConcurrentBag<PriceEpisodeMatch.PriceEpisodeMatch>();
                 var priceEpisodePeriodMatches = new ConcurrentBag<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
@@ -44,7 +44,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                         var priceEpisode = priceEpisodes[x];
 
                         // Execute the matching chain
-                        var matchResult = _initialHandler.Match(message.Commitments.ToList(), priceEpisode,message.DasAccounts.ToList());
+                        var matchResult = _initialHandler.Match(message.Commitments.ToList(), priceEpisode, message.DasAccounts.ToList());
 
                         if (matchResult.ErrorCodes.Count > 0)
                         {
@@ -123,8 +123,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                         c.ProgrammeType == matchedCommitment.ProgrammeType &&
                         c.FrameworkCode == matchedCommitment.FrameworkCode &&
                         c.PathwayCode == matchedCommitment.PathwayCode &&
-                        (c.VersionId.Contains("-")  ? long.Parse(c.VersionId.Split('-')[1]) : long.Parse(c.VersionId)) >=
-                        (matchedCommitment.VersionId.Contains("-") ? long.Parse(matchedCommitment.VersionId.Split('-')[1]) : long.Parse(matchedCommitment.VersionId)) 
+                        (c.VersionId.Contains("-") ? long.Parse(c.VersionId.Split('-')[1]) : long.Parse(c.VersionId)) >=
+                        (matchedCommitment.VersionId.Contains("-") ? long.Parse(matchedCommitment.VersionId.Split('-')[1]) : long.Parse(matchedCommitment.VersionId))
                 )
                 .ToArray();
         }
@@ -145,7 +145,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                     periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, matchingCommitment, period, censusDate));
                 }
 
-                periodMatches.AddRange(GetIncentivePriceEpisodePeriodMatches(priceEpisode, commitments,period));
+                periodMatches.AddRange(GetIncentivePriceEpisodePeriodMatches(priceEpisode, commitments, period));
 
                 censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                 period++;
@@ -159,14 +159,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 {
                     periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, matchingCommitment, period, priceEpisode.EndDate));
                 }
-                periodMatches.AddRange(GetIncentivePriceEpisodePeriodMatches(priceEpisode, commitments,period));
+                periodMatches.AddRange(GetIncentivePriceEpisodePeriodMatches(priceEpisode, commitments, period));
 
             }
 
             return periodMatches.ToArray();
         }
 
-        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] GetIncentivePriceEpisodePeriodMatches(PriceEpisode.PriceEpisode priceEpisode, Commitment.Commitment[] commitments,int period)
+        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] GetIncentivePriceEpisodePeriodMatches(PriceEpisode.PriceEpisode priceEpisode, Commitment.Commitment[] commitments, int period)
         {
             var periodMatches = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
@@ -190,7 +190,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
 
         }
 
-  
+
         private DateTime CalculateFirstCensusDateForThePriceEpisode(PriceEpisode.PriceEpisode priceEpisode)
         {
             var firstCensusDateAfterYearOfCollectionStart = _dateTimeProvider.YearOfCollectionStart.LastDayOfMonth();
@@ -270,11 +270,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         {
             var priceEpisodePeriodMacthes = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
-            var allEarningsPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
+            var isPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
 
             var firstIncentivePayable = IsIncentivePayable(priceEpisode.FirstAdditionalPaymentThresholdDate, commitment, periodDate);
-            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.First16To18EmployerIncentive, allEarningsPayable || firstIncentivePayable));
-            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.First16To18ProviderIncentive, allEarningsPayable || firstIncentivePayable));
+            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.First16To18EmployerIncentive, isPayable && firstIncentivePayable));
+            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.First16To18ProviderIncentive, isPayable && firstIncentivePayable));
 
             return priceEpisodePeriodMacthes.ToArray();
 
@@ -284,11 +284,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         {
             var priceEpisodePeriodMacthes = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
-            var allEarningsPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
+            var isPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
 
             var secondIncentivePayable = IsIncentivePayable(priceEpisode.SecondAdditionalPaymentThresholdDate, commitment, periodDate);
-            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.Second16To18EmployerIncentive, allEarningsPayable || secondIncentivePayable));
-            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.Second16To18ProviderIncentive, allEarningsPayable || secondIncentivePayable));
+            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.Second16To18EmployerIncentive, isPayable && secondIncentivePayable));
+            priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionType.Second16To18ProviderIncentive, isPayable && secondIncentivePayable));
 
 
             return priceEpisodePeriodMacthes.ToArray();
@@ -301,8 +301,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             if (!threshholdDate.HasValue)
                 return false;
 
-            
-            if (threshholdDate.Value >= commitment.EffectiveFrom 
+
+            if (threshholdDate.Value >= commitment.EffectiveFrom
                 && (!commitment.EffectiveTo.HasValue || threshholdDate < commitment.EffectiveTo))
             {
                 return true;

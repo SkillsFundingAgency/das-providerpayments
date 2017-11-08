@@ -6,12 +6,13 @@ using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Context;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
-using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
+using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 {
@@ -401,7 +402,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
                     .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Cancelled)
                     .WithAgreedCost(7500)
                     .Build()
-             
+
             };
 
             TestDataHelper.PeriodEndExecuteScript("PeriodEndLearnerFirstIncentiveThreshhold.sql");
@@ -422,13 +423,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
             var priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 4);
 
             Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x=> x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive && x.VersionId == "1-001" && x.CommitmentId ==1).Payable);
+            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive && x.VersionId == "1-001" && x.CommitmentId == 1).Payable);
             Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive && x.VersionId == "1-001" && x.CommitmentId == 1).Payable);
 
             Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.VersionId == "1-002" && x.CommitmentId == 1).Payable);
             Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Completion && x.VersionId == "1-002" && x.CommitmentId == 1).Payable);
             Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Balancing && x.VersionId == "1-002" && x.CommitmentId == 1).Payable);
-            
+
         }
 
         [Test]
@@ -548,7 +549,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 
             // Assert
             var priceEpisodeMatches = TestDataHelper.PeriodEndGetPriceEpisodeMatches();
-            var period1PeriodMatches = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false,1);
+            var period1PeriodMatches = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 1);
             var period2PeriodMatches = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 2);
             var period3PeriodMatches = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 3);
 
@@ -569,8 +570,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
         }
 
 
+
         [Test]
-        public void ThenWhereOnProgrammeMatchesToDifferentVersionForDifferentPeriods()
+        public void ThenWhereWithdrawnCommitmentVersionIsMatchedForAllPayments()
         {
             // Arrange
             _context.Properties[DataLockContextPropertyKeys.YearOfCollection] = "1718";
@@ -582,38 +584,27 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
                     .WithStartDate(new DateTime(2017, 8, 1))
                     .WithEndDate(new DateTime(2018, 08, 01))
                     .WithEffectiveFrom(new DateTime(2017, 8, 1))
-                    .WithEffectiveTo(new DateTime(2017, 9, 27))
-                    .WithVersionId("891")
-                    .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Active)
+                    .WithVersionId("198232-001")
+                    .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Cancelled)
                     .WithAgreedCost(7500)
                     .Build(),
                 new CommitmentEntityBuilder()
+                    .WithCommitmentId(23)
                     .WithStandardCode(27)
                     .WithStartDate(new DateTime(2017, 8, 1))
                     .WithEndDate(new DateTime(2018, 08, 01))
-                    .WithEffectiveFrom(new DateTime(2017, 9, 28))
-                    .WithEffectiveTo(new DateTime(2017, 9, 28))
-                    .WithVersionId("52947")
+                    .WithEffectiveFrom(new DateTime(2017, 8, 1))
+                    .WithVersionId("198232-002")
                     .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Active)
-                    .WithAgreedCost(7500)
+                    .WithAgreedCost(100)
                     .Build()
-                    ,
-                new CommitmentEntityBuilder()
-                    .WithStandardCode(27)
-                    .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(new DateTime(2018, 08, 01))
-                    .WithEffectiveFrom(new DateTime(2017, 9, 29))
-                    .WithVersionId("54450")
-                    .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Active)
-                    .WithAgreedCost(7500)
-                    .Build()
+
 
             };
 
             TestDataHelper.PeriodEndExecuteScript("PeriodEndLearnerFirstIncentiveThreshhold.sql");
             SetupCommitmentData(commitments[0]);
             SetupCommitmentData(commitments[1]);
-            SetupCommitmentData(commitments[2]);
             SetupAccountData(new DasAccountBuilder().Build());
 
             TestDataHelper.PeriodEndCopyReferenceData();
@@ -628,20 +619,70 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 
             var priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 1);
             Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.VersionId == "891" && x.CommitmentId == 1).Payable);
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.Payable));
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive && x.Payable));
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive && x.Payable));
 
-            priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 2);
-            Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.VersionId == "54450" && x.CommitmentId == 1).Payable);
 
             priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 3);
             Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.VersionId == "54450" && x.CommitmentId == 1).Payable);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive && x.VersionId == "54450" && x.CommitmentId == 1).Payable);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive && x.VersionId == "54450" && x.CommitmentId == 1).Payable);
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning && x.Payable));
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive && x.Payable));
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive && x.Payable));
 
+
+            //There should not be anything attached to 23 commitment id
+            var priceEpisodeMatches = TestDataHelper.GetPriceEpisodePeriodMatches(false);
+            Assert.IsEmpty(priceEpisodeMatches.Where(x => x.CommitmentId == 23));
 
         }
 
+
+        [Test]
+        public void ThenWhereThereIsOnlyWithdrawnCommitmentItShouldNotpayaAnyEarnings()
+        {
+            // Arrange
+            _context.Properties[DataLockContextPropertyKeys.YearOfCollection] = "1718";
+
+            var commitments = new[]
+            {
+                new CommitmentEntityBuilder()
+                    .WithStandardCode(27)
+                    .WithStartDate(new DateTime(2017, 8, 1))
+                    .WithEndDate(new DateTime(2018, 08, 01))
+                    .WithEffectiveFrom(new DateTime(2017, 8, 1))
+                    .WithVersionId("198232-001")
+                    .WithPaymentStatus(UnitTests.Tools.Enums.PaymentStatus.Cancelled)
+                    .WithAgreedCost(7500)
+                    .Build()
+
+
+            };
+
+            TestDataHelper.PeriodEndExecuteScript("PeriodEndLearnerFirstIncentiveThreshhold.sql");
+            SetupCommitmentData(commitments[0]);
+            SetupAccountData(new DasAccountBuilder().Build());
+
+            TestDataHelper.PeriodEndCopyReferenceData();
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var errors = TestDataHelper.PeriodEndGetValidationErrors();
+
+            Assert.IsNotNull(errors);
+            Assert.AreEqual(0, errors.Length);
+
+            var priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 1);
+            Assert.IsTrue(priceEpisodePayable.Length > 0);
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.Payable));
+
+            priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriodEnd(false, 3);
+            Assert.IsTrue(priceEpisodePayable.Length > 0);
+            Assert.IsEmpty(priceEpisodePayable.Where(x => x.Payable));
+
+
+
+        }
     }
 }
