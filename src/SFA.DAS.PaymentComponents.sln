@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -199,8 +199,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{4844093B-F58
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{B1060E2A-D8B9-452F-AA4D-421111977726}"
 	ProjectSection(SolutionItems) = preProject
-		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.populate.reference.history.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.populate.reference.history.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.PreRun.DataLockEvents.PopulateDataLockEventsData.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\01 datalock.PreRun.DataLockEvents.PopulateDataLockEventsData.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\02 datalock.populate.reference.history.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\02 datalock.populate.reference.history.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\03 datalock.populate.reference.datalockeventperiods.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\03 datalock.populate.reference.datalockeventperiods.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\04 datalock.populate.reference.datalockeventerrors.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\04 datalock.populate.reference.datalockeventerrors.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\05 datalock.populate.reference.datalockeventcommitmentversions.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\dml\05 datalock.populate.reference.datalockeventcommitmentversions.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{15971D37-26F3-48B6-8A51-8E5B04A9742C}"
