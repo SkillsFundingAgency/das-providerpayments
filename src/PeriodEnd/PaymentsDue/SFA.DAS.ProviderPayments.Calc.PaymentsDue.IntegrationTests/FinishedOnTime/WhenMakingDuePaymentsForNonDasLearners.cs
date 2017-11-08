@@ -27,7 +27,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
                             StartDate =new DateTime(2016,8,10),
                             PlannedEndDate =new DateTime(2017,8,10),
                             ActualEndDate = new DateTime(2017,06,10),
-                            CompletionStatus=2
+                            CompletionStatus=2,
+                            EndpointAssessorId="test assessor"
             }
 
         };
@@ -505,7 +506,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, 
                                                 uln: uln,numberOfPeriods:periods,
-                                                completionStatus:sourceData.CompletionStatus,actualEndDate:sourceData.ActualEndDate);
+                                                completionStatus:sourceData.CompletionStatus,actualEndDate:sourceData.ActualEndDate,opaOrgId:sourceData.EndpointAssessorId);
 
             TestDataHelper.CopyReferenceData();
 
@@ -528,6 +529,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(earningsToPayments.CompletionAmount, 12000 * 0.2);
             Assert.AreEqual(earningsToPayments.MonthlyInstallment, 15000 *0.8/periods);
             Assert.AreEqual(earningsToPayments.CompletionStatus, sourceData.CompletionStatus);
+            Assert.AreEqual(earningsToPayments.EndpointAssessorId, sourceData.EndpointAssessorId);
 
 
         }
