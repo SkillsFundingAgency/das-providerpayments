@@ -38,7 +38,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[CompletionStatus],
 	[CompletionAmount],
 	[TotalInstallments],
-	[MonthlyInstallment] )
+	[MonthlyInstallment],
+	[EndpointAssessorId] 
+	)
     SELECT
         pe.[Ukprn],
         l.[Uln],
@@ -76,7 +78,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 		ld.CompStatus,
 		pe.PriceEpisodeCompletionElement,
 		aecld.PlannedNumOnProgInstalm,
-		pe.PriceEpisodeInstalmentValue
+		pe.PriceEpisodeInstalmentValue,
+		ld.EPAOrgId
 			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
         JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
@@ -121,7 +124,8 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 	[CompletionStatus],
 	[CompletionAmount],
 	[TotalInstallments],
-	[MonthlyInstallment]  )
+	[MonthlyInstallment] ,
+	[EndpointAssessorId] )
     SELECT
         p.[Ukprn],
         l.[ULN],
@@ -146,7 +150,8 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 		ld.CompStatus,
 		0,
 		aecld.PlannedNumOnProgInstalm,
-		1
+		1,
+		ld.EPAOrgId
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
         JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]
