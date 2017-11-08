@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
                             PlannedEndDate =new DateTime(2017,8,10),
                             ActualEndDate = new DateTime(2017,06,10),
                             CompletionStatus=2,
-                            EndpointAssessorId="test assessor"
+                            EndpointAssessorId="test-as"
             }
 
         };
