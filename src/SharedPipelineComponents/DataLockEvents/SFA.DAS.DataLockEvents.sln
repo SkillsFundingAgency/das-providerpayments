@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock", "..\Datalock\SFA.DAS.CollectionEarnings.DataLock\SFA.DAS.CollectionEarnings.DataLock.csproj", "{E0B60D5B-969C-4C05-A636-27788CD19BE0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.IntegrationTests", "..\Datalock\SFA.DAS.CollectionEarnings.DataLock.IntTests\SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.csproj", "{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.DataLock.UnitTests", "..\Datalock\SFA.DAS.CollectionEarnings.DataLock.UnitTests\SFA.DAS.CollectionEarnings.DataLock.UnitTests.csproj", "{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{54862A3A-799B-4C99-AD4E-E29B7714FE2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS", "..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj", "{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.DCFS.StructureMap", "..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.StructureMap\SFA.DAS.Payments.DCFS.StructureMap.csproj", "{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock", "SFA.DAS.Provider.Events.DataLock\SFA.DAS.Provider.Events.DataLock.csproj", "{FA1F038D-F0A5-4A3E-A642-62D294E5521D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock.IntegrationTests", "SFA.DAS.Provider.Events.DataLock.IntegrationTests\SFA.DAS.Provider.Events.DataLock.IntegrationTests.csproj", "{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Provider.Events.DataLock.UnitTests", "SFA.DAS.Provider.Events.DataLock.UnitTests\SFA.DAS.Provider.Events.DataLock.UnitTests.csproj", "{5011105D-1ED2-4682-A53E-61CF8A2FF902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0B60D5B-969C-4C05-A636-27788CD19BE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEC69F7C-7A69-4EBD-9AF3-5A225B938A71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79593EF5-9F58-4E91-BE67-C5D20EE0DBC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +29,18 @@ Global
 		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51C3F2CE-8E30-4DAA-9EDB-5BF7B779C749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1F038D-F0A5-4A3E-A642-62D294E5521D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A595E5F-955C-4B4A-B99F-36F6F4E7D076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5011105D-1ED2-4682-A53E-61CF8A2FF902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

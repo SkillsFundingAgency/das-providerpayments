@@ -62,3 +62,9 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	LearningStartDate datetime	
 )
 GO
+
+
+USE [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
+GO
+CREATE NONCLUSTERED INDEX [<Name of Missing Index, sysname,>]
+ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
