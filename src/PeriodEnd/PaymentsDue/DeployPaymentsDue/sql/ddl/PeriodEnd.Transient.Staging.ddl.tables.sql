@@ -121,6 +121,7 @@ CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 	CompletionAmount decimal(15,5),
 	TotalInstallments int NOT NULL	,
 	MonthlyInstallment decimal(15,5) NOT NULL,
+	EndpointAssessorId varchar(7)
 )
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -178,6 +179,7 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	CompletionAmount decimal(15,5),
 	TotalInstallments int NOT NULL	,
 	MonthlyInstallment decimal(15,5) NOT NULL,
+	EndpointAssessorId varchar(7)
 )
 GO
 
@@ -233,6 +235,7 @@ CREATE TABLE Staging.ApprenticeshipEarnings1
 	CompletionAmount decimal(15,5),
 	TotalInstallments int NOT NULL,
 	MonthlyInstallment decimal(15,5) NOT NULL,
+	EndpointAssessorId varchar(7)
 )
 GO
 
@@ -279,6 +282,7 @@ CREATE TABLE Staging.ApprenticeshipEarnings2
 	CompletionAmount decimal(15,5),
 	TotalInstallments int NOT NULL		,
 	MonthlyInstallment decimal(15,5) NOT NULL,
+	EndpointAssessorId varchar(7)
 )
 GO
 
@@ -324,7 +328,8 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	CompletionStatus int,
 	CompletionAmount decimal(15,5),
 	TotalInstallments int NOT NULL,
-	MonthlyInstallment	decimal(15,5) not null
+	MonthlyInstallment	decimal(15,5) not null,
+	EndpointAssessorId varchar(7)
 )
 GO
 

@@ -48,7 +48,8 @@ SELECT
 	ae.CompletionStatus,
 	ae.CompletionAmount,
 	ae.TotalInstallments ,	
-	ae.MonthlyInstallment
+	ae.MonthlyInstallment,
+	ae.EndpointAssessorId 
 FROM Staging.ApprenticeshipEarnings ae
 WHERE ae.EpisodeStartDate >= (
     Select
