@@ -13,6 +13,7 @@
         PeriodEndScripts = 9,
         DataLockEvents = 10,
         SubmissionEvents = 11,
-        ManualAdjustments = 12
+        ManualAdjustments = 12,
+        AllComponents = 99,
     }
 }
