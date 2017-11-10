@@ -151,6 +151,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql
+		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{A239066C-AB6C-433D-B0C8-53A06D671A09}"
@@ -178,6 +179,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql
+		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\4_Ilr.Deds.DataLock.Tables.Add_new_column.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\4_Ilr.Deds.DataLock.Tables.Add_new_column.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{6B20CCA5-0791-44AB-814F-A80A8A0A99AC}"

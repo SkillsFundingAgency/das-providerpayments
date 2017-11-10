@@ -10,9 +10,12 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodeMatch.AddPrice
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatch.AddPriceEpisodePeriodMatchesCommand;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Provider.GetProvidersQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.ValidationError.AddValidationErrorsCommand;
-using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatch.RemovePriceEpisodePeriodMatchesCommand;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
+using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
+using System.Collections.Generic;
+using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using System.Linq;
 
 namespace SFA.DAS.CollectionEarnings.DataLock
 {
@@ -47,10 +50,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
                     var commitments = ReturnProviderCommitmentsOrThrow(provider.Ukprn);
                     var priceEpisodes = ReturnValidGetProviderPriceEpisodesQueryResponseOrThrow(provider.Ukprn);
-
+                 
                     if (priceEpisodes.HasAnyItems())
                     {
-                        var dataLockValidationResult = ReturnDataLockValidationResultOrThrow(commitments, priceEpisodes.Items, dasAccountsQueryResponse.Items);
+                        var dataLockValidationResult = ReturnDataLockValidationResultOrThrow(commitments, priceEpisodes.Items, dasAccountsQueryResponse.Items,incentiveEarnings.Items);
 
                         WriteDataLockValidationErrorsOrThrow(dataLockValidationResult);
                         WriteDataLockPriceEpisodeMatches(dataLockValidationResult);
@@ -62,18 +65,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     }
                 }
 
-                //remove extra price episode period matches
-                try
-                {
-                    _mediator.Send(new RemovePriceEpisodePeriodMatchesCommandRequest
-                    {
-                        //
-                    });
-                }
-                catch (Exception ex)
-                {
-                    throw new DataLockException(DataLockException.ErrorDeletingPriceEpisodePeriodMatchesMessage, ex);
-                }
+            
             }
             else
             {
@@ -143,7 +135,31 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             return priceEpisodesQueryResponse;
         }
 
-        private RunDataLockValidationQueryResponse ReturnDataLockValidationResultOrThrow(Commitment[] commitments, PriceEpisode[] priceEpisodes, DasAccount[] dasAccounts )
+
+        private Get16To18IncentiveEarningsQueryResponse ReturnValidGetIncentiveEarningsQueryResponseOrThrow(long ukprn)
+        {
+            _logger.Info($"Reading incentive earnings for provider with ukprn {ukprn}.");
+
+            var response = _mediator.Send(new Get16To18IncentiveEarningsQueryRequest
+            {
+                Ukprn = ukprn
+            });
+
+            if (!response.IsValid)
+            {
+                throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, response.Exception);
+            }
+
+        
+
+            return response;
+        }
+
+        private RunDataLockValidationQueryResponse ReturnDataLockValidationResultOrThrow(
+                                                Commitment[] commitments, 
+                                                PriceEpisode[] priceEpisodes, 
+                                                DasAccount[] dasAccounts,
+                                                List<IncentiveEarnings> incentiveEarnings)
         {
             _logger.Info("Started Data Lock Validation.");
 
@@ -152,7 +168,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                 {
                     Commitments = commitments,
                     PriceEpisodes = priceEpisodes,
-                    DasAccounts = dasAccounts
+                    DasAccounts = dasAccounts,
+                    IncentiveEarnings = incentiveEarnings
                 });
 
             _logger.Info("Finished Data Lock Validation.");

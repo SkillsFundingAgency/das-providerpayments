@@ -5,7 +5,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data
     public interface IPriceEpisodePeriodMatchRepository
     {
         void AddPriceEpisodePeriodMatches(PriceEpisodePeriodMatchEntity[] priceEpisodePeriodMatches);
-        void RemoveExtraPriceEpisodePeriodMatches();
 
     }
 }

@@ -53,5 +53,23 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode.GetProvid
                 };
             }
         }
+
+
+        private Get16To18IncentiveEarningsQueryResponse ReturnValidGetIncentiveEarningsQueryResponseOrThrow(long ukprn)
+        {
+            _logger.Info($"Reading incentive earnings for provider with ukprn {ukprn}.");
+
+            var response = _mediator.Send(new Get16To18IncentiveEarningsQueryRequest
+            {
+                Ukprn = ukprn
+            });
+
+            if (!response.IsValid)
+            {
+                throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, response.Exception);
+            }
+
+            return response;
+        }
     }
 }

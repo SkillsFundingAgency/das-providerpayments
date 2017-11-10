@@ -19,9 +19,5 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
             ExecuteBatch(priceEpisodePeriodMatches, PriceEpisodePeriodMatchDestination);
         }
 
-        public void RemoveExtraPriceEpisodePeriodMatches()
-        {
-            Execute(DeleteExtraPriceEpisodePeriodMatchesProc);
-        }
     }
 }
