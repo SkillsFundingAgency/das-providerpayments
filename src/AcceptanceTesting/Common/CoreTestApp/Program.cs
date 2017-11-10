@@ -254,15 +254,7 @@ namespace CoreTestApp
             WriteLine();
         }
 
-        private static void RebuildDedsDatabase()
-        {
-            var componentType = GetComponentType();
-            if ((int)componentType < 1)
-            {
-                return;
-            }
-        }
-        private static void RebuildDedsDatabase(ComponentType componentType)
+        private static void RebuildDedsDatabase(ComponentType componentType = ComponentType.AllComponents)
         {
             try
             {
@@ -271,8 +263,13 @@ namespace CoreTestApp
                 if ((int)componentType == 99)
                 {
                     var values = Enum.GetValues(typeof(ComponentType));
+                    
                     foreach (ComponentType value in values)
                     {
+                        if (value == ComponentType.AllComponents)
+                        {
+                            continue;
+                        }
                         WriteLine($"Rebuilding DEDS for {value}");
                         processService.RebuildDedsDatabase(value, _environmentVariables, _statusWatcher);
                     }
