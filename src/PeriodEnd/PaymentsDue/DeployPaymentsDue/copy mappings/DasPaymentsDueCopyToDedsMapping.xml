@@ -159,9 +159,9 @@
           <Source>TotalInstallments</Source>
           <Destination>TotalInstallments</Destination>
         </ColumnMapping>
-		<ColumnMapping>
-          <Source>EndPointAssessorId</Source>
-          <Destination>EndPointAssessorId</Destination>
+	<ColumnMapping>
+          <Source>EndpointAssessorId</Source>
+          <Destination>EndpointAssessorId</Destination>
         </ColumnMapping>
 		
       </ColumnMappings>
