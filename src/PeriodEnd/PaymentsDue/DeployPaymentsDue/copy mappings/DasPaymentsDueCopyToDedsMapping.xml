@@ -159,6 +159,11 @@
           <Source>TotalInstallments</Source>
           <Destination>TotalInstallments</Destination>
         </ColumnMapping>
+	<ColumnMapping>
+          <Source>EndpointAssessorId</Source>
+          <Destination>EndpointAssessorId</Destination>
+        </ColumnMapping>
+		
       </ColumnMappings>
     </TableMapping>
   </TableMappings>
