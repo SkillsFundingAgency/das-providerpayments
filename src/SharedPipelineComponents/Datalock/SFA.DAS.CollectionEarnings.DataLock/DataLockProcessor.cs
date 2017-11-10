@@ -50,10 +50,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
                     var commitments = ReturnProviderCommitmentsOrThrow(provider.Ukprn);
                     var priceEpisodes = ReturnValidGetProviderPriceEpisodesQueryResponseOrThrow(provider.Ukprn);
-                 
+
                     if (priceEpisodes.HasAnyItems())
                     {
-                        var dataLockValidationResult = ReturnDataLockValidationResultOrThrow(commitments, priceEpisodes.Items, dasAccountsQueryResponse.Items,incentiveEarnings.Items);
+                        var dataLockValidationResult = ReturnDataLockValidationResultOrThrow(commitments, priceEpisodes.Items, dasAccountsQueryResponse.Items, incentiveEarnings.Items);
 
                         WriteDataLockValidationErrorsOrThrow(dataLockValidationResult);
                         WriteDataLockPriceEpisodeMatches(dataLockValidationResult);
@@ -65,7 +65,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     }
                 }
 
-            
+
             }
             else
             {
@@ -132,6 +132,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                 throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, priceEpisodesQueryResponse.Exception);
             }
 
+            var incentiveEarnings = ReturnValidGetIncentiveEarningsQueryResponseOrThrow(ukprn);
+            priceEpisodesQueryResponse.Items.ToList().ForEach(x => x.IncentiveEarnings = incentiveEarnings.);
+
+
             return priceEpisodesQueryResponse;
         }
 
@@ -150,14 +154,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                 throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, response.Exception);
             }
 
-        
+
 
             return response;
         }
 
         private RunDataLockValidationQueryResponse ReturnDataLockValidationResultOrThrow(
-                                                Commitment[] commitments, 
-                                                PriceEpisode[] priceEpisodes, 
+                                                Commitment[] commitments,
+                                                PriceEpisode[] priceEpisodes,
                                                 DasAccount[] dasAccounts,
                                                 List<IncentiveEarnings> incentiveEarnings)
         {
