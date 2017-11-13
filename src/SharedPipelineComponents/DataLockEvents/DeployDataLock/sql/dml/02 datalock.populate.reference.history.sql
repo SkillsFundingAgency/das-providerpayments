@@ -1,4 +1,3 @@
-/* ------ Test Setup */
 /* +++++ Monitoring setup */
 DECLARE @Now DATETIME 
 DECLARE @timestamp VARCHAR(255)
@@ -7,12 +6,11 @@ DECLARE @operation NVARCHAR(255) = 'undefined'
 DECLARE @start NVARCHAR(255) = N'Start: %s %s.'
 DECLARE @finish NVARCHAR(255) = N'Finish: %s, took %d ms.'
 DECLARE @logsource varchar(max) = '02 datalock populate reference history'
-
 /* ----- Monitoring setup */
 
 /* +++++ start pre-op monitoring */
 SELECT @Now = GETDATE()
-SET @operation = 'Preparing local environment'
+SET @operation = 'Drop Target Table Keys, Constraints and Indexes'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
@@ -59,7 +57,7 @@ SELECT NEWID(), 	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timest
 
 /* +++++ start pre-op monitoring */
 SELECT @Now = GETDATE()
-SET @operation = 'Establish run-time Provider scope'
+SET @operation = 'Establish Provider scope'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
@@ -85,7 +83,7 @@ SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timesta
 
 /* +++++ start pre-op monitoring */
 SELECT @Now = GETDATE()
-SET @operation = 'Pull of Datalocks from remote server'
+SET @operation = 'Pull of all Provider Datalocks from remote server'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
@@ -156,7 +154,7 @@ SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timesta
 
 /* +++++ start pre-op monitoring */
 SELECT @Now = GETDATE()
-SET @operation = 'Re-Apply Local indexes'
+SET @operation = 'Re-Apply Target table Keys, Constrtaints and Indexes'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
@@ -199,7 +197,6 @@ END
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-RAISERROR (		'All operations are now on the local server',		10,		0		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
@@ -264,4 +261,3 @@ RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
 INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
-GO
