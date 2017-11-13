@@ -83,8 +83,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                                                             .First();
 
                                 var commitmentVersions = GetMatchingFutureVersionsForTheLatestMatchedCommitmentVersion(message.Commitments, latestCommitmentVerion);
+                                var incentiveEarnings = GetIncentiveEarningsForPriceEpisode(message.IncentiveEarnings, priceEpisode);
 
-                                var periodMatches = GetPriceEpisodePeriodMatches(priceEpisode, commitmentVersions, message.IncentiveEarnings);
+                                var periodMatches = GetPriceEpisodePeriodMatches(priceEpisode, commitmentVersions, incentiveEarnings);
 
                                 priceEpisodePeriodMatches.AddRange(periodMatches);
                             }
@@ -130,6 +131,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 .ToArray();
         }
 
+        private List<IncentiveEarnings> GetIncentiveEarningsForPriceEpisode(IEnumerable<IncentiveEarnings> incentiveEarnings, PriceEpisode.PriceEpisode priceEpisode)
+        {
+            var earnings = incentiveEarnings.Where(x => x.LearnRefNumber == priceEpisode.LearnerReferenceNumber && x.PriceEpisodeIdentifier == priceEpisode.PriceEpisodeIdentifier).ToList();
+            return earnings;
+        }
+
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] GetPriceEpisodePeriodMatches(
                                                     PriceEpisode.PriceEpisode priceEpisode, 
                                                     Commitment.Commitment[] commitments,
@@ -142,14 +149,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
 
             while (censusDate <= priceEpisode.EndDate && period <= 12)
             {
-                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, censusDate));
+                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, censusDate,incentiveEarnings));
                 censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                 period++;
             }
 
             if (period <= 12 && priceEpisode.EndDate != priceEpisode.EndDate.LastDayOfMonth())
             {
-                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, priceEpisode.EndDate));
+                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, priceEpisode.EndDate, incentiveEarnings));
             }
 
             return periodMatches.ToArray();
@@ -210,7 +217,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                                                         PriceEpisode.PriceEpisode priceEpisode,
                                                         Commitment.Commitment[] commitments, 
                                                         int period, 
-                                                        DateTime periodDate)
+                                                        DateTime periodDate,
+                                                        IEnumerable<IncentiveEarnings> incentiveEarnings)
         {
             var priceEpisodePeriodMacthes = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
@@ -222,7 +230,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
 
 
-            if (priceEpisode.FirstAdditionalPaymentThresholdDate.HasValue)
+            if (priceEpisode.FirstAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x=> x.Period == period && x.PriceEpisodeFirstEmp1618Pay !=0))
             {
                 matchingCommitment = GetMatchingCommitment(priceEpisode.FirstAdditionalPaymentThresholdDate.Value, commitments);
                 if (matchingCommitment != null)
@@ -231,7 +239,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 }
             }
 
-            if (priceEpisode.SecondAdditionalPaymentThresholdDate.HasValue)
+            if (priceEpisode.SecondAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x => x.Period == period && x.PriceEpisodeSecondEmp1618Pay != 0))
             {
                 matchingCommitment = GetMatchingCommitment(priceEpisode.SecondAdditionalPaymentThresholdDate.Value, commitments);
                 if (matchingCommitment != null)
@@ -255,8 +263,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         {
 
             var isPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
-            var firstIncentivePayable = IsIncentivePayable(priceEpisode.FirstAdditionalPaymentThresholdDate, commitment, periodDate);
-            return GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, TransactionTypesFlag.FirstEmployerProviderIncentives, isPayable && firstIncentivePayable);
+            var threshholdDate = transactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives ? priceEpisode.FirstAdditionalPaymentThresholdDate : priceEpisode.SecondAdditionalPaymentThresholdDate;
+
+            var incentivePayable = IsIncentivePayable(threshholdDate, commitment, periodDate);
+            return GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, transactionTypesFlag, isPayable && incentivePayable);
 
         }
 

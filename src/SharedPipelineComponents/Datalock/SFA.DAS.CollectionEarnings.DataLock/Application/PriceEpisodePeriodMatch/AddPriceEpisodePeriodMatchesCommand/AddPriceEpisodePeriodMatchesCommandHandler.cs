@@ -28,7 +28,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatc
                         VersionId = m.CommitmentVersionId,
                         Period = m.Period,
                         Payable = m.Payable,
-                        TransactionType= m.TransactionType
+                        TransactionType= m.TransactionType,
+                        TransactionTypesFlag = m.TransactionTypesFlag
                     })
                 .ToArray();
 

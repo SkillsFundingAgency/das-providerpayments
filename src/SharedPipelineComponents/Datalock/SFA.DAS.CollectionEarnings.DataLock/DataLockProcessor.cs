@@ -50,6 +50,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
                     var commitments = ReturnProviderCommitmentsOrThrow(provider.Ukprn);
                     var priceEpisodes = ReturnValidGetProviderPriceEpisodesQueryResponseOrThrow(provider.Ukprn);
+                    var incentiveEarnings = ReturnValidGetIncentiveEarningsQueryResponseOrThrow(provider.Ukprn);
 
                     if (priceEpisodes.HasAnyItems())
                     {
@@ -132,10 +133,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                 throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, priceEpisodesQueryResponse.Exception);
             }
 
-            var incentiveEarnings = ReturnValidGetIncentiveEarningsQueryResponseOrThrow(ukprn);
-            priceEpisodesQueryResponse.Items.ToList().ForEach(x => x.IncentiveEarnings = incentiveEarnings.);
-
-
+         
             return priceEpisodesQueryResponse;
         }
 
@@ -163,7 +161,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                                                 Commitment[] commitments,
                                                 PriceEpisode[] priceEpisodes,
                                                 DasAccount[] dasAccounts,
-                                                List<IncentiveEarnings> incentiveEarnings)
+                                                IncentiveEarnings[] incentiveEarnings)
         {
             _logger.Info("Started Data Lock Validation.");
 

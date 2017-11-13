@@ -10,7 +10,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
                                               "LearnRefNumber," +
                                               "Period," +
                                               "PriceEpisodeFirstEmp1618Pay," +
-                                              "PriceEpisodeSecondEmp1618Pay";
+                                              "PriceEpisodeSecondEmp1618Pay," +
+                                              "PriceEpisodeIdentifier";
                                               
         private const string SelectIncentiveEarnings = "SELECT " + IncentiveEarningsColumns + " FROM " + IncentiveEarningsSource + " WHERE Ukprn = @Ukprn";
         

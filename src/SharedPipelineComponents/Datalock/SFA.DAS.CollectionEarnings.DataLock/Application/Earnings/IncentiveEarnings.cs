@@ -13,6 +13,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.Earnings
         public int Period { get; set; }
         public decimal PriceEpisodeFirstEmp1618Pay { get; set; }
         public decimal PriceEpisodeSecondEmp1618Pay { get; set; }
+        public string PriceEpisodeIdentifier { get; set; }
+
 
     }
 }
