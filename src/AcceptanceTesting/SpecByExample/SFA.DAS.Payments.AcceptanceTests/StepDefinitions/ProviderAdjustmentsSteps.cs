@@ -19,6 +19,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             
         }
 
+        [Given("the EAS collection is period is (.*)")]
+        public void GivenThatTheEasCollectionPeriodIs(string collectionPeriod)
+        {
+            
+        }
+
         [When("the following EAS entries are submitted:")]
         public void WhenTheFollowingEasEntriesAreSubmitted(Table table)
         {

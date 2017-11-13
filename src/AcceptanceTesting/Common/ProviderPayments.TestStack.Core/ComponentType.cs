@@ -14,6 +14,7 @@
         DataLockEvents = 10,
         SubmissionEvents = 11,
         ManualAdjustments = 12,
+        ProviderAdjustments = 13,
         AllComponents = 99,
     }
 }
