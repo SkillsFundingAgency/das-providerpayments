@@ -1,6 +1,6 @@
 /* ------ Test Setup */
 /* +++++ Monitoring setup */
-DECLARE @Now DATETIME
+DECLARE @Now DATETIME 
 DECLARE @timestamp VARCHAR(255)
 DECLARE @duration INT
 DECLARE @operation NVARCHAR(255) = 'undefined'
