@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
@@ -6,7 +7,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class ProviderAdjustmentsSteps
     {
-        public ProviderAdjustmentsSteps(ProviderAdjustmentsContext providerAdjustmentsContext)
+        public ProviderAdjustmentsSteps(
+            ProviderAdjustmentsContext providerAdjustmentsContext)
         {
             ProviderAdjustmentsContext = providerAdjustmentsContext;
         }
@@ -19,19 +21,26 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             
         }
 
-        [Given("the EAS collection is period is (.*)")]
+        [Given("the EAS collection period is (.*)")]
         public void GivenThatTheEasCollectionPeriodIs(string collectionPeriod)
         {
-            
+            ProviderAdjustmentsContext.SetCollectionPeriod(collectionPeriod);
         }
 
-        [When("the following EAS entries are submitted:")]
-        public void WhenTheFollowingEasEntriesAreSubmitted(Table table)
+        [Given("the following EAS form is submitted in (.*):")]
+        public void WhenTheFollowingHistoricFormIsSubmitted(string period, Table table)
         {
             
         }
 
-        [Then("the following adjustments will be generated:")]
+        [When("the following EAS form is submitted:")]
+        public void WhenTheFollowingEasEntriesAreSubmitted(Table table)
+        {
+            var periods = TableParser.Transpose(table);
+            ProviderAdjustmentsContext.AddSubmissions(periods);
+        }
+
+        [Then("the EAS payments are:")]
         public void ThenTheFollowingAdjustmentsWillBeGenerated(Table table)
         {
             

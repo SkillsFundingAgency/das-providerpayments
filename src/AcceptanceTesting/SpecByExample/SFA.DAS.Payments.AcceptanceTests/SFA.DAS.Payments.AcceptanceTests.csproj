@@ -69,6 +69,15 @@
     <Reference Include="TechTalk.SpecFlow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\SpecFlow.2.2.1\lib\net45\TechTalk.SpecFlow.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assertions\DataLockAssertions.cs" />
@@ -106,6 +115,7 @@
     <Compile Include="DataExtensions.cs" />
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
+    <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Features\additional_payments.feature.cs" />
     <Compile Include="Features\capping.feature.cs" />
@@ -123,7 +133,9 @@
     <Compile Include="Features\learner_finishes_on_time.feature.cs" />
     <Compile Include="Features\manual_adjustments.feature.cs" />
     <Compile Include="Features\maths_and_english.feature.cs" />
-    <Compile Include="Features\payments_calc.feature.cs" />
+    <Compile Include="Features\payments_calc.feature.cs">
+      <LastGenOutput>payments_calc.feature.feature.cs</LastGenOutput>
+    </Compile>
     <Compile Include="Features\provider_adjustments.feature.cs" />
     <Compile Include="Features\redundancy_payments.feature.cs" />
     <Compile Include="Features\refunds.feature.cs" />
@@ -189,6 +201,11 @@
     <Compile Include="ReferenceDataModels\DataLockEventErrorReferenceData.cs" />
     <Compile Include="ReferenceDataModels\DataLockEventPeriodReferenceData.cs" />
     <Compile Include="ReferenceDataModels\DataLockEventReferenceData.cs" />
+    <Compile Include="ReferenceDataModels\ProviderAdjustments\CollectionPeriodMapping.cs" />
+    <Compile Include="ReferenceDataModels\ProviderAdjustments\EasPayment.cs" />
+    <Compile Include="ReferenceDataModels\ProviderAdjustments\EasSubmission.cs" />
+    <Compile Include="ReferenceDataModels\ProviderAdjustments\EasSubmissionValues.cs" />
+    <Compile Include="ReferenceDataModels\ProviderAdjustments\PaymentType.cs" />
     <Compile Include="ReferenceDataModels\SubmissionDataLockPeriodMatch.cs" />
     <Compile Include="ReferenceDataModels\CompletionStatus.cs" />
     <Compile Include="ReferenceDataModels\LevyAccountBalanceBreakdown.cs" />
@@ -240,7 +257,9 @@
     <Compile Include="TableParsers\IlrTableParser.cs" />
     <Compile Include="TableParsers\LearningSupportTableParser.cs" />
     <Compile Include="TableParsers\LevyBalanceTableParser.cs" />
+    <Compile Include="TableParsers\ProviderAdjustmentsTableParser.cs" />
     <Compile Include="TableParsers\SubmissionDataLockTableParser.cs" />
+    <Compile Include="TableParsers\TableParser.cs" />
     <Compile Include="TableParsers\TransactionTypeTableParser.cs" />
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="Validations.cs" />
@@ -250,6 +269,11 @@
     <None Include="..\..\features\additional_payments.feature">
       <Link>Features\additional_payments.feature</Link>
       <LastGenOutput>additional_payments.feature.cs</LastGenOutput>
+    </None>
+    <None Include="..\..\features\provider_adjustments.feature">
+      <Link>Features\provider_adjustments.featur</Link>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>provider_adjustments1.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\capping.feature">
       <Link>Features\capping.feature</Link>
@@ -306,6 +330,7 @@
     </None>
     <None Include="..\..\features\provider_adjustments.feature">
       <Link>Features\provider_adjustments.feature</Link>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>provider_adjustments1.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">
@@ -400,5 +425,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props'))" />
     <Error Condition="!Exists('..\..\..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets'))" />
   </Target>
+  <Import Project="..\..\..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
 </Project>
