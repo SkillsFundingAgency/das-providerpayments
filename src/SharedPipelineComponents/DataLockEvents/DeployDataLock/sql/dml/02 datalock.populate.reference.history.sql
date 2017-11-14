@@ -13,8 +13,8 @@ SELECT @Now = GETDATE()
 SET @operation = 'Drop Target Table Keys, Constraints and Indexes'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
+SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + ']',	NULL
 /* ----- finish pre-op monitoring*/
 
 IF EXISTS (
@@ -50,44 +50,18 @@ END
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
 SELECT NEWID(), 	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
 
 
 /* +++++ start pre-op monitoring */
 SELECT @Now = GETDATE()
-SET @operation = 'Establish Provider scope'
-SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
-RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
-/* ----- finish pre-op monitoring*/
-
-DECLARE @ProvidersToProcess TABLE (
-	[UKPRN] BIGINT
-	)
-
-INSERT INTO @ProvidersToProcess (
-	[UKPRN]
-	)
-SELECT [UKPRN]
-FROM [DataLock].[vw_Providers]
-
-/* +++++ start post-op monitoring */
-SET @duration = DATEDIFF(MS, @Now, GETDATE())
-RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
-/* ----- finish post-op monitoring*/
-
-/* +++++ start pre-op monitoring */
-SELECT @Now = GETDATE()
 SET @operation = 'Pull of all Provider Datalocks from remote server'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
+SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + ']',	NULL
 /* ----- finish pre-op monitoring*/
 
 INSERT INTO [Reference].[DataLockEvents] (
@@ -142,13 +116,17 @@ SELECT dle.[Id],
 	dle.[IlrEndpointAssessorPrice],
 	dle.[IlrPriceEffectiveFromDate],
 	dle.[IlrPriceEffectiveToDate]
-FROM ${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle (NOLOCK)
-INNER JOIN @ProvidersToProcess ptp	ON ptp.[UKPRN] = dle.[UKPRN]
+FROM [DataLock].[vw_Providers] ptp	WITH ( NOLOCK )
+INNER JOIN 
+	${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle WITH ( NOLOCK )
+	ON ptp.[UKPRN] = dle.[UKPRN]
+WHERE 
+	dle.[STATUS] <> 3 -- Do not read removed as anything from here will be new again
 
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
 
@@ -157,11 +135,11 @@ SELECT @Now = GETDATE()
 SET @operation = 'Re-Apply Target table Keys, Constrtaints and Indexes'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
+SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + ']',	NULL
 /* ----- finish pre-op monitoring*/
 
-IF EXISTS (
+IF NOT EXISTS (
 		SELECT [name]
 		FROM [sys].[key_constraints]
 		WHERE [name] = 'PK_Reference_DataLockEvents'
@@ -197,7 +175,7 @@ END
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
 
@@ -207,8 +185,8 @@ SELECT @Now = GETDATE()
 SET @operation = 'Identifying latest DataLocks by Provider, Learner and Price Period'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
+SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + ']',	NULL
 /* ----- finish pre-op monitoring*/
 
 DECLARE @LastestDataLockEvents TABLE ([EventId] BIGINT)
@@ -218,11 +196,6 @@ SELECT
 	MAX(dle.[Id]) AS [EventId]
 FROM 
 	[Reference].[DataLockEvents] dle
-INNER JOIN 
-	@ProvidersToProcess ptp
-	ON ptp.[UKPRN] = dle.[UKPRN]
-WHERE 
-	dle.[STATUS] <> 3 -- Do not read removed as anything from here will be new again
 GROUP BY 
 	dle.[UKPRN],
 	dle.[LearnRefNumber],
@@ -231,7 +204,7 @@ GROUP BY
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message], [ErrorDetails]	)
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
 
@@ -240,8 +213,8 @@ SELECT @Now = GETDATE()
 SET @operation = 'Removing Superceeded DataLocks'
 SET @timestamp = CONVERT(VARCHAR(255), @now, 121)
 RAISERROR (		@start,		10,		0,		@operation,		@timestamp		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message], [ErrorDetails]	)
-SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
+SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + ']',	NULL
 /* ----- finish pre-op monitoring*/
 
 DELETE
@@ -258,6 +231,6 @@ WHERE
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT
-INSERT INTO [TestStack].[Logs] (	[LogId],	[Logger],	[LogLevel],	[EntryDate],	[Message],	[ErrorDetails]	)
+INSERT INTO [DataLockEvents].[TaskLog] ( [TaskLogId], [Logger], [Level], [DateTime], [Message], [Exception] )
 SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timestamp + '] Duration: [' + cast(@duration AS VARCHAR(255)) + ']',	NULL
 /* ----- finish post-op monitoring*/
