@@ -230,7 +230,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
 
 
-            if (priceEpisode.FirstAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x=> x.Period == period && x.PriceEpisodeFirstEmp1618Pay !=0))
+            if (priceEpisode.FirstAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x=> x.Period == period && x.First16To18EmployerIncentive !=0))
             {
                 matchingCommitment = GetMatchingCommitment(priceEpisode.FirstAdditionalPaymentThresholdDate.Value, commitments);
                 if (matchingCommitment != null)
@@ -239,7 +239,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 }
             }
 
-            if (priceEpisode.SecondAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x => x.Period == period && x.PriceEpisodeSecondEmp1618Pay != 0))
+            if (priceEpisode.SecondAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x => x.Period == period && x.Second16To18EmployerIncentive != 0))
             {
                 matchingCommitment = GetMatchingCommitment(priceEpisode.SecondAdditionalPaymentThresholdDate.Value, commitments);
                 if (matchingCommitment != null)

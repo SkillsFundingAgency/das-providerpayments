@@ -82,6 +82,7 @@
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler\WhenHandlingSinglePriceEpisode.cs" />
+    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler\WhenHandling.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Utilities\Application\IncentiveEarningsBuilder.cs" />
     <Compile Include="Utilities\Application\PriceEpisodeBuilder.cs" />
     <Compile Include="Utilities\Entities\CommitmentEntityBuilder.cs" />
+    <Compile Include="Utilities\Entities\IncentiveEarningsEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodeEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodePeriodMatchEntityBuilder.cs" />
     <Compile Include="Utilities\Enums\PaymentStatus.cs" />

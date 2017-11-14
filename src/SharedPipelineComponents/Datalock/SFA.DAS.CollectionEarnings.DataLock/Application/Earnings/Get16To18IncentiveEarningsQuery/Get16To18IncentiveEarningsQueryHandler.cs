@@ -29,8 +29,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18Ince
                         Ukprn = l.Ukprn,
                         LearnRefNumber = l.LearnRefNumber,
                         Period = l.Period,
-                        PriceEpisodeFirstEmp1618Pay = l.PriceEpisodeFirstEmp1618Pay,
-                        PriceEpisodeSecondEmp1618Pay = l.PriceEpisodeSecondEmp1618Pay,
+                        First16To18EmployerIncentive = l.PriceEpisodeFirstEmp1618Pay,
+                        Second16To18EmployerIncentive = l.PriceEpisodeSecondEmp1618Pay,
                         PriceEpisodeIdentifier = l.PriceEpisodeIdentifier
                     }).ToArray()
                 };

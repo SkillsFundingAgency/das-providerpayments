@@ -2,10 +2,11 @@
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
 {
-    public class IncentiveEarningsBuilder : IBuilder<IncentiveEarnings>
+    public class IncentiveEarningsEntityBuilder : IBuilder<IncentiveEarningsEntity>
     {
         private long _ukprn = 1;
         private string _learnRefNumber = "1";
@@ -15,41 +16,41 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         private string _priceEpisodeIdentifier = null;
 
 
-        public IncentiveEarnings Build()
+        public IncentiveEarningsEntity Build()
         {
-            return new IncentiveEarnings
+            return new IncentiveEarningsEntity
             {
                 LearnRefNumber=_learnRefNumber,
                 Period =_period,
-                First16To18EmployerIncentive=_priceEpisodeFirstEmp1618Pay,
+                PriceEpisodeFirstEmp1618Pay=_priceEpisodeFirstEmp1618Pay,
                 PriceEpisodeIdentifier =_priceEpisodeIdentifier,
-                Second16To18EmployerIncentive = _priceEpisodeSecondEmp1618Pay,
+                PriceEpisodeSecondEmp1618Pay = _priceEpisodeSecondEmp1618Pay,
                 Ukprn =_ukprn
             };
         }
 
-        public IncentiveEarningsBuilder WithLearnRefNumber(string learnRefNumber)
+        public IncentiveEarningsEntityBuilder WithLearnRefNumber(string learnRefNumber)
         {
             _learnRefNumber = learnRefNumber;
 
             return this;
         }
 
-        public IncentiveEarningsBuilder WithUkprn(long ukprn)
+        public IncentiveEarningsEntityBuilder WithUkprn(long ukprn)
         {
             _ukprn= ukprn;
 
             return this;
         }
 
-        public IncentiveEarningsBuilder WithPeriod(int period)
+        public IncentiveEarningsEntityBuilder WithPeriod(int period)
         {
             _period = period;
 
             return this;
         }
 
-        public IncentiveEarningsBuilder WithFirstIncentiveAmount()
+        public IncentiveEarningsEntityBuilder WithFirstIncentiveAmount()
         {
             _priceEpisodeFirstEmp1618Pay= 500;
             
@@ -57,14 +58,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         }
 
 
-        public IncentiveEarningsBuilder WithSecondIncentiveAmount()
+        public IncentiveEarningsEntityBuilder WithSecondIncentiveAmount()
         {
             _priceEpisodeSecondEmp1618Pay= 500;
 
             return this;
         }
 
-        public IncentiveEarningsBuilder WithPriceEpisodeIdentifier(string priceEpisodeIdentifier)
+        public IncentiveEarningsEntityBuilder WithPriceEpisodeIdentifier(string priceEpisodeIdentifier)
         {
             _priceEpisodeIdentifier= priceEpisodeIdentifier;
             return this;

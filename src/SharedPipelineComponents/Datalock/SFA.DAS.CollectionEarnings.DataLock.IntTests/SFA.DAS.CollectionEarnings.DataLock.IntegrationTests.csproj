@@ -71,6 +71,8 @@
     <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrSubmission.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringPeriodEnd.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository\WhenAddPriceEpisodePeriodMatchesCalledDuringAnIlrPeriodEnd.cs" />
@@ -267,6 +269,21 @@
     <Content Include="Utilities\Sql\DPP-222\IlrAcceptanceCriteria1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndFirstIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroFirstIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Utilities\Sql\IlrSubmissionLearnerChangesProvider.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -274,6 +291,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMatchFound.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionFirstIncentiveEarnings.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMultipleMatches.sql">
