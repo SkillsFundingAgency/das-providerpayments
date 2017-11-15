@@ -67,6 +67,22 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
+        protected void ExecuteByProc(string command, object param = null)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                try
+                {
+                    connection.Execute(command, param, commandType:CommandType.StoredProcedure);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
         protected void ExecuteBatch<T>(T[] batch, string destination)
         {
             var columns = typeof(T).GetProperties().Select(p => p.Name).ToArray();
