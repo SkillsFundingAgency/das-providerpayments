@@ -1,4 +1,13 @@
-TRUNCATE TABLE [Reference].[DataLockPriceEpisode]
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DataLockPriceEpisode'
+AND i.name = 'IDX_DataLockPriceEpisode_Ukprn')
+BEGIN
+	DROP INDEX IDX_DataLockPriceEpisode_Ukprn ON Reference.DataLockPriceEpisode
+END
+GO
+
+DELETE FROM [Reference].[DataLockPriceEpisode]
 GO
 
 INSERT INTO [Reference].[DataLockPriceEpisode] (
@@ -65,3 +74,9 @@ INSERT INTO [Reference].[DataLockPriceEpisode] (
 			AND ape.LearnRefNumber = et.LearnRefNumber
             AND ape.PriceEpisodeAimSeqNumber = et.PriceEpisodeAimSeqNumber
 	WHERE ape.PriceEpisodeContractType = 'Levy Contract'
+
+CREATE CLUSTERED INDEX [IDX_DataLockPriceEpisode_Ukprn] ON [Reference].[DataLockPriceEpisode]
+(
+	[Ukprn] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO

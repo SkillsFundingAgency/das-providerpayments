@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -151,6 +152,10 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -213,6 +218,10 @@
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql">
       <Link>DbSetupScripts\Ilr.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Source.DataLock.DDL.Views.Schemabinding.sql">
+      <Link>DbSetupScripts\Ilr.Transient.Source.DataLock.DDL.Views.Schemabinding.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql">
