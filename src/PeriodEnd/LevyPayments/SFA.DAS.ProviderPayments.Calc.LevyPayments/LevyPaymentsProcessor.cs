@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using NLog;
 
@@ -46,12 +47,16 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
+                var commitmentIds = account.Refunds.Select(refund => refund.CommitmentId)
+                    .Union(account.Payments.Select(payment => payment.CommitmentId)).Distinct().ToList();
 
-
-                foreach (var refund in account.Refunds)
+                foreach (var commitmentId in commitmentIds)
                 {
-                    _logger.Info($"Processing commitment {refund.CommitmentId} for account {account.Id} for refunds");
-
+                    _logger.Info($"Processing commitment {commitmentId} for account {account.Id} for refunds");
+                    
+                    foreach (var refund in account.Refunds.Where(o => o.CommitmentId == commitmentId))
+                    {
+                       
                         _logger.Info($"refund due of {refund.AmountDue} for commitment {refund.CommitmentId}, to credit for {refund.TransactionType} on {refund.LearnerRefNumber} / {refund.AimSequenceNumber} / {refund.Ukprn}");
 
                         var amountToRefund = MakeLevyRefund(period, refund);
@@ -60,24 +65,39 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                             GetLevyAllocation(account, amountToRefund);
                             _logger.Info($"levy refund payment made of {refund.AmountDue} for commitment {refund.CommitmentId}, to credit for {refund.TransactionType} on {refund.LearnerRefNumber} / {refund.AimSequenceNumber} / {refund.Ukprn}");
                         }
+                    }
                 }
 
-                foreach (var payment in account.Payments)
+                var accountHasFundsForLevy = true;
+                foreach (var commitmentId in commitmentIds)
                 {
-                    _logger.Info($"Payment due of {payment.AmountDue} for commitment {payment.CommitmentId}, to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
-                    var levyAllocation = GetLevyAllocation(account, payment.AmountDue);
+                    _logger.Info($"Processing commitment {commitmentId} for account {account.Id} for payments");
 
-                    if (levyAllocation == 0)
+                    foreach (var payment in account.Payments.Where(o => o.CommitmentId == commitmentId))
                     {
-                        _logger.Info($"No mode levy in the account to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
-                        break;
+                        _logger.Info(
+                            $"Payment due of {payment.AmountDue} for commitment {payment.CommitmentId}, to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
+                        var levyAllocation = GetLevyAllocation(account, payment.AmountDue);
+
+                        if (levyAllocation == 0)
+                        {
+                            _logger.Info(
+                                $"No mode levy in the account to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
+                            accountHasFundsForLevy = false;
+                            break;
+                        }
+
+                        MakeLevyPayment(period, payment, levyAllocation);
                     }
 
-                    MakeLevyPayment(period, payment, levyAllocation);
+                    _logger.Info($"Finished processing commitment {commitmentId} for account {account.Id}");
 
-                    _logger.Info($"Finished processing commitment {payment.CommitmentId} for account {account.Id}");
+                    if (!accountHasFundsForLevy)
+                    {
+                        break;
+                    }
                 }
-
+                
                 MarkAccountAsProcessed(account.Id);
 
                 _logger.Info($"Finished processing account {account.Id}");

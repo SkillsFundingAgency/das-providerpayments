@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAcc
         public GetAccountAndPaymentQueryResponse Handle(GetAccountAndPaymentQueryRequest message)
         {
             var accountEntity = _accountRepository.GetAccountAndPaymentInformationForProcessing();
-            if (accountEntity == null)
+            if (accountEntity == null || !accountEntity.Any())
             {
                 return new GetAccountAndPaymentQueryResponse();
             }
