@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using FastMember;
@@ -29,6 +30,23 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
                 }
             }
         }
+
+        protected T[] QueryByProc<T>(string command, DynamicParameters parameters = null)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                try
+                {
+                    return connection.Query<T>(command, parameters, commandType: CommandType.StoredProcedure).ToArray();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
         protected T QuerySingle<T>(string command, object param = null)
         {
             return Query<T>(command, param).SingleOrDefault();
