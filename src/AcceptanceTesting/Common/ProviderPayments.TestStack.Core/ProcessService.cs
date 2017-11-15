@@ -47,6 +47,16 @@ namespace ProviderPayments.TestStack.Core
             workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
         }
 
+        public void RunPrepareForEas(EnvironmentVariables environmentVariables = null,
+            StatusWatcherBase statusWatcher = null)
+        {
+            var context = SetupExecutionEnvironment(string.Empty, environmentVariables ?? new EnvironmentVariables());
+            context.DataLockEventsSource = "PeriodEnd";
+
+            var workflow = new PrepareForEasWorkflow(_logger);
+            workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
+        }
+
         public void RebuildDedsDatabase(ComponentType componentType, EnvironmentVariables environmentVariables = null, StatusWatcherBase statusWatcher = null)
         {
             var context = SetupExecutionEnvironment(((int)componentType).ToString(), environmentVariables ?? new EnvironmentVariables());

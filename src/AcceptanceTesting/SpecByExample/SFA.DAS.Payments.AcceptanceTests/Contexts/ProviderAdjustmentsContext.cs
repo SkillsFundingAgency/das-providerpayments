@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ProviderPayments.TestStack.Core.Domain;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels.ProviderAdjustments;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
@@ -36,6 +37,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                 var collectionPeriods = ProviderAdjustmentsRepository.GetPaymentTypes();
                 return collectionPeriods;
             }, LazyThreadSafetyMode.ExecutionAndPublication);
+        private static Dictionary<string, PaymentType> _paymentTypeNameLookup =  new Dictionary<string, PaymentType>(
+                PaymentTypes.ToDictionary(x => x.PaymentName, x => x));
 
         public int CollectionYear { get; private set; }
         public int CollectionMonth { get; private set; }
@@ -47,7 +50,29 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
 
         public void SetCollectionPeriod(string collectionPeriod)
         {
+
+            var collectionPeriodForEnvironment = PeriodDefinition.ParsePeriod(collectionPeriod);
+            var id = 0;
+
+            // Will never have r13 or r14
+            if (collectionPeriodForEnvironment.Item1 >= 8)
+            {
+                id = collectionPeriodForEnvironment.Item1 - 7;
+            }
+            else
+            {
+                id = collectionPeriodForEnvironment.Item1 + 5;
+            }
+
+            TestEnvironment.Variables.CollectionPeriod = new CollectionPeriod
+            {
+                CalendarMonth = collectionPeriodForEnvironment.Item1,
+                CalendarYear = collectionPeriodForEnvironment.Item2,
+                CollectionOpen = 1,
+                PeriodId = id,
+            };
             
+            TestEnvironment.ProcessService.RunPrepareForEas(TestEnvironment.Variables);
         }
 
         public void AddSubmissions(List<GenericPeriodBasedRow> periods)
@@ -64,18 +89,62 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                 };
                 foreach (var rowDefinition in row.Rows)
                 {
+                    var paymentType = PaymentTypeFromSpec(rowDefinition.Name);
                     
+                    var easValue = new EasSubmissionValues
+                    {
+                        CollectionPeriod = collectionPeriod.CollectionPeriod,
+                        PaymentId = paymentType.Payment_Id,
+                        PaymentValue = rowDefinition.Amount,
+                    };
+                    submission.AddValue(easValue);
                 }
                 _easSubmissions.Add(submission);
             }
+
+            foreach (var easSubmission in EasSubmissions)
+            {
+                ProviderAdjustmentsRepository.SaveSubmittedEas(easSubmission);
+            }
+        }
+            
+        private static PaymentType PaymentTypeFromSpec(string specValue)
+        {
+            var paymentName = ProviderAdjustmentsTableParser.PaymentNameFromSpec(specValue);
+            if (_paymentTypeNameLookup.ContainsKey(paymentName))
+            {
+                return _paymentTypeNameLookup[paymentName];
+            }
+            throw new ArgumentOutOfRangeException($"Could not find a payment type of {paymentName} \n " +
+                                                  $"Generated from payment type: {specValue}");
         }
     }
 
-
+    
 
     class PeriodDefinition
     {
         public PeriodDefinition(string period)
+        {
+            var parsedPeriod = ParsePeriod(period);
+
+            CollectionMonth = parsedPeriod.Item1;
+            CollectionYear = parsedPeriod.Item2;
+            var collectionPeriods = ProviderAdjustmentsContext.CollectionPeriods;
+            var periodEntity = collectionPeriods.SingleOrDefault(x =>
+                x.Calendar_Month == CollectionMonth &&
+                x.Calendar_Year == CollectionYear);
+            if (periodEntity == null)
+            {
+                throw new ArgumentOutOfRangeException($"Could not find collection period {period}");
+            }
+
+            CollectionPeriod = periodEntity.Period_ID;
+            AcademicYear = periodEntity.Collection_Year;
+            PeriodName = periodEntity.Collection_Period_Name;
+        }
+
+        public static Tuple<int, int> ParsePeriod(string period)
         {
             int result;
             int month;
@@ -98,18 +167,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             {
                 throw new ArgumentException("The collection period should be of the form MM/yy");
             }
-
-            CollectionMonth = month;
-            CollectionYear = year;
-
-            var periodEntity = ProviderAdjustmentsContext.CollectionPeriods.Single(x =>
-                x.Calendar_Month == month &&
-                x.Calendar_Year == year);
-
-            CollectionPeriod = periodEntity.Period_ID;
-            AcademicYear = periodEntity.Collection_Year;
-            PeriodName = periodEntity.Collection_Period_Name;
+            return new Tuple<int, int>(month, year);
         }
+
         public int CollectionPeriod { get; private set; }
         public int AcademicYear { get; private set; }
 

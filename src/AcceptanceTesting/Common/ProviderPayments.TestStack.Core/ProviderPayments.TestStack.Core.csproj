@@ -95,6 +95,7 @@
     <Compile Include="Workflow\IlrSubmission\Tasks\CopyDasIlrDataToDedsTask.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\DataLockEventsSubmissionTask.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\SubmissionEventsTask.cs" />
+    <Compile Include="Workflow\Summarisation\PrepareForEasWorkflow.cs" />
     <Compile Include="Workflow\RebuildDedsDatabase\Tasks\BaseRebuildDedsDatabaseTask.cs" />
     <Compile Include="Workflow\RebuildDedsDatabase\Tasks\ExecuteMigrationScriptsTask.cs" />
     <Compile Include="Workflow\RunTransientSqlScriptsTask.cs" />

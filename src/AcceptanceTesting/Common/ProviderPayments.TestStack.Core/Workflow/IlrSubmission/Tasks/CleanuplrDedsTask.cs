@@ -2,7 +2,9 @@
 {
     internal class CleanuplrDedsTask : RunTransientSqlScriptsTask
     {
-        private static readonly ComponentType[] ComponentTypes = { ComponentType.DataLockSubmission, ComponentType.EarningsCalculator,ComponentType.SubmissionEvents, ComponentType.DataLockEvents };
+        private static readonly ComponentType[] ComponentTypes = { ComponentType.DataLockSubmission,
+            ComponentType.EarningsCalculator,ComponentType.SubmissionEvents, ComponentType.DataLockEvents };
+
         private static readonly string CleanupRegex = @".*\.Cleanup\..*\.sql$";
 
         public CleanuplrDedsTask(ILogger logger)

@@ -76,7 +76,7 @@ Feature: Provider adjustments (EAS) payments
 			| Adult Non Levy Excess Learning Support      | 0     |
 			| Adult Non Levy Exceptional Learning Support | 0     |
 			| Adult Non Levy Audit Adjustments            | 0     |
-			| Adult Non Levy Authorised Claims            | 0     | 
+			| Adult Non Levy Authorised Claims            | 0     |  
 		
 		Then the EAS payments are:
 			| Type                                        | 08/17 | 09/17 |

@@ -1,5 +1,6 @@
 ﻿namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels.ProviderAdjustments
 {
+    // TODO: Consider replacing with CollectionPeriod
     public class CollectionPeriodMapping
     {
         public int Collection_Year { get; set; }
