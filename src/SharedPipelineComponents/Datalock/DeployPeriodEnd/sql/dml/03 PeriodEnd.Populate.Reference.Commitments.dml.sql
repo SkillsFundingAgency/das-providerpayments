@@ -7,7 +7,6 @@ BEGIN
 END
 GO
 
-
 DELETE FROM [Reference].[DasCommitments]
 GO
 
