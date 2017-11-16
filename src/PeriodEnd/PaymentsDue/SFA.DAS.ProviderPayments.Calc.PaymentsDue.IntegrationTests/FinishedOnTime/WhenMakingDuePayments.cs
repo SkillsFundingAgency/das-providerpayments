@@ -328,7 +328,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                            transactionTypes: new[] { TransactionType.First16To18EmployerIncentive, TransactionType.First16To18ProviderIncentive });
+                            transactionTypesFlag: TransactionTypesFlag.FirstEmployerProviderIncentives);
 
             TestDataHelper.SetOpenCollection(4);
 
@@ -373,7 +373,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                transactionTypes: new[] { TransactionType.Second16To18EmployerIncentive, TransactionType.Second16To18ProviderIncentive });
+                transactionTypesFlag: TransactionTypesFlag.SecondEmployerProviderIncentives);
 
             TestDataHelper.SetOpenCollection(12);
 
@@ -496,7 +496,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+                 transactionTypesFlag:TransactionTypesFlag.AllLearning);
 
             TestDataHelper.SetOpenCollection(5);
 
@@ -558,7 +558,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+                transactionTypesFlag: TransactionTypesFlag.AllLearning);
 
             TestDataHelper.SetOpenCollection(5);
 
@@ -594,7 +594,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+                transactionTypesFlag: TransactionTypesFlag.AllLearning);
 
             TestDataHelper.AddPaymentForCommitment(commitmentId, 10, 2016, 13, 19, learnerRefNumber, 5, "50086832");
 
@@ -637,7 +637,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             TestDataHelper.AddProvider(ukprn);
 
             TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate,
-                transactionTypes: new[] { TransactionType.OnProgrammeMathsAndEnglish, TransactionType.BalancingMathsAndEnglish });
+                transactionTypesFlag: TransactionTypesFlag.AllLearning);
 
             TestDataHelper.SetOpenCollection(12);
 
