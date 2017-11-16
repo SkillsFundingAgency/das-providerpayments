@@ -1,4 +1,5 @@
-﻿using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
+﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data
 {
@@ -6,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data
     {
         AccountEntity GetNextAccountRequiringProcessing();
         AccountEntity GetAccountById(long id);
-
+        IEnumerable<AccountPaymentEntity> GetAccountAndPaymentInformationForProcessing();
         void UpdateLevyBalance(long accountId, decimal amount);
         void MarkAccountAsProcessed(long accountId);
     }
