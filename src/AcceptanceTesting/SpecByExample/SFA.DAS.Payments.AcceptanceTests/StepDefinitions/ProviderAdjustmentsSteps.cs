@@ -1,4 +1,7 @@
-﻿using SFA.DAS.Payments.AcceptanceTests.Contexts;
+﻿using System.Linq;
+using FluentAssertions;
+using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
@@ -43,7 +46,41 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the EAS payments are:")]
         public void ThenTheFollowingAdjustmentsWillBeGenerated(Table table)
         {
-            
+            TestEnvironment.ProcessService.RunSummarisation(TestEnvironment.Variables);
+            var periods = ProviderAdjustmentsContext.TransposeTable(table);
+            foreach (var period in periods)
+            {
+                var paymentPeriod = new PeriodDefinition(period.Period);
+                var earningsPeriod = paymentPeriod.TransformPaymentPeriodToEarningsPeriod();
+
+                if (earningsPeriod == null)
+                {
+                    continue;
+                }
+
+                var payments = ProviderAdjustmentsRepository.GetEasPaymentsFor(
+                    earningsPeriod.CollectionMonth, earningsPeriod.CollectionYear)
+                    .Select(x => new
+                    {
+                        x.PaymentType,
+                        x.PaymentTypeName,
+                        x.Amount,
+                    });
+
+                foreach (var row in period.Rows)
+                {
+                    var payment = payments.FirstOrDefault(x => x.PaymentTypeName == row.Name);
+                    if (row.Amount == 0)
+                    {
+                        payment.Should().BeNull($"the payment {row.Name} for period: {period.Period} should not exist");
+                    }
+                    else
+                    {
+                        payment.Should().NotBeNull($"the payment {row.Name} for period: {period.Period} should exist");
+                        payment.Amount.Should().Be(row.Amount, $"the payment amount was for period {period.Period}");
+                    }
+                }
+            }
         }
     }
 }

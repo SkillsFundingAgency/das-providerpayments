@@ -49,7 +49,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             Name = name;
             Amount = amount;
         }
-        public string Name { get; }
+        public string Name { get; set; }
         public decimal Amount { get; }
     }
 }

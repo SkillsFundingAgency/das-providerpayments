@@ -49,6 +49,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        public static List<EasPayment> GetEasPaymentsFor(int month, int year)
+        {
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                var collectionPeriods = connection
+                    .Query<EasPayment>("SELECT * FROM [ProviderAdjustments].[Payments] " +
+                                        "WHERE CollectionPeriodMonth = @month AND CollectionPeriodYear = @year",
+                                        new {month, year});
+                return collectionPeriods.ToList();
+            }
+        }
+
         public static List<CollectionPeriodMapping> GetPeriodMappings()
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))

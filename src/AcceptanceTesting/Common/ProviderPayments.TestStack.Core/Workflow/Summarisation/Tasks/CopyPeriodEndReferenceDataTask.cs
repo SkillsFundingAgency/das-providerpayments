@@ -8,7 +8,9 @@
             ComponentType.PaymentsDue,
             ComponentType.LevyCalculator,
             ComponentType.CoInvestedPayments ,
-            ComponentType.DataLockEvents};
+            ComponentType.DataLockEvents,
+            ComponentType.ProviderAdjustments,
+        };
         private static readonly string PopulateRegex = @"(?i)^([0-9]{2})\s.*Populate.*\.sql$";
 
         public CopyPeriodEndReferenceDataTask(ILogger logger)

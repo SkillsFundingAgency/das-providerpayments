@@ -6,6 +6,7 @@ using ProviderPayments.TestStack.Core.Domain;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels.ProviderAdjustments;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
+using TechTalk.SpecFlow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Contexts
 {
@@ -46,6 +47,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         private int CollectionPeriod(string collectionPeriod)
         {
             return 0;
+        }
+
+        public List<GenericPeriodBasedRow> TransposeTable(Table table)
+        {
+            var rows = TableParser.Transpose(table);
+            rows.ForEach(x => x.Rows.ForEach(y => y.Name = PaymentTypeFromSpec(y.Name).PaymentName));
+            return rows;
         }
 
         public void SetCollectionPeriod(string collectionPeriod)
@@ -142,6 +150,33 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             CollectionPeriod = periodEntity.Period_ID;
             AcademicYear = periodEntity.Collection_Year;
             PeriodName = periodEntity.Collection_Period_Name;
+        }
+
+        public PeriodDefinition(int periodId)
+        {
+            var collectionPeriods = ProviderAdjustmentsContext.CollectionPeriods;
+            var periodEntity = collectionPeriods.SingleOrDefault(x =>
+                x.Period_ID == periodId);
+            if (periodEntity == null)
+            {
+                throw new ApplicationException($"Could not find collection period with id {periodId}");
+            }
+
+            CollectionPeriod = periodEntity.Period_ID;
+            AcademicYear = periodEntity.Collection_Year;
+            PeriodName = periodEntity.Collection_Period_Name;
+            CollectionMonth = periodEntity.Calendar_Month;
+            CollectionYear = periodEntity.Calendar_Year;
+        }
+
+        public PeriodDefinition TransformPaymentPeriodToEarningsPeriod()
+        {
+            var newPeriodId = CollectionPeriod - 1;
+            if (newPeriodId <= 0)
+            {
+                return null;
+            }
+            return new PeriodDefinition(newPeriodId);
         }
 
         public static Tuple<int, int> ParsePeriod(string period)

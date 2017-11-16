@@ -6,20 +6,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels.ProviderAdjustmen
 {
     public class EasPayment
     {
-        public void SetPeriod(int periodMonth, int periodYear)
-        {
-            CollectionPeriodMonth = periodMonth;
-            CollectionPeriodYear = periodYear;
-
-            var period = ProviderAdjustmentsContext.CollectionPeriods.Single(x =>
-                x.Calendar_Month == CollectionPeriodMonth && 
-                x.Calendar_Year == CollectionPeriodYear);
-
-            SubmissionCollectionPeriod = period.Period_ID;
-            SubmissionAcademicYear = period.Collection_Year;
-            CollectionPeriodName = period.Collection_Period_Name;
-        }
-
         public long Ukprn { get; set; }
         public Guid SubmissionId { get; set; }
         public int PaymentType { get; set; }
