@@ -12,7 +12,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
         [OneTimeSetUp]
         public void BeforeAllTests()
         {
-            SetupSubmissionDatabases();
+           SetupSubmissionDatabases();
             SetupPeriodEndDatabase();
         }
 
@@ -38,6 +38,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     RunSqlScript(@"Ilr.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                     RunSqlScript(@"Ilr.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                     RunSqlScript(@"Ilr.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+
+                    RunSqlScript(@"Ilr.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                 }
 
@@ -93,6 +95,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                     RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+
+                    RunSqlScript(@"PeriodEnd.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                 }
                 finally
                 {

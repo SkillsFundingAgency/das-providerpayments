@@ -46,13 +46,54 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 
                     SELECT @SQL = (
                         SELECT 'TRUNCATE TABLE [' + s.name + '].[' + o.name + ']' + CHAR(13)
-                        FROM sys.objects o WITH (NOWAIT)
+                        FROM sys.tables o WITH (NOWAIT)
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
                             AND s.name IN ('dbo', 'Input', 'Valid', 'Invalid', 'Reference', 'DataLock', 'Rulebase')
+                            AND o.object_id NOT IN (
+							SELECT t.object_id
+							FROM sys.tables t
+							JOIN sys.schemas s1 ON t.[schema_id] = s1.[schema_id]
+							WHERE
+								(s1.name = 'dbo' AND t.name = 'DasCommitments')
+								OR (s1.name = 'Reference' AND t.name = 'DasCommitments')
+                                OR (s1.name = 'Reference' AND t.name = 'DataLockPriceEpisode')
+						)
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 
                     EXEC sys.sp_executesql @SQL                
+
+                   IF EXISTS (
+							SELECT 1
+							FROM sys.tables o WITH (NOWAIT)
+							JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
+							WHERE s.name = 'dbo'
+							AND o.name = 'DasCommitments')
+					BEGIN
+						DELETE FROM dbo.DasCommitments
+					END
+
+                    IF EXISTS (
+							SELECT 1
+							FROM sys.tables o WITH (NOWAIT)
+							JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
+							WHERE s.name = 'Reference'
+							AND o.name = 'DasCommitments')
+					BEGIN
+						DELETE FROM Reference.DasCommitments
+					END
+
+                    IF EXISTS (
+							SELECT 1
+							FROM sys.tables o WITH (NOWAIT)
+							JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
+							WHERE s.name = 'Reference'
+							AND o.name = 'DataLockPriceEpisode')
+					BEGIN
+						DELETE FROM Reference.DataLockPriceEpisode
+					END
+
+                    
                 ");
         }
 

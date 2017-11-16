@@ -21,7 +21,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
 
         public void RemoveExtraPriceEpisodePeriodMatches()
         {
-            Execute(DeleteExtraPriceEpisodePeriodMatchesProc);
+            ExecuteByProc(DeleteExtraPriceEpisodePeriodMatchesProc);
         }
     }
 }
