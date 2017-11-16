@@ -186,13 +186,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             foreach (var earning in earningResponse.Items)
             {
                 var amountEarned = earning.EarnedValue;
-
-                // If this is a 0 earning but there is another equivilant earning with earning then ignore this one
-                if (amountEarned == 0 && PayableItemExists(earningResponse.Items, earning))
-                {
-                    continue;
-                }
-
+                
                 if (earning.CalendarYear > currentPeriod.Year
                     || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
                 {
@@ -258,19 +252,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             return earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2;
         }
 
-        private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
-        {
-            return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
-                               p.Uln == currentEarning.Uln &&
-                               p.StandardCode == currentEarning.StandardCode &&
-                               p.FrameworkCode == currentEarning.FrameworkCode &&
-                               p.PathwayCode == currentEarning.PathwayCode &&
-                               p.ProgrammeType == currentEarning.ProgrammeType &&
-                               p.CalendarMonth == currentEarning.CalendarMonth &&
-                               p.CalendarYear == currentEarning.CalendarYear &&
-                               p.EarnedValue != 0 &&
-                               ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
-        }
 
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {

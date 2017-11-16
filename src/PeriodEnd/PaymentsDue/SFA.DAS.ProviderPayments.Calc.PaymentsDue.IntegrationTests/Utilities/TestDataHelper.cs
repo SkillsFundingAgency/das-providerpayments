@@ -587,7 +587,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@ApprenticeshipContractType, " // ApprenticeshipContractType
                   + "@DeliveryMonth, " // DeliveryMonth
                   + "@DeliveryYear, " // DeliveryYear
-                  + "'1617-R10', " // CollectionPeriodName
+                  + "1617-R01', " // CollectionPeriodName
                   + "5, " // CollectionPeriodMonth
                   + "2017, " // CollectionPeriodYear
                   + "@TransactionType, " // TransactionType
@@ -643,7 +643,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'2', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
-                  + "'R01', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType

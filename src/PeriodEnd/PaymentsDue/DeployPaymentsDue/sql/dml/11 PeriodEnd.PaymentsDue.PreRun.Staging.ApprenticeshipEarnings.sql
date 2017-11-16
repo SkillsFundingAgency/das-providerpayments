@@ -75,21 +75,23 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
               AND cp.CalendarMonth = ph.DeliveryMonth
               AND cp.CalendarYear = ph.DeliveryYear
                      AND ph.AmountDue > 0
-      WHERE CP.PeriodNumber <= (SELECT TOP 1 PeriodNumber FROM Staging.CollectionPeriods WHERE [Open] = 1) AND
+       WHERE CP.PeriodNumber <= (SELECT TOP 1 PeriodNumber FROM Staging.CollectionPeriods WHERE [Open] = 1) 
+	  AND
       (
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeOnProgPayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeCompletionPayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeBalancePayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) AND PriceEpisodeFirstEmp1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) AND PriceEpisodeFirstProv1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3) AND PriceEpisodeSecondEmp1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3)  AND PriceEpisodeSecondProv1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeApplic1618FrameworkUpliftOnProgPayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeApplic1618FrameworkUpliftCompletionPayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeApplic1618FrameworkUpliftBalancing <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeFirstDisadvantagePayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND PriceEpisodeSecondDisadvantagePayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND LearningSupportPayment <> 0 ) 
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 1  AND PriceEpisodeOnProgPayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 2 AND PriceEpisodeCompletionPayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 3 AND PriceEpisodeBalancePayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) And ndtt.TransactionType = 4 AND PriceEpisodeFirstEmp1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) And ndtt.TransactionType = 5 AND PriceEpisodeFirstProv1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3) And ndtt.TransactionType = 6 AND PriceEpisodeSecondEmp1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3) And ndtt.TransactionType = 7  AND PriceEpisodeSecondProv1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 8  AND PriceEpisodeApplic1618FrameworkUpliftOnProgPayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 9 AND PriceEpisodeApplic1618FrameworkUpliftCompletionPayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 10 AND PriceEpisodeApplic1618FrameworkUpliftBalancing <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 11 AND PriceEpisodeFirstDisadvantagePayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 12 AND PriceEpisodeSecondDisadvantagePayment <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 15 AND LearningSupportPayment <> 0 ) 
       OR ph.AmountDue> 0
       )
       AND (pepm.Period Is Null OR ae.Period = pepm.Period OR ph.AmountDue >0)
+
