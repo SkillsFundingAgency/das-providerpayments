@@ -20,15 +20,30 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 connection.Open();
                 using (var sqlBulkCopy = new SqlBulkCopy(connection){DestinationTableName = "[dbo].[EAS_Submission_Values]"})
-                using (var reader = ObjectReader.Create(submission.Values, "Submission_Id", "CollectionPeriod", "Payment_Id", "PaymentValue"))
+                using (var reader = ObjectReader.Create(submission.Values, "SubmissionId", "CollectionPeriod", "PaymentId", 
+                    "PaymentValue"))
                 {
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("SubmissionId", "Submission_Id"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("CollectionPeriod", "CollectionPeriod"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("PaymentId", "Payment_Id"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("PaymentValue", "PaymentValue"));
+
                     sqlBulkCopy.WriteToServer(reader);
                 }
 
                 using (var sqlBulkCopy = new SqlBulkCopy(connection) { DestinationTableName = "[dbo].[EAS_Submission]" })
-                using (var reader = ObjectReader.Create(new List<EasSubmission>{submission}, "Submission_Id", "UKPRN", 
+                using (var reader = ObjectReader.Create(new List<EasSubmission>{submission}, "SubmissionId", "Ukprn", 
                     "CollectionPeriod", "ProviderName", "UpdatedOn", "DeclarationChecked", "NilReturn", "UpdatedBy"))
                 {
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("SubmissionId", "Submission_Id"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("Ukprn", "UKPRN"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("CollectionPeriod", "CollectionPeriod"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("ProviderName", "ProviderName"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("UpdatedOn", "UpdatedOn"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("DeclarationChecked", "DeclarationChecked"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("NilReturn", "NilReturn"));
+                    sqlBulkCopy.ColumnMappings.Add(new SqlBulkCopyColumnMapping("UpdatedBy", "UpdatedBy"));
+                    
                     sqlBulkCopy.WriteToServer(reader);
                 }
             }

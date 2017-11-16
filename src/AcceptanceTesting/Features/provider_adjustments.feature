@@ -60,23 +60,40 @@ Feature: Provider adjustments (EAS) payments
 		Given the EAS collection period is 08/17
 		When the following EAS form is submitted:
 			| Type                                        | 08/17 |
+			| 16-18 Levy Employer Audit Adjustments       | 0     |
+			| 16-18 Levy Provider Audit Adjustments       | 0     |
+			| 16-18 Levy Training Audit Adjustments       | 0     |
+			| Adult Levy Employer Audit Adjustments       | 0     |
+			| Adult Levy Provider Audit Adjustments       | 0     |
+			| Adult Levy Training Audit Adjustments       | 0     |
+			| 16-18 Levy Employer Authorised Claims       | 0     |
+			| 16-18 Levy Provider Authorised Claims       | 0     |
+			| 16-18 Levy Training Authorised Claims       | 0     |
+			| Adult Levy Employer Authorised Claims       | 0     |
+			| Adult Levy Provider Authorised Claims       | 0     |
+			| Adult Levy Training Authorised Claims       | 0     |
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     |
+			| Adult Non-Levy Employer Audit Adjustments   | 0     |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     |
+			| Adult Non-Levy Training Audit Adjustments   | 0     |
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     |
+			| 16-18 Non Levy Training Authorised Claims   | 0     |
+			| Adult Non-Levy Employer Authorised Claims   | 0     |
+			| Adult Non-Levy Provider Authorised Claims   | 0     |
+			| Adult Non-Levy Training Authorised Claims   | 0     |
+#
 			| 16-18 Levy Excess Learning Support          | 0     |
-			| 16-18 Levy Exceptional Learning Support     | 0     |
-			| 16-18 Levy Audit Adjustments                | 0     |
-			| 16-18 Levy Authorised Claims                | 0     |
-			| 16-18 Levy Authorised Claims                | 0     |
-			| 16-18 Non Levy Excess Learning Support      | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 0     |
-			| 16-18 Non Levy Audit Adjustments            | 0     |
-			| 16-18 Non Levy Authorised Claims            | 0     |
+			| 16-18 Non-Levey Excess Learning Support     | 0     |
 			| Adult Levy Excess Learning Support          | 0     |
+			| Adult Non-Levy Excess Learning Support      | 0     |
+			| 16-18 Levy Exceptional Learning Support     | 0     |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     |
 			| Adult Levy Exceptional Learning Support     | 0     |
-			| Adult Levy Audit Adjustments                | 0     |
-			| Adult Levy Authorised Claims                | 0     |
-			| Adult Non Levy Excess Learning Support      | 0     |
-			| Adult Non Levy Exceptional Learning Support | 0     |
-			| Adult Non Levy Audit Adjustments            | 0     |
-			| Adult Non Levy Authorised Claims            | 0     |  
+			| Adult Non-Levy Exceptional Learning Support | 0     |
 		
 		Then the EAS payments are:
 			| Type                                        | 08/17 | 09/17 |

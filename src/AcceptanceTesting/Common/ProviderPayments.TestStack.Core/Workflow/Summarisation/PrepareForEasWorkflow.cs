@@ -1,4 +1,5 @@
 ﻿using ProviderPayments.TestStack.Core.Workflow.Common;
+using ProviderPayments.TestStack.Core.Workflow.Summarisation.Tasks;
 
 namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
 {
@@ -9,6 +10,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
         {
             SetTasks(new WorkflowTask[]
             {
+                new CleanupPeriodEndDedsTask(logger), 
                 new SetCollectionPeriodTask(logger),
             });
         }

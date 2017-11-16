@@ -33,9 +33,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             { "Adult Non-Levy Provider Audit Adjustments", "Audit Adjustments: Adult Non-Levy Apprenticeships - Provider" },
             { "Adult Non-Levy Training Audit Adjustments", "Audit Adjustments: Adult Non-Levy Apprenticeships - Training" },
 
-            { "16-18 Levy Employer Authorised Claims ", "Authorised Claims: 16-18 Levy Apprenticeships - Employer" },
-            { "16-18 Levy Provider Authorised Claims ", "Authorised Claims: 16-18 Levy Apprenticeships - Provider" },
-            { "16-18 Levy Training Authorised Claims ", "Authorised Claims: 16-18 Levy Apprenticeships - Training" },
+            { "16-18 Levy Employer Authorised Claims", "Authorised Claims: 16-18 Levy Apprenticeships - Employer" },
+            { "16-18 Levy Provider Authorised Claims", "Authorised Claims: 16-18 Levy Apprenticeships - Provider" },
+            { "16-18 Levy Training Authorised Claims", "Authorised Claims: 16-18 Levy Apprenticeships - Training" },
 
             { "16-18 Non-Levy Employer Authorised Claims", "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer" },
             { "16-18 Non Levy Provider Authorised Claims", "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider" },
