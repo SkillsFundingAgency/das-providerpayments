@@ -61,6 +61,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        public static List<EasPayment> GetEasPayments()
+        {
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                var collectionPeriods = connection
+                    .Query<EasPayment>("SELECT * FROM [ProviderAdjustments].[Payments]");
+                return collectionPeriods.ToList();
+            }
+        }
+
         public static List<CollectionPeriodMapping> GetPeriodMappings()
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))

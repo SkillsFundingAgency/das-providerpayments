@@ -252,45 +252,95 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 08/17
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 |
-			| 16-18 Levy Exceptional Learning Support     | 0     |
-			| 16-18 Levy Audit Adjustments                | 12.03 |
-			| 16-18 Levy Authorised Claims                | 0     |
-			| 16-18 Levy Authorised Claims                | 14.05 |
-			| 16-18 Non Levy Excess Learning Support      | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 |
-			| 16-18 Non Levy Audit Adjustments            | 0     |
-			| 16-18 Non Levy Authorised Claims            | 18.09 |
-			| Adult Levy Excess Learning Support          | 0     |
-			| Adult Levy Exceptional Learning Support     | 21.11 |
-			| Adult Levy Audit Adjustments                | 0     |
-			| Adult Levy Authorised Claims                | 23.13 |
-			| Adult Non Levy Excess Learning Support      | 0     |
-			| Adult Non Levy Exceptional Learning Support | 25.15 |
-			| Adult Non Levy Audit Adjustments            | 0     |
-			| Adult Non Levy Authorised Claims            | 27.17 | 
+			| Type                                        | 08/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0      |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0      |
+			| Adult Levy Provider Audit Adjustments       | 50.05  |
+			| Adult Levy Training Audit Adjustments       | 0      |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  |
+			| 16-18 Levy Provider Authorised Claims       | 0      |
+			| 16-18 Levy Training Authorised Claims       | 90.09  |
+			#
+			| Adult Levy Employer Authorised Claims       | 0      |
+			| Adult Levy Provider Authorised Claims       | 110.11 |
+			| Adult Levy Training Authorised Claims       | 0      |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0      |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0      |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 |
+			| Adult Non-Levy Training Audit Adjustments   | 0      |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0      |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0      |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 |
+			| Adult Non-Levy Training Authorised Claims   | 0      |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 |
+			| 16-18 Non-Levey Excess Learning Support     | 0      |
+			| Adult Levy Excess Learning Support          | 270.27 |
+			| Adult Non-Levy Excess Learning Support      | 0      |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0      |
+			| Adult Levy Exceptional Learning Support     | 310.31 |
+			| Adult Non-Levy Exceptional Learning Support | 0      |
 
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 10.01 |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     |
-			| 16-18 Levy Audit Adjustments                | 0     | 12.03 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     |
-			| 16-18 Levy Authorised Claims                | 0     | 14.05 |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 16.07 |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     |
-			| 16-18 Non Levy Authorised Claims            | 0     | 18.09 |
-			| Adult Levy Excess Learning Support          | 0     | 0     |
-			| Adult Levy Exceptional Learning Support     | 0     | 21.11 |
-			| Adult Levy Audit Adjustments                | 0     | 0     |
-			| Adult Levy Authorised Claims                | 0     | 23.13 |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     |
-			| Adult Non Levy Exceptional Learning Support | 0     | 25.15 |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     |
-			| Adult Non Levy Authorised Claims            | 0     | 27.17 |
+			| type                                        | 08/17 | 09/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 10.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0      |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 30.03  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0      |
+			| Adult Levy Provider Audit Adjustments       | 0     | 50.05  |
+			| Adult Levy Training Audit Adjustments       | 0     | 0      |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 70.07  |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0      |
+			| 16-18 Levy Training Authorised Claims       | 0     | 90.09  |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0      |
+			| Adult Levy Provider Authorised Claims       | 0     | 110.11 |
+			| Adult Levy Training Authorised Claims       | 0     | 0      |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 130.13 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0      |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 150.15 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0      |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 170.17 |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0      |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 190.19 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0      |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 210.21 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0      |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 230.23 |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0      |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 250.25 |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0      |
+			| Adult Levy Excess Learning Support          | 0     | 270.27 |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0      |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 290.29 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0      |
+			| Adult Levy Exceptional Learning Support     | 0     | 310.31 |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0      |
 
 
 	# Feature: 2.SUBMISSION FOR A PREVIOUS MONTH - NO PREVIOUS SUBMISSIONS
@@ -306,45 +356,95 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 09/17
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 | 0     |
-			| 16-18 Levy Exceptional Learning Support     | 11.02 | 0     |
-			| 16-18 Levy Audit Adjustments                | 12.03 | 0     |
-			| 16-18 Levy Authorised Claims                | 13.04 | 0     |
-			| 16-18 Levy Authorised Claims                | 14.05 | 0     |
-			| 16-18 Non Levy Excess Learning Support      | 15.06 | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 | 0     |
-			| 16-18 Non Levy Audit Adjustments            | 17.08 | 0     |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 0     |
-			| Adult Levy Excess Learning Support          | 20.10 | 0     |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 0     |
-			| Adult Levy Audit Adjustments                | 22.12 | 0     |
-			| Adult Levy Authorised Claims                | 23.13 | 0     |
-			| Adult Non Levy Excess Learning Support      | 24.14 | 0     |
-			| Adult Non Levy Exceptional Learning Support | 25.15 | 0     |
-			| Adult Non Levy Audit Adjustments            | 26.16 | 0     |
-			| Adult Non Levy Authorised Claims            | 27.17 | 0     | 
+			| Type                                        | 08/17  | 09/17 |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  | 0     |
+			| 16-18 Levy Provider Audit Adjustments       | 20.02  | 0     |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  | 0     |
+			#
+			| Adult Levy Employer Audit Adjustments       | 40.04  | 0     |
+			| Adult Levy Provider Audit Adjustments       | 50.05  | 0     |
+			| Adult Levy Training Audit Adjustments       | 60.06  | 0     |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  | 0     |
+			| 16-18 Levy Provider Authorised Claims       | 80.08  | 0     |
+			| 16-18 Levy Training Authorised Claims       | 90.09  | 0     |
+			#
+			| Adult Levy Employer Authorised Claims       | 100.10 | 0     |
+			| Adult Levy Provider Authorised Claims       | 110.11 | 0     |
+			| Adult Levy Training Authorised Claims       | 120.12 | 0     |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 | 0     |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 140.14 | 0     |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 | 0     |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 160.16 | 0     |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 | 0     |
+			| Adult Non-Levy Training Audit Adjustments   | 180.18 | 0     |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 | 0     |
+			| 16-18 Non Levy Provider Authorised Claims   | 200.20 | 0     |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 | 0     |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 220.22 | 0     |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 | 0     |
+			| Adult Non-Levy Training Authorised Claims   | 240.14 | 0     |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 | 0     |
+			| 16-18 Non-Levey Excess Learning Support     | 260.26 | 0     |
+			| Adult Levy Excess Learning Support          | 270.27 | 0     |
+			| Adult Non-Levy Excess Learning Support      | 280.28 | 0     |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 | 0     |
+			| 16-18 Non-Levy Exceptional Learning Support | 300.30 | 0     |
+			| Adult Levy Exceptional Learning Support     | 310.31 | 0     |
+			| Adult Non-Levy Exceptional Learning Support | 320.32 | 0     |
 		
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 | 10/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 0     | 10.01 |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 11.02 |
-			| 16-18 Levy Audit Adjustments                | 0     | 0     | 12.03 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 13.04 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 14.05 |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     | 15.06 |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 0     | 16.07 |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     | 17.08 |
-			| 16-18 Non Levy Authorised Claims            | 0     | 0     | 18.09 |
-			| Adult Levy Excess Learning Support          | 0     | 0     | 20.10 |
-			| Adult Levy Exceptional Learning Support     | 0     | 0     | 21.11 |
-			| Adult Levy Audit Adjustments                | 0     | 0     | 22.12 |
-			| Adult Levy Authorised Claims                | 0     | 0     | 23.13 |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     | 24.14 |
-			| Adult Non Levy Exceptional Learning Support | 0     | 0     | 25.15 |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     | 26.16 |
-			| Adult Non Levy Authorised Claims            | 0     | 0     | 27.17 | 
+			| type                                        | 08/17 | 09/17 | 10/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 0     | 10.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0     | 20.02  |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 0     | 30.03  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0     | 40.04  |
+			| Adult Levy Provider Audit Adjustments       | 0     | 0     | 50.05  |
+			| Adult Levy Training Audit Adjustments       | 0     | 0     | 60.06  |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 0     | 70.07  |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0     | 80.08  |
+			| 16-18 Levy Training Authorised Claims       | 0     | 0     | 90.09  |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0     | 100.10 |
+			| Adult Levy Provider Authorised Claims       | 0     | 0     | 110.11 |
+			| Adult Levy Training Authorised Claims       | 0     | 0     | 120.12 |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 0     | 130.13 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0     | 140.14 |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 0     | 150.15 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0     | 160.16 |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 0     | 170.17 |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0     | 180.18 |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 0     | 190.19 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0     | 200.20 |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 0     | 210.21 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0     | 220.22 |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 0     | 230.23 |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0     | 240.14 |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 0     | 250.25 |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0     | 260.26 |
+			| Adult Levy Excess Learning Support          | 0     | 0     | 270.27 |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0     | 280.28 |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 290.29 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 300.30 |
+			| Adult Levy Exceptional Learning Support     | 0     | 0     | 310.31 |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 320.32 |
 
 
 
@@ -352,45 +452,95 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 09/17
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 | 0     |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     |
-			| 16-18 Levy Audit Adjustments                | 12.03 | 0     |
-			| 16-18 Levy Authorised Claims                | 0     | 0     |
-			| 16-18 Levy Authorised Claims                | 14.05 | 0     |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 | 0     |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 0     |
-			| Adult Levy Excess Learning Support          | 0     | 0     |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 0     |
-			| Adult Levy Audit Adjustments                | 0     | 0     |
-			| Adult Levy Authorised Claims                | 23.13 | 0     |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     |
-			| Adult Non Levy Exceptional Learning Support | 25.15 | 0     |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     |
-			| Adult Non Levy Authorised Claims            | 27.17 | 0     | 
+			| Type                                        | 08/17  | 09/17 |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  | 0     |
+			| 16-18 Levy Provider Audit Adjustments       | 0      | 0     |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  | 0     |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0      | 0     |
+			| Adult Levy Provider Audit Adjustments       | 50.05  | 0     |
+			| Adult Levy Training Audit Adjustments       | 0      | 0     |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  | 0     |
+			| 16-18 Levy Provider Authorised Claims       | 0      | 0     |
+			| 16-18 Levy Training Authorised Claims       | 90.09  | 0     |
+			#
+			| Adult Levy Employer Authorised Claims       | 0      | 0     |
+			| Adult Levy Provider Authorised Claims       | 110.11 | 0     |
+			| Adult Levy Training Authorised Claims       | 0      | 0     |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 | 0     |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0      | 0     |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 | 0     |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0      | 0     |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 | 0     |
+			| Adult Non-Levy Training Audit Adjustments   | 0      | 0     |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 | 0     |
+			| 16-18 Non Levy Provider Authorised Claims   | 0      | 0     |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 | 0     |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0      | 0     |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 | 0     |
+			| Adult Non-Levy Training Authorised Claims   | 0      | 0     |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 | 0     |
+			| 16-18 Non-Levey Excess Learning Support     | 0      | 0     |
+			| Adult Levy Excess Learning Support          | 270.27 | 0     |
+			| Adult Non-Levy Excess Learning Support      | 0      | 0     |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 | 0     |
+			| 16-18 Non-Levy Exceptional Learning Support | 0      | 0     |
+			| Adult Levy Exceptional Learning Support     | 310.31 | 0     |
+			| Adult Non-Levy Exceptional Learning Support | 0      | 0     |
 
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 | 10/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 0     | 10.01 |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 0     |
-			| 16-18 Levy Audit Adjustments                | 0     | 0     | 12.03 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 0     |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 14.05 |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 0     | 16.07 |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     | 0     |
-			| 16-18 Non Levy Authorised Claims            | 0     | 0     | 18.09 |
-			| Adult Levy Excess Learning Support          | 0     | 0     | 0     |
-			| Adult Levy Exceptional Learning Support     | 0     | 0     | 21.11 |
-			| Adult Levy Audit Adjustments                | 0     | 0     | 0     |
-			| Adult Levy Authorised Claims                | 0     | 0     | 23.13 |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     | 0     |
-			| Adult Non Levy Exceptional Learning Support | 0     | 0     | 25.15 |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     | 0     |
-			| Adult Non Levy Authorised Claims            | 0     | 0     | 27.17 | 
+			| type                                        | 08/17 | 09/17 | 10/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 0     | 10.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0     | 0      |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 0     | 30.03  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0     | 0      |
+			| Adult Levy Provider Audit Adjustments       | 0     | 0     | 50.05  |
+			| Adult Levy Training Audit Adjustments       | 0     | 0     | 0      |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 0     | 70.07  |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0     | 0      |
+			| 16-18 Levy Training Authorised Claims       | 0     | 0     | 90.09  |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0     | 0      |
+			| Adult Levy Provider Authorised Claims       | 0     | 0     | 110.11 |
+			| Adult Levy Training Authorised Claims       | 0     | 0     | 0      |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 0     | 130.13 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0     | 0      |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 0     | 150.15 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0     | 0      |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 0     | 170.17 |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0     | 0      |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 0     | 190.19 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0     | 0      |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 0     | 210.21 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0     | 0      |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 0     | 230.23 |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0     | 0      |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 0     | 250.25 |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0     | 0      |
+			| Adult Levy Excess Learning Support          | 0     | 0     | 270.27 |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0     | 0      |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 290.29 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 0      |
+			| Adult Levy Exceptional Learning Support     | 0     | 0     | 310.31 |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 0      |
 
 
 	# Feature: 3.SUBMISSION FOR ALL MONTHS - NO PREVIOUS SUBMISSIONS
@@ -403,45 +553,95 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 09/17
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 | 28.18 |
-			| 16-18 Levy Exceptional Learning Support     | 11.02 | 29.19 |
-			| 16-18 Levy Audit Adjustments                | 12.03 | 30.20 |
-			| 16-18 Levy Authorised Claims                | 13.04 | 31.21 |
-			| 16-18 Levy Authorised Claims                | 14.05 | 32.22 |
-			| 16-18 Non Levy Excess Learning Support      | 15.06 | 33.23 |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 | 34.23 |
-			| 16-18 Non Levy Audit Adjustments            | 17.08 | 35.24 |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 36.25 |
-			| Adult Levy Excess Learning Support          | 20.10 | 37.26 |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 38.27 |
-			| Adult Levy Audit Adjustments                | 22.12 | 39.28 |
-			| Adult Levy Authorised Claims                | 23.13 | 40.29 |
-			| Adult Non Levy Excess Learning Support      | 24.14 | 41.30 |
-			| Adult Non Levy Exceptional Learning Support | 25.15 | 42.31 |
-			| Adult Non Levy Audit Adjustments            | 26.16 | 43.32 |
-			| Adult Non Levy Authorised Claims            | 27.17 | 44.33 | 
+			| Type                                        | 08/17  | 09/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  | 9.00   |
+			| 16-18 Levy Provider Audit Adjustments       | 20.02  | 19.01  |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  | 29.02  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 40.04  | 39.03  |
+			| Adult Levy Provider Audit Adjustments       | 50.05  | 49.04  |
+			| Adult Levy Training Audit Adjustments       | 60.06  | 59.05  |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  | 69.06  |
+			| 16-18 Levy Provider Authorised Claims       | 80.08  | 79.07  |
+			| 16-18 Levy Training Authorised Claims       | 90.09  | 89.08  |
+			#
+			| Adult Levy Employer Authorised Claims       | 100.10 | 99.09  |
+			| Adult Levy Provider Authorised Claims       | 110.11 | 109.10 |
+			| Adult Levy Training Authorised Claims       | 120.12 | 119.11 |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 | 129.12 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 140.14 | 139.13 |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 | 149.14 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 160.16 | 159.15 |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 | 169.16 |
+			| Adult Non-Levy Training Audit Adjustments   | 180.18 | 179.17 |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 | 189.18 |
+			| 16-18 Non Levy Provider Authorised Claims   | 200.20 | 199.19 |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 | 209.20 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 220.22 | 219.21 |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 | 229.22 |
+			| Adult Non-Levy Training Authorised Claims   | 240.24 | 239.23 |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 | 249.24 |
+			| 16-18 Non-Levey Excess Learning Support     | 260.26 | 259.25 |
+			| Adult Levy Excess Learning Support          | 270.27 | 269.26 |
+			| Adult Non-Levy Excess Learning Support      | 280.28 | 279.27 |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 | 289.28 |
+			| 16-18 Non-Levy Exceptional Learning Support | 300.30 | 299.29 |
+			| Adult Levy Exceptional Learning Support     | 310.31 | 309.30 |
+			| Adult Non-Levy Exceptional Learning Support | 320.32 | 319.31 |
 		
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 | 10/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 0     | 38.19 |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 40.21 |
-			| 16-18 Levy Audit Adjustments                | 0     | 0     | 42.23 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 44.25 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 46.27 |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     | 48.29 |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 0     | 50.3  |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     | 52.32 |
-			| 16-18 Non Levy Authorised Claims            | 0     | 0     | 54.34 |
-			| Adult Levy Excess Learning Support          | 0     | 0     | 57.36 |
-			| Adult Levy Exceptional Learning Support     | 0     | 0     | 59.38 |
-			| Adult Levy Audit Adjustments                | 0     | 0     | 61.40 |
-			| Adult Levy Authorised Claims                | 0     | 0     | 63.42 |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     | 65.44 |
-			| Adult Non Levy Exceptional Learning Support | 0     | 0     | 67.46 |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     | 69.48 |
-			| Adult Non Levy Authorised Claims            | 0     | 0     | 71.50 |
+			| type                                        | 08/17 | 09/17 | 10/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 0     | 19.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0     | 39.03  |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 0     | 59.05  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0     | 79.07  |
+			| Adult Levy Provider Audit Adjustments       | 0     | 0     | 99.09  |
+			| Adult Levy Training Audit Adjustments       | 0     | 0     | 119.11 |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 0     | 139.13 |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0     | 159.15 |
+			| 16-18 Levy Training Authorised Claims       | 0     | 0     | 179.17 |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0     | 199.19 |
+			| Adult Levy Provider Authorised Claims       | 0     | 0     | 219.21 |
+			| Adult Levy Training Authorised Claims       | 0     | 0     | 239.23 |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 0     | 259.25 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0     | 279.27 |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 0     | 299.29 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0     | 319.31 |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 0     | 339.33 |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0     | 359.35 |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 0     | 379.37 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0     | 399.39 |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 0     | 419.41 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0     | 439.43 |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 0     | 459.45 |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0     | 479.47 |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 0     | 499.49 |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0     | 519.51 |
+			| Adult Levy Excess Learning Support          | 0     | 0     | 539.53 |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0     | 559.55 |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 579.57 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 599.59 |
+			| Adult Levy Exceptional Learning Support     | 0     | 0     | 619.61 |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 639.63 |
 
 
 
@@ -449,45 +649,95 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 09/17
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 | 0     |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 29.19 |
-			| 16-18 Levy Audit Adjustments                | 12.03 | 0     |
-			| 16-18 Levy Authorised Claims                | 0     | 31.21 |
-			| 16-18 Levy Authorised Claims                | 14.05 | 0     |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 33.23 |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 | 0     |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 35.25 |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 0     |
-			| Adult Levy Excess Learning Support          | 0     | 37.27 |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 0     |
-			| Adult Levy Audit Adjustments                | 0     | 39.29 |
-			| Adult Levy Authorised Claims                | 23.13 | 0     |
-			| Adult Non Levy Excess Learning Support      | 0     | 41.31 |
-			| Adult Non Levy Exceptional Learning Support | 25.15 | 0     |
-			| Adult Non Levy Audit Adjustments            | 0     | 43.33 |
-			| Adult Non Levy Authorised Claims            | 27.17 | 0     | 
+			| Type                                        | 08/17  | 09/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  | 9.00   |
+			| 16-18 Levy Provider Audit Adjustments       | 0      | 0      |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  | 29.02  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0      | 0      |
+			| Adult Levy Provider Audit Adjustments       | 50.05  | 49.04  |
+			| Adult Levy Training Audit Adjustments       | 0      | 0      |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  | 69.06  |
+			| 16-18 Levy Provider Authorised Claims       | 0      | 0      |
+			| 16-18 Levy Training Authorised Claims       | 90.09  | 89.08  |
+			#
+			| Adult Levy Employer Authorised Claims       | 0      | 0      |
+			| Adult Levy Provider Authorised Claims       | 110.11 | 109.10 |
+			| Adult Levy Training Authorised Claims       | 0      | 0      |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 | 129.12 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0      | 0      |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 | 149.14 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0      | 0      |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 | 169.16 |
+			| Adult Non-Levy Training Audit Adjustments   | 0      | 0      |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 | 189.18 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0      | 0      |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 | 209.20 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0      | 0      |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 | 229.22 |
+			| Adult Non-Levy Training Authorised Claims   | 0      | 0      |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 | 249.24 |
+			| 16-18 Non-Levey Excess Learning Support     | 0      | 0      |
+			| Adult Levy Excess Learning Support          | 270.27 | 269.26 |
+			| Adult Non-Levy Excess Learning Support      | 0      | 0      |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 | 289.28 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0      | 0      |
+			| Adult Levy Exceptional Learning Support     | 310.31 | 309.30 |
+			| Adult Non-Levy Exceptional Learning Support | 0      | 0      |
 
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 | 10/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 0     | 10.01 |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 29.19 |
-			| 16-18 Levy Audit Adjustments                | 0     | 0     | 12.03 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 31.21 |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 14.05 |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     | 33.23 |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 0     | 16.07 |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     | 35.25 |
-			| 16-18 Non Levy Authorised Claims            | 0     | 0     | 18.09 |
-			| Adult Levy Excess Learning Support          | 0     | 0     | 37.27 |
-			| Adult Levy Exceptional Learning Support     | 0     | 0     | 21.11 |
-			| Adult Levy Audit Adjustments                | 0     | 0     | 39.29 |
-			| Adult Levy Authorised Claims                | 0     | 0     | 23.13 |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     | 41.31 |
-			| Adult Non Levy Exceptional Learning Support | 0     | 0     | 25.15 |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     | 43.33 |
-			| Adult Non Levy Authorised Claims            | 0     | 0     | 27.17 |
+			| type                                        | 08/17 | 09/17 | 10/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 0     | 19.01  |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0     | 0      |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 0     | 59.05  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0     | 0      |
+			| Adult Levy Provider Audit Adjustments       | 0     | 0     | 99.09  |
+			| Adult Levy Training Audit Adjustments       | 0     | 0     | 0      |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 0     | 139.13 |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0     | 0      |
+			| 16-18 Levy Training Authorised Claims       | 0     | 0     | 179.17 |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0     | 0      |
+			| Adult Levy Provider Authorised Claims       | 0     | 0     | 219.21 |
+			| Adult Levy Training Authorised Claims       | 0     | 0     | 0      |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 0     | 259.25 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0     | 0      |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 0     | 299.29 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0     | 0      |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 0     | 339.33 |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0     | 0      |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 0     | 379.37 |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0     | 0      |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 0     | 419.41 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0     | 0      |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 0     | 459.45 |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0     | 0      |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 0     | 499.49 |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0     | 0      |
+			| Adult Levy Excess Learning Support          | 0     | 0     | 539.53 |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0     | 0      |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 579.57 |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 0      |
+			| Adult Levy Exceptional Learning Support     | 0     | 0     | 619.61 |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 0      |
 
 
 
@@ -499,63 +749,138 @@ Feature: Provider adjustments (EAS) payments
 
 		Given the EAS collection period is 10/17
 		And the following EAS form is submitted in 09/17:
-			| Type                                        | 08/17 | 09/17 |
-			| 16-18 Levy Excess Learning Support          | 10.01 | 28.18 |
-			| 16-18 Levy Exceptional Learning Support     | 11.02 | 29.19 |
-			| 16-18 Levy Audit Adjustments                | 12.03 | 30.20 |
-			| 16-18 Levy Authorised Claims                | 13.04 | 31.21 |
-			| 16-18 Levy Authorised Claims                | 14.05 | 32.22 |
-			| 16-18 Non Levy Excess Learning Support      | 15.06 | 33.23 |
-			| 16-18 Non Levy Exceptional Learning Support | 16.07 | 34.23 |
-			| 16-18 Non Levy Audit Adjustments            | 17.08 | 35.24 |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 36.25 |
-			| Adult Levy Excess Learning Support          | 20.10 | 37.26 |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 38.27 |
-			| Adult Levy Audit Adjustments                | 22.12 | 39.28 |
-			| Adult Levy Authorised Claims                | 23.13 | 40.29 |
-			| Adult Non Levy Excess Learning Support      | 24.14 | 41.30 |
-			| Adult Non Levy Exceptional Learning Support | 25.15 | 42.31 |
-			| Adult Non Levy Audit Adjustments            | 26.16 | 43.32 |
-			| Adult Non Levy Authorised Claims            | 27.17 | 44.33 | 
+			| Type                                        | 08/17  | 09/17  |
+			| 16-18 Levy Employer Audit Adjustments       | 10.01  | 9.00   |
+			| 16-18 Levy Provider Audit Adjustments       | 20.02  | 19.01  |
+			| 16-18 Levy Training Audit Adjustments       | 30.03  | 29.02  |
+			#
+			| Adult Levy Employer Audit Adjustments       | 40.04  | 39.03  |
+			| Adult Levy Provider Audit Adjustments       | 50.05  | 49.04  |
+			| Adult Levy Training Audit Adjustments       | 60.06  | 59.05  |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 70.07  | 69.06  |
+			| 16-18 Levy Provider Authorised Claims       | 80.08  | 79.07  |
+			| 16-18 Levy Training Authorised Claims       | 90.09  | 89.08  |
+			#
+			| Adult Levy Employer Authorised Claims       | 100.10 | 99.09  |
+			| Adult Levy Provider Authorised Claims       | 110.11 | 109.10 |
+			| Adult Levy Training Authorised Claims       | 120.12 | 119.11 |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 130.13 | 129.12 |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 140.14 | 139.13 |
+			| 16-18 Non-Levy Training Audit Adjustments   | 150.15 | 149.14 |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 160.16 | 159.15 |
+			| Adult Non-Levy Provider Audit Adjustments   | 170.17 | 169.16 |
+			| Adult Non-Levy Training Audit Adjustments   | 180.18 | 179.17 |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 190.19 | 189.18 |
+			| 16-18 Non Levy Provider Authorised Claims   | 200.20 | 199.19 |
+			| 16-18 Non Levy Training Authorised Claims   | 210.21 | 209.20 |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 220.22 | 219.21 |
+			| Adult Non-Levy Provider Authorised Claims   | 230.23 | 229.22 |
+			| Adult Non-Levy Training Authorised Claims   | 240.24 | 239.23 |
+#
+			| 16-18 Levy Excess Learning Support          | 250.25 | 249.24 |
+			| 16-18 Non-Levey Excess Learning Support     | 260.26 | 259.25 |
+			| Adult Levy Excess Learning Support          | 270.27 | 269.26 |
+			| Adult Non-Levy Excess Learning Support      | 280.28 | 279.27 |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 290.29 | 289.28 |
+			| 16-18 Non-Levy Exceptional Learning Support | 300.30 | 299.29 |
+			| Adult Levy Exceptional Learning Support     | 310.31 | 309.30 |
+			| Adult Non-Levy Exceptional Learning Support | 320.32 | 319.31 |
 
 
 		When the following EAS form is submitted:
-			| Type                                        | 08/17 | 09/17 | 10/17 |
-			| 16-18 Levy Exceptional Learning Support     | 0.01  | 28.18 | 0     |
-			| 16-18 Levy Audit Adjustments                | 21.02 | 29.19 | 0     |
-			| 16-18 Levy Excess Learning Support          | 2.03  | 30.20 | 0     |
-			| 16-18 Levy Authorised Claims                | 3.04  | 31.21 | 0     |
-			| 16-18 Levy Authorised Claims                | 24.05 | 32.22 | 0     |
-			| 16-18 Non Levy Excess Learning Support      | 25.06 | 33.23 | 0     |
-			| 16-18 Non Levy Exceptional Learning Support | 26.07 | 34.23 | 0     |
-			| 16-18 Non Levy Audit Adjustments            | 27.08 | 35.24 | 0     |
-			| 16-18 Non Levy Authorised Claims            | 18.09 | 46.25 | 0     |
-			| Adult Levy Excess Learning Support          | 20.10 | 47.26 | 0     |
-			| Adult Levy Exceptional Learning Support     | 21.11 | 48.27 | 0     |
-			| Adult Levy Audit Adjustments                | 22.12 | 49.28 | 0     |
-			| Adult Levy Authorised Claims                | 13.13 | 30.29 | 0     |
-			| Adult Non Levy Excess Learning Support      | 14.14 | 31.30 | 0     |
-			| Adult Non Levy Exceptional Learning Support | 15.15 | 32.31 | 0     |
-			| Adult Non Levy Audit Adjustments            | 16.16 | 33.32 | 0     |
-			| Adult Non Levy Authorised Claims            | 17.17 | 34.33 | 0     |
+			| Type                                        | 08/17   | 09/17  | 10/17 |
+			| 16-18 Levy Employer Audit Adjustments       | 0.01    | 9.00   | 0     |
+			| 16-18 Levy Provider Audit Adjustments       | 0.02    | 19.01  | 0     |
+			| 16-18 Levy Training Audit Adjustments       | 0.03    | 29.02  | 0     |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0.04    | 39.03  | 0     |
+			| Adult Levy Provider Audit Adjustments       | 0.05    | 49.04  | 0     |
+			| Adult Levy Training Audit Adjustments       | 0.06    | 59.05  | 0     |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0.07    | 69.06  | 0     |
+			| 16-18 Levy Provider Authorised Claims       | 0.08    | 79.07  | 0     |
+			| 16-18 Levy Training Authorised Claims       | 0.09    | 89.08  | 0     |
+			#
+			| Adult Levy Employer Authorised Claims       | 00.10   | 99.09  | 0     |
+			| Adult Levy Provider Authorised Claims       | 0.11    | 109.10 | 0     |
+			| Adult Levy Training Authorised Claims       | 0.12    | 119.11 | 0     |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0.13    | 129.12 | 0     |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0.14    | 139.13 | 0     |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0.15    | 149.14 | 0     |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0.16    | 159.15 | 0     |
+			| Adult Non-Levy Provider Audit Adjustments   | 0.17    | 169.16 | 0     |
+			| Adult Non-Levy Training Audit Adjustments   | 0.18    | 179.17 | 0     |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0.19    | 189.18 | 0     |
+			| 16-18 Non Levy Provider Authorised Claims   | 0.20    | 199.19 | 0     |
+			| 16-18 Non Levy Training Authorised Claims   | 0.21    | 209.20 | 0     |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0.22    | 219.21 | 0     |
+			| Adult Non-Levy Provider Authorised Claims   | 0.23    | 229.22 | 0     |
+			| Adult Non-Levy Training Authorised Claims   | 0.24    | 239.23 | 0     |
+#
+			| 16-18 Levy Excess Learning Support          | 1250.25 | 249.24 | 0     |
+			| 16-18 Non-Levey Excess Learning Support     | 1260.26 | 259.25 | 0     |
+			| Adult Levy Excess Learning Support          | 1270.27 | 269.26 | 0     |
+			| Adult Non-Levy Excess Learning Support      | 1280.28 | 279.27 | 0     |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 1290.29 | 289.28 | 0     |
+			| 16-18 Non-Levy Exceptional Learning Support | 1300.30 | 299.29 | 0     |
+			| Adult Levy Exceptional Learning Support     | 1310.31 | 309.30 | 0     |
+			| Adult Non-Levy Exceptional Learning Support | 1320.32 | 319.31 | 0     |
 		
 
 		Then the EAS payments are:
-			| Type                                        | 08/17 | 09/17 | 10/17 | 11/17 |
-			| 16-18 Levy Excess Learning Support          | 0     | 0     | 38.19 | -10   |
-			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 40.21 | 10    |
-			| 16-18 Levy Audit Adjustments                | 0     | 0     | 42.23 | -10   |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 44.25 | -10   |
-			| 16-18 Levy Authorised Claims                | 0     | 0     | 46.27 | 10    |
-			| 16-18 Non Levy Excess Learning Support      | 0     | 0     | 48.29 | 10    |
-			| 16-18 Non Levy Exceptional Learning Support | 0     | 0     | 50.30 | 10    |
-			| 16-18 Non Levy Audit Adjustments            | 0     | 0     | 52.32 | 10    |
-			| 16-18 Non Levy Authorised Claims            | 0     | 0     | 54.34 | 10    |
-			| Adult Levy Excess Learning Support          | 0     | 0     | 57.36 | 10    |
-			| Adult Levy Exceptional Learning Support     | 0     | 0     | 59.38 | 10    |
-			| Adult Levy Audit Adjustments                | 0     | 0     | 61.40 | 10    |
-			| Adult Levy Authorised Claims                | 0     | 0     | 63.42 | -20   |
-			| Adult Non Levy Excess Learning Support      | 0     | 0     | 65.44 | -20   |
-			| Adult Non Levy Exceptional Learning Support | 0     | 0     | 67.46 | -20   |
-			| Adult Non Levy Audit Adjustments            | 0     | 0     | 69.48 | -20   |
-			| Adult Non Levy Authorised Claims            | 0     | 0     | 71.50 | -20   |
+			| type                                        | 08/17 | 09/17 | 10/17  | 11/17 |
+			| 16-18 Levy Employer Audit Adjustments       | 0     | 0     | 19.01  | -10   |
+			| 16-18 Levy Provider Audit Adjustments       | 0     | 0     | 39.03  | -20   |
+			| 16-18 Levy Training Audit Adjustments       | 0     | 0     | 59.05  | -30   |
+			#
+			| Adult Levy Employer Audit Adjustments       | 0     | 0     | 79.07  | -40   |
+			| Adult Levy Provider Audit Adjustments       | 0     | 0     | 99.09  | -50   |
+			| Adult Levy Training Audit Adjustments       | 0     | 0     | 119.11 | -60   |
+			#
+			| 16-18 Levy Employer Authorised Claims       | 0     | 0     | 139.13 | -70   |
+			| 16-18 Levy Provider Authorised Claims       | 0     | 0     | 159.15 | -80   |
+			| 16-18 Levy Training Authorised Claims       | 0     | 0     | 179.17 | -90   |
+			#
+			| Adult Levy Employer Authorised Claims       | 0     | 0     | 199.19 | -100  |
+			| Adult Levy Provider Authorised Claims       | 0     | 0     | 219.21 | -110  |
+			| Adult Levy Training Authorised Claims       | 0     | 0     | 239.23 | -120  |
+#
+#			
+			| 16-18 Non-Levy Employer Audit Adjustments   | 0     | 0     | 259.25 | -130  |
+			| 16-18 Non-Levy Provider Audit Adjustments   | 0     | 0     | 279.27 | -140  |
+			| 16-18 Non-Levy Training Audit Adjustments   | 0     | 0     | 299.29 | -150  |
+			#
+			| Adult Non-Levy Employer Audit Adjustments   | 0     | 0     | 319.31 | -160  |
+			| Adult Non-Levy Provider Audit Adjustments   | 0     | 0     | 339.33 | -170  |
+			| Adult Non-Levy Training Audit Adjustments   | 0     | 0     | 359.35 | -180  |
+			#
+			| 16-18 Non-Levy Employer Authorised Claims   | 0     | 0     | 379.37 | -190  |
+			| 16-18 Non Levy Provider Authorised Claims   | 0     | 0     | 399.39 | -200  |
+			| 16-18 Non Levy Training Authorised Claims   | 0     | 0     | 419.41 | -210  |
+			#
+			| Adult Non-Levy Employer Authorised Claims   | 0     | 0     | 439.43 | -220  |
+			| Adult Non-Levy Provider Authorised Claims   | 0     | 0     | 459.45 | -230  |
+			| Adult Non-Levy Training Authorised Claims   | 0     | 0     | 479.47 | -240  |
+#
+			| 16-18 Levy Excess Learning Support          | 0     | 0     | 499.49 | 1000  |
+			| 16-18 Non-Levey Excess Learning Support     | 0     | 0     | 519.51 | 1000  |
+			| Adult Levy Excess Learning Support          | 0     | 0     | 539.53 | 1000  |
+			| Adult Non-Levy Excess Learning Support      | 0     | 0     | 559.55 | 1000  |
+			#
+			| 16-18 Levy Exceptional Learning Support     | 0     | 0     | 579.57 | 1000  |
+			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 599.59 | 1000  |
+			| Adult Levy Exceptional Learning Support     | 0     | 0     | 619.61 | 1000  |
+			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 639.63 | 1000  |

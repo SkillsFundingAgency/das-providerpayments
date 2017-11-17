@@ -56,6 +56,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             return rows;
         }
 
+        public void CleanEnvirnment()
+        {
+            TestEnvironment.ProcessService.RunCleanupDeds(TestEnvironment.Variables);
+        }
+
         public void SetCollectionPeriod(string collectionPeriod)
         {
 
@@ -83,8 +88,23 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             TestEnvironment.ProcessService.RunPrepareForEas(TestEnvironment.Variables);
         }
 
-        public void AddSubmissions(List<GenericPeriodBasedRow> periods)
+        public void RunMonthEnd()
         {
+            TestEnvironment.ProcessService.RunSummarisation(TestEnvironment.Variables);
+
+            ClearSubmissions();
+
+            _easPayments.AddRange(ProviderAdjustmentsRepository.GetEasPayments());
+        }
+
+        public List<EasPayment> PaymentsFor(int month, int year)
+        {
+            return EasPayments.Where(x => x.CollectionPeriodMonth == month && x.CollectionPeriodYear == year).ToList();
+        }
+
+        public void AddSubmission(List<GenericPeriodBasedRow> periods)
+        {
+            var submissionId = Guid.NewGuid();
             foreach (var row in periods)
             {
                 var collectionPeriod = new PeriodDefinition(row.Period);
@@ -94,6 +114,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                     Ukprn = _ukprn,
                     CollectionPeriod = collectionPeriod.CollectionPeriod,
                     ProviderName = "test provider",
+                    SubmissionId = submissionId,
                 };
                 foreach (var rowDefinition in row.Rows)
                 {
@@ -123,8 +144,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             {
                 return _paymentTypeNameLookup[paymentName];
             }
-            throw new ArgumentOutOfRangeException($"Could not find a payment type of {paymentName} \n " +
+            throw new ApplicationException($"Could not find a payment type of {paymentName} \n " +
                                                   $"Generated from payment type: {specValue}");
+        }
+
+        public void ClearSubmissions()
+        {
+            _easSubmissions.Clear();
         }
     }
 
@@ -144,7 +170,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                 x.Calendar_Year == CollectionYear);
             if (periodEntity == null)
             {
-                throw new ArgumentOutOfRangeException($"Could not find collection period {period}");
+                throw new ApplicationException($"Could not find collection period {period}");
             }
 
             CollectionPeriod = periodEntity.Period_ID;
@@ -191,7 +217,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             }
             else
             {
-                throw new ArgumentException("The collection period should be of the form MM/yy");
+                throw new ApplicationException("The collection period should be of the form MM/yy");
             }
 
             if (int.TryParse(period.Substring(3), out result))
@@ -200,7 +226,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             }
             else
             {
-                throw new ArgumentException("The collection period should be of the form MM/yy");
+                throw new ApplicationException("The collection period should be of the form MM/yy");
             }
             return new Tuple<int, int>(month, year);
         }
