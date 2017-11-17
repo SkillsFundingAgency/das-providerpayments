@@ -58,10 +58,13 @@ create clustered index [IX_Valid_SourceFile] on [Valid].[SourceFile]
 )
 GO
 
-if object_id('[Valid].[LearningProvider]','u') is not null
-begin
+IF EXISTS (SELECT * FROM sys.views WHERE name = 'vw_Commitments' AND SCHEMA_ID = SCHEMA_ID('DataLock'))
+BEGIN
+	DROP VIEW DataLock.vw_commitments
+END
+GO
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
 	drop table [Valid].[LearningProvider]
-end
 GO
  
 create table [Valid].[LearningProvider]
