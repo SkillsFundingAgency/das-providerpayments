@@ -42,7 +42,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     RunSqlScript(@"Ilr.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                 }
-
+                catch (Exception ex)
+                {
+                    Console.Write(ex.Message);
+                }
                 finally
                 {
                     connection.Close();

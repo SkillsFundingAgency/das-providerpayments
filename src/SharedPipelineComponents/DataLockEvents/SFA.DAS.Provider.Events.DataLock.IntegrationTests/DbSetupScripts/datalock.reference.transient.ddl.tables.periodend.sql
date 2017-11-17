@@ -26,7 +26,7 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- DataLockPriceEpisode
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS (SELECT * FROM sys.views WHERE name = 'vw_commitments' AND SCHEMA_ID() = SCHEMA_ID('DataLock'))
+IF EXISTS (SELECT * FROM sys.views WHERE name = 'vw_Commitments' AND SCHEMA_ID = SCHEMA_ID('DataLock'))
 BEGIN
 	DROP VIEW DataLock.vw_commitments
 END
