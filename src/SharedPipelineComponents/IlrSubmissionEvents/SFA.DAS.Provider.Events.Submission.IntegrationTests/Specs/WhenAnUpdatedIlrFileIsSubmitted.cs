@@ -81,6 +81,32 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         }
 
         [Test]
+        public void ThenItShouldHandleLargeTnp1()
+        {
+            // Arrange
+            var testDataSet = TestDataSet.GetUpdateSubmissionDatasetWithUpdatedUln();
+            testDataSet.PriceEpisodes[0].Tnp1 = 106700;
+            testDataSet.Clean();
+            testDataSet.Store();
+
+            // Act
+            TaskRunner.RunTask();
+        }
+
+        [Test]
+        public void ThenItShouldHandleLargeTnp2()
+        {
+            // Arrange
+            var testDataSet = TestDataSet.GetUpdateSubmissionDatasetWithUpdatedUln();
+            testDataSet.PriceEpisodes[0].Tnp2 = 106700;
+            testDataSet.Clean();
+            testDataSet.Store();
+
+            // Act
+            TaskRunner.RunTask();
+        }
+
+        [Test]
         public void ThenItShouldWriteIlrDetailsWhenLearnRefStaysSameButUlnChanges()
         {
             // Arrange
