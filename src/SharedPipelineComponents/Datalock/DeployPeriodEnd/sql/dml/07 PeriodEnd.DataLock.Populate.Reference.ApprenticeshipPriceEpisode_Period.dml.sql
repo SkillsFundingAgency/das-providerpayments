@@ -14,8 +14,8 @@ INSERT INTO [Reference].[ApprenticeshipPriceEpisode_Period] (
 	ape.[LearnRefNumber] ,
 	ape.[PriceEpisodeIdentifier] ,
 	[Period] ,
-	[PriceEpisodeFirstEmp1618Pay],
-	[PriceEpisodeSecondEmp1618Pay]
+	p.[PriceEpisodeFirstEmp1618Pay],
+	p.[PriceEpisodeSecondEmp1618Pay]
 
 	
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] ape

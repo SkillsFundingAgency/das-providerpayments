@@ -587,7 +587,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@ApprenticeshipContractType, " // ApprenticeshipContractType
                   + "@DeliveryMonth, " // DeliveryMonth
                   + "@DeliveryYear, " // DeliveryYear
-                  + "1617-R01', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "5, " // CollectionPeriodMonth
                   + "2017, " // CollectionPeriodYear
                   + "@TransactionType, " // TransactionType

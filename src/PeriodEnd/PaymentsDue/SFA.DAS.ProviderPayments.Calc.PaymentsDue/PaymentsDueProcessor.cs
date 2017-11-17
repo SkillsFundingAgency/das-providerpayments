@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-           
+
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
@@ -186,7 +186,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             foreach (var earning in earningResponse.Items)
             {
                 var amountEarned = earning.EarnedValue;
-                
+
+                // If this is a 0 earning but there is another equivilant earning with earning then ignore this one
+                if (amountEarned == 0 && PayableItemExists(earningResponse.Items, earning))
+                {
+                    continue;
+                }
+
                 if (earning.CalendarYear > currentPeriod.Year
                     || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
                 {
@@ -252,6 +258,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             return earning.EarnedValue > 0 && earning.ApprenticeshipContractType == 2;
         }
 
+        private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
+        {
+            return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
+                               p.Uln == currentEarning.Uln &&
+                               p.StandardCode == currentEarning.StandardCode &&
+                               p.FrameworkCode == currentEarning.FrameworkCode &&
+                               p.PathwayCode == currentEarning.PathwayCode &&
+                               p.ProgrammeType == currentEarning.ProgrammeType &&
+                               p.CalendarMonth == currentEarning.CalendarMonth &&
+                               p.CalendarYear == currentEarning.CalendarYear &&
+                               p.Type == currentEarning.Type &&
+                               p.EarnedValue != 0 &&
+                               ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
+        }
 
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)
         {
@@ -314,7 +334,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     AddRefundPaymentDue(provider, paymentsDue, new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1), transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
-                
+
             }
             if (!refundAdded)
             {
@@ -322,7 +342,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth
                                                                 && x.DeliveryYear == earning.CalendarYear
                                                                 && x.AmountDue > 0
-                                                                && new DateTime(x.CollectionPeriodYear,x.CollectionPeriodMonth,1) !=
+                                                                && new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) !=
                                                                     new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
                                                                 .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
                                                                .ToArray();
@@ -349,7 +369,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                         earning,
                                                         paymentHistory,
                                                         amountDue);
-                        refundAdded = true; 
+                        refundAdded = true;
                         refundPeriodIndex++;
                     }
                 }

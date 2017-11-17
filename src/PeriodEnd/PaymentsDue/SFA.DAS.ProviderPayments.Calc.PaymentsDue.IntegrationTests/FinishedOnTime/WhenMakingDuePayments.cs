@@ -551,7 +551,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             // Assert
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
-            Assert.AreEqual(12, duePayments.Length);
+            Assert.AreEqual(13, duePayments.Length);
 
             Assert.AreEqual(5, duePayments.Count(p => p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 39));
             Assert.AreEqual(1, duePayments.Count(p => p.TransactionType == (int)TransactionType.BalancingMathsAndEnglish && p.AmountDue == 274.75m));
@@ -593,7 +593,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             // Assert
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
-            Assert.AreEqual(12, duePayments.Length);
+            Assert.AreEqual(13, duePayments.Length);
 
             Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 10 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 20));
             Assert.AreEqual(1, duePayments.Count(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish && p.AmountDue == 39));

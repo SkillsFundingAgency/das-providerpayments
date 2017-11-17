@@ -81,10 +81,10 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 1  AND PriceEpisodeOnProgPayment <> 0 ) OR
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 2 AND PriceEpisodeCompletionPayment <> 0 ) OR
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 3 AND PriceEpisodeBalancePayment <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) And ndtt.TransactionType = 4 AND PriceEpisodeFirstEmp1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,2) And ndtt.TransactionType = 5 AND PriceEpisodeFirstProv1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3) And ndtt.TransactionType = 6 AND PriceEpisodeSecondEmp1618Pay <> 0 ) OR
-      (COALESCE(pepm.TransactionTypesFlag, 1) IN (1,3) And ndtt.TransactionType = 7  AND PriceEpisodeSecondProv1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 2) = 2 And ndtt.TransactionType = 4 AND PriceEpisodeFirstEmp1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 2) = 2  And ndtt.TransactionType = 5 AND PriceEpisodeFirstProv1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 3) = 3 And ndtt.TransactionType = 6 AND PriceEpisodeSecondEmp1618Pay <> 0 ) OR
+      (COALESCE(pepm.TransactionTypesFlag, 3) = 3 And ndtt.TransactionType = 7  AND PriceEpisodeSecondProv1618Pay <> 0 ) OR
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 8  AND PriceEpisodeApplic1618FrameworkUpliftOnProgPayment <> 0 ) OR
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 9 AND PriceEpisodeApplic1618FrameworkUpliftCompletionPayment <> 0 ) OR
       (COALESCE(pepm.TransactionTypesFlag, 1) = 1 And ndtt.TransactionType = 10 AND PriceEpisodeApplic1618FrameworkUpliftBalancing <> 0 ) OR
