@@ -158,6 +158,11 @@ create index [IX_Valid_TrailblazerApprenticeshipFinancialRecord] on [Valid].[Tra
 	)
 GO
 
+IF EXISTS (SELECT * FROM sys.views WHERE name = 'vw_commitments' AND SCHEMA_ID() = SCHEMA_ID('DataLock'))
+BEGIN
+	DROP VIEW DataLock.vw_commitments
+END
+
 IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
 BEGIN
 	DROP TABLE Valid.LearningProvider
