@@ -10,18 +10,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
     {
         public static void AssertEasPayments(ProviderAdjustmentsContext context, List<GenericPeriodBasedRow> paymentListForPeriods)
         {
-            foreach (var period in paymentListForPeriods)
+            foreach (var paymentListForPeriod in paymentListForPeriods)
             {
-                var paymentPeriod = new PeriodDefinition(period.Period);
+                var paymentPeriod = new PeriodDefinition(paymentListForPeriod.Period);
                 var earningsPeriod = paymentPeriod.TransformPaymentPeriodToEarningsPeriod();
 
                 if (earningsPeriod == null)
                 {
-                    AssertThatThereAreNoPaymentsForPeriod(period);
+                    AssertThatThereAreNoPaymentsForPeriod(paymentListForPeriod);
                     continue;
                 }
 
-                AssertThatPaymentsAreCorrectForPeriod(context, earningsPeriod, period);
+                AssertThatPaymentsAreCorrectForPeriod(context, earningsPeriod, paymentListForPeriod);
             }
         }
 
