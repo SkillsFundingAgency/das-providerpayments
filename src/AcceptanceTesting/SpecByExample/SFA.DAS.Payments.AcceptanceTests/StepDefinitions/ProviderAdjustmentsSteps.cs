@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
+﻿using SFA.DAS.Payments.AcceptanceTests.Assertions;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
-using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
@@ -39,8 +36,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenTheFollowingHistoricFormIsSubmitted(string period, Table table)
         {
             ProviderAdjustmentsContext.SetCollectionPeriod(period);
-            var submissionPeriods = TableParser.Transpose(table);
-            ProviderAdjustmentsContext.AddSubmission(submissionPeriods);
+            var easValuesForPeriods = TableParser.Transpose(table);
+            ProviderAdjustmentsContext.AddSubmission(easValuesForPeriods);
 
             ProviderAdjustmentsContext.RunMonthEnd();
 
@@ -50,8 +47,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [When("the following EAS form is submitted:")]
         public void WhenTheFollowingEasEntriesAreSubmitted(Table table)
         {
-            var periods = TableParser.Transpose(table);
-            ProviderAdjustmentsContext.AddSubmission(periods);
+            var easValuesForPeriods = TableParser.Transpose(table);
+            ProviderAdjustmentsContext.AddSubmission(easValuesForPeriods);
         }
 
         [Then("the EAS payments are:")]
@@ -59,43 +56,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             ProviderAdjustmentsContext.RunMonthEnd();
 
-            var periods = ProviderAdjustmentsContext.TransposeTable(table);
-            foreach (var period in periods)
-            {
-                var paymentPeriod = new PeriodDefinition(period.Period);
-                var earningsPeriod = paymentPeriod.TransformPaymentPeriodToEarningsPeriod();
-
-                if (earningsPeriod == null)
-                {
-                    foreach (var row in period.Rows)
-                    {
-                        if (row.Amount != 0)
-                        {
-                            throw new ApplicationException(
-                                $"The payment {row.Name} for period {period} is made before a payment is possible for this year");
-                        }
-                    }
-                    continue;
-                }
-
-                var payments = ProviderAdjustmentsContext.PaymentsFor(
-                    earningsPeriod.CollectionMonth, earningsPeriod.CollectionYear)
-                    .Select(x => new
-                    {
-                        x.PaymentType,
-                        x.PaymentTypeName,
-                        x.Amount,
-                    }).ToList();
-
-                foreach (var row in period.Rows)
-                {
-                    var payment = payments.Where(x => x.PaymentTypeName == row.Name).Sum(x => x.Amount);
-                    if (row.Amount != payment)
-                    {
-                        throw new ApplicationException($"expected: {row.Amount} found: {payment} for {row.Name} for period {period.Period}");
-                    }
-                }
-            }
+            var paymentListForPeriods = ProviderAdjustmentsContext.TransposeTable(table);
+            ProviderPaymentsAssertions.AssertEasPayments(ProviderAdjustmentsContext, paymentListForPeriods);
         }
     }
 }

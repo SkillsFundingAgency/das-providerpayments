@@ -97,9 +97,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             _easPayments.AddRange(ProviderAdjustmentsRepository.GetEasPayments());
         }
 
-        public List<EasPayment> PaymentsFor(int month, int year)
+        public List<EasPayment> PaymentsFor(PeriodDefinition period)
         {
-            return EasPayments.Where(x => x.CollectionPeriodMonth == month && x.CollectionPeriodYear == year).ToList();
+            return EasPayments.Where(x => x.CollectionPeriodMonth == period.CollectionMonth &&
+                                          x.CollectionPeriodYear == period.CollectionYear)
+                .ToList();
         }
 
         public void AddSubmission(List<GenericPeriodBasedRow> periods)
@@ -156,7 +158,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
 
     
 
-    class PeriodDefinition
+    public class PeriodDefinition
     {
         public PeriodDefinition(string period)
         {
