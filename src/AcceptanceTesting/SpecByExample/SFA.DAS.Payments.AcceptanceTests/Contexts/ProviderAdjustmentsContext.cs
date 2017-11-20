@@ -38,7 +38,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                 var collectionPeriods = ProviderAdjustmentsRepository.GetPaymentTypes();
                 return collectionPeriods;
             }, LazyThreadSafetyMode.ExecutionAndPublication);
-        private static Dictionary<string, PaymentType> _paymentTypeNameLookup =  new Dictionary<string, PaymentType>(
+        private static readonly Dictionary<string, PaymentType> _paymentTypeNameLookup =  new Dictionary<string, PaymentType>(
                 PaymentTypes.ToDictionary(x => x.PaymentName, x => x));
 
         public int CollectionYear { get; private set; }
@@ -63,7 +63,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
 
         public void SetCollectionPeriod(string collectionPeriod)
         {
-
             var collectionPeriodForEnvironment = PeriodDefinition.ParsePeriod(collectionPeriod);
             var id = 0;
 
@@ -160,6 +159,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
 
     public class PeriodDefinition
     {
+        public int CollectionPeriod { get; private set; }
+        public int AcademicYear { get; private set; }
+
+        public string PeriodName { get; private set; }
+        public int CollectionMonth { get; private set; }
+        public int CollectionYear { get; private set; }
+
         public PeriodDefinition(string period)
         {
             var parsedPeriod = ParsePeriod(period);
@@ -232,12 +238,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             }
             return new Tuple<int, int>(month, year);
         }
-
-        public int CollectionPeriod { get; private set; }
-        public int AcademicYear { get; private set; }
-
-        public string PeriodName { get; private set; }
-        public int CollectionMonth { get; private set; }
-        public int CollectionYear { get; private set; }
     }
 }

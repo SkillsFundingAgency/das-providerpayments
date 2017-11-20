@@ -9,11 +9,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
     public class ProviderAdjustmentsRepository
     {
-        public static void SavePreviousEasPayments(List<EasPayment> payment)
-        {
-            
-        }
-
         public static void SaveSubmittedEas(EasSubmission submission)
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
