@@ -272,3 +272,5 @@ paket-files/
 /src/PeriodEnd/Deploymanualadjustments
 /src/PeriodEnd/Deploypaymentsdue
 /src/PeriodEnd/Deployprovideradjustments
+
+/src/AcceptanceTesting/Features/*.feature.cs
