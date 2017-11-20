@@ -630,7 +630,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             // Assert
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
-            Assert.AreEqual(18, duePayments.Length);
+            Assert.AreEqual(21, duePayments.Length);
 
             Assert.AreEqual(commitmentId, duePayments[0].CommitmentId);
             Assert.Greater(duePayments.Single(x => x.DeliveryMonth == 10 && x.TransactionType == (int)TransactionType.OnProgrammeMathsAndEnglish).AmountDue, 0);

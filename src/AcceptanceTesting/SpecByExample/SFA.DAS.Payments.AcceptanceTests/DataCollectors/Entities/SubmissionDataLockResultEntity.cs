@@ -9,6 +9,6 @@
         
         public long CommitmentId { get; set; }
         public string CommitmentVersion { get; set; }
-        public int TransactionType { get; set; }
+        public int TransactionTypesFlag { get; set; }
     }
 }

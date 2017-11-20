@@ -12,8 +12,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.SubmissionDataLockRules
 
         protected override IEnumerable<SubmissionDataLockResult> FilterPeriodStatuses(SubmissionDataLockPeriodResults periodStatuses)
         {
-            return periodStatuses.Matches.Where(m => m.TransactionType == ReferenceDataModels.TransactionType.First16To18EmployerIncentive
-                                                  || m.TransactionType == ReferenceDataModels.TransactionType.Second16To18EmployerIncentive);
+            return periodStatuses.Matches.Where(m => m.TransactionTypesFlag == ReferenceDataModels.TransactionTypesFlag.FirstEmployerProviderIncentives
+                                        || m.TransactionTypesFlag == ReferenceDataModels.TransactionTypesFlag.SecondEmployerProviderIncentives);
         }
     }
 }

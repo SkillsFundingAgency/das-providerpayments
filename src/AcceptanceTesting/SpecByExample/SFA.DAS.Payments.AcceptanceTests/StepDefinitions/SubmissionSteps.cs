@@ -48,6 +48,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 throw new ArgumentException($"{specSumissionDate} is not a valid date");
             }
+            
             SubmissionsContext.FirstSubmissionDate = firstSubmissionDate;
         }
 
