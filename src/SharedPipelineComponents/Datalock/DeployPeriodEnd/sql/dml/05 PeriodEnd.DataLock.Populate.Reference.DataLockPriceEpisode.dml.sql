@@ -26,7 +26,7 @@ INSERT INTO [Reference].[DataLockPriceEpisode] (
 		[EndDate],
 		[PriceEpisodeFirstAdditionalPaymentThresholdDate],
 		[PriceEpisodeSecondAdditionalPaymentThresholdDate],
-		[TNP1],
+		[Tnp1],
 		[Tnp2],
 		[Tnp3],
 		[Tnp4],

@@ -85,7 +85,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         {
             // Arrange
             var testDataSet = TestDataSet.GetUpdateSubmissionDatasetWithUpdatedUln();
-            testDataSet.PriceEpisodes[0].Tnp1 = 106700;
+            testDataSet.PriceEpisodes[0].Tnp1 = 106700M;
             testDataSet.Clean();
             testDataSet.Store();
 
@@ -98,7 +98,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         {
             // Arrange
             var testDataSet = TestDataSet.GetUpdateSubmissionDatasetWithUpdatedUln();
-            testDataSet.PriceEpisodes[0].Tnp2 = 106700;
+            testDataSet.PriceEpisodes[0].Tnp2 = 106700M;
             testDataSet.Clean();
             testDataSet.Store();
 
