@@ -44,11 +44,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         public int CollectionYear { get; private set; }
         public int CollectionMonth { get; private set; }
 
-        private int CollectionPeriod(string collectionPeriod)
-        {
-            return 0;
-        }
-
         public List<GenericPeriodBasedRow> TransposeTable(Table table)
         {
             var rows = TableParser.Transpose(table);
