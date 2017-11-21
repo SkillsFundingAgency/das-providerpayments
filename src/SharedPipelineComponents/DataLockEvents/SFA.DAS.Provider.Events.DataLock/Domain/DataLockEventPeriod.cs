@@ -10,5 +10,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Domain
         public string CommitmentVersion { get; set; }
         public bool IsPayable { get; set; }
         public TransactionType TransactionType { get; set; }
+
+        public TransactionTypesFlag TransactionTypesFlag { get; set; }
     }
 }
