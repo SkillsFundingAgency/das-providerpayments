@@ -89,12 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Features\provider_adjustments.feature.cs">
-      <Link>Features\provider_adjustments.feature.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>provider_adjustments.feature</DependentUpon>
-    </Compile>
     <Compile Include="Assertions\DataLockAssertions.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockCommitmentVersionRule.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockErrorsRule.cs" />
@@ -150,6 +144,11 @@
     <Compile Include="Features\manual_adjustments.feature.cs" />
     <Compile Include="Features\maths_and_english.feature.cs" />
     <Compile Include="Features\payments_calc.feature.cs" />
+    <Compile Include="features\provider_adjustments.feature.cs">
+      <AutoGen>true</AutoGen>
+      <DesignTime>true</DesignTime>
+      <DependentUpon>provider_adjustments.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\redundancy_payments.feature.cs" />
     <Compile Include="Features\refunds.feature.cs" />
     <Compile Include="Features\small_employers.feature.cs" />
@@ -337,9 +336,9 @@
       <Link>Features\payments_calc.feature</Link>
     </None>
     <None Include="..\..\Features\provider_adjustments.feature">
-      <Link>Features\provider_adjustments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>provider_adjustments.feature.cs</LastGenOutput>
+      <Link>Features\provider_adjustments.feature</Link>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">
       <Link>Features\redundancy_payments.feature</Link>
@@ -423,8 +422,14 @@
   </Target>
   <!-- SpecFlow customisation-->
   <!---->
-  <Import Project="..\..\..\..\packages\SpecFlow.2.1.0\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.1.0\tools\TechTalk.SpecFlow.targets')" />
-  <Target Name="AfterUpdateFeatureFilesInProject">
+  <PropertyGroup>
+    <ShowTrace Condition="'$(ShowTrace)'==''">false</ShowTrace>
+    <OverwriteReadOnlyFiles Condition="'$(OverwriteReadOnlyFiles)'==''">true</OverwriteReadOnlyFiles>
+    <ForceGeneration Condition="'$(ForceGeneration)'==''">true</ForceGeneration>
+    <VerboseOutput Condition="'$(VerboseOutput)'==''">true</VerboseOutput>
+  </PropertyGroup>
+  <Import Project="..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets')" />
+  <Target Name="AfterUpdateFeatureFilesInProject" >
     <Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
