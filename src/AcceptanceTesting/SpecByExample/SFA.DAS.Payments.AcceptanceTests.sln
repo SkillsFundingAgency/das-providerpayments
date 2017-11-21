@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.Core.ExecutionProxy", "..\Common\ProviderPayments.TestStack.Core.ExecutionProxy\ProviderPayments.TestStack.Core.ExecutionProxy.csproj", "{C7AD11E0-04AF-4D3A-9166-296FF68CC416}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{34735CB4-E73F-4557-88A2-BAC1216545D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Calc.ProviderAdjustments", "..\..\PeriodEnd\ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments.csproj", "{13240C68-1925-4DC2-B975-00691DC524F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13240C68-1925-4DC2-B975-00691DC524F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,8 +59,7 @@ Global
 		{5076BA97-2E9E-4845-9359-0E16DFF7B3A6} = {23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC}
 		{ED159396-0D7D-4B64-8369-6C1BAD8AAE15} = {23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC}
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416} = {23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC}
+		{13240C68-1925-4DC2-B975-00691DC524F8} = {34735CB4-E73F-4557-88A2-BAC1216545D3}
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EFF93F9B-DCC3-4169-8702-61671DB3524D}
-	EndGlobalSection
+	
 EndGlobal

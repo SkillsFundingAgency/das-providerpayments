@@ -9,7 +9,8 @@
                 ComponentType.ManualAdjustments,
                 ComponentType.LevyCalculator,
                 ComponentType.CoInvestedPayments,
-                ComponentType.DataLockEvents
+                ComponentType.DataLockEvents,
+                ComponentType.ProviderAdjustments,
         };
 
         public CopyPeriodEndDataToDedsTask(ILogger logger)

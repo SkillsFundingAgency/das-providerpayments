@@ -67,7 +67,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("DELETE FROM Submissions.SubmissionEvents");
 
                 connection.Execute("DELETE FROM AT.ReferenceData");
-                connection.Execute("DELETE FROM Collection_Period_Mapping");
+                //connection.Execute("DELETE FROM Collection_Period_Mapping");
             }
         }
 
