@@ -1,0 +1,1 @@
+xcopy .\SFA.OPA.InterfaceTransform.Console\bin\release\SFA.OPA.InterfaceTransform.Console.exe .\.. /y
