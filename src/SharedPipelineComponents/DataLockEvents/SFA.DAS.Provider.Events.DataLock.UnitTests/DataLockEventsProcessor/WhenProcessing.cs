@@ -36,8 +36,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
             new object[] { new [] { new DataLockEventPeriod { CommitmentVersion = "1-001" } }, new [] { new DataLockEventPeriod { CommitmentVersion = "1-002" } } },
             new object[] { new [] { new DataLockEventPeriod { IsPayable = true } }, new [] { new DataLockEventPeriod { IsPayable = false } } },
             new object[] { new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.FirstEmployerProviderIncentives } },
-                            new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.AllLearning} } ,
-                            new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.SecondEmployerProviderIncentives} } }
+                            new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.AllLearning} }                             }
         };
 
         private static readonly object[] EventCommitmentVersions =
