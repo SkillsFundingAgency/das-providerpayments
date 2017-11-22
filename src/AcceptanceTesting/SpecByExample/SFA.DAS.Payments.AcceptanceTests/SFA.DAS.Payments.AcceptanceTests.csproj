@@ -207,6 +207,7 @@
     <Compile Include="ReferenceDataModels\PeriodValue.cs" />
     <Compile Include="ReferenceDataModels\ProviderEarnedPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\TransactionType.cs" />
+    <Compile Include="ReferenceDataModels\TransactionTypesFlag.cs" />
     <Compile Include="ResultsDataModels\DataLockEventCommitmentVersion.cs" />
     <Compile Include="ResultsDataModels\DataLockEventError.cs" />
     <Compile Include="ResultsDataModels\DataLockEventPeriod.cs" />

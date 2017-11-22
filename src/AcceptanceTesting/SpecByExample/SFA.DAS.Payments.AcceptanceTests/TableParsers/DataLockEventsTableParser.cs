@@ -46,7 +46,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "ilr training price":
                         structure.IlrTrainingPriceIndex = c;
                         break;
-                    case "ilr ed point assessment price":
+                    case "ilr end point assessment price":
                         structure.IlrEndpointAssementPriceIndex = c;
                         break;
                     case "ilr effective from":
