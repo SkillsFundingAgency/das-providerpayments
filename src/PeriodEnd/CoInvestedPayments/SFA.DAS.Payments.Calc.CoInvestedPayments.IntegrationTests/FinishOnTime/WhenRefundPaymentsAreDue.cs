@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
 
@@ -55,8 +56,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     requiredPaymentId: requiredPaymentId,
                     isDeds: true);
 
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true, 2017);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true, 2017);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true, 2018);
             TestDataHelper.PopulatePaymentsHistory();
 
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500, sfaContributionPercentage: 0.9m);
@@ -70,8 +72,17 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -150));
+
+            CheckOnlyTheRequiredReferenceDataIsCopiedOver();
         }
 
+        private void CheckOnlyTheRequiredReferenceDataIsCopiedOver()
+        {
+            PaymentEntity[] payments;
+//Check that only the required data is copied over and not everything
+            payments = TestDataHelper.GetReferencePaymentsForCommit(_commitmentId);
+            Assert.AreEqual(2, payments.Count());
+        }
 
 
         [Test]
@@ -88,8 +99,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     requiredPaymentId: requiredPaymentId,
                     isDeds: true);
 
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true, 2017);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true, 2017);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true, 2018);
             TestDataHelper.PopulatePaymentsHistory();
 
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -750, sfaContributionPercentage: 0.9m);
@@ -104,6 +116,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var actualPaymentsMessage = "actually paid:\n" + payments.Select(x => x.Amount.ToString() + " " + ((FundingSource)x.FundingSource).ToString()).Aggregate((x, y) => $"{x}\n{y}");
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -675), $"Expected -675 CoInvestedSfa, {actualPaymentsMessage}");
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -75), $"Expected -75 CoInvestedEmployer, {actualPaymentsMessage}");
+
+            CheckOnlyTheRequiredReferenceDataIsCopiedOver();
         }
 
 
