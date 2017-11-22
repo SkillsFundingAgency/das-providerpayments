@@ -45,6 +45,52 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         }
 
         [Test]
+        public void ThenItShouldStoreALargeTnp1Value()
+        {
+            // Arrange
+            var testDataSet = TestDataSet.GetFirstSubmissionDataset();
+            const decimal tnp1 = 106700M;
+            testDataSet.PriceEpisodes[0].Tnp1 = tnp1;
+            testDataSet.Clean();
+            testDataSet.Store();
+
+            // Act
+            TaskRunner.RunTask();
+
+            // Assert
+            var events = SubmissionEventRepository.GetSubmissionEventsForProvider(testDataSet.LearningDeliveries[0].Ukprn);
+            Assert.IsNotNull(events);
+            Assert.AreEqual(1, events.Length);
+
+            var newEvent = events[0];
+            
+            Assert.AreEqual(tnp1, newEvent.OnProgrammeTotalPrice);
+        }
+
+        [Test]
+        public void ThenItShouldStoreALargeTnp2Value()
+        {
+            // Arrange
+            var testDataSet = TestDataSet.GetFirstSubmissionDataset();
+            const decimal tnp2 = 106700M;
+            testDataSet.PriceEpisodes[0].Tnp2 = tnp2;
+            testDataSet.Clean();
+            testDataSet.Store();
+
+            // Act
+            TaskRunner.RunTask();
+
+            // Assert
+            var events = SubmissionEventRepository.GetSubmissionEventsForProvider(testDataSet.LearningDeliveries[0].Ukprn);
+            Assert.IsNotNull(events);
+            Assert.AreEqual(1, events.Length);
+
+            var newEvent = events[0];
+
+            Assert.AreEqual(tnp2, newEvent.CompletionTotalPrice);
+        }
+
+        [Test]
         public void ThenItShouldWriteIlrDetailsToLastSeenVersion()
         {
             // Arrange
