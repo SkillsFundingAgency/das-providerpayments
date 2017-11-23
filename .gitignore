@@ -273,5 +273,6 @@ paket-files/
 /src/PeriodEnd/Deploypaymentsdue
 /src/PeriodEnd/Deployprovideradjustments
 
-/src/AcceptanceTesting/Features/*.feature.cs
+
+/src/AcceptanceTesting/**/*.feature.cs
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe

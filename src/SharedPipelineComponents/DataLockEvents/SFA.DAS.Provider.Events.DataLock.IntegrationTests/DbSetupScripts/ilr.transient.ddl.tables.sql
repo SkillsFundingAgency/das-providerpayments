@@ -60,11 +60,6 @@ PRIMARY KEY CLUSTERED
 )
 GO
 
-IF EXISTS (SELECT * FROM sys.views WHERE name = 'vw_Commitments' AND SCHEMA_ID = SCHEMA_ID('DataLock'))
-BEGIN
-	DROP VIEW DataLock.vw_commitments
-END
-GO
 IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
 	drop table [Valid].[LearningProvider]
 	GO
@@ -192,10 +187,10 @@ CREATE TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode]
 	[PriceEpisodeTotalTNPPrice] decimal(10,5),
 	[PriceEpisodeUpperBandLimit] decimal(10,5),
 	[PriceEpisodeUpperLimitAdjustment] decimal(10,5),
-	[TNP1] decimal(10,5),
-	[TNP2] decimal(10,5),
-	[TNP3] decimal(10,5),
-	[TNP4] decimal(10,5),
+	[TNP1] decimal(12,5),
+	[TNP2] decimal(12,5),
+	[TNP3] decimal(12,5),
+	[TNP4] decimal(12,5),
 	PriceEpisodeFirstAdditionalPaymentThresholdDate date NULL,
 	PriceEpisodeSecondAdditionalPaymentThresholdDate date NULL,
 	PriceEpisodeContractType varchar(50) NULL

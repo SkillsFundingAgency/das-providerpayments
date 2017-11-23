@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -133,7 +133,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{7BB75DDA-C32
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
-		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Source.DataLock.DDL.Views.SchemaBinding.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{2D1EEBA0-85B7-4F28-AF90-FB14CB5F40F6}"
@@ -164,7 +163,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{A239066C-AB6
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql
-		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Source.DataLock.DDL.Views.Schemabinding.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Source.DataLock.DDL.Views.Schemabinding.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{F3FEA2F4-2BD8-444F-8FA8-3B361982D18B}"
@@ -353,6 +351,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{124187AA-CB8A-499F-86AE-049FCF95DD42}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\02 PeriodEnd.Cleanup.Deds.DML.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\02 PeriodEnd.Cleanup.Deds.DML.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql
