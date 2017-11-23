@@ -60,8 +60,9 @@ PRIMARY KEY CLUSTERED
 )
 GO
 
-if object_id('[Valid].[LearningProvider]','u') is not null
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
 	drop table [Valid].[LearningProvider]
+	GO
 create table [Valid].[LearningProvider](
 	[UKPRN] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -186,10 +187,10 @@ CREATE TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode]
 	[PriceEpisodeTotalTNPPrice] decimal(10,5),
 	[PriceEpisodeUpperBandLimit] decimal(10,5),
 	[PriceEpisodeUpperLimitAdjustment] decimal(10,5),
-	[TNP1] decimal(10,5),
-	[TNP2] decimal(10,5),
-	[TNP3] decimal(10,5),
-	[TNP4] decimal(10,5),
+	[TNP1] decimal(12,5),
+	[TNP2] decimal(12,5),
+	[TNP3] decimal(12,5),
+	[TNP4] decimal(12,5),
 	PriceEpisodeFirstAdditionalPaymentThresholdDate date NULL,
 	PriceEpisodeSecondAdditionalPaymentThresholdDate date NULL,
 	PriceEpisodeContractType varchar(50) NULL

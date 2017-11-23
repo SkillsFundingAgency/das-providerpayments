@@ -105,3 +105,40 @@ SET NOCOUNT ON
 		@CollectionPeriodName
 	)
 GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Accounts to be processed
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='AccountToProcess' AND [schema_id] = SCHEMA_ID('LevyPayments'))
+BEGIN
+	DROP PROCEDURE LevyPayments.AccountToProcess
+END
+GO
+
+CREATE PROCEDURE LevyPayments.AccountToProcess
+
+AS
+WITH accReqProc (AccountId, AccountName, Balance) 
+AS 
+(
+	SELECT	TOP 1 AccountId, AccountName, Balance
+	FROM	LevyPayments.vw_AccountsRequiringProcessing 
+),
+accCommitments (AccountId, AccountName, Balance, CommitmentId, Priority)
+AS
+(
+	SELECT	P.AccountId, AccountName, Balance, AC.CommitmentId, AC.Priority
+	FROM	accReqProc P INNER JOIN
+			LevyPayments.vw_AccountCommitments AC ON P.AccountId = AC.AccountId
+	WHERE Rank = 1 
+)
+
+SELECT  Id, RP.CommitmentId,LearnRefNumber,AimSeqNumber,Ukprn,DeliveryMonth,DeliveryYear,TransactionType,AmountDue, RP.AccountId, AccountName, Balance,
+		CASE 
+			WHEN AmountDue < 0 OR AmountDue IS NULL THEN 1
+			ELSE 0
+		END AS IsRefund
+FROM    accCommitments RP INNER JOIN
+		LevyPayments.vw_PaymentsDue PD ON RP.CommitmentId = PD.CommitmentId 
+ORDER BY Priority ASC, DeliveryYear, DeliveryMonth ASC

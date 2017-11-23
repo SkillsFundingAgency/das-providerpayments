@@ -12,7 +12,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
         [OneTimeSetUp]
         public void BeforeAllTests()
         {
-            SetupSubmissionDatabases();
+           SetupSubmissionDatabases();
             SetupPeriodEndDatabase();
         }
 
@@ -40,7 +40,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     RunSqlScript(@"Ilr.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                 }
-
+                catch (Exception ex)
+                {
+                    Console.Write(ex.Message);
+                }
                 finally
                 {
                     connection.Close();

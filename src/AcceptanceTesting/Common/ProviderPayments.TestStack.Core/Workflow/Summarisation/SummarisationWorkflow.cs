@@ -18,6 +18,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
                 new PaymentsDueTask(logger),
                 new LevyCalculatorTask(logger),
                 new CoInvestedPaymentsTask(logger),
+                new ProviderAdjustmentsTask(logger), 
                 new CleanupPeriodEndDedsTask(logger),
                 new CopyPeriodEndDataToDedsTask(logger),
                 new PeriodEndScriptsTask(logger)

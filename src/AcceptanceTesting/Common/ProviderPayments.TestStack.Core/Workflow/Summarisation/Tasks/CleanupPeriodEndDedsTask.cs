@@ -2,12 +2,15 @@
 {
     internal class CleanupPeriodEndDedsTask : RunTransientSqlScriptsTask
     {
-        private static readonly ComponentType[] ComponentTypes = {
-                                                                ComponentType.DataLockPeriodEnd,
-                                                                ComponentType.PaymentsDue,
-                                                                ComponentType.LevyCalculator,
-                                                                ComponentType.CoInvestedPayments,
-                                                                ComponentType.ManualAdjustments};
+        private static readonly ComponentType[] ComponentTypes =
+        {
+            ComponentType.DataLockPeriodEnd,
+            ComponentType.PaymentsDue,
+            ComponentType.LevyCalculator,
+            ComponentType.CoInvestedPayments,
+            ComponentType.ManualAdjustments,
+            ComponentType.ProviderAdjustments
+        };
         private static readonly string CleanupRegex = @".*\.Cleanup\..*\.sql$";
 
         public CleanupPeriodEndDedsTask(ILogger logger)

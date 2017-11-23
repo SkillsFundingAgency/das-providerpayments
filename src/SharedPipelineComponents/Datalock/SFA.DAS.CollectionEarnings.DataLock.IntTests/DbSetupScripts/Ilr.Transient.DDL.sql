@@ -1675,8 +1675,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Valid].[LearningProvider]') AND type in (N'U'))
-BEGIN
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
+	drop table [Valid].[LearningProvider]
+GO
+
 CREATE TABLE [Valid].[LearningProvider](
 	[UKPRN] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -1684,7 +1686,6 @@ PRIMARY KEY CLUSTERED
 	[UKPRN] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-END
 GO
 /****** Object:  Table [Valid].[LLDDandHealthProblem]    Script Date: 19/07/2016 14:53:27 ******/
 SET ANSI_NULLS ON

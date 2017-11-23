@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using NLog;
 
@@ -12,6 +13,7 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAccountAndPaymentInformationQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetLevyPaymentsHistoryQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
@@ -45,71 +47,57 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             while ((account = GetNextAccountRequiringProcessing()) != null)
             {
                 _logger.Info($"Processing account {account.Id}");
+                var commitmentIds = account.Refunds.Select(refund => refund.CommitmentId)
+                    .Union(account.Payments.Select(payment => payment.CommitmentId)).Distinct().ToList();
 
-                //process refunds first
-                foreach (var commitment in account.Commitments)
+                foreach (var commitmentId in commitmentIds)
                 {
-                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id} for refunds");
-
-                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, true);
-
-                    if (paymentsDue == null || !paymentsDue.Any())
+                    _logger.Info($"Processing commitment {commitmentId} for account {account.Id} for refunds");
+                    
+                    foreach (var refund in account.Refunds.Where(o => o.CommitmentId == commitmentId))
                     {
-                        continue;
-                    }
+                       
+                        _logger.Info($"refund due of {refund.AmountDue} for commitment {refund.CommitmentId}, to credit for {refund.TransactionType} on {refund.LearnerRefNumber} / {refund.AimSequenceNumber} / {refund.Ukprn}");
 
-                    foreach (var paymentDue in paymentsDue)
-                    {
-                        _logger.Info($"refund due of {paymentDue.AmountDue} for commitment {commitment.Id}, to credit for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-
-                        var amountToRefund = MakeLevyRefund(commitment, period, paymentDue);
+                        var amountToRefund = MakeLevyRefund(period, refund);
                         if (amountToRefund < 0)
                         {
                             GetLevyAllocation(account, amountToRefund);
-                            _logger.Info($"levy refund payment made of {paymentDue.AmountDue} for commitment {commitment.Id}, to credit for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-
+                            _logger.Info($"levy refund payment made of {refund.AmountDue} for commitment {refund.CommitmentId}, to credit for {refund.TransactionType} on {refund.LearnerRefNumber} / {refund.AimSequenceNumber} / {refund.Ukprn}");
                         }
                     }
-
                 }
 
-                //process payments now
                 var accountHasFundsForLevy = true;
-                foreach (var commitment in account.Commitments)
+                foreach (var commitmentId in commitmentIds)
                 {
-                    _logger.Info($"Processing commitment {commitment.Id} for account {account.Id} for payments");
+                    _logger.Info($"Processing commitment {commitmentId} for account {account.Id} for payments");
 
-                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, false);
-
-                    if (paymentsDue == null || !paymentsDue.Any())
+                    foreach (var payment in account.Payments.Where(o => o.CommitmentId == commitmentId))
                     {
-                        continue;
-                    }
-
-                    foreach (var paymentDue in paymentsDue.Where(x => x.AmountDue > 0))
-                    {
-                        _logger.Info($"Payment due of {paymentDue.AmountDue} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-                        var levyAllocation = GetLevyAllocation(account, paymentDue.AmountDue);
+                        _logger.Info(
+                            $"Payment due of {payment.AmountDue} for commitment {payment.CommitmentId}, to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
+                        var levyAllocation = GetLevyAllocation(account, payment.AmountDue);
 
                         if (levyAllocation == 0)
                         {
-                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            _logger.Info(
+                                $"No mode levy in the account to pay for {payment.TransactionType} on {payment.LearnerRefNumber} / {payment.AimSequenceNumber} / {payment.Ukprn}");
                             accountHasFundsForLevy = false;
                             break;
                         }
 
-                        MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
-
+                        MakeLevyPayment(period, payment, levyAllocation);
                     }
 
-                    _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
+                    _logger.Info($"Finished processing commitment {commitmentId} for account {account.Id}");
 
                     if (!accountHasFundsForLevy)
                     {
                         break;
                     }
                 }
-
+                
                 MarkAccountAsProcessed(account.Id);
 
                 _logger.Info($"Finished processing account {account.Id}");
@@ -157,7 +145,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
         private Account GetNextAccountRequiringProcessing()
         {
-            return _mediator.Send(new GetNextAccountQueryRequest())?.Account;
+            return _mediator.Send(new GetAccountAndPaymentQueryRequest())?.Account;
         }
 
         private decimal GetLevyAllocation(Account account, decimal amountRequested)
@@ -169,9 +157,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             })?.AmountAllocated ?? 0;
         }
 
-        private void MakeLevyPayment(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue, decimal levyAllocation)
+        private void MakeLevyPayment(CollectionPeriod period, PaymentDue paymentDue, decimal levyAllocation)
         {
-            _logger.Info($"Making a levy payment of {levyAllocation} for commitment {commitment.Id}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+            _logger.Info($"Making a levy payment of {levyAllocation} for commitment {paymentDue.CommitmentId}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
             _mediator.Send(new ProcessPaymentCommandRequest
             {
@@ -191,7 +179,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
         }
 
 
-        private decimal MakeLevyRefund(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue)
+        private decimal MakeLevyRefund(CollectionPeriod period, PaymentDue paymentDue)
         {
             _logger.Info($"Making a levy refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
             decimal amountToRefund = 0;

@@ -177,7 +177,8 @@ SELECT
 	ae.LearningActualEndDate as ActualEndDate,
 	ae.CompletionStatus,
 	ae.CompletionAmount,
-	ae.TotalInstallments
+	ae.TotalInstallments,
+	ae.EndpointAssessorId
 
   FROM PaymentsDue.RequiredPayments rp
   JOIN 	[PaymentsDue].[vw_ApprenticeshipEarning] ae

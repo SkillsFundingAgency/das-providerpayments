@@ -61,5 +61,6 @@ CREATE TABLE PaymentsDue.Earnings
     CompletionStatus int,
     CompletionAmount decimal(15,5),
 	MonthlyInstallment decimal(15,5) NOT NULL,
-	TotalInstallments int NOT NULL
+	TotalInstallments int NOT NULL,
+	EndpointAssessorId varchar(7) NULL
 )

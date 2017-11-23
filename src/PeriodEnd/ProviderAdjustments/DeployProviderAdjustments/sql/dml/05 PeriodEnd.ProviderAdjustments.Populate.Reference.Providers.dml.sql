@@ -6,5 +6,5 @@ INSERT INTO [Reference].[ProviderAdjustmentsProviders] (
     )
     SELECT
         DISTINCT Ukprn
-    FROM ${EAS_Deds.FQ}.dbo.EAS_Submission
+    FROM ${DAS_PeriodEnd.FQ}.dbo.EAS_Submission
 GO

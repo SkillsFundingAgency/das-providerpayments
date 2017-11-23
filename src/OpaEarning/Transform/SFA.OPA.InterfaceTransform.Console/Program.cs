@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -68,8 +67,6 @@ namespace SFA.OPA.InterfaceTransform.Console
 
         private static void CreateOutputFolders(string destinationPath)
         {
-          
-
             if (!Directory.Exists(destinationPath + @"\" + OutputResourcesLocation))
             {
                 Directory.CreateDirectory(destinationPath + @"\" + OutputResourcesLocation);
@@ -86,8 +83,6 @@ namespace SFA.OPA.InterfaceTransform.Console
             {
                 Directory.CreateDirectory(destinationPath + @"\" + OutputCopyMappingsDeployLocation);
             }
-
-       
         }
 
         private static void ShowHelp()
@@ -126,9 +121,7 @@ namespace SFA.OPA.InterfaceTransform.Console
             {
                 elm.SetAttributeValue("PeriodStartDate", "${YearOfCollectionStart}");
             }
-
-           
-
+            
             doc.Save($@"{outputPath}\{OutputResourcesLocation}\{xmlConfigFileName}");
 
             System.Console.WriteLine("Finished transforming the xml configuration.");

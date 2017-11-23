@@ -1,6 +1,6 @@
 if object_id('[Rulebase].[AEC_Get_Cases]','p') is not null
 	drop procedure [Rulebase].[AEC_Get_Cases]
-GO 
+GO
 
 create procedure [Rulebase].[AEC_Get_Cases] as
 
@@ -34,7 +34,7 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 					select
 						[LARS_Current_Version].[CurrentVersion] as [@LARSVersion],
 						lp.[UKPRN] as [@UKPRN],
-						'${YearOfCollection}'  as [@Year],
+						'${YearOfCollection}' as [@Year],
 						(
 							select
 								l.[DateOfBirth] as [@DateOfBirth],
@@ -52,7 +52,7 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 										ld.[LearnAimRef] as [@LearnAimRef],
 										ld.[LearnPlanEndDate] as [@LearnPlanEndDate],
 										ld.[LearnStartDate] as [@LearnStartDate],
-										eef.LearnDelFAMCode as [@LrnDelFAM_EEF],
+										ldd.LDFAM_EEF as [@LrnDelFAM_EEF],
 										ld.[OrigLearnStartDate] as [@OrigLearnStartDate],
 										ld.[OtherFundAdj] as [@OtherFundAdj],
 										ld.[PriorLearnFundAdj] as [@PriorLearnFundAdj],
@@ -180,36 +180,29 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 										[Valid].[LearningDelivery] as ld
 										left join [Reference].[LARS_LearningDelivery]
 											on [LARS_LearningDelivery].[LearnAimRef]=ld.[LearnAimRef]
-										left join (
-											select top 1
-												LearnRefNumber
-												,LearnDelFAMCode
-											from
-												Valid.LearningDeliveryFAM
-											where
-												LearnDelFAMType = 'EEF'
-										) as eef
-											on eef.LearnRefNumber = ld.LearnRefNumber
-									where
-										ld.[LearnRefNumber] = l.[LearnRefNumber]
-										and ld.[FundModel]=36
+										join Valid.LearningDeliveryDenorm as ldd
+											on ldd.LearnRefNumber = ld.LearnRefNumber
+											and ldd.AimSeqNumber = ld.AimSeqNumber
+										where
+											ld.[LearnRefNumber] = l.[LearnRefNumber]
 									for xml path ('LearningDelivery'), type
 								),
 								(
 									select
-										[LearnerEmploymentStatus].[DateEmpStatApp] as [@DateEmpStatApp],
-										[LearnerEmploymentStatus].[EmpId] as [@EmpId],
-										[LearnerEmploymentStatus].[EmpStat] as [@EMPStat],
-										sem.ESMCode as [@EmpStatMon_SEM]
-									from
-										[Valid].[LearnerEmploymentStatus]
-										left join Valid.EmploymentStatusMonitoring sem
-											on sem.LearnRefNumber = LearnerEmploymentStatus.LearnRefNumber
-											and sem.DateEmpStatApp = LearnerEmploymentStatus.DateEmpStatApp
-											and sem.ESMType = 'SEM'
-									where
-										[LearnerEmploymentStatus].[LearnRefNumber] = l.[LearnRefNumber]
-									for xml path ('LearnerEmploymentStatus'), type
+												[LearnerEmploymentStatus].[DateEmpStatApp] as [@DateEmpStatApp],
+												[LearnerEmploymentStatus].[EmpId] as [@EmpId],
+												[LearnerEmploymentStatus].[EmpStat] as [@EMPStat],
+												sem.ESMCode as [@EmpStatMon_SEM]
+										from
+												[Valid].[LearnerEmploymentStatus]
+												left join Valid.EmploymentStatusMonitoring sem
+														on sem.LearnRefNumber = LearnerEmploymentStatus.LearnRefNumber
+														and sem.DateEmpStatApp = LearnerEmploymentStatus.DateEmpStatApp
+														and sem.ESMType = 'SEM'
+										where
+												[LearnerEmploymentStatus].[LearnRefNumber] = l.[LearnRefNumber]
+										for xml path ('LearnerEmploymentStatus'), type
+
 								),
 								(
 									select
@@ -219,7 +212,7 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 									from
 										[Reference].[SFA_PostcodeDisadvantage]
 									where
-										[SFA_PostcodeDisadvantage].[Postcode]=l.[Postcode]
+										[SFA_PostcodeDisadvantage].[Postcode]=l.[PostcodePrior]
 									for xml path ('SFA_PostcodeDisadvantage'), type
 								),
 								(
@@ -300,14 +293,21 @@ as
 		set nocount on
 		insert into
 			[Rulebase].[AEC_global]
-		values (
+			(
+				UKPRN,
+				LARSVersion,
+				RulebaseVersion,
+				[Year]
+			)
+		values 
+		(
 			@UKPRN,
 			@LARSVersion,
 			@RulebaseVersion,
 			@Year
 		)
 	end
-GO 
+GO
 if object_id('[Rulebase].[AEC_Insert_Learner]','p') is not null
 	drop procedure [Rulebase].[AEC_Insert_Learner]
 GO
@@ -320,86 +320,88 @@ as
 	begin
 		set nocount on
 	end
-GO 
+GO
+
 if object_id('[Rulebase].[AEC_Insert_LearningDelivery]','p') is not null
 	drop procedure [Rulebase].[AEC_Insert_LearningDelivery]
 GO
 
-
 create procedure [Rulebase].[AEC_Insert_LearningDelivery]
 	(
 		@LearnRefNumber varchar(12),
-		@ActualDaysIL int,
-		@ActualNumInstalm int,
-		@AdjStartDate date,
-		@AgeAtProgStart int,
+		@ActualDaysIL int = null,
+		@ActualNumInstalm int = null,
+		@AdjStartDate date = null,
+		@AgeAtProgStart int = null,
 		@AimSeqNumber int,
-		@AppAdjLearnStartDate date,
-		@AppAdjLearnStartDateMatchPathway date,
-		@ApplicCompDate date,
-		@CombinedAdjProp decimal(10,5),
-		@Completed bit,
-		@DisadvFirstPayment decimal(10,5),
-		@DisadvSecondPayment decimal(10,5),
-		@FirstIncentiveThresholdDate date,
-		@FundLineType varchar(60),
-		@FundStart bit,
-		@InstPerPeriod int,
-		@LDApplic1618FrameworkUpliftBalancingPayment decimal(10,5),
-		@LDApplic1618FrameworkUpliftBalancingValue decimal(10,5),
-		@LDApplic1618FrameworkUpliftCompElement decimal(10,5),
-		@LDApplic1618FrameworkUpliftCompletionPayment decimal(10,5),
-		@LDApplic1618FRameworkUpliftCompletionValue decimal(10,5),
-		@LDApplic1618FrameworkUpliftMonthInstalVal decimal(10,5),
-		@LDApplic1618FrameworkUpliftOnProgPayment decimal(10,5),
-		@LDApplic1618FrameworkUpliftPrevEarnings decimal(10,5),
-		@LDApplic1618FrameworkUpliftPrevEarningsStage1 decimal(10,5),
-		@LDApplic1618FrameworkUpliftRemainingAmount decimal(10,5),
-		@LDApplic1618FrameworkUpliftTotalActEarnings decimal(10,5),
+		@AppAdjLearnStartDate date = null,
+		@AppAdjLearnStartDateMatchPathway date = null,
+		@ApplicCompDate date = null,
+		@CombinedAdjProp decimal(10,5) = null,
+		@Completed bit = null,
+		@DisadvFirstPayment decimal(10,5) = null,
+		@DisadvSecondPayment decimal(10,5) = null,
+		@DisUpFactAdj decimal(10,4) = null,
+		@FirstIncentiveThresholdDate date = null,
+		@FundLineType varchar(60) = null,
+		@FundStart bit = null,
+		@InstPerPeriod int = null,
+		@LDApplic1618FrameworkUpliftBalancingPayment decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftBalancingValue decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftCompElement decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftCompletionPayment decimal(10,5) = null,
+		@LDApplic1618FRameworkUpliftCompletionValue decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftMonthInstalVal decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftOnProgPayment decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftPrevEarnings decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftPrevEarningsStage1 decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftRemainingAmount decimal(10,5) = null,
+		@LDApplic1618FrameworkUpliftTotalActEarnings decimal(10,5) = null,
 		@LearnAimRef varchar(8),
-		@LearnDel1618AtStart bit,
-		@LearnDelAppAccDaysIL int,
-		@LearnDelApplicDisadvAmount decimal(10,5),
-		@LearnDelApplicEmp1618Incentive decimal(10,5),
-		@LearnDelApplicEmpDate date,
-		@LearnDelApplicProv1618FrameworkUplift decimal(10,5),
-		@LearnDelApplicProv1618Incentive decimal(10,5),
-		@LearnDelAppPrevAccDaysIL int,
-		@LearnDelContType varchar(50),
-		@LearnDelDaysIL int,
-		@LearnDelDisadAmount decimal(10,5),
-		@LearnDelEligDisadvPayment bit,
-		@LearnDelEmpIdFirstAdditionalPaymentThreshold int,
-		@LearnDelEmpIdSecondAdditionalPaymentThreshold int,
-		@LearnDelFirstEmp1618Pay decimal(10,5),
-		@LearnDelFirstProv1618Pay decimal(10,5),
-		@LearnDelHistDaysThisApp int,
-		@LearnDelHistProgEarnings decimal(10,5),
-		@LearnDelInitialFundLineType varchar(60),
-		@LearnDelLevyNonPayInd int,
-		@LearnDelMathEng bit,
-		@LearnDelSecondEmp1618Pay decimal(10,5),
-		@LearnDelSecondProv1618Pay decimal(10,5),
-		@LearnDelSEMContWaiver bit,
-		@LearnDelSFAContribPct decimal(10,5),
-		@LearnSuppFund bit,
-		@LearnSuppFundCash decimal(10,5),
-		@MathEngAimValue decimal(10,5),
-		@MathEngBalPayment decimal(10,5),
-		@MathEngBalPct decimal(8,5),
-		@MathEngOnProgPayment decimal(10,5),
-		@MathEngOnProgPct decimal(8,5),
-		@OutstandNumOnProgInstalm int,
-		@PlannedNumOnProgInstalm int,
-		@PlannedTotalDaysIL int,
-		@ProgrammeAimBalPayment decimal(10,5),
-		@ProgrammeAimCompletionPayment decimal(10,5),
-		@ProgrammeAimOnProgPayment decimal(10,5),
-		@ProgrammeAimProgFundIndMaxEmpCont decimal(12,5),
-		@ProgrammeAimProgFundIndMinCoInvest decimal(12,5),
-		@ProgrammeAimTotProgFund decimal(12,5),
-		@SecondIncentiveThresholdDate date,
-		@ThresholdDays int
+		@LearnDel1618AtStart bit = null,
+		@LearnDelAppAccDaysIL int = null,
+		@LearnDelApplicDisadvAmount decimal(10,5) = null,
+		@LearnDelApplicEmp1618Incentive decimal(10,5) = null,
+		@LearnDelApplicEmpDate date = null,
+		@LearnDelApplicProv1618FrameworkUplift decimal(10,5) = null,
+		@LearnDelApplicProv1618Incentive decimal(10,5) = null,
+		@LearnDelApplicTot1618Incentive decimal(10,5) = null,
+		@LearnDelAppPrevAccDaysIL int = null,
+		@LearnDelContType varchar(50) = null,
+		@LearnDelDaysIL int = null,
+		@LearnDelDisadAmount decimal(10,5) = null,
+		@LearnDelEligDisadvPayment bit = null,
+		@LearnDelEmpIdFirstAdditionalPaymentThreshold int = null,
+		@LearnDelEmpIdSecondAdditionalPaymentThreshold int = null,
+		@LearnDelFirstEmp1618Pay decimal(10,5) = null,
+		@LearnDelFirstProv1618Pay decimal(10,5) = null,
+		@LearnDelHistDaysThisApp int = null,
+		@LearnDelHistProgEarnings decimal(10,5) = null,
+		@LearnDelInitialFundLineType varchar(60) = null,
+		@LearnDelLevyNonPayInd int = null,
+		@LearnDelSecondEmp1618Pay decimal(10,5) = null,
+		@LearnDelSecondProv1618Pay decimal(10,5) = null,
+		@LearnDelSEMContWaiver bit = null,
+		@LearnDelSFAContribPct decimal(10,5) = null,
+		@LearnSuppFund bit = null,
+		@LearnSuppFundCash decimal(10,5) = null,
+		@MathEngAimValue decimal(10,5) = null,
+		@MathEngBalPayment decimal(10,5) = null,
+		@MathEngBalPct decimal(8,5) = null,
+		@MathEngOnProgPayment decimal(10,5) = null,
+		@MathEngOnProgPct decimal(8,5) = null,
+		@OutstandNumOnProgInstalm int = null,
+		@PlannedNumOnProgInstalm int = null,
+		@PlannedTotalDaysIL int = null,
+		@ProgrammeAimBalPayment decimal(10,5) = null,
+		@ProgrammeAimCompletionPayment decimal(10,5) = null,
+		@ProgrammeAimOnProgPayment decimal(10,5) = null,
+		@SecondIncentiveThresholdDate date = null,
+		@ThresholdDays int = null,
+		@LearnDelMathEng bit = null,
+		@ProgrammeAimTotProgFund decimal(12,5) = null,
+		@ProgrammeAimProgFundIndMinCoInvest decimal(12, 5) = null,
+		@ProgrammeAimProgFundIndMaxEmpCont decimal(12, 5) = null
 	)
 as
 	begin
@@ -501,7 +503,7 @@ as
 			,@ThresholdDays
 		)
 	end
-GO 
+GO
 
 if object_id('[Rulebase].[AEC_Insert_LearningDelivery_PeriodisedValues]','p') is not null
 	drop procedure [Rulebase].[AEC_Insert_LearningDelivery_PeriodisedValues]
@@ -845,65 +847,66 @@ as
 		)
 	end
 GO
+
 if object_id('[Rulebase].[AEC_Insert_ApprenticeshipPriceEpisode]','p') is not null
 	drop procedure [Rulebase].[AEC_Insert_ApprenticeshipPriceEpisode]
 GO
 
 create procedure [Rulebase].[AEC_Insert_ApprenticeshipPriceEpisode]
 	(
-		@LearnRefNumber varchar(12),
-		@EpisodeEffectiveTNPStartDate date,
-		@EpisodeStartDate date,
-		@PriceEpisodeActualEndDate date,
-		@PriceEpisodeActualInstalments int,
-		@PriceEpisodeAimSeqNumber int,
-		@PriceEpisodeApplic1618FrameworkUpliftBalancing decimal(10,5),
-		@PriceEpisodeApplic1618FrameworkUpliftCompletionPayment decimal(10,5),
-		@PriceEpisodeApplic1618FrameworkUpliftOnProgPayment decimal(10,5),
-		@PriceEpisodeBalancePayment decimal(10,5),
-		@PriceEpisodeBalanceValue decimal(10,5),
-		@PriceEpisodeCappedRemainingTNPAmount decimal(10,5),
-		@PriceEpisodeCompExemCode int, ------****111
-		@PriceEpisodeCompleted bit,
-		@PriceEpisodeCompletionElement decimal(10,5),
-		@PriceEpisodeCompletionPayment decimal(10,5),
-		@PriceEpisodeContractType varchar(50),
-		@PriceEpisodeCumulativePMRS decimal(10,5), ---**** 222
-		@PriceEpisodeExpectedTotalMonthlyValue decimal(10,5),
-		@PriceEpisodeFirstAdditionalPaymentThresholdDate date,
-		@PriceEpisodeFirstDisadvantagePayment decimal(10,5),
-		@PriceEpisodeFirstEmp1618Pay decimal(10,5),
-		@PriceEpisodeFirstProv1618Pay decimal(10,5),
-		@PriceEpisodeFundLineType varchar(60),
-		@PriceEpisodeIdentifier varchar(25),
-		@PriceEpisodeInstalmentsThisPeriod int,
-		@PriceEpisodeInstalmentValue decimal(10,5),
-		@PriceEpisodeLevyNonPayInd int,
-		@PriceEpisodeLSFCash decimal(10,5),
-		@PriceEpisodeOnProgPayment decimal(10,5),
-		@PriceEpisodePlannedEndDate date,
-		@PriceEpisodePlannedInstalments int,
-		@PriceEpisodePreviousEarnings decimal(10,5),
-		@PriceEpisodePreviousEarningsSameProvider decimal(10,5),
-		@PriceEpisodeProgFundIndMaxEmpCont decimal(12,5), --***
-		@PriceEpisodeProgFundIndMinCoInvest decimal(12,5), --***
-		@PriceEpisodeRemainingAmountWithinUpperLimit decimal(10,5),
-		@PriceEpisodeRemainingTNPAmount decimal(10,5),
-		@PriceEpisodeSecondAdditionalPaymentThresholdDate date,
-		@PriceEpisodeSecondDisadvantagePayment decimal(10,5),
-		@PriceEpisodeSecondEmp1618Pay decimal(10,5),
-		@PriceEpisodeSecondProv1618Pay decimal(10,5),
-		@PriceEpisodeSFAContribPct decimal(10,5),
-		@PriceEpisodeTotalEarnings decimal(10,5),
-		@PriceEpisodeTotalPMRs decimal(10,5), --*** -- 33
-		@PriceEpisodeTotalTNPPrice decimal(10,5),
-		@PriceEpisodeTotProgFunding decimal(10,5), --***
-		@PriceEpisodeUpperBandLimit decimal(10,5),
-		@PriceEpisodeUpperLimitAdjustment decimal(10,5),
-		@TNP1 decimal(12,5),
-		@TNP2 decimal(12,5),
-		@TNP3 decimal(12,5),
-		@TNP4 decimal(12,5)
+		@LearnRefNumber varchar(12)
+		,@PriceEpisodeIdentifier varchar(25)
+		,@TNP4 decimal(12,5) = null
+		,@TNP1 decimal(12,5) = null
+		,@EpisodeStartDate date = null
+		,@TNP2 decimal(12, 5) = null
+		,@TNP3 decimal(12, 5) = null
+		,@PriceEpisodeUpperBandLimit decimal(12, 5) = null
+		,@PriceEpisodePlannedEndDate date = null
+		,@PriceEpisodeActualEndDate date= null 
+		,@PriceEpisodeTotalTNPPrice decimal(12, 5) = null
+		,@PriceEpisodeUpperLimitAdjustment decimal(12, 5) = null
+		,@PriceEpisodePlannedInstalments INT = null
+		,@PriceEpisodeActualInstalments INT = null
+		,@PriceEpisodeInstalmentsThisPeriod INT = null
+		,@PriceEpisodeCompletionElement decimal(12, 5) = null
+		,@PriceEpisodePreviousEarnings decimal(12, 5) = null
+		,@PriceEpisodeInstalmentValue decimal(12, 5) = null
+		,@PriceEpisodeOnProgPayment decimal(12, 5) = null
+		,@PriceEpisodeTotalEarnings decimal(12, 5) = null 
+		,@PriceEpisodeBalanceValue decimal(12, 5) = null
+		,@PriceEpisodeBalancePayment decimal(12, 5) = null
+		,@PriceEpisodeCompleted BIT = null
+		,@PriceEpisodeCompletionPayment decimal(12, 5) = null
+		,@PriceEpisodeRemainingTNPAmount decimal(12, 5) = null
+		,@PriceEpisodeRemainingAmountWithinUpperLimit decimal(12, 5) = null
+		,@PriceEpisodeCappedRemainingTNPAmount decimal(12, 5) = null
+		,@PriceEpisodeExpectedTotalMonthlyValue decimal(12, 5) = null
+		,@PriceEpisodeAimSeqNumber bigint = null
+		,@PriceEpisodeFirstDisadvantagePayment decimal(12, 5) = null
+		,@PriceEpisodeSecondDisadvantagePayment decimal(12, 5) = null
+		,@PriceEpisodeApplic1618FrameworkUpliftBalancing decimal(12, 5) = null
+		,@PriceEpisodeApplic1618FrameworkUpliftCompletionPayment decimal(12, 5) = null
+		,@PriceEpisodeApplic1618FrameworkUpliftOnProgPayment decimal(12, 5) = null
+		,@PriceEpisodeSecondProv1618Pay decimal(12, 5) = null
+		,@PriceEpisodeFirstEmp1618Pay decimal(12, 5) = null
+		,@PriceEpisodeSecondEmp1618Pay decimal(12, 5) = null
+		,@PriceEpisodeFirstProv1618Pay decimal(12, 5) = null
+		,@PriceEpisodeLSFCash decimal(12, 5) = null
+		,@PriceEpisodeFundLineType varchar(100) = null
+		,@PriceEpisodeSFAContribPct decimal(10, 5) = null
+		,@PriceEpisodeLevyNonPayInd INT = null
+		,@EpisodeEffectiveTNPStartDate DATE = null
+		,@PriceEpisodeFirstAdditionalPaymentThresholdDate date = null
+		,@PriceEpisodeSecondAdditionalPaymentThresholdDate DATE = null
+		,@PriceEpisodeContractType varchar(50) = null
+		,@PriceEpisodePreviousEarningsSameProvider decimal(12, 5) = null
+		,@PriceEpisodeTotProgFunding decimal(12, 5) = null
+		,@PriceEpisodeProgFundIndMinCoInvest decimal(12, 5) = null
+		,@PriceEpisodeProgFundIndMaxEmpCont decimal(12, 5) = null
+		,@PriceEpisodeTotalPMRs decimal(12, 5) = null
+		,@PriceEpisodeCumulativePMRs decimal(12, 5) = null
+		,@PriceEpisodeCompExemCode int = null
 	)
 as
 	begin
@@ -911,77 +914,118 @@ as
 		insert into
 			[Rulebase].[AEC_ApprenticeshipPriceEpisode]
 			(
-				LearnRefNumber,
-				PriceEpisodeIdentifier,
-				EpisodeEffectiveTNPStartDate,
-				EpisodeStartDate,
-				PriceEpisodeActualEndDate,
-				PriceEpisodeActualInstalments,
-				PriceEpisodeAimSeqNumber,
-				PriceEpisodeCappedRemainingTNPAmount,
-				PriceEpisodeCompExemCode,
-				PriceEpisodeCompleted,
-				PriceEpisodeCompletionElement,
-				PriceEpisodeContractType,
-				PriceEpisodeCumulativePMRS,
-				PriceEpisodeExpectedTotalMonthlyValue,
-				PriceEpisodeFirstAdditionalPaymentThresholdDate,
-				PriceEpisodeFundLineType,
-				PriceEpisodeInstalmentValue,
-				PriceEpisodePlannedEndDate,
-				PriceEpisodePlannedInstalments,
-				PriceEpisodePreviousEarnings,
-				PriceEpisodePreviousEarningsSameProvider,
-				PriceEpisodeRemainingAmountWithinUpperLimit,
-				PriceEpisodeRemainingTNPAmount,
-				PriceEpisodeSecondAdditionalPaymentThresholdDate,
-				PriceEpisodeTotalEarnings,
-				PriceEpisodeTotalPMRs,
-				PriceEpisodeTotalTNPPrice,
-				PriceEpisodeUpperBandLimit,
-				PriceEpisodeUpperLimitAdjustment,
-				TNP1,
-				TNP2,
-				TNP3,
-				TNP4
+				LearnRefNumber 
+				,PriceEpisodeIdentifier 
+				,TNP4 
+				,TNP1 
+				,EpisodeStartDate
+				,TNP2 
+				,TNP3 
+				,PriceEpisodeUpperBandLimit
+				,PriceEpisodePlannedEndDate
+				,PriceEpisodeActualEndDate
+				,PriceEpisodeTotalTNPPrice 
+				,PriceEpisodeUpperLimitAdjustment 
+				,PriceEpisodePlannedInstalments 
+				,PriceEpisodeActualInstalments 
+				,PriceEpisodeInstalmentsThisPeriod
+				,PriceEpisodeCompletionElement 
+				,PriceEpisodePreviousEarnings 
+				,PriceEpisodeInstalmentValue 
+				,PriceEpisodeOnProgPayment 
+				,PriceEpisodeTotalEarnings 
+				,PriceEpisodeBalanceValue 
+				,PriceEpisodeBalancePayment
+				,PriceEpisodeCompleted 
+				,PriceEpisodeCompletionPayment 
+				,PriceEpisodeRemainingTNPAmount
+				,PriceEpisodeRemainingAmountWithinUpperLimit
+				,PriceEpisodeCappedRemainingTNPAmount
+				,PriceEpisodeExpectedTotalMonthlyValue
+				,PriceEpisodeAimSeqNumber 
+				,PriceEpisodeFirstDisadvantagePayment
+				,PriceEpisodeSecondDisadvantagePayment 
+				,PriceEpisodeApplic1618FrameworkUpliftBalancing
+				,PriceEpisodeApplic1618FrameworkUpliftCompletionPayment
+				,PriceEpisodeApplic1618FrameworkUpliftOnProgPayment 
+				,PriceEpisodeSecondProv1618Pay 
+				,PriceEpisodeFirstEmp1618Pay 
+				,PriceEpisodeSecondEmp1618Pay 
+				,PriceEpisodeFirstProv1618Pay 
+				,PriceEpisodeLSFCash 
+				,PriceEpisodeFundLineType
+				,PriceEpisodeSFAContribPct
+				,PriceEpisodeLevyNonPayInd
+				,EpisodeEffectiveTNPStartDate
+				,PriceEpisodeFirstAdditionalPaymentThresholdDate 
+				,PriceEpisodeSecondAdditionalPaymentThresholdDate
+				,PriceEpisodeContractType
+				,PriceEpisodePreviousEarningsSameProvider 
+				,PriceEpisodeTotProgFunding 
+				,PriceEpisodeProgFundIndMinCoInvest 
+				,PriceEpisodeProgFundIndMaxEmpCont 
+				,PriceEpisodeTotalPMRs 
+				,PriceEpisodeCumulativePMRs 
+				,PriceEpisodeCompExemCode 
 			)
 		values (
-			@LearnRefNumber,
-			@PriceEpisodeIdentifier,
-			@EpisodeEffectiveTNPStartDate,
-			@EpisodeStartDate,
-			@PriceEpisodeActualEndDate,
-			@PriceEpisodeActualInstalments,
-			@PriceEpisodeAimSeqNumber,
-			@PriceEpisodeCappedRemainingTNPAmount,
-			@PriceEpisodeCompExemCode,
-			@PriceEpisodeCompleted,
-			@PriceEpisodeCompletionElement,
-			@PriceEpisodeContractType,
-			@PriceEpisodeCumulativePMRS,
-			@PriceEpisodeExpectedTotalMonthlyValue,
-			@PriceEpisodeFirstAdditionalPaymentThresholdDate,
-			@PriceEpisodeFundLineType,
-			@PriceEpisodeInstalmentValue,
-			@PriceEpisodePlannedEndDate,
-			@PriceEpisodePlannedInstalments,
-			@PriceEpisodePreviousEarnings,
-			@PriceEpisodePreviousEarningsSameProvider,
-			@PriceEpisodeRemainingAmountWithinUpperLimit,
-			@PriceEpisodeRemainingTNPAmount,
-			@PriceEpisodeSecondAdditionalPaymentThresholdDate,
-			@PriceEpisodeTotalEarnings,
-			@PriceEpisodeTotalPMRs,
-			@PriceEpisodeTotalTNPPrice,
-			@PriceEpisodeUpperBandLimit,
-			@PriceEpisodeUpperLimitAdjustment,
-			@TNP1,
-			@TNP2,
-			@TNP3,
-			@TNP4
+			@LearnRefNumber 
+			,@PriceEpisodeIdentifier 
+			,@TNP4 
+			,@TNP1 
+			,@EpisodeStartDate
+			,@TNP2 
+			,@TNP3 
+			,@PriceEpisodeUpperBandLimit
+			,@PriceEpisodePlannedEndDate
+			,@PriceEpisodeActualEndDate
+			,@PriceEpisodeTotalTNPPrice 
+			,@PriceEpisodeUpperLimitAdjustment 
+			,@PriceEpisodePlannedInstalments 
+			,@PriceEpisodeActualInstalments 
+			,@PriceEpisodeInstalmentsThisPeriod
+			,@PriceEpisodeCompletionElement 
+			,@PriceEpisodePreviousEarnings 
+			,@PriceEpisodeInstalmentValue 
+			,@PriceEpisodeOnProgPayment 
+			,@PriceEpisodeTotalEarnings 
+			,@PriceEpisodeBalanceValue 
+			,@PriceEpisodeBalancePayment
+			,@PriceEpisodeCompleted 
+			,@PriceEpisodeCompletionPayment 
+			,@PriceEpisodeRemainingTNPAmount
+			,@PriceEpisodeRemainingAmountWithinUpperLimit
+			,@PriceEpisodeCappedRemainingTNPAmount
+			,@PriceEpisodeExpectedTotalMonthlyValue
+			,@PriceEpisodeAimSeqNumber 
+			,@PriceEpisodeFirstDisadvantagePayment
+			,@PriceEpisodeSecondDisadvantagePayment 
+			,@PriceEpisodeApplic1618FrameworkUpliftBalancing
+			,@PriceEpisodeApplic1618FrameworkUpliftCompletionPayment
+			,@PriceEpisodeApplic1618FrameworkUpliftOnProgPayment 
+			,@PriceEpisodeSecondProv1618Pay 
+			,@PriceEpisodeFirstEmp1618Pay 
+			,@PriceEpisodeSecondEmp1618Pay 
+			,@PriceEpisodeFirstProv1618Pay 
+			,@PriceEpisodeLSFCash 
+			,@PriceEpisodeFundLineType
+			,@PriceEpisodeSFAContribPct
+			,@PriceEpisodeLevyNonPayInd
+			,@EpisodeEffectiveTNPStartDate
+			,@PriceEpisodeFirstAdditionalPaymentThresholdDate 
+			,@PriceEpisodeSecondAdditionalPaymentThresholdDate
+			,@PriceEpisodeContractType
+			,@PriceEpisodePreviousEarningsSameProvider 
+			,@PriceEpisodeTotProgFunding 
+			,@PriceEpisodeProgFundIndMinCoInvest 
+			,@PriceEpisodeProgFundIndMaxEmpCont 
+			,@PriceEpisodeTotalPMRs 
+			,@PriceEpisodeCumulativePMRs 
+			,@PriceEpisodeCompExemCode 
 		)
 	end
-GO 
+GO
+
 
 if object_id('[Rulebase].[AEC_Insert_ApprenticeshipPriceEpisode_PeriodisedValues]','p') is not null
 	drop procedure [Rulebase].[AEC_Insert_ApprenticeshipPriceEpisode_PeriodisedValues]

@@ -265,7 +265,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? frameworkCode = null,
                                         int? pathwayCode = null,
                                         int? completionStatus = 1,
-                                        DateTime? actualEndDate = null)
+                                        DateTime? actualEndDate = null,
+                                        string opaOrgId = null)
         {
             var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
@@ -331,9 +332,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, uln }, false);
 
             Execute("INSERT INTO Valid.LearningDelivery "
-                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus) "
-                    + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus )",
-                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode,completionStatus }, false);
+                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus,EPAOrgId) "
+                    + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus,@opaOrgId )",
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode,completionStatus,opaOrgId }, false);
 
             Execute("INSERT INTO Valid.LearningDeliveryFAM "
                     + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
