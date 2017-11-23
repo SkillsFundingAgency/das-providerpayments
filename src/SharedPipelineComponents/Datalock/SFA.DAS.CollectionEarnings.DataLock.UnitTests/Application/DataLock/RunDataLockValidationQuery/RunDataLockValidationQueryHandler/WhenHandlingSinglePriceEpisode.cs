@@ -100,7 +100,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build()}
             };
 
             // Act
@@ -111,37 +112,24 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(132, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Length);
 
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-002"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-002"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
 
-            var rs = response.PriceEpisodePeriodMatches.Where(m => m.TransactionType == TransactionType.Learning);
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Learning));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18ProviderIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18ProviderIncentive));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgramme16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.FirstDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.SecondDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.BalancingMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.LearningSupport));
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives));
         }
 
         [Test]
@@ -187,7 +175,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -198,36 +187,25 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(132, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Length);
 
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
 
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Learning));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18ProviderIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18ProviderIncentive));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgramme16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.FirstDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.SecondDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.BalancingMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.LearningSupport));
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives));
+            
         }
 
         [Test]
@@ -273,7 +251,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -284,36 +263,24 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(132, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Length);
 
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 2 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 3 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 4 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 5 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-003"));
 
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Learning));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18ProviderIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18ProviderIncentive));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgramme16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing16To18FrameworkUplift));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.FirstDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.SecondDisadvantagePayment));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.BalancingMathsAndEnglish));
-            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.LearningSupport));
+            Assert.AreEqual(12, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives));
         }
 
         [Test]
@@ -359,7 +326,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -370,31 +338,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(77, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Length);
 
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
 
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Learning));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18ProviderIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18ProviderIncentive));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgramme16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.FirstDisadvantagePayment));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.SecondDisadvantagePayment));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.BalancingMathsAndEnglish));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.LearningSupport));
+            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives));
+            
+            
         }
 
         [Test]
@@ -440,7 +398,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -451,31 +410,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(77, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Length);
 
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
-            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 6 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 7 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-007"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 8 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 9 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 10 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 11 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-009"));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 12 && !m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-012"));
 
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Learning));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.First16To18ProviderIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18EmployerIncentive));
-            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Second16To18ProviderIncentive));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgramme16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Completion16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.Balancing16To18FrameworkUplift));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.FirstDisadvantagePayment));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.SecondDisadvantagePayment));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.BalancingMathsAndEnglish));
-            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionType == TransactionType.LearningSupport));
+            Assert.AreEqual(7, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives));
+            Assert.AreEqual(0, response.PriceEpisodePeriodMatches.Count(m => m.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives));
+
+            
         }
 
         [Test]
@@ -510,7 +459,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts= new[] { new DasAccountBuilder().Build() }
+                DasAccounts= new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -522,7 +472,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
 
-            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == period && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionType == TransactionType.Learning));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == period && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
         }
 
         [Test]
@@ -553,7 +503,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -565,7 +516,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
 
-            Assert.AreEqual(expectedNumberOfMatches, response.PriceEpisodePeriodMatches.Count(m => m.Period >= firstPeriod && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionType == TransactionType.Learning));
+            Assert.AreEqual(expectedNumberOfMatches, response.PriceEpisodePeriodMatches.Count(m => m.Period >= firstPeriod && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
         }
 
         [Test]
@@ -600,7 +551,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -612,7 +564,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
 
-            Assert.AreEqual(expectedNumberOfMatches, response.PriceEpisodePeriodMatches.Count(m => m.Period >= firstPeriod && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionType == TransactionType.Learning));
+            Assert.AreEqual(expectedNumberOfMatches, response.PriceEpisodePeriodMatches.Count(m => m.Period >= firstPeriod && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
         }
 
         [Test]
@@ -643,7 +595,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -655,7 +608,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
 
-            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == period && m.Payable == payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == period && m.Payable == payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
         }
 
         [Test]
@@ -686,7 +639,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -698,7 +652,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
 
-            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionType == TransactionType.OnProgrammeMathsAndEnglish));
+            Assert.AreEqual(1, response.PriceEpisodePeriodMatches.Count(m => m.Period == 1 && m.Payable && m.CommitmentId == 1 && m.CommitmentVersionId == "1-001" && m.TransactionTypesFlag == TransactionTypesFlag.AllLearning));
         }
     }
 }

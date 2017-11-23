@@ -21,14 +21,14 @@ SELECT
     ade.ApprenticeshipContractType,
     ae.PriceEpisodeIdentifier,
     ade.FundingLineType AS PriceEpisodeFundLineType,
-            ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
-            ade.LevyNonPayIndicator AS PriceEpisodeLevyNonPayInd,
-            COALESCE(pepm.TransactionType, ndtt.TransactionType) AS TransactionType,
-            (CASE COALESCE(pepm.TransactionType, ndtt.TransactionType)
-                WHEN 13 THEN ade.MathEngOnProgPayment
-                WHEN 14 THEN ade.MathEngBalPayment
-                WHEN 15 THEN ade.LearningSupportPayment
-            END) AS EarningAmount,
+    ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
+    ade.LevyNonPayIndicator AS PriceEpisodeLevyNonPayInd,
+    ndtt.TransactionType AS TransactionType,
+    (CASE ndtt.TransactionType
+        WHEN 13 THEN ade.MathEngOnProgPayment
+        WHEN 14 THEN ade.MathEngBalPayment
+        WHEN 15 THEN ade.LearningSupportPayment
+    END) AS EarningAmount,
 		ae.[EpisodeStartDate],
 		IsNull(pem.IsSuccess,0) As IsSuccess, 
 		IsNull(pepm.Payable,0) As Payable,
@@ -79,14 +79,15 @@ SELECT
               AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
               AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)
               AND ISNULL(ae.PathwayCode,0) = ISNULL(ph.PathwayCode,0)
-              AND COALESCE(pepm.TransactionType, ndtt.TransactionType) = ph.TransactionType
+              AND ndtt.TransactionType = ph.TransactionType
+			  AND ndtt.ApprenticeshipContractType = ph.ApprenticeshipContractType
               AND cp.CalendarMonth = ph.DeliveryMonth
               AND cp.CalendarYear = ph.DeliveryYear
 	WHERE 
 	(
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 13 AND ade.MathEngOnProgPayment <> 0 ) OR
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 14 AND ade.MathEngBalPayment <> 0 ) OR
-	(COALESCE(pepm.TransactionType, ndtt.TransactionType) = 15 AND ade.LearningSupportPayment <> 0 )
+	(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 13  AND ade.MathEngOnProgPayment <> 0 ) OR
+	(COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND  ndtt.TransactionType = 14 And ade.MathEngBalPayment <> 0 ) OR
+	(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 15 AND ade.LearningSupportPayment <> 0 )
 	OR ph.AmountDue> 0)
 	
 
@@ -100,4 +101,4 @@ SELECT
 				Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
-		And    COALESCE(pepm.TransactionType, ndtt.TransactionType) In ( 13,14,15)
+		 And   ndtt.TransactionType In ( 13,14,15)

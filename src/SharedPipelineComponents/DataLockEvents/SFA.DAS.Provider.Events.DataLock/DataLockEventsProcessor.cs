@@ -297,7 +297,7 @@ namespace SFA.DAS.Provider.Events.DataLock
                     p.CollectionPeriod?.Year == currentPeriod.CollectionPeriod?.Year &&
                     p.CommitmentVersion == currentPeriod.CommitmentVersion &&
                     p.IsPayable == currentPeriod.IsPayable &&
-                    p.TransactionType == currentPeriod.TransactionType))
+                    p.TransactionTypesFlag == currentPeriod.TransactionTypesFlag))
                 {
                     return true;
                 }

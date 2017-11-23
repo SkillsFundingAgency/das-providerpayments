@@ -5,7 +5,7 @@ INSERT INTO DataLockEvents.DataLockEventsData
 (
 	Ukprn ,PriceEpisodeIdentifier ,LearnRefNumber ,AimSeqNumber ,CommitmentId ,IsSuccess ,
 	IlrFilename,SubmittedTime,ULN,IlrStartDate,IlrStandardCode,IlrProgrammeType,IlrFrameworkCode,IlrPathwayCode,IlrTrainingPrice,IlrEndpointAssessorPrice,IlrPriceEffectiveFromDate,IlrPriceEffectiveToDate,
-	CommitmentVersionId ,Period ,Payable,TransactionType ,EmployerAccountId ,CommitmentStartDate,CommitmentStandardCode ,CommitmentProgrammeType,
+	CommitmentVersionId ,Period ,Payable,TransactionType,TransactionTypesFlag  ,EmployerAccountId ,CommitmentStartDate,CommitmentStandardCode ,CommitmentProgrammeType,
 	CommitmentFrameworkCode,CommitmentPathwayCode ,CommitmentNegotiatedPrice ,CommitmentEffectiveDate ,RuleId 
 )
 
@@ -34,6 +34,7 @@ SELECT
 		pepm.Period,
 		pepm.Payable,
 		pepm.TransactionType,
+		pepm.TransactionTypesFlag,
 
 		c.AccountId  EmployerAccountId,
 		c.StartDate CommitmentStartDate,

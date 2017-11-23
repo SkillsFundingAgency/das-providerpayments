@@ -64,6 +64,7 @@
     <Compile Include="Domain\FundingSource.cs" />
     <Compile Include="Domain\PaymentStatus.cs" />
     <Compile Include="Domain\TransactionType.cs" />
+    <Compile Include="Domain\TransactionTypesFlag.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\Data\DcfsRepository.cs" />
     <Compile Include="Infrastructure\DependencyResolution\IDependencyResolver.cs" />

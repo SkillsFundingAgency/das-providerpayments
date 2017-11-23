@@ -6,45 +6,27 @@ INSERT INTO [Reference].[ApprenticeshipPriceEpisode_Period] (
 	[LearnRefNumber] ,
 	[PriceEpisodeIdentifier] ,
 	[Period] ,
-	[PriceEpisodeApplic1618FrameworkUpliftBalancing] ,
-	[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],
-	[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
-	[PriceEpisodeBalancePayment],
-	[PriceEpisodeBalanceValue],
-	[PriceEpisodeCompletionPayment],
-	[PriceEpisodeFirstDisadvantagePayment],
 	[PriceEpisodeFirstEmp1618Pay],
-	[PriceEpisodeFirstProv1618Pay],
-	[PriceEpisodeFundLineType] ,
-	[PriceEpisodeInstalmentsThisPeriod] ,
-	[PriceEpisodeLSFCash],
-	[PriceEpisodeOnProgPayment],
-	[PriceEpisodeSecondDisadvantagePayment],
-	[PriceEpisodeSecondEmp1618Pay],
-	[PriceEpisodeSecondProv1618Pay]
+	[PriceEpisodeSecondEmp1618Pay]
 	)
 	SELECT
-	[Ukprn] ,
-	[LearnRefNumber] ,
-	[PriceEpisodeIdentifier] ,
+	ape.[Ukprn] ,
+	ape.[LearnRefNumber] ,
+	ape.[PriceEpisodeIdentifier] ,
 	[Period] ,
-	[PriceEpisodeApplic1618FrameworkUpliftBalancing] ,
-	[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],
-	[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
-	[PriceEpisodeBalancePayment],
-	[PriceEpisodeBalanceValue],
-	[PriceEpisodeCompletionPayment],
-	[PriceEpisodeFirstDisadvantagePayment],
-	[PriceEpisodeFirstEmp1618Pay],
-	[PriceEpisodeFirstProv1618Pay],
-	NULL ,
-	[PriceEpisodeInstalmentsThisPeriod] ,
-	[PriceEpisodeLSFCash],
-	[PriceEpisodeOnProgPayment],
-	[PriceEpisodeSecondDisadvantagePayment],
-	[PriceEpisodeSecondEmp1618Pay],
-	[PriceEpisodeSecondProv1618Pay]
+	p.[PriceEpisodeFirstEmp1618Pay],
+	p.[PriceEpisodeSecondEmp1618Pay]
 
-	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]
-		
-	WHERE UKPRN IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+	
+	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
+	JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] p
+		On p.Ukprn = ape.Ukprn
+		And p.LearnRefNumber = ape.LearnRefNumber 
+		And p.PriceEpisodeIdentifier = ape.PriceEpisodeIdentifier
+
+    WHERE ape.PriceEpisodeContractType = 'Levy Contract'
+	And ape.UKPRN IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+	And (IsNull(p.PriceEpisodeFirstEmp1618Pay,0) <> 0 OR IsNull(p.PriceEpisodeSecondEmp1618Pay,0) <> 0)
+	
+	
+	 

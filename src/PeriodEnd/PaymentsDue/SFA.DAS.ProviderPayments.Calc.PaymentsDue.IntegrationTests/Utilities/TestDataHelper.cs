@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            bool passedDataLock = true,
                                            int[] notPayablePeriods = null,
                                            int[] notMatchedPeriods = null,
-                                           TransactionType[] transactionTypes = null,
+                                           TransactionTypesFlag transactionTypesFlag = TransactionTypesFlag.AllLearning,
                                            bool addPriceEpisodeMatches = true)
         {
             var minStartDate = new DateTime(2016, 8, 1);
@@ -106,26 +106,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 var censusDate = startDate.LastDayOfMonth();
                 var period = 1;
 
-                transactionTypes = transactionTypes ?? new[] { TransactionType.Balancing, TransactionType.Completion, TransactionType.Learning };
 
                 while (censusDate <= endDate && period <= 12)
                 {
-                    foreach (var traxType in transactionTypes)
-                    {
-                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
-                    }
-
+                    
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypesFlag);
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
                 }
 
                 if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
-                    foreach (var traxType in transactionTypes)
-                    {
-                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
-                    }
-
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypesFlag);
                 }
             }
 
@@ -148,7 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                        bool passedDataLock,
                                                        int[] notPayablePeriods,
                                                        int[] notMatchedPeriods,
-                                                       TransactionType transactionType)
+                                                       TransactionTypesFlag transactionTypesFlag)
         {
             if (notMatchedPeriods != null && notMatchedPeriods.Contains(period))
             {
@@ -163,10 +155,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO DataLock.PriceEpisodePeriodMatch "
-                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType) "
+                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType, TransactionTypesFlag) "
                   + "VALUES "
-                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable, @transactionType)",
-                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionType });
+                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable,0, @transactionTypesFlag)",
+                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionTypesFlag });
         }
 
         internal static void AddEarningForCommitment(long? commitmentId,
@@ -596,7 +588,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@ApprenticeshipContractType, " // ApprenticeshipContractType
                   + "@DeliveryMonth, " // DeliveryMonth
                   + "@DeliveryYear, " // DeliveryYear
-                  + "'1617-R10', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "5, " // CollectionPeriodMonth
                   + "2017, " // CollectionPeriodYear
                   + "@TransactionType, " // TransactionType
@@ -652,7 +644,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'2', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
-                  + "'R01', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType

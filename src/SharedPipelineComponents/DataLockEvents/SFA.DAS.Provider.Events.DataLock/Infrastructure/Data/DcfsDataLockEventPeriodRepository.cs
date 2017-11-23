@@ -17,7 +17,8 @@ namespace SFA.DAS.Provider.Events.DataLock.Infrastructure.Data
                                        "CollectionPeriodYear," +
                                        "CommitmentVersion," +
                                        "IsPayable," +
-                                       "TransactionType";
+                                       "TransactionType," +
+                                        "TransactionTypesFlag";
         private const string SelectEventPeriods = "SELECT " + Columns + " FROM " + Source + " WHERE DataLockEventId = @eventId";
 
         public DcfsDataLockEventPeriodRepository(string connectionString)
@@ -42,13 +43,13 @@ namespace SFA.DAS.Provider.Events.DataLock.Infrastructure.Data
                 {
                     var batch = periods.Skip(skip).Take(batchSize)
                         .Select(x => $"('{x.DataLockEventId}', '{x.CollectionPeriodName}', {x.CollectionPeriodMonth}, {x.CollectionPeriodYear}, " +
-                                     $"'{x.CommitmentVersion}', {(x.IsPayable ? 1 : 0)}, {x.TransactionType})")
+                                     $"'{x.CommitmentVersion}', {(x.IsPayable ? 1 : 0)},0, {x.TransactionTypesFlag})")
                         .Aggregate((x, y) => $"{x}, {y}");
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = "INSERT INTO DataLockEvents.DataLockEventPeriods " +
                                               "(DataLockEventId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, " +
-                                              "CommitmentVersion, IsPayable, TransactionType) " +
+                                              "CommitmentVersion, IsPayable, TransactionType,TransactionTypesFlag) " +
                                               $"VALUES {batch}";
                         command.ExecuteNonQuery();
                     }

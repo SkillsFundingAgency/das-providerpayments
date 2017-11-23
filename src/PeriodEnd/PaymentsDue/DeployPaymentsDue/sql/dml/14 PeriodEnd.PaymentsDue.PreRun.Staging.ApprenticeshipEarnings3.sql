@@ -2,9 +2,8 @@ TRUNCATE TABLE Staging.ApprenticeshipEarnings3
 GO
 
 INSERT INTO Staging.ApprenticeshipEarnings3
- SELECT
-			
-            pepm.CommitmentId,
+		 SELECT
+		    pepm.CommitmentId,
             pepm.VersionId CommitmentVersionId,
             a.AccountId,
             a.VersionId AccountVersionId,
@@ -23,8 +22,8 @@ INSERT INTO Staging.ApprenticeshipEarnings3
             ade.FundingLineType AS PriceEpisodeFundLineType,
             ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
             ade.LevyNonPayIndicator AS PriceEpisodeLevyNonPayInd,
-            pepm.TransactionType AS TransactionType,
-            (CASE pepm.TransactionType
+            ndtt.TransactionType AS TransactionType,
+            (CASE ndtt.TransactionType
                 WHEN 13 THEN ade.MathEngOnProgPayment
                 WHEN 14 THEN ade.MathEngBalPayment
                 WHEN 15 THEN ade.LearningSupportPayment
@@ -59,6 +58,8 @@ INSERT INTO Staging.ApprenticeshipEarnings3
                AND ISNULL(ae.FrameworkCode, -1) = ISNULL(ade.FrameworkCode, -1)
                 AND ISNULL(ae.ProgrammeType, -1) = ISNULL(ade.ProgrammeType, -1)
 			  AND ISNULL(ae.PathwayCode, -1) = ISNULL(ade.PathwayCode, -1)
+			LEFT JOIN Staging.NonDasTransactionTypes ndtt ON ndtt.ApprenticeshipContractType = ade.ApprenticeshipContractType
+
             LEFT JOIN DataLock.PriceEpisodeMatch pem ON ae.Ukprn = pem.Ukprn
                 AND ae.PriceEpisodeIdentifier = pem.PriceEpisodeIdentifier
                 AND ae.LearnRefNumber = pem.LearnRefNumber
@@ -67,7 +68,7 @@ INSERT INTO Staging.ApprenticeshipEarnings3
                 AND ae.PriceEpisodeIdentifier = pepm.PriceEpisodeIdentifier
                 AND ae.LearnRefNumber = pepm.LearnRefNumber
                 AND ae.AimSeqNumber = pepm.AimSeqNumber
-                AND ae.Period = pepm.Period
+                AND ade.Period >= pepm.Period
             LEFT JOIN Reference.DasCommitments c ON c.CommitmentId = pepm.CommitmentId
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
@@ -89,5 +90,10 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 				WHEN 12 THEN CONVERT(VARCHAR(10), '07/01/' +  Cast(CalendarYear  as varchar) , 101) 
 				END From  Reference.CollectionPeriods Where [Open] = 1) > ae.PriceEpisodeEndDate 
 
-  		And   pepm.TransactionType In ( 13,14,15)
+  		And   (
+				(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 13  AND ade.MathEngOnProgPayment <> 0 ) OR
+				(COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND  ndtt.TransactionType = 14 And ade.MathEngBalPayment <> 0 ) OR
+				(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 15 AND ade.LearningSupportPayment <> 0 )
+			)
+GO
 GO

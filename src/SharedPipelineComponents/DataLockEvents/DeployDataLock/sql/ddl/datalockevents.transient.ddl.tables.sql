@@ -80,7 +80,8 @@ CREATE TABLE [DataLockEvents].[DataLockEventPeriods]
 	CollectionPeriodYear	int				NOT NULL,
 	CommitmentVersion		varchar(25)		NOT NULL,
 	IsPayable				bit				NOT NULL,
-	TransactionType			int				NOT NULL
+	TransactionType			int				NOT NULL,
+	TransactionTypesFlag	int				NULL
 )
 GO
 
@@ -160,6 +161,7 @@ CREATE TABLE [DataLockEvents].[DataLockEventsData]
 	Period						int				NULL,
 	Payable						bit				NULL,
 	TransactionType				int				NULL,
+	TransactionTypesFlag		int				NULL,
 	EmployerAccountId			bigint			NULL,
 	CommitmentStartDate			date			NULL,
 	CommitmentStandardCode		bigint			NULL,
