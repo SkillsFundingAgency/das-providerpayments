@@ -1,16 +1,21 @@
 if not exists(select schema_id from sys.schemas where name='Rulebase')
 	exec('create schema Rulebase')
 GO
+
 if object_id('[Rulebase].[AEC_Cases]','u') is not null
+
 	drop table [Rulebase].[AEC_Cases]
+
 create table [Rulebase].[AEC_Cases]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
 		[CaseData] [xml] not null
 	)
 GO
+
 if object_id('[Rulebase].[AEC_global]','u') is not null
 	drop table [Rulebase].[AEC_global]
+
 create table [Rulebase].[AEC_global]
 	(
 		[UKPRN] int,
@@ -19,8 +24,12 @@ create table [Rulebase].[AEC_global]
 		[Year] varchar(4)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_LearningDelivery]','u') is not null
+
 	drop table [Rulebase].[AEC_LearningDelivery]
+
+
 create table [Rulebase].[AEC_LearningDelivery]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
@@ -75,8 +84,12 @@ create table [Rulebase].[AEC_LearningDelivery]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_LearningDelivery_Period]','u') is not null
+
 	drop table [Rulebase].[AEC_LearningDelivery_Period]
+
+
 create table [Rulebase].[AEC_LearningDelivery_Period]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
@@ -117,13 +130,17 @@ create table [Rulebase].[AEC_LearningDelivery_Period]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_LearningDelivery_PeriodisedValues]','u') is not null
+
 	drop table [Rulebase].[AEC_LearningDelivery_PeriodisedValues]
+
+
 create table [Rulebase].[AEC_LearningDelivery_PeriodisedValues]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
 		[AimSeqNumber] int,
-		[AttributeName] [varchar](100) not null,
+		[AttributeName] varchar(100) not null,
 		[Period_1] [decimal](15,5),
 		[Period_2] [decimal](15,5),
 		[Period_3] [decimal](15,5),
@@ -144,8 +161,12 @@ create table [Rulebase].[AEC_LearningDelivery_PeriodisedValues]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_LearningDelivery_PeriodisedTextValues]','u') is not null
+
 	drop table [Rulebase].[AEC_LearningDelivery_PeriodisedTextValues]
+
+
 create table [Rulebase].[AEC_LearningDelivery_PeriodisedTextValues]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
@@ -171,8 +192,12 @@ create table [Rulebase].[AEC_LearningDelivery_PeriodisedTextValues]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_HistoricEarningOutput]','u') is not null
+
 	drop table [Rulebase].[AEC_HistoricEarningOutput]
+
+
 create table [Rulebase].[AEC_HistoricEarningOutput]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
@@ -207,52 +232,79 @@ create table [Rulebase].[AEC_HistoricEarningOutput]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_ApprenticeshipPriceEpisode]','u') is not null
+
 	drop table [Rulebase].[AEC_ApprenticeshipPriceEpisode]
-create table [Rulebase].[AEC_ApprenticeshipPriceEpisode]
-	( [Ukprn] bigint NOT NULL,
-		[LearnRefNumber] varchar(12),
-		[PriceEpisodeIdentifier] varchar(25),
-		[EpisodeEffectiveTNPStartDate] date,
-		[EpisodeStartDate] date,
-		[PriceEpisodeActualEndDate] date,
-		[PriceEpisodeActualInstalments] int,
-		[PriceEpisodeAimSeqNumber] int,
-		[PriceEpisodeCappedRemainingTNPAmount] decimal(12,5),
-		[PriceEpisodeCompExemCode] int,
-		[PriceEpisodeCompleted] bit,
-		[PriceEpisodeCompletionElement] decimal(12,5),
-		[PriceEpisodeContractType] varchar(50),
-		[PriceEpisodeCumulativePMRs] decimal(12,5),
-		[PriceEpisodeExpectedTotalMonthlyValue] decimal(12,5),
-		[PriceEpisodeFirstAdditionalPaymentThresholdDate] date,
-		[PriceEpisodeFundLineType] varchar(100),
-		[PriceEpisodeInstalmentValue] decimal(12,5),
-		[PriceEpisodePlannedEndDate] date,
-		[PriceEpisodePlannedInstalments] int,
-		[PriceEpisodePreviousEarnings] decimal(12,5),
-		[PriceEpisodePreviousEarningsSameProvider] decimal(12,5),
-		[PriceEpisodeRemainingAmountWithinUpperLimit] decimal(12,5),
-		[PriceEpisodeRemainingTNPAmount] decimal(12,5),
-		[PriceEpisodeSecondAdditionalPaymentThresholdDate] date,
-		[PriceEpisodeTotalEarnings] decimal(12,5),
-		[PriceEpisodeTotalPMRs] decimal(12,5),
-		[PriceEpisodeTotalTNPPrice] decimal(12,5),
-		[PriceEpisodeUpperBandLimit] decimal(12,5),
-		[PriceEpisodeUpperLimitAdjustment] decimal(12,5),
-		[TNP1] decimal(12,5),
-		[TNP2] decimal(12,5),
-		[TNP3] decimal(12,5),
-		[TNP4] decimal(12,5)
-		primary key clustered
-		( [Ukprn] asc,
-			[LearnRefNumber] asc,
-			[PriceEpisodeIdentifier] asc
-		)
+
+CREATE TABLE [Rulebase].[AEC_ApprenticeshipPriceEpisode]
+( [Ukprn] bigint NOT NULL,
+	[LearnRefNumber] varchar(12),
+	[PriceEpisodeIdentifier] varchar(25),
+	[TNP4] decimal(12,5) ,
+	[TNP1] decimal(12,5) ,
+	[EpisodeStartDate] date ,
+	[TNP2] decimal(12,5) ,
+	[TNP3] decimal(12,5) ,
+	[PriceEpisodeUpperBandLimit] decimal(12,5) ,
+	[PriceEpisodePlannedEndDate] date ,
+	[PriceEpisodeActualEndDate] date ,
+	[PriceEpisodeTotalTNPPrice] decimal(12,5) ,
+	[PriceEpisodeUpperLimitAdjustment] decimal(12,5) ,
+	[PriceEpisodePlannedInstalments] int ,
+	[PriceEpisodeActualInstalments] int ,
+	[PriceEpisodeInstalmentsThisPeriod] int ,
+	[PriceEpisodeCompletionElement] decimal(12,5) ,
+	[PriceEpisodePreviousEarnings] decimal(12,5) ,
+	[PriceEpisodeInstalmentValue] decimal(12,5) ,
+	[PriceEpisodeOnProgPayment] decimal(12,5) ,
+	[PriceEpisodeTotalEarnings] decimal(12,5) ,
+	[PriceEpisodeBalanceValue] decimal(12,5) ,
+	[PriceEpisodeBalancePayment] decimal(12,5) ,
+	[PriceEpisodeCompleted] bit ,
+	[PriceEpisodeCompletionPayment] decimal(12,5) ,
+	[PriceEpisodeRemainingTNPAmount] decimal(12,5) ,
+	[PriceEpisodeRemainingAmountWithinUpperLimit] decimal(12,5) ,
+	[PriceEpisodeCappedRemainingTNPAmount] decimal(12,5) ,
+	[PriceEpisodeExpectedTotalMonthlyValue] decimal(12,5) ,
+	[PriceEpisodeAimSeqNumber] bigint ,
+	[PriceEpisodeFirstDisadvantagePayment] decimal(12,5) ,
+	[PriceEpisodeSecondDisadvantagePayment] decimal(12,5) ,
+	[PriceEpisodeApplic1618FrameworkUpliftBalancing] decimal(12,5) ,
+	[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment] decimal(12,5) ,
+	[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment] decimal(12,5) ,
+	[PriceEpisodeSecondProv1618Pay] decimal(12,5) ,
+	[PriceEpisodeFirstEmp1618Pay] decimal(12,5) ,
+	[PriceEpisodeSecondEmp1618Pay] decimal(12,5) ,
+	[PriceEpisodeFirstProv1618Pay] decimal(12,5) ,
+	[PriceEpisodeLSFCash] decimal(12,5) ,
+	[PriceEpisodeFundLineType] varchar(100) ,
+	[PriceEpisodeSFAContribPct] decimal(10, 5) ,
+	[PriceEpisodeLevyNonPayInd] int ,
+	[EpisodeEffectiveTNPStartDate] date ,
+	[PriceEpisodeFirstAdditionalPaymentThresholdDate] date ,
+	[PriceEpisodeSecondAdditionalPaymentThresholdDate] date ,
+	[PriceEpisodeContractType] varchar(50) ,
+	[PriceEpisodePreviousEarningsSameProvider] decimal(12,5) ,
+	[PriceEpisodeTotProgFunding] decimal(12,5) ,
+	[PriceEpisodeProgFundIndMinCoInvest] decimal(12,5) ,
+	[PriceEpisodeProgFundIndMaxEmpCont] decimal(12,5) ,
+	[PriceEpisodeTotalPMRs] decimal(12,5) ,
+	[PriceEpisodeCumulativePMRs] decimal(12,5) ,
+	[PriceEpisodeCompExemCode]int ,
+	primary key 
+	( [Ukprn] asc,
+		LearnRefNumber,
+		PriceEpisodeIdentifier
 	)
+)
 GO
+
 if object_id('[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]','u') is not null
+
 	drop table [Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]
+
+
 create table [Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
@@ -286,13 +338,16 @@ create table [Rulebase].[AEC_ApprenticeshipPriceEpisode_Period]
 		)
 	)
 GO
+
 if object_id('[Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues]','u') is not null
+
 	drop table [Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues]
+
 create table [Rulebase].[AEC_ApprenticeshipPriceEpisode_PeriodisedValues]
 	( [Ukprn] bigint NOT NULL,
 		[LearnRefNumber] varchar(12),
 		[PriceEpisodeIdentifier] varchar(25),
-		[AttributeName] [varchar](100) not null,
+		[AttributeName] varchar(100) not null,
 		[Period_1] [decimal](15,5),
 		[Period_2] [decimal](15,5),
 		[Period_3] [decimal](15,5),
