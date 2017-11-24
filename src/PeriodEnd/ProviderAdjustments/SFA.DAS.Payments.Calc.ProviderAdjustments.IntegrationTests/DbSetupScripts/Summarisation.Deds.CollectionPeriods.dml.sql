@@ -1,7 +1,7 @@
 TRUNCATE TABLE [dbo].[Collection_Period_Mapping]
 GO
 
-INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod])  VALUES (1617,1, 'R01','1617-R01','', 8, 2016, 0, 201608)
+INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod])  VALUES (1617,1, 'R01','1617-R01','', 8, 2016, 1, 201608)
 INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod])  VALUES (1617,2, 'R02','1617-R02','', 9, 2016, 0 , 201609)
 INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod])  VALUES (1617,3, 'R03','1617-R03','', 10, 2016, 0 , 201610)
 INSERT INTO [dbo].[Collection_Period_Mapping] ([Collection_Year],[Period_ID], [Return_Code],[Collection_Period_Name],[Collection_ReturnCode], [Calendar_Month], [Calendar_Year], [Collection_Open], [ActualsSchemaPeriod])  VALUES (1617,4, 'R04','1617-R04','', 11, 2016, 0, 201611)
