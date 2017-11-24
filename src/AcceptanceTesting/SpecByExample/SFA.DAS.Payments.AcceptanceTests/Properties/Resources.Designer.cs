@@ -19,7 +19,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -71,11 +71,26 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
         ///----------------------------------------------------------------------------------------------------------------------------
         ///IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name] = &apos;TestRuns&apos; AND [schema_id] = SCHEMA_ID(&apos;AT&apos;))
         ///	BEGIN
-        ///		CREATE TABLE [AT [rest of string was truncated]&quot;;.
+        ///		CREATE [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ddl_AT_deds_tables {
             get {
                 return ResourceManager.GetString("ddl_AT_deds_tables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (2, N&apos;Excess Learning Support: 16-18 Apprenticeships&apos;, 0)
+        ///GO
+        ///INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (3, N&apos;Exceptional Learning Support: 16-18 Apprenticeships&apos;, 0)
+        ///GO
+        ///INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (4, N&apos;Audit Adjustments: 16-18 Apprenticeships&apos;, 0)
+        ///GO
+        ///INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (5, N&apos;Authorised Claims: 16- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EAS_Deds_PaymentTypes_dml {
+            get {
+                return ResourceManager.GetString("EAS_Deds_PaymentTypes_dml", resourceCulture);
             }
         }
         

@@ -66,7 +66,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("TRUNCATE TABLE Submissions.LastSeenVersion");
                 connection.Execute("TRUNCATE TABLE Submissions.SubmissionEvents");
 
-                connection.Execute("TRUNCATE TABLEM AT.ReferenceData");
+                connection.Execute("TRUNCATE TABLE AT.ReferenceData");
                 //connection.Execute("DELETE FROM Collection_Period_Mapping");
             }
         }
@@ -96,6 +96,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.SubmissionEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ManualAdjustments, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ProviderAdjustments, TestEnvironment.Variables, watcher);
+
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                connection.ExecuteScript(Properties.Resources.EAS_Deds_PaymentTypes_dml);
+            }
         }
         private static void PrepareDatabaseForComponent(ProcessService processService, ComponentType componentType, EnvironmentVariables environmentVariables, RebuildStatusWatcher watcher)
         {
