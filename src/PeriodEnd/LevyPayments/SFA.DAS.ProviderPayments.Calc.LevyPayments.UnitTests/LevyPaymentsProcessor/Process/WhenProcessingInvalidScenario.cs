@@ -12,6 +12,8 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAccountAndPaymentInformationQuery;
+using System.Collections.Generic;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProcessor.Process
 {
@@ -36,7 +38,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 {
                     new Commitment { Id = 1 },
                     new Commitment { Id = 2 }
-                }
+                },
+                Payments = new List<PaymentDue>(),
+                Refunds = new List<PaymentDue>(),
+                Name="test11"
             };
 
             _logger = new Mock<ILogger>();
@@ -62,8 +67,18 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 .Returns(() =>
                 {
                     _accountCounter++;
-                    return _accountCounter <= 1 ? new GetNextAccountQueryResponse { Account = _account } : null;
+                    return _accountCounter <= 1 ? new GetNextAccountQueryResponse { Account = _account  } : null;
                 });
+
+            _mediator
+             .Setup(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()))
+             .Returns(() =>
+             {
+                 _accountCounter++;
+                 return _accountCounter <= 1 ? 
+                    new GetAccountAndPaymentQueryResponse { Account = _account  } 
+                    : null;
+             });
 
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
