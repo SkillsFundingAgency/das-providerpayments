@@ -276,3 +276,7 @@ paket-files/
 
 /src/AcceptanceTesting/**/*.feature.cs
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
+
+
+src/OpaEarning/Build/Deploy/**/component/*
+src/SharedPipelineComponents/**/deploy*/Component/*
