@@ -1,13 +1,4 @@
-IF EXISTS (SELECT * FROM sys.indexes i
-JOIN sys.objects t ON i.object_id = t.object_id
-WHERE t.name = 'DasCommitments'
-AND i.name = 'ix_dascommitments_uln')
-BEGIN
-	DROP INDEX ix_dascommitments_uln ON Reference.DasCommitments
-END
-GO
-
-DELETE FROM [Reference].[DasCommitments]
+TRUNCATE TABLE [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]

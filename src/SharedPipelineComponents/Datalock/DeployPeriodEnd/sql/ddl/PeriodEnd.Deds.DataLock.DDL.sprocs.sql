@@ -23,7 +23,7 @@ DECLARE @UkprnsToDelete TABLE (UKPRN bigint)
 IF @Ukprn Is NULL
 BEGIN
 	INSERT INTO @UkprnsToDelete
-	SELECT DISTINCT lp.[Ukprn] FROM [Valid].[LearningProvider] lp
+	SELECT DISTINCT lp.[Ukprn] FROM ${ILR_Deds.FQ}.[Valid].[LearningProvider] lp
 END
 ELSE
 BEGIN

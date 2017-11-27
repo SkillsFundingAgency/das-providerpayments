@@ -183,6 +183,10 @@
       <Link>DbSetupScripts\4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql">
+      <Link>DbSetupScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
