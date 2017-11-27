@@ -87,7 +87,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             TestEnvironment.ProcessService.RunSummarisation(TestEnvironment.Variables);
 
             ClearSubmissions();
+        }
 
+        public void GetPayments()
+        {
             _easPayments.AddRange(ProviderAdjustmentsRepository.GetEasPayments());
         }
 

@@ -19,7 +19,7 @@ namespace ProviderPayments.TestStack.Core.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -131,17 +131,20 @@ namespace ProviderPayments.TestStack.Core.Properties {
         ///WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
         ///GO
         ///
-        ///IF EXISTS (SELECT * FROM sys.tables WHERE object_id = OBJECT_ID(N&apos;[valid].[AppFinRecord]&apos;))
-        ///BEGIN
-        ///	DELETE FROM ${ILR_Deds.FQ}.Valid.AppFinRecord
-        ///	WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
-        ///END
-        ///ELSE
-        ///BEGIN
-        ///	DELETE FROM ${ILR_Deds.FQ}.Valid.TrailblazerApprenticeshipFinancialRecord
-        ///	WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
-        ///END
-        ///GO [rest of string was truncated]&quot;;.
+        ///
+        ///DELETE FROM ${ILR_Deds.FQ}.Valid.AppFinRecord
+        ///WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
+        ///GO
+        ///
+        ///DELETE FROM ${ILR_Deds.FQ}.Valid.LearningDeliveryFAM
+        ///WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
+        ///GO
+        ///
+        ///DELETE FROM ${ILR_Deds.FQ}.Valid.LearningDelivery
+        ///WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
+        ///GO
+        ///
+        ///DELETE FROM ${IL [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CopyIlrDataToDeds_1718 {
             get {
@@ -160,6 +163,18 @@ namespace ProviderPayments.TestStack.Core.Properties {
         internal static string CopyValidLearnerRecordsTaskScript {
             get {
                 return ResourceManager.GetString("CopyValidLearnerRecordsTaskScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TRUNCATE TABLE [dbo].[EAS_Submission]
+        ///TRUNCATE TABLE [dbo].[EAS_Submission_Values]
+        ///TRUNCATE TABLE [ProviderAdjustments].[Payments]
+        ///GO.
+        /// </summary>
+        internal static string EAS_PeriodEnd_Cleanup_Deds_DML {
+            get {
+                return ResourceManager.GetString("EAS_PeriodEnd_Cleanup_Deds_DML", resourceCulture);
             }
         }
         
