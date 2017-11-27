@@ -114,5 +114,25 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
                 return ResourceManager.GetString("ilr_deds", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -----------------------------------------------------------------------------------------------------------------------------------------------
+        ///-- Payment Types
+        ///-----------------------------------------------------------------------------------------------------------------------------------------------
+        ///
+        ///IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]=&apos;Payment_Types&apos; AND [schema_id] = SCHEMA_ID(&apos;dbo&apos;))
+        ///BEGIN
+        ///    DROP TABLE dbo.Payment_Types
+        ///END
+        ///GO
+        ///
+        ///CREATE TABLE [dbo].[Payment_Types](
+        ///	[ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PeriodEnd_Deds_ProviderAdjustments_ddl_tables {
+            get {
+                return ResourceManager.GetString("PeriodEnd_Deds_ProviderAdjustments_ddl_tables", resourceCulture);
+            }
+        }
     }
 }

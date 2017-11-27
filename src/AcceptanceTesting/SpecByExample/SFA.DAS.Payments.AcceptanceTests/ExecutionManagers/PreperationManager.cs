@@ -99,6 +99,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
+                connection.ExecuteScript(Properties.Resources.PeriodEnd_Deds_ProviderAdjustments_ddl_tables);
                 connection.ExecuteScript(Properties.Resources.EAS_Deds_PaymentTypes_dml);
             }
         }
