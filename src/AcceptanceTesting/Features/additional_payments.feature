@@ -3,7 +3,7 @@ Feature: 16 to 18 learner incentives, framework uplifts, level 2 english or math
   
    Scenario:AC1- Payment for a 16-18 DAS learner, levy available, incentives earned
     
-    Given levy balance > agreed price for all months
+    Given levy balance > agreed price for all months\
     And the following commitments exist:
         | ULN       | start date | end date   | agreed price | status |
         | learner a | 01/08/2017 | 01/08/2018 | 15000        | active |
