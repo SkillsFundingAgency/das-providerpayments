@@ -13,6 +13,7 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAccountAndPaymentInformationQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProcessor.Process
 {
@@ -43,7 +44,32 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 {
                     new Commitment { Id = 1 },
                     new Commitment { Id = 2 }
-                }
+                },
+                Payments = new List<PaymentDue>
+                {new PaymentDue
+                    {
+                        Id = CommitmentPaymentsDue[1],
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = 10007459,
+                        DeliveryMonth = 8,
+                        DeliveryYear = 2015,
+                        TransactionType = TransactionType.Completion,
+                        AmountDue = 3000.00m
+                    },
+                    new PaymentDue
+                    {
+                        Id = CommitmentPaymentsDue[2],
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = 10007459,
+                        DeliveryMonth = 8,
+                        DeliveryYear = 2015,
+                        TransactionType = TransactionType.Completion,
+                        AmountDue = 3000.00m
+                    }
+                },
+                Refunds = new List<PaymentDue>()
             };
 
             _logger = new Mock<ILogger>();
@@ -65,38 +91,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                });
 
             _mediator
-                .Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
+                .Setup(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()))
                 .Returns(() =>
                 {
                     _accountCounter++;
-                    return _accountCounter <= 1 ? new GetNextAccountQueryResponse { Account = _account } : null;
-                });
-
-            _mediator
-                .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
-                .Returns< GetPaymentsDueForCommitmentQueryRequest>(r =>
-                  r.RefundPayments == true ? new GetPaymentsDueForCommitmentQueryResponse
-                  {
-                      IsValid = true,
-                      Items = null
-                  } :
-                new GetPaymentsDueForCommitmentQueryResponse
-                {
-                    IsValid = true,
-                    Items = new[]
-                    {
-                        new PaymentDue
-                        {
-                            Id = CommitmentPaymentsDue[r.CommitmentId],
-                            LearnerRefNumber = "Lrn-001",
-                            AimSequenceNumber = 1,
-                            Ukprn = 10007459,
-                            DeliveryMonth = 8,
-                            DeliveryYear = 2015,
-                            TransactionType = TransactionType.Completion,
-                            AmountDue = 3000.00m
-                        }
-                    }
+                    return _accountCounter <= 1 ? new GetAccountAndPaymentQueryResponse { Account = _account } : null;
                 });
 
             _mediator

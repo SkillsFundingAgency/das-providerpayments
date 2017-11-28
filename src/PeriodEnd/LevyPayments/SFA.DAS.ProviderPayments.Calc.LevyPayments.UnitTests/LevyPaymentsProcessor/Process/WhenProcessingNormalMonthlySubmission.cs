@@ -14,6 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAccountAndPaymentInformationQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProcessor.Process
 {
@@ -44,6 +45,32 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                 {
                     new Commitment { Id = 1 },
                     new Commitment { Id = 2 }
+                },
+                Refunds = new List<PaymentDue>(),
+                Payments = new List<PaymentDue>
+                {
+                    new PaymentDue
+                    {
+                        Id = CommitmentPaymentsDue[1],
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = 10007459,
+                        DeliveryMonth = 8,
+                        DeliveryYear = 2015,
+                        TransactionType = TransactionType.Learning,
+                        AmountDue = 1000.00m
+                    },
+                    new PaymentDue
+                    {
+                        Id = CommitmentPaymentsDue[2],
+                        LearnerRefNumber = "Lrn-001",
+                        AimSequenceNumber = 1,
+                        Ukprn = 10007459,
+                        DeliveryMonth = 8,
+                        DeliveryYear = 2015,
+                        TransactionType = TransactionType.Learning,
+                        AmountDue = 1000.00m
+                    }
                 }
             };
 
@@ -66,11 +93,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
                });
 
             _mediator
-                .Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
+                .Setup(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()))
                 .Returns(() =>
                 {
                     _accountCounter++;
-                    return _accountCounter <= 1 ? new GetNextAccountQueryResponse { Account = _account } : null;
+                    return _accountCounter <= 1 ? new GetAccountAndPaymentQueryResponse { Account = _account } : null;
                 });
 
             _mediator
@@ -123,13 +150,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         {
             // Arrange
             var counter = 0;
-            _mediator.Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
+            _mediator.Setup(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()))
                 .Returns(() =>
                 {
                     counter++;
-                    return new GetNextAccountQueryResponse
+                    return new GetAccountAndPaymentQueryResponse
                     {
-                        Account = counter >= 3 ? null : new Account { Commitments = new Commitment[0] }
+                        Account = counter >= 3 ? null : new Account { Commitments = new Commitment[0], Payments = new List<PaymentDue>(), Refunds = new List<PaymentDue>()}
                     };
                 });
 
@@ -137,18 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()), Times.Exactly(3));
-        }
-
-        [Test]
-        public void ThenItShouldGetPaymentsDueForEveryCommitment()
-        {
-            // Act
-            _processor.Process();
-
-            // Assert
-            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[0].Id && r.RefundPayments == false )), Times.Once);
-            _mediator.Verify(m => m.Send(It.Is<GetPaymentsDueForCommitmentQueryRequest>(r => r.CommitmentId == _account.Commitments[1].Id && r.RefundPayments == false)), Times.Once);
+            _mediator.Verify(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()), Times.Exactly(3));
         }
 
         [Test]
@@ -164,15 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         [Test]
         public void ThenItShouldNotAttemptToAllocateLevyIfCommitmentHasNoPaymentsDue()
         {
-            // Arrange
-            _mediator
-                .Setup(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()))
-                .Returns(new GetPaymentsDueForCommitmentQueryResponse
-                {
-                    IsValid = true,
-                    Items = new PaymentDue[] {}
-                });
-
+            _account.Payments = new List<PaymentDue>();
             // Act
             _processor.Process();
 
@@ -205,15 +213,14 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         public void ThenItShouldNotDoAnythingIfThereAreNoAccounts()
         {
             // Arrange
-            _mediator.Setup(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()))
-                .Returns<GetNextAccountQueryResponse>(null);
+            _mediator.Setup(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()))
+                .Returns<GetAccountAndPaymentQueryResponse>(null);
 
             // Act
             _processor.Process();
 
             // Assert
-            _mediator.Verify(m => m.Send(It.IsAny<GetNextAccountQueryRequest>()), Times.Once);
-            _mediator.Verify(m => m.Send(It.IsAny<GetPaymentsDueForCommitmentQueryRequest>()), Times.Never);
+            _mediator.Verify(m => m.Send(It.IsAny<GetAccountAndPaymentQueryRequest>()), Times.Once);
             _mediator.Verify(m => m.Send(It.IsAny<AllocateLevyCommandRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<ProcessPaymentCommandRequest>()), Times.Never);
             _mediator.Verify(m => m.Send(It.IsAny<MarkAccountAsProcessedCommandRequest>()), Times.Never);
@@ -224,6 +231,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.LevyPaymentsProce
         {
             // Arrange
             _account.Commitments = new Commitment[0];
+            _account.Payments = new List<PaymentDue>();
+            _account.Refunds = new List<PaymentDue>();
 
             // Act
             _processor.Process();
