@@ -25,7 +25,7 @@ SELECT
 	AND p.[CollectionPeriodName] IN 
 	(
 		SELECT [Collection_Period_Name] 
-		FROM [dbo].[Collection_Period_Mapping]
+		FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
 		WHERE [Collection_Open] = 1
 	)
 

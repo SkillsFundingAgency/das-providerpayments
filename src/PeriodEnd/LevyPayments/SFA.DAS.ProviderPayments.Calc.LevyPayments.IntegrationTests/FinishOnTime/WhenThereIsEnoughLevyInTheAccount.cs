@@ -94,6 +94,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 575.12345m);
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 1725.54321m, transactionType: TransactionType.Completion);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 1000.54321m,
+                transactionType: TransactionType.Completion, deliveryYear: 2018, deliveryMonth: 8);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -102,6 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             task.Execute(taskContext);
 
             // Assert
+            TestDataHelper.SortLevyPaymentsPaymentsCollectionPeriodName();
             var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(2, paymentsMade.Length);

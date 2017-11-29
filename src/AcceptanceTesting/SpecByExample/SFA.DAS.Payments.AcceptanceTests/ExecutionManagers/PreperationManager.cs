@@ -17,56 +17,56 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
-                connection.Execute("DELETE FROM Valid.Learner");
-                connection.Execute("DELETE FROM Valid.LearningProvider");
-                connection.Execute("DELETE FROM Valid.LearningDelivery");
-                connection.Execute("DELETE FROM Valid.LearningDeliveryFAM");
+                connection.Execute("TRUNCATE TABLE Valid.Learner");
+                connection.Execute("TRUNCATE TABLE Valid.LearningProvider");
+                connection.Execute("TRUNCATE TABLE Valid.LearningDelivery");
+                connection.Execute("TRUNCATE TABLE Valid.LearningDeliveryFAM");
                 if (TestEnvironment.Variables.OpaRulebaseYear == "1617")
                 {
-                    connection.Execute("DELETE FROM Valid.TrailblazerApprenticeshipFinancialRecord");
+                    connection.Execute("TRUNCATE TABLE Valid.TrailblazerApprenticeshipFinancialRecord");
                 }
                 else
                 {
-                    connection.Execute("DELETE FROM Valid.AppFinRecord");
+                    connection.Execute("TRUNCATE TABLE Valid.AppFinRecord");
                 }
 
 
-                connection.Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode");
-                connection.Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period");
-                connection.Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode_Period");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode_PeriodisedValues");
 
-                connection.Execute("DELETE FROM Rulebase.AEC_LearningDelivery");
-                connection.Execute("DELETE FROM Rulebase.AEC_LearningDelivery_Period");
-                connection.Execute("DELETE FROM Rulebase.AEC_LearningDelivery_PeriodisedTextValues");
-                connection.Execute("DELETE FROM Rulebase.AEC_LearningDelivery_PeriodisedValues");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_Period");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_PeriodisedTextValues");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_PeriodisedValues");
 
-                connection.Execute("DELETE FROM Rulebase.AEC_Cases");
-                connection.Execute("DELETE FROM Rulebase.AEC_global");
-                connection.Execute("DELETE FROM Rulebase.AEC_HistoricEarningOutput");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_Cases");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_global");
+                connection.Execute("TRUNCATE TABLE Rulebase.AEC_HistoricEarningOutput");
 
                 connection.Execute("DELETE FROM dbo.AEC_EarningHistory");
 
-                connection.Execute("DELETE FROM dbo.FileDetails");
-                connection.Execute("DELETE FROM dbo.DasCommitments");
-                connection.Execute("DELETE FROM dbo.DasAccounts");
+                connection.Execute("TRUNCATE TABLE dbo.FileDetails");
+                connection.Execute("TRUNCATE TABLE dbo.DasCommitments");
+                connection.Execute("TRUNCATE TABLE dbo.DasAccounts");
 
-                connection.Execute("DELETE FROM DataLock.PriceEpisodeMatch");
-                connection.Execute("DELETE FROM DataLock.PriceEpisodePeriodMatch");
-                connection.Execute("DELETE FROM DataLock.ValidationError");
+                connection.Execute("TRUNCATE TABLE DataLock.PriceEpisodeMatch");
+                connection.Execute("TRUNCATE TABLE DataLock.PriceEpisodePeriodMatch");
+                connection.Execute("TRUNCATE TABLE DataLock.ValidationError");
 
-                connection.Execute("DELETE FROM Payments.Payments");
-                connection.Execute("DELETE FROM PaymentsDue.RequiredPayments");
-                connection.Execute("DELETE FROM Adjustments.ManualAdjustments");
+                connection.Execute("TRUNCATE TABLE Payments.Payments");
+                connection.Execute("TRUNCATE TABLE PaymentsDue.RequiredPayments");
+                connection.Execute("TRUNCATE TABLE Adjustments.ManualAdjustments");
 
-                connection.Execute("DELETE FROM DataLock.DataLockEventCommitmentVersions");
-                connection.Execute("DELETE FROM DataLock.DataLockEventErrors");
-                connection.Execute("DELETE FROM DataLock.DataLockEventPeriods");
-                connection.Execute("DELETE FROM DataLock.DataLockEvents");
+                connection.Execute("TRUNCATE TABLE DataLock.DataLockEventCommitmentVersions");
+                connection.Execute("TRUNCATE TABLE DataLock.DataLockEventErrors");
+                connection.Execute("TRUNCATE TABLE DataLock.DataLockEventPeriods");
+                connection.Execute("TRUNCATE TABLE DataLock.DataLockEvents");
 
-                connection.Execute("DELETE FROM Submissions.LastSeenVersion");
-                connection.Execute("DELETE FROM Submissions.SubmissionEvents");
+                connection.Execute("TRUNCATE TABLE Submissions.LastSeenVersion");
+                connection.Execute("TRUNCATE TABLE Submissions.SubmissionEvents");
 
-                connection.Execute("DELETE FROM AT.ReferenceData");
+                connection.Execute("TRUNCATE TABLE AT.ReferenceData");
                 //connection.Execute("DELETE FROM Collection_Period_Mapping");
             }
         }
@@ -95,6 +95,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.DataLockEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.SubmissionEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ManualAdjustments, TestEnvironment.Variables, watcher);
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ProviderAdjustments, TestEnvironment.Variables, watcher);
+
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                connection.ExecuteScript(Properties.Resources.PeriodEnd_Deds_ProviderAdjustments_ddl_tables);
+                connection.ExecuteScript(Properties.Resources.EAS_Deds_PaymentTypes_dml);
+            }
         }
         private static void PrepareDatabaseForComponent(ProcessService processService, ComponentType componentType, EnvironmentVariables environmentVariables, RebuildStatusWatcher watcher)
         {
