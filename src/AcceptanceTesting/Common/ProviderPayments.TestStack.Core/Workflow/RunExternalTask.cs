@@ -48,19 +48,15 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 return;
             }
 
-            var appDomain = CreateExecutionAppDomain(executablesDirectory);
-            try
-            {
-                var proxyTask = GetExecutionProxy(appDomain);
-                var proxyContext = GetProxyContext(context);
-                proxyContext.Properties.Add("ExecutablesDirectory", executablesDirectory);
+            //var appDomain = CreateExecutionAppDomain(executablesDirectory);
+            var appDomain = AppDomainProvider.GetAppDomain(executablesDirectory);
 
-                proxyTask.Execute(proxyContext);
-            }
-            finally
-            {
-                AppDomain.Unload(appDomain);
-            }
+            var proxyTask = GetExecutionProxy(appDomain);
+            var proxyContext = GetProxyContext(context);
+            proxyContext.Properties.Add("ExecutablesDirectory", executablesDirectory);
+
+            proxyTask.Execute(proxyContext);
+            
         }
 
         private string GetComponentWorkingDirectory(TestStackContext context)
@@ -215,16 +211,16 @@ namespace ProviderPayments.TestStack.Core.Workflow
             }
             return int.MaxValue;
         }
-        private AppDomain CreateExecutionAppDomain(string executablesDirectory)
-        {
-            var info = new AppDomainSetup
-            {
-                ApplicationBase = executablesDirectory
-            };
-            var evidence = AppDomain.CurrentDomain.Evidence;
-            var name = $"{_componentType}-{DateTime.Now.Ticks}";
-            return AppDomain.CreateDomain(name, evidence, info);
-        }
+        //private AppDomain CreateExecutionAppDomain(string executablesDirectory)
+        //{
+        //    var info = new AppDomainSetup
+        //    {
+        //        ApplicationBase = executablesDirectory
+        //    };
+        //    var evidence = AppDomain.CurrentDomain.Evidence;
+        //    var name = $"{_componentType}-{DateTime.Now.Ticks}";
+        //    return AppDomain.CreateDomain(name, evidence, info);
+        //}
         private LateBoundTaskProxy GetExecutionProxy(AppDomain executionDomain)
         {
             var proxyType = typeof(LateBoundTaskProxy);
