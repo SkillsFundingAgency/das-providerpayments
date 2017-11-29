@@ -53,6 +53,5 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 }
             }
         }
-
     }
 }

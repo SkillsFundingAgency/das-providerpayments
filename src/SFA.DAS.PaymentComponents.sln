@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -353,7 +353,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{124187AA-CB8A-499F-86AE-049FCF95DD42}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
-		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\02 PeriodEnd.Cleanup.Deds.DML.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\02 PeriodEnd.Cleanup.Deds.DML.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql
