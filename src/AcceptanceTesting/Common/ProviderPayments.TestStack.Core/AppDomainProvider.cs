@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,9 @@ namespace ProviderPayments.TestStack.Core
 
         public static AppDomain GetAppDomain(string executablesDirectory)
         {
-            if (_appDomains[executablesDirectory] == null)
+            if (!_appDomains.Keys.Any(x => x == executablesDirectory))
             {
+
                 var info = new AppDomainSetup
                 {
                     ApplicationBase = executablesDirectory

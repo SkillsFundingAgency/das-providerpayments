@@ -48,7 +48,6 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 return;
             }
 
-            //var appDomain = CreateExecutionAppDomain(executablesDirectory);
             var appDomain = AppDomainProvider.GetAppDomain(executablesDirectory);
 
             var proxyTask = GetExecutionProxy(appDomain);
@@ -140,6 +139,9 @@ namespace ProviderPayments.TestStack.Core.Workflow
 
             var sourcePath = typeof(LateBoundTaskProxy).Assembly.Location ?? string.Empty;
             var destinationPath = Path.Combine(executablesDirectory, Path.GetFileName(sourcePath));
+            if (File.Exists(destinationPath))
+                return;
+            
             File.Copy(sourcePath, destinationPath, true);
         }
         private void PrepareForExecution(string componentDirectory, TestStackContext context)
@@ -211,16 +213,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
             }
             return int.MaxValue;
         }
-        //private AppDomain CreateExecutionAppDomain(string executablesDirectory)
-        //{
-        //    var info = new AppDomainSetup
-        //    {
-        //        ApplicationBase = executablesDirectory
-        //    };
-        //    var evidence = AppDomain.CurrentDomain.Evidence;
-        //    var name = $"{_componentType}-{DateTime.Now.Ticks}";
-        //    return AppDomain.CreateDomain(name, evidence, info);
-        //}
+
         private LateBoundTaskProxy GetExecutionProxy(AppDomain executionDomain)
         {
             var proxyType = typeof(LateBoundTaskProxy);
