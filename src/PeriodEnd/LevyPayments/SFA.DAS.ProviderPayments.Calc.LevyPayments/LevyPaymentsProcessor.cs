@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using MediatR;
 using NLog;
 
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.AllocateLevyCommand;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNextAccountQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.MarkAccountAsProcessedCommand;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments;
-using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPaymentsDueForCommitmentQuery;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.ProcessPaymentCommand;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetAccountAndPaymentInformationQuery;
@@ -126,23 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
         {
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
-
-        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId, bool refundPayments)
-        {
-            var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest
-            {
-                CommitmentId = commitmentId,
-                RefundPayments = refundPayments
-            });
-
-            if (!paymentsDue.IsValid)
-            {
-                throw new LevyPaymentsProcessorException(LevyPaymentsProcessorException.ErrorReadingPaymentsDueForCommitmentMessage, paymentsDue.Exception);
-            }
-
-            return paymentsDue.Items;
-        }
-
+        
         private Account GetNextAccountRequiringProcessing()
         {
             return _mediator.Send(new GetAccountAndPaymentQueryRequest())?.Account;

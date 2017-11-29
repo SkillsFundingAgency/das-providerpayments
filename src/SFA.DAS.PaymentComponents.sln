@@ -293,6 +293,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{61493CCE-022
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{3CD867A5-C0AA-4654-B4BD-E488BD05B60E}"
 	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql
@@ -330,6 +331,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue_Add_earnings_Table.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{84CAD59F-0BC2-4573-9547-4F7D54040402}"
