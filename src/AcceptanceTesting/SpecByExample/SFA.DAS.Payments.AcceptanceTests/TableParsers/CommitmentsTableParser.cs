@@ -47,7 +47,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "agreed price":
                         structure.PriceIndex = c;
                         break;
-                    case "commitment Id":
+                    case "commitment id":
                         structure.CommitmentIdIndex = c;
                         break;
                     case "version id":
