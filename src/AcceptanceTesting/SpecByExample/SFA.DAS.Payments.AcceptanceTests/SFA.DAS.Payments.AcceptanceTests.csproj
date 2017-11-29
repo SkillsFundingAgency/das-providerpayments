@@ -115,6 +115,7 @@
     <Compile Include="DataCollectors\SubmissionDataLockResultCollector.cs" />
     <Compile Include="DataExtensions.cs" />
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
+    <Compile Include="DummyAcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="Extensions.cs" />
