@@ -51,6 +51,12 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
         {
             return Query<T>(command, param).SingleOrDefault();
         }
+
+        protected T QuerySingleByProc<T>(string command, DynamicParameters param = null)
+        {
+            return QueryByProc<T>(command, param).SingleOrDefault();
+        }
+
         protected void Execute(string command, object param = null)
         {
             using (var connection = new SqlConnection(_connectionString))

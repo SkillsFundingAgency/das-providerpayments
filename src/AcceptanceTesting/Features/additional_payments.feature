@@ -14,7 +14,7 @@ Feature: 16 to 18 learner incentives, framework uplifts, level 2 english or math
       
     Then the provider earnings and payments break down as follows:
         | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 08/18 | 09/18 |
-        | Provider Earned Total               | 1000  | 1000  | 1000  | 2000  | 1000  | ... | 1000  | 0     |
+        | Provider Earned Total               | 100  | 1000  | 1000  | 2000  | 1000  | ... | 1000  | 0     |
         | Provider Paid by SFA                | 0     | 1000  | 1000  | 1000  | 2000  | ... | 1000  | 1000  |
         | Levy account debited                | 0     | 1000  | 1000  | 1000  | 1000  | ... | 1000  | 0     |
         | SFA Levy employer budget            | 1000  | 1000  | 1000  | 1000  | 1000  | ... | 0     | 0     |

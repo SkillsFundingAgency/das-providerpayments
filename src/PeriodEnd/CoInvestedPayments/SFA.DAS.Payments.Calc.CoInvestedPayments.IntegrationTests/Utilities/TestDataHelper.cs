@@ -99,16 +99,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                     new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode },isDeds);
         }
 
-        internal static void AddPaymentDueForProvider(
-            long commitmentId,
-            long ukprn,
-            string learnerRefNumber = null,
-            int aimSequenceNumber = 1,
-            TransactionType transactionType = TransactionType.Learning,
-            decimal amountDue = 1000.00m,
-            decimal sfaContributionPercentage = 0.9m,
-            string requiredPaymentId = null,
-            bool isDeds = false)
+        internal static void AddPaymentDueForProvider(long commitmentId, long ukprn, string learnerRefNumber = null, int aimSequenceNumber = 1, TransactionType transactionType = TransactionType.Learning, decimal amountDue = 1000.00m, decimal sfaContributionPercentage = 0.9m, string requiredPaymentId = null, bool isDeds = false, long? uln = null)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
@@ -125,7 +116,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@requiredPaymentId, "
                   + "CommitmentId, "
                   + "AccountId, "
-                  + "Uln, "
+                  + (!uln.HasValue? "Uln, ": $"{uln.Value}, ")
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "@ukprn, "

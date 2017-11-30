@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.GetCoInvestedPaymentsHistory
 {
     public class GetCoInvestedPaymentsHistoryQueryRequest : IRequest<GetCoInvestedPaymentsHistoryQueryResponse>
     {
@@ -14,5 +14,6 @@ namespace SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
         public int? PathwayCode { get; set; }
+        public string LearnRefNumber { get; set; }
     }
 }

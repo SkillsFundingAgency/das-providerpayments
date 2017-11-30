@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MediatR;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.GetCoInvestedPaymentsHistory;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
@@ -30,29 +31,28 @@ namespace SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.
                                     message.FrameworkCode,
                                     message.PathwayCode,
                                     message.ProgrammeType,
-                                    message.StandardCode);
+                                    message.StandardCode,
+                                    message.LearnRefNumber);
 
                 return new GetCoInvestedPaymentsHistoryQueryResponse
                 {
                     IsValid = true,
-                    Items = payments == null
-                        ? null
-                        : payments.Select(p => new PaymentHistory
-                        {
-                            FundingSource =(FundingSource) p.FundingSource,
-                            RequiredPaymentId = p.RequiredPaymentId,
-                            DeliveryMonth = p.DeliveryMonth,
-                            DeliveryYear = p.DeliveryYear,
-                            TransactionType = (TransactionType) p.TransactionType,
-                            Amount = p.Amount,
-                            AimSequenceNumber=p.AimSequenceNumber,
-                            FrameworkCode = p.FrameworkCode,
-                            PathwayCode = p.PathwayCode,
-                            ProgrammeType = p.ProgrammeType,
-                            StandardCode = p.StandardCode,
-                            Ukprn = p.Ukprn,
-                            Uln = p.Uln
-                        }).ToArray()
+                    Items = payments?.Select(p => new PaymentHistory
+                    {
+                        FundingSource =(FundingSource) p.FundingSource,
+                        RequiredPaymentId = p.RequiredPaymentId,
+                        DeliveryMonth = p.DeliveryMonth,
+                        DeliveryYear = p.DeliveryYear,
+                        TransactionType = (TransactionType) p.TransactionType,
+                        Amount = p.Amount,
+                        AimSequenceNumber=p.AimSequenceNumber,
+                        FrameworkCode = p.FrameworkCode,
+                        PathwayCode = p.PathwayCode,
+                        ProgrammeType = p.ProgrammeType,
+                        StandardCode = p.StandardCode,
+                        Ukprn = p.Ukprn,
+                        Uln = p.Uln
+                    }).ToArray()
                 };
             }
             catch (Exception ex)
