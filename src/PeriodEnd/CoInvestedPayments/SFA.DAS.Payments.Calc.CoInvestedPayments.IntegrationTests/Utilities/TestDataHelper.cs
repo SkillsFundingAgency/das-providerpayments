@@ -37,23 +37,22 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                                                             int deliveryMonth,
                                                             int deliveryYear,
                                                             TransactionType transactionType, 
-                                                            bool isDeds,
-                                                            int collectionPeriodYear)
+                                                            bool isDeds)
         {
-            
-           Execute("INSERT INTO Payments.Payments (PaymentId, RequiredPaymentId, DeliveryMonth, DeliveryYear, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, FundingSource, TransactionType, Amount)"
-                  + " Values ( "
+
+            Execute("INSERT INTO Payments.Payments "
+                  +"Values ( "
                   + "NEWID(), "
                   + "@requiredPaymentId, "
                   + "@deliveryMonth, "
                   + "@deliveryYear, "
-                  + $"'{deliveryYear.ToString().Substring(2, 2)}{collectionPeriodYear.ToString().Substring(2, 2)}-R01', "
+                  + "'2017-R01', "
                   + "1, "
-                  + "@collectionPeriodYear, "
+                  + "2017, "
                   + "@fundingSource, "
                   + "@transactionType, "
                   + "@amount) ",
-                  new { requiredPaymentId,deliveryMonth,deliveryYear, collectionPeriodYear,fundingSource, transactionType, amount},isDeds);
+                new { requiredPaymentId, deliveryMonth, deliveryYear, transactionType, fundingSource, amount }, isDeds);
         }
 
         internal static void AddCommitment(long id, 
@@ -304,13 +303,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
             return Query<PaymentEntity>("SELECT * FROM CoInvestedPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
-        }
-
-        internal static PaymentEntity[] GetReferencePaymentsForCommit(long commitmentId)
-        {
-            return Query<PaymentEntity>(
-                "SELECT * FROM Reference.CoInvestedPaymentsHistory WHERE CommitmentId = @commitmentId",
-                new {commitmentId});
         }
 
         internal static PaymentEntity[] GetPaymentsForUln(long uln,long ukprn)
