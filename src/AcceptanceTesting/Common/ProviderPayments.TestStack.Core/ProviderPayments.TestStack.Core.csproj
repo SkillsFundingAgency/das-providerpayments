@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDomainProvider.cs" />
     <Compile Include="ComponentType.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
     <Compile Include="Context\TestStackContext.cs" />
