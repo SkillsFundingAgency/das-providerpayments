@@ -7,9 +7,9 @@ using ProviderPayments.TestStack.Core.ExecutionStatus;
 
 namespace ProviderPayments.TestStack.Core.Workflow
 {
-    internal abstract class Workflow
+    public abstract class Workflow
     {
-        private WorkflowTask[] _tasks;
+        protected WorkflowTask[] _tasks;
 
         protected Workflow(ILogger logger)
         {
@@ -69,7 +69,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 connection.Open();
                 try
                 {
-                    connection.Execute("[TestStack].[ClearTransientTables]");
+                    connection.Execute("EXEC sp_MSForEachTable 'TRUNCATE TABLE ?'");
                 }
                 finally
                 {

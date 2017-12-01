@@ -7,6 +7,7 @@ using ProviderPayments.TestStack.Core.Workflow.AccountsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.CommitmentsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.IlrSubmission;
 using ProviderPayments.TestStack.Core.Workflow.RebuildDedsDatabase;
+using ProviderPayments.TestStack.Core.Workflow.RebuildTransient;
 using ProviderPayments.TestStack.Core.Workflow.Summarisation;
 
 namespace ProviderPayments.TestStack.Core
@@ -54,6 +55,16 @@ namespace ProviderPayments.TestStack.Core
             context.DataLockEventsSource = "PeriodEnd";
 
             var workflow = new PrepareForEasWorkflow(_logger);
+            workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
+        }
+
+        public void RunRebuildTransient(EnvironmentVariables environmentVariables = null,
+            StatusWatcherBase statusWatcher = null)
+        {
+            var context = SetupExecutionEnvironment(string.Empty, environmentVariables ?? new EnvironmentVariables());
+            context.DataLockEventsSource = "PeriodEnd";
+
+            var workflow = new RebuildTransientWorkflow(_logger);
             workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
         }
 

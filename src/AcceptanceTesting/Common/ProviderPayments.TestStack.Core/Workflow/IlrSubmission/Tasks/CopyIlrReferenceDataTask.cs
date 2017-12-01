@@ -2,7 +2,14 @@
 {
     internal class CopyIlrReferenceDataTask : RunTransientSqlScriptsTask
     {
-        private static readonly ComponentType[] ComponentTypes = { ComponentType.DataLockSubmission, ComponentType.EarningsCalculator, ComponentType.SubmissionEvents, ComponentType.DataLockEvents };
+        private static readonly ComponentType[] ComponentTypes =
+        {
+            ComponentType.DataLockSubmission,
+            ComponentType.EarningsCalculator,
+            ComponentType.SubmissionEvents,
+            ComponentType.DataLockEvents
+        };
+
         private static readonly string PopulateRegex = @"(?i)^([0-9]{2})\s.*Populate.*\.sql$";
 
         public CopyIlrReferenceDataTask(ILogger logger)

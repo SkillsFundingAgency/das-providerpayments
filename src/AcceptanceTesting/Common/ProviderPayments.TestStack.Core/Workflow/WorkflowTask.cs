@@ -7,7 +7,7 @@ using ProviderPayments.TestStack.Core.Context;
 
 namespace ProviderPayments.TestStack.Core.Workflow
 {
-    internal abstract class WorkflowTask
+    public abstract class WorkflowTask
     {
         internal string Id { get; set; }
         internal string Description { get; set; }

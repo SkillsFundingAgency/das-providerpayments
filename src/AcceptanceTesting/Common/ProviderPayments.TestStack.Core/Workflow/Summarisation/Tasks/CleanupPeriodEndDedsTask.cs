@@ -12,6 +12,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation.Tasks
             ComponentType.CoInvestedPayments,
             ComponentType.ManualAdjustments,
         };
+
         private static readonly string CleanupRegex = @".*\.Cleanup\..*\.sql$";
 
         public CleanupPeriodEndDedsTask(ILogger logger)

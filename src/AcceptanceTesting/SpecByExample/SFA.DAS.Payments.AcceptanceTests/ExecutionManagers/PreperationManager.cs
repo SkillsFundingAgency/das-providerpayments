@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
 using ProviderPayments.TestStack.Core;
+using ProviderPayments.TestStack.Core.Context;
 using ProviderPayments.TestStack.Core.ExecutionStatus;
+using ProviderPayments.TestStack.Core.Workflow;
+using ProviderPayments.TestStack.Core.Workflow.Common;
+using ProviderPayments.TestStack.Core.Workflow.Summarisation.Tasks;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
@@ -12,7 +17,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         {
             PrepareDatabaseForAt();
             PrepareDatabaseForAllComponents();
+            PrepareTransientDatabase();
         }
+
         internal static void PrepareDatabasesForScenario()
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
@@ -44,7 +51,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("TRUNCATE TABLE Rulebase.AEC_global");
                 connection.Execute("TRUNCATE TABLE Rulebase.AEC_HistoricEarningOutput");
 
-                connection.Execute("DELETE FROM dbo.AEC_EarningHistory");
+                connection.Execute("TRUNCATE TABLE dbo.AEC_EarningHistory");
 
                 connection.Execute("TRUNCATE TABLE dbo.FileDetails");
                 connection.Execute("TRUNCATE TABLE dbo.DasCommitments");
@@ -67,11 +74,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("TRUNCATE TABLE Submissions.SubmissionEvents");
 
                 connection.Execute("TRUNCATE TABLE AT.ReferenceData");
-                //connection.Execute("DELETE FROM Collection_Period_Mapping");
             }
         }
-
-
+        
         private static void PrepareDatabaseForAt()
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
@@ -79,6 +84,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.ExecuteScript(Properties.Resources.ddl_AT_deds_tables);
             }
         }
+
+        private static void PrepareTransientDatabase()
+        {
+            TestEnvironment.ProcessService.RunRebuildTransient(TestEnvironment.Variables);
+        }
+
         private static void PrepareDatabaseForAllComponents()
         {
             var watcher = new RebuildStatusWatcher();
