@@ -106,9 +106,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 deliveryYear = Query<int>("SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
             }
 
-            Execute("DECLARE @idVal VARCHAR(36) SET @idVal = NEWID(); INSERT INTO PaymentsDue.RequiredPayments "
+            Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "SELECT "
-                  + "@idVal, "
+                  + "NEWID(), "
                   + "CommitmentId, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
@@ -119,15 +119,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "@amountDue, "
                 + "  1 "
                   + "FROM dbo.DasCommitments "
-                  + "WHERE CommitmentId = @commitmentId; ",
+                  + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear });
-        }
-
-        internal static void SortLevyPaymentsPaymentsCollectionPeriodName()
-        {
-            Execute("UPDATE LevyPayments.Payments " +
-            "SET CollectionPeriodName = SUBSTRING(CAST(DeliveryYear AS VARCHAR), 3, 2) + CAST(SUBSTRING(CAST(deliveryYear AS VARCHAR), 3, 2) + 1 AS VARCHAR) + SUBSTRING(CollectionPeriodName, 5, 4) " +
-            "FROM LevyPayments.Payments ");
         }
 
         internal static void AddPaymentHistoryForCommitment(long commitmentId)
@@ -139,7 +132,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "Id, "
                   + "DeliveryMonth, "
                   + "DeliveryYear, "
-                  + "SUBSTRING(CAST(DeliveryYear AS varchar), 3, 2) + (CAST(SUBSTRING(CAST(DeliveryYear AS varchar), 3, 2) + 1 AS varchar)) + '-R01', "
+                  + "'2017-R01', "
                   + "1, "
                   + "2017, "
                   + "1, "
@@ -156,9 +149,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "AND DeliveryYear = @deliveryYear "
                   + "AND FundingSource = @source",
                 new { deliveryMonth, deliveryYear, source = (int)source });
-            
-            var collectionPeriodName =
-                $"{deliveryYear.ToString().Substring(2, 2)}{(deliveryYear + 1).ToString().Substring(2, 2)}-R01";
 
             Execute("INSERT INTO Payments.Payments "
                   + "SELECT "
@@ -166,7 +156,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "Id, "
                   + "DeliveryMonth, "
                   + "DeliveryYear, "
-                  + "@collectionPeriodName, "
+                  + "'2017-R01', "
                   + "1, "
                   + "2017, "
                   + "@source, "
@@ -176,7 +166,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "WHERE CommitmentId = @commitmentId "
                   + "AND DeliveryMonth = @deliveryMonth "
                   + "AND DeliveryYear = @deliveryYear",
-                new { commitmentId, deliveryMonth, deliveryYear, amountDue, source = (int)source, collectionPeriodName });
+                new { commitmentId, deliveryMonth, deliveryYear, amountDue, source = (int)source });
         }
 
         internal static long AddProvider(long ukprn)
@@ -213,12 +203,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
 
         internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
         {
-            return Query<PaymentEntity>("SELECT P.* " +
-            "FROM LevyPayments.Payments P INNER JOIN " +
-            "    [Collection_Period_Mapping] M ON P.CollectionPeriodName = M.Collection_Period_Name " +
-            " WHERE RequiredPaymentId IN ( " +
-            "    SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId " +
-            "    ) AND M.Collection_Open = 1", new { commitmentId });
+            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
         }
 
         internal static void CopyReferenceData()

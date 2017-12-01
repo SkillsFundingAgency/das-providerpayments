@@ -54,7 +54,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | SFA Levy co-funding budget    | 900   | 900   | 900   | ... | 900   | 2700  | 0     |
             | SFA non-Levy co-funding budget| 0     | 0     | 0     | ... | 0     | 0     | 0     |
 
-
+	@_Minimum_Acceptance_
     Scenario: 2 DAS learners, only enough levy to cover 1
         Given the employer's levy balance is:
             | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |

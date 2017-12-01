@@ -65,6 +65,7 @@ CREATE TABLE [Reference].[DataLockEventPeriods]
 	CommitmentVersion		varchar(25)		NOT NULL,
 	IsPayable				bit				NOT NULL,
 	TransactionType			int				NOT NULL,
+	TransactionTypesFlag	int				NULL
 	INDEX [IX_Reference_DataLockEventPeriods_DataLockEventId] CLUSTERED (DataLockEventId)
 )
 GO

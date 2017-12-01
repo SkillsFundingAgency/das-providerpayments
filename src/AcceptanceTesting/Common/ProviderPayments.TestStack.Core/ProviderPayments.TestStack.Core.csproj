@@ -101,6 +101,7 @@
     <Compile Include="Workflow\RebuildDedsDatabase\Tasks\BaseRebuildDedsDatabaseTask.cs" />
     <Compile Include="Workflow\RebuildDedsDatabase\Tasks\ExecuteMigrationScriptsTask.cs" />
     <Compile Include="Workflow\RunTransientSqlScriptsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CleanupEasSubmissionDeds.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CleanupPeriodEndDedsTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndDataToDedsTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndReferenceDataTask.cs" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BaseILR_1718.xml" />
+    <None Include="Resources\EAS.PeriodEnd.Cleanup.Deds.DML.sql" />
     <None Include="Resources\CopyIlrDataToDeds_1718.sql" />
     <None Include="Resources\ILRTableMap_1718.xml" />
   </ItemGroup>

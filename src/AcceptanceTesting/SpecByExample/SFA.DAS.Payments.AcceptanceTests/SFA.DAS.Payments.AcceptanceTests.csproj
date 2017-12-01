@@ -228,6 +228,7 @@
     <Compile Include="ReferenceDataModels\PeriodValue.cs" />
     <Compile Include="ReferenceDataModels\ProviderEarnedPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\TransactionType.cs" />
+    <Compile Include="ReferenceDataModels\TransactionTypesFlag.cs" />
     <Compile Include="ResultsDataModels\DataLockEventCommitmentVersion.cs" />
     <Compile Include="ResultsDataModels\DataLockEventError.cs" />
     <Compile Include="ResultsDataModels\DataLockEventPeriod.cs" />
@@ -391,6 +392,12 @@
       <Project>{ed159396-0d7d-4b64-8369-6c1bad8aae15}</Project>
       <Name>ProviderPayments.TestStack.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EAS.Deds.PaymentTypes.dml.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
