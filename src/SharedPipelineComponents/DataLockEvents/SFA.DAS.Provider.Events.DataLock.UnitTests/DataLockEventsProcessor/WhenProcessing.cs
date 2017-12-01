@@ -913,18 +913,17 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
         }
 
         [Test]
-        public void ThenItShouldNotWriteAnEventWhenLastSeenEventPEIHasNotChanged()
+        public void ThenItShouldNotWriteAnEventWhenLastSeenStatusIsRemovedAndCurrentEventIsNull()
         {
             // Arrange
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentProviderEventsRequest>()))
                 .Returns(new GetCurrentProviderEventsResponse
                 {
                     IsValid = true,
-                    Items = new DataLockEvent[1]
-                    {
-                        _lastSeenOriginalEvent
-                    }
+                    Items = new DataLockEvent[]{}
                 });
+
+            _lastSeenOriginalEvent.Status = EventStatus.Removed;
 
             // Act
             _processor.Process();
