@@ -329,7 +329,6 @@
     </None>
     <None Include="..\..\Features\provider_adjustments.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>provider_adjustments.feature.cs</LastGenOutput>
       <Link>Features\provider_adjustments.feature</Link>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">

@@ -74,8 +74,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
         }
-
-
+        
         private void EnsureSubmissionsHaveHappened()
         {
             if (!SubmissionContext.HaveSubmissionsBeenDone)
@@ -90,6 +89,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 SubmissionContext.HaveSubmissionsBeenDone = true;
             }
         }
-
     }
 }
