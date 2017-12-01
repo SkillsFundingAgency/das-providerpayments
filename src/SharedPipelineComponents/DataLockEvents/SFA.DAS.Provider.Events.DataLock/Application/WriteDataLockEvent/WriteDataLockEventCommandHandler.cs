@@ -109,7 +109,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent
                         CollectionPeriodYear = x.CollectionPeriod.Year,
                         CommitmentVersion = x.CommitmentVersion,
                         IsPayable = x.IsPayable,
-                        TransactionType = (int)x.TransactionType
+                        TransactionTypesFlag = (int)x.TransactionTypesFlag
                     }));
                 }
                 if (@event.CommitmentVersions != null && @event.CommitmentVersions.Any())

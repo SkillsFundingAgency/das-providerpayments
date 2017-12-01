@@ -83,14 +83,15 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents
                         var collectionPeriod = GetCollectionPeriod(entity.Period);
                         if (!periods.Any(p => p.CollectionPeriod.Month == collectionPeriod.Month
                                            && p.CollectionPeriod.Year == collectionPeriod.Year
-                                           && (int)p.TransactionType == entity.TransactionType))
+                                           && (int)p.TransactionTypesFlag == entity.TransactionTypesFlag))
                         {
                             periods.Add(new DataLockEventPeriod
                             {
                                 CollectionPeriod = collectionPeriod,
                                 CommitmentVersion = entity.CommitmentVersionId,
                                 IsPayable = entity.Payable,
-                                TransactionType = (TransactionType)entity.TransactionType
+                                TransactionType = (TransactionType)entity.TransactionType,
+                                TransactionTypesFlag = (TransactionTypesFlag)entity.TransactionTypesFlag
                             });
                         }
 

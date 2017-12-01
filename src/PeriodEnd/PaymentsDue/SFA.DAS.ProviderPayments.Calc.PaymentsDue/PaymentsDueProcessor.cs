@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-           
+
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
@@ -268,6 +268,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                p.ProgrammeType == currentEarning.ProgrammeType &&
                                p.CalendarMonth == currentEarning.CalendarMonth &&
                                p.CalendarYear == currentEarning.CalendarYear &&
+                               p.Type == currentEarning.Type &&
                                p.EarnedValue != 0 &&
                                ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
         }
@@ -333,7 +334,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     AddRefundPaymentDue(provider, paymentsDue, new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1), transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
-                
+
             }
             if (!refundAdded)
             {
@@ -341,7 +342,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth
                                                                 && x.DeliveryYear == earning.CalendarYear
                                                                 && x.AmountDue > 0
-                                                                && new DateTime(x.CollectionPeriodYear,x.CollectionPeriodMonth,1) !=
+                                                                && new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) !=
                                                                     new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
                                                                 .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
                                                                .ToArray();
@@ -368,7 +369,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                         earning,
                                                         paymentHistory,
                                                         amountDue);
-                        refundAdded = true; 
+                        refundAdded = true;
                         refundPeriodIndex++;
                     }
                 }

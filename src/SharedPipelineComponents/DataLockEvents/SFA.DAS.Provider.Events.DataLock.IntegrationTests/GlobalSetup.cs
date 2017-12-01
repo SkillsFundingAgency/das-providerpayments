@@ -25,7 +25,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests
                 connection.RunDbSetupSqlScriptFile("MigrationScripts\\001_DataLockEvents_Add_EventStatus.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("MigrationScripts\\002_DataLockEvents_Change_Commitment_Verion.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("MigrationScripts\\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
-                
+                connection.RunDbSetupSqlScriptFile("MigrationScripts\\004_DataLockEvents_Add_TransactionTypesFlag.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+
             }   
         }
 

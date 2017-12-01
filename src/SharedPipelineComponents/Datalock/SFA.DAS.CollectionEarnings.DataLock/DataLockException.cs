@@ -17,6 +17,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         public const string ErrorReadingAccountsMessage = "Error while reading das accounts.";
 
         public const string ErrorDeletingPriceEpisodePeriodMatchesMessage = "Error while deleting price episode period matches.";
+        public const string ErrorReadingIncentiveEarningsMessage = "Error while reading data for incentive earnings";
 
         public DataLockException(string message, Exception ex)
             : base(message, ex)

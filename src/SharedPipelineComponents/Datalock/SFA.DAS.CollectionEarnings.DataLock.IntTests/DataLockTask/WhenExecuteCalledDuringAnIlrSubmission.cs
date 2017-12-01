@@ -324,9 +324,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
             Assert.AreEqual(1, priceEpisodeMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-19"));
 
             Assert.IsNotNull(priceEpisodePeriodMatches);
-            Assert.AreEqual(242, priceEpisodePeriodMatches.Length);
-            Assert.AreEqual(121, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-17"));
-            Assert.AreEqual(121, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-19"));
+            Assert.AreEqual(22, priceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-17"));
+            Assert.AreEqual(11, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-19"));
         }
 
         [Test]
@@ -379,9 +379,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
             Assert.AreEqual(1, priceEpisodeMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-08-01"));
             Assert.AreEqual(1, priceEpisodeMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-11-01"));
 
-            Assert.AreEqual(110, priceEpisodePeriodMatches.Length);
-            Assert.AreEqual(33, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-08-01"));
-            Assert.AreEqual(77, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-11-01"));
+            Assert.AreEqual(10, priceEpisodePeriodMatches.Length);
+            Assert.AreEqual(3, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-08-01"));
+            Assert.AreEqual(7, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[1].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2017-11-01"));
         }
 
         [Test]
@@ -431,12 +431,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 
             var priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriod(false, 4);
             Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive).Payable);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive).Payable);
-
-            Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning).Payable);
-            Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Completion).Payable);
-            Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionType == Payments.DCFS.Domain.TransactionType.Balancing).Payable);
+            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.FirstEmployerProviderIncentives ).Payable);
+            Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.AllLearning).Payable);
 
         }
 
@@ -534,8 +530,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
             Assert.AreEqual(1, priceEpisodeMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-17"));
 
             Assert.IsNotNull(priceEpisodePeriodMatches);
-            Assert.AreEqual(242, priceEpisodePeriodMatches.Length);
-            Assert.AreEqual(121, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-17"));
+            Assert.AreEqual(22, priceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId && l.PriceEpisodeIdentifier == "27-25-2016-09-17"));
         }
 
         [Test]
@@ -572,8 +568,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
             Assert.AreEqual(1, priceEpisodeMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId));
 
             Assert.IsNotNull(priceEpisodePeriodMatches);
-            Assert.AreEqual(121, priceEpisodePeriodMatches.Length);
-            Assert.AreEqual(121, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId));
+            Assert.AreEqual(11, priceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, priceEpisodePeriodMatches.Count(l => l.CommitmentId == commitments[0].CommitmentId));
         }
     }
 }
