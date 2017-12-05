@@ -1,4 +1,4 @@
-PUSHD SharedPipelineComponents/Datalock
+PUSHD SharedPipelineComponents\Datalock
 CALL RunPackComponent.bat
 POPD
 
@@ -10,7 +10,7 @@ powershell -file TransformForAcceptanceTesting.ps1 1718
 powershell -file TransformForAcceptanceTesting.ps1 1617
 PUSHD Build
 CALL RunPackComponent.bat %1 1718
-CALL RunPackComponent.bat %1 1718
+CALL RunPackComponent.bat %1 1617
 POPD
 POPD
 

@@ -276,3 +276,7 @@ paket-files/
 
 /src/AcceptanceTesting/**/*.feature.cs
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
+/src/OpeEarning/Build/Deploy
+/src/SharedPipelineComponents/Datalock/Deploy
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd
+
