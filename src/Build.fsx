@@ -387,10 +387,9 @@ Target "Build Project" (fun _ ->
    ==>"Build Database project"
    ==>"Publish Solution"
    ==>"Run NUnit Tests"
-   ==>"Run Integration Tests"
 
 "Set Solution Name"
     ==> "Build Database project"
     ==> "Publish Database project"
    
-RunTargetOrDefault  "Run Integration Tests"
+RunTargetOrDefault  "Run NUnit Tests"
