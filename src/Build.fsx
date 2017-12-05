@@ -282,6 +282,7 @@ Target "Build Projects" (fun _ ->
         -- @".\**\IlrGeneratorApp.csproj"
         -- @".\**\ProviderPayments.TestStack.Engine.csproj"
         -- @".\**\ProviderPayments.TestStack.Application.csproj"
+        -- @".\**\ManualTaskRunner.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
