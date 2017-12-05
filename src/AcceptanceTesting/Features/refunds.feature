@@ -112,7 +112,7 @@ Scenario:673-AC03 DAS learner, insufficient levy available to cover full payment
         | SFA Levy employer budget      | 500   | 500   | 500   | 0     | 0     | 0     | 0     |
         | SFA Levy co-funding budget    | 225   | 225   | 225   | 0     | 0     | 0     | 0     |
 
-
+@_Minimum_Acceptance_
 Scenario:683-AC01- DAS learner, levy available, 2 providers - provider A and provider B, Provider B retrospectively notifies a withdrawal and previously-paid monthly instalments need to be refunded, 
 and this refund must be credited to Provider A where refunded Levy amount will be in excess of the available Levy for that period.
 
@@ -266,6 +266,7 @@ Scenario:518-AC01 - DAS standard learner, price is changed and a negative amount
         | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | 0     | 0     |
 
 @Das
+@_Minimum_Acceptance_
 Scenario:802-AC01 - DAS standard learner, price is changed, originally mix funded and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 15000
     And the employer's levy balance is:
@@ -354,7 +355,7 @@ Scenario:894-AC01 - DAS standard learner, original commitment is withdrawn after
         | SFA Levy co-funding budget     | 0       | 0       | 0        | 0       | 0       |
         | SFA non-Levy co-funding budget | 0       | 0       | 0        | 0       | 0       |
 
-		
+@_Minimum_Acceptance_		
 Scenario:894-AC02 - non DAS standard learner, payments made then price is changed retrospectively from beginning
 	Given  the apprenticeship funding band maximum is 15000
   

@@ -167,6 +167,18 @@ namespace ProviderPayments.TestStack.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TRUNCATE TABLE [dbo].[EAS_Submission]
+        ///TRUNCATE TABLE [dbo].[EAS_Submission_Values]
+        ///TRUNCATE TABLE [ProviderAdjustments].[Payments]
+        ///GO.
+        /// </summary>
+        internal static string EAS_PeriodEnd_Cleanup_Deds_DML {
+            get {
+                return ResourceManager.GetString("EAS_PeriodEnd_Cleanup_Deds_DML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;ArrayOfTable&gt;
         ///  &lt;Table ElementName=&quot;Header&quot;&gt;

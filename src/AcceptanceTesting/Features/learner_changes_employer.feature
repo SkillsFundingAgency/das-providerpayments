@@ -36,7 +36,7 @@ Feature: Provider earnings and payments where a learner changes employers
             | SFA Levy employer budget        | 1000  | 1000  | 1000  | 500   | 500   |
             | SFA Levy co-funding budget      | 0     | 0     | 0     | 0     | 0     |
 
-
+	@_Minimum_Acceptance_
     Scenario: Earnings and payments for a DAS learner, levy available, and there is a change to the Negotiated Cost which happens mid month
         Given The learner is programme only DAS
         And the employer 1 has a levy balance > agreed price for all months
@@ -313,7 +313,7 @@ Feature: Provider earnings and payments where a learner changes employers
             | SFA Levy co-funding budget      | 0     | 0     | 0     | 0     | 0     |
 
 
-            
+    @_Minimum_Acceptance_        
     Scenario: Earnings and payments for a DAS learner, levy available, and they have a break in learning at the end of a month and return at the start of a later month with a different employer
     
         Given the apprenticeship funding band maximum is 17000
@@ -477,7 +477,7 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
             | Employer 2 16-18 incentive | 0     | 0     | 0     | 0     | 0     |
             | Provider 16-18 incentive   | 0     | 0     | 0     | 500   | 0     |
 
-
+@_Minimum_Acceptance_
 Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentive payment in the commitment transfer month - and the employer transfer is recorded on the ILR in a later month
     
         Given The learner is programme only DAS

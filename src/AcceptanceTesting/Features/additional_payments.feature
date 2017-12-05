@@ -1,6 +1,7 @@
 @AdditionalPayments
 Feature: 16 to 18 learner incentives, framework uplifts, level 2 english or maths payments
   
+  @_Minimum_Acceptance_
    Scenario:AC1- Payment for a 16-18 DAS learner, levy available, incentives earned
     
     Given levy balance > agreed price for all months
@@ -901,6 +902,7 @@ Scenario: 637-AC04-Payment for a DAS learner, requires learning support, doing a
 
 
 @MathsAndEnglishNonDas
+@_Minimum_Acceptance_
 Scenario:638-AC01 Non-DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim
 
 	When an ILR file is submitted with the following data:
@@ -1035,6 +1037,7 @@ Scenario:657-AC01 Non-DAS learner, takes an English qualification that has a pla
 
  
  @LearningSupport	
+ @_Minimum_Acceptance_
 Scenario:657-AC02 DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim and learning support is applicable for all learning
 	Given levy balance > agreed price for all months 
 	And the following commitments exist:
@@ -1208,6 +1211,7 @@ Scenario:671-AC01 DAS learner, levy available, is taking an English or maths qua
         | Provider learning support      | 150   | 150   | 150   | 150   | 150   |
 
 @MathsAndEnglishNonDas
+@_Minimum_Acceptance_
 Scenario:671-AC02 Non-DAS learner, levy available, is taking an English or maths qualification, has learning support and the negotiated price changes during the programme
     Given the apprenticeship funding band maximum is 18000
     

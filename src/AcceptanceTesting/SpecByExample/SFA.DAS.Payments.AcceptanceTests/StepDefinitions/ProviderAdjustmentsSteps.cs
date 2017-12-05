@@ -56,6 +56,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             ProviderAdjustmentsContext.RunMonthEnd();
 
+            ProviderAdjustmentsContext.GetPayments();
+
             var paymentListForPeriods = ProviderAdjustmentsContext.TransposeTable(table);
             ProviderPaymentsAssertions.AssertEasPayments(ProviderAdjustmentsContext, paymentListForPeriods);
         }
