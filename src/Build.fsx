@@ -278,6 +278,7 @@ Target "Build Projects" (fun _ ->
         -- @".\**\ExampleDCFSTask.csproj"
         -- @".\**\ConsoleEngine.csproj"
         -- @".\**\CoreTestApp.csproj"
+        -- @".\**\IlrGeneratorApp.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
