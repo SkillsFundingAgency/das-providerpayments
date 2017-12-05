@@ -280,6 +280,7 @@ Target "Build Projects" (fun _ ->
         -- @".\**\CoreTestApp.csproj"
         -- @".\**\IlrGeneratorApp.csproj"
         -- @".\**\ProviderPayments.TestStack.Engine.csproj"
+        -- @".\**\ProviderPayments.TestStack.Application.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
