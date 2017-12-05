@@ -276,6 +276,7 @@ Target "Build Projects" (fun _ ->
         -- @".\**\ProviderPayments.TestStack.UI.csproj"
         -- @".\AcceptanceTesting\IlrSubmissionPortal\**\*"
         -- @".\**\ExampleDCFSTask.csproj"
+        -- @".\**\ConsoleEngine.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
