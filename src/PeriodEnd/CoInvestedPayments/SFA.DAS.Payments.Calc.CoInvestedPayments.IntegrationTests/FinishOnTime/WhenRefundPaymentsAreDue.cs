@@ -81,7 +81,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             //Check that only the required data is copied over and not everything
             var payments = TestDataHelper.GetReferencePaymentsForCommit(_commitmentId);
-            Assert.AreEqual(1, payments.Length);
+            Assert.AreEqual(2, payments.Length);
         }
 
         [Test]
@@ -155,8 +155,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             //Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -1500));
-
-            //CheckOnlyTheRequiredReferenceDataIsCopiedOver();
         }
 
 

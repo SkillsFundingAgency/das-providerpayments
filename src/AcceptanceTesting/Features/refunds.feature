@@ -391,3 +391,45 @@ Scenario:894-AC02 - non DAS standard learner, payments made then price is change
         | SFA Levy employer budget       | 0      | 0      | 0        | 0      | 0      |
         | SFA Levy co-funding budget     | 0      | 0      | 0        | 0      | 0      |
         | SFA non-Levy co-funding budget | 0.60   | 0.60   | 0.60     | 0.60   | 0.60   |
+
+Scenario:902-AC01 - DAS standard learner, temporary ULN is changed to a proper one price is changed and a negative amount is left to be paid - results in a refund
+	Given  the apprenticeship funding band maximum is 15000
+    And levy balance > agreed price for all months
+    And the following commitments exist:    
+        | commitment Id | version Id | ULN        | start date | end date   | status | agreed price | effective from | effective to | UKPRN  | learner ref |
+        | 1             | 1          | 999999999  | 01/08/2017 | 01/08/2018 | active | 12000        | 01/08/2017     | 03/10/2017   | 123456 | LEARNREFA   |
+        #| 1             | 2          | 8674420450 | 01/09/2017 | 01/08/2018 | active | 1400         | 04/10/2017     |              | ABC123 | LEARNREFA   | 
+    
+	And following learning has been recorded for previous payments:
+		| ULN       | start date | aim sequence number | completion status | UKPRN  | learner ref |
+		| 999999999 | 04/08/2017 | 1                   | continuing        | 123456 | LEARNREFA   |
+	And the following earnings and payments have been made to the provider A for 999999999:
+		| Type                           | 08/17 |
+		| Provider Earned Total          | 1000  |
+		| Provider Earned from SFA       | 1000  |
+		| Provider Earned from Employer  | 0     |
+		| Provider Paid by SFA           | 1000  |
+		| Payment due from Employer      | 0     |
+		| Levy account debited           | 0     |
+		| SFA Levy employer budget       | 1000  |
+		| SFA Levy co-funding budget     | 0     |
+		| SFA non-Levy co-funding budget | 0     |
+        
+    When an ILR file is submitted on 01/09/17 with the following data:
+        | ULN        | learner type       | start date | planned end date | actual end date | completion status | Total training price 1 | Total training price 1 effective date | UKPRN  | learner ref |
+        | 8674420450 | programme only DAS | 01/09/2017 | 01/08/2018       |                 | continuing        | 6000                   | 04/09/2017                            | 123456 | LEARNREFA   |
+	
+    Then the provider earnings and payments break down as follows:
+        | Type                           | 08/17 | 09/17 |
+        | Provider Earned Total          | 1000  | 500   |
+        | Provider Earned from SFA       | 1000  | 500   |
+        | Provider Earned from Employer  | 0     | 0     |
+        | Provider Paid by SFA           | 1000  | 500   |
+        | Refund taken by SFA            | 0     | 0     |
+        | Payment due from Employer      | 0     | 0     |
+        | Refund due to employer         | 0     | 0     |
+        | Levy account debited           | 0     | 0     |
+        | Levy account credited          | 0     | 0     |
+        | SFA Levy employer budget       | 0     | 0     |
+        | SFA Levy co-funding budget     | 0     | 0     |
+        | SFA non-Levy co-funding budget | 0     | 0     |

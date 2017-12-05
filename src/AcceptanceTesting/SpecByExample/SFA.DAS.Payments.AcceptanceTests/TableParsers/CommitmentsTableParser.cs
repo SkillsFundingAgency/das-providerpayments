@@ -33,53 +33,95 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 switch (header)
                 {
                     case "uln":
+                    {
                         structure.UlnIndex = c;
                         break;
+                    }
                     case "priority":
+                    {
                         structure.PriorityIndex = c;
                         break;
+                    }
                     case "employer":
+                    {
                         structure.EmployerIndex = c;
                         break;
+                    }
                     case "provider":
+                    {
                         structure.ProviderIndex = c;
                         break;
+                    }
                     case "agreed price":
+                    {
                         structure.PriceIndex = c;
                         break;
+                    }
                     case "commitment id":
+                    {
                         structure.CommitmentIdIndex = c;
                         break;
+                    }
                     case "version id":
+                    {
                         structure.VersionIdIndex = c;
                         break;
+                        }
                     case "start date":
+                    {
                         structure.StartDateIndex = c;
                         break;
+                    }
                     case "end date":
+                    {
                         structure.EndDateIndex = c;
                         break;
+                    }
                     case "status":
+                    {
                         structure.StatusIndex = c;
                         break;
+                    }
                     case "effective from":
+                    {
                         structure.EffectiveFromIndex = c;
                         break;
+                    }
                     case "effective to":
+                    {
                         structure.EffectiveToIndex = c;
                         break;
+                    }
                     case "standard code":
+                    {
                         structure.StandardCodeIndex = c;
                         break;
+                    }
                     case "framework code":
+                    {
                         structure.FrameworkCodeIndex = c;
                         break;
+                    }
                     case "programme type":
+                    {
                         structure.ProgrammeTypeIndex = c;
                         break;
+                    }
                     case "pathway code":
+                    {
                         structure.PathwayCodeIndex = c;
                         break;
+                    }
+                    case "ukprn":
+                    {
+                        structure.UkprnIndex = c;
+                        break;
+                    }
+                    case "learner ref":
+                    {
+                        structure.LearnerRefIndex = c;
+                        break;
+                    }
                     default:
                         throw new ArgumentException($"Unexpected column in commitments table: {header}");
                 }
@@ -176,10 +218,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"'{row[structure.EffectiveToIndex]}' is not a valid effective to");
             }
 
-            var standardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
+            var standardCode = row.ReadRowColumnValue(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
             var frameworkCode = row.ReadRowColumnValue<int>(structure.FrameworkCodeIndex, "framework code");
             var programmeType = row.ReadRowColumnValue<int>(structure.ProgrammeTypeIndex, "programme type");
             var pathwayCode = row.ReadRowColumnValue<int>(structure.PathwayCodeIndex, "pathway code");
+
+            var learnerReference = row.ReadRowColumnValue(structure.LearnerRefIndex, "learner ref", string.Empty);
 
             if (effectiveFrom == null)
             {
@@ -206,6 +250,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 FrameworkCode = frameworkCode == 0 ? 0 : frameworkCode,
                 ProgrammeType = programmeType == 0 ? 0 : programmeType,
                 PathwayCode = pathwayCode == 0 ? 0 : pathwayCode,
+                LearnerReference = learnerReference
             };
         }
 
@@ -240,6 +285,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int FrameworkCodeIndex { get; set; } = -1;
             public int ProgrammeTypeIndex { get; set; } = -1;
             public int PathwayCodeIndex { get; set; } = -1;
+
+            public int UkprnIndex { get; set; } = -1;
+
+            public int LearnerRefIndex { get; set; } = -1;
         }
     }
 }
