@@ -274,6 +274,7 @@ Target "Build Projects" (fun _ ->
     trace "Build Projects"
     !! (@".\**\*.csproj") 
         -- @".\**\ProviderPayments.TestStack.UI.csproj"
+        -- @".\**\ProviderPayments.TestStack.Infrastructure.csproj"
         -- @".\AcceptanceTesting\IlrSubmissionPortal\**\*"
         -- @".\**\ExampleDCFSTask.csproj"
         -- @".\**\ConsoleEngine.csproj"
