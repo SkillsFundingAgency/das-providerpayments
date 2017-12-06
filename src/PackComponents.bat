@@ -1,5 +1,7 @@
-PUSHD SharedPipelineComponents\Datalock
+PUSHD SharedPipelineComponents
+PUSHD Datalock
 CALL RunPackComponent.bat
+POPD
 POPD
 
 PUSHD OpaEarning
