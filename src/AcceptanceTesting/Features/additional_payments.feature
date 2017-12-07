@@ -56,8 +56,8 @@ Scenario:AC2- Payment for a 16-18 DAS learner, levy available, incentives not pa
         | SFA Levy employer budget            | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-      
-
+     
+@_Minimum_Acceptance_
 Scenario:AC3-Learner finishes on time, earns on-programme and completion payments. Assumes 12 month apprenticeship and learner completes after 10 months.
     Given the apprenticeship funding band maximum is 9000
     When an ILR file is submitted with the following data:
@@ -121,6 +121,8 @@ Scenario:AC4-Learner finishes on time, Price is less than Funding Band Maximum o
         | Framework uplift balancing   | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     |
         | Provider disadvantage uplift | 0     | 0     | 0     | 0     | 0     | ..  | 0     | 0     | 0     | 0     |
 
+
+@_Minimum_Acceptance_
 Scenario:AC5- Payment for a non-DAS learner, lives in a disadvantaged postocde area - 1-10% most deprived, funding agreed within band maximum, UNDERTAKING APPRENTICESHIP FRAMEWORK The provider incentive for this postcode group is £600 split equally into 2 payments at 90 and 365 days. INELIGIBLE FOR APPRENTICESHIP STANDARDS
   
     When an ILR file is submitted with the following data:
