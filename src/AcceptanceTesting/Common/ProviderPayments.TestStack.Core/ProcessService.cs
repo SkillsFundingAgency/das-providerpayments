@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Data.SqlClient;
+using Dapper;
 using IlrGenerator;
 using Newtonsoft.Json;
 using ProviderPayments.TestStack.Core.Context;
 using ProviderPayments.TestStack.Core.ExecutionStatus;
+using ProviderPayments.TestStack.Core.Properties;
 using ProviderPayments.TestStack.Core.Workflow.AccountsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.CommitmentsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.IlrSubmission;
@@ -18,6 +21,29 @@ namespace ProviderPayments.TestStack.Core
         public ProcessService(ILogger logger)
         {
             _logger = logger;
+        }
+
+        public void PrepareTablesNotOwnedByPayments(EnvironmentVariables environmentVariables = null)
+        {
+            var context = SetupExecutionEnvironment(null, environmentVariables ?? new EnvironmentVariables());
+            var connectionString = context.Properties[KnownContextKeys.DedsDatabaseConnectionString];
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                try
+                {
+                    var commands = Resources.CopyValidLearnerRecordsTaskScript
+                        .Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var command in commands)
+                    {
+                        connection.Execute(command);
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void RunIlrSubmission(IlrSubmission submission, EnvironmentVariables environmentVariables = null, StatusWatcherBase statusWatcher = null)

@@ -36,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests
                 AccountsApiTenant = ""
             };
 
-            if (bool.Parse(ConfigurationManager.AppSettings[LogDuringTests]))
+            if (bool.Parse(ConfigurationManager.AppSettings[LogDuringTests] ?? "true"))
             {
                 Logger = new AcceptanceTestsLogger(RunId, Variables.DedsDatabaseConnectionString);
             }
