@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -467,6 +467,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunOpaEarningsCalculatorTas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.CollectionEarnings.Calculator", "OpaEarning\Build\SFA.DAS.CollectionEarnings.Calculator\SFA.DAS.CollectionEarnings.Calculator.csproj", "{49D934F3-2120-4268-8143-C3C85EF85BA7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{20BE3CD0-AB7B-4D05-A456-0D9660F9EE34}"
+	ProjectSection(SolutionItems) = preProject
+		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -728,6 +733,7 @@ Global
 		{114F88B7-61B5-4268-B3AE-9C23D67E8438} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{49D934F3-2120-4268-8143-C3C85EF85BA7} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
+		{20BE3CD0-AB7B-4D05-A456-0D9660F9EE34} = {ACE71C78-4DF5-4E0E-8DCD-A070D7E6C857}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72CA29A5-408A-462A-B5B5-A8F96FC1F58A}
