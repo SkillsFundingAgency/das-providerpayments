@@ -472,6 +472,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{10ED3F84-76FF-4152-BE98-5F74C13659B9}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\Migration Scripts\1_CoInvestedPayments.deds.Add_Indexes.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\Migration Scripts\1_CoInvestedPayments.deds.Add_Indexes.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{06E5C206-A1B9-4FE8-B69C-11BCC49D253F}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\LevyPayments\DeployLevyPayments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{1FD2AFAF-BC7E-4A40-AAEE-1F4CB5225A88}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql = PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -734,6 +749,9 @@ Global
 		{CD0EA7DC-3F40-44E4-BEF6-2642B8033018} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{49D934F3-2120-4268-8143-C3C85EF85BA7} = {0DE86180-81EF-4DEA-9E89-E3E674BF48BF}
 		{20BE3CD0-AB7B-4D05-A456-0D9660F9EE34} = {ACE71C78-4DF5-4E0E-8DCD-A070D7E6C857}
+		{10ED3F84-76FF-4152-BE98-5F74C13659B9} = {3DC40140-C9F4-442A-8470-0E5191642265}
+		{06E5C206-A1B9-4FE8-B69C-11BCC49D253F} = {86487371-8D20-4E02-82CE-701D6E05C59E}
+		{1FD2AFAF-BC7E-4A40-AAEE-1F4CB5225A88} = {4E51108D-D522-472D-BC9E-A27F55DDE910}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72CA29A5-408A-462A-B5B5-A8F96FC1F58A}
