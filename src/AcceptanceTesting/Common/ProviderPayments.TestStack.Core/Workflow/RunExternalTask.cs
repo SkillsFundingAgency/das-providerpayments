@@ -99,6 +99,10 @@ namespace ProviderPayments.TestStack.Core.Workflow
                     foreach (var sqlFile in GetOrderedSqlFiles(sqlDirectory))
                     {
                         _logger.Debug($"Found script {sqlFile}");
+                        
+                        //here
+                        if (DdlChecker.GetScriptsRequiredOnEveryRun().Contains(sqlFile.ToLower()))
+                            return;
 
                         var isDedsScript = Regex.IsMatch(sqlFile, @".*\.deds\..*\.sql$", RegexOptions.IgnoreCase);
                         if (!isDedsScript)
