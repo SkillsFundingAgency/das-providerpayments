@@ -49,3 +49,6 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName]
 GO
+
+
+--CREATE INDEX IX_DasCommitments_ ON [Reference].[DasCommitments] ()

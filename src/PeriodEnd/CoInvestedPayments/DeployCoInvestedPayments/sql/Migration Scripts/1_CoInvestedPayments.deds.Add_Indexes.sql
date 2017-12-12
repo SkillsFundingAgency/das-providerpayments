@@ -14,16 +14,17 @@ CREATE INDEX IX_FileDetails_UKPRN ON ${ILR_Deds.FQ}.[dbo].[FileDetails] (Id);
 GO
 
 
--- Make this more sequential. Not perfect, but should help with inserts
+-- Replace clustered index on random
 DROP INDEX PK__Payments__9B556A387D159181
-CREATE CLUSTERED INDEX PK_Payments ON ${DAS_PeriodEnd.FQ}.Payments.Payments (DeliveryYear, DeliveryMonth, PaymentId)
+CREATE INDEX PK_Payments ON ${DAS_PeriodEnd.FQ}.Payments.Payments (PaymentId)
 
 
 CREATE INDEX IX_Payments_RequiredPayment ON ${DAS_PeriodEnd.FQ}.Payments.Payments (RequiredPaymentId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, FundingSource)
 
--- Making a random key more sequential
-DROP INDEX 
-CREATE CLUSTERED INDEX PK_RequiredPayments ON ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments (IlrSubmissionDateTime, Id)
+
+-- Replace clustered index on random
+DROP INDEX PK__Required__3214EC07132E501E
+CREATE INDEX PK_RequiredPayments ON ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments (Id)
 
 CREATE INDEX IX_RequiredPayments_Ukprn ON ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments (UKPRN, FundingSource)
 

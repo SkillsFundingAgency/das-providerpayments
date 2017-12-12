@@ -11,3 +11,4 @@ INSERT INTO [Reference].[DasAccounts]
 		[IsLevyPayer]
 	FROM ${DAS_Accounts.FQ}.[dbo].[DasAccounts]
 GO
+
