@@ -81,7 +81,7 @@ GO
 
 CREATE TABLE Reference.DataLockCommitments
 (
-	CommitmentId varchar(50) PRIMARY KEY,
+	CommitmentId bigint PRIMARY KEY,
 	Uln bigint NOT NULL,
 	Ukprn bigint NOT NULL,
 	AccountId bigint NOT NULL,

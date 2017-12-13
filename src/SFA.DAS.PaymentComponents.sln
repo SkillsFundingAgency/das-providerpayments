@@ -113,6 +113,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings - Period End"
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Period End", "Sql - Period End", "{CD7678D2-DA8F-4A52-AC68-2AC887ADC2CE}"
+	ProjectSection(SolutionItems) = preProject
+		SharedPipelineComponents\Datalock\DeployPeriodEnd\Readme.txt = SharedPipelineComponents\Datalock\DeployPeriodEnd\Readme.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings - Ilr Submission", "Copy Mappings - Ilr Submission", "{A98AB30C-D91F-43E4-9159-E1BDAC49727E}"
 	ProjectSection(SolutionItems) = preProject
@@ -120,6 +123,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings - Ilr Submiss
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Ilr Submission", "Sql - Ilr Submission", "{3DB42E5E-B5B2-4174-A6AF-1799DE89E484}"
+	ProjectSection(SolutionItems) = preProject
+		SharedPipelineComponents\Datalock\Deploy\Readme.txt = SharedPipelineComponents\Datalock\Deploy\Readme.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{7BB75DDA-C32E-4DBE-B711-46ADDB2578AB}"
 	ProjectSection(SolutionItems) = preProject
@@ -152,6 +158,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql
+		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\5_Ilr.Deds.DataLock.Tables.Add_indexes.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\5_Ilr.Deds.DataLock.Tables.Add_indexes.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{A239066C-AB6C-433D-B0C8-53A06D671A09}"

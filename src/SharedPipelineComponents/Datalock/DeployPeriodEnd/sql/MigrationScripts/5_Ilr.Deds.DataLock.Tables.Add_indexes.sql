@@ -2,3 +2,4 @@
 CREATE INDEX IX_DataLockEventPeriods_DataLockEventId ON DataLock.DataLockEventPeriods (DataLockEventId)
 
 CREATE INDEX IX_DataLockEventCommitmentVersions_DataLockEventId ON DataLock.DataLockEventCommitmentVersions (DataLockEventId)
+
