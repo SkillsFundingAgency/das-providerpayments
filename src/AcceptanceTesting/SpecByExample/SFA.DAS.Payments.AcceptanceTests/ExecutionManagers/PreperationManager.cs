@@ -13,7 +13,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         {
             PrepareDatabaseForAt();
             PrepareDatabaseForAllComponents();
+            TestEnvironment.ProcessService.PrepareTablesNotOwnedByPayments(TestEnvironment.Variables);
         }
+
         internal static void PrepareDatabasesForScenario()
         {
             DdlManager.ResetHasRanFlags();
