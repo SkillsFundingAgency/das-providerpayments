@@ -63,7 +63,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 )
 GO
 
-CREATE INDEX IX_PaymentsDueRequiredPayments_Vw_PaymentsDue ON PaymentsDue.RequiredPayments (Id, UseLevyBalance, TransactionType)
+CREATE INDEX IX_PaymentsDueRequiredPayments_Vw_PaymentsDue ON PaymentsDue.RequiredPayments (Id, UseLevyBalance, TransactionType, AccountId)
+
 
 CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
 ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])

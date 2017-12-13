@@ -485,7 +485,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{1FD2AFAF-BC7E-4A40-AAEE-1F4CB5225A88}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql = PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql
+		PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql = PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql
 	EndProjectSection
 EndProject
 Global

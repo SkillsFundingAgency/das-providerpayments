@@ -11,5 +11,5 @@ CREATE INDEX PK_ManualAdjustments ON Adjustments.ManualAdjustments (RequiredPaym
 CREATE INDEX IX_ManualAdjustments ON Adjustments.ManualAdjustments (UKPRN)
 
 
-
+CREATE INDEX IX_ManualAdjustments_RequiredPaymentIdForReversal ON Adjustments.ManualAdjustments (RequiredPaymentIdForReversal)
 
