@@ -172,6 +172,13 @@ BEGIN
 		[PriceEpisodeIdentifier]
 		)
 END
+
+
+IF NOT EXISTS (SELECT [name] FROM sys.indexes WHERE name = 'IX_ReferenceDataLockEvents_DataLockEventId')
+BEGIN
+	CREATE INDEX IX_ReferenceDataLockEvents_DataLockEventId ON Reference.DataLockEvents (DataLockEventId)
+END
+
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT

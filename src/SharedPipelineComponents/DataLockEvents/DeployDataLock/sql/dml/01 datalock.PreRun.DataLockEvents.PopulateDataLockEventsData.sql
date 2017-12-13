@@ -62,3 +62,9 @@ SELECT
 		ON pem.Ukprn = err.Ukprn
 		AND pem.LearnRefNumber = err.LearnRefNumber
 		AND pem.PriceEpisodeIdentifier = err.PriceEpisodeIdentifier
+
+GO
+
+
+CREATE CLUSTERED INDEX [IX_DataLockEventsData_Query] ON [DataLockEvents].[DataLockEventsData] (UKPRN, LearnRefNumber, AimSeqNumber, RuleId)
+GO
