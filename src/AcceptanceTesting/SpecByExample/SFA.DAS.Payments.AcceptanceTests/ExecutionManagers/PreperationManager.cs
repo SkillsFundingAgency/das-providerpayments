@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ProviderPayments.TestStack.Core;
 using ProviderPayments.TestStack.Core.ExecutionStatus;
+using ProviderPayments.TestStack.Core.Workflow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
@@ -15,6 +16,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         }
         internal static void PrepareDatabasesForScenario()
         {
+            DdlManager.ResetHasRanFlags();
+
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
                 connection.Execute("TRUNCATE TABLE Valid.Learner");

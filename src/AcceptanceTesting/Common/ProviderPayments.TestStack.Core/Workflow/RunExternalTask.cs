@@ -77,6 +77,11 @@ namespace ProviderPayments.TestStack.Core.Workflow
             throw new DirectoryNotFoundException($"Cannot find component directory for {_componentType} in {componentsDirectory.FullName}");
         }
 
+        private bool ShouldScriptBeRan(string sqlFile)
+        {
+            return DdlManager.IsScriptRequiredOnEveryRun(sqlFile);
+        }
+
         private void PrepareDatabase(string componentDirectory, TestStackContext context)
         {
             _logger.Debug($"Preparing database for component {_componentType}");
@@ -96,13 +101,17 @@ namespace ProviderPayments.TestStack.Core.Workflow
             {
                 try
                 {
+                    var runAllDdl = !DdlManager.HasRan(componentDirectory);
+
                     foreach (var sqlFile in GetOrderedSqlFiles(sqlDirectory))
                     {
                         _logger.Debug($"Found script {sqlFile}");
-                        
-                        //here
-                        if (DdlChecker.GetScriptsRequiredOnEveryRun().Contains(sqlFile.ToLower()))
-                            return;
+
+                        if (!runAllDdl && !ShouldScriptBeRan(sqlFile))
+                        {
+                            _logger.Debug($"Skipping DDL file on subsequent runs - {sqlFile}");
+                            continue;
+                        }
 
                         var isDedsScript = Regex.IsMatch(sqlFile, @".*\.deds\..*\.sql$", RegexOptions.IgnoreCase);
                         if (!isDedsScript)
