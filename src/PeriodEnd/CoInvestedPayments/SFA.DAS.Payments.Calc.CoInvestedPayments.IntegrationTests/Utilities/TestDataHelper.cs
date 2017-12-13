@@ -119,7 +119,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
-                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear)"
                   + "SELECT "
                   + "@requiredPaymentId, "
                   + "CommitmentId, "
@@ -132,7 +132,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "(SELECT Calendar_Year FROM CoInvestedPayments.vw_CollectionPeriods WHERE Collection_Open = 1), "
                   + "@transactionType, "
                   + "@amountDue, "
-                  + "@sfaContributionPercentage "
+                  + "@sfaContributionPercentage, "
+                  + "'PN', 1, 2017 "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId,requiredPaymentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
@@ -183,7 +184,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 requiredPaymentId = Guid.NewGuid().ToString();
             }
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
-                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage)"
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear)"
                   + "SELECT "
                   + "@requiredPaymentId, "
                   + "CommitmentId, "
@@ -196,7 +197,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@deliveryYear, "
                   + "@transactionType, "
                   + "@amountDue, "
-                  + "@sfaContributionPercentage "
+                  + "@sfaContributionPercentage, "
+                  + "'PN', 1, 2017"
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, requiredPaymentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
@@ -223,7 +225,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
-                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, ApprenticeshipContractType) "
+                  + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, ApprenticeshipContractType, CollectionPeriodName, CollectionPeriodYear, CollectionPeriodMonth) "
                   + "VALUES ("
                   + "@requiredPaymentId, "
                   + "@uln, "
@@ -235,7 +237,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@transactionType, "
                   + "@amountDue, "
                   + "@sfaContributionPercentage, "
-                  + "2)",
+                  + "2, 'PN', 2017, 1)",
                 new { requiredPaymentId,uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
 
