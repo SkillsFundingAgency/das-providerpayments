@@ -424,6 +424,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{EBD70F04-9E08-46DD-A968-3BFE8AF9BE34}"
 	ProjectSection(SolutionItems) = preProject
 		Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
+		Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql = Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Reference.Accounts", "Reference\Accounts\SFA.DAS.Payments.Reference.Accounts\SFA.DAS.Payments.Reference.Accounts.csproj", "{72CC7A74-AA3D-4C86-B9EB-ED92A4DAB1E3}"
