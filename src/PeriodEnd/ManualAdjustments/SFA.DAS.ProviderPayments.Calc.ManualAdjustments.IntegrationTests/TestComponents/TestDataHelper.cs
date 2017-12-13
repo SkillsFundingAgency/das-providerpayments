@@ -77,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("INSERT INTO Reference.DasAccounts " +
                                    "(AccountId, AccountHashId, AccountName, Balance, VersionId, IsLevyPayer) " +
                                    "VALUES " +
-                                   "(@accountId, @accountId, 'Account ' + cast(@accountId as varchar(10)), @balance, '20170719', 1)",
+                                   "(@accountId, @accountId, 'Account ' + cast(@accountId as bigint), @balance, '20170719', 1)",
                                    new { accountId, balance });
             }
         }

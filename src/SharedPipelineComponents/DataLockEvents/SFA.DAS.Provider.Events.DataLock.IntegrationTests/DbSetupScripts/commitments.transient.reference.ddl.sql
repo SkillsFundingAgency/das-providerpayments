@@ -18,7 +18,7 @@ CREATE TABLE [Reference].[DasCommitments] (
     [VersionId] varchar(25) NOT NULL,
     [Uln] bigint NOT NULL,
     [Ukprn] bigint NOT NULL,
-    [AccountId] varchar(50) NOT NULL,
+    [AccountId] bigint NOT NULL,
     [StartDate] date NOT NULL,
     [EndDate] date NOT NULL,
     [AgreedCost] decimal(15, 2) NOT NULL,

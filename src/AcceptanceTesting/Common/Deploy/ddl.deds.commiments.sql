@@ -12,7 +12,7 @@ CREATE TABLE dbo.DasCommitments
 	[CommitmentId] varchar(50) PRIMARY KEY,
 	[Uln] bigint NOT NULL,
 	[Ukprn] bigint NOT NULL,
-	[AccountId] varchar(50) NOT NULL,
+	[AccountId] bigint NOT NULL,
 	[StartDate] date NOT NULL,
 	[EndDate] date NOT NULL,
 	[AgreedCost] decimal(15, 2) NOT NULL,

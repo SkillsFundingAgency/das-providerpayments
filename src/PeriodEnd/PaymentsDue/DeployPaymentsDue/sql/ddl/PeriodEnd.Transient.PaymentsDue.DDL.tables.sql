@@ -38,7 +38,7 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	Id uniqueidentifier DEFAULT(NEWID()),
 	CommitmentId bigint,
 	CommitmentVersionId varchar(25),
-	AccountId varchar(50),
+	AccountId bigint,
 	AccountVersionId varchar(50),
 	Uln bigint,
 	LearnRefNumber varchar(12),
