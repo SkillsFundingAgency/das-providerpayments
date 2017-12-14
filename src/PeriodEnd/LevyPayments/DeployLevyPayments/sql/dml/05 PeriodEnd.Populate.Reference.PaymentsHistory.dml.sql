@@ -17,3 +17,6 @@ SELECT
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 	AND IsNull(rp.CommitmentId,0) > 0
 GO
+
+CREATE INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory (RequiredPaymentId)
+GO

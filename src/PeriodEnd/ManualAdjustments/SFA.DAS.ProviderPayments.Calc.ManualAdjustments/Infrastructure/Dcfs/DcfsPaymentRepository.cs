@@ -78,7 +78,5 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
             if (payment.FundingSource != 1)
                 CreateCoInvestmentHistoryPayment(payment, requiredPayment, HistoryCoInvestedSource);
         }
-
-
     }
 }

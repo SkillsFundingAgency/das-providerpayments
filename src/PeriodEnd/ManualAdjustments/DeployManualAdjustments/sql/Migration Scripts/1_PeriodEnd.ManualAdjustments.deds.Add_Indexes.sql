@@ -5,8 +5,8 @@
 --GO
 
 
-DROP INDEX PK__ManualAd__3735DF3407A6ABE8
-CREATE INDEX PK_ManualAdjustments ON Adjustments.ManualAdjustments (RequiredPaymentIdToReverse)
+--DROP INDEX PK__ManualAd__3735DF3407A6ABE8
+--CREATE INDEX PK_ManualAdjustments ON Adjustments.ManualAdjustments (RequiredPaymentIdToReverse)
 
 CREATE INDEX IX_ManualAdjustments ON Adjustments.ManualAdjustments (UKPRN)
 

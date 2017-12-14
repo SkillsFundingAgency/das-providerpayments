@@ -22,5 +22,6 @@ SELECT
 	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 	AND p.FundingSource != 1
-
 GO
+
+CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
