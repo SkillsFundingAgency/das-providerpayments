@@ -11,3 +11,6 @@ INSERT INTO [Reference].[DasAccounts]
 		[IsLevyPayer]
 	FROM ${DAS_Accounts.FQ}.[dbo].[DasAccounts]
 GO
+
+CREATE INDEX [IX_DasAccount_AccountId] ON [Reference].[DasAccounts] (AccountId)
+GO
