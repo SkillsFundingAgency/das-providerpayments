@@ -7,7 +7,7 @@ using ProviderPayments.TestStack.Core.Workflow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
-    internal static class PreperationManager
+    internal static class PreparationManager
     {
         internal static void PrepareDatabasesForTestRun()
         {

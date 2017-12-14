@@ -192,7 +192,7 @@
     <Compile Include="AcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\CommitmentManager.cs" />
     <Compile Include="ExecutionManagers\EmployerAccountManager.cs" />
-    <Compile Include="ExecutionManagers\PreperationManager.cs" />
+    <Compile Include="ExecutionManagers\PreparationManager.cs" />
     <Compile Include="ExecutionManagers\ReferenceDataManager.cs" />
     <Compile Include="ExecutionManagers\SubmissionManager.cs" />
     <Compile Include="ReferenceDataModels\AimType.cs" />
