@@ -50,7 +50,10 @@ INSERT INTO [Reference].[DasCommitments]
         [LegalEntityName]
 GO
 
-CREATE NONCLUSTERED INDEX ix_dascommitments_uln
-ON [Reference].[DasCommitments] ([Uln])
-INCLUDE ([CommitmentId],[VersionId],[Ukprn],[AccountId],[StartDate],[EndDate],[AgreedCost],[StandardCode],[ProgrammeType],[FrameworkCode],[PathwayCode],[PaymentStatus],[PaymentStatusDescription],[Priority],[EffectiveFrom],[EffectiveTo])
+CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])
 GO
+
+CREATE INDEX [IDX_Commitments_AccountId] ON Reference.DasCommitments (AccountId, CommitmentId, VersionId)
+GO
+
+CREATE INDEX IX_DasCommitments_Uln ON Reference.DasCommitments (Uln)
