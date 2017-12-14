@@ -7,6 +7,16 @@ BEGIN
 END
 GO
 
+
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DataLockPriceEpisode'
+AND i.name = 'IX_DataLockPriceEpisode_DataLockEvents')
+BEGIN
+	DROP INDEX IX_DataLockPriceEpisode_DataLockEvents ON Reference.DataLockPriceEpisode
+END
+GO
+
 DELETE FROM [Reference].[DataLockPriceEpisode]
 GO
 

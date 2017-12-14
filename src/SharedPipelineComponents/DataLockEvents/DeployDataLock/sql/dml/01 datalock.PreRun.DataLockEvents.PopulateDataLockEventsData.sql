@@ -1,3 +1,12 @@
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DataLockEventsData'
+AND i.name = 'IX_DataLockEventsData_Query')
+BEGIN
+	DROP INDEX IX_DataLockEventsData_Query ON DataLockEvents.DataLockEventsData
+END
+GO
+
 TRUNCATE TABLE DataLockEvents.DataLockEventsData
 GO
 

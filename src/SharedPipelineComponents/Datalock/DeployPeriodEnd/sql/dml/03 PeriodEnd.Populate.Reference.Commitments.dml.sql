@@ -7,6 +7,24 @@ BEGIN
 END
 GO
 
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DasCommitments'
+AND i.name = 'IDX_Commitments_AccountId')
+BEGIN
+	DROP INDEX IDX_Commitments_AccountId ON Reference.DasCommitments
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DasCommitments'
+AND i.name = 'IDX_Commitments_Ukprn')
+BEGIN
+	DROP INDEX IDX_Commitments_Ukprn ON Reference.DasCommitments
+END
+GO
+
 DELETE FROM [Reference].[DasCommitments]
 GO
 
