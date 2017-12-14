@@ -2,7 +2,7 @@ IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name]='FileDetails' AND
 	BEGIN
 		CREATE TABLE [dbo].[FileDetails](
 			[ID] [int] IDENTITY(1,1) NOT NULL,
-			[UKPRN] [int] NOT NULL,
+			[UKPRN] [bigint] NOT NULL,
 			[Filename] [nvarchar](50) NULL,
 			[FileSizeKb] [bigint] NULL,
 			[TotalLearnersSubmitted] [int] NULL,

@@ -44,7 +44,7 @@ GO
 
 CREATE TABLE TestStack.Provider
 (
-	Ukprn int PRIMARY KEY,
+	Ukprn bigint PRIMARY KEY,
 	ProviderName varchar(50) NULL
 )
 GO
