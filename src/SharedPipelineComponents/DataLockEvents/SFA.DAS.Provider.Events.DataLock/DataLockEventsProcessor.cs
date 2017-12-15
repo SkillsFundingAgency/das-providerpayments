@@ -63,11 +63,18 @@ namespace SFA.DAS.Provider.Events.DataLock
                     // Look for events that are no longer in system
                     foreach (var lastSeen in lastSeenEvents)
                     {
+
+
                         _logger.Info($"Looking at last seen event for price episode = {lastSeen.PriceEpisodeIdentifier}, Uln = {lastSeen.Uln}");
                         var current = currentEvents.SingleOrDefault(ev => ev.Ukprn == lastSeen.Ukprn &&
-                                                                            ev.PriceEpisodeIdentifier == lastSeen.PriceEpisodeIdentifier &&
-                                                                            ev.LearnRefnumber == lastSeen.LearnRefnumber &&
-                                                                            ev.CommitmentId == lastSeen.CommitmentId);
+                                                                          ev.PriceEpisodeIdentifier == lastSeen.PriceEpisodeIdentifier &&
+                                                                          ev.LearnRefnumber == lastSeen.LearnRefnumber &&
+                                                                          ev.CommitmentId == lastSeen.CommitmentId);
+                        if (current == null && lastSeen.Status == EventStatus.Removed)
+                        {
+                            continue;
+                        }
+
                         if (current == null)
                         {
                             _logger.Info("Event has been removed");
@@ -100,7 +107,7 @@ namespace SFA.DAS.Provider.Events.DataLock
                         _logger.Info("Event has changed");
                         current.ProcessDateTime = DateTime.Now;
                         current.Status = EventStatus.New;
-                        
+
                         eventsToStore.Add(current);
                     }
                 }

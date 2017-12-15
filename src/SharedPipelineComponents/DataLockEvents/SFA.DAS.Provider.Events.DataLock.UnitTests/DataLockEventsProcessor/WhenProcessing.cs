@@ -913,6 +913,31 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
         }
 
         [Test]
+        public void ThenItShouldNotWriteAnEventWhenLastSeenStatusIsRemovedAndCurrentEventIsNull()
+        {
+            // Arrange
+            _mediator.Setup(m => m.Send(It.IsAny<GetCurrentProviderEventsRequest>()))
+                .Returns(new GetCurrentProviderEventsResponse
+                {
+                    IsValid = true,
+                    Items = new DataLockEvent[]{}
+                });
+
+            _lastSeenOriginalEvent.Status = EventStatus.Removed;
+
+            // Act
+            _processor.Process();
+
+            // Assert
+            _mediator.Verify(m => m.Send(It.IsAny<WriteDataLockEventCommandRequest>()), Times.Exactly(0));
+            _mediator.Verify(m => m.Send(It.Is<WriteDataLockEventCommandRequest>(r => r.Events != null
+                                                                                      && r.Events.Length == 1
+                                                                                      && r.Events[0].PriceEpisodeIdentifier == _lastSeenOriginalEvent.PriceEpisodeIdentifier
+                                                                                      && r.Events[0].Status == EventStatus.Removed)), Times.Never);
+        }
+
+
+        [Test]
         public void ThenTheCurrentPeriodDateIsPopulatedFromTheQuery()
         {
             //Act

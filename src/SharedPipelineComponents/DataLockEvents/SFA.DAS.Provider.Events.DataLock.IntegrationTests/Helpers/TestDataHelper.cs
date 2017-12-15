@@ -424,6 +424,71 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                 new { startDate, standardCode, programmeType, frameworkCode, pathwayCode, agreedCost, eventId }, false);
         }
 
+        internal static void AddReferenceDataLockEvent(long ukprn,
+                                            int status = 1)
+        {
+            var eventId = Guid.NewGuid();
+
+            Execute(@"INSERT INTO [Reference].[DataLockEvents]
+           ([Id]
+           ,[ProcessDateTime]
+           ,[Status]
+           ,[IlrFileName]
+           ,[SubmittedDateTime]
+           ,[AcademicYear]
+           ,[UKPRN]
+           ,[ULN]
+           ,[LearnRefNumber]
+           ,[AimSeqNumber]
+           ,[PriceEpisodeIdentifier]
+           ,[CommitmentId]
+           ,[EmployerAccountId]
+           ,[EventSource]
+           ,[HasErrors]
+           ,[IlrStartDate]
+           ,[IlrStandardCode]
+           ,[IlrProgrammeType]
+           ,[IlrFrameworkCode]
+           ,[IlrPathwayCode]
+           ,[IlrTrainingPrice]
+           ,[IlrEndpointAssessorPrice]
+           ,[IlrPriceEffectiveFromDate]
+           ,[IlrPriceEffectiveToDate]
+           ,[DataLockEventId])
+     VALUES
+           (8765432
+           ,CURRENT_TIMESTAMP
+           ,@status
+           ,'Test-Ilr.xml'
+           ,CURRENT_TIMESTAMP
+           ,'1617'
+           ,@ukprn
+           ,123890
+           ,'Lrn-001'
+           ,1
+           ,'Ep 1'
+           ,123863
+           ,487622
+           ,1
+           ,1
+           ,CURRENT_TIMESTAMP
+           ,198227
+           ,1
+           ,1
+           ,1
+           ,12000
+           ,3000
+           ,CURRENT_TIMESTAMP
+           ,CURRENT_TIMESTAMP
+           ,@eventId)",
+                new
+                {
+                    eventId,
+                    status,
+                    ukprn
+                });
+        }
+
         private static void AddDataLockEventPeriod(int period,
                                                 int transactionType,
                                                 bool payable,

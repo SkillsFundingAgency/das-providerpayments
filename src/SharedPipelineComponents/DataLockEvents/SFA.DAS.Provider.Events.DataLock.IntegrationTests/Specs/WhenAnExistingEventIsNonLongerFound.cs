@@ -45,5 +45,23 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(PriceEpisodeIdentifier, actualEvent.PriceEpisodeIdentifier);
             Assert.AreEqual(LearnerRefNumber, actualEvent.LearnRefnumber);
         }
+
+        [Test]
+        public void ThenItShouldNotWriteADeletionEventIfTheLastSeenStatusIsRemoved()
+        {
+            TestDataHelper.SubmissionCopyReferenceData();
+
+            // Act
+            TaskRunner.RunTask();
+
+            // Assert
+            var events = TestDataHelper.GetAllEvents();
+            var actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
+
+            Assert.IsNotNull(actualEvent);
+            Assert.AreEqual(EventStatus.Removed, actualEvent.Status);
+            Assert.AreEqual(PriceEpisodeIdentifier, actualEvent.PriceEpisodeIdentifier);
+            Assert.AreEqual(LearnerRefNumber, actualEvent.LearnRefnumber);
+        }
     }
 }
