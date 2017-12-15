@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using System;
+using System.Collections.Generic;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode
 {
@@ -19,5 +21,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode
         public DateTime EndDate { get; set; }
          public DateTime? FirstAdditionalPaymentThresholdDate { get; set; }
         public DateTime? SecondAdditionalPaymentThresholdDate { get; set; }
+
+        public List<IncentiveEarnings> IncentiveEarnings { get; set; }
     }
 }

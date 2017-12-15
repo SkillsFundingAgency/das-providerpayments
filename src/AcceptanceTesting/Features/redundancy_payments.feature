@@ -43,7 +43,8 @@ Scenario:806_AC1- DAS learner, is made redundant within the last 6 months of pla
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 1000  | 1000  | 1000  | 1000  |
 
-@Redundancy			       
+@Redundancy			
+@_Minimum_Acceptance_       
 Scenario:806_AC2- DAS learner, is made redundant outside of the last 6 months of planned learning - receives full government funding for the next 12 weeks only 
 
         Given The learner is programme only DAS

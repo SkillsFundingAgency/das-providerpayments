@@ -44,6 +44,10 @@ CREATE TABLE PaymentsDue.RequiredPayments
 )
 GO
 
+CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
+ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
+GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Earnings
 -----------------------------------------------------------------------------------------------------------------------------------------------

@@ -81,7 +81,9 @@ SELECT
 	pepm.VersionId, 
 	pepm.Period, 
 	CASE WHEN pem.IsSuccess = 1 And pepm.Payable = 1 Then 1 ELSE 0 END As Payable , 
-	pepm.TransactionType
+	pepm.TransactionType,
+	pepm.TransactionTypesFlag
+
 	FROM DataLock.PriceEpisodePeriodMatch pepm 
 	LEFT JOIN DataLock.PriceEpisodeMatch pem on 
 		pem.Ukprn = pepm.Ukprn AND

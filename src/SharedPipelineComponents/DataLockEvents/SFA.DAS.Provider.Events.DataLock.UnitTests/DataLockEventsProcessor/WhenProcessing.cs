@@ -35,7 +35,8 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
             new object[] { new [] { new DataLockEventPeriod { CollectionPeriod = new CollectionPeriod {Year = 1} } }, new [] { new DataLockEventPeriod { CollectionPeriod = new CollectionPeriod {Year = 2} } } },
             new object[] { new [] { new DataLockEventPeriod { CommitmentVersion = "1-001" } }, new [] { new DataLockEventPeriod { CommitmentVersion = "1-002" } } },
             new object[] { new [] { new DataLockEventPeriod { IsPayable = true } }, new [] { new DataLockEventPeriod { IsPayable = false } } },
-            new object[] { new [] { new DataLockEventPeriod { TransactionType = TransactionType.Balancing } }, new [] { new DataLockEventPeriod { TransactionType = TransactionType.Learning } } }
+            new object[] { new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.FirstEmployerProviderIncentives } },
+                            new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.AllLearning} }                             }
         };
 
         private static readonly object[] EventCommitmentVersions =
@@ -100,7 +101,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "75-001",
                         IsPayable = false,
-                        TransactionType = TransactionType.Learning
+                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
                     }
                 },
                 Errors = new[]
@@ -156,7 +157,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "99-015",
                         IsPayable = false,
-                        TransactionType = TransactionType.Learning
+                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
                     }
                 },
                 Errors = new[]
@@ -216,7 +217,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "99-015",
                         IsPayable = false,
-                        TransactionType = TransactionType.Learning
+                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
                     }
                 },
                 Errors = new[]

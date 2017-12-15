@@ -35,7 +35,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                             + " CollectionPeriodYear,"
                             + " CommitmentId, "
                             + " CommitmentVersionId AS CommitmentVersion,"
-                            + " TransactionType "
+                            + " TransactionType"
                             + " FROM PaymentsDue.RequiredPayments";
                 return connection.Query<SubmissionDataLockResultEntity>(query).ToArray();
             }
@@ -72,7 +72,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 {
                     CommitmentId = entity.CommitmentId,
                     CommitmentVersion = entity.CommitmentVersion,
-                    TransactionType = (TransactionType)entity.TransactionType
+                    TransactionType= (TransactionType)entity.TransactionType
                 });
             }
             else
@@ -87,7 +87,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                         {
                             CommitmentId = entity.CommitmentId,
                             CommitmentVersion = entity.CommitmentVersion,
-                            TransactionType = (TransactionType) entity.TransactionType
+                            TransactionType= (TransactionType) entity.TransactionType
                         }
                     }
                 });

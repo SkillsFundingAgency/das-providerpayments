@@ -201,7 +201,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionType)))
+                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -212,7 +212,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             if (endDate != endDate.LastDayOfMonth() && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionType)))
+                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -234,15 +234,15 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                                                        int aimSequenceNumber,
                                                        string priceEpisodeIdentifier,
                                                        int period,
-                                                       int transactionType,
+                                                       int transactionTypesFlag,
                                                        bool payable,
                                                        bool inSubmission)
         {
             Execute("INSERT INTO DataLock.PriceEpisodePeriodMatch "
-                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType) "
+                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType, TransactionTypesFlag) "
                   + "VALUES "
-                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable, @transactionType)",
-                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionType }, inSubmission: inSubmission);
+                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable, 0, @transactionTypesFlag)",
+                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionTypesFlag}, inSubmission: inSubmission);
         }
 
         internal static void AddIlrDataForCommitment(long? commitmentId,
@@ -391,7 +391,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionType)))
+                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
                 {
                     AddDataLockEventPeriod(period, (int)traxType, passedDataLock, eventId);
                 }
@@ -490,17 +490,17 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
         }
 
         private static void AddDataLockEventPeriod(int period,
-                                                int transactionType,
+                                                int transactionTypesFlag,
                                                 bool payable,
                                                 Guid dataLockEventId)
         {
             var collectionPeriod = GetCollectionPeriod(period);
 
             Execute("INSERT INTO DataLock.DataLockEventPeriods "
-                + "(DataLockEventId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, CommitmentVersion, IsPayable, TransactionType) "
+                + "(DataLockEventId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, CommitmentVersion, IsPayable, TransactionType, TransactionTypesFlag) "
                 + "VALUES "
-                + "(@dataLockEventId, @name, @month, @year, 1, @payable, @transactionType)",
-                new { name = collectionPeriod.Name, month = collectionPeriod.Month, year = collectionPeriod.Year, payable, transactionType, dataLockEventId }, false);
+                + "(@dataLockEventId, @name, @month, @year, 1, @payable, 0, @transactionTypesFlag)",
+                new { name = collectionPeriod.Name, month = collectionPeriod.Month, year = collectionPeriod.Year, payable, transactionTypesFlag, dataLockEventId }, false);
         }
 
         private static CollectionPeriod GetCollectionPeriod(int period)

@@ -4,6 +4,7 @@ GO
 INSERT INTO [Reference].[LevyPaymentsHistory]
 
 SELECT
+
 	p.RequiredPaymentId,
 	rp.CommitmentId ,
 	p.DeliveryMonth ,
@@ -15,10 +16,4 @@ SELECT
 	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 	AND IsNull(rp.CommitmentId,0) > 0
-	AND p.[CollectionPeriodName] IN 
-	(
- 		SELECT [Collection_Period_Name] 
- 		FROM [dbo].[Collection_Period_Mapping]
- 		WHERE [Collection_Open] = 1
- 	)
 GO
