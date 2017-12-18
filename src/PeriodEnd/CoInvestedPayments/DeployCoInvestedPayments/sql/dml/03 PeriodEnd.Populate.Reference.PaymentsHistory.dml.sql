@@ -24,4 +24,11 @@ SELECT
 	AND p.FundingSource != 1
 GO
 
-CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
+IF NOT EXISTS (
+		SELECT [name]
+		FROM [sys].[indexes]
+		WHERE [name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
+		)
+BEGIN
+	CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
+END

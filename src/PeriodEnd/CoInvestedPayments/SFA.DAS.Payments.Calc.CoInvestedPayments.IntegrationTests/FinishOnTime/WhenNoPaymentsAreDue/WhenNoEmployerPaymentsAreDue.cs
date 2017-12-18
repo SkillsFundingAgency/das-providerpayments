@@ -22,7 +22,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 987767;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;

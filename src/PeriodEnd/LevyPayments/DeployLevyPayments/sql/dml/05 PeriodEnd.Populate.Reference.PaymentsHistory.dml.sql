@@ -18,5 +18,12 @@ SELECT
 	AND IsNull(rp.CommitmentId,0) > 0
 GO
 
-CREATE INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory (RequiredPaymentId)
+IF NOT EXISTS (
+		SELECT [name]
+		FROM [sys].[indexes]
+		WHERE [name] = 'IX_LevyPaymentHistory_RequiredPaymentId'
+		)
+BEGIN
+	CREATE INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory (RequiredPaymentId)
+END
 GO

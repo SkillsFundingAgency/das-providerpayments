@@ -143,8 +143,8 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
         public void ThenItShouldCreateReversingRequiredPaymentForTwoPayments()
         {
             // Arrange
-            SetupManualAdjustment("1");
-            SetupManualAdjustment("2");
+            SetupManualAdjustment(1);
+            SetupManualAdjustment(2);
 
 
             // Act
@@ -158,7 +158,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
         }
 
 
-        private void SetupManualAdjustment(string accountId)
+        private void SetupManualAdjustment(long accountId)
         {
             TestDataHelper.WriteOpenCollectionPeriod("R02", 9, 2016);
 
