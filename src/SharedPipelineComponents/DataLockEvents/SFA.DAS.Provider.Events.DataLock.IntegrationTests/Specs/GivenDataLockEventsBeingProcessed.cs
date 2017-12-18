@@ -6,7 +6,7 @@ using SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers;
 
 namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 {
-    public class GivenDataLockEventsBeingProcessed
+    public class GivenDataLockEventsBeingProcessed_WhenAnEventThatHasAlreadyBeenRemovedIsProcessedAgain
     {
         private DataLockEvent _actualEvent;
         private const long Ukprn = 10000534;
@@ -15,7 +15,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
         private const string PriceEpisodeIdentifier = "1-1-1-2017-04-01";
 
         [SetUp]
-        public void WhenAnEventThatHasAlreadyBeenRemovedIsProcessedAgain()
+        public void SetUp()
         {
             TestDataHelper.Clean();
 
