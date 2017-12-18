@@ -7,6 +7,8 @@ namespace SFA.DAS.Payments.AcceptanceTests
 {
     internal static class TestEnvironment
     {
+        private const string LogDuringTests = "LogDuringTests";
+
         static TestEnvironment()
         {
             RunId = IdentifierGenerator.GenerateIdentifier();
@@ -34,7 +36,14 @@ namespace SFA.DAS.Payments.AcceptanceTests
                 AccountsApiTenant = ""
             };
 
-            Logger = new AcceptanceTestsLogger(RunId, Variables.DedsDatabaseConnectionString);
+            if (bool.Parse(ConfigurationManager.AppSettings[LogDuringTests] ?? "true"))
+            {
+                Logger = new AcceptanceTestsLogger(RunId, Variables.DedsDatabaseConnectionString);
+            }
+            else
+            {
+                Logger = new DummyAcceptanceTestsLogger();
+            }
 
             ProcessService = new ProcessService(Logger);
         }
