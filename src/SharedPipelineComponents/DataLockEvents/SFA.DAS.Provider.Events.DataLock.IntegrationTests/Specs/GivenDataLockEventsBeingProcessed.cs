@@ -8,11 +8,12 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 {
     public class GivenDataLockEventsBeingProcessed_WhenAnEventThatHasAlreadyBeenRemovedIsProcessedAgain
     {
-        private DataLockEvent _actualEvent;
         private const long Ukprn = 10000534;
         private const int CommitmentId = 1;
         private const string LearnerRefNumber = "Lrn-001";
         private const string PriceEpisodeIdentifier = "1-1-1-2017-04-01";
+        private const string Submission = "Submission";
+        private const string PeriodEnd = "PeriodEnd";
 
         [SetUp]
         public void SetUp()
@@ -26,19 +27,20 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             TestDataHelper.AddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
 
             TestDataHelper.AddReferenceDataLockEvent(Ukprn, (int)EventStatus.Removed);
+        }
 
-            TestDataHelper.SubmissionCopyReferenceData();
+        [TestCase(Submission)]
+        [TestCase(PeriodEnd)]
+        public void ThenAnEventShouldNotExistForThePriceEpisodeIdentifierForEachContext(string context)
+        {
+            if(context == Submission)
+                TestDataHelper.SubmissionCopyReferenceData();
+            else if(context == PeriodEnd)
+                TestDataHelper.PeriodEndCopyReferenceData();
 
             TaskRunner.RunTask();
 
-            var events = TestDataHelper.GetAllEvents();
-            _actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
-        }
-
-        [Test]
-        public void ThenAnEventShouldNotExistForThePriceEpisodeIdentifier()
-        {
-            Assert.IsNull(_actualEvent);
+            Assert.IsNull(TestDataHelper.GetAllEvents()?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier));
         }
     }
 }
