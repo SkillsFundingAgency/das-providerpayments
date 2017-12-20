@@ -425,7 +425,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
         }
 
         internal static void AddReferenceDataLockEvent(long ukprn,
-                                            int status = 1)
+                                            int status = 1, bool inSubmission = true)
         {
             var eventId = Guid.NewGuid();
 
@@ -486,7 +486,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                     eventId,
                     status,
                     ukprn
-                });
+                }, inSubmission: inSubmission);
         }
 
         private static void AddDataLockEventPeriod(int period,
