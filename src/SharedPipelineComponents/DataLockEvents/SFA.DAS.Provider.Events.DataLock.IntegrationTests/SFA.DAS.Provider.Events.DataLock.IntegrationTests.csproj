@@ -62,7 +62,12 @@
     <Compile Include="Execution\TaskRunner.cs" />
     <Compile Include="Execution\TestTaskContext.cs" />
     <Compile Include="GlobalSetup.cs" />
+    <Compile Include="Helpers\Enums.cs" />
+    <Compile Include="Helpers\ITestFixtureDataHelper.cs" />
+    <Compile Include="Helpers\PeriodEndTestFixtureDataHelper.cs" />
+    <Compile Include="Helpers\SubmissionTestFixtureDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
+    <Compile Include="Helpers\TestFixtureDataHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specs\GivenDataLockEventsBeingProcessed.cs" />
     <Compile Include="Specs\WhenAnExistingEventIsFound.cs" />

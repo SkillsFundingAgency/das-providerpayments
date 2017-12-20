@@ -188,7 +188,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                     "(@id, 1, '123', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, 'Active', 1, @startDate)",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, inSubmission: inSubmission);
 
-            var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
+            //var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
+            var priceEpisodeIdentifier = "Ep 1"; 
 
             Execute("INSERT INTO DataLock.PriceEpisodeMatch "
                     + "(Ukprn,LearnRefNumber,AimSeqNumber,CommitmentId,PriceEpisodeIdentifier,IsSuccess) "
@@ -321,7 +322,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                                             int? programmeType = null,
                                             int? frameworkCode = null,
                                             int? pathwayCode = null,
-                                            bool passedDataLock = true)
+                                            bool passedDataLock = true,
+                                            int status=1)
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
@@ -361,13 +363,14 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                 + "PriceEpisodeIdentifier, CommitmentId, EmployerAccountId, EventSource, HasErrors, IlrStartDate, IlrStandardCode, "
                 + "IlrProgrammeType, IlrFrameworkCode, IlrPathwayCode, IlrTrainingPrice, IlrEndpointAssessorPrice, IlrPriceEffectiveFromDate) "
                 + "VALUES "
-                + $"(@eventId, @processed, 1, 'ILR-{ukprn}-1617-20161013-092500-98.xml', @submittedDateTime, '1617', @ukprn, @uln, @learnerRefNumber, @aimSequenceNumber, "
+                + $"(@eventId, @processed, @status, 'ILR-{ukprn}-1617-20161013-092500-98.xml', @submittedDateTime, '1617', @ukprn, @uln, @learnerRefNumber, @aimSequenceNumber, "
                 + "@priceEpisodeIdentifier, @commitmentId, 123, 1, @hasErrors, @startDate, @standardCode, @programmeType, @frameworkCode, @pathwayCode, "
                 + "@trainingCost, @endpointCost, @priceEffectiveFromDate)",
                 new
                 {
                     eventId,
                     processed = DateTime.Today,
+                    status,
                     submittedDateTime = DateTime.Now.AddDays(-1),
                     ukprn,
                     uln,
@@ -425,7 +428,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
         }
 
         internal static void AddReferenceDataLockEvent(long ukprn,
-                                            int status = 1)
+                                            int status = 1, bool inSubmission = true)
         {
             var eventId = Guid.NewGuid();
 
@@ -486,7 +489,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                     eventId,
                     status,
                     ukprn
-                });
+                },true, inSubmission);
         }
 
         private static void AddDataLockEventPeriod(int period,
