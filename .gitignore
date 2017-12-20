@@ -278,3 +278,9 @@ paket-files/
 
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
 
+/src/OpaEarning/Build/SFA.DAS.CollectionEarnings.Calculator/Resources/1617/Apprenticeships Earnings Calc 16_17.zip
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.views.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.tables.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.sprocs.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Reference.ddl.tables.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Deds.Rulebase.ddl.tables.sql
