@@ -10,9 +10,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
     {
         private DataLockEvent[] _actualEvents;
         private const long Ukprn = 10000534;
-        private const int CommitmentId = 1;
         private const string LearnerRefNumber = "Lrn-001";
-        private const string PriceEpisodeIdentifier = "1-1-1-2017-04-01";
+        private const string PriceEpisodeIdentifier = "Ep 1";
 
         [SetUp]
         public void SetUp()
@@ -21,10 +20,10 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 
             TestDataHelper.SetCurrentPeriodEnd();
             TestDataHelper.PeriodEndAddLearningProvider(Ukprn);
-            TestDataHelper.PeriodEndAddCommitment(CommitmentId, Ukprn, LearnerRefNumber, passedDataLock: false);
-            TestDataHelper.PeriodEndAddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
 
-            TestDataHelper.AddReferenceDataLockEvent(Ukprn, (int)EventStatus.Removed, inSubmission: false);
+            TestDataHelper.AddDataLockEvent(Ukprn, LearnerRefNumber, priceEpisodeIdentifier: PriceEpisodeIdentifier, status: EventStatus.New);
+            TestDataHelper.AddDataLockEvent(Ukprn, LearnerRefNumber, priceEpisodeIdentifier: PriceEpisodeIdentifier, status: EventStatus.Removed);
+
             TestDataHelper.PeriodEndCopyReferenceData();
 
             TaskRunner.RunTask(eventsSource: EventSource.PeriodEnd);

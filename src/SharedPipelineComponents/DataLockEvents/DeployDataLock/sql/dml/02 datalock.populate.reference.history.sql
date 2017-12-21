@@ -120,8 +120,6 @@ FROM [DataLock].[vw_Providers] ptp	WITH ( NOLOCK )
 INNER JOIN 
 	${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle WITH ( NOLOCK )
 	ON ptp.[UKPRN] = dle.[UKPRN]
-WHERE 
-	dle.[STATUS] <> 3 -- Do not read removed as anything from here will be new again
 
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
