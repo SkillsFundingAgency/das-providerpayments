@@ -80,6 +80,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Features\learner_changes_start_date.feature.cs">
+      <Link>Features\Ilr Changes\learner_changes_start_date.feature.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>learner_changes_start_date.feature</DependentUpon>
+    </Compile>
     <Compile Include="Assertions\DataLockAssertions.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockCommitmentVersionRule.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockErrorsRule.cs" />
@@ -309,6 +315,11 @@
     <None Include="..\..\features\learner_changes_provider.feature">
       <Link>Features\learner_changes_provider.feature</Link>
     </None>
+    <None Include="..\..\Features\learner_changes_start_date.feature">
+      <Link>Features\Ilr Changes\learner_changes_start_date.feature</Link>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_changes_start_date.feature.cs</LastGenOutput>
+    </None>
     <None Include="..\..\features\learner_finishes_early.feature">
       <Link>Features\learner_finishes_early.feature</Link>
     </None>
@@ -330,7 +341,6 @@
     </None>
     <None Include="..\..\Features\provider_adjustments.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>provider_adjustments.feature.cs</LastGenOutput>
       <Link>Features\provider_adjustments.feature</Link>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">
@@ -431,7 +441,7 @@
   </PropertyGroup>
   <Import Project="..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets')" />
   <Target Name="AfterUpdateFeatureFilesInProject">
-    <Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />
+    <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
