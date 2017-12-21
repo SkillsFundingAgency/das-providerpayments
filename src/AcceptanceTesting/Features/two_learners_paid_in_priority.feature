@@ -51,7 +51,7 @@ Feature: 2 learners, paid in priority order
                 | SFA Levy co-funding budget     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
                 | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | ... | 0     | 0     |
 
-
+	@_Minimum_Acceptance_
     Scenario: Earnings and payments for two DAS learners, levy is spent in priority order and is available for one learner only
         Given the employer's levy balance is:
                 | 08/17 | 09/17 | 10/17 | 11/17 | ...  | 08/18 | 09/18 |

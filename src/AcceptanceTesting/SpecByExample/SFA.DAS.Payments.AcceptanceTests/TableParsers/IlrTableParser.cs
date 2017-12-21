@@ -96,8 +96,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "residual training price 1":
                         structure.ResidualTrainingPrice1Index = c;
                         break;
-                    case "Residual training price effective date":
-                    case "Residual training price 1 effective date":
+                    case "residual training price effective date":
+                    case "residual training price 1 effective date":
                         structure.ResidualTrainingPrice1EffectiveDateIndex = c;
                         break;
                     case "residual assessment price":

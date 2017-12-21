@@ -23,7 +23,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProvi
             new object[] {new[] {MakeDataLockEntity(), MakeDataLockEntity(period: 2)}, 2},
             new object[] {new[] {MakeDataLockEntity(), MakeDataLockEntity(period: 2), MakeDataLockEntity(period: 3) }, 3},
             new object[] {new[] {MakeDataLockEntity(), MakeDataLockEntity(period: 2), MakeDataLockEntity(period: 2) }, 2},
-            new object[] {new[] {MakeDataLockEntity(), MakeDataLockEntity(period: 2), MakeDataLockEntity(period: 2, transactionType: 2) }, 3},
+            new object[] {new[] {MakeDataLockEntity(), MakeDataLockEntity(period: 2), MakeDataLockEntity(period: 2, transactionTypesFlag: 2) }, 3},
         };
         private static readonly object[] ErrorCases =
         {
@@ -194,14 +194,14 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProvi
             Assert.AreEqual("1617-R01", actualEvent.Periods[0].CollectionPeriod.Name);
             Assert.AreEqual("1-001", actualEvent.Periods[0].CommitmentVersion);
             Assert.AreEqual(true, actualEvent.Periods[0].IsPayable);
-            Assert.AreEqual(TransactionType.Learning, actualEvent.Periods[0].TransactionType);
+            Assert.AreEqual(TransactionTypesFlag.AllLearning, actualEvent.Periods[0].TransactionTypesFlag);
 
             Assert.AreEqual(9, actualEvent.Periods[1].CollectionPeriod.Month);
             Assert.AreEqual(2016, actualEvent.Periods[1].CollectionPeriod.Year);
             Assert.AreEqual("1617-R02", actualEvent.Periods[1].CollectionPeriod.Name);
             Assert.AreEqual("1-002", actualEvent.Periods[1].CommitmentVersion);
             Assert.AreEqual(false, actualEvent.Periods[1].IsPayable);
-            Assert.AreEqual(TransactionType.Learning, actualEvent.Periods[1].TransactionType);
+            Assert.AreEqual(TransactionTypesFlag.AllLearning, actualEvent.Periods[1].TransactionTypesFlag);
 
             // Commitment versions
             Assert.IsNotNull(actualEvent.CommitmentVersions);
@@ -313,7 +313,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProvi
             int aimSeqNumber = 1, long commitmentId = 1, bool isSuccess = true, string ilrFileName = "something", DateTime submittedTime = default(DateTime),
             long uln = 1532456, DateTime ilrStartDate = default(DateTime), long? ilrStandardCode = 21, int? ilrProgrammeType = null, int? ilrFrameworkCode = null,
             int? ilrPathwayCode = null, decimal ilrTrainingPrice = 12000, decimal ilrEndpointAssessorPrice = 3000, DateTime ilrPriceEffectiveDate = default(DateTime),
-            string commitmentVersionId = "1-001", int period = 1, bool payable = true, int transactionType = 1, long employerAccountId = 1, DateTime commitmentStartDate = default(DateTime),
+            string commitmentVersionId = "1-001", int period = 1, bool payable = true, int transactionTypesFlag = 1, long employerAccountId = 1, DateTime commitmentStartDate = default(DateTime),
             long? commitmentStandardCode = 21, int? commitmentProgrammeType = null, int? commitmentFrameworkCode = null, int? commitmentPathwayCode = null,
             decimal commitmentNegotiatedPrice = 16000, DateTime commitmentEffectiveDate = default(DateTime), string ruleId = "DLOCK_07")
         {
@@ -339,7 +339,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProvi
                 CommitmentVersionId = commitmentVersionId,
                 Period = period,
                 Payable = payable,
-                TransactionType = transactionType,
+                TransactionTypesFlag = transactionTypesFlag,
                 EmployerAccountId = employerAccountId,
                 CommitmentStartDate = commitmentStartDate,
                 CommitmentStandardCode = commitmentStandardCode,

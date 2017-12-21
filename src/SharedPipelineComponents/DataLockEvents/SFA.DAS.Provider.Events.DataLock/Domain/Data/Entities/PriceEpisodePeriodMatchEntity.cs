@@ -11,5 +11,6 @@
         public int Period { get; set; }
         public bool Payable { get; set; }
         public int TransactionType { get; set; }
+        public int TransactionTypesFlag { get; set; }
     }
 }

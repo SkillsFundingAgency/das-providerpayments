@@ -163,7 +163,7 @@ Feature: Apprentice changes provider scenarios
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     |
 
-
+@_Minimum_Acceptance_
 Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentive payment in the transfer month - and the date at which the incentive is earned is before the transfer date 
     
         Given levy balance > agreed price for all months

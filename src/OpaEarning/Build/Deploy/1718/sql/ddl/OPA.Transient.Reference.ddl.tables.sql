@@ -133,21 +133,21 @@ GO
 
 create table [Reference].[LARS_ApprenticeshipFunding]
 (	
-	[1618Incentive] decimal(10,5),
+	[1618Incentive] decimal(12,5),
 	[ApprenticeshipCode] int not null,
 	[ApprenticeshipType] varchar(50) not null,
 	[EffectiveFrom] date not null,
 	[EffectiveTo] date,
 	[FundingCategory] varchar(15) not null,
-	[MaxEmployerLevyCap] decimal(10,5),
+	[MaxEmployerLevyCap] decimal(12,5),
 	[ProgType] int not null,
 	[PwayCode] int not null,
-	[ReservedValue1] decimal(10,5),
-	[ReservedValue2] decimal(10,5),
-	ReservedValue3 decimal(10,5),
-	[1618ProviderAdditionalPayment] decimal(10,5),
-	[1618EmployerAdditionalPayment] decimal(10,5),
-	[1618FrameworkUplift] decimal(10,5)
+	[ReservedValue1] decimal(12,5),
+	[ReservedValue2] decimal(12,5),
+	ReservedValue3 decimal(12,5),
+	[1618ProviderAdditionalPayment] decimal(12,5),
+	[1618EmployerAdditionalPayment] decimal(12,5),
+	[1618FrameworkUplift] decimal(12,5)
 )
 create clustered index IX_LARS_ApprenticeshipFunding on [Reference].[LARS_ApprenticeshipFunding]
 (

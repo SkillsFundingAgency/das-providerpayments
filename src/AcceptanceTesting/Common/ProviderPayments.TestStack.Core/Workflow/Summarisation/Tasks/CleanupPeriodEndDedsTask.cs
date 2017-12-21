@@ -1,4 +1,6 @@
-﻿namespace ProviderPayments.TestStack.Core.Workflow.Summarisation.Tasks
+﻿using ProviderPayments.TestStack.Core.Context;
+
+namespace ProviderPayments.TestStack.Core.Workflow.Summarisation.Tasks
 {
     internal class CleanupPeriodEndDedsTask : RunTransientSqlScriptsTask
     {
@@ -9,7 +11,6 @@
             ComponentType.LevyCalculator,
             ComponentType.CoInvestedPayments,
             ComponentType.ManualAdjustments,
-            ComponentType.ProviderAdjustments
         };
         private static readonly string CleanupRegex = @".*\.Cleanup\..*\.sql$";
 

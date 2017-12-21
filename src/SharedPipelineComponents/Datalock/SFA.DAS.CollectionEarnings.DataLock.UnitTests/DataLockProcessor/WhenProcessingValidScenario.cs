@@ -6,6 +6,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.Commitment.GetProviderComm
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery;
+using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode;
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode.GetProviderPriceEpisodesQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodeMatch;
@@ -136,6 +137,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.DataLockProcessor
             _mediator
                 .Setup(m => m.Send(It.IsAny<AddPriceEpisodeMatchesCommandRequest>()))
                 .Returns(Unit.Value);
+
+            _mediator
+             .Setup(m => m.Send(It.IsAny<Get16To18IncentiveEarningsQueryRequest>()))
+             .Returns(new Get16To18IncentiveEarningsQueryResponse
+             {
+                 IsValid = true,
+                 Items = new[]
+                 {
+                        new IncentiveEarningsBuilder().Build()
+                 }
+             });
+
         }
 
         [Test]

@@ -45,7 +45,5 @@ namespace ProviderPayments.TestStack.Core.Workflow.RebuildDedsDatabase.Tasks
                 }
             }
         }
-
-
     }
 }

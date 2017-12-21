@@ -44,7 +44,7 @@ Feature: Employer stops payments on a commitment
             | SFA Levy co-funding budget    | 0     | 0     | 0     | 0     | ... | 0     |
             | SFA non-Levy co-funding budget| 0     | 0     | 0     | 0     | ... | 0     |
 
-
+@_Minimum_Acceptance_
 Scenario:700_AC01 DAS learner, payments are stopped as the employer has never paid levy
  
         Given the employer is not a levy payer
