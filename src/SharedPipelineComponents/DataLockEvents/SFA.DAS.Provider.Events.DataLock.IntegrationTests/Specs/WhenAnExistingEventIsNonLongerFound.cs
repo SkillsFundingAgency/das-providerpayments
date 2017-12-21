@@ -16,28 +16,28 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
         [SetUp]
         public void Arrange()
         {
-            TestDataHelper.Clean();
+            CommonTestDataHelper.Clean();
 
-            TestDataHelper.SetCurrentPeriodEnd();
-            TestDataHelper.AddLearningProvider(Ukprn);
-            TestDataHelper.AddFileDetails(Ukprn);
-            TestDataHelper.AddCommitment(CommitmentId, Ukprn, LearnerRefNumber, passedDataLock: false);
-            TestDataHelper.AddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
+            CommonTestDataHelper.SetCurrentPeriodEnd();
+            CommonTestDataHelper.AddLearningProvider(Ukprn);
+            CommonTestDataHelper.AddFileDetails(Ukprn);
+            CommonTestDataHelper.AddCommitment(CommitmentId, Ukprn, LearnerRefNumber, passedDataLock: false);
+            CommonTestDataHelper.AddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
 
-            TestDataHelper.AddDataLockEvent(Ukprn, LearnerRefNumber, passedDataLock: false, priceEpisodeIdentifier: PriceEpisodeIdentifier);
+            CommonTestDataHelper.AddDataLockEvent(Ukprn, LearnerRefNumber, passedDataLock: false, priceEpisodeIdentifier: PriceEpisodeIdentifier);
         }
 
         [Test]
         public void ThenItShouldWriteADeletionEventDuringSubmission()
         {
             // Arrange
-            TestDataHelper.SubmissionCopyReferenceData();
+            CommonTestDataHelper.SubmissionCopyReferenceData();
             
             // Act
             TaskRunner.RunTask();
 
             // Assert
-            var events = TestDataHelper.GetAllEvents();
+            var events = CommonTestDataHelper.GetAllEvents();
             var actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
 
             Assert.IsNotNull(actualEvent);
@@ -49,13 +49,13 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
         [Test]
         public void ThenItShouldNotWriteADeletionEventIfTheLastSeenStatusIsRemoved()
         {
-            TestDataHelper.SubmissionCopyReferenceData();
+            CommonTestDataHelper.SubmissionCopyReferenceData();
 
             // Act
             TaskRunner.RunTask();
 
             // Assert
-            var events = TestDataHelper.GetAllEvents();
+            var events = CommonTestDataHelper.GetAllEvents();
             var actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
 
             Assert.IsNotNull(actualEvent);
