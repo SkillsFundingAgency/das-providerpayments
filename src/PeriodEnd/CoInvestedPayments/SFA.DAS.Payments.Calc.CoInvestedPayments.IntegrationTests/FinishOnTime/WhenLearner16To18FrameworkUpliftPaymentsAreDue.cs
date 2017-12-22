@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
-using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
@@ -17,19 +16,19 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = 235434;
+            const int accountId = 235434;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 120, transactionType:TransactionType.OnProgramme16To18FrameworkUplift);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17, amountDue: 120, transactionType:TransactionType.OnProgramme16To18FrameworkUplift);
 
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 2000, transactionType: TransactionType.Completion);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 240, transactionType: TransactionType.Balancing16To18FrameworkUplift);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 360, transactionType: TransactionType.Completion16To18FrameworkUplift);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 2000, transactionType: TransactionType.Completion);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 240, transactionType: TransactionType.Balancing16To18FrameworkUplift);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 360, transactionType: TransactionType.Completion16To18FrameworkUplift);
             
             TestDataHelper.CopyReferenceData();
 

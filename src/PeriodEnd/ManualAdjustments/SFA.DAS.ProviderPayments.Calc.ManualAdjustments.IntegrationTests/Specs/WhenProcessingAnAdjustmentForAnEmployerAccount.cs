@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestComponents;
-using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
 {
@@ -35,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
             TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
 
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true);
             foreach (var payment in paymentsMadePerviously)
             {
                 TestDataHelper.WritePayment(payment,requiredPaymentMadePreviously);
@@ -80,7 +79,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
             TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
 
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true);
             foreach (var payment in paymentsMadePerviously)
             {
                 TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
@@ -119,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             requiredPaymentMadePreviously.CollectionPeriodYear = 2016;
             TestDataHelper.WriteRequiredPayment(requiredPaymentMadePreviously);
 
-            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true, true);
+            var paymentsMadePerviously = TestDataSets.GetPayments(requiredPaymentMadePreviously, true);
             foreach (var payment in paymentsMadePerviously)
             {
                 TestDataHelper.WritePayment(payment, requiredPaymentMadePreviously);
@@ -183,8 +182,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
         }
 
         private void AssertPaymentsDueResults(TestComponents.Entities.RequiredPaymentEntity[] actualRequiredPayments,
-                                             TestComponents.Entities.RequiredPaymentEntity requiredPaymentMadePreviously,
-                                             bool assertCollectionPeriod = true)
+                                             TestComponents.Entities.RequiredPaymentEntity requiredPaymentMadePreviously)
         {
             Assert.AreEqual(requiredPaymentMadePreviously.AccountId, actualRequiredPayments[0].AccountId);
             Assert.AreEqual(requiredPaymentMadePreviously.AccountVersionId, actualRequiredPayments[0].AccountVersionId);

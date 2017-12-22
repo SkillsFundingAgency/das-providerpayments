@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
-using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
@@ -17,18 +16,18 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = 43564565;
+            const int accountId = 43564565;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 500, transactionType:TransactionType.FirstDisadvantagePayment);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17, amountDue: 500, transactionType:TransactionType.FirstDisadvantagePayment);
 
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 500, transactionType: TransactionType.SecondDisadvantagePayment);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 500, transactionType: TransactionType.SecondDisadvantagePayment);
             
             TestDataHelper.CopyReferenceData();
 

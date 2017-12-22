@@ -25,9 +25,11 @@ SELECT
 GO
 
 IF NOT EXISTS (
-		SELECT [name]
-		FROM [sys].[indexes]
-		WHERE [name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'CoInvestedPaymentsHistory'
+		AND i.[name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
 		)
 BEGIN
 	CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)

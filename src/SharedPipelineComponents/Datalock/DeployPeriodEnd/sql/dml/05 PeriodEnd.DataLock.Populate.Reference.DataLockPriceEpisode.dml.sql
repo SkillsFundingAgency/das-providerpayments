@@ -17,7 +17,7 @@ BEGIN
 END
 GO
 
-DELETE FROM [Reference].[DataLockPriceEpisode]
+TRUNCATE TABLE [Reference].[DataLockPriceEpisode]
 GO
 
 INSERT INTO [Reference].[DataLockPriceEpisode] (

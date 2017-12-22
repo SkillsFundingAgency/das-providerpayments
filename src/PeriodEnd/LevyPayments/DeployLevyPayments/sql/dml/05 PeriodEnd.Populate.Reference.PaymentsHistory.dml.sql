@@ -1,3 +1,15 @@
+IF  EXISTS (
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'LevyPaymentsHistory'
+		AND i.[name] = 'IX_LevyPaymentHistory_RequiredPaymentId'
+		)
+BEGIN
+	DROP INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory 
+END
+GO
+
 TRUNCATE TABLE [Reference].[LevyPaymentsHistory]
 GO
 
@@ -18,10 +30,13 @@ SELECT
 	AND IsNull(rp.CommitmentId,0) > 0
 GO
 
+
 IF NOT EXISTS (
-		SELECT [name]
-		FROM [sys].[indexes]
-		WHERE [name] = 'IX_LevyPaymentHistory_RequiredPaymentId'
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'LevyPaymentsHistory'
+		AND i.[name] = 'IX_LevyPaymentHistory_RequiredPaymentId'
 		)
 BEGIN
 	CREATE INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory (RequiredPaymentId)

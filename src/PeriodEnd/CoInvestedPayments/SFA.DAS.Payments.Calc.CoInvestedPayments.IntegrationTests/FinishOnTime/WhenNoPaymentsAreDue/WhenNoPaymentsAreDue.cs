@@ -1,12 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
-using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime.WhenNoPaymentsAreDue
 {
@@ -20,10 +13,10 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = 768554;
+            const int accountId = 768554;
             TestDataHelper.AddAccount(accountId);
 
-            var commitmentId = 1L;
+            const long commitmentId = 1L;
             TestDataHelper.AddCommitment(commitmentId, accountId);
 
             _taskContext = new IntegrationTaskContext();
