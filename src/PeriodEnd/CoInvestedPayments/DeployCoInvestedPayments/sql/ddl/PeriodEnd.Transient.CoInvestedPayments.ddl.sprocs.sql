@@ -115,7 +115,7 @@ SET NOCOUNT ON
 	history.Amount,
 	history.FundingSource
 	FROM Reference.CoInvestedPaymentsHistory history
-	INNER JOIN dbo.DasCommitments c ON history.CommitmentId = c.CommitmentId
+	INNER JOIN Reference.DasCommitments c ON history.CommitmentId = c.CommitmentId
 	INNER JOIN PaymentsDue.RequiredPayments payments ON c.CommitmentId = payments.CommitmentId
 	WHERE history.DeliveryMonth = @localDeliveryMonth
 	AND history.DeliveryYear = @localDeliveryYear 

@@ -171,16 +171,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "other funding adjustment":
                         structure.OtherFundingAdjustmentIndex = c;
                         break;
-                    case "ukprn":
-                    {
-                        structure.UkprnIndex = c;
-                        break;
-                    }
-                    case "learner ref":
-                    {
-                        structure.LearnerRefIndex = c;
-                        break;
-                    }
                     default:
                         throw new ArgumentException($"Unexpected column in ILR table: {header}");
                 }
@@ -231,8 +221,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 SmallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "small employer"),
                 LearnDelFam = row.ReadRowColumnValue<string>(structure.LearnDelFamIndex, "LearnDelFam"),
                 AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number"),
-                Ukprn = row.ReadRowColumnValue<long>(structure.UkprnIndex, "ukprn"),
-                LearnRef = row.ReadRowColumnValue<string>(structure.LearnerRefIndex, "learner ref"),
                 RestartIndicator = row.ReadRowColumnValue<string>(structure.RestartIndicatorIndex, "restart indicator")?
                                        .Equals("YES", StringComparison.InvariantCultureIgnoreCase) ?? false,
                 LearningAdjustmentForPriorLearning = row.ParseColumnValue(structure.FundingAdjustmentForPriorLearningIndex),
@@ -310,10 +298,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int RestartIndicatorIndex { get; set; } = -1;
             public int FundingAdjustmentForPriorLearningIndex { get; set; } = -1;
             public int OtherFundingAdjustmentIndex { get; set; } = -1;
-
-            public int UkprnIndex { get; set; }
-
-            public int LearnerRefIndex { get; set; }
         }
     }
 }

@@ -47,9 +47,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public bool RestartIndicator { get; set; }
         public int LearningAdjustmentForPriorLearning { get; set; }
         public int OtherFundingAdjustments { get; set; }
-
-        public long Ukprn { get; set; }
-
-        public string LearnRef { get; set; }
     }
 }

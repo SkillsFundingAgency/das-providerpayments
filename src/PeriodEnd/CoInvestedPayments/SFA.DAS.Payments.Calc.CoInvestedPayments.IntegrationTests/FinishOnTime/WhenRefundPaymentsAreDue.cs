@@ -57,9 +57,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     requiredPaymentId: requiredPaymentId,
                     isDeds: true);
 
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true, 2017);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true, 2017);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true, 2018);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500);
@@ -73,15 +73,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -150));
-
-            CheckOnlyTheRequiredReferenceDataIsCopiedOver();
-        }
-
-        private void CheckOnlyTheRequiredReferenceDataIsCopiedOver()
-        {
-            //Check that only the required data is copied over and not everything
-            var payments = TestDataHelper.GetReferencePaymentsForCommit(_commitmentId);
-            Assert.AreEqual(2, payments.Length);
         }
 
         [Test]
@@ -98,9 +89,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     requiredPaymentId: requiredPaymentId,
                     isDeds: true);
 
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true, 2017);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true, 2017);
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true, 2018);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 1350, 8, 2016, TransactionType.Learning, true);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
             TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -750);
@@ -115,8 +106,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var actualPaymentsMessage = "actually paid:\n" + payments.Select(x => x.Amount.ToString() + " " + ((FundingSource)x.FundingSource).ToString()).Aggregate((x, y) => $"{x}\n{y}");
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -675), $"Expected -675 CoInvestedSfa, {actualPaymentsMessage}");
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -75), $"Expected -75 CoInvestedEmployer, {actualPaymentsMessage}");
-
-            CheckOnlyTheRequiredReferenceDataIsCopiedOver();
         }
 
         [Test]
@@ -141,7 +130,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                 learnerRefNumber: learnerRef,
                 isDeds: true);
 
-            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 1500, 8, 2016, TransactionType.Learning, true, 2017);
+            TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 1500, 8, 2016, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
             TestDataHelper.AddPaymentDueForProvider(temporaryCommitmentId, _ukprn, amountDue: -1500, uln: newUln, learnerRefNumber:learnerRef);

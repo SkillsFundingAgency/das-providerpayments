@@ -393,44 +393,100 @@ Scenario:894-AC02 - non DAS standard learner, payments made then price is change
         | SFA Levy co-funding budget     | 0      | 0      | 0        | 0      | 0      |
         | SFA non-Levy co-funding budget | 0.60   | 0.60   | 0.60     | 0.60   | 0.60   |
 
-Scenario:902-AC01 - DAS standard learner, temporary ULN is changed to a proper one price is changed and a negative amount is left to be paid - results in a refund
-	Given  the apprenticeship funding band maximum is 15000
-    And levy balance > agreed price for all months
-    And the following commitments exist:    
-        | commitment Id | version Id | ULN        | start date | end date   | status | agreed price | effective from | effective to | UKPRN  | learner ref |
-        | 1             | 1          | 999999999  | 01/08/2017 | 01/08/2018 | active | 12000        | 01/08/2017     | 03/10/2017   | 123456 | LEARNREFA   |
-        #| 1             | 2          | 8674420450 | 01/09/2017 | 01/08/2018 | active | 1400         | 04/10/2017     |              | ABC123 | LEARNREFA   | 
-    
-	And following learning has been recorded for previous payments:
-		| ULN       | start date | aim sequence number | completion status | UKPRN  | learner ref |
-		| 999999999 | 04/08/2017 | 1                   | continuing        | 123456 | LEARNREFA   |
-	And the following earnings and payments have been made to the provider A for 999999999:
-		| Type                           | 08/17 |
-		| Provider Earned Total          | 1000  |
-		| Provider Earned from SFA       | 1000  |
-		| Provider Earned from Employer  | 0     |
-		| Provider Paid by SFA           | 1000  |
-		| Payment due from Employer      | 0     |
-		| Levy account debited           | 0     |
-		| SFA Levy employer budget       | 1000  |
-		| SFA Levy co-funding budget     | 0     |
-		| SFA non-Levy co-funding budget | 0     |
+@_Minimum_Acceptance_	
+Scenario:902-AC01 - Non-Levy apprentice, provider changes ULN value in ILR after payments have already occurred
+
+        Given the apprenticeship funding band maximum is 9000
+ 		And following learning has been recorded for previous payments:
+			| learner reference number | ULN       | learner type          | start date | aim sequence number | aim type          | framework code | programme type | pathway code | completion status |
+			| 123                      | 999999999 | programme only non-DAS| 06/08/2017 | 1                   | programme         | 403            | 2              | 1            | continuing        |
+			| 123                      | 999999999 | programme only non-DAS| 06/08/2017 | 2                   | maths or english  | 403            | 2              | 1            | continuing        |
+  
+		And the following earnings and payments have been made to the provider A for 123:
+
+            | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  |
+			| Provider Earned Total                   | 639.25 | 639.25 | 0      | 0      |
+			| Provider Earned from SFA                | 579.25 | 579.25 | 0      | 0      |
+			| Provider Earned from Employer           | 60     | 60     | 0      | 0      |
+			| Provider Paid by SFA                    | 0      | 540    | 540    | 0      |
+			| Refund taken by SFA                     | 0      | 0      | 0      | 0      |
+			| Payment due from Employer               | 0      | 60     | 60     | 0      |
+			| Refund due to employer                  | 0      | 0      | 0      | 0      |
+			| Levy account debited                    | 0      | 0      | 0      | 0      |
+			| Levy account credited                   | 0      | 0      | 0      | 0      |
+			| SFA Levy employer budget                | 0      | 0      | 0      | 0      |
+			| SFA Levy co-funding budget              | 0      | 0      | 0      | 0      |
+			| SFA Levy additional payments budget     | 0      | 0      | 0      | 0      |
+			| SFA non-Levy co-funding budget          | 540    | 540    | 0      | 0      |
+			| SFA non-Levy additional payments budget | 39.25  | 39.25  | 0      | 0      | 			
         
-    When an ILR file is submitted on 01/09/17 with the following data:
-        | ULN        | learner type       | start date | planned end date | actual end date | completion status | Total training price 1 | Total training price 1 effective date | UKPRN  | learner ref |
-        | 8674420450 | programme only DAS | 01/09/2017 | 01/08/2018       |                 | continuing        | 6000                   | 04/09/2017                            | 123456 | LEARNREFA   |
-	
-    Then the provider earnings and payments break down as follows:
-        | Type                           | 08/17 | 09/17 |
-        | Provider Earned Total          | 1000  | 500   |
-        | Provider Earned from SFA       | 1000  | 500   |
-        | Provider Earned from Employer  | 0     | 0     |
-        | Provider Paid by SFA           | 1000  | 500   |
-        | Refund taken by SFA            | 0     | 0     |
-        | Payment due from Employer      | 0     | 0     |
-        | Refund due to employer         | 0     | 0     |
-        | Levy account debited           | 0     | 0     |
-        | Levy account credited          | 0     | 0     |
-        | SFA Levy employer budget       | 0     | 0     |
-        | SFA Levy co-funding budget     | 0     | 0     |
-        | SFA non-Levy co-funding budget | 0     | 0     |
+        When an ILR file is submitted for the first time on 31/10/17 with the following data:
+			| learner reference number | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
+			| 123                      | 100000000 | programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 1                   |          | 403            | 2              | 1            |
+			| 123                      | 100000000 | programme only non-DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 2                   | 471      | 403            | 2              | 1            |
+  	
+        Then the provider earnings and payments break down as follows:
+			| Type                                    | 08/17  | 09/17  | 10/17  | 11/17  |
+			| Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 |
+			| Provider Earned from SFA                | 579.25 | 579.25 | 579.25 | 579.25 |
+			| Provider Earned from Employer           | 60     | 60     | 60     | 60     |
+			| Provider Paid by SFA                    | 0      | 540    | 540    | 657.75 |
+			| Refund taken by SFA                     | 0      | 0      | 0      | 0      |
+			| Payment due from Employer               | 0      | 60     | 60     | 60     |
+			| Refund due to employer                  | 0      | 0      | 0      | 0      |
+			| Levy account debited                    | 0      | 0      | 0      | 0      |
+			| Levy account credited                   | 0      | 0      | 0      | 0      |
+			| SFA Levy employer budget                | 0      | 0      | 0      | 0      |
+			| SFA Levy co-funding budget              | 0      | 0      | 0      | 0      |
+			| SFA Levy additional payments budget     | 0      | 0      | 0      | 0      |
+			| SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540    |
+			| SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 
+			
+@_Minimum_Acceptance_		
+Scenario:902-AC02 - Non-Levy apprentice, provider changes learner reference number in ILR after payments have already occurred
+
+        Given the apprenticeship funding band maximum is 9000
+ 		And following learning has been recorded for previous payments:
+			| learner reference number | ULN       | learner type          | start date | aim sequence number | aim type          | framework code | programme type | pathway code | completion status |
+			| 123                      | 999999999 | programme only non-DAS| 06/08/2017 | 1                   | programme         | 403            | 2              | 1            | continuing        |
+			| 123                      | 999999999 | programme only non-DAS| 06/08/2017 | 2                   | maths or english  | 403            | 2              | 1            | continuing        |
+  
+		And the following earnings and payments have been made to the provider A for 123:
+
+            | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  |
+			| Provider Earned Total                   | 639.25 | 639.25 | 0      | 0      |
+			| Provider Earned from SFA                | 579.25 | 579.25 | 0      | 0      |
+			| Provider Earned from Employer           | 60     | 60     | 0      | 0      |
+			| Provider Paid by SFA                    | 0      | 579.25 | 579.25 | 0      |
+			| Refund taken by SFA                     | 0      | 0      | 0      | 0      |
+			| Payment due from Employer               | 0      | 60     | 60     | 0      |
+			| Refund due to employer                  | 0      | 0      | 0      | 0      |
+			| Levy account debited                    | 0      | 0      | 0      | 0      |
+			| Levy account credited                   | 0      | 0      | 0      | 0      |
+			| SFA Levy employer budget                | 0      | 0      | 0      | 0      |
+			| SFA Levy co-funding budget              | 0      | 0      | 0      | 0      |
+			| SFA Levy additional payments budget     | 0      | 0      | 0      | 0      |
+			| SFA non-Levy co-funding budget          | 540    | 540    | 0      | 0      |
+			| SFA non-Levy additional payments budget | 39.25  | 39.25  | 0      | 0      | 			
+        
+        When an ILR file is submitted for the first time on 31/10/17 with the following data:
+			| learner reference number | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
+			| 456                      | 999999999 | programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 1                   |          | 403            | 2              | 1            |
+			| 456                      | 999999999 | programme only non-DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 2                   | 471      | 403            | 2              | 1            |
+  	
+        Then the provider earnings and payments break down as follows:
+			| Type                                    | 08/17  | 09/17  | 10/17  | 11/17  |
+			| Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 |
+			| Provider Earned from SFA                | 579.25 | 579.25 | 579.25 | 0      |
+			| Provider Earned from Employer           | 60     | 60     | 60     | 0      |
+			| Provider Paid by SFA                    | 0      | 540    | 540    | 1737.75|
+			| Refund taken by SFA                     | 0      | 0      | 0      | 1158.50|
+			| Payment due from Employer               | 0      | 60     | 60     | 180    |
+			| Refund due to employer                  | 0      | 0      | 0      | 120    |
+			| Levy account debited                    | 0      | 0      | 0      | 0      |
+			| Levy account credited                   | 0      | 0      | 0      | 0      |
+			| SFA Levy employer budget                | 0      | 0      | 0      | 0      |
+			| SFA Levy co-funding budget              | 0      | 0      | 0      | 0      |
+			| SFA Levy additional payments budget     | 0      | 0      | 0      | 0      |
+			| SFA non-Levy co-funding budget          | 1080   | 1080   | 540    | 540    |
+			| SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 
