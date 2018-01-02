@@ -8,36 +8,46 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 {
     public class WhenAnExistingEventIsNonLongerFound
     {
+        private ITestDataHelper _helper;
+
         private const long Ukprn = 10000534;
         private const int CommitmentId = 1;
         private const string LearnerRefNumber = "Lrn-001";
         private const string PriceEpisodeIdentifier = "1-1-1-2017-04-01";
 
-        [SetUp]
-        public void Arrange()
+        
+        private void Setup(TestFixtureContext context)
         {
-            CommonTestDataHelper.Clean();
+            _helper = TestDataHelper.Get(context);
 
-            CommonTestDataHelper.SetCurrentPeriodEnd();
-            CommonTestDataHelper.AddLearningProvider(Ukprn);
-            CommonTestDataHelper.AddFileDetails(Ukprn);
-            CommonTestDataHelper.AddCommitment(CommitmentId, Ukprn, LearnerRefNumber, passedDataLock: false);
-            CommonTestDataHelper.AddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
+            _helper.Clean();
 
-            CommonTestDataHelper.AddDataLockEvent(Ukprn, LearnerRefNumber, passedDataLock: false, priceEpisodeIdentifier: PriceEpisodeIdentifier);
+            _helper.SetCurrentPeriodEnd();
+            _helper.AddLearningProvider(Ukprn);
+            _helper.AddFileDetails(Ukprn);
+            _helper.AddCommitment(CommitmentId, Ukprn, LearnerRefNumber, passedDataLock: false);
+            _helper.AddIlrDataForCommitment(CommitmentId, LearnerRefNumber);
+
+            _helper.AddDataLockEvent(Ukprn, LearnerRefNumber, passedDataLock: false, priceEpisodeIdentifier: PriceEpisodeIdentifier);
+
+            _helper.CopyReferenceData();
         }
 
-        [Test]
-        public void ThenItShouldWriteADeletionEventDuringSubmission()
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenItShouldWriteADeletionEvent(TestFixtureContext context)
         {
             // Arrange
-            CommonTestDataHelper.SubmissionCopyReferenceData();
-            
-            // Act
-            TaskRunner.RunTask();
+            Setup(context);
+
+            //Act
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = _helper.GetAllEvents();
             var actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
 
             Assert.IsNotNull(actualEvent);
@@ -46,16 +56,21 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(LearnerRefNumber, actualEvent.LearnRefnumber);
         }
 
-        [Test]
-        public void ThenItShouldNotWriteADeletionEventIfTheLastSeenStatusIsRemoved()
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenItShouldNotWriteADeletionEventIfTheLastSeenStatusIsRemoved(TestFixtureContext context)
         {
-            CommonTestDataHelper.SubmissionCopyReferenceData();
+            //Arrange
+            Setup(context);
 
-            // Act
-            TaskRunner.RunTask();
+            //Act
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = _helper.GetAllEvents();
             var actualEvent = events?.SingleOrDefault(e => e.PriceEpisodeIdentifier == PriceEpisodeIdentifier);
 
             Assert.IsNotNull(actualEvent);

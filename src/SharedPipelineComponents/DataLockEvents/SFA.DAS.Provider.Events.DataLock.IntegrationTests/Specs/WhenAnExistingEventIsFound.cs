@@ -7,99 +7,85 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 {
     public class WhenAnExistingEventIsFound
     {
-        [SetUp]
-        public void Arrange()
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenNoNewEventsShouldBeWrittenIfNothingChanged(TestFixtureContext context)
         {
-            CommonTestDataHelper.Clean();
-            CommonTestDataHelper.SetCurrentPeriodEnd();
-        }
+            //Arrange
+            var helper = TestDataHelper.Get(context);
 
-        [Test]
-        public void ThenNoNewEventsShouldBeWrittenIfNothingChangedInASubmissionRun()
-        {
-            // Arrange
             var ukprn = 10000534;
             var commitmentId = 1;
 
-            CommonTestDataHelper.AddLearningProvider(ukprn);
-            CommonTestDataHelper.AddFileDetails(ukprn);
-            CommonTestDataHelper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
+            helper.Clean();
+            helper.SetCurrentPeriodEnd();
 
-            CommonTestDataHelper.AddDataLockEvent(ukprn, "Lrn-001", passedDataLock: false);
+            helper.AddLearningProvider(ukprn);
 
-            CommonTestDataHelper.SubmissionCopyReferenceData();
+            helper.AddFileDetails(ukprn);
+            helper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
+            helper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
 
-            // Act
-            TaskRunner.RunTask();
+            helper.AddDataLockEvent(ukprn, "Lrn-001", passedDataLock: false);
+
+            helper.CopyReferenceData();
+
+            //Act
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = helper.GetAllEvents();
 
             Assert.IsNotNull(events);
             Assert.AreEqual(0, events.Length);
         }
 
-        [Test]
-        public void ThenNoNewEventsShouldBeWrittenIfNothingChangedInAPeriodEndRun()
+
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenANewEventShouldBeWrittenIfSomethingChanged(TestFixtureContext context)
         {
-            // Arrange
+            //Arrange
+            var helper = TestDataHelper.Get(context);
+
+            helper.Clean();
+            helper.SetCurrentPeriodEnd();
+
             var ukprn = 10000534;
             var commitmentId = 1;
 
-            CommonTestDataHelper.PeriodEndAddLearningProvider(ukprn);
-            CommonTestDataHelper.PeriodEndAddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.PeriodEndAddIlrDataForCommitment(commitmentId, "Lrn-001");
+            helper.AddLearningProvider(ukprn);
+            helper.AddFileDetails(ukprn);
+            helper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
+            helper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
 
-            CommonTestDataHelper.AddDataLockEvent(ukprn, "Lrn-001", passedDataLock: false);
+            helper.AddDataLockEvent(ukprn, "Lrn-001");
 
-            CommonTestDataHelper.PeriodEndCopyReferenceData();
+            helper.CopyReferenceData();
 
-            // Act
-            TaskRunner.RunTask(eventsSource: EventSource.PeriodEnd);
-
-            // Assert
-            var events = CommonTestDataHelper.GetAllEvents(false);
-
-            Assert.IsNotNull(events);
-            Assert.AreEqual(0, events.Length);
-        }
-
-        [Test]
-        public void ThenANewEventShouldBeWrittenIfSomethingChangedInASubmissionRun()
-        {
-            // Arrange
-            var ukprn = 10000534;
-            var commitmentId = 1;
-
-            CommonTestDataHelper.AddLearningProvider(ukprn);
-            CommonTestDataHelper.AddFileDetails(ukprn);
-            CommonTestDataHelper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
-
-            CommonTestDataHelper.AddDataLockEvent(ukprn, "Lrn-001");
-
-            CommonTestDataHelper.SubmissionCopyReferenceData();
-
-            // Act
-            TaskRunner.RunTask();
+            //Act
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = helper.GetAllEvents();
 
             Assert.IsNotNull(events);
             Assert.AreEqual(1, events.Length);
 
             var @event = events[0];
-
-           // Assert.AreEqual(2, @event.Id);
             Assert.AreEqual(ukprn, @event.Ukprn);
             Assert.AreEqual(commitmentId, @event.CommitmentId);
             Assert.AreEqual(EventStatus.Updated, @event.Status);
 
-            var eventErrors = CommonTestDataHelper.GetAllEventErrors(@event.DataLockEventId);
-            var eventPeriods = CommonTestDataHelper.GetAllEventPeriods(@event.DataLockEventId);
-            var eventCommitmentVersions = CommonTestDataHelper.GetAllEventCommitmentVersions(@event.DataLockEventId);
+            var eventErrors = helper.GetAllEventErrors(@event.DataLockEventId);
+            var eventPeriods = helper.GetAllEventPeriods(@event.DataLockEventId);
+            var eventCommitmentVersions = helper.GetAllEventCommitmentVersions(@event.DataLockEventId);
 
             Assert.IsNotNull(eventErrors);
             Assert.IsNotNull(eventPeriods);
@@ -110,48 +96,6 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(1, eventCommitmentVersions.Length);
         }
 
-        [Test]
-        public void ThenANewEventShouldBeWrittenIfSomethingChangedInAPeriodEndRun()
-        {
-            // Arrange
-            var ukprn = 10000534;
-            var commitmentId = 1;
-
-            CommonTestDataHelper.PeriodEndAddLearningProvider(ukprn);
-            CommonTestDataHelper.PeriodEndAddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.PeriodEndAddIlrDataForCommitment(commitmentId, "Lrn-001");
-
-            CommonTestDataHelper.AddDataLockEvent(ukprn, "Lrn-001");
-
-            CommonTestDataHelper.PeriodEndCopyReferenceData();
-
-            // Act
-            TaskRunner.RunTask(eventsSource: EventSource.PeriodEnd);
-
-            // Assert
-            var events = CommonTestDataHelper.GetAllEvents(false);
-
-            Assert.IsNotNull(events);
-            Assert.AreEqual(1, events.Length);
-
-            var @event = events[0];
-
-            //Assert.AreEqual(2, @event.Id);
-            Assert.AreEqual(ukprn, @event.Ukprn);
-            Assert.AreEqual(commitmentId, @event.CommitmentId);
-            Assert.AreEqual(EventStatus.Updated, @event.Status);
-
-            var eventErrors = CommonTestDataHelper.GetAllEventErrors(@event.DataLockEventId, false);
-            var eventPeriods = CommonTestDataHelper.GetAllEventPeriods(@event.DataLockEventId, false);
-            var eventCommitmentVersions = CommonTestDataHelper.GetAllEventCommitmentVersions(@event.DataLockEventId, false);
-
-            Assert.IsNotNull(eventErrors);
-            Assert.IsNotNull(eventPeriods);
-            Assert.IsNotNull(eventCommitmentVersions);
-
-            Assert.AreEqual(1, eventErrors.Length);
-            Assert.AreEqual(36, eventPeriods.Length);
-            Assert.AreEqual(1, eventCommitmentVersions.Length);
-        }
+        
     }
 }
