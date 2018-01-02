@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Provider.Events.DataLock.Domain;
@@ -9,32 +10,41 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 {
     public class WhenANewEventIsGenerated
     {
-        [SetUp]
-        public void Arrange()
+        private ITestDataHelper _helper;
+
+        private void Setup(TestFixtureContext context)
         {
-            CommonTestDataHelper.Clean();
-            CommonTestDataHelper.SetCurrentPeriodEnd();
+            _helper = TestDataHelper.Get(context);
+            _helper.Clean();
+            _helper.SetCurrentPeriodEnd();
         }
 
-        [Test]
-        public void ThenItShouldBeWrittenToTheDatabaseInASubmissionRun()
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenItShouldBeWrittenToTheDatabase(TestFixtureContext context)
         {
             // Arrange
+            Setup(context);
+
             var ukprn = 10000534;
             var commitmentId = 1;
 
-            CommonTestDataHelper.AddLearningProvider(ukprn);
-            CommonTestDataHelper.AddFileDetails(ukprn);
-            CommonTestDataHelper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
+            _helper.AddLearningProvider(ukprn);
+            _helper.AddFileDetails(ukprn);
+            _helper.AddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
+            _helper.AddIlrDataForCommitment(commitmentId, "Lrn-001");
 
-            CommonTestDataHelper.SubmissionCopyReferenceData();
+            _helper.CopyReferenceData();
 
-            // Act
-            TaskRunner.RunTask();
+            //Act
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
+
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = _helper.GetAllEvents();
 
             Assert.IsNotNull(events);
             Assert.AreEqual(1, events.Length);
@@ -46,9 +56,9 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(commitmentId, @event.CommitmentId);
             Assert.AreEqual(EventStatus.New, @event.Status);
 
-            var eventErrors = CommonTestDataHelper.GetAllEventErrors(@event.DataLockEventId);
-            var eventPeriods = CommonTestDataHelper.GetAllEventPeriods(@event.DataLockEventId);
-            var eventCommitmentVersions = CommonTestDataHelper.GetAllEventCommitmentVersions(@event.DataLockEventId);
+            var eventErrors = _helper.GetAllEventErrors(@event.DataLockEventId);
+            var eventPeriods = _helper.GetAllEventPeriods(@event.DataLockEventId);
+            var eventCommitmentVersions = _helper.GetAllEventCommitmentVersions(@event.DataLockEventId);
 
             Assert.IsNotNull(eventErrors);
             Assert.IsNotNull(eventPeriods);
@@ -59,69 +69,33 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(1, eventCommitmentVersions.Length);
         }
 
-        [Test]
-        public void ThenItShouldBeWrittenToTheDatabaseInAPeriodEndRun()
+        [TestCase(TestFixtureContext.Submission)]
+        [TestCase(TestFixtureContext.PeriodEnd)]
+        public void ThenItShouldWriteMultipleEventsWhenErrorsForMultipleCommitmentsOnTheSamePriceEpisodeAreProduced(TestFixtureContext context)
         {
             // Arrange
-            var ukprn = 10000534;
-            var commitmentId = 1;
+            Setup(context);
 
-            CommonTestDataHelper.PeriodEndAddLearningProvider(ukprn);
-            CommonTestDataHelper.PeriodEndAddCommitment(commitmentId, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.PeriodEndAddIlrDataForCommitment(commitmentId, "Lrn-001");
-
-            CommonTestDataHelper.PeriodEndCopyReferenceData();
-
-            // Act
-            TaskRunner.RunTask(eventsSource: EventSource.PeriodEnd);
-
-            // Assert
-            var events = CommonTestDataHelper.GetAllEvents(false);
-
-            Assert.IsNotNull(events);
-            Assert.AreEqual(1, events.Length);
-
-            var @event = events[0];
-
-            //Assert.AreEqual(1, @event.Id);
-            Assert.AreEqual(ukprn, @event.Ukprn);
-            Assert.AreEqual(commitmentId, @event.CommitmentId);
-            Assert.AreEqual(EventStatus.New, @event.Status);
-
-            var eventErrors = CommonTestDataHelper.GetAllEventErrors(@event.DataLockEventId, false);
-            var eventPeriods = CommonTestDataHelper.GetAllEventPeriods(@event.DataLockEventId, false);
-            var eventCommitmentVersions = CommonTestDataHelper.GetAllEventCommitmentVersions(@event.DataLockEventId, false);
-
-            Assert.IsNotNull(eventErrors);
-            Assert.IsNotNull(eventPeriods);
-            Assert.IsNotNull(eventCommitmentVersions);
-
-            Assert.AreEqual(1, eventErrors.Length);
-            Assert.AreEqual(36, eventPeriods.Length);
-            Assert.AreEqual(1, eventCommitmentVersions.Length);
-        }
-
-        [Test]
-        public void ThenItShouldWriteMultipleEventsWhenErrorsForMultipleCommitmentsOnTheSamePriceEpisodeAreProduced()
-        {
-            // Arrange
             var ukprn = 10000534;
             var commitmentId1 = 1;
             var commitmentId2 = 2;
 
-            CommonTestDataHelper.AddLearningProvider(ukprn);
-            CommonTestDataHelper.AddFileDetails(ukprn);
-            CommonTestDataHelper.AddCommitment(commitmentId1, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.AddCommitment(commitmentId2, ukprn, "Lrn-001", passedDataLock: false);
-            CommonTestDataHelper.AddIlrDataForCommitment(commitmentId1, "Lrn-001");
+            _helper.AddLearningProvider(ukprn);
+            _helper.AddFileDetails(ukprn);
+            _helper.AddCommitment(commitmentId1, ukprn, "Lrn-001", passedDataLock: false);
+            _helper.AddCommitment(commitmentId2, ukprn, "Lrn-001", passedDataLock: false);
+            _helper.AddIlrDataForCommitment(commitmentId1, "Lrn-001");
 
-            CommonTestDataHelper.SubmissionCopyReferenceData();
+            _helper.CopyReferenceData();
 
             // Act
-            TaskRunner.RunTask();
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                ? EventSource.PeriodEnd
+                : EventSource.Submission);
 
             // Assert
-            var events = CommonTestDataHelper.GetAllEvents();
+            var events = _helper.GetAllEvents();
 
             Assert.IsNotNull(events);
             Assert.AreEqual(2, events.Length);
@@ -129,58 +103,37 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.AreEqual(1, events.Count(x => x.CommitmentId == commitmentId2), "More than 1 event for commitment 2");
         }
 
-        [Test, Explicit]
-        public void ThenItShouldCompleteInAnAcceptableTimeInASubmissionRun()
+        [Explicit]
+        [TestCase(TestFixtureContext.Submission, 1200, 30)]
+        [TestCase(TestFixtureContext.PeriodEnd, 20000, 300)]
+        public void ThenItShouldCompleteInAnAcceptableTime(TestFixtureContext context,  int numberOfLearners, int expectedMaxElapsed)
         {
             // Arrange
-            var ukprn = 10000534;
-            var numberOfLearners = 1200;
+            Setup(TestFixtureContext.Submission);
 
-            CommonTestDataHelper.AddLearningProvider(ukprn);
-            CommonTestDataHelper.AddFileDetails(ukprn);
+            var ukprn = 10000534;
+
+            _helper.AddLearningProvider(ukprn);
+            _helper.AddFileDetails(ukprn);
             for (var i = 1; i <= numberOfLearners; i++)
             {
                 var learnRefNumber = $"Lrn-{i:0000}";
-                CommonTestDataHelper.AddCommitment(i, ukprn, learnRefNumber, passedDataLock: false);
-                CommonTestDataHelper.AddIlrDataForCommitment(i, learnRefNumber);
+                _helper.AddCommitment(i, ukprn, learnRefNumber, passedDataLock: false);
+                _helper.AddIlrDataForCommitment(i, learnRefNumber);
             }
-            CommonTestDataHelper.SubmissionCopyReferenceData();
+            _helper.CopyReferenceData();
 
             // Act
-            var startTime = DateTime.Now;
-            TaskRunner.RunTask();
+            var stopwatch = Stopwatch.StartNew();
+            TaskRunner.RunTask(eventsSource:
+                context == TestFixtureContext.PeriodEnd
+                    ? EventSource.PeriodEnd
+                    : EventSource.Submission);
+            stopwatch.Stop();
 
             // Assert
-            var duration = DateTime.Now - startTime;
-            Console.WriteLine($"Execution took {duration.TotalSeconds:0.0}");
-            Assert.IsTrue(duration.TotalSeconds < 30, $"Expected to complete in less than 30 seconds but took {duration.TotalSeconds:0.0}");
-        }
-
-        [Test, Explicit]
-        public void ThenItShouldCompleteInAnAcceptableTimeInAPeriodEndRun()
-        {
-            // Arrange
-            var ukprn = 10000534;
-            var numberOfLearners = 20000;
-
-            CommonTestDataHelper.PeriodEndAddLearningProvider(ukprn);
-            for (var i = 1; i <= numberOfLearners; i++)
-            {
-                var learnRefNumber = $"Lrn-{i:0000}";
-                CommonTestDataHelper.PeriodEndAddCommitment(i, ukprn, learnRefNumber, passedDataLock: false);
-                CommonTestDataHelper.PeriodEndAddIlrDataForCommitment(i, learnRefNumber);
-            }
-
-            CommonTestDataHelper.PeriodEndCopyReferenceData();
-
-            // Act
-            var startTime = DateTime.Now;
-            TaskRunner.RunTask(eventsSource: EventSource.PeriodEnd);
-
-            // Assert
-            var duration = DateTime.Now - startTime;
-            Console.WriteLine($"Execution took {duration.TotalSeconds:0.0}");
-            Assert.IsTrue(duration.TotalSeconds < 600, $"Expected to complete in less than 300 seconds but took {duration.TotalSeconds:0.0}");
+            Console.WriteLine($"Execution took {stopwatch.Elapsed.TotalSeconds:0.0}");
+            Assert.IsTrue(stopwatch.Elapsed.TotalSeconds < expectedMaxElapsed, $"Expected to complete in less than {expectedMaxElapsed} seconds but took {stopwatch.Elapsed.TotalSeconds:0.0}");
         }
 
     }
