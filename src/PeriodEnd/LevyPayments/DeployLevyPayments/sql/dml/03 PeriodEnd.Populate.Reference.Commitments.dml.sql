@@ -25,7 +25,7 @@ BEGIN
 END
 GO
 
-DELETE FROM [Reference].[DasCommitments]
+TRUNCATE TABLE [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]

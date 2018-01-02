@@ -1,9 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
 
@@ -22,7 +17,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             TestDataHelper.Clean();
 
-            var accountId = 987767;
+            const int accountId = 987767;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;

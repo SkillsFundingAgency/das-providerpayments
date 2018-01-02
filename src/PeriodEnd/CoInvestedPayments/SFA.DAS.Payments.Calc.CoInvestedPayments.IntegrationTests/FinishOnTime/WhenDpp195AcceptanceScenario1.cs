@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
@@ -17,25 +16,25 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = 342543;
+            const int accountId = 342543;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 10, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 12, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 1, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 2, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 3, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 4, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 5, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 6, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 8, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 9, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 10, deliveryYear: 18, amountDue: 3000, transactionType: TransactionType.Learning);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 10, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 12, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 1, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 2, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 3, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 4, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 5, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 6, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 8, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 9, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 10, 18, amountDue: 3000);
 
             TestDataHelper.CopyReferenceData();
 
