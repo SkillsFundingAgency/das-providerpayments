@@ -42,10 +42,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 foreach (var providerDetails in providerLearners)
                 {
+                    //continue here if period is explicit and does not match
+                    if(!string.IsNullOrEmpty(providerDetails.SubmissionPeriod) && !string.Equals(providerDetails.SubmissionPeriod, period, StringComparison.CurrentCultureIgnoreCase)) //need the providerDetails to include the period maybs?
+                        continue;
+
                     SetupDisadvantagedPostcodeUplift(providerDetails);
+                    //here submits ilr
                     BuildAndSubmitIlr(providerDetails, period, lookupContext, contractTypes, employmentStatus,
                         learningSupportStatus);
                 }
+                //here runs month end
                 RunMonthEnd(period);
 
                 EarningsCollector.CollectForPeriod(period, results, lookupContext);
@@ -84,7 +90,71 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 date = date.AddMonths(1);
             }
 
+            var minExplicitSubmissionPeriod = ilrLearnerDetails.Min(x => GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));
+            var maxExplicitSubmissionPeriod = ilrLearnerDetails.Max(x => GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));
+
+            while(minExplicitSubmissionPeriod < earliestDate)
+            {
+                periods.Add($"{minExplicitSubmissionPeriod.Month:00}/{minExplicitSubmissionPeriod.Year - 2000}");
+                minExplicitSubmissionPeriod = minExplicitSubmissionPeriod.AddMonths(1);
+            }
+
+            if (maxExplicitSubmissionPeriod > latestDate.Value)
+                throw new Exception("You have added an ILR for a period later than the last peroid which is checked in the 'Then' table.");
+
+            while (maxExplicitSubmissionPeriod > latestDate.Value)
+            {
+                periods.Add($"{maxExplicitSubmissionPeriod.Month:00}/{maxExplicitSubmissionPeriod.Year - 2000}");
+                maxExplicitSubmissionPeriod = maxExplicitSubmissionPeriod.AddMonths(-1);
+            }
+
             return periods.ToArray();
+        }
+
+        private static DateTime GetDateFromPeriodName(string periodInRNotation, DateTime yearStartDate)
+        {
+            switch (periodInRNotation.ToUpper())
+            {
+                case "R01": return new DateTime(yearStartDate.Year, 8, 1);
+                case "R02": return new DateTime(yearStartDate.Year, 9, 1);
+                case "R03": return new DateTime(yearStartDate.Year, 10, 1);
+                case "R04": return new DateTime(yearStartDate.Year, 11, 1);
+                case "R05": return new DateTime(yearStartDate.Year, 12, 1);
+                case "R06": return new DateTime(yearStartDate.Year + 1, 1, 1);
+                case "R07": return new DateTime(yearStartDate.Year + 1, 2, 1);
+                case "R08": return new DateTime(yearStartDate.Year + 1, 3, 1);
+                case "R09": return new DateTime(yearStartDate.Year + 1, 4, 1);
+                case "R10": return new DateTime(yearStartDate.Year + 1, 5, 1);
+                case "R11": return new DateTime(yearStartDate.Year + 1, 6, 1);
+                case "R12": return new DateTime(yearStartDate.Year + 1, 7, 1);
+                case "R13": return new DateTime(yearStartDate.Year + 1, 8, 1);
+                case "R14": return new DateTime(yearStartDate.Year + 1, 9, 1);
+                default: return new DateTime(yearStartDate.Year, 8, 1);
+            }
+
+        }
+
+        private static string GetPeriodFromStringDate(string periodDate)
+        {
+            switch (periodDate.ToUpper())
+            {
+                case "08/17": return "R01";
+                case "09/17": return "R02";
+                case "10/17": return "R03";
+                case "11/17": return "R04";
+                case "12/17": return "R05";
+                case "01/18": return "R06";
+                case "02/18": return "R07";
+                case "03/18": return "R08";
+                case "04/18": return "R09";
+                case "05/18": return "R10";
+                case "06/18": return "R11";
+                case "07/18": return "R12";
+                case "09/18": return "R13";
+                case "10/18": return "R14";
+                default: return null;
+            }
+
         }
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
@@ -133,6 +203,35 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        private static IlrLearnerReferenceData[] FilterLearnersForPeriod(IlrLearnerReferenceData[] learnerDetails, string period)
+        {
+            if (learnerDetails.All(x => x.SubmissionPeriod == null))
+            {
+                return learnerDetails;
+            }
+
+            var filteredLearners = new List<IlrLearnerReferenceData>();
+
+            var learnersWithMultipleSubmissions = learnerDetails
+                .GroupBy(x => new { x.Provider, x.LearnerReference, })
+                .Select(x => x.ToList());
+
+            var periodName = GetPeriodFromStringDate(period);
+            foreach (var learnerWithMultipleSubmissions in learnersWithMultipleSubmissions)
+            {
+                var submissions = learnerWithMultipleSubmissions
+                    .OrderByDescending(x => x.SubmissionPeriod)
+                    .SkipWhile(x => string.Compare(x.SubmissionPeriod, periodName, StringComparison.OrdinalIgnoreCase) > 0)
+                    .ToList();
+                if (submissions.Any())
+                {
+                    filteredLearners.Add(submissions.First());
+                }
+            }
+
+            return filteredLearners.ToArray();
+        }
+
         private static void BuildAndSubmitIlr(ProviderSubmissionDetails providerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
         {
             IlrSubmission submission = BuildIlrSubmission(providerDetails, period, lookupContext, contractTypes, employmentStatus, learningSupportStatus);
@@ -143,12 +242,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         {
             TestEnvironment.ProcessService.RunSummarisation(TestEnvironment.Variables, new LoggingStatusWatcher($"Month end for {period}"));
         }
-        
+
         private static IlrSubmission BuildIlrSubmission(ProviderSubmissionDetails providerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
         {
-            var learners = (from x in providerDetails.LearnerDetails
-                            group x by x.LearnerReference into g
-                            select BuildLearner(g.ToArray(), period, lookupContext, contractTypes, employmentStatus, learningSupportStatus)).ToArray();
+            var filteredLearnerDetails = FilterLearnersForPeriod(providerDetails.LearnerDetails, period);
+
+            var learners = (from x in filteredLearnerDetails
+                group x by x.LearnerReference into g
+                select BuildLearner(g.ToArray(), period, lookupContext, contractTypes, employmentStatus, learningSupportStatus)).ToArray();
             var submission = new IlrSubmission
             {
                 Ukprn = providerDetails.Ukprn,
@@ -166,6 +267,29 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
             return submission;
         }
+
+        //private static IlrSubmission BuildIlrSubmission(ProviderSubmissionDetails providerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
+        //{
+        //    var learners = (from x in providerDetails.LearnerDetails
+        //                    group x by x.LearnerReference into g
+        //                    select BuildLearner(g.ToArray(), period, lookupContext, contractTypes, employmentStatus, learningSupportStatus)).ToArray();
+        //    var submission = new IlrSubmission
+        //    {
+        //        Ukprn = providerDetails.Ukprn,
+        //        AcademicYear = period.ToPeriodDateTime().GetAcademicYear(),
+        //        PreperationDate = period.ToPeriodDateTime().AddDays(27),
+        //        Learners = learners
+        //    };
+        //    for (var i = 0; i < submission.Learners.Length; i++)
+        //    {
+        //        if (string.IsNullOrEmpty(submission.Learners[i].LearnRefNumber))
+        //        {
+        //            submission.Learners[i].LearnRefNumber = (i + 1).ToString();
+        //        }
+        //        i++;
+        //    }
+        //    return submission;
+        //}
 
         private static Learner BuildLearner(IlrLearnerReferenceData[] learnerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
         {
@@ -477,6 +601,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             public string ProviderId { get; set; }
             public IlrLearnerReferenceData[] LearnerDetails { get; set; }
             public long Ukprn { get; set; }
+            public string SubmissionPeriod { get; set; }
         }
 
         private class LoggingStatusWatcher : StatusWatcherBase

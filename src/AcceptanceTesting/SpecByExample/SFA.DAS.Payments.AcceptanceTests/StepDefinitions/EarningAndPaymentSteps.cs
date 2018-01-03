@@ -48,6 +48,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
+
         {
             if (!SubmissionContext.HaveSubmissionsBeenDone)
             {

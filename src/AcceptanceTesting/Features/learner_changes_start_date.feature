@@ -18,13 +18,13 @@ Scenario: DPP-964_01 - DAS Learner - Change to start date within calendar month,
   
 	Then the provider earnings and payments break down as follows:
 		| Type                                | 08/17 | 09/17 | 10/17 | 11/17 |
-        | Provider Earned Total               | 600   | 600   | 600   | 0     |
-        | Provider Earned from SFA            | 0     | 600   | 600   | 0     |
+        | Provider Earned Total               | 600   | 600   | 600   | 600   |
+        | Provider Earned from SFA            | 0     | 600   | 600   | 600   |
         | Provider Earned from Employer       | 0     | 0     | 0     | 0     |
         | Provider Paid by SFA                | 0     | 600   | 600   | 600   |
         | Payment due from Employer           | 0     | 0     | 0     | 0     |
         | Levy account debited                | 0     | 600   | 600   | 600   |
-        | SFA Levy employer budget            | 600   | 600   | 600   | 0     |
+        | SFA Levy employer budget            | 600   | 600   | 600   | 600   |
         | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     |
         | SFA Levy additional payments budget | 0     | 0     | 0     | 0     |
         | SFA non-Levy co-funding budget      | 0     | 0     | 0     | 0     | 
