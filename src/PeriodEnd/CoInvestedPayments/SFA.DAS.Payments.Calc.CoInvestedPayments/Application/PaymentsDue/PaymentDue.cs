@@ -18,6 +18,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
         public int? PathwayCode { get; set; }
-
+        public string LearnRefNumber { get; set; }
     }
 }

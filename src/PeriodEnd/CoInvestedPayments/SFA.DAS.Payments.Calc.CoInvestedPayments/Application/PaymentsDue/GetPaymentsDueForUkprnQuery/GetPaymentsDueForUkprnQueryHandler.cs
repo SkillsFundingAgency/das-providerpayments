@@ -24,24 +24,23 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPa
                 return new GetPaymentsDueForUkprnQueryResponse
                 {
                     IsValid = true,
-                    Items = paymentsDue == null
-                        ? null
-                        : paymentsDue.Select(p => new PaymentDue
-                        {
-                            Id = p.Id,
-                            Ukprn = p.Ukprn,
-                            DeliveryMonth = p.DeliveryMonth,
-                            DeliveryYear = p.DeliveryYear,
-                            TransactionType = (TransactionType) p.TransactionType,
-                            AmountDue = p.AmountDue,
-                            SfaContributionPercentage = p.SfaContributionPercentage,
-                            AimSequenceNumber = p.AimSequenceNumber,
-                            FrameworkCode = p.FrameworkCode,
-                            PathwayCode = p.PathwayCode,
-                            ProgrammeType = p.ProgrammeType,
-                            StandardCode = p.StandardCode,
-                            Uln = p.Uln
-                        }).ToArray()
+                    Items = paymentsDue?.Select(p => new PaymentDue
+                    {
+                        Id = p.Id,
+                        Ukprn = p.Ukprn,
+                        DeliveryMonth = p.DeliveryMonth,
+                        DeliveryYear = p.DeliveryYear,
+                        TransactionType = (TransactionType) p.TransactionType,
+                        AmountDue = p.AmountDue,
+                        SfaContributionPercentage = p.SfaContributionPercentage,
+                        AimSequenceNumber = p.AimSequenceNumber,
+                        FrameworkCode = p.FrameworkCode,
+                        PathwayCode = p.PathwayCode,
+                        ProgrammeType = p.ProgrammeType,
+                        StandardCode = p.StandardCode,
+                        Uln = p.Uln,
+                        LearnRefNumber = p.LearnRefNumber
+                    }).ToArray()
                 };
             }
             catch (Exception ex)

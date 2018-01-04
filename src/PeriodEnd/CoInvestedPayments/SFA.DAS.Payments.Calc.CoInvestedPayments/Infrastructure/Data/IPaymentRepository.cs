@@ -6,16 +6,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data
     {
         void AddPayment(PaymentEntity payment);
         void AddPayments(PaymentEntity[] payments);
-        PaymentHistoryEntity[] GetCoInvestedPaymentsHistory(int deliveryMonth, 
-                                                            int deliveryYear, 
-                                                            int transactionType,
-                                                            int aimSequenceNumber,
-                                                            long ukprn,
-                                                            long uln,
-                                                            int? FrameworkCode,
-                                                            int? PathwayCode,
-                                                            int? ProgrammeType,
-                                                            long? StandardCode);
+        PaymentHistoryEntity[] GetCoInvestedPaymentsHistory(int deliveryMonth, int deliveryYear, int transactionType, int aimSequenceNumber, long ukprn, long uln, int? FrameworkCode, int? PathwayCode, int? ProgrammeType, long? StandardCode, string learnRefNumber);
 
     }
 }

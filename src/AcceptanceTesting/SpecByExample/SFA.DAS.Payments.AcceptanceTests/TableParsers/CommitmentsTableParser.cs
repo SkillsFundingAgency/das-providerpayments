@@ -22,7 +22,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 context.Commitments.Add(ParseCommitmentsTableRow(row, structure, context.Commitments.Count, lookupContext));
             }
         }
-        
+
         private static CommitmentsTableColumnStructure ParseCommitmentsTableStructure(Table commitments)
         {
             var structure = new CommitmentsTableColumnStructure();
@@ -100,6 +100,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return structure;
         }
 
+
         private static CommitmentReferenceData ParseCommitmentsTableRow(TableRow row, CommitmentsTableColumnStructure structure, int rowIndex, LookupContext lookupContext)
         {
             var learnerId = row[structure.UlnIndex];
@@ -176,7 +177,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"'{row[structure.EffectiveToIndex]}' is not a valid effective to");
             }
 
-            var standardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
+            var standardCode = row.ReadRowColumnValue(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
             var frameworkCode = row.ReadRowColumnValue<int>(structure.FrameworkCodeIndex, "framework code");
             var programmeType = row.ReadRowColumnValue<int>(structure.ProgrammeTypeIndex, "programme type");
             var pathwayCode = row.ReadRowColumnValue<int>(structure.PathwayCodeIndex, "pathway code");

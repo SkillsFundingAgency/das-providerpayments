@@ -1,17 +1,16 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.GetCoInvestedPaymentsHistory;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payments.GetCoInvestedPaymentsHistory.GetCoInvestedPaymentsHistoryQueryHandler
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payments.GetCoInvestedPaymentsHistory.GetCoInvestedPaymentsHistory
 {
     public class WhenHandling
     {
-        private const long CommitmentId = 1;
-
+        private const string LearnRefNumber = "LEARNREF";
         private static readonly PaymentHistoryEntity[] PaymentHistoryEntities =
         {
             new PaymentHistoryEntity
@@ -41,7 +40,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
                 FrameworkCode=20,
                 PathwayCode=100,
                 ProgrammeType=1
-            },
+            }
         };
 
         private static readonly object[] RepositoryResponses =
@@ -65,7 +64,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
                 AimSequenceNumber=1,
                 Ukprn=1000,
                 Uln=2000,
-                StandardCode=23
+                StandardCode=23,
+                LearnRefNumber = LearnRefNumber
             };
 
             _repository = new Mock<IPaymentRepository>();
@@ -78,7 +78,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
         public void ThenValidGetPaymentsHistoryResponseReturnedForValidRepositoryResponse(PaymentHistoryEntity[] payments)
         {
             // Arrange
-            _repository.Setup(r => r.GetCoInvestedPaymentsHistory(9,2016,1,1,2000,1000,null,null,null,23))
+            _repository.Setup(r => r.GetCoInvestedPaymentsHistory(9,2016,1,1,2000,1000,null,null,null,23, "LEARNREF"))
                 .Returns(payments);
 
             // Act
@@ -93,7 +93,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
         public void ThenPaymentsHistoryShouldBeInTheGetPaymentsHistoryQueryResponse()
         {
             // Arrange
-            _repository.Setup(r => r.GetCoInvestedPaymentsHistory(9, 2016, 1, 1, 1000, 2000, null, null, null, 23))
+            _repository.Setup(r => r.GetCoInvestedPaymentsHistory(9, 2016, 1, 1, 1000, 2000, null, null, null, 23, LearnRefNumber))
                 .Returns(PaymentHistoryEntities);
 
             // Act
