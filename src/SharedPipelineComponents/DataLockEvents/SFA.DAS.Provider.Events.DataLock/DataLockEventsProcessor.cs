@@ -70,6 +70,7 @@ namespace SFA.DAS.Provider.Events.DataLock
                                                                           ev.PriceEpisodeIdentifier == lastSeen.PriceEpisodeIdentifier &&
                                                                           ev.LearnRefnumber == lastSeen.LearnRefnumber &&
                                                                           ev.CommitmentId == lastSeen.CommitmentId);
+
                         if (current == null && lastSeen.Status == EventStatus.Removed)
                         {
                             continue;
@@ -82,7 +83,7 @@ namespace SFA.DAS.Provider.Events.DataLock
                             lastSeen.Status = EventStatus.Removed;
                             eventsToStore.Add(lastSeen);
                         }
-                        else if (EventsAreDifferent(current, lastSeen))
+                        else if (EventsAreDifferent(current, lastSeen) || lastSeen.Status == EventStatus.Removed)
                         {
                             _logger.Info("Event has changed");
                             current.ProcessDateTime = DateTime.Now;
