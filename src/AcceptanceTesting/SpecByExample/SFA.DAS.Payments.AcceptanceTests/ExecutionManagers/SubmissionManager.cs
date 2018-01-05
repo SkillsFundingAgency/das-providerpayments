@@ -93,26 +93,29 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var minExplicitSubmissionPeriod = ilrLearnerDetails.Min(x => GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));
             var maxExplicitSubmissionPeriod = ilrLearnerDetails.Max(x => GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));
 
-            while(minExplicitSubmissionPeriod < earliestDate)
+            while(minExplicitSubmissionPeriod.HasValue && minExplicitSubmissionPeriod < new DateTime(earliestDate.Year, earliestDate.Month, 1))
             {
-                periods.Add($"{minExplicitSubmissionPeriod.Month:00}/{minExplicitSubmissionPeriod.Year - 2000}");
-                minExplicitSubmissionPeriod = minExplicitSubmissionPeriod.AddMonths(1);
+                periods.Add($"{minExplicitSubmissionPeriod.Value.Month:00}/{minExplicitSubmissionPeriod.Value.Year - 2000}");
+                minExplicitSubmissionPeriod = minExplicitSubmissionPeriod.Value.AddMonths(1);
             }
 
-            if (maxExplicitSubmissionPeriod > latestDate.Value)
-                throw new Exception("You have added an ILR for a period later than the last peroid which is checked in the 'Then' table.");
+            if (maxExplicitSubmissionPeriod.HasValue && maxExplicitSubmissionPeriod.Value > new DateTime(latestDate.Value.Year, latestDate.Value.Month, 1))
+                throw new Exception("You have added an ILR for a period later than the last period which is checked in the 'Then' table.");
 
-            while (maxExplicitSubmissionPeriod > latestDate.Value)
+            while (maxExplicitSubmissionPeriod.HasValue && maxExplicitSubmissionPeriod > new DateTime(latestDate.Value.Year, latestDate.Value.Month, 1))
             {
-                periods.Add($"{maxExplicitSubmissionPeriod.Month:00}/{maxExplicitSubmissionPeriod.Year - 2000}");
-                maxExplicitSubmissionPeriod = maxExplicitSubmissionPeriod.AddMonths(-1);
+                periods.Add($"{maxExplicitSubmissionPeriod.Value.Month:00}/{maxExplicitSubmissionPeriod.Value.Year - 2000}");
+                maxExplicitSubmissionPeriod = maxExplicitSubmissionPeriod.Value.AddMonths(-1);
             }
 
             return periods.ToArray();
         }
 
-        private static DateTime GetDateFromPeriodName(string periodInRNotation, DateTime yearStartDate)
+        private static DateTime? GetDateFromPeriodName(string periodInRNotation, DateTime yearStartDate)
         {
+            if (string.IsNullOrEmpty(periodInRNotation))
+                return null;
+
             switch (periodInRNotation.ToUpper())
             {
                 case "R01": return new DateTime(yearStartDate.Year, 8, 1);
@@ -136,6 +139,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
         private static string GetPeriodFromStringDate(string periodDate)
         {
+            if (string.IsNullOrEmpty(periodDate))
+                return null;
+
             switch (periodDate.ToUpper())
             {
                 case "08/17": return "R01";
