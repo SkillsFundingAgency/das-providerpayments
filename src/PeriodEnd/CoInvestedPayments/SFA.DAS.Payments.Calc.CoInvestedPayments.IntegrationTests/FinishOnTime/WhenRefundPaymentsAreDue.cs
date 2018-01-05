@@ -142,7 +142,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var payments = TestDataHelper.GetPaymentsForCommitment(temporaryCommitmentId);
             Assert.AreEqual(1, payments.Length);
 
-            //Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -1500));
         }
 
