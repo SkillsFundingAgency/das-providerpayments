@@ -103,7 +103,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
 
         [TestCase(TestFixtureContext.Submission)]
         [TestCase(TestFixtureContext.PeriodEnd)]
-        public void ThenANewEventShouldBeEmittedIfItIsNotTheSameStatus(TestFixtureContext context)
+        public void ThenANewEventShouldBeEmittedIfItIsNoLongerRemoved(TestFixtureContext context)
         {
             //Arrange
             var helper = TestDataHelper.Get(context);
