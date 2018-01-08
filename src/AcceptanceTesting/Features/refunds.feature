@@ -113,7 +113,7 @@ Scenario:673-AC03 DAS learner, insufficient levy available to cover full payment
         | SFA Levy co-funding budget    | 225   | 225   | 225   | 0     | 0     | 0     | 0     |
 
 @_Minimum_Acceptance_
-Scenario:683-AC01- DAS learner, levy available, 2 providers - provider A and provider B, Provider B retrospectively notifies a withdrawal and previously-paid monthly instalments need to be refunded, 
+Scenario:	-AC01- DAS learner, levy available, 2 providers - provider A and provider B, Provider B retrospectively notifies a withdrawal and previously-paid monthly instalments need to be refunded, 
 and this refund must be credited to Provider A where refunded Levy amount will be in excess of the available Levy for that period.
 
 	Given The learner is programme only DAS
@@ -122,14 +122,14 @@ and this refund must be credited to Provider A where refunded Levy amount will b
         | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 | 06/18 | 07/18 |
         | 0     | 1125  | 1125  | 1125  | 1125  | 1125  | 1125  |
 	And the following commitments exist:
-		| commitment Id | Provider   | version Id | ULN       | start date | end date   | status | standard code | agreed price | effective from | effective to |
-		| 1             | Provider A | 1          | Learner A | 01/08/2017 | 01/08/2018 | active | 25            | 5625         | 01/08/2017     |              |
-		| 2             | Provider B | 1          | Learner B | 01/08/2017 | 01/08/2018 | active | 25            | 11250        | 01/08/2017     |              |
+		| commitment Id | Provider   | version Id | ULN       | start date | end date   | status | standard code | programme type	| agreed price | effective from | effective to |
+		| 1             | Provider A | 1          | Learner A | 01/08/2017 | 01/08/2018 | active | 25            | 25				| 5625         | 01/08/2017     |              |
+		| 2             | Provider B | 1          | Learner B | 01/08/2017 | 01/08/2018 | active | 25            | 25				| 11250        | 01/08/2017     |              |
 	
 	And following learning has been recorded for previous payments:
-		| ULN       | start date | aim sequence number | completion status | standard code |
-		| Learner A | 04/08/2017 | 1                   | continuing        | 25            |
-		| Learner B | 04/08/2017 | 1                   | continuing        | 25            |
+		| ULN       | start date | aim sequence number | completion status | standard code | programme type |
+		| Learner A | 04/08/2017 | 1                   | continuing        | 25            | 25				|
+		| Learner B | 04/08/2017 | 1                   | continuing        | 25            | 25				|
 
 
 	And the following earnings and payments have been made to the Provider A for Learner A:
@@ -154,9 +154,9 @@ and this refund must be credited to Provider A where refunded Levy amount will b
 		| SFA Levy co-funding budget    | 0     | 0     | 0     | 0     | 0     | 0     |  
 		
     When an ILR file is submitted for the first time on 10/01/18 with the following data:
-		| ULN       | Provider   | start date | planned end date | actual end date | completion status | standard code | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
-		| Learner A | Provider A | 04/08/2017 | 20/08/2018       |                 | Continuing        | 25            | 4500                 | 04/08/2017                          | 1125                   | 04/08/2017                            |
-		| Learner B | Provider B | 04/08/2017 | 20/08/2018       | 12/11/2017      | withdrawn         | 25            | 9000                 | 04/08/2017                          | 2250                   | 04/08/2017                            |
+		| ULN       | Provider   | start date | planned end date | actual end date | completion status | standard code | programme type		| Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
+		| Learner A | Provider A | 04/08/2017 | 20/08/2018       |                 | Continuing        | 25            | 25					| 4500                 | 04/08/2017                          | 1125                   | 04/08/2017                            |
+		| Learner B | Provider B | 04/08/2017 | 20/08/2018       | 12/11/2017      | withdrawn         | 25            | 25					| 9000                 | 04/08/2017                          | 2250                   | 04/08/2017                            |
 
     Then the earnings and payments break down for provider A is as follows:
 		| Type                          | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 |
