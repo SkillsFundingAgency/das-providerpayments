@@ -5,10 +5,10 @@ GO
 if object_id('[Valid].[Learner]','u') is not null
 	drop table [Valid].[Learner]
 create table [Valid].[Learner](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[PrevLearnRefNumber] [varchar](12) NULL,
-	[PrevUKPRN] [int] NULL,
+	[PrevUKPRN] [bigint] NULL,
 	[ULN] [bigint] NOT NULL,
 	[FamilyName] [varchar](100) NULL,
 	[GivenNames] [varchar](100) NULL,
@@ -58,7 +58,7 @@ GO
 if object_id('[Valid].[LearningDelivery]','u') is not null
 	drop table [Valid].[LearningDelivery]
 create table [Valid].[LearningDelivery](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[LearnAimRef] [varchar](8) NOT NULL,
 	[AimType] [int] NOT NULL,
@@ -71,7 +71,7 @@ create table [Valid].[LearningDelivery](
 	[FworkCode] [int] NULL,
 	[PwayCode] [int] NULL,
 	[StdCode] [bigint] NULL,
-	[PartnerUKPRN] [int] NULL,
+	[PartnerUKPRN] [bigint] NULL,
 	[DelLocPostCode] [varchar](8) NULL,
 	[AddHours] [int] NULL,
 	[PriorLearnFundAdj] [int] NULL,
@@ -121,7 +121,7 @@ GO
 if object_id('[Valid].[LearningDeliveryFAM]','u') is not null
 	drop table [Valid].[LearningDeliveryFAM]
 create table [Valid].[LearningDeliveryFAM](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[AimSeqNumber] [int] NOT NULL,
 	[LearnDelFAMType] [varchar](3) NULL,
@@ -141,7 +141,7 @@ GO
 if object_id('[Valid].[TrailblazerApprenticeshipFinancialRecord]','u') is not null
 	drop table [Valid].[TrailblazerApprenticeshipFinancialRecord]
 create table [Valid].[TrailblazerApprenticeshipFinancialRecord](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[AimSeqNumber] [int] NOT NULL,
 	[TBFinType] [varchar](3) NOT NULL,
@@ -165,7 +165,7 @@ END
 GO
 
 create table [Valid].[LearningProvider] (
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	PRIMARY KEY CLUSTERED ([UKPRN] ASC)
 )
 GO
@@ -179,7 +179,7 @@ GO
 
 CREATE TABLE [dbo].[FileDetails](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[Filename] [nvarchar](50) NULL,
 	[FileSizeKb] [bigint] NULL,
 	[TotalLearnersSubmitted] [int] NULL,

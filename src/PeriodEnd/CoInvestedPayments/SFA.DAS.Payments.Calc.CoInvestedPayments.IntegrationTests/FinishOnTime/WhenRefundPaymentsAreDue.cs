@@ -16,14 +16,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
         private static readonly Random Random = new Random();
 
-        private string _accountId;
+        private long _accountId;
 
         [SetUp]
         public void Arrange()
         {
             TestDataHelper.Clean();
 
-            _accountId = Guid.NewGuid().ToString();
+            _accountId = 2344325;
             TestDataHelper.AddAccount(_accountId);
 
 

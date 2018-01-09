@@ -65,14 +65,14 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
             {
                 requiredPayment.CommitmentId = 1;
                 requiredPayment.CommitmentVersionId = "1-001";
-                requiredPayment.AccountId = "1";
+                requiredPayment.AccountId = 1;
                 requiredPayment.AccountVersionId = "20170717";
             }
             else
             {
                 requiredPayment.CommitmentId = null;
                 requiredPayment.CommitmentVersionId = null;
-                requiredPayment.AccountId = null;
+                requiredPayment.AccountId = 0;
                 requiredPayment.AccountVersionId = null;
 
             }

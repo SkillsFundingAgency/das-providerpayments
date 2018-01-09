@@ -107,11 +107,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
 
         public void InsertHistory(CommitmentEntity commitment)
         {
-            
             Execute(InsertCommand.Replace(Source,SourceHistory), commitment);
         }
-
-
+        
         public void Update(CommitmentEntity commitment)
         {
             Execute(UpdateCommand, commitment);

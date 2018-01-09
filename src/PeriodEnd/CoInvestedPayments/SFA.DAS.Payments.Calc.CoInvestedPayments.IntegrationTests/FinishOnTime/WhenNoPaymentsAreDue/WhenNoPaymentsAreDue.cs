@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime.WhenNoPaymentsAreDue
@@ -14,7 +13,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
+            const int accountId = 768554;
             TestDataHelper.AddAccount(accountId);
 
             const long commitmentId = 1L;
