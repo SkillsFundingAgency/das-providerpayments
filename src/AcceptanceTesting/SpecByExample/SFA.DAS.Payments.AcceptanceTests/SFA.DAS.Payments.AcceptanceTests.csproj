@@ -115,6 +115,7 @@
     <Compile Include="DataCollectors\SubmissionDataLockResultCollector.cs" />
     <Compile Include="DataExtensions.cs" />
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
+    <Compile Include="DummyAcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="Extensions.cs" />
@@ -191,7 +192,7 @@
     <Compile Include="AcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\CommitmentManager.cs" />
     <Compile Include="ExecutionManagers\EmployerAccountManager.cs" />
-    <Compile Include="ExecutionManagers\PreperationManager.cs" />
+    <Compile Include="ExecutionManagers\PreparationManager.cs" />
     <Compile Include="ExecutionManagers\ReferenceDataManager.cs" />
     <Compile Include="ExecutionManagers\SubmissionManager.cs" />
     <Compile Include="ReferenceDataModels\AimType.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="ReferenceDataModels\PeriodValue.cs" />
     <Compile Include="ReferenceDataModels\ProviderEarnedPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\TransactionType.cs" />
+    <Compile Include="ReferenceDataModels\TransactionTypesFlag.cs" />
     <Compile Include="ResultsDataModels\DataLockEventCommitmentVersion.cs" />
     <Compile Include="ResultsDataModels\DataLockEventError.cs" />
     <Compile Include="ResultsDataModels\DataLockEventPeriod.cs" />
@@ -390,6 +392,12 @@
       <Project>{ed159396-0d7d-4b64-8369-6c1bad8aae15}</Project>
       <Name>ProviderPayments.TestStack.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EAS.Deds.PaymentTypes.dml.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

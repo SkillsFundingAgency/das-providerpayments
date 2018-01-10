@@ -88,7 +88,8 @@ CREATE TABLE DataLock.PriceEpisodePeriodMatch
     [VersionId] varchar(25) NOT NULL,
     [Period] int NOT NULL,
     [Payable] bit NOT NULL,
-	[TransactionType] int NOT NULL
+	[TransactionType] int NOT NULL,
+	[TransactionTypesFlag] int NOT NULL
 )
 GO
 

@@ -14,6 +14,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ResultsDataModels
         public int CollectionPeriodYear { get; set; }
         public string CommitmentVersion { get; set; }
         public bool IsPayable { get; set; }
-        public int TransactionType { get; set; }
+        public int TransactionTypesFlag { get; set; }
     }
 }

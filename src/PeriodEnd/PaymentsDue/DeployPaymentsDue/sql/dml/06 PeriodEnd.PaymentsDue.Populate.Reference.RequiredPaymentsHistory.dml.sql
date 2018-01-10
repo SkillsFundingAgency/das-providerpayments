@@ -31,6 +31,7 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		SfaContributionPercentage,
 		FundingLineType,
 		UseLevyBalance
-    FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments
+    FROM ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+	
 GO

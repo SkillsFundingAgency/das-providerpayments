@@ -21,7 +21,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
+            var accountId = 2344325;
             TestDataHelper.AddAccount(accountId, isDeds: false);
 
 
@@ -71,7 +71,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedSfa && p.Amount == -1350));
             Assert.IsNotNull(payments.SingleOrDefault(p => p.FundingSource == (int)FundingSource.CoInvestedEmployer && p.Amount == -150));
         }
-
 
 
         [Test]

@@ -9,7 +9,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
         {
             SetTasks(new WorkflowTask[]
             {
-                new CleanupPeriodEndDedsTask(logger),
+                new CleanupEasSubmissionDeds(logger), 
             });
         }
     }

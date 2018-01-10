@@ -80,7 +80,8 @@ CREATE TABLE [DataLockEvents].[DataLockEventPeriods]
 	CollectionPeriodYear	int				NOT NULL,
 	CommitmentVersion		varchar(25)		NOT NULL,
 	IsPayable				bit				NOT NULL,
-	TransactionType			int				NOT NULL
+	TransactionType			int				NOT NULL,
+	TransactionTypesFlag	int				NULL
 )
 GO
 
@@ -121,10 +122,9 @@ CREATE TABLE [DataLockEvents].[DataLockEventErrors]
 	DataLockEventId			uniqueidentifier			NOT NULL,
 	ErrorCode				varchar(15)		NOT NULL,
 	SystemDescription		nvarchar(255)	NOT NULL,
-	PRIMARY KEY (DataLockEventId, ErrorCode)
+	PRIMARY KEY NONCLUSTERED (DataLockEventId, ErrorCode)
 )
 GO
-
 
 
 --------------------------------------------------------------------------------------
@@ -160,6 +160,7 @@ CREATE TABLE [DataLockEvents].[DataLockEventsData]
 	Period						int				NULL,
 	Payable						bit				NULL,
 	TransactionType				int				NULL,
+	TransactionTypesFlag		int				NULL,
 	EmployerAccountId			bigint			NULL,
 	CommitmentStartDate			date			NULL,
 	CommitmentStandardCode		bigint			NULL,
@@ -173,11 +174,3 @@ CREATE TABLE [DataLockEvents].[DataLockEventsData]
 GO
 
 
-IF EXISTS(SELECT [object_id] FROM sys.indexes WHERE [name]='IX_DataLockEventsData_UKPRN')
-BEGIN
-		DROP INDEX [IX_DataLockEventsData_UKPRN] ON [DataLockEvents].[DataLockEventsData]
-END
-GO
- 
-CREATE INDEX [IX_DataLockEventsData_UKPRN] ON [DataLockEvents].[DataLockEventsData] (UKPRN)
-GO

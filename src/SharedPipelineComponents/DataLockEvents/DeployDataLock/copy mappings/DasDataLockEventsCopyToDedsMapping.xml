@@ -2,6 +2,11 @@
 <CopyCatConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceConnectionString>SourceConnectionString</SourceConnectionString>
   <DestinationConnectionString>DestinationConnectionString</DestinationConnectionString>
+  <SqlBulkCopySettings>
+    <BatchSize>2000</BatchSize>
+    <BulkCopyTimeout>7200</BulkCopyTimeout>
+    <EnableStreaming>true</EnableStreaming>
+  </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
       <Source>[DataLockEvents].[DataLockEvents]</Source>
@@ -142,6 +147,10 @@
         <ColumnMapping>
           <Source>TransactionType</Source>
           <Destination>TransactionType</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransactionTypesFlag</Source>
+          <Destination>TransactionTypesFlag</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

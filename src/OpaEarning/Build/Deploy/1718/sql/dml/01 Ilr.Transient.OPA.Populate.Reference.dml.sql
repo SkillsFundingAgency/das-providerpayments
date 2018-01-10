@@ -19,8 +19,8 @@ GO
 DELETE FROM [Reference].[LARS_Funding]
 GO
 
-DECLARE @ReferenceCap decimal(10, 5) = (SELECT x.[Value] FROM ${ILR_Deds.FQ}.[AT].[ReferenceData] x WHERE x.[Type] = 'FundingBandCap' AND x.[Key] = 'Cap')
-DECLARE @FrameworkCap decimal(10, 5) = (
+DECLARE @ReferenceCap decimal(12, 5) = (SELECT x.[Value] FROM ${ILR_Deds.FQ}.[AT].[ReferenceData] x WHERE x.[Type] = 'FundingBandCap' AND x.[Key] = 'Cap')
+DECLARE @FrameworkCap decimal(12, 5) = (
 	SELECT TOP 1 SUM(ISNULL(tafr.[AFinAmount], 0)) 
 	FROM [Input].[AppFinRecord] tafr
 		JOIN [Input].[LearningDelivery] ld ON tafr.[LearnRefNumber] = ld.[LearnRefNumber]
@@ -30,7 +30,7 @@ DECLARE @FrameworkCap decimal(10, 5) = (
 	GROUP BY tafr.LearningDelivery_Id
 )
 
-DECLARE @StandardCap decimal(10, 5) = (
+DECLARE @StandardCap decimal(12, 5) = (
 	SELECT TOP 1 SUM(ISNULL(tafr.[AFinAmount], 0)) 
 	FROM [Input].[AppFinRecord] tafr
 		JOIN [Input].[LearningDelivery] ld ON tafr.[LearnRefNumber] = ld.[LearnRefNumber]
