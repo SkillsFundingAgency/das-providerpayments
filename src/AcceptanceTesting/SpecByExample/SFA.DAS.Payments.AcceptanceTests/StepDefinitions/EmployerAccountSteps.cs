@@ -15,19 +15,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     {
         public EmployerAccountSteps(EmployerAccountContext employerAccountContext,
                                     EarningsAndPaymentsContext earningsAndPaymentsContext,
-                                    SubmissionContext submissionContext,
                                     MultipleSubmissionsContext multipleSubmissionsContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
-            SubmissionContext = submissionContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
 
         public EarningsAndPaymentsContext EarningsAndPaymentsContext { get; }
-
-        public SubmissionContext SubmissionContext { get; set; }
 
         public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
 

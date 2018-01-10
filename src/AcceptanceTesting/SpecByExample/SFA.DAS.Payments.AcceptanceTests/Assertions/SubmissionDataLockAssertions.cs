@@ -10,14 +10,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
 {
     public static class SubmissionDataLockAssertions
     {
-        public static void AssertPaymentsAndEarningsResults(SubmissionDataLockContext dataLockContext, SubmissionContext submissionContext)
+        public static void AssertPaymentsAndEarningsResults(SubmissionDataLockContext dataLockContext, MultipleSubmissionsContext multipleSubmissionsContext)
         {
             if (TestEnvironment.ValidateSpecsOnly)
             {
                 return;
             }
 
-            var submissionResults = submissionContext.SubmissionResults.ToArray();
+            var submissionResults = multipleSubmissionsContext.SubmissionResults.ToArray();
             new OnProgrammeDataLockRule().AssertPaymentTypeDataLockMatches(dataLockContext.DataLockStatusForOnProgramme, submissionResults);
             new CompletionDataLockRule().AssertPaymentTypeDataLockMatches(dataLockContext.DataLockStatusForCompletion, submissionResults);
             new BalancingDataLockRule().AssertPaymentTypeDataLockMatches(dataLockContext.DataLockStatusForBalancing, submissionResults);

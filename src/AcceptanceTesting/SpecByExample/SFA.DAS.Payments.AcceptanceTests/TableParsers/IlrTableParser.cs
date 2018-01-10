@@ -10,7 +10,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public class IlrTableParser
     {
-        public static void ParseIlrTableIntoContext(SubmissionContext context, Table ilrDetails)
+        public static void ParseIlrTableIntoContext(Submission context, Table ilrDetails)
         {
             ParseIlrTableIntoContext(context.IlrLearnerDetails, ilrDetails);
         }
