@@ -23,32 +23,32 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
             new RefundDueToEmployerRule()
         };
 
-        public static void AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext earningsAndPaymentsContext, SubmissionContext submissionContext, EmployerAccountContext employerAccountContext)
+        public static void AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext earningsAndPaymentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             if (TestEnvironment.ValidateSpecsOnly)
             {
                 return;
             }
 
-            ValidateOverallEarningsAndPayments(earningsAndPaymentsContext, submissionContext, employerAccountContext);
-            ValidateLearnerSpecificEarningsAndPayments(earningsAndPaymentsContext, submissionContext, employerAccountContext);
+            ValidateOverallEarningsAndPayments(earningsAndPaymentsContext, multipleSubmissionsContext, employerAccountContext);
+            ValidateLearnerSpecificEarningsAndPayments(earningsAndPaymentsContext, multipleSubmissionsContext, employerAccountContext);
         }
 
-        private static void ValidateOverallEarningsAndPayments(EarningsAndPaymentsContext earningsAndPaymentsContext, SubmissionContext submissionContext, EmployerAccountContext employerAccountContext)
+        private static void ValidateOverallEarningsAndPayments(EarningsAndPaymentsContext earningsAndPaymentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             foreach (var breakdown in earningsAndPaymentsContext.OverallEarningsAndPayments)
             {
                 foreach (var rule in Rules)
                 {
-                    rule.AssertBreakdown(breakdown, submissionContext.SubmissionResults, employerAccountContext);
+                    rule.AssertBreakdown(breakdown, multipleSubmissionsContext.SubmissionResults, employerAccountContext);
                 }
             }
         }
-        private static void ValidateLearnerSpecificEarningsAndPayments(EarningsAndPaymentsContext earningsAndPaymentsContext, SubmissionContext submissionContext, EmployerAccountContext employerAccountContext)
+        private static void ValidateLearnerSpecificEarningsAndPayments(EarningsAndPaymentsContext earningsAndPaymentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             foreach (var breakdown in earningsAndPaymentsContext.LearnerOverallEarningsAndPayments)
             {
-                var learnerResults = submissionContext.SubmissionResults.Where(r => r.LearnerReferenceNumber == breakdown.LearnerReferenceNumber).ToArray();
+                var learnerResults = multipleSubmissionsContext.SubmissionResults.Where(r => r.LearnerReferenceNumber == breakdown.LearnerReferenceNumber).ToArray();
                 try
                 {
                     foreach (var rule in Rules)

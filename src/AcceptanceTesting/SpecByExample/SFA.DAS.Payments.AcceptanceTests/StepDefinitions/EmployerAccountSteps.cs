@@ -15,18 +15,21 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     {
         public EmployerAccountSteps(EmployerAccountContext employerAccountContext,
                                     EarningsAndPaymentsContext earningsAndPaymentsContext,
-                                    SubmissionContext submissionContext)
+                                    SubmissionContext submissionContext,
+                                    MultipleSubmissionsContext multipleSubmissionsContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
             SubmissionContext = submissionContext;
-
+            MultipleSubmissionsContext = multipleSubmissionsContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
 
         public EarningsAndPaymentsContext EarningsAndPaymentsContext { get; }
 
         public SubmissionContext SubmissionContext { get; set; }
+
+        public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
 
         [Given("levy balance > agreed price for all months")]
         public void GivenUnnamedEmployersLevyBalanceIsMoreThanPrice()
@@ -113,7 +116,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             };
 
             EarningsAndPaymentsContext.OverallEarningsAndPayments.Add(breakdown);
-            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, SubmissionContext, EmployerAccountContext);
+            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, MultipleSubmissionsContext, EmployerAccountContext);
         }
 
 

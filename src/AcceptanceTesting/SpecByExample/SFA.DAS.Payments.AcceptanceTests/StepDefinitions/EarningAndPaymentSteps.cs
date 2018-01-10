@@ -14,13 +14,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class EarningAndPaymentSteps
     {
+        public List<SubmissionContext> submissionContextList { get;  set; }
+
         public EarningAndPaymentSteps(EmployerAccountContext employerAccountContext,
                                       EarningsAndPaymentsContext earningsAndPaymentsContext,
                                       DataLockContext dataLockContext,
                                       SubmissionDataLockContext submissionDataLockContext,
                                       SubmissionContext submissionContext,
                                       LookupContext lookupContext,
-                                    CommitmentsContext commitmentsContext)
+                                    CommitmentsContext commitmentsContext,
+                                    MultipleSubmissionsContext multipleSubmissionsContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
@@ -29,6 +32,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             SubmissionContext = submissionContext;
             LookupContext = lookupContext;
             CommitmentsContext = commitmentsContext;
+            MultipleSubmissionsContext = multipleSubmissionsContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
         public DataLockContext DataLockContext { get; }
@@ -37,6 +41,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public SubmissionContext SubmissionContext { get; }
         public LookupContext LookupContext { get; }
         public CommitmentsContext CommitmentsContext { get; }
+        public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
 
 
 
@@ -48,13 +53,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
-
         {
-            if (!SubmissionContext.HaveSubmissionsBeenDone)
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
-                SubmissionContext.SubmissionResults = SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(SubmissionContext.IlrLearnerDetails, SubmissionContext.FirstSubmissionDate,
-                    LookupContext, EmployerAccountContext.EmployerAccounts, SubmissionContext.ContractTypes, SubmissionContext.EmploymentStatus, SubmissionContext.LearningSupportStatus);
-                SubmissionContext.HaveSubmissionsBeenDone = true;
+                if (!submission.HaveSubmissionsBeenDone)
+                {
+                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                        submission.IlrLearnerDetails, submission.FirstSubmissionDate,
+                        LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
+                        submission.EmploymentStatus, submission.LearningSupportStatus, ilrPeriod: submission.SubmissionPeriod));
+                    submission.HaveSubmissionsBeenDone = true;
+                }
             }
 
             var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
@@ -110,7 +119,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
         private void AssertResults()
         {
-            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, SubmissionContext, EmployerAccountContext);
+            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, MultipleSubmissionsContext, EmployerAccountContext);
             TransactionTypeAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, SubmissionContext, EmployerAccountContext);
             SubmissionDataLockAssertions.AssertPaymentsAndEarningsResults(SubmissionDataLockContext, SubmissionContext);
         }

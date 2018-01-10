@@ -11,10 +11,13 @@ Scenario: DPP-964_01 - DAS Learner - Change to start date within calendar month,
 		| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | effective from | effective to |
 		| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active    | 01/08/2017     |              |
         
-	When an ILR file is submitted with the following data:
-        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | framework code | programme type | pathway code | submission period |
-        | learner a | programme only DAS | 9000         | 05/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   | 403            | 2              | 1            | R01               |
-        | learner a | programme only DAS | 9000         | 15/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   | 403            | 2              | 1            | R03               |
+	When an ILR file is submitted for period 08/17 with the following data:
+        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | framework code | programme type | pathway code |
+        | learner a | programme only DAS | 9000         | 05/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   | 403            | 2              | 1            |
+
+	And an ILR file is submitted for period 10/17 with the following data:
+         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | framework code | programme type | pathway code |
+         | learner a | programme only DAS | 9000         | 15/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   | 403            | 2              | 1            |
   
 	Then the provider earnings and payments break down as follows:
 		| Type                                | 08/17 | 09/17 | 10/17 | 11/17 |

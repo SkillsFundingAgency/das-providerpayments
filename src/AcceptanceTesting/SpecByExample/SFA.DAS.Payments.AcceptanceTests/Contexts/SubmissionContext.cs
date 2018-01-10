@@ -25,7 +25,20 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         public List<LearningSupportReferenceData> LearningSupportStatus { get; set; }
         public DateTime? FirstSubmissionDate { get; set; }
         public List<IlrLearnerReferenceData> HistoricalLearningDetails { get; set; }
+        public string SubmissionPeriod { get; set; }
 
 
+    }
+
+    public class MultipleSubmissionsContext
+    {
+        public MultipleSubmissionsContext()
+        {
+            Submissions = new List<SubmissionContext>();
+            SubmissionResults = new List<LearnerResults>();
+        }
+
+        public List<SubmissionContext> Submissions { get; set; }
+        public List<LearnerResults> SubmissionResults { get; set; }
     }
 }

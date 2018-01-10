@@ -25,7 +25,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             List<ContractTypeReferenceData> contractTypes,
             List<EmploymentStatusReferenceData> employmentStatus,
             List<LearningSupportReferenceData> learningSupportStatus,
-            string[] periodsToSubmitTo = null)
+            string[] periodsToSubmitTo = null,
+            string ilrPeriod = null)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -43,7 +44,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 foreach (var providerDetails in providerLearners)
                 {
                     //continue here if period is explicit and does not match
-                    if(!string.IsNullOrEmpty(providerDetails.SubmissionPeriod) && !string.Equals(providerDetails.SubmissionPeriod, period, StringComparison.CurrentCultureIgnoreCase)) //need the providerDetails to include the period maybs?
+                    if(!string.IsNullOrEmpty(ilrPeriod) && !string.Equals(ilrPeriod, period, StringComparison.CurrentCultureIgnoreCase)) //need the providerDetails to include the period maybs?
                         continue;
 
                     SetupDisadvantagedPostcodeUplift(providerDetails);
