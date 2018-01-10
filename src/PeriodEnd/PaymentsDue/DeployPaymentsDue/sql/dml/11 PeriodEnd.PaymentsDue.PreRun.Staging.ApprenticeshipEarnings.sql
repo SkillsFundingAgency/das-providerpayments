@@ -14,7 +14,7 @@ SELECT distinct pepm.CommitmentId,
       
     ae.PriceEpisodeEndDate,
     ae.StandardCode,
-    (CASE WHEN ae.StandardCode IS NULL THEN ae.ProgrammeType ELSE NULL END) ProgrammeType,
+	ae.ProgrammeType,
     ae.FrameworkCode,
     ae.PathwayCode,
     ae.ApprenticeshipContractType,
