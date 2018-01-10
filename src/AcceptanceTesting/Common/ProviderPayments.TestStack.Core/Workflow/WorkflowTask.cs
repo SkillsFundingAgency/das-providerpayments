@@ -46,7 +46,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
             var commands = sql.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var command in commands)
             {
-                connection.Execute(command);
+                try
+                {
+                    connection.Execute(command);
+                }
+                catch (SqlException e)
+                {
+                    throw new Exception($"Error running SQL command: \n {command}\n\n\n", e);
+                }
             }
         }
         protected string ReplaceSqlTokens(string sql, string dedsDatabaseName, TestStackContext context)
