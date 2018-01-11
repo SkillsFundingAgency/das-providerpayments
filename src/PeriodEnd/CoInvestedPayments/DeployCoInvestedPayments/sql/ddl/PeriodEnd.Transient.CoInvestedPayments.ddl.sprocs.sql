@@ -115,13 +115,11 @@ SET NOCOUNT ON
 	history.Amount,
 	history.FundingSource
 	FROM Reference.CoInvestedPaymentsHistory history
-	INNER JOIN Reference.DasCommitments c ON history.CommitmentId = c.CommitmentId
-	INNER JOIN PaymentsDue.RequiredPayments payments ON c.CommitmentId = payments.CommitmentId
 	WHERE history.DeliveryMonth = @localDeliveryMonth
 	AND history.DeliveryYear = @localDeliveryYear 
 	AND history.TransactionType = @localTransactionType
 	AND history.Ukprn = @localUkprn  
-	AND payments.LearnRefNumber = @localLearnRefNumber 
+	AND history.LearnRefNumber = @localLearnRefNumber 
 	AND history.AimSeqNumber = @localAimSeqNumber
 	AND (history.StandardCode Is Null Or history.StandardCode = @localStandardCode) 
 	AND (history.ProgrammeType  Is Null Or history.ProgrammeType = @localProgrammeType)  
