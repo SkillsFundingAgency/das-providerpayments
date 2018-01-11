@@ -34,6 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         {
             Submissions = new List<Submission>();
             SubmissionResults = new List<LearnerResults>();
+            HistoricalLearningDetails = new List<IlrLearnerReferenceData>();
         }
 
         public List<Submission> Submissions { get; set; }
