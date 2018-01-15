@@ -142,11 +142,7 @@
     <Compile Include="Features\manual_adjustments.feature.cs" />
     <Compile Include="Features\maths_and_english.feature.cs" />
     <Compile Include="Features\payments_calc.feature.cs" />
-    <Compile Include="features\provider_adjustments.feature.cs">
-      <AutoGen>true</AutoGen>
-      <DesignTime>true</DesignTime>
-      <DependentUpon>provider_adjustments.feature</DependentUpon>
-    </Compile>
+    <Compile Include="features\provider_adjustments.feature.cs"/>
     <Compile Include="Features\redundancy_payments.feature.cs" />
     <Compile Include="Features\refunds.feature.cs" />
     <Compile Include="Features\small_employers.feature.cs" />
@@ -340,8 +336,8 @@
       <Link>Features\payments_calc.feature</Link>
     </None>
     <None Include="..\..\Features\provider_adjustments.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
       <Link>Features\provider_adjustments.feature</Link>
+      <LastGenOutput>provider_adjustments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">
       <Link>Features\redundancy_payments.feature</Link>
