@@ -1,7 +1,11 @@
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'NonDasTransactionTypes' AND i.name = 'IX_ApprenticeshipContractType')
+	ALTER INDEX [IX_ApprenticeshipContractType] ON Staging.NonDasTransactionTypes DISABLE;
+GO
+
 TRUNCATE TABLE Staging.NonDasTransactionTypes
 GO
 
-INSERT INTO Staging.NonDasTransactionTypes (ApprenticeshipContractType, TransactionType) VALUES
+INSERT INTO Staging.NonDasTransactionTypes WITH (TABLOCKX) (ApprenticeshipContractType, TransactionType) VALUES
 (2, 1),
 (2, 2),
 (2, 3),
@@ -33,4 +37,8 @@ INSERT INTO Staging.NonDasTransactionTypes (ApprenticeshipContractType, Transact
 (1, 14),
 (1, 15)
 
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'NonDasTransactionTypes' AND i.name = 'IX_ApprenticeshipContractType')
+	ALTER INDEX [IX_ApprenticeshipContractType] ON Staging.NonDasTransactionTypes REBUILD;
 GO

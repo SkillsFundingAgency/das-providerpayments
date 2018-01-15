@@ -1,7 +1,7 @@
 TRUNCATE TABLE [Reference].[ProviderAdjustmentsProviders]
 GO
 
-INSERT INTO [Reference].[ProviderAdjustmentsProviders] (
+INSERT INTO [Reference].[ProviderAdjustmentsProviders] WITH (TABLOCKX) (
         [Ukprn]
     )
     SELECT

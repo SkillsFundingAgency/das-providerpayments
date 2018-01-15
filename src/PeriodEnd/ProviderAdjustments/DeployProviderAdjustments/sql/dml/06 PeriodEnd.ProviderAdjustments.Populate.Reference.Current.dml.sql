@@ -9,7 +9,7 @@ INSERT INTO @AlreadyProcessedSubmissions (
         DISTINCT SubmissionId
     FROM ${DAS_PeriodEnd.FQ}.ProviderAdjustments.Payments
 
-INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
+INSERT INTO [Reference].[ProviderAdjustmentsCurrent] WITH (TABLOCKX) (
         [Ukprn],
         [SubmissionId],
         [SubmissionCollectionPeriod],
@@ -31,4 +31,10 @@ INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
     WHERE s.Ukprn IN (SELECT DISTINCT Ukprn FROM Reference.ProviderAdjustmentsProviders)
         AND s.Submission_Id NOT IN (SELECT SubmissionId FROM @AlreadyProcessedSubmissions)
         AND p.FM36 = 1
+	ORDER BY
+        s.Ukprn,
+        s.Submission_Id,
+        s.CollectionPeriod,
+        p.Payment_Id
+
 GO

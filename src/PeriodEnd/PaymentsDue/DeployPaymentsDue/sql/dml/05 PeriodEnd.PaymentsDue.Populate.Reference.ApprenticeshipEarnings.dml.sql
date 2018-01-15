@@ -1,7 +1,15 @@
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_Earnings_Learner')
+	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipEarnings DISABLE;
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_ApprenticeshipEarnings_StartDate')
+	ALTER INDEX [IDX_ApprenticeshipEarnings_StartDate] ON [Reference].[ApprenticeshipEarnings] DISABLE;
+GO
+
 TRUNCATE TABLE [Reference].[ApprenticeshipEarnings]
 GO
 
-INSERT INTO [Reference].[ApprenticeshipEarnings] (
+INSERT INTO [Reference].[ApprenticeshipEarnings] WITH (TABLOCKX) (
     [Ukprn],
     [Uln],
     [LearnRefNumber],
@@ -97,10 +105,30 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         
 GO
 
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_Earnings_Learner')
+	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipEarnings REBUILD;
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_ApprenticeshipEarnings_StartDate')
+	ALTER INDEX [IDX_ApprenticeshipEarnings_StartDate] ON [Reference].[ApprenticeshipEarnings] REBUILD;
+GO
+
+
+
+
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Learner')
+	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipDeliveryEarnings DISABLE;
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Period')
+	ALTER INDEX [IDX_Earnings_Period] ON [Reference].[ApprenticeshipDeliveryEarnings] DISABLE;
+GO
+
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]
 GO
 
-INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
+INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] WITH (TABLOCKX) (
     [Ukprn],
     [Uln],
     [LearnRefNumber],
@@ -163,4 +191,12 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
             AND p.[AimSeqNumber] = aecld.[AimSeqNumber]
 		
     WHERE ld.[LearnAimRef] != 'ZPROG001'
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Learner')
+	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipDeliveryEarnings REBUILD;
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Period')
+	ALTER INDEX [IDX_Earnings_Period] ON [Reference].[ApprenticeshipDeliveryEarnings] REBUILD;
 GO

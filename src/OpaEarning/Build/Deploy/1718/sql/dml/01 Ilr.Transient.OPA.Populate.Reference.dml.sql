@@ -113,6 +113,13 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 		x.[1618ProviderAdditionalPayment],
 		x.[1618EmployerAdditionalPayment],
 		x.[1618FrameworkUplift]
+	ORDER BY
+		x.[ApprenticeshipCode],
+		x.[ApprenticeshipType],
+		x.[EffectiveFrom],
+		x.[FundingCategory],
+		x.[ProgType],
+		x.[PwayCode]
 GO
 
 INSERT INTO [Reference].[LARS_Current_Version] (CurrentVersion) VALUES ('LARS-TestStack-v1')
@@ -157,6 +164,11 @@ INSERT INTO [Reference].[LARS_FrameworkCmnComp] (
     FROM [Input].[LearningDelivery]
     WHERE [FworkCode] IS NOT NULL
         AND [LearnAimRef] != 'ZPROG001'
+	ORDER BY
+		[FworkCode],
+		[ProgType],
+		[PwayCode]
+
 GO
 
 INSERT INTO [Reference].[LARS_StandardCommonComponent] (
@@ -172,6 +184,8 @@ INSERT INTO [Reference].[LARS_StandardCommonComponent] (
     FROM [Input].[LearningDelivery]
     WHERE [StdCode] IS NOT NULL
         AND [LearnAimRef] != 'ZPROG001'
+	ORDER BY
+		[StdCode]
 GO
 
 INSERT INTO [Reference].[AEC_LatestInYearEarningHistory] (
@@ -230,6 +244,13 @@ INSERT INTO [Reference].[AEC_LatestInYearEarningHistory] (
 		[LatestInYear]
     FROM ${ILR_Deds.FQ}.[Version_001].[AEC_LatestInYearEarningHistory]
     WHERE [ULN] IN (SELECT [ULN] FROM [Valid].[Learner])
+	ORDER BY
+		[LatestInYear] DESC,
+		[LearnRefNumber] ASC,
+		[UKPRN] ASC,
+		[CollectionYear] ASC,
+		[CollectionReturnCode] ASC,
+		[AppIdentifier] ASC
 GO
 
 
@@ -250,6 +271,8 @@ INSERT INTO [Reference].[SFA_PostcodeDisadvantage]
 	${ILR_Deds.FQ}.[AT].[ReferenceData] d JOIN
 	[VALID].[Learner] l on d.[Key] = l.[PostcodePrior]
 	WHERE d.[Type] = 'PostCode'
+	ORDER BY 	
+		l.[PostcodePrior]
 GO
 
 

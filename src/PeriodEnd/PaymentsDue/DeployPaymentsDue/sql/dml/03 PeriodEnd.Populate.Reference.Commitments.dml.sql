@@ -28,7 +28,7 @@ GO
 DELETE FROM [Reference].[DasCommitments]
 GO
 
-INSERT INTO [Reference].[DasCommitments]
+INSERT INTO [Reference].[DasCommitments] WITH (TABLOCKX)
     SELECT
         [CommitmentId],
         MAX([VersionId]) [VersionId],
@@ -66,6 +66,9 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveFromDate],
         [EffectiveToDate],
         [LegalEntityName]
+	ORDER BY
+        CommitmentId ASC,
+		MAX([VersionId]) ASC
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])

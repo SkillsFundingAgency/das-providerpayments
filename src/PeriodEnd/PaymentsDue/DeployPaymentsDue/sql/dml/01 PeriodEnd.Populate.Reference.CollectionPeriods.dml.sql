@@ -5,7 +5,7 @@ IF EXISTS(SELECT 1 FROM sys.indexes WHERE name='IX_CollectionPeriods_Open' AND o
 	DROP INDEX IX_CollectionPeriods_Open ON Reference.CollectionPeriods
 GO
 
-INSERT INTO [Reference].[CollectionPeriods]
+INSERT INTO [Reference].[CollectionPeriods] WITH (TABLOCKX)
     SELECT
         [Period_ID] AS [Id],
         [Return_Code] AS [Name],
