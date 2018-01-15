@@ -73,10 +73,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             MultipleSubmissionsContext.Add(submissionContext);
         }
 
-        [Obsolete]
-        [When("the Contract type in the ILR is:")] //constrains spec to single ILR
+        [When("the Contract type in the ILR is:")]
         public void WhenTheContractTypeInTheIlrIs(Table contractTypes)
         {
+            if (MultipleSubmissionsContext.Submissions.Count > 1)
+                throw new Exception("Contract type is not supported in multiple ILR submission scenario. (Which ILR would it pertain to?)");
             foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
                 ContractTypeTableParser.ParseContractTypesIntoContext(submission, contractTypes);
