@@ -146,6 +146,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>learner_changes_provider.feature</DependentUpon>
     </Compile>
+    <Compile Include="..\..\Features\learner_changes_start_date.feature.cs">
+      <Link>Features\Ilr Changes\learner_changes_start_date.feature.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>learner_changes_start_date.feature</DependentUpon>
+    </Compile>
     <Compile Include="..\..\features\learner_finishes_early.feature.cs">
       <Link>Features\learner_finishes_early.feature.cs</Link>
       <AutoGen>True</AutoGen>
@@ -380,94 +386,117 @@
     <None Include="..\..\features\additional_payments.feature">
       <Link>Features\additional_payments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>additional_payments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\capping.feature">
       <Link>Features\capping.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>capping.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\change_in_circumstances.feature">
       <Link>Features\change_in_circumstances.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>change_in_circumstances.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\change_in_ilr.feature">
       <Link>Features\change_in_ilr.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>change_in_ilr.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\commitment_effectiveness.feature">
       <Link>Features\commitment_effectiveness.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>commitment_effectiveness.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\datalock_errors.feature">
       <Link>Features\datalock_errors.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>datalock_errors.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\earnings_calc.feature">
       <Link>Features\earnings_calc.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>earnings_calc.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\employer_stops_payments.feature">
       <Link>Features\employer_stops_payments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>employer_stops_payments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\ILR_is_submitted_late.feature">
       <Link>Features\ILR_is_submitted_late.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ILR_is_submitted_late.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\learner_changes_employer.feature">
       <Link>Features\learner_changes_employer.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_changes_employer.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\learner_changes_provider.feature">
       <Link>Features\learner_changes_provider.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_changes_provider.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\Features\learner_changes_start_date.feature">
       <Link>Features\Ilr Changes\learner_changes_start_date.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_changes_start_date.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\learner_finishes_early.feature">
       <Link>Features\learner_finishes_early.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_finishes_early.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\learner_finishes_late.feature">
       <Link>Features\learner_finishes_late.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_finishes_late.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\learner_finishes_on_time.feature">
       <Link>Features\learner_finishes_on_time.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_finishes_on_time.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\manual_adjustments.feature">
       <Link>Features\manual_adjustments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>manual_adjustments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\maths_and_english.feature">
       <Link>Features\maths_and_english.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>maths_and_english.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\payments_calc.feature">
       <Link>Features\payments_calc.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>payments_calc.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\Features\provider_adjustments.feature">
       <Link>Features\provider_adjustments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>provider_adjustments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\redundancy_payments.feature">
       <Link>Features\redundancy_payments.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>redundancy_payments.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\refunds.feature">
       <Link>Features\refunds.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>refunds.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\small_employers.feature">
       <Link>Features\small_employers.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>small_employers.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\two_learners_paid_in_priority.feature">
       <Link>Features\two_learners_paid_in_priority.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>two_learners_paid_in_priority.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
