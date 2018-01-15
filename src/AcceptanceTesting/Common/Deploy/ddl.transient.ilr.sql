@@ -449,7 +449,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Input].[
 BEGIN
 CREATE TABLE [Input].[LearningProvider](
 	[LearningProvider_Id] [int] NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[LearningProvider_Id] ASC
@@ -570,7 +570,7 @@ BEGIN
 CREATE TABLE [Input].[Source](
 	[Source_Id] [int] NOT NULL,
 	[ProtectiveMarking] [varchar](30) NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[SoftwareSupplier] [varchar](40) NULL,
 	[SoftwarePackage] [varchar](30) NULL,
 	[Release] [varchar](20) NULL,
@@ -1080,7 +1080,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Invalid]
 BEGIN
 CREATE TABLE [Invalid].[LearningProvider](
 	[LearningProvider_Id] [int] NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[LearningProvider_Id] ASC
@@ -1201,7 +1201,7 @@ BEGIN
 CREATE TABLE [Invalid].[Source](
 	[Source_Id] [int] NOT NULL,
 	[ProtectiveMarking] [varchar](30) NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[SoftwareSupplier] [varchar](40) NULL,
 	[SoftwarePackage] [varchar](30) NULL,
 	[Release] [varchar](20) NULL,
@@ -1341,7 +1341,7 @@ BEGIN
 CREATE TABLE [Valid].[Learner](
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[PrevLearnRefNumber] [varchar](12) NULL,
-	[PrevUKPRN] [int] NULL,
+	[PrevUKPRN] [bigint] NULL,
 	[ULN] [bigint] NOT NULL,
 	[FamilyName] [varchar](100) NULL,
 	[GivenNames] [varchar](100) NULL,
@@ -1535,7 +1535,7 @@ CREATE TABLE [Valid].[LearningDelivery](
 	[FworkCode] [int] NULL,
 	[PwayCode] [int] NULL,
 	[StdCode] [bigint] NULL,
-	[PartnerUKPRN] [int] NULL,
+	[PartnerUKPRN] [bigint] NULL,
 	[DelLocPostCode] [varchar](8) NULL,
 	[AddHours] [int] NULL,
 	[PriorLearnFundAdj] [int] NULL,
@@ -1678,7 +1678,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Valid].[LearningProvider]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [Valid].[LearningProvider](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[UKPRN] ASC
@@ -1720,7 +1720,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Valid].[
 BEGIN
 CREATE TABLE [Valid].[Source](
 	[ProtectiveMarking] [varchar](30) NOT NULL,
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[SoftwareSupplier] [varchar](40) NULL,
 	[SoftwarePackage] [varchar](30) NULL,
 	[Release] [varchar](20) NULL,
@@ -1785,7 +1785,7 @@ GO
 
 CREATE TABLE [dbo].[FileDetails] (
     [ID] [int] IDENTITY(1,1),
-    [UKPRN] [int] NOT NULL,
+    [UKPRN] [bigint] NOT NULL,
     [Filename] [nvarchar](50) NULL,
     [FileSizeKb] [bigint] NULL,
     [TotalLearnersSubmitted] [int] NULL,

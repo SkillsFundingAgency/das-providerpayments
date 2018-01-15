@@ -22,11 +22,15 @@ SELECT
 	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
     WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 	AND p.FundingSource != 1
-	AND p.[CollectionPeriodName] IN 
-	(
-		SELECT [Collection_Period_Name] 
-		FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
-		WHERE [Collection_Open] = 1
-	)
-
 GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'CoInvestedPaymentsHistory'
+		AND i.[name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
+		)
+BEGIN
+	CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
+END

@@ -37,8 +37,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 (
 	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 	CommitmentId bigint,
-	CommitmentVersionId varchar(25),
-	AccountId varchar(50),
+	CommitmentVersionId varchar(50),
+	AccountId bigint,
 	AccountVersionId varchar(50),
 	Uln bigint,
 	LearnRefNumber varchar(12),
@@ -53,9 +53,17 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	ApprenticeshipContractType int,
 	DeliveryMonth int,
 	DeliveryYear int,
+	CollectionPeriodName varchar(8) NOT NULL,
+	CollectionPeriodMonth int NOT NULL,
+	CollectionPeriodYear int NOT NULL,
 	TransactionType int,
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
-	FundingLineType varchar(100)
+	FundingLineType varchar(60),
+	UseLevyBalance bit
 )
+GO
+
+CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
+ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
 GO
