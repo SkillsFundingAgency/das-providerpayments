@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private void ProcessProvider(Provider provider, CollectionPeriod currentPeriod)
         {
             _logger.Info($"Processing provider with ukprn {provider.Ukprn}.");
-           
+
             var earningResponse = _mediator.Send(new GetProviderEarningsQueryRequest
             {
                 Ukprn = provider.Ukprn,
@@ -268,6 +268,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                p.ProgrammeType == currentEarning.ProgrammeType &&
                                p.CalendarMonth == currentEarning.CalendarMonth &&
                                p.CalendarYear == currentEarning.CalendarYear &&
+                               p.Type == currentEarning.Type &&
                                p.EarnedValue != 0 &&
                                ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
         }
@@ -280,13 +281,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                   .OrderByDescending(x => x.DeliveryYear)
                                                   .ThenByDescending(x => x.DeliveryMonth)
                                                   .ToArray();
+
+            var originalAmountDue = amountDue;
             // if there are no historical payments then just skip the execution
             if (refundablePeriods.Any())
             {
-
                 var refundPeriodIndex = 0;
                 while (amountDue < 0)
                 {
+                    if (refundPeriodIndex >= refundablePeriods.Length)
+                    {
+                        _logger.Error($"ERROR TRYING TO Refund.\n UKPRN: {provider.Ukprn}\n ILR Submission Date: {provider.IlrSubmissionDateTime}\n" +
+                                      $"Learner reference number: {earning.LearnerReferenceNumber}\n ULN: {earning.Uln}\n" +
+                                      $"Amount to refund: {originalAmountDue}\n Current amount to refund: {amountDue}\n");
+                        break;
+                    }
+
                     var period = refundablePeriods[refundPeriodIndex];
 
                     // Attempt to get refund from payments due first
@@ -333,7 +343,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     AddRefundPaymentDue(provider, paymentsDue, new DateTime(transaction.CollectionPeriodYear, transaction.CollectionPeriodMonth, 1), transaction.AmountDue, transaction.CommitmentId, earning, paymentHistory, amountDue);
                     refundAdded = true;
                 }
-                
+
             }
             if (!refundAdded)
             {
@@ -341,7 +351,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 var refundablePeriods = paymentHistory.Where(x => x.DeliveryMonth == earning.CalendarMonth
                                                                 && x.DeliveryYear == earning.CalendarYear
                                                                 && x.AmountDue > 0
-                                                                && new DateTime(x.CollectionPeriodYear,x.CollectionPeriodMonth,1) !=
+                                                                && new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1) !=
                                                                     new DateTime(currentPeriod.Year, currentPeriod.Month, 1))
                                                                 .OrderByDescending(x => new DateTime(x.CollectionPeriodYear, x.CollectionPeriodMonth, 1))
                                                                .ToArray();
@@ -368,7 +378,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                         earning,
                                                         paymentHistory,
                                                         amountDue);
-                        refundAdded = true; 
+                        refundAdded = true;
                         refundPeriodIndex++;
                     }
                 }

@@ -1,5 +1,4 @@
-﻿using System;
-using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
@@ -19,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
         public PaymentEntity[] GetPaymentsForRequiredPayment(string requiredPaymentId)
         {
             return Query<PaymentEntity>($"SELECT RequiredPaymentId,DeliveryMonth,DeliveryYear,TransactionType,FundingSource,Amount,CommitmentId FROM {HistoryLevySource} WHERE FundingSource = 1 AND RequiredPaymentId = @requiredPaymentId " +
-                                        $" UNION ALL " +
+                                        " UNION ALL " +
                                         $"SELECT RequiredPaymentId,DeliveryMonth,DeliveryYear,TransactionType,FundingSource,Amount,CommitmentId FROM {HistoryCoInvestedSource} WHERE RequiredPaymentId = @requiredPaymentId ",
                 new { requiredPaymentId });
         }
@@ -46,20 +45,20 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
             Execute($"INSERT INTO {destinationTable} (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,CommitmentId) " +
                      "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,@CommitmentId)", 
                      new {
-                         RequiredPaymentId = payment.RequiredPaymentId,
-                         DeliveryMonth = payment.DeliveryMonth,
-                         DeliveryYear =payment.DeliveryYear,
-                         FundingSource = payment.FundingSource,
-                         TransactionType =payment.TransactionType,
-                         Amount = payment.Amount,
+                         payment.RequiredPaymentId,
+                         payment.DeliveryMonth,
+                         payment.DeliveryYear,
+                         payment.FundingSource,
+                         payment.TransactionType,
+                         payment.Amount,
                          ULN =requiredPayment.Uln,
-                         Ukprn = requiredPayment.Ukprn,
-                         AimSeqNumber = requiredPayment.AimSeqNumber,
-                         StandardCode =requiredPayment.StandardCode,
-                         ProgrammeType =requiredPayment.ProgrammeType,
-                         FrameworkCode =requiredPayment.FrameworkCode,
-                         PathwayCode =requiredPayment.PathwayCode,
-                         CommitmentId = requiredPayment.CommitmentId
+                         requiredPayment.Ukprn,
+                         requiredPayment.AimSeqNumber,
+                         requiredPayment.StandardCode,
+                         requiredPayment.ProgrammeType,
+                         requiredPayment.FrameworkCode,
+                         requiredPayment.PathwayCode,
+                         requiredPayment.CommitmentId
                      } );
         }
 
@@ -78,7 +77,5 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
             if (payment.FundingSource != 1)
                 CreateCoInvestmentHistoryPayment(payment, requiredPayment, HistoryCoInvestedSource);
         }
-
-
     }
 }

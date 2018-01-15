@@ -3,18 +3,23 @@ using System.Data.SqlClient;
 using Dapper;
 using ProviderPayments.TestStack.Core;
 using ProviderPayments.TestStack.Core.ExecutionStatus;
+using ProviderPayments.TestStack.Core.Workflow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
-    internal static class PreperationManager
+    internal static class PreparationManager
     {
         internal static void PrepareDatabasesForTestRun()
         {
             PrepareDatabaseForAt();
             PrepareDatabaseForAllComponents();
+            //TestEnvironment.ProcessService.PrepareTablesNotOwnedByPayments(TestEnvironment.Variables);
         }
+
         internal static void PrepareDatabasesForScenario()
         {
+            DdlManager.ResetHasRanFlags();
+
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
                 connection.Execute("TRUNCATE TABLE Valid.Learner");

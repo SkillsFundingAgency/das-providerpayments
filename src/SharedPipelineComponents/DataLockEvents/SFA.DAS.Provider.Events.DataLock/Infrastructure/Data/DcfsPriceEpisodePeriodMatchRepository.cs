@@ -15,7 +15,8 @@ namespace SFA.DAS.Provider.Events.DataLock.Infrastructure.Data
                                        "VersionId," +
                                        "Period," +
                                        "Payable," +
-                                       "TransactionType";
+                                       "TransactionType," +
+                                       "TransactionTypesFlag";
         private const string SelectPriceEpisodePeriodMatches = "SELECT " + Columns + " FROM " + Source +
             " WHERE Ukprn = @ukprn AND PriceEpisodeIdentifier = @priceEpisodeIdentifier AND LearnRefnumber = @learnRefnumber";
 

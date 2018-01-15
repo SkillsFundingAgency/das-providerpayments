@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
-using System;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
@@ -17,20 +16,20 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
+            const int accountId = 4355436;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 500, transactionType:TransactionType.First16To18EmployerIncentive);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 11, deliveryYear: 17, amountDue: 500, transactionType: TransactionType.First16To18ProviderIncentive);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17, amountDue: 500, transactionType:TransactionType.First16To18EmployerIncentive);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 11, 17, amountDue: 500, transactionType: TransactionType.First16To18ProviderIncentive);
 
 
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 1000, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 500, transactionType: TransactionType.Second16To18EmployerIncentive);
-            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, deliveryMonth: 7, deliveryYear: 18, amountDue: 500, transactionType: TransactionType.Second16To18ProviderIncentive);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 500, transactionType: TransactionType.Second16To18EmployerIncentive);
+            TestDataHelper.AddPaymentDueForProvider2(_commitmentId, 1, 7, 18, amountDue: 500, transactionType: TransactionType.Second16To18ProviderIncentive);
             
             TestDataHelper.CopyReferenceData();
 

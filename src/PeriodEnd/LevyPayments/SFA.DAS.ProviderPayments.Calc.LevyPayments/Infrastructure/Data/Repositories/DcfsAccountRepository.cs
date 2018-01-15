@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Repositories
@@ -12,7 +11,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         private const string SelectAccountById = "SELECT " + AccountsColumns + " FROM " + OutstandingAccountsSource + " WHERE AccountId = @AccountId";
         private const string UpdateLevySpentCommand = "LevyPayments.UpdateAccountLevySpend @AccountId, @AmountToUpdateBy";
         private const string MarkAccountAsProcessedCommand = "LevyPayments.MarkAccountAsProcessed @AccountId";
-        private const string AccountToProcessCommand = "LevyPayments.AccountToProcess";
 
         public DcfsAccountRepository(string connectionString)
             : base(connectionString)
@@ -27,11 +25,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         public AccountEntity GetAccountById(long id)
         {
             return QuerySingle<AccountEntity>(SelectAccountById, new { AccountId = id });
-        }
-
-        public IEnumerable<AccountPaymentEntity> GetAccountAndPaymentInformationForProcessing()
-        {
-            return Query<AccountPaymentEntity>(AccountToProcessCommand);
         }
 
         public void UpdateLevyBalance(long accountId, decimal amount)
