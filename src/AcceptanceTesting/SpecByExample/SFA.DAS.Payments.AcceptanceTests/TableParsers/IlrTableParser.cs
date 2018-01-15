@@ -206,10 +206,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "learning support code":
                         learningSupportTableColumnStructure.LearningSupportCodeIndex = c;
                         break;
-                    case "learning support code date from":
+                    case "learning support date from":
                         learningSupportTableColumnStructure.DateFromIndex = c;
                         break;
-                    case "learning support code date to":
+                    case "learning support date to":
                         learningSupportTableColumnStructure.DateToIndex = c;
                         break;
                     case "employer":
