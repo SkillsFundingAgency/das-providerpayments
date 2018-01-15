@@ -43,16 +43,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 foreach (var providerDetails in providerLearners)
                 {
-                    //continue here if period is explicit and does not match
                     if(!string.IsNullOrEmpty(ilrPeriod) && !string.Equals(ilrPeriod, period, StringComparison.CurrentCultureIgnoreCase)) //need the providerDetails to include the period maybs?
                         continue;
 
                     SetupDisadvantagedPostcodeUplift(providerDetails);
-                    //here submits ilr
                     BuildAndSubmitIlr(providerDetails, period, lookupContext, contractTypes, employmentStatus,
                         learningSupportStatus);
                 }
-                //here runs month end
                 RunMonthEnd(period);
 
                 EarningsCollector.CollectForPeriod(period, results, lookupContext);
