@@ -43,9 +43,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
 
             sql = ReplaceSqlTokens(sql, dedsDatabaseName, context);
 
-            var commands = sql.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = Regex.Split(sql, @"GO\s*(\n|$|\r\n)", RegexOptions.IgnoreCase);
+
             foreach (var command in commands)
             {
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    continue;
+                }
                 try
                 {
                     connection.Execute(command);

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -449,17 +449,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{22ECAFFA-DD3
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql
+		OPA.Transient.Input.ddl.views.sql = OPA.Transient.Input.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql
+		OPA.Transient.Invalid.ddl.views.sql = OPA.Transient.Invalid.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql
+		OPA.Transient.Reports.ddl.views.sql = OPA.Transient.Reports.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.Ilr.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.Ilr.ddl.tables.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Static.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Static.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql
+		OPA.Transient.Transform.Invalid.ddl.procs.sql = OPA.Transient.Transform.Invalid.ddl.procs.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql
-		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{152D9690-408E-4418-A7EA-A2C1A1DA147D}"

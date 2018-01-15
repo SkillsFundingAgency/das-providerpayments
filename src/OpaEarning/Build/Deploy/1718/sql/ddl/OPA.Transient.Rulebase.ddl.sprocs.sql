@@ -52,7 +52,11 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 										ld.[LearnAimRef] as [@LearnAimRef],
 										ld.[LearnPlanEndDate] as [@LearnPlanEndDate],
 										ld.[LearnStartDate] as [@LearnStartDate],
-										ldd.LDFAM_EEF as [@LrnDelFAM_EEF],
+										ldd.[LDFAM_EEF] as [@LrnDelFAM_EEF],
+										ldd.[LDM1] as [@LrnDelFAM_LDM1],
+										ldd.[LDM2] as [@LrnDelFAM_LDM2],
+										ldd.[LDM3] as [@LrnDelFAM_LDM3],
+										ldd.[LDM4] as [@LrnDelFAM_LDM4],
 										ld.[OrigLearnStartDate] as [@OrigLearnStartDate],
 										ld.[OtherFundAdj] as [@OtherFundAdj],
 										ld.[PriorLearnFundAdj] as [@PriorLearnFundAdj],
@@ -185,24 +189,24 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 											and ldd.AimSeqNumber = ld.AimSeqNumber
 										where
 											ld.[LearnRefNumber] = l.[LearnRefNumber]
+											AND ld.[FundModel]=36
 									for xml path ('LearningDelivery'), type
 								),
 								(
 									select
-												[LearnerEmploymentStatus].[DateEmpStatApp] as [@DateEmpStatApp],
-												[LearnerEmploymentStatus].[EmpId] as [@EmpId],
-												[LearnerEmploymentStatus].[EmpStat] as [@EMPStat],
-												sem.ESMCode as [@EmpStatMon_SEM]
-										from
-												[Valid].[LearnerEmploymentStatus]
-												left join Valid.EmploymentStatusMonitoring sem
-														on sem.LearnRefNumber = LearnerEmploymentStatus.LearnRefNumber
-														and sem.DateEmpStatApp = LearnerEmploymentStatus.DateEmpStatApp
-														and sem.ESMType = 'SEM'
-										where
-												[LearnerEmploymentStatus].[LearnRefNumber] = l.[LearnRefNumber]
-										for xml path ('LearnerEmploymentStatus'), type
-
+										les.[DateEmpStatApp] as [@DateEmpStatApp],
+										les.[EmpId] as [@EmpId],
+										les.[EmpStat] as [@EMPStat],
+										lesd.ESMCode_SEM as [@EmpStatMon_SEM]
+									from
+										[Valid].[LearnerEmploymentStatus] as les
+										join
+											Valid.LearnerEmploymentStatusDenorm as lesd
+												on lesd.LearnRefNumber = les.LearnRefNumber
+												and lesd.[DateEmpStatApp] = les.[DateEmpStatApp]
+									where
+										les.[LearnRefNumber] = l.[LearnRefNumber]
+									for xml path ('LearnerEmploymentStatus'), type
 								),
 								(
 									select
@@ -244,7 +248,8 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 										[AEC_LatestInYearEarningHistory].[ULN] as [@HistoricULNInput],
 										[AEC_LatestInYearEarningHistory].[UptoEndDate] as [@HistoricUptoEndDateInput],
 										[AEC_LatestInYearEarningHistory].[HistoricVirtualTNP3EndOfTheYearInput] as [@HistoricVirtualTNP3EndofTheYearInput],
-										[AEC_LatestInYearEarningHistory].[HistoricVirtualTNP4EndOfTheYearInput] as [@HistoricVirtualTNP4EndofTheYearInput]
+										[AEC_LatestInYearEarningHistory].[HistoricVirtualTNP4EndOfTheYearInput] as [@HistoricVirtualTNP4EndofTheYearInput],
+										[AEC_LatestInYearEarningHistory].[HistoricLearnDelProgEarliestACT2DateInput] as [@HistoricLearnDelProgEarliestACT2DateInput]
 									from
 										[Reference].[AEC_LatestInYearEarningHistory]
 									where 
@@ -343,7 +348,7 @@ create procedure [Rulebase].[AEC_Insert_LearningDelivery]
 		@DisadvSecondPayment decimal(10,5) = null,
 		@DisUpFactAdj decimal(10,4) = null,
 		@FirstIncentiveThresholdDate date = null,
-		@FundLineType varchar(60) = null,
+		@FundLineType varchar(100) = null,
 		@FundStart bit = null,
 		@InstPerPeriod int = null,
 		@LDApplic1618FrameworkUpliftBalancingPayment decimal(10,5) = null,
@@ -377,7 +382,7 @@ create procedure [Rulebase].[AEC_Insert_LearningDelivery]
 		@LearnDelFirstProv1618Pay decimal(10,5) = null,
 		@LearnDelHistDaysThisApp int = null,
 		@LearnDelHistProgEarnings decimal(10,5) = null,
-		@LearnDelInitialFundLineType varchar(60) = null,
+		@LearnDelInitialFundLineType varchar(100) = null,
 		@LearnDelLevyNonPayInd int = null,
 		@LearnDelSecondEmp1618Pay decimal(10,5) = null,
 		@LearnDelSecondProv1618Pay decimal(10,5) = null,
@@ -399,6 +404,8 @@ create procedure [Rulebase].[AEC_Insert_LearningDelivery]
 		@SecondIncentiveThresholdDate date = null,
 		@ThresholdDays int = null,
 		@LearnDelMathEng bit = null,
+		@LearnDelProgEarliestACT2Date date = null,
+		@LearnDelNonLevyProcured bit = null,
 		@ProgrammeAimTotProgFund decimal(12,5) = null,
 		@ProgrammeAimProgFundIndMinCoInvest decimal(12, 5) = null,
 		@ProgrammeAimProgFundIndMaxEmpCont decimal(12, 5) = null
@@ -448,6 +455,8 @@ as
 				,LearnDelHistProgEarnings
 				,LearnDelInitialFundLineType
 				,LearnDelMathEng 
+				,LearnDelProgEarliestACT2Date
+				,LearnDelNonLevyProcured
 				,MathEngAimValue 
 				,OutstandNumOnProgInstalm 
 				,PlannedNumOnProgInstalm 
@@ -495,6 +504,8 @@ as
 			,@LearnDelHistProgEarnings
 			,@LearnDelInitialFundLineType
 			,@LearnDelMathEng 
+			,@LearnDelProgEarliestACT2Date
+			,@LearnDelNonLevyProcured
 			,@MathEngAimValue 
 			,@OutstandNumOnProgInstalm 
 			,@PlannedNumOnProgInstalm 
@@ -670,7 +681,10 @@ create procedure [Rulebase].[AEC_PivotTemporals_LearningDelivery] as
 				MathEngOnProgPct,
 				ProgrammeAimBalPayment,
 				ProgrammeAimCompletionPayment,
-				ProgrammeAimOnProgPayment
+				ProgrammeAimOnProgPayment,
+				ProgrammeAimProgFundIndMaxEmpCont,
+				ProgrammeAimProgFundIndMinCoInvest,
+				ProgrammeAimTotProgFund
 			)
 		select
 			LearnRefNumber,
@@ -698,7 +712,10 @@ create procedure [Rulebase].[AEC_PivotTemporals_LearningDelivery] as
 			max(case AttributeName when 'MathEngOnProgPct' then Value else null end) MathEngOnProgPct,
 			max(case AttributeName when 'ProgrammeAimBalPayment' then Value else null end) ProgrammeAimBalPayment,
 			max(case AttributeName when 'ProgrammeAimCompletionPayment' then Value else null end) ProgrammeAimCompletionPayment,
-			max(case AttributeName when 'ProgrammeAimOnProgPayment' then Value else null end) ProgrammeAimOnProgPayment
+			max(case AttributeName when 'ProgrammeAimOnProgPayment' then Value else null end) ProgrammeAimOnProgPayment,
+			max(case AttributeName when 'ProgrammeAimProgFundIndMaxEmpCont' then Value else null end) ProgrammeAimProgFundIndMaxEmpCont,
+			max(case AttributeName when 'ProgrammeAimProgFundIndMinCoInvest' then Value else null end) ProgrammeAimProgFundIndMinCoInvest,
+			max(case AttributeName when 'ProgrammeAimTotProgFund' then Value else null end) ProgrammeAimTotProgFund
 		from
 			(
 				select
@@ -783,7 +800,8 @@ create procedure [Rulebase].[AEC_Insert_HistoricEarningOutput]
 		@HistoricULNOutput bigint,
 		@HistoricUptoEndDateOutput date,
 		@HistoricVirtualTNP3EndofThisYearOutput decimal(12,5),
-		@HistoricVirtualTNP4EndofThisYearOutput decimal(12,5)
+		@HistoricVirtualTNP4EndofThisYearOutput decimal(12,5),
+		@HistoricLearnDelProgEarliestACT2DateOutput date
 	)
 as
 	begin
@@ -815,7 +833,8 @@ as
 				HistoricULNOutput,
 				HistoricUptoEndDateOutput,
 				HistoricVirtualTNP3EndofThisYearOutput,
-				HistoricVirtualTNP4EndofThisYearOutput
+				HistoricVirtualTNP4EndofThisYearOutput,
+				HistoricLearnDelProgEarliestACT2DateOutput
 			)
 		values 
 		(
@@ -843,7 +862,8 @@ as
 			@HistoricULNOutput,
 			@HistoricUptoEndDateOutput,
 			@HistoricVirtualTNP3EndofThisYearOutput,
-			@HistoricVirtualTNP4EndofThisYearOutput
+			@HistoricVirtualTNP4EndofThisYearOutput,
+			@HistoricLearnDelProgEarliestACT2DateOutput
 		)
 	end
 GO
@@ -1121,7 +1141,10 @@ create procedure [Rulebase].[AEC_PivotTemporals_ApprenticeshipPriceEpisode] as
 				PriceEpisodeSecondDisadvantagePayment,
 				PriceEpisodeSecondEmp1618Pay,
 				PriceEpisodeSecondProv1618Pay,
-				PriceEpisodeSFAContribPct
+				PriceEpisodeSFAContribPct,
+				PriceEpisodeProgFundIndMaxEmpCont,
+				PriceEpisodeProgFundIndMinCoInvest,
+				PriceEpisodeTotProgFunding
 			)
 		select
 			LearnRefNumber,
@@ -1143,7 +1166,10 @@ create procedure [Rulebase].[AEC_PivotTemporals_ApprenticeshipPriceEpisode] as
 			max(case AttributeName when 'PriceEpisodeSecondDisadvantagePayment' then Value else null end) PriceEpisodeSecondDisadvantagePayment,
 			max(case AttributeName when 'PriceEpisodeSecondEmp1618Pay' then Value else null end) PriceEpisodeSecondEmp1618Pay,
 			max(case AttributeName when 'PriceEpisodeSecondProv1618Pay' then Value else null end) PriceEpisodeSecondProv1618Pay,
-			max(case AttributeName when 'PriceEpisodeSFAContribPct' then Value else null end) PriceEpisodeSFAContribPct
+			max(case AttributeName when 'PriceEpisodeSFAContribPct' then Value else null end) PriceEpisodeSFAContribPct,
+			max(case AttributeName when 'PriceEpisodeProgFundIndMaxEmpCont' then Value else null end) PriceEpisodeProgFundIndMaxEmpCont,
+			max(case AttributeName when 'PriceEpisodeProgFundIndMinCoInvest' then Value else null end) PriceEpisodeProgFundIndMinCoInvest,
+			max(case AttributeName when 'PriceEpisodeTotProgFunding' then Value else null end) PriceEpisodeTotProgFunding
 		from
 			(
 				select

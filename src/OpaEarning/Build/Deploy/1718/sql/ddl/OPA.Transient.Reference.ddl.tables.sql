@@ -132,22 +132,25 @@ if object_id('[Reference].[LARS_ApprenticeshipFunding]','u') is not null
 GO
 
 create table [Reference].[LARS_ApprenticeshipFunding]
-(	
-	[1618Incentive] decimal(12,5),
+(
 	[ApprenticeshipCode] int not null,
 	[ApprenticeshipType] varchar(50) not null,
+	[ProgType] int not null,
+	[PwayCode] int null,
+	[FundingCategory] varchar(15) not null,
 	[EffectiveFrom] date not null,
 	[EffectiveTo] date,
-	[FundingCategory] varchar(15) not null,
-	[MaxEmployerLevyCap] decimal(12,5),
-	[ProgType] int not null,
-	[PwayCode] int not null,
-	[ReservedValue1] decimal(12,5),
-	[ReservedValue2] decimal(12,5),
-	ReservedValue3 decimal(12,5),
-	[1618ProviderAdditionalPayment] decimal(12,5),
-	[1618EmployerAdditionalPayment] decimal(12,5),
-	[1618FrameworkUplift] decimal(12,5)
+	[BandNumber] int,
+	[CoreGovContributuionCap] decimal(10,5),
+	[1618Incentive] decimal(10,5),
+	[1618ProviderAdditionalPayment] decimal(10,5),
+	[1618EmployerAdditionalPayment] decimal(10,5),
+	[1618FrameworkUplift] decimal(10,5),
+	[Duration] decimal(10,5),
+	[ReservedValue2] decimal(10,5),
+	[ReservedValue3] decimal(10,5), 	
+	[MaxEmployerLevyCap] decimal(10,5),
+	[FundableWithoutEmployer] char(1)
 )
 create clustered index IX_LARS_ApprenticeshipFunding on [Reference].[LARS_ApprenticeshipFunding]
 (
@@ -500,6 +503,20 @@ create clustered index IX_Org_PartnerUKPRN on [Reference].[Org_PartnerUKPRN]
 )	
 GO
 
+if object_id('[Reference].[Org_PMUKPRN]','u') is not null
+	drop table [Reference].[Org_PMUKPRN]
+GO
+
+create table [Reference].[Org_PMUKPRN]
+(
+	[UKPRN] bigint not null
+)
+create clustered index IX_Org_PMUKPRN on [Reference].[Org_PMUKPRN]
+(
+	[UKPRN]
+)	
+GO
+
 if object_id('[Reference].[Postcodes]','u') is not null
 	drop table [Reference].[Postcodes]
 GO
@@ -583,7 +600,9 @@ GO
 create table [Reference].[EFA_PostcodeDisadvantage]
 (
 	[Postcode] varchar(10) not null,
-	[Uplift] decimal(10,5) not null
+	[Uplift] decimal(10,5) not null,
+	[EffectiveFrom] date null,
+	[EffectiveTo] date null
 )
 create clustered index IX_EFA_PostcodeDisadvantage on [Reference].[EFA_PostcodeDisadvantage]
 (
@@ -768,9 +787,10 @@ create table Reference.AEC_LatestInYearEarningHistory
 	[HistoricTNP2Input] decimal(12,5) null,
 	[HistoricTNP3Input] decimal(12,5) null,
 	[HistoricTNP4Input] decimal(12,5) null,
-	[HistoricTotal1618UpliftPaymentsInTheYearInput] decimal(10,5) null,
+	[HistoricTotal1618UpliftPaymentsInTheYearInput] decimal(12,5) null,
 	[HistoricVirtualTNP3EndOfTheYearInput] decimal(12, 5) null,
 	[HistoricVirtualTNP4EndOfTheYearInput] decimal(12, 5) null,
+	[HistoricLearnDelProgEarliestACT2DateInput] date null,
 	LatestInYear bit not null,
 	[LearnRefNumber] varchar(12) not null,
 	[ProgrammeStartDateIgnorePathway] date null,
@@ -778,7 +798,7 @@ create table Reference.AEC_LatestInYearEarningHistory
 	[ProgType] int null,
 	[PwayCode] int null,	 	
 	[STDCode] int null,		
-	[TotalProgAimPaymentsInTheYear] decimal(10,5),
+	[TotalProgAimPaymentsInTheYear] decimal(12,5),
 	[UptoEndDate] date null,
 	[UKPRN] int not null,
 	[ULN] bigint not null,
@@ -792,4 +812,22 @@ create table Reference.AEC_LatestInYearEarningHistory
 		[AppIdentifier] ASC
 	)
 )
+GO
+
+if object_id ('Reference.[EPAOrganisation]', 'u') is not null
+begin
+	drop table Reference.EPAOrganisation
+end
+GO
+
+CREATE TABLE [Reference].[EPAOrganisation](
+	[EPAOrgId] [nvarchar](100) NOT NULL,	
+	[Name] [nvarchar](250) NULL,	
+	[EffectiveFrom] [datetime] NULL,
+	[EffectiveTo] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EPAOrgId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
