@@ -275,29 +275,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return submission;
         }
 
-        //private static IlrSubmission BuildIlrSubmission(ProviderSubmissionDetails providerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
-        //{
-        //    var learners = (from x in providerDetails.LearnerDetails
-        //                    group x by x.LearnerReference into g
-        //                    select BuildLearner(g.ToArray(), period, lookupContext, contractTypes, employmentStatus, learningSupportStatus)).ToArray();
-        //    var submission = new IlrSubmission
-        //    {
-        //        Ukprn = providerDetails.Ukprn,
-        //        AcademicYear = period.ToPeriodDateTime().GetAcademicYear(),
-        //        PreperationDate = period.ToPeriodDateTime().AddDays(27),
-        //        Learners = learners
-        //    };
-        //    for (var i = 0; i < submission.Learners.Length; i++)
-        //    {
-        //        if (string.IsNullOrEmpty(submission.Learners[i].LearnRefNumber))
-        //        {
-        //            submission.Learners[i].LearnRefNumber = (i + 1).ToString();
-        //        }
-        //        i++;
-        //    }
-        //    return submission;
-        //}
-
         private static Learner BuildLearner(IlrLearnerReferenceData[] learnerDetails, string period, LookupContext lookupContext, List<ContractTypeReferenceData> contractTypes, List<EmploymentStatusReferenceData> employmentStatus, List<LearningSupportReferenceData> learningSupportStatus)
         {
             var periodMonth = int.Parse(period.Substring(0, 2));
