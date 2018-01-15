@@ -15,9 +15,12 @@ namespace RunOpaEarningsCalculatorTask
             {
                 Properties = new Dictionary<string, string>
                 {
-                    { "TransientDatabaseConnectionString", "server=.;database=ProvPayTestStack_Transient;trusted_connection=true;" },
-                    { "LogLevel", "Debug" },
-                    { "YearOfCollection", "1617" }
+                    {
+                        "TransientDatabaseConnectionString",
+                        "server=.;database=ProvPayTestStack_Transient;trusted_connection=true;"
+                    },
+                    {"LogLevel", "Debug"},
+                    {"YearOfCollection", "1617"}
                 }
             };
 

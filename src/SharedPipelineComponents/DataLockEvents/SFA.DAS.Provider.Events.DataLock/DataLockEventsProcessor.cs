@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using MediatR;
 using NLog;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentCollectionPeriod;
@@ -13,11 +13,85 @@ using SFA.DAS.Provider.Events.DataLock.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock
 {
+    public class DataLockEventsProviderProfiler
+    {
+        public long Ukprn { get; set; }
+        public SimpleProfiler CurrentEventsResponse { get; set; } = new SimpleProfiler();
+        public SimpleProfiler LastSeenEvents { get; set; } = new SimpleProfiler();
+        public SimpleProfiler LastSeenEventsLoop { get; set; } = new SimpleProfiler();
+        public SimpleProfiler CurrentEventsLoop { get; set; } = new SimpleProfiler();
+        public SimpleProfiler CurrentEventQuery { get; set; } = new SimpleProfiler();
+        public SimpleProfiler CurrentEventRestOfProcess { get; set; } = new SimpleProfiler();
+
+        public override string ToString()
+        {
+            return $"Provider Details for {Ukprn}\n" +
+                   $"Current Events Query: {CurrentEventsResponse}\n" +
+                   $"Last Seen Events Query: {LastSeenEvents}\n" +
+                   $"Last Seen Events Loop: {LastSeenEventsLoop}\n" +
+                   $"Current Events Loop: {CurrentEventsLoop}\n" +
+                   $"Current Event Query (C#): {CurrentEventQuery}\n" +
+                   $"Current Event Rest of the process: {CurrentEventRestOfProcess}";
+        }
+    }
+
+    public class DataLockEventsProfiler
+    {
+        public List<DataLockEventsProviderProfiler> Details { get; set; } = new List<DataLockEventsProviderProfiler>();
+        public SimpleProfiler ProviderQuery { get; set; } = new SimpleProfiler();
+        public SimpleProfiler EntireProcess { get; set; } = new SimpleProfiler();
+        public SimpleProfiler SaveData { get; set; } = new SimpleProfiler();
+
+        public int NumberOfRecordsToSave { get; set; }
+
+        public override string ToString()
+        {
+            return $"Entire process: {EntireProcess}\n" +
+                   $"Provider Query: {ProviderQuery}\n" +
+                   $"Number of new Data Lock Events: {NumberOfRecordsToSave}" +
+                   $"Save Data: {SaveData}";
+        }
+
+        public void Log(ILogger logger)
+        {
+            logger.Info(this);
+
+            foreach (var profileDetails in Details)
+            {
+                logger.Info(profileDetails);
+            }
+
+            logger.Info(this);
+        }
+    }
+
+    public class SimpleProfiler
+    {
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        public void Start()
+        {
+            _stopwatch.Start();
+        }
+
+        public void Stop()
+        {
+            _stopwatch.Stop();
+        }
+
+        public override string ToString()
+        {
+            return _stopwatch.ElapsedMilliseconds.ToString("#,###,###,### ms");
+        }
+    }
+
     public class DataLockEventsProcessor
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
 
+        private readonly DataLockEventsProfiler _dataLockEventsProfiler = new DataLockEventsProfiler();
+        
         public DataLockEventsProcessor(ILogger logger, IMediator mediator)
         {
             _logger = logger;
@@ -30,9 +104,14 @@ namespace SFA.DAS.Provider.Events.DataLock
 
         public virtual void Process()
         {
+            _dataLockEventsProfiler.ProviderQuery.Start();
+            _dataLockEventsProfiler.EntireProcess.Start();
+            
             _logger.Info("Started data lock events processor");
 
             var providersResponse = ReturnValidGetProvidersQueryResponseOrThrow();
+            _dataLockEventsProfiler.ProviderQuery.Start();
+            
             _logger.Info($"Found {providersResponse.Items?.Length} providers to process");
 
             if (providersResponse.HasAnyItems())
@@ -47,9 +126,17 @@ namespace SFA.DAS.Provider.Events.DataLock
 
                 foreach (var provider in providersResponse.Items)
                 {
+                    var details = new DataLockEventsProviderProfiler();
+                    _dataLockEventsProfiler.Details.Add(details);
+                    details.Ukprn = provider.Ukprn;
+
                     _logger.Info($"Starting to process provider {provider.Ukprn}");
+                    details.CurrentEventsResponse.Start();
                     var currentEventsResponse = ReturnValidGetCurrentProviderEventsResponseOrThrow(provider.Ukprn);
+                    details.CurrentEventsResponse.Stop();
+                    details.LastSeenEvents.Start();
                     var lastSeenEventsResponse = ReturnValidGetLastSeenProviderEventsResponseOrThrow(provider.Ukprn);
+                    details.LastSeenEvents.Stop();
 
                     var currentEvents = currentEventsResponse.HasAnyItems() ? currentEventsResponse.Items.ToList() : new List<DataLockEvent>();
                     var lastSeenEvents = lastSeenEventsResponse.HasAnyItems() ? lastSeenEventsResponse.Items.ToList() : new List<DataLockEvent>();
@@ -60,14 +147,19 @@ namespace SFA.DAS.Provider.Events.DataLock
                         continue;
                     }
 
+                    details.LastSeenEventsLoop.Start();
                     // Look for events that are no longer in system
                     foreach (var lastSeen in lastSeenEvents)
                     {
                         _logger.Info($"Looking at last seen event for price episode = {lastSeen.PriceEpisodeIdentifier}, Uln = {lastSeen.Uln}");
+                        details.CurrentEventQuery.Start();
                         var current = currentEvents.SingleOrDefault(ev => ev.Ukprn == lastSeen.Ukprn &&
                                                                             ev.PriceEpisodeIdentifier == lastSeen.PriceEpisodeIdentifier &&
                                                                             ev.LearnRefnumber == lastSeen.LearnRefnumber &&
                                                                             ev.CommitmentId == lastSeen.CommitmentId);
+                        details.CurrentEventQuery.Stop();
+
+                        details.CurrentEventRestOfProcess.Start();
                         if (current == null)
                         {
                             _logger.Info("Event has been removed");
@@ -89,7 +181,13 @@ namespace SFA.DAS.Provider.Events.DataLock
                             currentEvents.Remove(current);
                             _logger.Info("Event has not changed");
                         }
+
+                        details.CurrentEventRestOfProcess.Stop();
                     }
+
+                    details.LastSeenEventsLoop.Stop();
+
+                    details.CurrentEventsLoop.Start();
 
                     // Process new events
                     foreach (var current in currentEvents)
@@ -103,7 +201,12 @@ namespace SFA.DAS.Provider.Events.DataLock
                         
                         eventsToStore.Add(current);
                     }
+
+                    details.CurrentEventsLoop.Start();
                 }
+
+                _dataLockEventsProfiler.NumberOfRecordsToSave = eventsToStore.Count;
+                _dataLockEventsProfiler.SaveData.Start();
 
                 if (eventsToStore.Any())
                 {
@@ -117,7 +220,11 @@ namespace SFA.DAS.Provider.Events.DataLock
                         Events = eventsToStore.ToArray()
                     });
                 }
+
+                _dataLockEventsProfiler.SaveData.Stop();
             }
+
+            _dataLockEventsProfiler.Log(_logger);
         }
 
         private GetProvidersQueryResponse ReturnValidGetProvidersQueryResponseOrThrow()
