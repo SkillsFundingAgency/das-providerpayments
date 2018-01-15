@@ -92,15 +92,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 EmploymentStatusTableParser.ParseEmploymentStatusIntoContext(submission, employmentStatus);
             }
         }
-
-        //[Obsolete]
-        //[When(@"the learning support status of the ILR is:")] //constrains spec to single ILR
-        //public void WhenTheLearningSupportStatusOfTheIlrIs(Table learningSupportStatus)
-        //{
-        //    foreach (var submission in MultipleSubmissionsContext.Submissions)
-        //    {
-        //        LearningSupportTableParser.ParseLearningSupportIntoContext(submission, learningSupportStatus);
-        //    }
-        //}
     }
 }
