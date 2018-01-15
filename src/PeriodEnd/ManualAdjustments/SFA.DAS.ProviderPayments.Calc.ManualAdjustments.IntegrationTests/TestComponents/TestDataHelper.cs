@@ -70,18 +70,18 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         }
 
 
-        internal static void WriteEmployerAccount(string accountId, decimal balance)
+        internal static void WriteEmployerAccount(long accountId, decimal balance)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
                 connection.Execute("INSERT INTO Reference.DasAccounts " +
                                    "(AccountId, AccountHashId, AccountName, Balance, VersionId, IsLevyPayer) " +
                                    "VALUES " +
-                                   "(@accountId, @accountId, 'Account ' + cast(@accountId as varchar(10)), @balance, '20170719', 1)",
+                                   "(@accountId, CAST(@accountId AS VARCHAR(50)), 'Account ' + CAST(@accountId AS VARCHAR(25)), @balance, '20170719', 1)",
                                    new { accountId, balance });
             }
         }
-        internal static decimal GetEmployerAccountBalance(string accountId)
+        internal static decimal GetEmployerAccountBalance(long accountId)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {

@@ -2,6 +2,11 @@
 <CopyCatConfig>
   <SourceConnectionString>SourceConnectionString</SourceConnectionString>
   <DestinationConnectionString>DestinationConnectionString</DestinationConnectionString>
+  <SqlBulkCopySettings>
+    <BatchSize>2000</BatchSize>
+    <BulkCopyTimeout>7200</BulkCopyTimeout>
+    <EnableStreaming>true</EnableStreaming>
+  </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
       <Source>[Rulebase].[vw_AEC_Cases]</Source>

@@ -15,7 +15,7 @@ if object_id('[Valid].[Learner]','u') is not null
 create table [Valid].[Learner](
 	[LearnRefNumber] [varchar](12) NOT NULL,
 	[PrevLearnRefNumber] [varchar](12) NULL,
-	[PrevUKPRN] [int] NULL,
+	[PrevUKPRN] [bigint] NULL,
 	[ULN] [bigint] NOT NULL,
 	[FamilyName] [varchar](100) NULL,
 	[GivenNames] [varchar](100) NULL,
@@ -64,7 +64,7 @@ IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND
 	drop table [Valid].[LearningProvider]
 	GO
 create table [Valid].[LearningProvider](
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[UKPRN] ASC
@@ -87,7 +87,7 @@ create table [Valid].[LearningDelivery](
 	[FworkCode] [int] NULL,
 	[PwayCode] [int] NULL,
 	[StdCode] [bigint] NULL,
-	[PartnerUKPRN] [int] NULL,
+	[PartnerUKPRN] [bigint] NULL,
 	[DelLocPostCode] [varchar](8) NULL,
 	[AddHours] [int] NULL,
 	[PriorLearnFundAdj] [int] NULL,
@@ -163,7 +163,7 @@ GO
 
 CREATE TABLE [dbo].[FileDetails](
     [ID] [int] IDENTITY(1,1),
-	[UKPRN] [int] NOT NULL,
+	[UKPRN] [bigint] NOT NULL,
 	[Filename] [nvarchar](50) NULL,
 	[FileSizeKb] [bigint] NULL,
 	[TotalLearnersSubmitted] [int] NULL,

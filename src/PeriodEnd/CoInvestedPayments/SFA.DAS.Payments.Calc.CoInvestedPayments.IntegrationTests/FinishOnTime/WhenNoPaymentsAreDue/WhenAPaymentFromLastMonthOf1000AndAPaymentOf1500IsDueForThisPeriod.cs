@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
 
@@ -21,14 +16,14 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         {
             TestDataHelper.Clean();
 
-            var accountId = Guid.NewGuid().ToString();
+            const int accountId = 43656457;
             TestDataHelper.AddAccount(accountId);
 
             _commitmentId = 1L;
             TestDataHelper.AddCommitment(_commitmentId, accountId);
 
-            TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1500, transactionType: TransactionType.Learning);
-            TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1000, transactionType: TransactionType.Learning);
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1, amountDue: 1500);
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, 1);
 
             TestDataHelper.CopyReferenceData();
 

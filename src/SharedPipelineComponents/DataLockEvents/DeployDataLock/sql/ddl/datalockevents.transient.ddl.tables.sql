@@ -122,10 +122,9 @@ CREATE TABLE [DataLockEvents].[DataLockEventErrors]
 	DataLockEventId			uniqueidentifier			NOT NULL,
 	ErrorCode				varchar(15)		NOT NULL,
 	SystemDescription		nvarchar(255)	NOT NULL,
-	PRIMARY KEY (DataLockEventId, ErrorCode)
+	PRIMARY KEY NONCLUSTERED (DataLockEventId, ErrorCode)
 )
 GO
-
 
 
 --------------------------------------------------------------------------------------
@@ -175,11 +174,3 @@ CREATE TABLE [DataLockEvents].[DataLockEventsData]
 GO
 
 
-IF EXISTS(SELECT [object_id] FROM sys.indexes WHERE [name]='IX_DataLockEventsData_UKPRN')
-BEGIN
-		DROP INDEX [IX_DataLockEventsData_UKPRN] ON [DataLockEvents].[DataLockEventsData]
-END
-GO
- 
-CREATE INDEX [IX_DataLockEventsData_UKPRN] ON [DataLockEvents].[DataLockEventsData] (UKPRN)
-GO

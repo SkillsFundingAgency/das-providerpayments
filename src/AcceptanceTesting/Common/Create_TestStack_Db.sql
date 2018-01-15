@@ -44,7 +44,7 @@ GO
 
 CREATE TABLE TestStack.Provider
 (
-	Ukprn int PRIMARY KEY,
+	Ukprn bigint PRIMARY KEY,
 	ProviderName varchar(50) NULL
 )
 GO
@@ -73,7 +73,7 @@ GO
 
 CREATE TABLE Reference.DasAccounts
 (
-	AccountId varchar(50) PRIMARY KEY,
+	AccountId bigint PRIMARY KEY,
 	AccountName varchar(125) NOT NULL,
 	LevyBalance decimal(15, 2) NULL
 )
@@ -81,10 +81,10 @@ GO
 
 CREATE TABLE Reference.DataLockCommitments
 (
-	CommitmentId varchar(50) PRIMARY KEY,
+	CommitmentId bigint PRIMARY KEY,
 	Uln bigint NOT NULL,
 	Ukprn bigint NOT NULL,
-	AccountId varchar(50) NOT NULL,
+	AccountId bigint NOT NULL,
 	StartDate date NOT NULL,
 	EndDate date NOT NULL,
 	AgreedCost decimal(15, 2) NOT NULL,

@@ -4,7 +4,7 @@ CALL RunPackComponent.bat
 CD ../..
 
 CD OpaEarning/Transform
-CALL OpaEarning/Transform/RunBuild
+CALL RunBuild.bat
 CD ..
 powershell -file .\TransformForAcceptanceTesting.ps1 1718
 powershell -file .\TransformForAcceptanceTesting.ps1 1617
