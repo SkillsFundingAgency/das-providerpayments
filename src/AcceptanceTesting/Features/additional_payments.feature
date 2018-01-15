@@ -830,11 +830,8 @@ Scenario: 637-AC03-Payment for a DAS learner, requires learning support, doing a
         | commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status |
         | 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 15000        | active |
     When an ILR file is submitted with the following data:
-        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | learner a | programme only DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 403            | 2              | 1            |
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 10/08/2018 |
+        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | learning support code | learning date from | learning date to |
+        | learner a | programme only DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 403            | 2              | 1            | 1                     | 06/08/2017         | 10/08/2018       |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -866,11 +863,8 @@ Scenario: 637-AC04-Payment for a DAS learner, requires learning support, doing a
         | commitment Id | version Id | ULN       | start date | end date   | standard code | agreed price | status |
         | 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 50            | 15000        | active |
     When an ILR file is submitted with the following data:
-        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | standard code |
-        | learner a | programme only DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            |
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 10/08/2018 |
+        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | standard code | learning support code | learning date from | learning date to |
+        | learner a | programme only DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            | 1                     | 06/08/2017         | 10/08/2018       |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -1002,13 +996,9 @@ Scenario:638-AC03 DAS learner, takes an English qualification that has a planned
 Scenario:657-AC01 Non-DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim and learning support is applicable to all learning
 
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         |
-		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |
-
-	And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 |		  
+		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning date from | learning date to |
+		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |
+		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |
 	Then the provider earnings and payments break down as follows:
 		| Type                                    | 08/17   | 09/17   | 10/17   | ... | 05/18   | 06/18   | 07/18   | 08/18   | 09/18   | 10/18  | 11/18 |
 		| Provider Earned Total                   | 1183.64 | 1183.64 | 1183.64 | ... | 1183.64 | 1183.64 | 1183.64 | 3183.64 | 183.64  | 0      | 0     |
