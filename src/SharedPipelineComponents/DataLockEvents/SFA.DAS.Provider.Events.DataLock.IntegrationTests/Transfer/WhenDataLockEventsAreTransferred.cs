@@ -4,7 +4,7 @@ using CS.Common.SqlBulkCopyCat.Model.Config.Builder;
 using SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers;
 using SFA.DAS.Provider.Events.DataLock.IntegrationTests.TestContext;
 
-// this (commented out) test can be used to manually test the transer from transient db to Deds dbof DataLockEvents and related tables
+// this ignored test can be used to manually test the transer from transient db to Deds db of DataLockEvents and related tables
 
 namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Transfer
 {
