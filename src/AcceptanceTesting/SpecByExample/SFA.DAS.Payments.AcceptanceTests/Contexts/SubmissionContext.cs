@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
 
@@ -40,5 +41,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         public List<Submission> Submissions { get; set; }
         public List<LearnerResults> SubmissionResults { get; set; }
         public List<IlrLearnerReferenceData> HistoricalLearningDetails { get; set; }
+
+        public void Add(Submission submission)
+        {
+            Submissions.Add(submission);
+        }
     }
 }

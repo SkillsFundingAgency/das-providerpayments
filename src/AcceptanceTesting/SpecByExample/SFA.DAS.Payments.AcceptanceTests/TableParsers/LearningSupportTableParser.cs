@@ -57,7 +57,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
         
-        private class LearningSupportTableColumnStructure
+        public class LearningSupportTableColumnStructure
         {
             public int LearningSupportCodeIndex { get; set; } = -1;
             public int DateFromIndex { get; set; } = -1;

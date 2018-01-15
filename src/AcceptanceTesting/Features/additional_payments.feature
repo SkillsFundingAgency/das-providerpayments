@@ -770,11 +770,8 @@ Scenario:591_AC02- Payment for a DAS learner, funding agreed within band maximum
 @LearningSupport
 Scenario: 637-AC01-Payment for a non-DAS learner, requires learning support, doing an apprenticeship framework
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 563            | 21             | 2            |
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 10/08/2018 |
+        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to |
+        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 563            | 21             | 2            | 1                     | 06/08/2017                 | 10/08/2018               |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -801,11 +798,8 @@ Scenario: 637-AC01-Payment for a non-DAS learner, requires learning support, doi
 @LearningSupport
 Scenario: 637-AC02-Payment for a non-DAS learner, requires learning support, doing an apprenticeship standard
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | standard code |
-        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            |
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 10/08/2018 |
+        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | standard code | learning support code | learning support date from | learning support date to |
+        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            | 1                     | 06/08/2017                 | 10/08/2018               |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -1044,12 +1038,9 @@ Scenario:657-AC02 DAS learner, takes an English qualification that has a planned
 		| commitment Id | version Id | ULN | start date | end date | agreed price | status |
 		| 1             | 1-001      | learner a | 01/08/2017 | 01/08/2018 | 15000        | active |
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         |
-		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |	
-	And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 |		  
+		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |
+		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               |
+		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               |
 	Then the data lock status will be as follows:
 		| Payment type                   | 08/17               | 09/17               | 10/17               | ... | 07/18               | 08/18               | 09/18               | 10/18 | 11/18 |
 		| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |                     |                     |       |       |
@@ -1086,12 +1077,9 @@ Scenario:657-AC03 DAS learner, takes an English qualification that has a planned
 		| commitment Id | ULN       | start date | end date   | agreed price | status |
 		| 1             | learner a | 01/08/2017 | 01/08/2018 | 15500        | active |
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         |
-		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |	
-	And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 | 		  
+		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning date from | learning date to |
+		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |
+		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |  
 	Then the data lock status will be as follows:
 		| Payment type                   | 08/17 | 09/17 | 10/17 | ... | 07/18 | 08/18 | 09/18 | 10/18 | 11/18 |
 		| On-program                     |       |       |       | ... |       |       |       |       |       |
@@ -1130,12 +1118,9 @@ Scenario:658-AC01 DAS learner, takes an English qualification that has a planned
 		| 1             | 1-001      | learner a | 01/08/2017 | 01/08/2018 | 15000        | active    | 01/08/2017     | 10/06/2018   |
 		| 1             | 2-001      | learner a | 01/08/2017 | 01/08/2018 | 14000        | cancelled | 11/06/2018     |              |
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         |
-		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |	
-	And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 | 		  
+		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning date from | learning date to |
+		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |
+		| learner a | programme only DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017         | 06/10/2018       |
     Then the data lock status will be as follows:
 		| Payment type                   | 08/17               | 09/17               | 10/17               | ... | 05/18               | 06/18 | 07/18 | 08/18 | 09/18 | 10/18 | 11/18 |
 		| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       |       |       |       |       |       |
@@ -1174,13 +1159,9 @@ Scenario:671-AC01 DAS learner, levy available, is taking an English or maths qua
 		| 1             | 2-001      | learner a | 01/08/2017 | 01/08/2018 | active | 6750         | 11/11/2017     |              |
 
     When an ILR file is submitted with the following data:
-        | ULN       | learner type       | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | 
-        | learner a | programme only DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 11/11/2017                            | 1350                     | 11/11/2017                              | 
-        | learner a | programme only DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         | 
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 |	
-
+        | ULN       | learner type       | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | learning support code | learning date from | learning date to |
+        | learner a | programme only DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 11/11/2017                            | 1350                     | 11/11/2017                              | 1                     | 06/08/2017         | 06/10/2018       |
+        | learner a | programme only DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         | 1                     | 06/08/2017         | 06/10/2018       |
     Then the data lock status will be as follows:
 		| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
 		| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v2-001 | commitment 1 v2-001 |
@@ -1216,13 +1197,9 @@ Scenario:671-AC02 Non-DAS learner, levy available, is taking an English or maths
     Given the apprenticeship funding band maximum is 18000
     
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | 
-        | learner a | programme only non-DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 11/11/2017                            | 1350                     | 11/11/2017                              | 
-        | learner a | programme only non-DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         |      
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 |	
-        
+        | ULN       | learner type           | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | learning support code | learning date from | learning date to |
+        | learner a | programme only non-DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 11/11/2017                            | 1350                     | 11/11/2017                              | 1                     | 06/08/2017         | 06/10/2018       |
+        | learner a | programme only non-DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         | 1                     | 06/08/2017         | 06/10/2018       |        
     Then the provider earnings and payments break down as follows: 
         | Type                                    | 08/17   | 09/17  | 10/17   | 11/17   | 12/17  | 01/18  | 
         | Provider Earned Total                   | 933.64  | 933.64 | 933.64  | 533.64  | 533.64 | 533.64 |       
@@ -1255,13 +1232,9 @@ Scenario:671-AC03 DAS learner, levy available, is taking an English or maths qua
         | 1             | 2-001      | learner a | 01/08/2017 | 01/08/2018 | active | 6750         | 11/11/2017     |              |
 
     When an ILR file is submitted with the following data:
-        | ULN       | learner type       | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | 
-        | learner a | programme only DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 09/11/2017                            | 1350                     | 09/11/2017                              | 
-        | learner a | programme only DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         | 
-    And the learning support status of the ILR is:
-        | Learning support code | date from  | date to    |
-        | 1                     | 06/08/2017 | 06/10/2018 |	
- 
+        | ULN       | learner type       | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total training price 2 | Total training price 2 effective date | Total assessment price 2 | Total assessment price 2 effective date | learning support code | learning date from | learning date to |
+        | learner a | programme only DAS | programme        | 04/08/2017 | 20/08/2018       |                 | continuing        |          | 9000                   | 04/08/2017                            | 2250                     | 04/08/2017                              | 5400                   | 09/11/2017                            | 1350                     | 09/11/2017                              | 1                     | 06/08/2017         | 06/10/2018       |
+        | learner a | programme only DAS | maths or english | 04/08/2017 | 06/10/2018       |                 | continuing        | 471      |                        |                                       |                          |                                         |                        |                                       |                          |                                         | 1                     | 06/08/2017         | 06/10/2018       |
     Then the data lock status will be as follows:
         | Payment type                   | 08/17               | 09/17               | 10/17               | 11/17           | 12/17           |
         | On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |                 |                 |

@@ -70,7 +70,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
 
-        private class ContractTypesTableColumnStructure
+        public class ContractTypesTableColumnStructure
         {
             public int ContractTypeIndex { get; set; } = -1;
             public int DateFromIndex { get; set; } = -1;

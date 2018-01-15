@@ -11,15 +11,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class SubmissionSteps
     {
-        public SubmissionSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, MultipleSubmissionsContext multipleSubmissionsContext)
+        public SubmissionSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             CommitmentsContext = commitmentsContext;
             LookupContext = lookupContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
+            EmployerAccountContext = employerAccountContext;
         }
         public CommitmentsContext CommitmentsContext { get; }
         public LookupContext LookupContext { get; }
         public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
+        public EmployerAccountContext EmployerAccountContext { get; set; }
 
         [When("an ILR file is submitted with the following data:")]
         [When(@"an ILR file is submitted every month with the following data:")] //Duplicate?
@@ -27,7 +29,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             var submissionContext = new Submission();
             IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Submissions.Add(submissionContext);
+            MultipleSubmissionsContext.Add(submissionContext);
         }
 
         [When("an ILR file is submitted for period (.*) with the following data:")]
@@ -35,7 +37,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             var submissionContext = new Submission() {SubmissionPeriod = period};
             IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Submissions.Add(submissionContext);
+            MultipleSubmissionsContext.Add(submissionContext);
         }
 
         [When("the providers submit the following ILR files:")] //Duplicate?
@@ -43,7 +45,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             var submissionContext = new Submission();
             IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Submissions.Add(submissionContext);
+            MultipleSubmissionsContext.Add(submissionContext);
         }
 
         [When(@"an ILR file is submitted on (.*) with the following data:")] // what is the purpose of the dates?
@@ -51,7 +53,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             var submissionContext = new Submission();
             IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Submissions.Add(submissionContext);
+            MultipleSubmissionsContext.Add(submissionContext);
         }
 
         [When("an ILR file is submitted for the first time on (.*) with the following data:")]
@@ -68,7 +70,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
             
             submissionContext.FirstSubmissionDate = firstSubmissionDate;
-            MultipleSubmissionsContext.Submissions.Add(submissionContext);
+            MultipleSubmissionsContext.Add(submissionContext);
         }
 
         [Obsolete]
@@ -91,14 +93,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
-        [Obsolete]
-        [When(@"the learning support status of the ILR is:")] //constrains spec to single ILR
-        public void WhenTheLearningSupportStatusOfTheIlrIs(Table learningSupportStatus)
-        {
-            foreach (var submission in MultipleSubmissionsContext.Submissions)
-            {
-                LearningSupportTableParser.ParseLearningSupportIntoContext(submission, learningSupportStatus);
-            }
-        }
+        //[Obsolete]
+        //[When(@"the learning support status of the ILR is:")] //constrains spec to single ILR
+        //public void WhenTheLearningSupportStatusOfTheIlrIs(Table learningSupportStatus)
+        //{
+        //    foreach (var submission in MultipleSubmissionsContext.Submissions)
+        //    {
+        //        LearningSupportTableParser.ParseLearningSupportIntoContext(submission, learningSupportStatus);
+        //    }
+        //}
     }
 }
