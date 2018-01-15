@@ -13,12 +13,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
     {
         private static FullIlrStructure structure;
 
-        //public static void ParseIlrTableIntoContext(Submission context, Table ilrDetails)
-        //{
-        //    ParseIlrTableIntoContext(context, ilrDetails);
-        //    //context.LearningSupportStatus.Add((, structure));
-        //}
-
         public static void ParseIlrTableIntoContext(List<IlrLearnerReferenceData> ilrLearnerDetails, Table ilrDetails)
         {
             if (ilrDetails.RowCount < 1)
