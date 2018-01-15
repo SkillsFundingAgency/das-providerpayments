@@ -83,10 +83,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
-        [Obsolete]
-        [When("the employment status in the ILR is:")] //constrains spec to single ILR
+        [When("the employment status in the ILR is:")]
         public void WhenTheEmploymentStatusInTheIlrIs(Table employmentStatus)
         {
+            if(MultipleSubmissionsContext.Submissions.Count > 1)
+                throw new Exception("Employment status is not supported in multiple ILR submission scenario. (Which ILR would it pertain to?)");
+
             foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
                 EmploymentStatusTableParser.ParseEmploymentStatusIntoContext(submission, employmentStatus);
