@@ -78,7 +78,7 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 			ISNULL(@ReferenceCap, @FrameworkCap) * 0.2 AS [1618FrameworkUplift]
 		FROM [Input].[LearningDelivery] ld
 		WHERE ld.StdCode IS NULL
-		UNION
+		UNION ALL
 		SELECT
 			2000.00 AS [1618Incentive],
 			ld.[StdCode] AS [ApprenticeshipCode],

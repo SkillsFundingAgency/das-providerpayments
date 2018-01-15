@@ -368,6 +368,16 @@ create index [IX_Input_LearningDelivery] on [Input].[LearningDelivery]
 	[LearnRefNumber] asc,
 	[AimSeqNumber] asc
 )
+create index [IX_Input_LearningDelivery_LearnAimRef] on [Input].[LearningDelivery] 
+(
+	[LearnAimRef]
+)
+include 
+(
+	[FworkCode], 
+	[StdCode]
+)
+
 GO
 
 if object_id('[Input].[LearningDeliveryFAM]','u') is not null

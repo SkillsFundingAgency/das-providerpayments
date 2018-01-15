@@ -4,7 +4,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_AppFinRecord] as
 begin
-insert into [Valid].[AppFinRecord]
+insert into [Valid].[AppFinRecord] with (tablockx)
 (
 	[LearnRefNumber],
 	[AimSeqNumber],
@@ -28,6 +28,10 @@ from
 		on [Learner].[Learner_Id]=[LearningDelivery].[Learner_Id]
 	inner join [dbo].[ValidLearners]
 		on [Learner].[Learner_Id]=[ValidLearners].[Learner_Id]
+order by -- there's a clustered index with these fields
+	AFR.LearnRefNumber,
+	AFR.AimSeqNumber,
+	AFR.AFinType
 end
 GO
  
@@ -37,7 +41,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_CollectionDetails] as
 begin
-insert into [Valid].[CollectionDetails]
+insert into [Valid].[CollectionDetails] with (tablockx)
 (
 	[Collection],
 	[Year],
@@ -58,7 +62,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_ContactPreference] as
 begin
-insert into [Valid].[ContactPreference]
+insert into [Valid].[ContactPreference] with (tablockx)
 (
 	[LearnRefNumber],
 	[ContPrefType],
@@ -72,6 +76,10 @@ from
 	[Input].[ContactPreference] as CP
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = CP.Learner_Id
+order by
+	CP.LearnRefNumber,
+	CP.ContPrefType,
+	CP.ContPrefCode
 end
 GO
  
@@ -81,7 +89,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_DPOutcome] as
 begin
-insert into [Valid].[DPOutcome]
+insert into [Valid].[DPOutcome] with (tablockx)
 (
 	[LearnRefNumber],
 	[OutType],
@@ -103,7 +111,11 @@ from
 		on dp.[LearnerDestinationandProgression_Id]=dpo.[LearnerDestinationandProgression_Id]
 	inner join [dbo].[ValidLearnerDestinationandProgressions] as vdp
 		on dpo.[LearnerDestinationandProgression_Id]=vdp.[LearnerDestinationandProgression_Id]
-
+order by
+	DPO.LearnRefNumber,
+	DPO.OutType,
+	DPO.OutCode,
+	DPO.OutStartDate
 end
 GO
  
@@ -113,7 +125,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_EmploymentStatusMonitoring] as
 begin
-insert into [Valid].[EmploymentStatusMonitoring]
+insert into [Valid].[EmploymentStatusMonitoring] with (tablockx)
 (
 	[LearnRefNumber],
 	[DateEmpStatApp],
@@ -131,6 +143,11 @@ from
 	on l.LearnRefNumber = ESM.LearnRefNumber
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = l.Learner_Id
+order by
+	[LearnRefNumber] asc,
+	[DateEmpStatApp] asc,
+	[ESMType] asc
+
 end
 GO
  
@@ -140,7 +157,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_Learner] as
 begin
-insert into [Valid].[Learner]
+insert into [Valid].[Learner] with (tablockx)
 (
 	[LearnRefNumber],
 	[PrevLearnRefNumber],
@@ -202,6 +219,9 @@ from
 	[Input].[Learner] as L
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = L.Learner_Id
+order by
+	L.PrevLearnRefNumber
+	
 end
 GO
  
@@ -211,7 +231,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearnerDestinationandProgression] as
 begin
-insert into [Valid].[LearnerDestinationandProgression]
+insert into [Valid].[LearnerDestinationandProgression] with (tablockx)
 (
 	[LearnRefNumber],
 	[ULN]
@@ -227,6 +247,8 @@ from
 		on vl.Learner_Id = l.Learner_Id
 	join [dbo].[ValidLearnerDestinationandProgressions] as vdp
 		on LDP.[LearnerDestinationandProgression_Id] = vdp.[LearnerDestinationandProgression_Id]
+order by
+	LDP.LearnRefNumber
 end
 GO
  
@@ -236,7 +258,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearnerEmploymentStatus] as
 begin
-insert into [Valid].[LearnerEmploymentStatus]
+insert into [Valid].[LearnerEmploymentStatus] with (tablockx)
 (
 	[LearnRefNumber],
 	[EmpStat],
@@ -252,6 +274,8 @@ from
 	[Input].[LearnerEmploymentStatus] as LES
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = LES.Learner_Id
+order by
+	LES.LearnRefNumber
 end
 GO
  
@@ -261,7 +285,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearnerFAM] as
 begin
-insert into [Valid].[LearnerFAM]
+insert into [Valid].[LearnerFAM] with (tablockx)
 (
 	[LearnRefNumber],
 	[LearnFAMType],
@@ -275,6 +299,8 @@ from
 	[Input].[LearnerFAM] as LFAM
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = LFAM.Learner_Id
+order by
+	CAST(LFAM.LearnRefNumber AS varchar(12))
 end
 GO
  
@@ -284,7 +310,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearnerHE] as
 begin
-insert into [Valid].[LearnerHE]
+insert into [Valid].[LearnerHE] with (tablockx)
 (
 	[LearnRefNumber],
 	[UCASPERID],
@@ -300,6 +326,9 @@ from
 		on lhe.[Learner_Id]=l.[Learner_Id]
 	inner join [dbo].[ValidLearners] as vl
 		on lhe.[Learner_Id]=vl.[Learner_Id]
+order by
+	l.LearnRefNumber
+
 end
 GO
  
@@ -309,7 +338,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearnerHEFinancialSupport] as
 begin
-insert into [Valid].[LearnerHEFinancialSupport]
+insert into [Valid].[LearnerHEFinancialSupport] with (tablockx)
 (
 	[LearnRefNumber],
 	[FINTYPE],
@@ -327,6 +356,9 @@ from
 		on [Learner].[Learner_Id]=[LearnerHE].[Learner_Id]
 	inner join [dbo].[ValidLearners]
 		on [LearnerHE].[Learner_Id]=[ValidLearners].[Learner_Id]
+order by
+	LearnerHEFinancialSupport.LearnRefNumber,
+	LearnerHEFinancialSupport.FINTYPE
 end
 GO
  
@@ -336,7 +368,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearningDelivery] as
 begin
-insert into [Valid].[LearningDelivery]
+insert into [Valid].[LearningDelivery] with (tablockx)
 (
 	[LearnRefNumber],
 	[LearnAimRef],
@@ -398,6 +430,9 @@ from
 	[Input].[LearningDelivery] as LD
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = LD.Learner_Id
+order by
+	LD.LearnRefNumber,
+	LD.AimSeqNumber
 end
 GO
  
@@ -407,7 +442,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearningDeliveryFAM] as
 begin
-insert into [Valid].[LearningDeliveryFAM]
+insert into [Valid].[LearningDeliveryFAM] with (tablockx)
 (
 	[LearnRefNumber],
 	[AimSeqNumber],
@@ -431,6 +466,11 @@ from
 		on [LearningDelivery].[Learner_Id]=[Learner].[Learner_Id]
 	inner join [dbo].[ValidLearners]
 		on [Learner].[Learner_Id]=[ValidLearners].[Learner_Id]
+order by
+	LearningDeliveryFAM.LearnRefNumber,
+	LearningDeliveryFAM.AimSeqNumber,
+	LearningDeliveryFAM.LearnDelFAMType,
+	LearningDeliveryFAM.LearnDelFAMDateFrom
 end
 GO
  
@@ -440,7 +480,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearningDeliveryHE] as
 begin
-insert into [Valid].[LearningDeliveryHE]
+insert into [Valid].[LearningDeliveryHE] with (tablockx)
 (
 	[LearnRefNumber],
 	[AimSeqNumber],
@@ -500,6 +540,10 @@ from
 	on l.LearnRefNumber = LDHE.LearnRefNumber
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = l.Learner_Id
+order by
+	LDHE.LearnRefNumber,
+	LDHE.AimSeqNumber
+
 end
 GO
  
@@ -509,7 +553,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearningDeliveryWorkPlacement] as
 begin
-insert into [Valid].[LearningDeliveryWorkPlacement]
+insert into [Valid].[LearningDeliveryWorkPlacement] with (tablockx)
 (
 	[LearnRefNumber],
 	[AimSeqNumber],
@@ -534,6 +578,12 @@ from
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = l.Learner_Id
 	where LDWP.WorkPlaceEmpId is not null
+order by
+	LDWP.LearnRefNumber,
+	LDWP.AimSeqNumber,
+	LDWP.WorkPlaceStartDate,
+	LDWP.WorkPlaceMode,
+	LDWP.WorkPlaceEmpId
 end
 GO
  
@@ -543,7 +593,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LearningProvider] as
 begin
-insert into [Valid].[LearningProvider]
+insert into [Valid].[LearningProvider] with (tablockx)
 (
 	[UKPRN]
 )
@@ -555,6 +605,8 @@ from
 	--on l.LearnRefNumber = LP.LearnRefNumber
 	--join dbo.ValidLearners as vl
 	--on vl.Learner_Id = l.Learner_Id
+order by 
+	LP.UKPRN
 end
 GO
  
@@ -564,7 +616,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_LLDDandHealthProblem] as
 begin
-insert into [Valid].[LLDDandHealthProblem]
+insert into [Valid].[LLDDandHealthProblem] with (tablockx)
 (
 	[LearnRefNumber],
 	[LLDDCat],
@@ -581,6 +633,9 @@ from
 	inner join [dbo].[ValidLearners]
 		on [LLDDandHealthProblem].[Learner_Id]=[ValidLearners].[Learner_Id]
 		WHERE PrimaryLLDD IS NOT NULL
+order by
+	[LLDDandHealthProblem].LearnRefNumber,
+	[LLDDandHealthProblem].LLDDCat
 end
 GO
  
@@ -590,7 +645,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_ProviderSpecDeliveryMonitoring] as
 begin
-insert into [Valid].[ProviderSpecDeliveryMonitoring]
+insert into [Valid].[ProviderSpecDeliveryMonitoring] with (tablockx)
 (
 	[LearnRefNumber],
 	[AimSeqNumber],
@@ -608,6 +663,10 @@ from
 	on l.LearnRefNumber = PSDM.LearnRefNumber
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = l.Learner_Id
+order by
+	PSDM.LearnRefNumber,
+	PSDM.AimSeqNumber,
+	PSDM.ProvSpecDelMonOccur
 end
 GO
  
@@ -617,7 +676,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_ProviderSpecLearnerMonitoring] as
 begin
-insert into [Valid].[ProviderSpecLearnerMonitoring]
+insert into [Valid].[ProviderSpecLearnerMonitoring] with (tablockx)
 (
 	[LearnRefNumber],
 	[ProvSpecLearnMonOccur],
@@ -631,6 +690,9 @@ from
 	[Input].[ProviderSpecLearnerMonitoring] as PSLM
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = PSLM.Learner_Id
+order by
+	PSLM.LearnRefNumber,
+	PSLM.ProvSpecLearnMonOccur
 end
 GO
  
@@ -640,7 +702,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_Source] as
 begin
-insert into [Valid].[Source]
+insert into [Valid].[Source] with (tablockx)
 (
 	[ProtectiveMarking],
 	[UKPRN],
@@ -673,7 +735,7 @@ GO
  
 create procedure [dbo].[TransformInputToValid_SourceFile] as
 begin
-insert into [Valid].[SourceFile]
+insert into [Valid].[SourceFile] with (tablockx)
 (
 	[SourceFileName],
 	[FilePreparationDate],
@@ -693,6 +755,8 @@ select
 	SF.DateTime
 from
 	[Input].[SourceFile] as SF
+order by
+	SF.SourceFileName
 end
 GO
  
