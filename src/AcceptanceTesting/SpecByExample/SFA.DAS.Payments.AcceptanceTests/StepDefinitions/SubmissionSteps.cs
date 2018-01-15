@@ -27,40 +27,40 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [When(@"an ILR file is submitted every month with the following data:")] //Duplicate?
         public void WhenAnIlrFileIsSubmitted(Table ilrDetails)
         {
-            var submissionContext = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Add(submissionContext);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("an ILR file is submitted for period (.*) with the following data:")]
         public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
         {
-            var submissionContext = new Submission() {SubmissionPeriod = period};
-            IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Add(submissionContext);
+            var submission = new Submission() {SubmissionPeriod = period};
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("the providers submit the following ILR files:")] //Duplicate?
         public void WhenMultipleIlrFilesAreSubmitted(Table ilrDetails)
         {
-            var submissionContext = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Add(submissionContext);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When(@"an ILR file is submitted on (.*) with the following data:")] // what is the purpose of the dates?
         public void WhenIlrSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
-            var submissionContext = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
-            MultipleSubmissionsContext.Add(submissionContext);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("an ILR file is submitted for the first time on (.*) with the following data:")]
         public void WhenIlrFirstSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
-            var submissionContext = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submissionContext, ilrDetails);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
             
 
             DateTime firstSubmissionDate;
@@ -69,8 +69,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 throw new ArgumentException($"{specSumissionDate} is not a valid date");
             }
             
-            submissionContext.FirstSubmissionDate = firstSubmissionDate;
-            MultipleSubmissionsContext.Add(submissionContext);
+            submission.FirstSubmissionDate = firstSubmissionDate;
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("the Contract type in the ILR is:")]

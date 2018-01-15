@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public static class LearningSupportTableParser
     {
-        public static void ParseLearningSupportIntoContext(Submission submissionContext, Table learningSupportStatus)
+        public static void ParseLearningSupportIntoContext(Submission submission, Table learningSupportStatus)
         {
             if (learningSupportStatus.Rows.Count < 1)
             {
@@ -18,7 +18,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             var structure = ParseContractTypesTableStructure(learningSupportStatus);
             foreach (var row in learningSupportStatus.Rows)
             {
-                submissionContext.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure));
+                submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure));
             }
         }
 
