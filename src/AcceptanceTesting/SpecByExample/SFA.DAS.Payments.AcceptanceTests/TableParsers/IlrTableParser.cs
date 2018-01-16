@@ -40,10 +40,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 context.IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
                 if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
                     context.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
-                if(structure.EmploymentStatusTableColumnStructure.EmployerIndex != -1)
-                    context.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure.EmploymentStatusTableColumnStructure));
-                if(structure.ContractTypesTableColumnStructure.ContractTypeIndex != -1)
-                    context.ContractTypes.Add(ParseContractTypeTableRow(row, structure.ContractTypesTableColumnStructure));
             }
             
         }
@@ -164,18 +160,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "home postcode deprivation":
                         structure.HomePostcodeDeprivationIndex = c;
                         break;
-                    //case "employment status":
-                    //    structure.EmploymentStatusIndex = c;
-                    //    break;
-                    //case "employment status applies":
-                    //    structure.EmploymentStatusAppliesIndex = c;
-                    //    break;
                     case "employer id":
                         structure.EmployerIdIndex = c;
                         break;
-                    //case "small employer":
-                    //    structure.SmallEmployerIndex = c;
-                    //    break;
                     case "learndelfam":
                         structure.LearnDelFamIndex = c;
                         break;
@@ -206,27 +193,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "learning support date to":
                         learningSupportTableColumnStructure.DateToIndex = c;
                         break;
-                    case "employer":
-                        employmentStatusTableColumnStructure.EmployerIndex = c;
-                        break;
-                    case "employment status":
-                        employmentStatusTableColumnStructure.EmploymentStatusIndex = c;
-                        break;
-                    case "employment status applies":
-                        employmentStatusTableColumnStructure.EmploymentStatusAppliesIndex = c;
-                        break;
-                    case "small employer":
-                        employmentStatusTableColumnStructure.SmallEmployerIndex = c;
-                        break;
-                    case "contract type":
-                        contractTypesTableColumnStructure.ContractTypeIndex = c;
-                        break;
-                    case "contract type date from":
-                        contractTypesTableColumnStructure.DateFromIndex = c;
-                        break;
-                    case "contract type date to":
-                        contractTypesTableColumnStructure.DateToIndex = c;
-                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in ILR table: {header}");
                 }
@@ -235,8 +201,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return new FullIlrStructure
             {
                 IlrTableStructure = structure,
-                ContractTypesTableColumnStructure = contractTypesTableColumnStructure,
-                EmploymentStatusTableColumnStructure = employmentStatusTableColumnStructure,
                 LearningSupportTableColumnStructure = learningSupportTableColumnStructure
             };
         }
