@@ -14,7 +14,7 @@ END
 GO
 
 CREATE PROCEDURE LevyPayments.UpdateAccountLevySpend
-	@AccountId varchar(50),
+	@AccountId bigint,
 	@AmountToUpdateBy decimal(15,2)
 AS
 SET NOCOUNT ON
@@ -42,7 +42,7 @@ END
 GO
 
 CREATE PROCEDURE LevyPayments.MarkAccountAsProcessed
-	@AccountId varchar(50)
+	@AccountId bigint
 AS
 SET NOCOUNT ON
 

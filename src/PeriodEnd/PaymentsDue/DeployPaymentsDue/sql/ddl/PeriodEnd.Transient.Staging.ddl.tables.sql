@@ -348,7 +348,7 @@ CREATE TABLE Staging.EarningsWithoutPayments (
 	Id uniqueidentifier,
 	CommitmentId bigint,
 	CommitmentVersionId varchar(25),
-	AccountId varchar(50),
+	AccountId bigint,
 	AccountVersionId varchar(50),
 	LearnRefNumber varchar(12),
 	Uln bigint null,

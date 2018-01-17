@@ -281,13 +281,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                   .OrderByDescending(x => x.DeliveryYear)
                                                   .ThenByDescending(x => x.DeliveryMonth)
                                                   .ToArray();
+
+            var originalAmountDue = amountDue;
             // if there are no historical payments then just skip the execution
             if (refundablePeriods.Any())
             {
-
                 var refundPeriodIndex = 0;
                 while (amountDue < 0)
                 {
+                    if (refundPeriodIndex >= refundablePeriods.Length)
+                    {
+                        _logger.Error($"ERROR TRYING TO Refund.\n UKPRN: {provider.Ukprn}\n ILR Submission Date: {provider.IlrSubmissionDateTime}\n" +
+                                      $"Learner reference number: {earning.LearnerReferenceNumber}\n ULN: {earning.Uln}\n" +
+                                      $"Amount to refund: {originalAmountDue}\n Current amount to refund: {amountDue}\n");
+                        break;
+                    }
+
                     var period = refundablePeriods[refundPeriodIndex];
 
                     // Attempt to get refund from payments due first
