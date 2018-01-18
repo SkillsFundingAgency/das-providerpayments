@@ -44,6 +44,10 @@ namespace ProviderPayments.TestStack.Core.Workflow
             {
                 foreach (var script in scripts)
                 {
+                    if (script.Contains("15 PeriodEnd"))
+                    {
+                        var breakpoint = "";
+                    }
                     _logger.Debug($"Running script {script} for {componentType}");
 
                     var sql = File.ReadAllText(script);

@@ -5,8 +5,8 @@ INSERT INTO Staging.EarningsWithoutPayments
 
 Select ph.*
 
-FROM Reference.RequiredPaymentsHistory ph
-LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
+FROM Reference.RequiredPaymentsHistory ph --previous ILR data
+LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e --current ILR data
 ON ph.Ukprn = e.Ukprn
 	And ph.LearnAimref = e.LearnAimref
 	AND ph.LearnRefNumber = e.LearnRefNumber
@@ -14,6 +14,7 @@ ON ph.Ukprn = e.Ukprn
        and IsNull(ph.FrameworkCode,0) = IsNull(e.FrameworkCode,0)
        and IsNull(ph.PathwayCode ,0)= IsNull(e.PathwayCode,0)
        and (IsNull(ph.ProgrammeType,0) = IsNull(e.ProgrammeType,0) OR  IsNull(ph.StandardCode,0) > 0)
+	   and DATEADD(MONTH, DATEDIFF(MONTH, 0, ph.LearningStartDate), 0) = DATEADD(MONTH, DATEDIFF(MONTH, 0, e.LearningStartDate), 0)
        AND case When DeliveryMonth between 1 and 7 Then DeliveryMonth + 5 Else DeliveryMonth - 7 END =  e.Period  
 	  AND ph.TransactionType = e.TransactionType
 WHERE 
@@ -47,3 +48,5 @@ Select 1 from Reference.RequiredPaymentsHistory p Where
 	And ph.AmountDue *-1  = p.AmountDue
 	And p.Id <> ph.Id
 )
+
+--idea of this query is to refund any courses which have been superceeded (e.g. by a new identical course with a different start date, it is not a new course, the old course has been effectively superceeded by the change in start date)
