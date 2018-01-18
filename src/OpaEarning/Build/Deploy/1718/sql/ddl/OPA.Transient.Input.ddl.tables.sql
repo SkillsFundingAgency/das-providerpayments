@@ -2,6 +2,60 @@ if not exists(select schema_id from sys.schemas where name='Input')
 	exec('create schema Input')
 GO
  
+
+
+ if object_id('[Input].[PostAdd]','u') is not null
+begin
+	drop table [Input].[PostAdd]
+end
+GO
+
+CREATE TABLE [Input].[PostAdd](
+	[PostAdd_Id] [int] NOT NULL,
+	[LearnerContact_Id] [int] NOT NULL,
+	[LearnRefNumber] [varchar](100) NULL,
+	[ContType] [bigint] NULL,
+	[LocType] [bigint] NULL,
+	[AddLine1] [varchar](1000) NULL,
+	[AddLine2] [varchar](1000) NULL,
+	[AddLine3] [varchar](1000) NULL,
+	[AddLine4] [varchar](1000) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PostAdd_Id] ASC
+)
+) ON [PRIMARY]
+GO
+
+
+
+
+
+if object_id('[Input].[LearnerContact]','u') is not null
+begin
+	drop table [Input].[LearnerContact]
+end
+GO
+
+CREATE TABLE [Input].[LearnerContact](
+	[LearnerContact_Id] [int] NOT NULL,
+	[Learner_Id] [int] NOT NULL,
+	[LearnRefNumber] [varchar](100) NULL,
+	[LocType] [bigint] NULL,
+	[ContType] [bigint] NULL,
+	[PostCode] [varchar](1000) NULL,
+	[TelNumber] [varchar](1000) NULL,
+	[Email] [varchar](1000) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LearnerContact_Id] ASC
+)
+) ON [PRIMARY]
+GO
+
+
+
+
 if object_id('[Input].[CollectionDetails]','u') is not null
 begin
 	drop table [Input].[CollectionDetails]

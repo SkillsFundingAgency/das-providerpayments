@@ -2,6 +2,34 @@ if not exists(select schema_id from sys.schemas where name='Valid')
 	exec('create schema Valid')
 GO
  
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- LearningContact
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearnerContact' AND [schema_id] = SCHEMA_ID('Valid'))
+BEGIN
+	DROP TABLE Valid.LearnerContact
+END
+GO
+CREATE TABLE [Valid].[LearnerContact](
+	[LearnRefNumber] [varchar](12) NOT NULL,
+	[HomePostcode] [varchar](8) NULL,
+	[CurrentPostcode] [varchar](8) NULL,
+	[TelNumber] [varchar](18) NULL,
+	[Email] [varchar](100) NULL,
+	[AddLine1] [varchar](50) NULL,
+	[AddLine2] [varchar](50) NULL,
+	[AddLine3] [varchar](50) NULL,
+	[AddLine4] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LearnRefNumber] ASC
+)
+) ON [PRIMARY]
+GO
+
+
+
 if object_id('[Valid].[CollectionDetails]','u') is not null
 begin
 	drop table [Valid].[CollectionDetails]
