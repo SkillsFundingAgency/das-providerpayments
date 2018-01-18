@@ -41,6 +41,10 @@
           <Source>TransactionType</Source>
           <Destination>TransactionType</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransactionTypesFlag</Source>
+          <Destination>TransactionTypesFlag</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
