@@ -53,7 +53,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             //    SubmissionManager.RunSubmissionsBasedOnDiscreteIlrs(MultipleSubmissionsContext.Submissions,
             //        LookupContext, EmployerAccountContext));
 
-            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
+            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
                 EmployerAccountContext.EmployerAccounts));
 
             //foreach (var submission in MultipleSubmissionsContext.Submissions)
