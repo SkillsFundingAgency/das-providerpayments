@@ -49,17 +49,24 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
         {
-            foreach (var submission in MultipleSubmissionsContext.Submissions)
-            {
-                if (!submission.HaveSubmissionsBeenDone)
-                {
-                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
-                        submission.IlrLearnerDetails, submission.FirstSubmissionDate,
-                        LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus, ilrPeriod: submission.SubmissionPeriod));
-                    submission.HaveSubmissionsBeenDone = true;
-                }
-            }
+            //MultipleSubmissionsContext.SubmissionResults.AddRange(
+            //    SubmissionManager.RunSubmissionsBasedOnDiscreteIlrs(MultipleSubmissionsContext.Submissions,
+            //        LookupContext, EmployerAccountContext));
+
+            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
+                EmployerAccountContext.EmployerAccounts));
+
+            //foreach (var submission in MultipleSubmissionsContext.Submissions)
+            //{
+            //    if (!submission.HaveSubmissionsBeenDone)
+            //    {
+            //        MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+            //            submission.IlrLearnerDetails, submission.FirstSubmissionDate,
+            //            LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
+            //            submission.EmploymentStatus, submission.LearningSupportStatus, ilrPeriod: submission.SubmissionPeriod));
+            //        submission.HaveSubmissionsBeenDone = true;
+            //    }
+            //}
 
             var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
             if (providerBreakdown == null)

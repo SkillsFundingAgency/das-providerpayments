@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
@@ -35,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [When("an ILR file is submitted for period (.*) with the following data:")]
         public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
         {
-            var submission = new Submission() {SubmissionPeriod = period};
+            var submission = new Submission() {SubmissionPeriod = SubmissionManager.GetStringDateFromPeriod(period)};
             IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
             MultipleSubmissionsContext.Add(submission);
         }

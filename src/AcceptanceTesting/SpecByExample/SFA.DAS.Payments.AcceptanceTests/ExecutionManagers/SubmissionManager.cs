@@ -17,6 +17,61 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
+        {
+            var results = new List<LearnerResults>();
+            if (TestEnvironment.ValidateSpecsOnly)
+            {
+                return results;
+            }
+
+            var periods = new List<string>();
+            foreach (var submission in multipleSubmissionsContext.Submissions)
+            {
+                periods.AddRange(ExtractPeriods(submission.IlrLearnerDetails, submission.FirstSubmissionDate));
+            }
+
+            periods = periods.Distinct().ToList();
+
+            foreach (var period in periods)
+            {
+                SetEnvironmentToPeriod(period);
+                EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
+
+                foreach (var submission in multipleSubmissionsContext.Submissions)
+                {
+                    var providerLearners = GroupLearnersByProvider(submission.IlrLearnerDetails, lookupContext);
+
+                    foreach (var providerDetails in providerLearners)
+                    {
+                        if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
+                                StringComparison.CurrentCultureIgnoreCase)
+                        ) //need the providerDetails to include the period maybs?
+                            continue;
+
+                        SetupDisadvantagedPostcodeUplift(providerDetails);
+                        BuildAndSubmitIlr(providerDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
+                            submission.LearningSupportStatus);
+                        submission.HaveSubmissionsBeenDone = true;
+                    }
+                }
+
+                RunMonthEnd(period);
+
+                EarningsCollector.CollectForPeriod(period, results, lookupContext);
+                LevyAccountBalanceCollector.CollectForPeriod(period, results, lookupContext);
+                SubmissionDataLockResultCollector.CollectForPeriod(period, results, lookupContext);
+
+                SavedDataCollector.CaptureAccountsDataForScenario();
+                SavedDataCollector.CaptureCommitmentsDataForScenario();
+            }
+
+            DataLockEventsDataCollector.CollectDataLockEventsForAllPeriods(results, lookupContext);
+            PaymentsDataCollector.CollectForPeriod(results, lookupContext);
+
+            return results;
+        }
+
         internal static List<LearnerResults> SubmitIlrAndRunMonthEndAndCollateResults(
             List<IlrLearnerReferenceData> ilrLearnerDetails,
             DateTime? firstSubmissionDate,
@@ -159,6 +214,39 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 default: return null;
             }
 
+        }
+
+        public static string GetStringDateFromPeriod(string period)
+        {
+            if (string.IsNullOrEmpty(period))
+                return null;
+
+            switch (period.ToUpper())
+            {
+                case "R01": return "08/17";
+                case "R02": return "09/17";
+                case "R03": return "10/17";
+                case "R04": return "11/17";
+                case "R05": return "12/17";
+                case "R06": return "01/18";
+                case "R07": return "02/18";
+                case "R08": return "03/18";
+                case "R09": return "04/18";
+                case "R10": return "05/18";
+                case "R11": return "06/18";
+                case "R12": return "07/18";
+                case "R13": return "09/18";
+                case "R14": return "10/18";
+                default: return null;
+            }
+        }
+
+        public static int GetNumericalPeriodFromPeriod(string period)
+        {
+            if (string.IsNullOrEmpty(period))
+                return 0;
+
+            return int.Parse(period.ToCharArray().Last().ToString());
         }
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
