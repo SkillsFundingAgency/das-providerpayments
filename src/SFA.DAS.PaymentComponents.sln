@@ -449,7 +449,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{22ECAFFA-DD3
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql
-		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql
@@ -468,6 +467,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{22ECAFFA-DD3
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZB OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZB OPA.Transient.dbo.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql
 	EndProjectSection
 EndProject

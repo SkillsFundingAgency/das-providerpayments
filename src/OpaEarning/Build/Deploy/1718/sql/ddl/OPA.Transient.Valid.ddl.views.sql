@@ -453,6 +453,12 @@ begin
 end
 GO
 
+if object_id ('Valid.TrailblazerApprenticeshipFinancialRecord', 'u') is not null
+begin
+	drop table Valid.TrailblazerApprenticeshipFinancialRecord
+end
+GO
+
 create view Valid.TrailblazerApprenticeshipFinancialRecord
 as
 	select
