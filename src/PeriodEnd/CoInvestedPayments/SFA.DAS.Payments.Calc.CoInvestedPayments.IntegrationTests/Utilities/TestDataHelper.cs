@@ -19,11 +19,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
         private static readonly Random Random = new Random();
 
-        internal static void AddAccount(string id, string name = null, decimal balance = 999999999,bool isDeds = false)
+        internal static void AddAccount(long id, string name = null, decimal balance = 999999999,bool isDeds = false)
         {
             if (name == null)
             {
-                name = id;
+                name = id.ToString();
             }
 
             Execute("INSERT INTO dbo.DasAccounts (AccountId, AccountName, Balance) VALUES (@id, @name, @balance)",
@@ -56,7 +56,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         }
 
         internal static void AddCommitment(long id, 
-                                           string accountId, 
+                                           long accountId, 
                                            long uln = 0L, 
                                            long ukprn = 0L, 
                                            DateTime startDate = default(DateTime), 

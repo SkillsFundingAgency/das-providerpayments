@@ -110,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "SELECT "
                   + "NEWID(), "
                   + "CommitmentId, "
-                  + "'a', 'b', 'c', 123, "
+                  + "'a', 456, 'c', 123, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "Ukprn, "

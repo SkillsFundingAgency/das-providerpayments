@@ -71,6 +71,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                                      .Replace("${ILR_Summarisation.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_PeriodEnd.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_ProviderEvents.FQ}", dedsDatabaseName)
+                                     .Replace("${EAS_Deds.FQ}", dedsDatabaseName)
                                      .Replace("${YearOfCollection}", context.CurrentYear);
 
             var matches = Regex.Matches(transformedSql, @"\$\{.*\}");

@@ -109,7 +109,6 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 _logger.Error($"TrainingEndDate for {@event.ApprenticeshipId} is null so default value will be used.");
             }
 
-
             var request = new AddOrUpdateCommitmentCommandRequest
             {
                 CommitmentId = @event.ApprenticeshipId,
@@ -123,8 +122,7 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 PaymentStatus = paymentStatus,
                 LegalEntityName = @event.LegalEntityName
             };
-
-
+            
             ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).
                 ForEach(x =>
                 request.PriceEpisodes.Add(new PriceEpisode
@@ -186,7 +184,6 @@ namespace SFA.DAS.Payments.Reference.Commitments
                     break;
                 default:
                     throw new ArgumentException($"Invalid payment status of {paymentStatus} found.");
-
             }
 
             return status;
@@ -219,8 +216,5 @@ namespace SFA.DAS.Payments.Reference.Commitments
 
             return result;
         }
-
-
-
     }
 }
