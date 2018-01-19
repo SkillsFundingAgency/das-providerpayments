@@ -35,10 +35,10 @@ GO
 
 CREATE TABLE PaymentsDue.RequiredPayments
 (
-	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+	Id uniqueidentifier DEFAULT(NEWID()),
 	CommitmentId bigint,
 	CommitmentVersionId varchar(25),
-	AccountId varchar(50),
+	AccountId bigint,
 	AccountVersionId varchar(50),
 	Uln bigint,
 	LearnRefNumber varchar(12),
@@ -63,7 +63,10 @@ CREATE TABLE PaymentsDue.RequiredPayments
 )
 GO
 
+CREATE INDEX IX_PaymentsDueRequiredPayments_Vw_PaymentsDue ON PaymentsDue.RequiredPayments (Id, UseLevyBalance, TransactionType, AccountId)
+
 
 CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
 ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
 GO
+

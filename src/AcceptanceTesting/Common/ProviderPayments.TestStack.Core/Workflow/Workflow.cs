@@ -69,7 +69,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 connection.Open();
                 try
                 {
-                    connection.Execute("[TestStack].[ClearTransientTables]");
+                    connection.Execute("EXEC sys.sp_msforeachtable 'TRUNCATE TABLE ?'");
                 }
                 finally
                 {

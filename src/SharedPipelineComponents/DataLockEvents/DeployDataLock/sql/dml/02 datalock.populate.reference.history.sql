@@ -18,9 +18,11 @@ SELECT NEWID(),	@logsource,	0,	GETDATE(),	@operation + '- Started: [' + @timesta
 /* ----- finish pre-op monitoring*/
 
 IF EXISTS (
-		SELECT [name]
-		FROM [sys].[indexes]
-		WHERE [name] = 'DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier'
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'DataLockEvents'
+		AND i.[name] = 'DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier'
 		)
 BEGIN
 	DROP INDEX [DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier]
@@ -28,9 +30,11 @@ BEGIN
 END
 
 IF EXISTS (
-		SELECT [name]
-		FROM [sys].[indexes]
-		WHERE [name] = 'IX_Reference_DataLockEvents_UKPRN'
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'DataLockEvents'
+		AND i.[name] = 'IX_Reference_DataLockEvents_UKPRN'
 		)
 BEGIN
 	DROP INDEX [IX_Reference_DataLockEvents_UKPRN]
@@ -120,8 +124,6 @@ FROM [DataLock].[vw_Providers] ptp	WITH ( NOLOCK )
 INNER JOIN 
 	${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle WITH ( NOLOCK )
 	ON ptp.[UKPRN] = dle.[UKPRN]
-WHERE 
-	dle.[STATUS] <> 3 -- Do not read removed as anything from here will be new again
 
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
@@ -161,9 +163,11 @@ BEGIN
 END
 
 IF NOT EXISTS (
-		SELECT [name]
-		FROM [sys].[indexes]
-		WHERE [name] = 'DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier'
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'DataLockEvents'
+		AND i.[name] = 'DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier'
 		)
 BEGIN
 	CREATE NONCLUSTERED INDEX [DataLockByStatusIdLearnRefNumberPriceEpisodeIdentifier] ON [Reference].[DataLockEvents] ([Status]) INCLUDE (
@@ -172,6 +176,18 @@ BEGIN
 		[PriceEpisodeIdentifier]
 		)
 END
+
+
+IF NOT EXISTS (
+	SELECT 1 
+	FROM sys.indexes i
+	JOIN sys.objects t ON i.object_id = t.object_id
+	WHERE t.name = 'DataLockEvents'
+	AND i.name = 'IX_ReferenceDataLockEvents_DataLockEventId')
+BEGIN
+	CREATE INDEX IX_ReferenceDataLockEvents_DataLockEventId ON Reference.DataLockEvents (DataLockEventId)
+END
+
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
 RAISERROR (		@finish,		10,		0,		@operation,		@duration		) WITH NOWAIT

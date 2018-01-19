@@ -259,12 +259,13 @@ paket-files/
 **/Tools/PhantomJS/
 *.jfm
 
-/src/SharedPipelineComponents/DataLockEvents/DeployDataLock/component
-/src/SharedPipelineComponents/IlrSubmissionEvents/DeploySubmission/component
+**/Deploy*/component/*
+
 /src/OpaEarning/Build/Deploy/1718/component
-/src/Reference/Accounts/Deploy/component
+/src/OpaEarning/Build/Deploy/1617/component
+
+
 /Build.fsx
-/src/Reference/Commitments/Deploy/component
 /DefaultTargets.fsx
 /RunBuild.bat
 /src/PeriodEnd/Deploycoinvestedpayments
@@ -273,10 +274,16 @@ paket-files/
 /src/PeriodEnd/Deploypaymentsdue
 /src/PeriodEnd/Deployprovideradjustments
 
-
 /src/AcceptanceTesting/**/*.feature.cs
+
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
-/src/OpeEarning/Build/Deploy
+
+/src/OpaEarning/Build/SFA.DAS.CollectionEarnings.Calculator/Resources/1617/Apprenticeships Earnings Calc 16_17.zip
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.views.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.tables.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.sprocs.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Reference.ddl.tables.sql
+/src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Deds.Rulebase.ddl.tables.sql
 /src/SharedPipelineComponents/Datalock/Deploy
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd
 

@@ -61,7 +61,8 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                             IlrPriceEffectiveToDate = e.IlrPriceEffectiveToDate,
                             Errors = GetEventErrors(e.DataLockEventId),
                             Periods = GetEventPeriods(e.DataLockEventId),
-                            CommitmentVersions = GetEventCommitmentVersions(e.DataLockEventId)
+                            CommitmentVersions = GetEventCommitmentVersions(e.DataLockEventId),
+                            Status = (EventStatus)e.Status
                         })
                         .ToArray();
 
