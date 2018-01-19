@@ -147,6 +147,7 @@
     </Content>
     <Content Include="..\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Tables_Add_Indexes.sql">
       <Link>DbSetupScripts\MigrationScripts\005_DataLockEvents_Tables_Add_Indexes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\datalock.reference.transient.ddl.tables.periodend.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
