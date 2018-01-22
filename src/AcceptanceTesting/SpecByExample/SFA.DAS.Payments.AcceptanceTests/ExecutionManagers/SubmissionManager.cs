@@ -46,7 +46,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                     {
                         if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
                                 StringComparison.CurrentCultureIgnoreCase)
-                        ) //need the providerDetails to include the period maybs?
+                        )
                             continue;
 
                         SetupDisadvantagedPostcodeUplift(providerDetails);
