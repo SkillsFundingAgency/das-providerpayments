@@ -1573,6 +1573,7 @@ CREATE TABLE [Valid].[LearningDelivery](
 	[ProvSpecMon_B] [varchar](20) NULL,
 	[ProvSpecMon_C] [varchar](20) NULL,
 	[ProvSpecMon_D] [varchar](20) NULL,
+	[EPAOrgId] varchar(7) NULL
 PRIMARY KEY CLUSTERED 
 (
 	[LearnRefNumber] ASC,
