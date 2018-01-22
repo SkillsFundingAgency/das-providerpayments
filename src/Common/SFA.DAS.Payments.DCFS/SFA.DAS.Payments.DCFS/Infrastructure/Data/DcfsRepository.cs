@@ -15,14 +15,16 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             _connectionString = connectionString;
         }
 
-        protected T[] Query<T>(string command, object param = null)
+        protected T[] Query<T>(string command, object param = null, int timeout = 180)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 try
                 {
-                    return connection.Query<T>(command, param).ToArray();
+                    return connection.Query<T>(command, param,
+                            commandTimeout: timeout)
+                        .ToArray();
                 }
                 finally
                 {
@@ -31,14 +33,17 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
-        protected T[] QueryByProc<T>(string command, DynamicParameters parameters = null)
+        protected T[] QueryByProc<T>(string command, DynamicParameters parameters = null, int timeout = 180)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 try
                 {
-                    return connection.Query<T>(command, parameters, commandType: CommandType.StoredProcedure).ToArray();
+                    return connection.Query<T>(command, parameters,
+                            commandType: CommandType.StoredProcedure,
+                            commandTimeout: timeout)
+                        .ToArray();
                 }
                 finally
                 {
@@ -47,18 +52,20 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
-        protected T QuerySingle<T>(string command, object param = null)
+        protected T QuerySingle<T>(string command, object param = null, int timeout = 180)
         {
-            return Query<T>(command, param).SingleOrDefault();
+            return Query<T>(command, param, timeout).SingleOrDefault();
         }
-        protected void Execute(string command, object param = null)
+
+        protected void Execute(string command, object param = null, int timeout = 180)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 try
                 {
-                    connection.Execute(command, param);
+                    connection.Execute(command, param,
+                        commandTimeout: timeout);
                 }
                 finally
                 {
@@ -67,14 +74,16 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
-        protected void ExecuteByProc(string command, object param = null)
+        protected void ExecuteByProc(string command, object param = null, int timeout = 180)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 try
                 {
-                    connection.Execute(command, param, commandType:CommandType.StoredProcedure);
+                    connection.Execute(command, param, 
+                        commandType:CommandType.StoredProcedure,
+                        commandTimeout: timeout);
                 }
                 finally
                 {

@@ -34,6 +34,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         public virtual void Process()
         {
             _logger.Info("Started Data Lock Processor.");
+            _logger.Info($"Using timeout of: {DataLockTask.CommandTimeout}");
 
             var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 
