@@ -266,6 +266,9 @@ Target "Publish Database project"(fun _ ->
 Target "Clean Projects" (fun _ ->
     trace "Clean Projects"
     !! (@".\**\*.csproj")
+        -- @".\**\ProviderPayments.TestStack.UI.csproj"
+        -- @".\**\SFA.DAS.Payments.Automation.WebUI.UnitTests.csproj"
+        -- @".\**\SFA.DAS.Payments.Automation.WebUI.csproj"
         |> myBuildConfig "" "Clean"
         |> Log "AppBuild-Output: "
 )
@@ -273,8 +276,10 @@ Target "Clean Projects" (fun _ ->
 Target "Build Projects" (fun _ ->
     trace "Build Projects"
     !! (@".\**\*.csproj") 
+        -- @".\**\SFA.DAS.Payments.Automation.WebUI.csproj"
         -- @".\**\ProviderPayments.TestStack.UI.csproj"
         -- @".\**\ProviderPayments.TestStack.Infrastructure.csproj"
+        -- @".\**\SFA.DAS.Payments.Automation.WebUI.UnitTests.csproj"
         -- @".\AcceptanceTesting\IlrSubmissionPortal\**\*"
         -- @".\**\ExampleDCFSTask.csproj"
         -- @".\**\ConsoleEngine.csproj"

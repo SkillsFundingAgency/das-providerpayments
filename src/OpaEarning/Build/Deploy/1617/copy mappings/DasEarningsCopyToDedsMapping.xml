@@ -99,6 +99,10 @@
           <Destination>[Completed]</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>[DisUpFactAdj]</Source>
+          <Destination>[DisUpFactAdj]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>[FirstIncentiveThresholdDate]</Source>
           <Destination>[FirstIncentiveThresholdDate]</Destination>
         </ColumnMapping>
@@ -171,6 +175,10 @@
           <Destination>[LearnDelApplicProv1618Incentive]</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>[LearnDelApplicTot1618Incentive]</Source>
+          <Destination>[LearnDelApplicTot1618Incentive]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>[LearnDelAppPrevAccDaysIL]</Source>
           <Destination>[LearnDelAppPrevAccDaysIL]</Destination>
         </ColumnMapping>
@@ -207,8 +215,8 @@
           <Destination>[LearnDelInitialFundLineType]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[LearnDelMathEng]</Source>
-          <Destination>[LearnDelMathEng]</Destination>
+          <Source>[LearnDelSEMContWaiver]</Source>
+          <Destination>[LearnDelSEMContWaiver]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[MathEngAimValue]</Source>
@@ -310,10 +318,6 @@
           <Destination>[LearnDelSecondProv1618Pay]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[LearnDelSEMContWaiver]</Source>
-          <Destination>[LearnDelSEMContWaiver]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>[LearnDelSFAContribPct]</Source>
           <Destination>[LearnDelSFAContribPct]</Destination>
         </ColumnMapping>
@@ -352,18 +356,6 @@
         <ColumnMapping>
           <Source>[ProgrammeAimOnProgPayment]</Source>
           <Destination>[ProgrammeAimOnProgPayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[ProgrammeAimProgFundIndMaxEmpCont]</Source>
-          <Destination>[ProgrammeAimProgFundIndMaxEmpCont]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[ProgrammeAimProgFundIndMinCoInvest]</Source>
-          <Destination>[ProgrammeAimProgFundIndMinCoInvest]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[ProgrammeAimTotProgFund]</Source>
-          <Destination>[ProgrammeAimTotProgFund]</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -539,24 +531,12 @@
           <Destination>[HistoricEffectiveTNPStartDateOutput]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[HistoricEmpIdEndWithinYearOutput]</Source>
-          <Destination>[HistoricEmpIdEndWithinYearOutput]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[HistoricEmpIdStartWithinYearOutput]</Source>
-          <Destination>[HistoricEmpIdStartWithinYearOutput]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>[HistoricFworkCodeOutput]</Source>
           <Destination>[HistoricFworkCodeOutput]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[HistoricLearner1618AtStartOutput]</Source>
           <Destination>[HistoricLearner1618AtStartOutput]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[HistoricPMRAmountOutput]</Source>
-          <Destination>[HistoricPMRAmountOutput]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[HistoricProgrammeStartDateIgnorePathwayOutput]</Source>
@@ -638,16 +618,104 @@
           <Destination>[PriceEpisodeIdentifier]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[TNP4]</Source>
-          <Destination>[TNP4]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[TNP1]</Source>
-          <Destination>[TNP1]</Destination>
+          <Source>[EpisodeEffectiveTNPStartDate]</Source>
+          <Destination>[EpisodeEffectiveTNPStartDate]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[EpisodeStartDate]</Source>
           <Destination>[EpisodeStartDate]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeActualEndDate]</Source>
+          <Destination>[PriceEpisodeActualEndDate]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeActualInstalments]</Source>
+          <Destination>[PriceEpisodeActualInstalments]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeAimSeqNumber]</Source>
+          <Destination>[PriceEpisodeAimSeqNumber]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeCappedRemainingTNPAmount]</Source>
+          <Destination>[PriceEpisodeCappedRemainingTNPAmount]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeCompleted]</Source>
+          <Destination>[PriceEpisodeCompleted]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeCompletionElement]</Source>
+          <Destination>[PriceEpisodeCompletionElement]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeContractType]</Source>
+          <Destination>[PriceEpisodeContractType]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeExpectedTotalMonthlyValue]</Source>
+          <Destination>[PriceEpisodeExpectedTotalMonthlyValue]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeFirstAdditionalPaymentThresholdDate]</Source>
+          <Destination>[PriceEpisodeFirstAdditionalPaymentThresholdDate]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeFundLineType]</Source>
+          <Destination>[PriceEpisodeFundLineType]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeInstalmentValue]</Source>
+          <Destination>[PriceEpisodeInstalmentValue]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodePlannedEndDate]</Source>
+          <Destination>[PriceEpisodePlannedEndDate]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodePlannedInstalments]</Source>
+          <Destination>[PriceEpisodePlannedInstalments]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodePreviousEarnings]</Source>
+          <Destination>[PriceEpisodePreviousEarnings]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodePreviousEarningsSameProvider]</Source>
+          <Destination>[PriceEpisodePreviousEarningsSameProvider]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeRemainingAmountWithinUpperLimit]</Source>
+          <Destination>[PriceEpisodeRemainingAmountWithinUpperLimit]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeRemainingTNPAmount]</Source>
+          <Destination>[PriceEpisodeRemainingTNPAmount]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeSecondAdditionalPaymentThresholdDate]</Source>
+          <Destination>[PriceEpisodeSecondAdditionalPaymentThresholdDate]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeTotalEarnings]</Source>
+          <Destination>[PriceEpisodeTotalEarnings]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeTotalTNPPrice]</Source>
+          <Destination>[PriceEpisodeTotalTNPPrice]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeUpperBandLimit]</Source>
+          <Destination>[PriceEpisodeUpperBandLimit]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[PriceEpisodeUpperLimitAdjustment]</Source>
+          <Destination>[PriceEpisodeUpperLimitAdjustment]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[TNP1]</Source>
+          <Destination>[TNP1]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[TNP2]</Source>
@@ -658,188 +726,8 @@
           <Destination>[TNP3]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[PriceEpisodeUpperBandLimit]</Source>
-          <Destination>[PriceEpisodeUpperBandLimit]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodePlannedEndDate]</Source>
-          <Destination>[PriceEpisodePlannedEndDate]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeActualEndDate]</Source>
-          <Destination>[PriceEpisodeActualEndDate]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeTotalTNPPrice]</Source>
-          <Destination>[PriceEpisodeTotalTNPPrice]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeUpperLimitAdjustment]</Source>
-          <Destination>[PriceEpisodeUpperLimitAdjustment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodePlannedInstalments]</Source>
-          <Destination>[PriceEpisodePlannedInstalments]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeActualInstalments]</Source>
-          <Destination>[PriceEpisodeActualInstalments]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeInstalmentsThisPeriod]</Source>
-          <Destination>[PriceEpisodeInstalmentsThisPeriod]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCompletionElement]</Source>
-          <Destination>[PriceEpisodeCompletionElement]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodePreviousEarnings]</Source>
-          <Destination>[PriceEpisodePreviousEarnings]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeInstalmentValue]</Source>
-          <Destination>[PriceEpisodeInstalmentValue]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeOnProgPayment]</Source>
-          <Destination>[PriceEpisodeOnProgPayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeTotalEarnings]</Source>
-          <Destination>[PriceEpisodeTotalEarnings]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeBalanceValue]</Source>
-          <Destination>[PriceEpisodeBalanceValue]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeBalancePayment]</Source>
-          <Destination>[PriceEpisodeBalancePayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCompleted]</Source>
-          <Destination>[PriceEpisodeCompleted]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCompletionPayment]</Source>
-          <Destination>[PriceEpisodeCompletionPayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeRemainingTNPAmount]</Source>
-          <Destination>[PriceEpisodeRemainingTNPAmount]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeRemainingAmountWithinUpperLimit]</Source>
-          <Destination>[PriceEpisodeRemainingAmountWithinUpperLimit]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCappedRemainingTNPAmount]</Source>
-          <Destination>[PriceEpisodeCappedRemainingTNPAmount]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeExpectedTotalMonthlyValue]</Source>
-          <Destination>[PriceEpisodeExpectedTotalMonthlyValue]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeAimSeqNumber]</Source>
-          <Destination>[PriceEpisodeAimSeqNumber]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeFirstDisadvantagePayment]</Source>
-          <Destination>[PriceEpisodeFirstDisadvantagePayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeSecondDisadvantagePayment]</Source>
-          <Destination>[PriceEpisodeSecondDisadvantagePayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeApplic1618FrameworkUpliftBalancing]</Source>
-          <Destination>[PriceEpisodeApplic1618FrameworkUpliftBalancing]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment]</Source>
-          <Destination>[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment]</Source>
-          <Destination>[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeSecondProv1618Pay]</Source>
-          <Destination>[PriceEpisodeSecondProv1618Pay]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeFirstEmp1618Pay]</Source>
-          <Destination>[PriceEpisodeFirstEmp1618Pay]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeSecondEmp1618Pay]</Source>
-          <Destination>[PriceEpisodeSecondEmp1618Pay]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeFirstProv1618Pay]</Source>
-          <Destination>[PriceEpisodeFirstProv1618Pay]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeLSFCash]</Source>
-          <Destination>[PriceEpisodeLSFCash]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeFundLineType]</Source>
-          <Destination>[PriceEpisodeFundLineType]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeSFAContribPct]</Source>
-          <Destination>[PriceEpisodeSFAContribPct]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeLevyNonPayInd]</Source>
-          <Destination>[PriceEpisodeLevyNonPayInd]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[EpisodeEffectiveTNPStartDate]</Source>
-          <Destination>[EpisodeEffectiveTNPStartDate]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeFirstAdditionalPaymentThresholdDate]</Source>
-          <Destination>[PriceEpisodeFirstAdditionalPaymentThresholdDate]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeSecondAdditionalPaymentThresholdDate]</Source>
-          <Destination>[PriceEpisodeSecondAdditionalPaymentThresholdDate]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeContractType]</Source>
-          <Destination>[PriceEpisodeContractType]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodePreviousEarningsSameProvider]</Source>
-          <Destination>[PriceEpisodePreviousEarningsSameProvider]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeTotProgFunding]</Source>
-          <Destination>[PriceEpisodeTotProgFunding]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeProgFundIndMinCoInvest]</Source>
-          <Destination>[PriceEpisodeProgFundIndMinCoInvest]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeProgFundIndMaxEmpCont]</Source>
-          <Destination>[PriceEpisodeProgFundIndMaxEmpCont]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeTotalPMRs]</Source>
-          <Destination>[PriceEpisodeTotalPMRs]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCumulativePMRs]</Source>
-          <Destination>[PriceEpisodeCumulativePMRs]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeCompExemCode]</Source>
-          <Destination>[PriceEpisodeCompExemCode]</Destination>
+          <Source>[TNP4]</Source>
+          <Destination>[TNP4]</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -917,14 +805,6 @@
           <Destination>[PriceEpisodeOnProgPayment]</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>[PriceEpisodeProgFundIndMaxEmpCont]</Source>
-          <Destination>[PriceEpisodeProgFundIndMaxEmpCont]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeProgFundIndMinCoInvest]</Source>
-          <Destination>[PriceEpisodeProgFundIndMinCoInvest]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>[PriceEpisodeSecondDisadvantagePayment]</Source>
           <Destination>[PriceEpisodeSecondDisadvantagePayment]</Destination>
         </ColumnMapping>
@@ -939,10 +819,6 @@
         <ColumnMapping>
           <Source>[PriceEpisodeSFAContribPct]</Source>
           <Destination>[PriceEpisodeSFAContribPct]</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>[PriceEpisodeTotProgFunding]</Source>
-          <Destination>[PriceEpisodeTotProgFunding]</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
