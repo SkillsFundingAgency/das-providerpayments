@@ -294,3 +294,5 @@ paket-files/
 /src/OpaEarning/Build/Deploy/1617/sql/ddl/OPA.Transient.Rulebase.ddl.sprocs.sql
 /src/OpaEarning/Build/Deploy/1617/sql/ddl/OPA.Transient.Reference.ddl.tables.sql
 /src/OpaEarning/Build/Deploy/1617/sql/ddl/OPA.Deds.Rulebase.ddl.tables.sql
+/src/OpaEarning/Build/Deploy/1617/copy mappings/DasEarningsCopyToDedsMapping.xml
+/src/OpaEarning/Build/Deploy/1718/copy mappings/DasEarningsCopyToDedsMapping.xml
