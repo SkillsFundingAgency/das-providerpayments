@@ -72,9 +72,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the transaction types for the payments for provider (.*) are:")]
         public void ThenTheTransactionTypesForNamedProviderEarningsAre(string providerIdSuffix, Table transactionTypes)
         {
-            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(
-                MultipleSubmissionsContext, LookupContext,
-                EmployerAccountContext.EmployerAccounts));
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                if (!submission.HaveSubmissionsBeenDone)
+                {
+                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                        submission.IlrLearnerDetails, submission.FirstSubmissionDate,
+                        LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
+                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                    submission.HaveSubmissionsBeenDone = true;
+                }
+            }
 
             TransactionTypeTableParser.ParseTransactionTypeTableIntoContext(EarningsAndPaymentsContext, $"provider {providerIdSuffix}", transactionTypes);
             AssertResults();
@@ -83,9 +91,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then(@"the provider earnings and payments break down for ULN (.*) as follows:")]
         public void ThenTheProviderEarningsAndPaymentsBreakDownForUlnAsFollows(string learnerId, Table earningAndPayments)
         {
-            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(
-                MultipleSubmissionsContext, LookupContext,
-                EmployerAccountContext.EmployerAccounts));
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                if (!submission.HaveSubmissionsBeenDone)
+                {
+                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                        submission.IlrLearnerDetails, submission.FirstSubmissionDate,
+                        LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
+                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                    submission.HaveSubmissionsBeenDone = true;
+                }
+            }
 
             var breakdown = new LearnerEarningsAndPaymentsBreakdown
             {
