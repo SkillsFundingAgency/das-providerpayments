@@ -36,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [When("an ILR file is submitted for period (.*) with the following data:")]
         public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
         {
-            var submission = new Submission() {SubmissionPeriod = SubmissionManager.GetStringDateFromPeriod(period)};
+            var submission = new Submission() {SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriod(period)};
             IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
             MultipleSubmissionsContext.Add(submission);
         }
@@ -74,7 +74,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             MultipleSubmissionsContext.Add(submission);
         }
 
-        [When("the Contract type in the ILR is:")]
+        [When("the Contract type in the ILR is:"), Obsolete]
         public void WhenTheContractTypeInTheIlrIs(Table contractTypes)
         {
             if (MultipleSubmissionsContext.Submissions.Count > 1)
@@ -85,7 +85,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
-        [When("the employment status in the ILR is:")]
+        [When("the employment status in the ILR is:"), Obsolete]
         public void WhenTheEmploymentStatusInTheIlrIs(Table employmentStatus)
         {
             if(MultipleSubmissionsContext.Submissions.Count > 1)

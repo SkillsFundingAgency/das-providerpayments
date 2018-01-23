@@ -84,7 +84,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 {
                     var periodsToSubmitTo = new[]
                     {
-                        //SubmissionContext.IlrLearnerDetails.Min(x => x.StartDate).ToString("MM/yy")
                         CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).ToString("MM/yy")
                     };
                     MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(

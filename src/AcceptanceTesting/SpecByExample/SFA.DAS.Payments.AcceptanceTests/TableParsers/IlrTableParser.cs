@@ -48,8 +48,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         {
             var structure = new IlrTableStructure();
             var learningSupportTableColumnStructure = new LearningSupportTableParser.LearningSupportTableColumnStructure();
-            var employmentStatusTableColumnStructure = new EmploymentStatusTableParser.EmploymentStatusTableColumnStructure();
-            var contractTypesTableColumnStructure = new ContractTypeTableParser.ContractTypesTableColumnStructure();
 
             for (var c = 0; c < ilrDetails.Header.Count; c++)
             {
@@ -160,8 +158,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "home postcode deprivation":
                         structure.HomePostcodeDeprivationIndex = c;
                         break;
+                    case "employment status":
+                        structure.EmploymentStatusIndex = c;
+                        break;
+                    case "employment status applies":
+                        structure.EmploymentStatusAppliesIndex = c;
+                        break;
                     case "employer id":
                         structure.EmployerIdIndex = c;
+                        break;
+                    case "small employer":
+                        structure.SmallEmployerIndex = c;
                         break;
                     case "learndelfam":
                         structure.LearnDelFamIndex = c;
@@ -180,9 +187,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                         break;
                     case "other funding adjustment":
                         structure.OtherFundingAdjustmentIndex = c;
-                        break;
-                    case "submission period":
-                        structure.SubmissionPeriod = c;
                         break;
                     case "learning support code":
                         learningSupportTableColumnStructure.LearningSupportCodeIndex = c;
@@ -212,51 +216,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 LearningSupportCode = row.ReadRowColumnValue<int>(learningSupportTableColumnStructure.LearningSupportCodeIndex, "Learning support code"),
                 DateFrom = row.ReadRowColumnValue<DateTime>(learningSupportTableColumnStructure.DateFromIndex, "date from"),
                 DateTo = row.ReadRowColumnValue<DateTime>(learningSupportTableColumnStructure.DateToIndex, "date to")
-            };
-        }
-
-        private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableParser.EmploymentStatusTableColumnStructure structure)
-        {
-            var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
-            int employerId;
-            if (string.IsNullOrEmpty(employerReference))
-            {
-                employerId = 0;
-            }
-            else
-            {
-                var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
-                if (!employerMatch.Success)
-                {
-                    throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
-                }
-                employerId = int.Parse(employerMatch.Groups[1].Value);
-            }
-
-            var status = new EmploymentStatusReferenceData
-            {
-                EmployerId = employerId,
-                EmploymentStatus = (EmploymentStatus)row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status").ToEnumByDescription(typeof(EmploymentStatus)),
-                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies"),
-            };
-
-            var smallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "Small Employer");
-            if (smallEmployer?.Length > 3)
-            {
-                status.MonitoringType = (EmploymentStatusMonitoringType)smallEmployer.Substring(0, 3).ToEnumByDescription(typeof(EmploymentStatusMonitoringType));
-                status.MonitoringCode = int.Parse(smallEmployer.Substring(3));
-            }
-
-            return status;
-        }
-
-        private static ContractTypeReferenceData ParseContractTypeTableRow(TableRow row, ContractTypeTableParser.ContractTypesTableColumnStructure structure)
-        {
-            return new ContractTypeReferenceData
-            {
-                ContractType = (ContractType)row.ReadRowColumnValue<string>(structure.ContractTypeIndex, "contract type").ToEnumByDescription(typeof(ContractType)),
-                DateFrom = row.ReadRowColumnValue<DateTime>(structure.DateFromIndex, "date from"),
-                DateTo = row.ReadRowColumnValue<DateTime>(structure.DateToIndex, "date to")
             };
         }
 
@@ -302,8 +261,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 EmployerId = row.ReadRowColumnValue<string>(structure.EmployerIdIndex, "employer id"),
                 SmallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "small employer"),
                 LearnDelFam = row.ReadRowColumnValue<string>(structure.LearnDelFamIndex, "LearnDelFam"),
-                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number"),
-                SubmissionPeriod = row.ReadRowColumnValue<string>(structure.SubmissionPeriod, "submission period"),
+                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number")
             };
 
             rowData.RestartIndicator =
@@ -337,61 +295,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
             return rowData;
         }
-    }
-
-    public class IlrTableStructure
-    {
-        public int LearnerReferenceIndex { get; set; } = -1;
-        public int AgreedPriceIndex { get; set; } = -1;
-        public int LearnerTypeIndex { get; set; } = -1;
-        public int StartDateIndex { get; set; } = -1;
-        public int PlannedEndDateIndex { get; set; } = -1;
-        public int ActualEndDateIndex { get; set; } = -1;
-        public int CompletionStatusIndex { get; set; } = -1;
-        public int ProviderIndex { get; set; } = -1;
-        public int TotalTrainingPrice1Index { get; set; } = -1;
-        public int TotalTrainingPrice1EffectiveDateIndex { get; set; } = -1;
-        public int TotalAssessmentPrice1Index { get; set; } = -1;
-        public int TotalAssessmentPrice1EffectiveDateIndex { get; set; } = -1;
-        public int ResidualTrainingPrice1Index { get; set; } = -1;
-        public int ResidualTrainingPrice1EffectiveDateIndex { get; set; } = -1;
-        public int ResidualAssessmentPrice1Index { get; set; } = -1;
-        public int ResidualAssessmentPrice1EffectiveDateIndex { get; set; } = -1;
-        public int TotalTrainingPrice2Index { get; set; } = -1;
-        public int TotalTrainingPrice2EffectiveDateIndex { get; set; } = -1;
-        public int TotalAssessmentPrice2Index { get; set; } = -1;
-        public int TotalAssessmentPrice2EffectiveDateIndex { get; set; } = -1;
-        public int AimTypeIndex { get; set; } = -1;
-        public int AimRateIndex { get; set; } = -1;
-        public int StandardCodeIndex { get; set; } = -1;
-        public int FrameworkCodeIndex { get; set; } = -1;
-        public int ProgrammeTypeIndex { get; set; } = -1;
-        public int PathwayCodeIndex { get; set; } = -1;
-        public int HomePostcodeDeprivationIndex { get; set; } = -1;
-        public int EmploymentStatusIndex { get; set; } = -1;
-        public int EmploymentStatusAppliesIndex { get; set; } = -1;
-        public int EmployerIdIndex { get; set; } = -1;
-        public int SmallEmployerIndex { get; set; } = -1;
-        public int LearnDelFamIndex { get; set; } = -1;
-        public int ResidualTrainingPrice2Index { get; set; } = -1;
-        public int ResidualTrainingPrice2EffectiveDateIndex { get; set; } = -1;
-        public int ResidualAssessmentPrice2Index { get; set; } = -1;
-        public int ResidualAssessmentPrice2EffectiveDateIndex { get; set; } = -1;
-
-        public int AimSequenceNumberIndex { get; set; } = -1;
-        public int UlnIndex { get; set; } = -1;
-        public int LearnAimRefIndex { get; set; } = -1;
-        public int RestartIndicatorIndex { get; set; } = -1;
-        public int FundingAdjustmentForPriorLearningIndex { get; set; } = -1;
-        public int OtherFundingAdjustmentIndex { get; set; } = -1;
-        public int SubmissionPeriod { get; set; } = -1;
-    }
-
-    public class FullIlrStructure
-    {
-        public IlrTableStructure IlrTableStructure { get; set; }
-        public LearningSupportTableParser.LearningSupportTableColumnStructure LearningSupportTableColumnStructure { get; set; }
-        public EmploymentStatusTableParser.EmploymentStatusTableColumnStructure EmploymentStatusTableColumnStructure { get; set; }
-        public ContractTypeTableParser.ContractTypesTableColumnStructure ContractTypesTableColumnStructure { get; set; }
     }
 }
