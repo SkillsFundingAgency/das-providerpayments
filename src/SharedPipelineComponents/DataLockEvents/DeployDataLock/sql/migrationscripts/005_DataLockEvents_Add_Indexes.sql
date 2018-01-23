@@ -20,3 +20,4 @@ WHERE name='IX_DataLockEvents_DataLockId' )
 BEGIN
 	CREATE INDEX IX_DataLockEvents_DataLockId ON DataLock.DataLockEvents (DataLockEventId)
 END
+
