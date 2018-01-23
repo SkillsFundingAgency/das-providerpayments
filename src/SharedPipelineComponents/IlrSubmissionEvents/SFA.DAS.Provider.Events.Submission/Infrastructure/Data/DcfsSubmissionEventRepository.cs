@@ -34,7 +34,7 @@ namespace SFA.DAS.Provider.Events.Submission.Infrastructure.Data
                         command.CommandText = "INSERT INTO Submissions.SubmissionEvents " +
                                               "(IlrFileName,FileDateTime,SubmittedDateTime,ComponentVersionNumber,UKPRN,ULN,LearnRefNumber,AimSeqNumber," +
                                               "PriceEpisodeIdentifier,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,ActualStartDate,PlannedEndDate," +
-                                              "ActualEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,NINumber,CommitmentId,AcademicYear,EmployerReferenceNumber) " +
+                                              "ActualEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,NINumber,CommitmentId,AcademicYear,EmployerReferenceNumber,EPAOrgId) " +
                                               $"VALUES {batch}";
                         command.ExecuteNonQuery();
                     }
@@ -70,7 +70,8 @@ namespace SFA.DAS.Provider.Events.Submission.Infrastructure.Data
             block.Append($"{(@event.NiNumber != null ? "'" + @event.NiNumber + "'" : "NULL")},");
             block.Append($"{(@event.CommitmentId != null ? @event.CommitmentId.ToString() : "NULL")},");
             block.Append($"{(@event.AcademicYear != null ? "'" + @event.AcademicYear + "'" : "NULL")},");
-            block.Append($"{@event.EmployerReferenceNumber}");
+            block.Append($"{@event.EmployerReferenceNumber},");
+            block.Append($"{(@event.EPAOrgId != null ? "'" + @event.EPAOrgId + "'" : "NULL")}");
 
             block.Append(")");
             return block.ToString();

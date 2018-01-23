@@ -42,6 +42,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp1, newEvent.OnProgrammeTotalPrice);
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp2, newEvent.CompletionTotalPrice);
             Assert.AreEqual(testDataSet.Learners[0].NiNumber, newEvent.NiNumber);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].EPAOrgId, newEvent.EPAOrgId);
         }
 
         [Test]
@@ -124,6 +125,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp1, version.OnProgrammeTotalPrice);
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp2, version.CompletionTotalPrice);
             Assert.AreEqual(testDataSet.Learners[0].NiNumber, version.NiNumber);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].EPAOrgId, version.EPAOrgId);
         }
 
 

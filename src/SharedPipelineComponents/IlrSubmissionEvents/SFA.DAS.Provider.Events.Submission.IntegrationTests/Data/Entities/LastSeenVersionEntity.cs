@@ -26,6 +26,6 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data.Entities
         public long? CommitmentId { get; set; }
         public int EmployerReferenceNumber { get; set; }
         public string AcademicYear { get; set; }
-
+        public string EPAOrgId { get; set; }
     }
 }

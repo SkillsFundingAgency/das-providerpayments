@@ -131,6 +131,14 @@
       <Link>DbSetupScripts\dml\02 Submissions.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql">
+      <Link>DbSetupScripts\1_SubmissionEvents.Deds.Add_Indexes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeploySubmission\sql\migration scripts\~2_Submissions.Deds.AddColumns.sql">
+      <Link>DbSetupScripts\~2_Submissions.Deds.AddColumns.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\datalock.transient.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

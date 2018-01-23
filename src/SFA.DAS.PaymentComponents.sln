@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -488,6 +488,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{20BE3CD0-AB7B-4D05-A456-0D9660F9EE34}"
 	ProjectSection(SolutionItems) = preProject
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\1_SubmissionEvents.Deds.Add_Indexes.sql
+		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\~2_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migration scripts\~2_Submissions.Deds.AddColumns.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{10ED3F84-76FF-4152-BE98-5F74C13659B9}"

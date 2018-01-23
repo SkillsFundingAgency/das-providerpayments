@@ -46,7 +46,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 PlannedEndDate = new DateTime(2018, 2, 1),
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
-                NiNumber = "AB123456A"
+                NiNumber = "AB123456A",
+                EPAOrgId = "EpaOrgI"
             };
             var updatedSubmissionOriginal = new IlrDetails
             {
@@ -63,7 +64,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 PlannedEndDate = new DateTime(2018, 2, 1),
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
-                NiNumber = "AB123456A"
+                NiNumber = "AB123456A",
+                EPAOrgId = "EpaOrgI"
             };
             var updatedSubmissionChanged = new IlrDetails
             {
@@ -80,7 +82,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 PlannedEndDate = new DateTime(2018, 3, 1),
                 OnProgrammeTotalPrice = 12500,
                 CompletionTotalPrice = 3050,
-                NiNumber = "AB123456A"
+                NiNumber = "AB123456A",
+                EPAOrgId = "EpaOrgI"
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
@@ -129,6 +132,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].OnProgrammeTotalPrice == ilrForFirstSubmission.OnProgrammeTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].CompletionTotalPrice == ilrForFirstSubmission.CompletionTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].NiNumber == ilrForFirstSubmission.NiNumber)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
 
             // Provider with updated submission
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].IlrFileName == updatedSubmissionChanged.IlrFileName)));
@@ -150,6 +154,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].OnProgrammeTotalPrice == updatedSubmissionChanged.OnProgrammeTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].CompletionTotalPrice == updatedSubmissionChanged.CompletionTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].NiNumber == null)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
         }
 
         [Test]
@@ -171,7 +176,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 PlannedEndDate = new DateTime(2018, 2, 1),
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
-                NiNumber = "AB123456A"
+                NiNumber = "AB123456A",
+                EPAOrgId = "EPAOrgI"
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
@@ -212,9 +218,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].OnProgrammeTotalPrice == ilrForFirstSubmission.OnProgrammeTotalPrice)), Times.Once);
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].CompletionTotalPrice == ilrForFirstSubmission.CompletionTotalPrice)), Times.Once);
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].NiNumber == ilrForFirstSubmission.NiNumber)), Times.Once);
-
+            _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)), Times.Once);
         }
-
-
     }
 }

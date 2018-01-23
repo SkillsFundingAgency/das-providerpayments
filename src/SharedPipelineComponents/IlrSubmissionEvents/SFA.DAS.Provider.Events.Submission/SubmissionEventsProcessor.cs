@@ -146,6 +146,10 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
             }
 
+            if (currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId)
+            {
+                (@event = @event ?? new SubmissionEvent()).EPAOrgId = currentIlr.EPAOrgId;
+            }
 
             // If there have been changes then set the standard properties
             if (@event != null)
@@ -161,6 +165,8 @@ namespace SFA.DAS.Provider.Events.Submission
                 @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
                 @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
                 @event.AcademicYear = currentIlr.AcademicYear;
+                // todo: we think we always want the EPAOrgId, but further down the line we might realise that we only want it if it's changed
+                @event.EPAOrgId = currentIlr.EPAOrgId;
             }
 
             return @event;
