@@ -10,7 +10,6 @@ if exist "SFA.DAS.Payments.Reference.Accounts\bin\%BuildConfig%" (
   xcopy SFA.DAS.Payments.Reference.Accounts\bin\%BuildConfig%\*.dll Deploy\component\
 )
 
-xcopy ..\..\TestResult*.Reference.Accounts.xml Deploy\test-results\
-xcopy ..\..\TestResult*.DCFS*.xml Deploy\test-results\
+xcopy TestResult.xml Deploy\test-results\
 
 exit /b 0
