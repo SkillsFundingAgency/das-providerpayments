@@ -42,3 +42,11 @@ BEGIN
 	CREATE INDEX IX_LevyPaymentHistory_RequiredPaymentId ON Reference.LevyPaymentsHistory (RequiredPaymentId)
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'LevyPaymentsHistory'
+AND i.name = 'IX_LevyPaymentsHistory_Commitment')
+BEGIN 
+	CREATE CLUSTERED INDEX [IX_LevyPaymentsHistory_Commitment] ON Reference.LevyPaymentsHistory (DeliveryYear, DeliveryMonth, TransactionType, CommitmentId)
+END

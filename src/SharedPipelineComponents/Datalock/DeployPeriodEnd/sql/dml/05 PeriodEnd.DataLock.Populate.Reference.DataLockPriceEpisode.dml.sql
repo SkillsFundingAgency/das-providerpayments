@@ -17,6 +17,12 @@ BEGIN
 END
 GO
 
+
+IF EXISTS (SELECT NULL FROM sys.indexes WHERE name='IX_DataLockPriceEpisode_Uln')
+BEGIN
+	DROP INDEX IX_DataLockPriceEpisode_Uln ON Reference.DataLockPriceEpisode
+END
+
 TRUNCATE TABLE [Reference].[DataLockPriceEpisode]
 GO
 
@@ -92,3 +98,5 @@ CREATE CLUSTERED INDEX [IDX_DataLockPriceEpisode_Ukprn] ON [Reference].[DataLock
 GO
 
 CREATE INDEX IX_DataLockPriceEpisode_DataLockEvents ON Reference.DataLockPriceEpisode (UKPRN, LearnRefNumber, PriceEpisodeIdentifier)
+
+CREATE INDEX IX_DataLockPriceEpisode_Uln ON Reference.DataLockPriceEpisode (Uln)
