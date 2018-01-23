@@ -52,6 +52,7 @@ INSERT INTO [Reference].[DasCommitments]
     WHERE [ULN] IN (SELECT DISTINCT [ULN] 
 					FROM 
 					[Valid].[Learner] )
+	AND CONVERT(VARCHAR(12),[StartDate],103) <> CONVERT(VARCHAR(12),[EndDate],103)
     GROUP BY [CommitmentId],
         [Uln],
         [Ukprn],

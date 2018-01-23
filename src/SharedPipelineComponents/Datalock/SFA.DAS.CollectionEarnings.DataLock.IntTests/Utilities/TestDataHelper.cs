@@ -353,9 +353,23 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             return GetPriceEpisodePeriodMatchForPeriod(connectionString, period);
         }
 
+        internal static CommitmentEntity[] GetProviderCommitmentsForIlrSubmission(long ukprn, bool inDeds = false)
+        {
+            var connectionString = inDeds
+                ? GlobalTestContext.Instance.SubmissionDedsConnectionString
+                : GlobalTestContext.Instance.SubmissionConnectionString;
+
+            return GetProviderCommitments(connectionString, ukprn);
+        }
+
         private static PriceEpisodeMatchEntity[] GetPriceEpisodePeriodMatches(string connectionString)
         {
             return Query<PriceEpisodeMatchEntity>(connectionString, "SELECT * FROM [DataLock].[PriceEpisodePeriodMatch]");
+        }
+
+        private static CommitmentEntity[] GetProviderCommitments(string connectionString, long ukprn)
+        {
+            return Query<CommitmentEntity>(connectionString, "SELECT * FROM DataLock.vw_Commitments WHERE ProviderUkprn = @ukprn", new { ukprn });
         }
 
         private static PriceEpisodePeriodMatchEntity[] GetPriceEpisodePeriodMatchForPeriod(string connectionString,int period)

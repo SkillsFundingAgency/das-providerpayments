@@ -24,6 +24,32 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
         private DateTime? _effectiveTo;
         private int _priority;
 
+        public CommitmentEntityBuilder()
+        {
+            //
+        }
+
+        public CommitmentEntityBuilder(CommitmentEntityBuilder existingBuilder)
+        {
+            this._commitmentId = existingBuilder._commitmentId;
+            this._versionId = existingBuilder._versionId;
+            this._uln = existingBuilder._uln;
+            this._ukprn = existingBuilder._ukprn;
+            this._accountId = existingBuilder._accountId;
+            this._startDate = existingBuilder._startDate;
+            this._endDate = existingBuilder._endDate;
+            this._agreedCost = existingBuilder._agreedCost;
+            this._standardCode = existingBuilder._standardCode;
+            this._programmeType = existingBuilder._programmeType;
+            this._frameworkCode = existingBuilder._frameworkCode;
+            this._pathwayCode = existingBuilder._pathwayCode;
+            this._paymentStatus = existingBuilder._paymentStatus;
+            this._paymentStatusDescription = existingBuilder._paymentStatusDescription;
+            this._effectiveFrom = existingBuilder._effectiveFrom;
+            this._effectiveTo = existingBuilder._effectiveTo;
+            this._priority = existingBuilder._priority;
+        }
+
         public CommitmentEntity Build()
         {
             return new CommitmentEntity
@@ -44,7 +70,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
                 PaymentStatusDescription = _paymentStatusDescription,
                 EffectiveFrom = _effectiveFrom,
                 EffectiveTo = _effectiveTo,
-                Priority=_priority
+                Priority = _priority
             };
         }
 
@@ -134,8 +160,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
         public CommitmentEntityBuilder WithPaymentStatus(PaymentStatus paymentStatus)
         {
             _paymentStatus = (int)paymentStatus;
-            _paymentStatusDescription = paymentStatus.ToString();
-
+            _paymentStatusDescription = Enum.GetName(typeof(PaymentStatus), paymentStatus);
             return this;
         }
 
@@ -154,7 +179,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
         }
         public CommitmentEntityBuilder WithPriority(int priority)
         {
-            _priority= priority;
+            _priority = priority;
 
             return this;
         }

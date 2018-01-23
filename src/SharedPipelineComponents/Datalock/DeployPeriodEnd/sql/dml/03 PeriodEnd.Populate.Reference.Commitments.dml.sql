@@ -49,6 +49,7 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
+	WHERE CONVERT(VARCHAR(12),[StartDate],103) <> CONVERT(VARCHAR(12),[EndDate],103)
     GROUP BY [CommitmentId],
         [Uln],
         [Ukprn],

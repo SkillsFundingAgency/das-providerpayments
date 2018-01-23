@@ -270,6 +270,9 @@
     <Content Include="Utilities\Sql\DPP-222\IlrAcceptanceCriteria1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\Sql\IlrSubmissionDLock08Error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndFirstIncentiveEarnings.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

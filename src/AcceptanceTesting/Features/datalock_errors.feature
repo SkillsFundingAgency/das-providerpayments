@@ -304,6 +304,21 @@ Scenario: DLOCK08 - When multiple matching record found in an employer digital a
         | 2-450-1-01/05/2017       | 74-002             | 01/05/2017 | 450            | 2              | 1            | 10000            | 01/05/2017     |
 
 
+Scenario: DLOCK08(a) - When multiple valid matching commitments found in an employer digital account then datalock DLOCK_08 will not be produced
+
+    Given the apprenticeship funding band maximum for each learner is 17000
+    And levy balance > agreed price for all months
+	And the following commitments exist:
+        | commitment Id | version Id | Provider   | ULN       | framework code | programme type | pathway code | agreed price | start date | end date   | status    | effective from |
+        | 73            | 73-125     | Provider a | learner a | 450            | 2              | 1            | 10000        | 01/05/2017 | 01/05/2017 | cancelled | 01/05/2017     |
+        | 74            | 74-002     | Provider a | learner a | 450            | 2              | 1            | 10000        | 01/05/2017 | 08/08/2018 | active    | 01/05/2017     |
+    When an ILR file is submitted with the following data:  
+        | Provider   | ULN       | framework code | programme type | pathway code | start date | planned end date | completion status | Total training price | Total training price effective date |
+        | Provider a | learner a | 450            | 2              | 1            | 01/05/2017 | 08/08/2018       | continuing        | 10000                | 01/05/2017                          |
+	Then the following data lock event is returned:
+        | Price Episode identifier | Apprenticeship Id | ULN       | ILR Start Date | ILR Training Price |
+        | 2-450-1-01/05/2017       | 74                | learner a | 01/05/2017     | 10000              |
+    And no data lock event errors occurred
 
 Scenario: DLOCK07(a) - When price is changed, then effective to is set on previous price episode
     Given the following commitments exist:

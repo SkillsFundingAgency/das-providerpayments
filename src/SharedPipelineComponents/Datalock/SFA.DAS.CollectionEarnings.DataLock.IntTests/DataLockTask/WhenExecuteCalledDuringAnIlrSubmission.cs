@@ -12,6 +12,7 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 {
@@ -291,6 +292,168 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
         }
 
         [Test]
+        public void ThenValidationDataLock08ErrorAddedForMultipleMatchingCommitments()
+        {
+            // Arrange
+            TestDataHelper.ExecuteScript("IlrSubmissionDLock08Error.sql");
+
+            var baseBuilder = new CommitmentEntityBuilder()
+                   .Withukprn(10007459)
+                   .WithUln(8628555861)
+                   .WithStartDate(new DateTime(2017, 6, 1))
+                   .WithEndDate(new DateTime(2018, 06, 01));
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithCommitmentId(13458)
+                    .WithVersionId("57594")
+                    .WithAgreedCost(1500)
+                    .WithStandardCode(0)
+                    .WithProgrammeType(3)
+                    .WithFrameworkCode(488)
+                    .WithPathwayCode(1)
+                    .WithPaymentStatus(PaymentStatus.Active)
+                    .WithPriority(0)
+                    .WithEffectiveFrom(new DateTime(2017, 6, 1))
+                    .WithEffectiveTo(new DateTime(2017, 7, 02))
+                    .Build());
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithCommitmentId(13458)
+                    .WithVersionId("57600")
+                    .WithAgreedCost(1500)
+                    .WithStandardCode(0)
+                    .WithProgrammeType(3)
+                    .WithFrameworkCode(488)
+                    .WithPathwayCode(1)
+                    .WithPaymentStatus(PaymentStatus.Active)
+                    .WithPriority(11)
+                    .WithEffectiveFrom(new DateTime(2017, 7, 3))
+                    .WithEffectiveTo(new DateTime(2017, 5, 31))
+                    .Build());
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithCommitmentId(13458)
+                    .WithVersionId("80959")
+                    .WithAgreedCost(1500)
+                    .WithStandardCode(0)
+                    .WithProgrammeType(3)
+                    .WithFrameworkCode(488)
+                    .WithPathwayCode(1)
+                    .WithPaymentStatus(PaymentStatus.Cancelled)
+                    .WithPriority(11)
+                    .WithEffectiveFrom(new DateTime(2017, 06, 01))
+                    .WithEffectiveTo(null)
+                    .Build());
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithCommitmentId(17224)
+                    .WithVersionId("85900")
+                    .WithAgreedCost(4000)
+                    .WithStandardCode(122)
+                    .WithProgrammeType(0)
+                    .WithFrameworkCode(0)
+                    .WithPathwayCode(1)
+                    .WithPaymentStatus(PaymentStatus.Active)
+                    .WithPriority(0)
+                    .WithEffectiveFrom(new DateTime(2017, 06, 01))
+                    .WithEffectiveTo(new DateTime(2017, 07, 10))
+                    .Build());
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithCommitmentId(17224)
+                    .WithVersionId("85906")
+                    .WithAgreedCost(4000)
+                    .WithStandardCode(122)
+                    .WithProgrammeType(0)
+                    .WithFrameworkCode(0)
+                    .WithPathwayCode(1)
+                    .WithPaymentStatus(PaymentStatus.Active)
+                    .WithPriority(17)
+                    .WithEffectiveFrom(new DateTime(2017, 07, 11))
+                    .WithEffectiveTo(null)
+                    .Build());
+
+            SetupAccountData(new DasAccountBuilder().Build());
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var errors = TestDataHelper.GetValidationErrors();
+
+            Assert.IsNotNull(errors);
+            Assert.AreEqual(1, errors.Length);
+            Assert.AreEqual(1, errors.Count(e => e.RuleId == DataLockErrorCodes.MultipleMatches));
+
+            var priceEpisodeMatches = TestDataHelper.GetPriceEpisodeMatches();
+            Assert.AreEqual(2, priceEpisodeMatches.Count());
+            Assert.IsFalse(priceEpisodeMatches.Any(x => x.IsSuccess));
+        }
+
+        [Test]
+        public void ThenCommitmentsWhichAreStartedAndEndedOnTheSameDayAreIgnored()
+        {
+            // Arrange
+            TestDataHelper.ExecuteScript("IlrSubmissionDLock08Error.sql");
+
+            const long ukprn = 10007459L;
+
+            var baseBuilder = new CommitmentEntityBuilder()
+                .Withukprn(ukprn)
+                .WithUln(8628555861)
+                .WithFrameworkCode(550)
+                .WithPathwayCode(1);
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithStartDate(new DateTime(2017, 06, 01))
+                    .WithEndDate(new DateTime(2017, 06, 01))
+                    .WithCommitmentId(13458)
+                    .WithVersionId("80959")
+                    .WithAgreedCost(1500)
+                    .WithStandardCode(0)
+                    .WithProgrammeType(3)
+                    .WithPaymentStatus(PaymentStatus.Cancelled)
+                    .WithPriority(11)
+                    .WithEffectiveFrom(new DateTime(2017, 06, 01))
+                    .WithEffectiveTo(new DateTime(2017, 06, 01))
+                    .Build());
+
+            SetupCommitmentData(
+                new CommitmentEntityBuilder(baseBuilder)
+                    .WithStartDate(new DateTime(2017, 06, 01))
+                    .WithEndDate(new DateTime(2018, 06, 01))
+                    .WithCommitmentId(17224)
+                    .WithVersionId("85900")
+                    .WithAgreedCost(4000)
+                    .WithStandardCode(122)
+                    .WithProgrammeType(0)
+                    .WithPaymentStatus(PaymentStatus.Active)
+                    .WithPriority(0)
+                    .WithEffectiveFrom(new DateTime(2017, 06, 01))
+                    .WithEffectiveTo(null)
+                    .Build());
+
+            SetupAccountData(new DasAccountBuilder().Build());
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var providerCommitmentMatches = TestDataHelper.GetProviderCommitmentsForIlrSubmission(ukprn);
+            Assert.AreEqual(1, providerCommitmentMatches.Count());
+        }
+
+        [Test]
         public void ThenPriceEpisodeMatchesAddedForMatchFound()
         {
             // Arrange
@@ -431,7 +594,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 
             var priceEpisodePayable = TestDataHelper.GetPriceEpisodePeriodMatchForPeriod(false, 4);
             Assert.IsTrue(priceEpisodePayable.Length > 0);
-            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.FirstEmployerProviderIncentives ).Payable);
+            Assert.IsTrue(priceEpisodePayable.Single(x => x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.FirstEmployerProviderIncentives).Payable);
             Assert.IsFalse(priceEpisodePayable.Single(x => x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.AllLearning).Payable);
 
         }
