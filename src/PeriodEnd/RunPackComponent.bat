@@ -18,7 +18,7 @@ if exist "%Component%\SFA.DAS.Payments.Calc.%Component%\bin\%BuildConfig%" (
   xcopy %Component%\SFA.DAS.Payments.Calc.%Component%\bin\%BuildConfig%\*.dll Deploy%Component%\component\
 )
 
-xcopy ..\TestResult*.%Component%.xml Deploy%Component%\test-results\
-xcopy ..\TestResult*.DCFS*.xml Deploy%Component%\test-results\
+xcopy TestResult*.Common.xml Deploy%Component%\test-results\
+xcopy TestResult*.%Component%.xml Deploy%Component%\test-results\
 
 exit /b 0
