@@ -1,8 +1,3 @@
-PUSHD SharedPipelineComponents
-PUSHD Datalock
-CALL RunPackComponent.bat
-POPD
-POPD
 
 PUSHD OpaEarning
 PUSHD Transform
@@ -31,6 +26,9 @@ CALL RunPackComponent.bat %1 DataLock
 POPD
 PUSHD IlrSubmissionEvents
 CALL RunPackComponent.bat %1 Submission
+POPD
+PUSHD Datalock
+CALL RunPackComponent.bat %1
 POPD
 POPD
 
