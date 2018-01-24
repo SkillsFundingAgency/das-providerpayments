@@ -16,9 +16,9 @@ GO
 CREATE VIEW PaymentsDue.vw_ApprenticeshipEarning
 AS
    SELECT * FROM Staging.ApprenticeshipEarnings1
-	UNION ALL
+	UNION 
 	SELECT * FROM Staging.ApprenticeshipEarnings2
-	UNION ALL
+	UNION 
 	SELECT * FROM Staging.ApprenticeshipEarnings3	
 GO
 
