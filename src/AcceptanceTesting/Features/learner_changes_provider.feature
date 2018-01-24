@@ -197,7 +197,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget      | 0     | 0     | 0     | 0     | 0     |
             | SFA Levy additional payments budget | 0     | 0     | 0     | 1000  | 0     |
-        And OBSOLETE - the transaction types for the payments for provider a are:
+        And the transaction types for the payments for provider a are:
             | Payment type             | 09/17 | 10/17 | 11/17 | 12/17 |
             | On-program               | 500   | 500   | 500   | 0     |
             | Completion               | 0     | 0     | 0     | 0     |
