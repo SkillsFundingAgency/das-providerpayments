@@ -69,9 +69,6 @@ CREATE TABLE Staging.LearnerPriceEpisodePerPeriod
 	MaxEpisodeStartDate date
 )
 GO
-CREATE NONCLUSTERED INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate]
-ON [Staging].[LearnerPriceEpisodePerPeriod] ([Ukprn],[LearnRefNumber],[AimSeqNumber],[Period],[MaxEpisodeStartDate])
-GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- ApprenticeshipEarningsRequiringPayments

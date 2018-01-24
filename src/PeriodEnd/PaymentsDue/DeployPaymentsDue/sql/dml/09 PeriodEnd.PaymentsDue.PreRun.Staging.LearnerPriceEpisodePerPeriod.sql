@@ -72,6 +72,9 @@ LEFT JOIN #MaxStartDateForEpisodesInPeriod y
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'LearnerPriceEpisodePerPeriod' AND i.name = 'IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate')
 	ALTER INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate] ON Staging.LearnerPriceEpisodePerPeriod REBUILD;
+ELSE
+	CREATE NONCLUSTERED INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate]
+	ON [Staging].[LearnerPriceEpisodePerPeriod] ([Ukprn],[LearnRefNumber],[AimSeqNumber],[Period],[MaxEpisodeStartDate])
 GO
 
 DROP TABLE #MaxStartDateForEpisodes

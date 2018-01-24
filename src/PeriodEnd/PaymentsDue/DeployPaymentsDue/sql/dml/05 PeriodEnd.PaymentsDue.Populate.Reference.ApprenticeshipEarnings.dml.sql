@@ -107,10 +107,18 @@ GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_Earnings_Learner')
 	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipEarnings REBUILD;
+ELSE
+	CREATE INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipEarnings ([Ukprn], [LearnRefNumber], [LearnAimRef])	
 GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IDX_ApprenticeshipEarnings_StartDate')
 	ALTER INDEX [IDX_ApprenticeshipEarnings_StartDate] ON [Reference].[ApprenticeshipEarnings] REBUILD;
+ELSE
+	CREATE NONCLUSTERED INDEX [IDX_ApprenticeshipEarnings_StartDate]
+	ON [Reference].[ApprenticeshipEarnings] ([EpisodeStartDate])
+	INCLUDE ([Ukprn],[LearnRefNumber],[AimSeqNumber],[PriceEpisodeIdentifier],[Period],
+		[PriceEpisodeEndDate],[StandardCode],[ProgrammeType],[FrameworkCode],[PathwayCode],
+		[ApprenticeshipContractType])
 GO
 
 
@@ -195,8 +203,13 @@ GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Learner')
 	ALTER INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipDeliveryEarnings REBUILD;
+ELSE
+	CREATE INDEX [IDX_Earnings_Learner] ON Reference.ApprenticeshipDeliveryEarnings ([Ukprn], [LearnRefNumber], [LearnAimRef])
 GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipDeliveryEarnings' AND i.name = 'IDX_Earnings_Period')
 	ALTER INDEX [IDX_Earnings_Period] ON [Reference].[ApprenticeshipDeliveryEarnings] REBUILD;
+ELSE
+	CREATE NONCLUSTERED INDEX IDX_Earnings_Period ON [Reference].[ApprenticeshipDeliveryEarnings] ([Period])
+	INCLUDE ([Ukprn],[LearnRefNumber],[MathEngOnProgPayment],[MathEngBalPayment],[LearningSupportPayment],[StandardCode],[ProgrammeType],[FrameworkCode],[PathwayCode])
 GO

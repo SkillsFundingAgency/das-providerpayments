@@ -46,8 +46,12 @@ GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'RequiredPaymentsHistory' AND i.name = 'IDX_PaymentsHistory_Learner')
 	ALTER INDEX [IDX_PaymentsHistory_Learner] ON [Reference].[RequiredPaymentsHistory] REBUILD;
+ELSE
+	CREATE INDEX [IDX_PaymentsHistory_Learner] ON Reference.RequiredPaymentsHistory ([Ukprn], [LearnRefNumber])
 GO
 
 IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'RequiredPaymentsHistory' AND i.name = 'IDX_PaymentsHistory_Course')
 	ALTER INDEX [IDX_PaymentsHistory_Course] ON [Reference].[RequiredPaymentsHistory] REBUILD;
+ELSE
+	CREATE INDEX [IDX_PaymentsHistory_Course] ON Reference.RequiredPaymentsHistory ([Ukprn], [Uln], [StandardCode], [ProgrammeType], [FrameworkCode], [PathwayCode])
 GO
