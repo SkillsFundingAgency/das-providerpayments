@@ -100,7 +100,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return status;
         }
         
-        public class EmploymentStatusTableColumnStructure
+        private class EmploymentStatusTableColumnStructure
         {
             public int EmployerIndex { get; set; } = -1;
             public int EmploymentStatusIndex { get; set; } = -1;
