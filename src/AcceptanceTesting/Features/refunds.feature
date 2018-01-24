@@ -158,7 +158,7 @@ and this refund must be credited to Provider A where refunded Levy amount will b
 		| Learner A | Provider A | 04/08/2017 | 20/08/2018       |                 | Continuing        | 25            | 25					| 4500                 | 04/08/2017                          | 1125                   | 04/08/2017                            |
 		| Learner B | Provider B | 04/08/2017 | 20/08/2018       | 12/11/2017      | withdrawn         | 25            | 25					| 9000                 | 04/08/2017                          | 2250                   | 04/08/2017                            |
 
-    Then the earnings and payments break down for provider A is as follows:
+    Then OBSOLETE - the earnings and payments break down for provider A is as follows:
 		| Type                          | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 |
 		| Provider Earned Total         | 375   | 375   | 375   | 375   | 375   | 375   | 375   |
 		| Provider Earned from SFA      | 375   | 375   | 375   | 375   | 375   | 375   | 375   |
@@ -170,7 +170,8 @@ and this refund must be credited to Provider A where refunded Levy amount will b
 		| Levy account credited         | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 		| SFA Levy employer budget      | 375   | 375   | 375   | 375   | 375   | 375   | 375   |
 		| SFA Levy co-funding budget    | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
-    Then the earnings and payments break down for provider B is as follows:
+
+    Then OBSOLETE - the earnings and payments break down for provider B is as follows:
         | Type                          | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 |
         | Provider Earned Total         | 750   | 750   | 750   | 0     | 0     | 0     | 0     |
         | Provider Earned from SFA      | 750   | 750   | 750   | 0     | 0     | 0     | 0     |

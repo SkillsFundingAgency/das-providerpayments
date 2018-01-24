@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
@@ -8,40 +12,57 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class SubmissionSteps
     {
-        public SubmissionSteps(CommitmentsContext commitmentsContext, SubmissionContext submissionsContext, LookupContext lookupContext)
+        public SubmissionSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             CommitmentsContext = commitmentsContext;
-            SubmissionsContext = submissionsContext;
             LookupContext = lookupContext;
+            MultipleSubmissionsContext = multipleSubmissionsContext;
+            EmployerAccountContext = employerAccountContext;
         }
-        public SubmissionContext SubmissionsContext { get; }
         public CommitmentsContext CommitmentsContext { get; }
         public LookupContext LookupContext { get; }
-
+        public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
+        public EmployerAccountContext EmployerAccountContext { get; set; }
 
         [When("an ILR file is submitted with the following data:")]
         [When(@"an ILR file is submitted every month with the following data:")] //Duplicate?
         public void WhenAnIlrFileIsSubmitted(Table ilrDetails)
         {
-            IlrTableParser.ParseIlrTableIntoContext(SubmissionsContext, ilrDetails);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
+        }
+
+        [When("an ILR file is submitted for period (.*) with the following data:")]
+        public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
+        {
+            var submission = new Submission() {SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriod(period)};
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("the providers submit the following ILR files:")] //Duplicate?
         public void WhenMultipleIlrFilesAreSubmitted(Table ilrDetails)
         {
-            IlrTableParser.ParseIlrTableIntoContext(SubmissionsContext, ilrDetails);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When(@"an ILR file is submitted on (.*) with the following data:")] // what is the purpose of the dates?
         public void WhenIlrSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
-            IlrTableParser.ParseIlrTableIntoContext(SubmissionsContext, ilrDetails);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            MultipleSubmissionsContext.Add(submission);
         }
 
         [When("an ILR file is submitted for the first time on (.*) with the following data:")]
         public void WhenIlrFirstSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
-            IlrTableParser.ParseIlrTableIntoContext(SubmissionsContext, ilrDetails);
+            var submission = new Submission();
+            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails);
+            
 
             DateTime firstSubmissionDate;
             if (!DateTime.TryParse(specSumissionDate, out firstSubmissionDate))
@@ -49,28 +70,31 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 throw new ArgumentException($"{specSumissionDate} is not a valid date");
             }
             
-            SubmissionsContext.FirstSubmissionDate = firstSubmissionDate;
+            submission.FirstSubmissionDate = firstSubmissionDate;
+            MultipleSubmissionsContext.Add(submission);
         }
 
-        [When("the Contract type in the ILR is:")]
+        [When("the Contract type in the ILR is:"), Obsolete]
         public void WhenTheContractTypeInTheIlrIs(Table contractTypes)
         {
-            ContractTypeTableParser.ParseContractTypesIntoContext(SubmissionsContext, contractTypes);
+            if (MultipleSubmissionsContext.Submissions.Count > 1)
+                throw new Exception("Contract type is not supported in multiple ILR submission scenario. (Which ILR would it pertain to?)");
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                ContractTypeTableParser.ParseContractTypesIntoContext(submission, contractTypes);
+            }
         }
 
-        [When("the employment status in the ILR is:")]
+        [When("the employment status in the ILR is:"), Obsolete]
         public void WhenTheEmploymentStatusInTheIlrIs(Table employmentStatus)
         {
-            EmploymentStatusTableParser.ParseEmploymentStatusIntoContext(SubmissionsContext, employmentStatus);
+            if(MultipleSubmissionsContext.Submissions.Count > 1)
+                throw new Exception("Employment status is not supported in multiple ILR submission scenario. (Which ILR would it pertain to?)");
+
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                EmploymentStatusTableParser.ParseEmploymentStatusIntoContext(submission, employmentStatus);
+            }
         }
-
-        [When(@"the learning support status of the ILR is:")]
-        public void WhenTheLearningSupportStatusOfTheIlrIs(Table learningSupportStatus)
-        {
-            LearningSupportTableParser.ParseLearningSupportIntoContext(SubmissionsContext, learningSupportStatus);
-        }
-
-       
-
     }
 }

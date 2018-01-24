@@ -5,14 +5,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
 {
     public static class TransactionTypeAssertions
     {
-        public static void AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext earningsAndPaymentsContext, SubmissionContext submissionContext, EmployerAccountContext employerAccountContext)
+        public static void AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext earningsAndPaymentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             if (TestEnvironment.ValidateSpecsOnly)
             {
                 return;
             }
 
-            var submissionResults = submissionContext.SubmissionResults.ToArray();
+            var submissionResults = multipleSubmissionsContext.SubmissionResults.ToArray();
             new EmployerEarnedFor16To18IncentiveRule().AssertPeriodValues(earningsAndPaymentsContext.EmployerEarnedFor16To18Incentive, submissionResults, employerAccountContext);
             new ProviderEarnedForOnProgrammeRule().AssertPeriodValues(earningsAndPaymentsContext.ProviderEarnedForOnProgramme, submissionResults, employerAccountContext);
             new ProviderEarnedForCompletionRule().AssertPeriodValues(earningsAndPaymentsContext.ProviderEarnedForCompletion, submissionResults, employerAccountContext);

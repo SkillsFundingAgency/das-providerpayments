@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public static class ContractTypeTableParser
     {
-        public static void ParseContractTypesIntoContext(SubmissionContext submissionContext, Table contractTypes)
+        public static void ParseContractTypesIntoContext(Submission submission, Table contractTypes)
         {
             if (contractTypes.Rows.Count < 1)
             {
@@ -18,10 +18,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             var structure = ParseContractTypesTableStructure(contractTypes);
             foreach (var row in contractTypes.Rows)
             {
-                submissionContext.ContractTypes.Add(ParseContractTypeTableRow(row, structure));
+                submission.ContractTypes.Add(ParseContractTypeTableRow(row, structure));
             }
         }
-        
+
         private static ContractTypesTableColumnStructure ParseContractTypesTableStructure(Table contractTypes)
         {
             var structure = new ContractTypesTableColumnStructure();
@@ -70,7 +70,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
 
-        private class ContractTypesTableColumnStructure
+        public class ContractTypesTableColumnStructure
         {
             public int ContractTypeIndex { get; set; } = -1;
             public int DateFromIndex { get; set; } = -1;

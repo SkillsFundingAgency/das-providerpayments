@@ -19,7 +19,7 @@ Feature: Apprentice changes provider scenarios
             | Payment type | 08/17               | 09/17               | 10/17               | ... | 02/18               | 03/18 | 04/18 | 05/18 | 06/18               | 07/18               | 08/18               | 09/18               | 10/18               | 
             | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       |       |       | commitment 2 v2-001 | commitment 2 v2-001 | commitment 2 v2-001 | commitment 2 v2-001 | commitment 2 v2-001 | 
         
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 |
             | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 0     |
             | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     |
@@ -31,7 +31,7 @@ Feature: Apprentice changes provider scenarios
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     |
         
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                           | 06/18 | 07/18 | 08/18 | 09/18 | 10/18 | 11/18 |
             | Provider Earned Total          | 720   | 720   | 720   | 720   | 720   | 0     |
             | Provider Earned from SFA       | 720   | 720   | 720   | 720   | 720   | 0     |
@@ -60,7 +60,7 @@ Feature: Apprentice changes provider scenarios
         Then the data lock status will be as follows:
             | Payment type | 08/17               | 09/17               | 10/17               | ... | 02/18               | 03/18               | 04/18               | 05/18               | 06/18               | 07/18               | 
             | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | 
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 |
             | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 0     |
             | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     |
@@ -71,7 +71,7 @@ Feature: Apprentice changes provider scenarios
             | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     |
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     |
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                           | 03/18 | 04/18 | 05/18 | 06/18 | 07/18 | 08/18 |
             | Provider Earned Total          | 720   | 720   | 720   | 720   | 720   | 0     |
             | Provider Earned from SFA       | 720   | 720   | 720   | 720   | 720   | 0     |
@@ -100,7 +100,7 @@ Feature: Apprentice changes provider scenarios
         Then the data lock status will be as follows:
             | Payment type | 08/17               | 09/17               | 10/17               | ... | 02/18           | 03/18 | 04/18               | 05/18               | 06/18               | 07/18               | 
             | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | 
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 | 04/18 |
             | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 500   | 0     |
             | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     | 0     |
@@ -111,7 +111,7 @@ Feature: Apprentice changes provider scenarios
             | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     | 0     |
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     | 0     |
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                           | 04/18 | 05/18 | 06/18 | 07/18 | 08/18 |
             | Provider Earned Total          | 900   | 900   | 900   | 900   | 0     |
             | Provider Earned from SFA       | 900   | 900   | 900   | 900   | 0     |
@@ -140,7 +140,7 @@ Feature: Apprentice changes provider scenarios
         Then the data lock status will be as follows:
             | Payment type | 08/17               | 09/17               | 10/17               | ... | 01/18               | 02/18 | 03/18 | 04/18 | ... | 07/18 | 08/18 |
             | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       |       |       | ... |       |       |
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 01/18 | 02/18 |
             | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 0     |
             | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     |
@@ -151,7 +151,7 @@ Feature: Apprentice changes provider scenarios
             | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     |
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     |
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                           | 02/18 | 03/18 | 04/18 | ... | 07/18 | 08/18 |
             | Provider Earned Total          | 600   | 600   | 600   | ... | 600   | 0     |
             | Provider Earned from SFA       | 0     | 0     | 0     | ... | 0     | 0     |
@@ -185,7 +185,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
             | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
         
-       And the earnings and payments break down for provider a is as follows:
+       And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total               | 500   | 500   | 500   | 1000  | 0     |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     |
@@ -197,14 +197,14 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget      | 0     | 0     | 0     | 0     | 0     |
             | SFA Levy additional payments budget | 0     | 0     | 0     | 1000  | 0     |
-        And the transaction types for the payments for provider a are:
+        And OBSOLETE - the transaction types for the payments for provider a are:
             | Payment type             | 09/17 | 10/17 | 11/17 | 12/17 |
             | On-program               | 500   | 500   | 500   | 0     |
             | Completion               | 0     | 0     | 0     | 0     |
             | Balancing                | 0     | 0     | 0     | 0     |
             | Employer 16-18 incentive | 0     | 0     | 0     | 500   |
             | Provider 16-18 incentive | 0     | 0     | 0     | 500   |
-       And the earnings and payments break down for provider b is as follows:
+       And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                                | 11/17 | 12/17 | 01/18 |
             | Provider Earned Total               | 500   | 500   | 500   |
             | Provider Earned from SFA            | 500   | 500   | 500   |
@@ -246,7 +246,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |                     |
             | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |                     |
         
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total               | 500   | 500   | 500   | 1500  | 0     |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     |
@@ -267,7 +267,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | Employer 16-18 incentive | 0     | 0     | 0     | 500   |
             | Provider 16-18 incentive | 0     | 0     | 0     | 500   |
             
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                                | 11/17 | 12/17 | 01/18 | 02/18 |
             | Provider Earned Total               | 0     | 500   | 500   | 500   |
             | Provider Earned from SFA            | 0     | 500   | 500   | 500   |
@@ -310,7 +310,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |       |
             | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |       |
         
-        And the earnings and payments break down for provider a is as follows:
+        And OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total               | 500   | 500   | 500   | 1000  | 0     |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     |
@@ -331,7 +331,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             | Employer 16-18 incentive | 0     | 0     | 0     | 500   |
             | Provider 16-18 incentive | 0     | 0     | 0     | 500   |
             
-        And the earnings and payments break down for provider b is as follows:
+        And OBSOLETE - the earnings and payments break down for provider b is as follows:
             | Type                                | 11/17 | 12/17 | 01/18 | 02/18 |
             | Provider Earned Total               | 500   | 500   | 500   | 500   |
             | Provider Earned from SFA            | 0     | 0     | 0     | 0     |

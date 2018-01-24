@@ -9,7 +9,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public static class EmploymentStatusTableParser
     {
-        public static void ParseEmploymentStatusIntoContext(SubmissionContext submissionContext, Table employmentStatus)
+        public static void ParseEmploymentStatusIntoContext(Submission submission, Table employmentStatus)
         {
             if (employmentStatus.Rows.Count < 1)
             {
@@ -19,10 +19,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             var structure = ParseEmploymentStatusTableStructure(employmentStatus);
             foreach (var row in employmentStatus.Rows)
             {
-                submissionContext.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure));
+                submission.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure));
             }
         }
-        
+
         private static EmploymentStatusTableColumnStructure ParseEmploymentStatusTableStructure(Table contractTypes)
         {
             var structure = new EmploymentStatusTableColumnStructure();
@@ -100,7 +100,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return status;
         }
         
-        private class EmploymentStatusTableColumnStructure
+        public class EmploymentStatusTableColumnStructure
         {
             public int EmployerIndex { get; set; } = -1;
             public int EmploymentStatusIndex { get; set; } = -1;

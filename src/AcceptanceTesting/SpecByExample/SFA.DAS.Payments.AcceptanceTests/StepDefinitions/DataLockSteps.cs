@@ -10,18 +10,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class DataLockSteps
     {
-        public DataLockSteps(DataLockContext dataLockContext, CommitmentsContext commitmentsContext, SubmissionContext submissionContext, EmployerAccountContext employerAccountContext, LookupContext lookupContext)
+        public DataLockSteps(DataLockContext dataLockContext, CommitmentsContext commitmentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext, LookupContext lookupContext)
         {
             DataLockContext = dataLockContext;
             CommitmentsContext = commitmentsContext;
-            SubmissionContext = submissionContext;
+            MultipleSubmissionsContext = multipleSubmissionsContext;
             EmployerAccountContext = employerAccountContext;
             LookupContext = lookupContext;
         }
 
         public DataLockContext DataLockContext { get; }
         public CommitmentsContext CommitmentsContext { get; }
-        public SubmissionContext SubmissionContext { get; }
+        public MultipleSubmissionsContext MultipleSubmissionsContext { get; }
         public EmployerAccountContext EmployerAccountContext { get; }
         public LookupContext LookupContext { get; }
 
@@ -32,7 +32,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventsTableParser.ParseDataLockEventsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
         }
 
         [Then("no data lock event is returned")]
@@ -42,7 +42,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockContext.ExpectsNoDataLockEvents = true;
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
         }
 
         [Then(@"the data lock event has the following errors:")]
@@ -52,7 +52,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventErrorsTableParser.ParseDataLockEventErrorsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
         }
 
         [Then(@"the data lock event has the following periods")]
@@ -62,7 +62,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventPeriodTableParser.ParseDataLockEventPeriodsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
         }
 
         [Then(@"the data lock event used the following commitments")]
@@ -72,22 +72,31 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventCommitmentsTableParser.ParseDataLockEventCommitmentsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, SubmissionContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
         }
 
 
         private void EnsureSubmissionsHaveHappened()
         {
-            if (!SubmissionContext.HaveSubmissionsBeenDone)
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
-                var periodsToSubmitTo = new[]
+                if (!submission.HaveSubmissionsBeenDone)
                 {
-                    //SubmissionContext.IlrLearnerDetails.Min(x => x.StartDate).ToString("MM/yy")
-                    CommitmentsContext.Commitments.Max(x=>x.EffectiveFrom).ToString("MM/yy")
-                };
-                SubmissionContext.SubmissionResults = SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(SubmissionContext.IlrLearnerDetails, SubmissionContext.FirstSubmissionDate,
-                    LookupContext, EmployerAccountContext.EmployerAccounts, SubmissionContext.ContractTypes, SubmissionContext.EmploymentStatus, SubmissionContext.LearningSupportStatus, periodsToSubmitTo);
-                SubmissionContext.HaveSubmissionsBeenDone = true;
+                    var periodsToSubmitTo = new[]
+                    {
+                        CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).ToString("MM/yy")
+                    };
+                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                        submission.IlrLearnerDetails,
+                        submission.FirstSubmissionDate,
+                        LookupContext,
+                        EmployerAccountContext.EmployerAccounts,
+                        submission.ContractTypes,
+                        submission.EmploymentStatus,
+                        submission.LearningSupportStatus,
+                        periodsToSubmitTo));
+                    submission.HaveSubmissionsBeenDone = true;
+                }
             }
         }
 
