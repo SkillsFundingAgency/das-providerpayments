@@ -191,7 +191,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | Provider   | ULN       | agreed price | learner type       | start date | planned end date | actual end date | completion status |
             | provider A | learner a | 7500         | programme only DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
             | provider B | learner b | 15000        | programme only DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
-        Then the earnings and payments break down for provider A is as follows:
+        Then OBSOLETE - the earnings and payments break down for provider A is as follows:
             | Type                            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total           | 500   | 500   | 500   | ... | 500   | 1500  | 0     |
             | Provider Earned from SFA        | 500   | 500   | 500   | ... | 500   | 1500  | 0     |
@@ -202,7 +202,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | SFA Levy employer budget        | 500   | 500   | 500   | ... | 500   | 1500  | 0     |
             | SFA Levy co-funding budget      | 0     | 0     | 0     | ... | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget  | 0     | 0     | 0     | ... | 0     | 0     | 0     |
-        And the earnings and payments break down for provider B is as follows:
+        And OBSOLETE - the earnings and payments break down for provider B is as follows:
             | Type                            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -227,7 +227,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | Provider   | ULN       | agreed price | learner type       | start date | planned end date | actual end date | completion status |
             | provider A | learner a | 7500         | programme only DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
             | provider B | learner b | 15000        | programme only DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
-        Then the earnings and payments break down for provider A is as follows:
+        Then OBSOLETE - the earnings and payments break down for provider A is as follows:
             | Type                            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total           | 500   | 500   | 500   | ... | 500   | 1500  | 0     |
             | Provider Earned from SFA        | 500   | 500   | 500   | ... | 500   | 1450  | 0     |
@@ -238,7 +238,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | SFA Levy employer budget        | 500   | 500   | 500   | ... | 500   | 1000  | 0     |
             | SFA Levy co-funding budget      | 0     | 0     | 0     | ... | 0     | 450   | 0     |
             | SFA non-Levy co-funding budget  | 0     | 0     | 0     | ... | 0     | 0     | 0     |
-        And the earnings and payments break down for provider B is as follows:
+        And OBSOLETE - the earnings and payments break down for provider B is as follows:
             | Type                            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
             | Provider Earned from SFA        | 925   | 925   | 925   | ... | 950   | 2700  | 0     |

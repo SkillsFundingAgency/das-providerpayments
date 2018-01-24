@@ -46,6 +46,38 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             ThenProviderEarningAndPaymentsBreakDownTo(Defaults.ProviderIdSuffix, earningAndPayments);
         }
 
+        [Then("OBSOLETE - the provider earnings and payments break down as follows:"), Obsolete]
+        public void ThenProviderEarningAndPaymentsBreakDownToObsolete(Table earningAndPayments)
+        {
+            ThenProviderEarningAndPaymentsBreakDownToObsolete(Defaults.ProviderIdSuffix, earningAndPayments);
+        }
+
+        [Then("OBSOLETE - the earnings and payments break down for provider (.*) is as follows:"), Obsolete]
+        public void ThenProviderEarningAndPaymentsBreakDownToObsolete(string providerIdSuffix, Table earningAndPayments)
+        {
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                if (!submission.HaveSubmissionsBeenDone)
+                {
+                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                        submission.IlrLearnerDetails, submission.FirstSubmissionDate,
+                        LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
+                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                    submission.HaveSubmissionsBeenDone = true;
+                }
+            }
+
+            var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
+            if (providerBreakdown == null)
+            {
+                providerBreakdown = new EarningsAndPaymentsBreakdown { ProviderId = "provider " + providerIdSuffix };
+                EarningsAndPaymentsContext.OverallEarningsAndPayments.Add(providerBreakdown);
+            }
+
+            EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
+            AssertResults();
+        }
+
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
         {
