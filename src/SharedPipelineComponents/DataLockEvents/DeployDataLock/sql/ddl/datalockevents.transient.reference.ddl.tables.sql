@@ -49,7 +49,7 @@ GO
 
 CREATE INDEX IX_ReferenceDataLockEvents_DataLockEventId ON Reference.DataLockEvents (DataLockEventId)
 
-
+GO
 
 --------------------------------------------------------------------------------------
 -- DataLockEventPeriods
