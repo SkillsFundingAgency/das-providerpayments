@@ -261,7 +261,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private bool PayableItemExists(PeriodEarning[] earnings, PeriodEarning currentEarning)
         {
             return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
-                               p.Uln == currentEarning.Uln &&
+                                     p.LearnerReferenceNumber == currentEarning.LearnerReferenceNumber &&
+                               //p.Uln == currentEarning.Uln &&
                                p.StandardCode == currentEarning.StandardCode &&
                                p.FrameworkCode == currentEarning.FrameworkCode &&
                                p.PathwayCode == currentEarning.PathwayCode &&
