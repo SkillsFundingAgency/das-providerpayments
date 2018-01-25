@@ -205,7 +205,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
-        //refactor this out - not needed as one provider per ILR
         private static IlrLearnerReferenceData[] FilterLearnersForPeriod(IlrLearnerReferenceData[] learnerDetails, string period)
         {
             if (learnerDetails.All(x => x.SubmissionPeriod == null))
