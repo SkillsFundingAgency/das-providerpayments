@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
     public class WhenMakingDuePaymentsForNonDasLearners
     {
+        private const int Ukprn = 863145;
         [SetUp]
         public void Arrange()
         {
             TestDataHelper.Clean();
         }
 
-        private static readonly EarningsToPaymentEntity[] _earningsToPayments = new[]
-      {
+        private static readonly EarningsToPaymentEntity[] EarningsToPayments = {
             new EarningsToPaymentEntity {
                             StartDate =new DateTime(2016,8,10),
                             PlannedEndDate =new DateTime(2017,8,10),
@@ -39,17 +39,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldWriteCorrectDetailsForPaymentsDue(long? standardCode, int? frameworkCode, int? programmeType, int? pathwayCode)
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 834734;
+            const int uln = 834734;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(1);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, uln: uln,
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, uln: uln,
                 standardCode: standardCode, programmeType: programmeType, frameworkCode: frameworkCode,
                 pathwayCode: pathwayCode);
 
@@ -61,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(1, duePayments.Length);
 
             Assert.IsNull(duePayments[0].CommitmentId);
@@ -71,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.AreEqual(uln, duePayments[0].Uln);
             Assert.AreEqual(learnerRefNumber, duePayments[0].LearnRefNumber);
             Assert.AreEqual(1, duePayments[0].AimSeqNumber);
-            Assert.AreEqual(ukprn, duePayments[0].Ukprn);
+            Assert.AreEqual(Ukprn, duePayments[0].Ukprn);
             Assert.AreEqual(DateTime.Today, duePayments[0].IlrSubmissionDateTime);
             Assert.AreEqual(8, duePayments[0].DeliveryMonth);
             Assert.AreEqual(2016, duePayments[0].DeliveryYear);
@@ -91,16 +90,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakePaymentsForEachPeriodUptoAndIncludingTheCurrent()
         {
             // Arrange
-            var ukprn = 863145;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5);
 
             TestDataHelper.CopyReferenceData();
 
@@ -110,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(5, duePayments.Length);
 
             Assert.IsNull(duePayments[0].CommitmentId);
@@ -148,19 +146,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldNotMakePaymentsForPeriodWhereEarningHasBeenFullyPaidAlready()
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 1765935903;
+            
+            const int uln = 1765935903;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
 
             TestDataHelper.CopyReferenceData();
 
@@ -170,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(4, duePayments.Length);
             Assert.False(duePayments.Any(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016));
         }
@@ -179,19 +177,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakePartPaymentsForPeriodWhereEarningHasBeenPartiallyPaidAlready()
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 1765935903;
+            const int uln = 1765935903;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5, uln: uln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 500, learnRefNumber: learnerRefNumber,learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 8, 2016, (int)TransactionType.Learning, 500, learnRefNumber: learnerRefNumber,learningStartDate: startDate);
 
             TestDataHelper.CopyReferenceData();
 
@@ -201,7 +198,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(5, duePayments.Length);
 
             var actualPayment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016);
@@ -213,16 +210,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakePaymentsForLearningAndCompletionInFinalMonth()
         {
             // Arrange
-            var ukprn = 863145;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(12);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
 
             TestDataHelper.CopyReferenceData();
 
@@ -232,7 +228,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             var period12Payments = duePayments.Where(p => p.DeliveryMonth == 7 && p.DeliveryYear == 2017)
                                               .OrderBy(p => p.TransactionType)
                                               .ToArray();
@@ -249,18 +245,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakePaymentsForLearningCompletionAndBalancingForAnEarlyCompletion()
         {
             // Arrange
-            var ukprn = 863145;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(10);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 10, earlyFinisher: true);
-            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment", 360);
-            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftBalancing", 240);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 10, earlyFinisher: true);
+            TestDataHelper.AddAdditionalPayments(Ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftCompletionPayment", 360);
+            TestDataHelper.AddAdditionalPayments(Ukprn, startDate, learnerRefNumber, 10, "PriceEpisodeApplic1618FrameworkUpliftBalancing", 240);
 
 
             TestDataHelper.CopyReferenceData();
@@ -271,7 +266,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             var period10Payments = duePayments.Where(p => p.DeliveryMonth == 5 && p.DeliveryYear == 2017)
                                               .OrderBy(p => p.TransactionType)
                                               .ToArray();
@@ -299,17 +294,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakeFrameworkUpliftOnProgrammePayments()
         {
             // Arrange
-            var ukprn = 863145;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(12);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
-            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment", 120);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.AddAdditionalPayments(Ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeApplic1618FrameworkUpliftOnProgPayment", 120);
             TestDataHelper.CopyReferenceData();
 
 
@@ -319,7 +313,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
 
             var period1Payments = duePayments.Where(p => p.DeliveryMonth == 08 && p.DeliveryYear == 2016).ToArray();
 
@@ -333,18 +327,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakeDisadvantagePayments()
         {
             // Arrange
-            var ukprn = 863145;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(12);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
-            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeFirstDisadvantagePayment", 100);
-            TestDataHelper.AddAdditionalPayments(ukprn, startDate, learnerRefNumber, 5, "PriceEpisodeSecondDisadvantagePayment", 100);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 12);
+            TestDataHelper.AddAdditionalPayments(Ukprn, startDate, learnerRefNumber, 1, "PriceEpisodeFirstDisadvantagePayment", 100);
+            TestDataHelper.AddAdditionalPayments(Ukprn, startDate, learnerRefNumber, 5, "PriceEpisodeSecondDisadvantagePayment", 100);
 
             TestDataHelper.CopyReferenceData();
 
@@ -355,7 +348,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
 
             var period1Payments = duePayments.Where(p => p.DeliveryMonth == 08 && p.DeliveryYear == 2016).ToArray();
             var firstDisadvantge = period1Payments.Single(x => x.TransactionType == (int)TransactionType.FirstDisadvantagePayment);
@@ -374,31 +367,30 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakeRefundPaymentsForPeriodWhereEarningsNeedToBeRefunded()
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 1765935903;
+            const int uln = 1765935903;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber,learningStartDate:startDate);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 9, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 10, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 11, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 12, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber,learningStartDate:startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 9, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 10, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 11, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 12, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
 
 
             TestDataHelper.SetOpenCollection(6);
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5,uln:uln);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, currentPeriod: 5,uln:uln);
 
             TestDataHelper.ClearApprenticeshipPriceEpisodePeriod();
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 1, 1000);
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 2, 1000);
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 3, 1000);
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 4, 0);
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 5, 0);
-            TestDataHelper.AddApprenticeEarning(ukprn, startDate, learnerRefNumber, 6, 0);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 1, 1000);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 2, 1000);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 3, 1000);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 4, 0);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 5, 0);
+            TestDataHelper.AddApprenticeEarning(Ukprn, startDate, learnerRefNumber, 6, 0);
 
             TestDataHelper.CopyReferenceData();
 
@@ -408,7 +400,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(2, duePayments.Length);
             Assert.True(duePayments.Any(p => p.DeliveryMonth == 11 && p.DeliveryYear == 2016 && p.AmountDue ==(decimal)-1000.00));
             Assert.True(duePayments.Any(p => p.DeliveryMonth == 12 && p.DeliveryYear == 2016 && p.AmountDue == (decimal)-1000.00));
@@ -420,19 +412,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakeCorrectPaymentsWhereAimSequenceNumberIsChanged()
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 1765935903;
+            const int uln = 1765935903;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, aimSequenceNumber: 2, currentPeriod: 5, uln: uln);
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, aimSequenceNumber: 2, currentPeriod: 5, uln: uln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 8, 2016, (int)TransactionType.Learning, 200,aimSequenceNumber:1,learnRefNumber:learnerRefNumber,learnAimRef: "ZPROG001", learningStartDate:startDate);
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln, 8, 2016, (int)TransactionType.Learning, 200,aimSequenceNumber:1,learnRefNumber:learnerRefNumber,learnAimRef: "ZPROG001", learningStartDate:startDate);
 
             TestDataHelper.CopyReferenceData();
 
@@ -442,7 +433,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
             Assert.AreEqual(5, duePayments.Length);
 
             var actualPayment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016);
@@ -454,8 +445,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         public void ThenItShouldMakePaymentsWhereAimSequenceAndUlnIsChanged()
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 1765935903;
+            const int uln = 1765935903;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(Ukprn);
+
+            TestDataHelper.SetOpenCollection(5);
+
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, aimSequenceNumber: 2, currentPeriod: 5, uln: uln);
+
+            TestDataHelper.AddPaymentForNonDas(Ukprn, uln + 100, 8, 2016, (int)TransactionType.Learning, 200, aimSequenceNumber: 1,learnRefNumber:learnerRefNumber,learningStartDate:startDate);
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(Ukprn);
+            Assert.AreEqual(5, duePayments.Length);
+
+            var actualPayment = duePayments.SingleOrDefault(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016);
+            Assert.IsNotNull(actualPayment);
+            Assert.AreEqual(800m, actualPayment.AmountDue);
+        }
+
+        [Test]
+        public void ThenItShouldMakePaymentsWhereUlnIsChangedFromTemporaryToProper()
+        {
+            // Arrange
+            const int ukprn = 863145;
+            const long tempUln = 999999999L;
+            const long uln = 100000000L;
             var startDate = new DateTime(2016, 8, 12);
             var plannedEndDate = new DateTime(2017, 8, 27);
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
@@ -464,9 +489,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.SetOpenCollection(5);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, aimSequenceNumber: 2, currentPeriod: 5, uln: uln);
+            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, 2, currentPeriod: 5, uln: tempUln);
 
-            TestDataHelper.AddPaymentForNonDas(ukprn, uln + 100, 8, 2016, (int)TransactionType.Learning, 200, aimSequenceNumber: 1,learnRefNumber:learnerRefNumber,learningStartDate:startDate);
+            TestDataHelper.AddPaymentForNonDas(ukprn, tempUln, 8, 2016, (int)TransactionType.Learning, 200, aimSequenceNumber: 1, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
+            TestDataHelper.AddPaymentForNonDas(ukprn, uln, 9, 2016, (int)TransactionType.Learning, 200, aimSequenceNumber: 1, learnRefNumber: learnerRefNumber, learningStartDate: startDate);
 
             TestDataHelper.CopyReferenceData();
 
@@ -485,26 +511,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
         }
 
         [Test]
-        [TestCaseSource(nameof(_earningsToPayments))]
+        [TestCaseSource(nameof(EarningsToPayments))]
         public void ThenItShouldReturnCorrectDetailsForEarningsToPayments(EarningsToPaymentEntity sourceData)
         {
             // Arrange
-            var ukprn = 863145;
-            var uln = 834734;
+            const int uln = 834734;
             var startDate = sourceData.StartDate;
             var plannedEndDate = sourceData.PlannedEndDate;
             var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
 
 
-            var periods = ((sourceData.PlannedEndDate.Year - sourceData.StartDate.Year) * 12) 
+            var periods = (sourceData.PlannedEndDate.Year - sourceData.StartDate.Year) * 12 
                             + sourceData.PlannedEndDate.Month - sourceData.StartDate.Month;
                     
 
-            TestDataHelper.AddProvider(ukprn);
+            TestDataHelper.AddProvider(Ukprn);
 
             TestDataHelper.SetOpenCollection(1);
 
-            TestDataHelper.AddEarningForNonDas(ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, 
+            TestDataHelper.AddEarningForNonDas(Ukprn, startDate, plannedEndDate, 15000, learnerRefNumber, 
                                                 uln: uln,numberOfPeriods:periods,
                                                 completionStatus:sourceData.CompletionStatus,actualEndDate:sourceData.ActualEndDate,opaOrgId:sourceData.EndpointAssessorId);
 
@@ -516,7 +541,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             task.Execute(context);
 
             // Assert
-            var requiredPaymentId = TestDataHelper.GetRequiredPaymentId(ukprn);
+            var requiredPaymentId = TestDataHelper.GetRequiredPaymentId(Ukprn);
             Assert.IsNotNull(requiredPaymentId);
 
             var earningsToPayments = TestDataHelper.GetEarningsToPaymentsData(requiredPaymentId);

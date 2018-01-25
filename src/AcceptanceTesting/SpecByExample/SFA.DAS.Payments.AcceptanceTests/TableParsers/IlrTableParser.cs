@@ -4,8 +4,6 @@ using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
 
 namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
@@ -27,7 +25,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        public static void ParseIlrTableIntoContext(Submission context, Table ilrDetails)
+        public static void ParseIlrTableIntoContext(Submission context, Table ilrDetails, LookupContext lookupContext)
         {
             if (ilrDetails.RowCount < 1)
             {
@@ -37,7 +35,20 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             structure = ParseTableStructure(ilrDetails);
             foreach (var row in ilrDetails.Rows)
             {
-                context.IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
+                var commitmentTableRow = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
+
+                long uln;
+
+                if (long.TryParse(commitmentTableRow.Uln, out uln))
+                {
+                    lookupContext.AddUln(commitmentTableRow.LearnerReference, uln);
+                }
+                else
+                {
+                    lookupContext.AddOrGetUln(commitmentTableRow.LearnerReference);
+                }
+
+                context.IlrLearnerDetails.Add(commitmentTableRow);
                 if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
                     context.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
             }
