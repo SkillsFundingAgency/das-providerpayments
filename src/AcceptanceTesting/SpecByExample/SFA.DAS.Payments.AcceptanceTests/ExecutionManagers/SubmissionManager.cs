@@ -11,13 +11,13 @@ using System.IO;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
-    internal static class SubmissionManager
+    internal static partial class SubmissionManager
     {
         private const string FamCodeAct = "ACT";
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
-        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -40,8 +40,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
+                    //don't do this, throw exception if multiple providers
                     var providerLearners = GroupLearnersByProvider(submission.IlrLearnerDetails, lookupContext);
 
+                    //remove this - always one provider
                     foreach (var providerDetails in providerLearners)
                     {
                         if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
@@ -207,6 +209,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        //refactor this out - not needed as one provider per ILR
         private static IlrLearnerReferenceData[] FilterLearnersForPeriod(IlrLearnerReferenceData[] learnerDetails, string period)
         {
             if (learnerDetails.All(x => x.SubmissionPeriod == null))
@@ -575,14 +578,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 return DateTime.Today.AddYears(-20);
             }
             return DateTime.Today.AddYears(-25);
-        }
-        
-        private class ProviderSubmissionDetails
-        {
-            public string ProviderId { get; set; }
-            public IlrLearnerReferenceData[] LearnerDetails { get; set; }
-            public long Ukprn { get; set; }
-            public string SubmissionPeriod { get; set; }
         }
 
         private class LoggingStatusWatcher : StatusWatcherBase
