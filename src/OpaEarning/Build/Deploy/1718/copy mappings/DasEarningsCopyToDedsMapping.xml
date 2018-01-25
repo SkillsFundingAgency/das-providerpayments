@@ -211,6 +211,14 @@
           <Destination>[LearnDelMathEng]</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>[LearnDelProgEarliestACT2Date]</Source>
+          <Destination>[LearnDelProgEarliestACT2Date]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[LearnDelNonLevyProcured]</Source>
+          <Destination>[LearnDelNonLevyProcured]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>[MathEngAimValue]</Source>
           <Destination>[MathEngAimValue]</Destination>
         </ColumnMapping>
@@ -617,6 +625,10 @@
         <ColumnMapping>
           <Source>[HistoricVirtualTNP4EndofThisYearOutput]</Source>
           <Destination>[HistoricVirtualTNP4EndofThisYearOutput]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[HistoricLearnDelProgEarliestACT2DateOutput]</Source>
+          <Destination>[HistoricLearnDelProgEarliestACT2DateOutput]</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

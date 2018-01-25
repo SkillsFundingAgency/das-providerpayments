@@ -41,6 +41,24 @@ DECLARE @StandardCap decimal(12, 5) = (
 )
 
 INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
+	(
+		[1618Incentive],
+		[ApprenticeshipCode],
+		[ApprenticeshipType],
+		[EffectiveFrom],
+		[EffectiveTo],
+		[FundingCategory],
+		[MaxEmployerLevyCap],
+		[ProgType],
+		[PwayCode],
+		[FundableWithoutEmployer],
+		[ReservedValue2],
+		[ReservedValue3],
+		[1618ProviderAdditionalPayment],
+		[1618EmployerAdditionalPayment],
+		[1618FrameworkUplift]
+	)
+
 	SELECT
 		x.[1618Incentive],
 		x.[ApprenticeshipCode],
@@ -51,13 +69,12 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 		MAX(x.[MaxEmployerLevyCap]),
 		x.[ProgType],
 		x.[PwayCode],
-		x.[ReservedValue1],
+		'N',
 		x.[ReservedValue2],
 		x.[ReservedValue3],
 		x.[1618ProviderAdditionalPayment],
 		x.[1618EmployerAdditionalPayment],
 		x.[1618FrameworkUplift]
-
 
 	FROM (
 		SELECT
@@ -70,12 +87,12 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 			ISNULL(@ReferenceCap, @FrameworkCap) AS [MaxEmployerLevyCap],
 			ld.[ProgType] AS [ProgType],
 			ld.[PwayCode] AS [PwayCode],
-			12.00 AS [ReservedValue1],
 			0 AS [ReservedValue2],
 			0 AS [ReservedValue3],
 			1000 AS [1618ProviderAdditionalPayment],
 			1000 AS [1618EmployerAdditionalPayment],
 			ISNULL(@ReferenceCap, @FrameworkCap) * 0.2 AS [1618FrameworkUplift]
+
 		FROM [Input].[LearningDelivery] ld
 		WHERE ld.StdCode IS NULL
 		UNION
@@ -89,7 +106,6 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 			ISNULL(@ReferenceCap, @StandardCap) AS [MaxEmployerLevyCap],
 			ld.[ProgType] AS [ProgType],
 			0 AS [PwayCode],
-			12.00 AS [ReservedValue1],
 			0 AS [ReservedValue2],
 			0 AS [ReservedValue3],
 			1000 AS [1618ProviderAdditionalPayment],
@@ -107,7 +123,6 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 		x.[FundingCategory],
 		x.[ProgType],
 		x.[PwayCode],
-		x.[ReservedValue1],
 		x.[ReservedValue2],
 		x.[ReservedValue3],
 		x.[1618ProviderAdditionalPayment],
