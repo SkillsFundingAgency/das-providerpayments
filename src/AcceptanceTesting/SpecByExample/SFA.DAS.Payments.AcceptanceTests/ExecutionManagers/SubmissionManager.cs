@@ -11,7 +11,7 @@ using System.IO;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
-    internal static partial class SubmissionManager
+    internal static class SubmissionManager
     {
         private const string FamCodeAct = "ACT";
         private const short FamCodeActDasValue = 1;
@@ -47,7 +47,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                     )
                         continue;
 
-                    ProviderSubmissionDetails submissionDetails = new ProviderSubmissionDetails{ LearnerDetails = submission.IlrLearnerDetails.ToArray(), ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider, Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider) };
+                    var submissionDetails = new ProviderSubmissionDetails{ LearnerDetails = submission.IlrLearnerDetails.ToArray(), ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider, Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider) };
 
                     SetupDisadvantagedPostcodeUplift(submissionDetails);
                     BuildAndSubmitIlr(submissionDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
@@ -205,7 +205,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
-        //refactor this out - not needed as one provider per ILR
         private static IlrLearnerReferenceData[] FilterLearnersForPeriod(IlrLearnerReferenceData[] learnerDetails, string period)
         {
             if (learnerDetails.All(x => x.SubmissionPeriod == null))
