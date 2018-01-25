@@ -14,7 +14,6 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Get
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 using System;
-using System.Diagnostics;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -194,7 +193,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 if (earning.CalendarYear > currentPeriod.Year
-                    || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                    || earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month)
                 {
                     continue;
                 }
@@ -263,7 +262,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             return earnings.Any(p => p.Ukprn == currentEarning.Ukprn &&
                                      p.LearnerReferenceNumber == currentEarning.LearnerReferenceNumber &&
-                               //p.Uln == currentEarning.Uln &&
                                p.StandardCode == currentEarning.StandardCode &&
                                p.FrameworkCode == currentEarning.FrameworkCode &&
                                p.PathwayCode == currentEarning.PathwayCode &&
@@ -272,7 +270,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                p.CalendarYear == currentEarning.CalendarYear &&
                                p.Type == currentEarning.Type &&
                                p.EarnedValue != 0 &&
-                               ((p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable) || p.ApprenticeshipContractType == 2));
+                               (p.ApprenticeshipContractType == 1 && p.IsSuccess && p.Payable || p.ApprenticeshipContractType == 2));
         }
 
         private void ApportionPaymentDuesOverPreviousPeriods(Provider provider, List<RequiredPayment> paymentsDue, PeriodEarning earning, RequiredPayment[] paymentHistory, decimal amountDue)

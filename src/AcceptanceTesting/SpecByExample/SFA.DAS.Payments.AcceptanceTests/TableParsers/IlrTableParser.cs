@@ -25,7 +25,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        public static void ParseIlrTableIntoContext(Submission context, Table ilrDetails, LookupContext lookupContext)
+        public static void ParseIlrTableIntoContext(Submission submission, Table ilrDetails, LookupContext lookupContext)
         {
             if (ilrDetails.RowCount < 1)
             {
@@ -48,7 +48,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     lookupContext.AddOrGetUln(commitmentTableRow.LearnerReference);
                 }
 
-                context.IlrLearnerDetails.Add(commitmentTableRow);
+                submission.IlrLearnerDetails.Add(commitmentTableRow);
                 if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
                     submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
             }
