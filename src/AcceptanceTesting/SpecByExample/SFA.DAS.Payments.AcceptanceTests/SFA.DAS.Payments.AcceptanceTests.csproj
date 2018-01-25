@@ -245,7 +245,8 @@
     <Compile Include="Assertions\SubmissionDataLockRules\OnProgrammeDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\Provider16To18IncentiveDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\SubmissionDataLockRuleBase.cs" />
-    <Compile Include="Contexts\MultipleSubmissionsContext.cs" />
+    <Compile Include="Contexts\PeriodContext.cs" />
+    <Compile Include="Contexts\SubmissionContext.cs" />
     <Compile Include="Contexts\ProviderAdjustmentsContext.cs" />
     <Compile Include="Contexts\SubmissionDataLockContext.cs" />
     <Compile Include="DataCollectors\DataLockEventsDataCollector.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
     <Compile Include="ExecutionManagers\PeriodNameHelper.cs" />
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
+    <Compile Include="ExecutionManagers\ProviderSubmissionDetails.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

@@ -20,7 +20,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                                       SubmissionDataLockContext submissionDataLockContext,
                                       LookupContext lookupContext,
                                     CommitmentsContext commitmentsContext,
-                                    MultipleSubmissionsContext multipleSubmissionsContext)
+                                    SubmissionContext multipleSubmissionsContext,
+                                    PeriodContext periodContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
@@ -29,6 +30,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             LookupContext = lookupContext;
             CommitmentsContext = commitmentsContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
+            PeriodContext = periodContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
         public DataLockContext DataLockContext { get; }
@@ -36,7 +38,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public EarningsAndPaymentsContext EarningsAndPaymentsContext { get; }
         public LookupContext LookupContext { get; }
         public CommitmentsContext CommitmentsContext { get; }
-        public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
+        public SubmissionContext MultipleSubmissionsContext { get; set; }
+        public PeriodContext PeriodContext { get; set; }
 
 
 
@@ -59,7 +62,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 if (!submission.HaveSubmissionsBeenDone)
                 {
-                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                    PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
                         submission.EmploymentStatus, submission.LearningSupportStatus));
@@ -81,7 +84,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
         {
-            MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
+            PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
                 EmployerAccountContext.EmployerAccounts));
 
             var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
@@ -108,7 +111,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 if (!submission.HaveSubmissionsBeenDone)
                 {
-                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                    PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
                         submission.EmploymentStatus, submission.LearningSupportStatus));
@@ -127,7 +130,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 if (!submission.HaveSubmissionsBeenDone)
                 {
-                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                    PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
                         submission.EmploymentStatus, submission.LearningSupportStatus));
@@ -147,16 +150,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
         private void AssertResults()
         {
-            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, MultipleSubmissionsContext, EmployerAccountContext);
-            TransactionTypeAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, MultipleSubmissionsContext, EmployerAccountContext);
-            SubmissionDataLockAssertions.AssertPaymentsAndEarningsResults(SubmissionDataLockContext, MultipleSubmissionsContext);
+            PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, PeriodContext, EmployerAccountContext);
+            TransactionTypeAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, PeriodContext, EmployerAccountContext);
+            SubmissionDataLockAssertions.AssertPaymentsAndEarningsResults(SubmissionDataLockContext, PeriodContext);
         }
 
 
         [Given(@"following learning has been recorded for previous payments:")]
         public void GivenFollowingLearningHasBeenRecordedForPreviousSubmission(Table table)
         {
-            IlrTableParser.ParseIlrTableIntoContext(MultipleSubmissionsContext.HistoricalLearningDetails, table);
+            IlrTableParser.ParseIlrTableIntoSubmission(MultipleSubmissionsContext.HistoricalLearningDetails, table);
         }
 
         [Given(@"the following (.*) earnings and payments have been made to the (.*) for (.*):")]

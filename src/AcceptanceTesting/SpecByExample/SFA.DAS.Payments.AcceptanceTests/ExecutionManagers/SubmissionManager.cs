@@ -11,13 +11,13 @@ using System.IO;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
-    internal static class SubmissionManager
+    internal static partial class SubmissionManager
     {
         private const string FamCodeAct = "ACT";
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
-        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -40,20 +40,19 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
-                    var providerLearners = GroupLearnersByProvider(submission.IlrLearnerDetails, lookupContext);
+                    if(submission.IlrLearnerDetails.Select(details => details.Provider).Distinct().Count() > 1)
+                        throw new Exception("Multiple Providers in the same ILR is invalid.");
+                    if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
+                            StringComparison.CurrentCultureIgnoreCase)
+                    )
+                        continue;
 
-                    foreach (var providerDetails in providerLearners)
-                    {
-                        if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
-                                StringComparison.CurrentCultureIgnoreCase)
-                        )
-                            continue;
+                    ProviderSubmissionDetails submissionDetails = new ProviderSubmissionDetails{ LearnerDetails = submission.IlrLearnerDetails.ToArray(), ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider, Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider) };
 
-                        SetupDisadvantagedPostcodeUplift(providerDetails);
-                        BuildAndSubmitIlr(providerDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
-                            submission.LearningSupportStatus);
-                        submission.HaveSubmissionsBeenDone = true;
-                    }
+                    SetupDisadvantagedPostcodeUplift(submissionDetails);
+                    BuildAndSubmitIlr(submissionDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
+                        submission.LearningSupportStatus);
+                    submission.HaveSubmissionsBeenDone = true;
                 }
 
                 RunMonthEnd(period);
@@ -163,14 +162,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
         {
-            return (from x in ilrLearnerDetails
-                    group x by x.Provider into g
-                    select new ProviderSubmissionDetails
-                    {
-                        ProviderId = g.Key,
-                        Ukprn = lookupContext.AddOrGetUkprn(g.Key),
-                        LearnerDetails = g.ToArray()
-                    }).ToArray();
+            return (ilrLearnerDetails.GroupBy(x => x.Provider)
+                .Select(g => new ProviderSubmissionDetails
+                {
+                    ProviderId = g.Key,
+                    Ukprn = lookupContext.AddOrGetUkprn(g.Key),
+                    LearnerDetails = g.ToArray()
+                })).ToArray();
         }
 
         private static void SetEnvironmentToPeriod(string period)
@@ -207,6 +205,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        //refactor this out - not needed as one provider per ILR
         private static IlrLearnerReferenceData[] FilterLearnersForPeriod(IlrLearnerReferenceData[] learnerDetails, string period)
         {
             if (learnerDetails.All(x => x.SubmissionPeriod == null))
@@ -575,14 +574,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 return DateTime.Today.AddYears(-20);
             }
             return DateTime.Today.AddYears(-25);
-        }
-        
-        private class ProviderSubmissionDetails
-        {
-            public string ProviderId { get; set; }
-            public IlrLearnerReferenceData[] LearnerDetails { get; set; }
-            public long Ukprn { get; set; }
-            public string SubmissionPeriod { get; set; }
         }
 
         private class LoggingStatusWatcher : StatusWatcherBase

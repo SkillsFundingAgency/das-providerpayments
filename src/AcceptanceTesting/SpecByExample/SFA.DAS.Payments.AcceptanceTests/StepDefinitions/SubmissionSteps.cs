@@ -12,7 +12,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class SubmissionSteps
     {
-        public SubmissionSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
+        public SubmissionSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, SubmissionContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext)
         {
             CommitmentsContext = commitmentsContext;
             LookupContext = lookupContext;
@@ -21,7 +21,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         }
         public CommitmentsContext CommitmentsContext { get; }
         public LookupContext LookupContext { get; }
-        public MultipleSubmissionsContext MultipleSubmissionsContext { get; set; }
+        public SubmissionContext MultipleSubmissionsContext { get; set; }
         public EmployerAccountContext EmployerAccountContext { get; set; }
 
         [When("an ILR file is submitted with the following data:")]
@@ -74,7 +74,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             MultipleSubmissionsContext.Add(submission);
         }
 
-        [When("the Contract type in the ILR is:"), Obsolete]
+        [When("the Contract type in the ILR is:")]
         public void WhenTheContractTypeInTheIlrIs(Table contractTypes)
         {
             if (MultipleSubmissionsContext.Submissions.Count > 1)
@@ -85,7 +85,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
-        [When("the employment status in the ILR is:"), Obsolete]
+        [When("the employment status in the ILR is:")]
         public void WhenTheEmploymentStatusInTheIlrIs(Table employmentStatus)
         {
             if(MultipleSubmissionsContext.Submissions.Count > 1)

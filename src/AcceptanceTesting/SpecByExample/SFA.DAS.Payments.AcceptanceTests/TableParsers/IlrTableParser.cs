@@ -11,7 +11,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
     {
         private static FullIlrStructure structure;
 
-        public static void ParseIlrTableIntoContext(List<IlrLearnerReferenceData> ilrLearnerDetails, Table ilrDetails)
+        public static void ParseIlrTableIntoSubmission(List<IlrLearnerReferenceData> ilrLearnerDetails, Table ilrDetails)
         {
             if (ilrDetails.RowCount < 1)
             {
@@ -50,7 +50,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
                 context.IlrLearnerDetails.Add(commitmentTableRow);
                 if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
-                    context.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
+                    submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
             }
             
         }

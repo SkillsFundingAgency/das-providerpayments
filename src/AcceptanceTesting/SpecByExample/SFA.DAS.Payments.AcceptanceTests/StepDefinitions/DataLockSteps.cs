@@ -10,20 +10,24 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class DataLockSteps
     {
-        public DataLockSteps(DataLockContext dataLockContext, CommitmentsContext commitmentsContext, MultipleSubmissionsContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext, LookupContext lookupContext)
+        public DataLockSteps(DataLockContext dataLockContext, CommitmentsContext commitmentsContext,
+            SubmissionContext multipleSubmissionsContext, EmployerAccountContext employerAccountContext,
+            LookupContext lookupContext, PeriodContext periodContext)
         {
             DataLockContext = dataLockContext;
             CommitmentsContext = commitmentsContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
             EmployerAccountContext = employerAccountContext;
             LookupContext = lookupContext;
+            PeriodContext = periodContext;
         }
 
         public DataLockContext DataLockContext { get; }
         public CommitmentsContext CommitmentsContext { get; }
-        public MultipleSubmissionsContext MultipleSubmissionsContext { get; }
+        public SubmissionContext MultipleSubmissionsContext { get; }
         public EmployerAccountContext EmployerAccountContext { get; }
         public LookupContext LookupContext { get; }
+        public PeriodContext PeriodContext { get; set; }
 
         [Then(@"the following data lock event is returned:")]
         public void ThenTheFollowingDataLockEventIsReturned(Table table)
@@ -32,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventsTableParser.ParseDataLockEventsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, PeriodContext.PeriodResults.ToArray());
         }
 
         [Then("no data lock event is returned")]
@@ -42,7 +46,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockContext.ExpectsNoDataLockEvents = true;
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, PeriodContext.PeriodResults.ToArray());
         }
 
         [Then(@"the data lock event has the following errors:")]
@@ -52,7 +56,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventErrorsTableParser.ParseDataLockEventErrorsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, PeriodContext.PeriodResults.ToArray());
         }
 
         [Then(@"the data lock event has the following periods")]
@@ -62,7 +66,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventPeriodTableParser.ParseDataLockEventPeriodsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, PeriodContext.PeriodResults.ToArray());
         }
 
         [Then(@"the data lock event used the following commitments")]
@@ -72,7 +76,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             DataLockEventCommitmentsTableParser.ParseDataLockEventCommitmentsIntoContext(DataLockContext, table, LookupContext);
 
-            DataLockAssertions.AssertDataLockOutput(DataLockContext, MultipleSubmissionsContext.SubmissionResults.ToArray());
+            DataLockAssertions.AssertDataLockOutput(DataLockContext, PeriodContext.PeriodResults.ToArray());
         }
 
 
@@ -86,7 +90,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     {
                         CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).ToString("MM/yy")
                     };
-                    MultipleSubmissionsContext.SubmissionResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
+                    PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails,
                         submission.FirstSubmissionDate,
                         LookupContext,
