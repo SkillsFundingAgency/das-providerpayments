@@ -40,22 +40,19 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
-                    //don't do this, throw exception if multiple providers
-                    var providerLearners = GroupLearnersByProvider(submission.IlrLearnerDetails, lookupContext);
+                    if(submission.IlrLearnerDetails.Select(details => details.Provider).Distinct().Count() > 1)
+                        throw new Exception("Multiple Providers in the same ILR is invalid.");
+                    if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
+                            StringComparison.CurrentCultureIgnoreCase)
+                    )
+                        continue;
 
-                    //remove this - always one provider
-                    foreach (var providerDetails in providerLearners)
-                    {
-                        if (!string.IsNullOrEmpty(submission.SubmissionPeriod) && !string.Equals(submission.SubmissionPeriod, period,
-                                StringComparison.CurrentCultureIgnoreCase)
-                        )
-                            continue;
+                    ProviderSubmissionDetails submissionDetails = new ProviderSubmissionDetails{ LearnerDetails = submission.IlrLearnerDetails.ToArray(), ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider, Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider) };
 
-                        SetupDisadvantagedPostcodeUplift(providerDetails);
-                        BuildAndSubmitIlr(providerDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
-                            submission.LearningSupportStatus);
-                        submission.HaveSubmissionsBeenDone = true;
-                    }
+                    SetupDisadvantagedPostcodeUplift(submissionDetails);
+                    BuildAndSubmitIlr(submissionDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,
+                        submission.LearningSupportStatus);
+                    submission.HaveSubmissionsBeenDone = true;
                 }
 
                 RunMonthEnd(period);
@@ -165,14 +162,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
         {
-            return (from x in ilrLearnerDetails
-                    group x by x.Provider into g
-                    select new ProviderSubmissionDetails
-                    {
-                        ProviderId = g.Key,
-                        Ukprn = lookupContext.AddOrGetUkprn(g.Key),
-                        LearnerDetails = g.ToArray()
-                    }).ToArray();
+            return (ilrLearnerDetails.GroupBy(x => x.Provider)
+                .Select(g => new ProviderSubmissionDetails
+                {
+                    ProviderId = g.Key,
+                    Ukprn = lookupContext.AddOrGetUkprn(g.Key),
+                    LearnerDetails = g.ToArray()
+                })).ToArray();
         }
 
         private static void SetEnvironmentToPeriod(string period)
