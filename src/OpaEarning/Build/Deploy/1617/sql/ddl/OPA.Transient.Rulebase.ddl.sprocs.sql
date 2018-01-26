@@ -32,7 +32,7 @@ create procedure [Rulebase].[AEC_Insert_Cases] as
 					select
 						[LARS_Current_Version].[CurrentVersion] as [@LARSVersion],
 						[LearningProvider].[UKPRN] as [@UKPRN],
-						'${YearOfCollection}' as [@Year],
+						${YearOfCollection} as [@Year],
 						(
 							select
 								[Learner].[DateOfBirth] as [@DateOfBirth],

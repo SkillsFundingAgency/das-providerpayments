@@ -226,7 +226,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\002_DataLockEvents_Change_Commitment_Verion.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\003_DataLockEvents_Change_LearnRef_AimSequence_ColumnType.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Add_TransactionTypesFlag.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\004_DataLockEvents_Add_TransactionTypesFlag.sql
-		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Tables_Add_Indexes.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Tables_Add_Indexes.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Add_Indexes.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Add_Indexes.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{A590490B-BEE4-46EE-ADC8-016D973F184A}"
@@ -458,17 +458,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{22ECAFFA-DD3
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.EearningsHistory.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Rulebase.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Deds.Valid.ddl.tables.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.dbo.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Earnings.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Input.ddl.tables.sql
+		OPA.Transient.Input.ddl.views.sql = OPA.Transient.Input.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Invalid.ddl.tables.sql
+		OPA.Transient.Invalid.ddl.views.sql = OPA.Transient.Invalid.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Reference.ddl.tables.sql
+		OPA.Transient.Reports.ddl.views.sql = OPA.Transient.Reports.ddl.views.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.sprocs.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.Ilr.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Rulebase.Ilr.ddl.tables.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Static.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Static.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Transform.ddl.procs.sql
+		OPA.Transient.Transform.Invalid.ddl.procs.sql = OPA.Transient.Transform.Invalid.ddl.procs.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.tables.sql
 		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.Valid.ddl.views.sql
-		OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\OPA.Transient.ValidLearnerDestinationandProgressions.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZA OPA.Transient.Report.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZB OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZB OPA.Transient.dbo.ddl.views.sql
+		OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql = OpaEarning\Build\Deploy\1718\sql\ddl\ZZ OPA.Transient.dbo.ddl.views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{152D9690-408E-4418-A7EA-A2C1A1DA147D}"
@@ -700,7 +709,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5A408B2C-02FA-4245-9D4E-DBF01978CB0C} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
-		{0DE86180-81EF-4DEA-9E89-E3E674BF48BF} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{0DE86180-81EF-4DEA-9E89-E3E674BF48BF} = {0E9D5F26-B91D-40C7-96C2-4B10986C3263}
 		{6CF4F801-33C8-4476-88F9-C4F70E40E904} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
 		{823207C9-0E35-476B-B98D-A5EB1B727D61} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
 		{500BDFBA-7A32-4A91-89CA-D71298C44757} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}

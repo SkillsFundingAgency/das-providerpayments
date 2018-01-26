@@ -197,7 +197,7 @@ namespace SFA.OPA.InterfaceTransform.Console
                     continue;
                 }
 
-                outputDdl.Add(line.ReplaceCaseInsensitive(rulebaseVersion, "'${YearOfCollection}'"));
+                outputDdl.Add(line.ReplaceCaseInsensitive(rulebaseVersion, "${YearOfCollection}"));
             }
 
             File.WriteAllLines($@"{outputPath}\{OutputSqlDdlDeployLocation}\{outputFileName}", outputDdl);
