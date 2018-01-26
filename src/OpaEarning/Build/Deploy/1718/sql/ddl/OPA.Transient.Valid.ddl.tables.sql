@@ -2,6 +2,34 @@ if not exists(select schema_id from sys.schemas where name='Valid')
 	exec('create schema Valid')
 GO
  
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- LearningContact
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearnerContact' AND [schema_id] = SCHEMA_ID('Valid'))
+BEGIN
+	DROP TABLE Valid.LearnerContact
+END
+GO
+CREATE TABLE [Valid].[LearnerContact](
+	[LearnRefNumber] [varchar](12) NOT NULL,
+	[HomePostcode] [varchar](8) NULL,
+	[CurrentPostcode] [varchar](8) NULL,
+	[TelNumber] [varchar](18) NULL,
+	[Email] [varchar](100) NULL,
+	[AddLine1] [varchar](50) NULL,
+	[AddLine2] [varchar](50) NULL,
+	[AddLine3] [varchar](50) NULL,
+	[AddLine4] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LearnRefNumber] ASC
+)
+) ON [PRIMARY]
+GO
+
+
+
 if object_id('[Valid].[CollectionDetails]','u') is not null
 begin
 	drop table [Valid].[CollectionDetails]
@@ -58,8 +86,10 @@ create clustered index [IX_Valid_SourceFile] on [Valid].[SourceFile]
 )
 GO
 
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LearningProvider' AND [schema_id] = SCHEMA_ID('Valid'))
+if object_id('[Valid].[LearningProvider]','u') is not null
+begin
 	drop table [Valid].[LearningProvider]
+end
 GO
  
 create table [Valid].[LearningProvider]
@@ -210,6 +240,35 @@ create table [Valid].[LearnerEmploymentStatus]
 )
 GO
 
+if object_id('[Valid].[LearnerEmploymentStatusDenormTbl]','u') is not null
+begin
+	drop table [Valid].[LearnerEmploymentStatusDenormTbl]
+end
+GO
+ 
+CREATE TABLE [Valid].[LearnerEmploymentStatusDenormTbl]
+(
+	 [LearnRefNumber] [varchar](12) NOT NULL
+	,[EmpStat] [int] NULL
+	,[EmpId] [int] NULL
+	,[DateEmpStatApp] [date] NOT NULL
+	,[ESMCode_BSI] [int] NULL
+	,[ESMCode_EII] [int] NULL
+	,[ESMCode_LOE] [int] NULL
+	,[ESMCode_LOU] [int] NULL
+	,[ESMCode_PEI] [int] NULL
+	,[ESMCode_SEI] [int] NULL
+	,[ESMCode_SEM] [int] NULL
+	,PRIMARY KEY CLUSTERED
+	(
+		 [LearnRefNumber] asc
+		,[DateEmpStatApp] asc
+	)
+)
+GO
+
+
+
 if object_id('[Valid].[EmploymentStatusMonitoring]','u') is not null
 begin
 	drop table [Valid].[EmploymentStatusMonitoring]
@@ -310,6 +369,74 @@ create table [Valid].[LearningDelivery]
 	)
 )
 GO
+
+CREATE INDEX IDX_FundModel ON Valid.LearningDelivery (FundModel)
+
+
+IF OBJECT_ID('[Valid].[LearningDeliveryDenormTbl]','U') is not null
+BEGIN
+	DROP TABLE [Valid].[LearningDeliveryDenormTbl]
+END
+GO
+
+CREATE TABLE [Valid].[LearningDeliveryDenormTbl]
+(
+	 [LearnRefNumber]		[varchar](12)	NOT NULL
+	,[LearnAimRef]			[varchar](8)	NOT NULL
+	,[AimType]				[int]			NOT NULL
+	,[AimSeqNumber]			[int]			NOT NULL
+	,[LearnStartDate]		[date]			NOT NULL
+	,[OrigLearnStartDate]	[date]			NULL
+	,[LearnPlanEndDate]		[date]			NOT NULL
+	,[FundModel]			[int]			NOT NULL
+	,[ProgType]				[int]			NULL
+	,[FworkCode]			[int]			NULL
+	,[PwayCode]				[int]			NULL
+	,[StdCode]				[int]			NULL
+	,[PartnerUKPRN]			[int]			NULL
+	,[DelLocPostCode]		[varchar](8)	NULL
+	,[AddHours]				[int]			NULL
+	,[PriorLearnFundAdj]	[int]			NULL
+	,[OtherFundAdj]			[int]			NULL
+	,[ConRefNumber]			[varchar](20)	NULL
+	,[EPAOrgID]				[varchar](7)	NULL
+	,[EmpOutcome]			[int]			NULL
+	,[CompStatus]			[int]			NOT NULL
+	,[LearnActEndDate]		[date]			NULL
+	,[WithdrawReason]		[int]			NULL
+	,[Outcome]				[int]			NULL
+	,[AchDate]				[date]			NULL
+	,[OutGrade]				[varchar](6)	NULL
+	,[SWSupAimId]			[varchar](36)	NULL
+	,[HEM1]					[varchar](5)	NULL
+	,[HEM2]					[varchar](5)	NULL
+	,[HEM3]					[varchar](5)	NULL
+	,[HHS1]					[varchar](5)	NULL
+	,[HHS2]					[varchar](5)	NULL
+	,[LDFAM_SOF]			[varchar](5)	NULL
+	,[LDFAM_EEF]			[varchar](5)	NULL
+	,[LDFAM_RES]			[varchar](5)	NULL
+	,[LDFAM_ADL]			[varchar](5)	NULL
+	,[LDFAM_FFI]			[varchar](5)	NULL
+	,[LDFAM_WPP]			[varchar](5)	NULL
+	,[LDFAM_POD]			[varchar](5)	NULL
+	,[LDFAM_ASL]			[varchar](5)	NULL
+	,[LDFAM_FLN]			[varchar](5)	NULL
+	,[LDFAM_NSA]			[varchar](5)	NULL
+	,[ProvSpecDelMon_A]		[varchar](20)	NULL
+	,[ProvSpecDelMon_B]		[varchar](20)	NULL
+	,[ProvSpecDelMon_C]		[varchar](20)	NULL
+	,[ProvSpecDelMon_D]		[varchar](20)	NULL
+	,[LDM1]					[varchar](5)	NULL
+	,[LDM2]					[varchar](5)	NULL
+	,[LDM3]					[varchar](5)	NULL
+	,[LDM4]					[varchar](5)	NULL
+	,primary key clustered
+	(
+		[LearnRefNumber] asc,
+		[AimSeqNumber] asc
+	)
+) ON [PRIMARY]
 
 if object_id('[Valid].[LearningDeliveryFAM]','u') is not null
 begin

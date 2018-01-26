@@ -2,11 +2,6 @@
 <CopyCatConfig>
   <SourceConnectionString>SourceConnectionString</SourceConnectionString>
   <DestinationConnectionString>DestinationConnectionString</DestinationConnectionString>
-  <SqlBulkCopySettings>
-    <BatchSize>2000</BatchSize>
-    <BulkCopyTimeout>7200</BulkCopyTimeout>
-    <EnableStreaming>true</EnableStreaming>
-  </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
       <Source>[Rulebase].[vw_AEC_Cases]</Source>
@@ -214,6 +209,14 @@
         <ColumnMapping>
           <Source>[LearnDelMathEng]</Source>
           <Destination>[LearnDelMathEng]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[LearnDelProgEarliestACT2Date]</Source>
+          <Destination>[LearnDelProgEarliestACT2Date]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[LearnDelNonLevyProcured]</Source>
+          <Destination>[LearnDelNonLevyProcured]</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>[MathEngAimValue]</Source>
@@ -622,6 +625,10 @@
         <ColumnMapping>
           <Source>[HistoricVirtualTNP4EndofThisYearOutput]</Source>
           <Destination>[HistoricVirtualTNP4EndofThisYearOutput]</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>[HistoricLearnDelProgEarliestACT2DateOutput]</Source>
+          <Destination>[HistoricLearnDelProgEarliestACT2DateOutput]</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

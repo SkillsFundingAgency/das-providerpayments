@@ -142,6 +142,8 @@
         </ChangePoint>
       </ResultQueryParameterMap>
       <ResultQueryParameterMap AttributeName="LearnDelMathEng" ParameterName="LearnDelMathEng" EntityName="LearningDelivery" />
+      <ResultQueryParameterMap AttributeName="LearnDelProgEarliestACT2Date" ParameterName="LearnDelProgEarliestACT2Date" EntityName="LearningDelivery" />
+      <ResultQueryParameterMap AttributeName="LearnDelNonLevyProcured" ParameterName="LearnDelNonLevyProcured" EntityName="LearningDelivery" />
       <ResultQueryParameterMap AttributeName="LearnDelSecondEmp1618Pay" ParameterName="LearnDelSecondEmp1618Pay" EntityName="LearningDelivery">
         <ChangePoint ParentAttributeIDColumn="LearnDelSecondEmp1618Pay" StoredProcName="Rulebase.AEC_Insert_LearningDelivery_PeriodisedValues">
           <ChangePointParameterMap AttributeName="AttributeName" ParemeterName="AttributeName" />
@@ -303,6 +305,7 @@
       <ResultQueryParameterMap AttributeName="HistoricUptoEndDateOutput" ParameterName="HistoricUptoEndDateOutput" EntityName="HistoricEarningOutput" />
       <ResultQueryParameterMap AttributeName="HistoricVirtualTNP3EndofThisYearOutput" ParameterName="HistoricVirtualTNP3EndofThisYearOutput" EntityName="HistoricEarningOutput" />
       <ResultQueryParameterMap AttributeName="HistoricVirtualTNP4EndofThisYearOutput" ParameterName="HistoricVirtualTNP4EndofThisYearOutput" EntityName="HistoricEarningOutput" />
+      <ResultQueryParameterMap AttributeName="HistoricLearnDelProgEarliestACT2DateOutput" ParameterName="HistoricLearnDelProgEarliestACT2DateOutput" EntityName="HistoricEarningOutput" />
     </OPAResult>
     <OPAResult StoredProcName="Rulebase.AEC_Insert_ApprenticeshipPriceEpisode" TopLevelEntityName="ApprenticeshipPriceEpisode" DBConnectionID="ILR">
       <ResultQueryParameterMap EntityName="Learner" ParameterName="LearnRefNumber" AttributeName="LearnRefNumber" />

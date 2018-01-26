@@ -16,7 +16,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
 
         public ProviderEntity[] GetAllProviders()
         {
-            return Query<ProviderEntity>(SelectProviders);
+            return Query<ProviderEntity>(SelectProviders, null, DataLockTask.CommandTimeout);
         }
     }
 }
