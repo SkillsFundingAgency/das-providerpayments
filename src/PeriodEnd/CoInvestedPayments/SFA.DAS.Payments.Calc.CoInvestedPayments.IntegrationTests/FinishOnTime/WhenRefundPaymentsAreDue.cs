@@ -14,6 +14,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
         private long _ukprn;
         private long _uln;
 
+        private const string LearnerRef = "LEARNERREF";
+
         private static readonly Random Random = new Random();
 
         private long _accountId;
@@ -55,6 +57,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     amountDue: 1500,
                     transactionType: TransactionType.Learning,
                     requiredPaymentId: requiredPaymentId,
+                    learnerRefNumber: LearnerRef,
                     isDeds: true);
 
             TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
@@ -62,7 +65,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
-            TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500);
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -1500, learnerRefNumber:LearnerRef);
 
             // Act
             _uut.Execute(_taskContext);
@@ -87,6 +90,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                     amountDue: 1500,
                     transactionType: TransactionType.Learning,
                     requiredPaymentId: requiredPaymentId,
+                    learnerRefNumber: LearnerRef,
                     isDeds: true);
 
             TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 150, 8, 2016, TransactionType.Learning, true);
@@ -94,7 +98,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedSfa, 350, 8, 2017, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
-            TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -750);
+            TestDataHelper.AddPaymentDueForProvider(_commitmentId, _ukprn, amountDue: -750, learnerRefNumber:LearnerRef);
 
             // Act
             _uut.Execute(_taskContext);
@@ -115,7 +119,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
             var requiredPaymentId = Guid.NewGuid().ToString();
             const long temporaryUln = 999999999L;
             var newUln = Random.Next(1, int.MaxValue);
-            const string learnerRef = "LEARNERREF";
+           
             const long temporaryCommitmentId = 2L;
 
             TestDataHelper.AddCommitment(temporaryCommitmentId, _accountId, ukprn: _ukprn, uln: temporaryUln);
@@ -127,13 +131,13 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
                 amountDue: 1500,
                 transactionType: TransactionType.Learning,
                 requiredPaymentId: requiredPaymentId,
-                learnerRefNumber: learnerRef,
+                learnerRefNumber: LearnerRef,
                 isDeds: true);
 
             TestDataHelper.AddPaymentHistoryForCommitment(requiredPaymentId, FundingSource.CoInvestedEmployer, 1500, 8, 2016, TransactionType.Learning, true);
             TestDataHelper.PopulatePaymentsHistory();
 
-            TestDataHelper.AddPaymentDueForProvider(temporaryCommitmentId, _ukprn, amountDue: -1500, uln: newUln, learnerRefNumber:learnerRef);
+            TestDataHelper.AddPaymentDueForProvider(temporaryCommitmentId, _ukprn, amountDue: -1500, uln: newUln, learnerRefNumber:LearnerRef);
 
             // Act
             _uut.Execute(_taskContext);
