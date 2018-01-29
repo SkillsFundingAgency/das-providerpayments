@@ -12,7 +12,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
 
         public DasAccounEntity[] GetDasAccounts()
         {
-            return QueryByProc<DasAccounEntity>("Reference.GetDasAccounts");
+            return QueryByProc<DasAccounEntity>("Reference.GetDasAccounts", null, 
+                DataLockTask.CommandTimeout);
         }
     }
 }

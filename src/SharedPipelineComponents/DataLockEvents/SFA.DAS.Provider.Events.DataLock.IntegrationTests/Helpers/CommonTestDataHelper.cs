@@ -107,8 +107,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
         internal static void AddFileDetails(long ukprn, bool successful = true)
         {
-            Execute($"INSERT INTO dbo.FileDetails (UKPRN, FileName, SubmittedTime, Success) VALUES (@ukprn, 'ILR-{ukprn}-1617-20161013-092500-98', @submissionDate, @successful)",
-                new { ukprn, submissionDate = DateTime.Today, successful });
+            Execute($"INSERT INTO dbo.FileDetails (UKPRN, FileName, SubmittedTime) VALUES (@ukprn, 'ILR-{ukprn}-1617-20161013-092500-98', @submissionDate)",
+                new { ukprn, submissionDate = DateTime.Today });
         }
 
         internal static void AddCommitment(long id,
@@ -547,6 +547,10 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                 try
                 {
                     connection.Execute(command, param);
+                }
+                catch (Exception e)
+                {
+                    throw;
                 }
                 finally
                 {

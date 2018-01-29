@@ -1,3 +1,14 @@
+
+IF NOT EXISTS (SELECT NULL FROM sys.indexes WHERE [name] = 'IX_PriceEpisodePeriodMatch_2')
+BEGIN
+	CREATE NONCLUSTERED INDEX [IX_PriceEpisodePeriodMatch_2]
+		ON [DataLock].[PriceEpisodePeriodMatch] ([Ukprn],[PriceEpisodeIdentifier],[LearnRefNumber],[VersionId])
+		INCLUDE ([AimSeqNumber],[Period],[Payable],[TransactionType])
+END
+GO
+
+
+
 IF EXISTS (SELECT * FROM sys.indexes i
 JOIN sys.objects t ON i.object_id = t.object_id
 WHERE t.name = 'DataLockEventsData'
