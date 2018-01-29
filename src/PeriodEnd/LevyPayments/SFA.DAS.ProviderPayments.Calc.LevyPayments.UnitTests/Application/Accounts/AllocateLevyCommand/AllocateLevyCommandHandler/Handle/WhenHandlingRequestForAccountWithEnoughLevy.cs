@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
             var actual = _handler.Handle(_request);
 
             // Assert
-            Assert.IsNotNull(actual);
+            Assert.IsNull(actual);
         }
 
         [Test]
