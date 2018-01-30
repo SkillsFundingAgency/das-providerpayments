@@ -8,9 +8,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProvider
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
     public class WhenProcessingLearningStateDateChange : WhenProcessingValidScenarioBase
     {

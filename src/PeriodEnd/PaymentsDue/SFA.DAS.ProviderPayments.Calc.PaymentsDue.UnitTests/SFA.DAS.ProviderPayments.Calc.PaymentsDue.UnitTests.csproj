@@ -72,6 +72,7 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
+    <Compile Include="PaymentsDueProcessor\WhenProcessingContractTypeChange.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="PaymentsDueTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
-    <Compile Include="WhenProcessingLearningStateDateChange.cs" />
+    <Compile Include="PaymentsDueProcessor\WhenProcessingLearningStateDateChange.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
