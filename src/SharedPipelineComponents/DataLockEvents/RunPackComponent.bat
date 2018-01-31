@@ -11,7 +11,7 @@ if exist "SFA.DAS.Provider.Events.%Component%\bin\%BuildConfig%" (
   xcopy SFA.DAS.Provider.Events.%Component%\bin\%BuildConfig%\*.dll Deploy%Component%\component\
 )
 
-xcopy TestResult*.Common.xml Deploy%Component%\test-results\
-xcopy TestResult*.%Component%.xml Deploy%Component%\test-results\
+xcopy ..\..\TestResult*.Events.DataLock.xml DeployDataLock\test-results\
+xcopy ..\..\TestResult*.DCFS*.xml Deploy\test-results\
 
 exit /b 0
