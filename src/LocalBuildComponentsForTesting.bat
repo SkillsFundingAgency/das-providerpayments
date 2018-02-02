@@ -1,5 +1,6 @@
-CALL BuildComponents.bat "Debug"
-CALL BuildComponentsForTesting.bat "Debug"
+CALL RunBuild.bat "Debug"
+CALL PackComponents.bat "Debug"
+CALL BuildComponentsForTesting.bat
 ECHO Completed
 PAUSE
 

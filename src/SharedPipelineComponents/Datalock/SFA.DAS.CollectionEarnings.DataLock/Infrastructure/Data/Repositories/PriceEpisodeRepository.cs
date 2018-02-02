@@ -16,7 +16,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("ukprn", ukprn, DbType.Int64);
-            return QueryByProc<PriceEpisodeEntity>("DataLock.GetPriceEpisodesByUkprn", parameters);
+            return QueryByProc<PriceEpisodeEntity>("DataLock.GetPriceEpisodesByUkprn", parameters,
+                DataLockTask.CommandTimeout);
         }
     }
 }
