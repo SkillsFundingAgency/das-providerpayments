@@ -95,7 +95,7 @@ Scenario:700_AC02 DAS learner, payments are allowed as the employer has previous
 			| English and maths on programme |                     |                     |                     |                     |                     |
 			| English and maths Balancing    |                     |                     |                     |                     |                     |     
 
-		And the provider earnings and payments break down as follows:
+		And OBSOLETE - the provider earnings and payments break down as follows:
             | Type                          | 08/17 | 09/17 | 10/17 | 
             | Provider Earned Total         | 1000  | 1000  | 1000  | 
             | Provider Earned from SFA      | 900   | 900   | 900   |

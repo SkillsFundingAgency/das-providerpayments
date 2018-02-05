@@ -80,6 +80,7 @@
     <Compile Include="PaymentsDueTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
+    <Compile Include="WhenProcessingLearningStateDateChange.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
