@@ -4,6 +4,7 @@ using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
@@ -21,7 +22,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             structure = ParseTableStructure(ilrDetails);
             foreach (var row in ilrDetails.Rows)
             {
-                ilrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
+                var parsedLearner = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
+                if (parsedLearner != null)
+                    ilrLearnerDetails.Add(parsedLearner);
             }
         }
 
@@ -35,9 +38,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             structure = ParseTableStructure(ilrDetails);
             foreach (var row in ilrDetails.Rows)
             {
-                submission.IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
+                var parsedLearner = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
+                if(parsedLearner != null)
+                    submission.IlrLearnerDetails.Add(parsedLearner);
                 if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
                     submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
+                if (structure.ContractTypesTableColumnStructure.ContractTypeIndex != -1)
+                    submission.ContractTypes.Add(ParseContractTypeTableRow(row, structure.ContractTypesTableColumnStructure));
+                if(structure.EmploymentStatusTableColumnStructure.EmployerIndex != -1)
+                    submission.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure.EmploymentStatusTableColumnStructure));
             }
             
         }
@@ -46,6 +55,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         {
             var structure = new IlrTableStructure();
             var learningSupportTableColumnStructure = new LearningSupportTableParser.LearningSupportTableColumnStructure();
+            var contractTypeTableColumnStructure = new ContractTypeTableParser.ContractTypesTableColumnStructure();
+            var employmentStatusTableColumnStructure = new EmploymentStatusTableParser.EmploymentStatusTableColumnStructure();
 
             for (var c = 0; c < ilrDetails.Header.Count; c++)
             {
@@ -195,6 +206,27 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "learning support date to":
                         learningSupportTableColumnStructure.DateToIndex = c;
                         break;
+                    case "contract type":
+                        contractTypeTableColumnStructure.ContractTypeIndex = c;
+                        break;
+                    case "contract type date from":
+                        contractTypeTableColumnStructure.DateFromIndex = c;
+                        break;
+                    case "contract type date to":
+                        contractTypeTableColumnStructure.DateToIndex = c;
+                        break;
+                    case "employer":
+                        employmentStatusTableColumnStructure.EmployerIndex = c;
+                        break;
+                    case "employer employment status":
+                        employmentStatusTableColumnStructure.EmploymentStatusIndex = c;
+                        break;
+                    case "employer employment status applies":
+                        employmentStatusTableColumnStructure.EmploymentStatusAppliesIndex = c;
+                        break;
+                    case "employer small employer":
+                        employmentStatusTableColumnStructure.SmallEmployerIndex = c;
+                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in ILR table: {header}");
                 }
@@ -203,7 +235,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return new FullIlrStructure
             {
                 IlrTableStructure = structure,
-                LearningSupportTableColumnStructure = learningSupportTableColumnStructure
+                LearningSupportTableColumnStructure = learningSupportTableColumnStructure,
+                ContractTypesTableColumnStructure = contractTypeTableColumnStructure,
+                EmploymentStatusTableColumnStructure = employmentStatusTableColumnStructure
             };
         }
 
@@ -217,8 +251,59 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
 
+        private static ContractTypeReferenceData ParseContractTypeTableRow(TableRow row, ContractTypeTableParser.ContractTypesTableColumnStructure contractTypesTableColumnStructure)
+        {
+            return new ContractTypeReferenceData
+            {
+                ContractType = (ContractType)row.ReadRowColumnValue<string>(contractTypesTableColumnStructure.ContractTypeIndex, "contract type").ToEnumByDescription(typeof(ContractType)),
+                DateFrom = row.ReadRowColumnValue<DateTime>(contractTypesTableColumnStructure.DateFromIndex, "date from"),
+                DateTo = row.ReadRowColumnValue<DateTime>(contractTypesTableColumnStructure.DateToIndex, "date to")
+            };
+        }
+
+        private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableParser.EmploymentStatusTableColumnStructure structure)
+        {
+            var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
+            int employerId;
+            if (string.IsNullOrEmpty(employerReference))
+            {
+                employerId = 0;
+            }
+            else
+            {
+                var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
+                if (!employerMatch.Success)
+                {
+                    throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
+                }
+                employerId = int.Parse(employerMatch.Groups[1].Value);
+            }
+
+            var status = new EmploymentStatusReferenceData
+            {
+                EmployerId = employerId,
+                EmploymentStatus = (EmploymentStatus)row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status").ToEnumByDescription(typeof(EmploymentStatus)),
+                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies"),
+            };
+
+            var smallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "Small Employer");
+            if (smallEmployer?.Length > 3)
+            {
+                status.MonitoringType = (EmploymentStatusMonitoringType)smallEmployer.Substring(0, 3).ToEnumByDescription(typeof(EmploymentStatusMonitoringType));
+                status.MonitoringCode = int.Parse(smallEmployer.Substring(3));
+            }
+
+            return status;
+        }
+
         private static IlrLearnerReferenceData ParseCommitmentsTableRow(TableRow row, IlrTableStructure structure)
         {
+            if (row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number",
+                    string.Empty) == string.Empty
+                && row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN", string.Empty) == String.Empty)
+            {
+                return null;
+            }
             var rowData = new IlrLearnerReferenceData
             {
                 LearnerReference = row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number", string.Empty),
