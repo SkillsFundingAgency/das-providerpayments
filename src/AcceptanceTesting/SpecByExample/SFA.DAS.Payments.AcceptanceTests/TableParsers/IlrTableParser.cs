@@ -41,10 +41,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 var parsedLearner = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
                 if(parsedLearner != null)
                     submission.IlrLearnerDetails.Add(parsedLearner);
-                if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
-                    submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
-                if (structure.ContractTypesTableColumnStructure.ContractTypeIndex != -1)
-                    submission.ContractTypes.Add(ParseContractTypeTableRow(row, structure.ContractTypesTableColumnStructure));
+
+                var parsedLearningSupportStatus = ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure);
+                if(parsedLearningSupportStatus != null)
+                    submission.LearningSupportStatus.Add(parsedLearningSupportStatus);
+
+                var parsedContractType = ParseContractTypeTableRow(row, structure.ContractTypesTableColumnStructure);
+                if (parsedContractType != null)
+                    submission.ContractTypes.Add(parsedContractType);
+
                 if(structure.EmploymentStatusTableColumnStructure.EmployerIndex != -1)
                     submission.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure.EmploymentStatusTableColumnStructure));
             }
@@ -243,6 +248,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static LearningSupportReferenceData ParseLearningSupportTableRow(TableRow row, LearningSupportTableParser.LearningSupportTableColumnStructure learningSupportTableColumnStructure)
         {
+            if (string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(learningSupportTableColumnStructure.LearningSupportCodeIndex, "Learning support code")))
+                return null;
+
             return new LearningSupportReferenceData
             {
                 LearningSupportCode = row.ReadRowColumnValue<int>(learningSupportTableColumnStructure.LearningSupportCodeIndex, "Learning support code"),
@@ -253,6 +261,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static ContractTypeReferenceData ParseContractTypeTableRow(TableRow row, ContractTypeTableParser.ContractTypesTableColumnStructure contractTypesTableColumnStructure)
         {
+            if (string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(contractTypesTableColumnStructure.ContractTypeIndex, "contract type")))
+                return null;
+
             return new ContractTypeReferenceData
             {
                 ContractType = (ContractType)row.ReadRowColumnValue<string>(contractTypesTableColumnStructure.ContractTypeIndex, "contract type").ToEnumByDescription(typeof(ContractType)),
@@ -298,9 +309,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static IlrLearnerReferenceData ParseCommitmentsTableRow(TableRow row, IlrTableStructure structure)
         {
-            if (row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number",
-                    string.Empty) == string.Empty
-                && row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN", string.Empty) == String.Empty)
+            if (string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number"))
+                && string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN")))
             {
                 return null;
             }
