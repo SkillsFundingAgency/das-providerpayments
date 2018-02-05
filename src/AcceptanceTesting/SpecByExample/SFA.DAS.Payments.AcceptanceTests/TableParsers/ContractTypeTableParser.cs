@@ -22,7 +22,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        private static ContractTypesTableColumnStructure ParseContractTypesTableStructure(Table contractTypes)
+        public static ContractTypesTableColumnStructure ParseContractTypesTableStructure(Table contractTypes)
         {
             var structure = new ContractTypesTableColumnStructure();
 
@@ -70,7 +70,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
 
-        private class ContractTypesTableColumnStructure
+        public class ContractTypesTableColumnStructure
         {
             public int ContractTypeIndex { get; set; } = -1;
             public int DateFromIndex { get; set; } = -1;

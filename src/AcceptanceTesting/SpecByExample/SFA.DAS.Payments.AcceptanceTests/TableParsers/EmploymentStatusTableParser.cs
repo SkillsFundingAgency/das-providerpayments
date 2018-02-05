@@ -23,7 +23,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        private static EmploymentStatusTableColumnStructure ParseEmploymentStatusTableStructure(Table contractTypes)
+        public static EmploymentStatusTableColumnStructure ParseEmploymentStatusTableStructure(Table contractTypes)
         {
             var structure = new EmploymentStatusTableColumnStructure();
 
@@ -100,7 +100,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return status;
         }
         
-        private class EmploymentStatusTableColumnStructure
+        public class EmploymentStatusTableColumnStructure
         {
             public int EmployerIndex { get; set; } = -1;
             public int EmploymentStatusIndex { get; set; } = -1;
