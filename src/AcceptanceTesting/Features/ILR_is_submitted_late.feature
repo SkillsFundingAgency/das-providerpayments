@@ -11,8 +11,8 @@ Feature: The ILR is submitted late
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted for the first time on 28/12/17 with the following data:
-            | learner type       | agreed price | start date | planned end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | continuing        |
+            | ULN       | learner type       | agreed price | start date | planned end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | continuing        |
         Then the provider earnings and payments break down as follows:
             | Type                       | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | ... |
             | Provider Earned Total      | 1000  | 1000  | 1000  | 1000  | 1000  | 1000  | ... |
