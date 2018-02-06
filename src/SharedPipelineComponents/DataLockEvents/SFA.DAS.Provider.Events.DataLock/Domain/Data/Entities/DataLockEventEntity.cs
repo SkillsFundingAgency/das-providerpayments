@@ -11,7 +11,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities
         public string AcademicYear { get; set; }
         public long Ukprn { get; set; }
         public long Uln { get; set; }
-        public string LearnRefnumber { get; set; }
+        public string LearnRefNumber { get; set; }
         public long AimSeqNumber { get; set; }
         public string PriceEpisodeIdentifier { get; set; }
         public long CommitmentId { get; set; }

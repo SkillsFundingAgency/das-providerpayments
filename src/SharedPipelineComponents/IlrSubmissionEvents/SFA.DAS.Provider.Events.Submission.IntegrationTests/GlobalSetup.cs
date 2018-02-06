@@ -33,6 +33,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests
 
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.tables.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.functions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.sprocs.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.views.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
             }
         }

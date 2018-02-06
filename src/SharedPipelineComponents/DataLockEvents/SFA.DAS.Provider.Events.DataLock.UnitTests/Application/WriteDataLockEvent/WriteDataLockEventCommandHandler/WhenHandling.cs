@@ -212,7 +212,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.WriteDataLockEv
                 && entity.AcademicYear == @event.AcademicYear
                 && entity.Ukprn == @event.Ukprn
                 && entity.Uln == @event.Uln
-                && entity.LearnRefnumber == @event.LearnRefnumber
+                && entity.LearnRefNumber == @event.LearnRefnumber
                 && entity.AimSeqNumber == @event.AimSeqNumber
                 && entity.PriceEpisodeIdentifier == @event.PriceEpisodeIdentifier
                 && entity.CommitmentId == @event.CommitmentId
