@@ -17,7 +17,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("ukprn", ukprn, DbType.Int64);
 
-            return QueryByProc<CommitmentEntity>("DataLock.GetCommitmentsForProvider", parameters);
+            return QueryByProc<CommitmentEntity>("DataLock.GetCommitmentsForProvider",
+                parameters,
+                DataLockTask.CommandTimeout);
         }
     }
 }

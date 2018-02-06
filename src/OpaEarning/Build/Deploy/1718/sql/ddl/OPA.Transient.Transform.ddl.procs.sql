@@ -126,11 +126,11 @@ select Distinct
 	ESM.ESMType,
 	ESM.ESMCode
 from
-	[Input].[EmploymentStatusMonitoring] as ESM
-	join Input.Learner as l
-	on l.LearnRefNumber = ESM.LearnRefNumber
-	join dbo.ValidLearners as vl
-	on vl.Learner_Id = l.Learner_Id
+	[Input].[EmploymentStatusMonitoring] AS ESM
+	INNER JOIN Input.LearnerEmploymentStatus LES
+		ON ESM.LearnerEmploymentStatus_Id = LES.LearnerEmploymentStatus_Id
+	INNER JOIN dbo.ValidLearners AS VL
+		on VL.Learner_Id = LES.Learner_Id
 end
 GO
  
@@ -221,10 +221,6 @@ select distinct
 	LDP.ULN
 from
 	[Input].[LearnerDestinationandProgression] as LDP
-	join Input.Learner as l
-		on l.ULN = LDP.ULN
-	join dbo.ValidLearners as vl
-		on vl.Learner_Id = l.Learner_Id
 	join [dbo].[ValidLearnerDestinationandProgressions] as vdp
 		on LDP.[LearnerDestinationandProgression_Id] = vdp.[LearnerDestinationandProgression_Id]
 end
@@ -252,7 +248,7 @@ from
 	[Input].[LearnerEmploymentStatus] as LES
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = LES.Learner_Id
-end
+END
 GO
  
 if object_id ('[dbo].[TransformInputToValid_LearnerFAM]','p') is not null
@@ -398,7 +394,7 @@ from
 	[Input].[LearningDelivery] as LD
 	join dbo.ValidLearners as vl
 	on vl.Learner_Id = LD.Learner_Id
-end
+END
 GO
  
 if object_id ('[dbo].[TransformInputToValid_LearningDeliveryFAM]','p') is not null
@@ -495,11 +491,11 @@ select
 	LDHE.ELQ,
 	LDHE.HEPostCode
 from
-	[Input].[LearningDeliveryHE] as LDHE
-	join Input.Learner as l
-	on l.LearnRefNumber = LDHE.LearnRefNumber
-	join dbo.ValidLearners as vl
-	on vl.Learner_Id = l.Learner_Id
+	[Input].[LearningDeliveryHE] AS LDHE
+	INNER JOIN Input.LearningDelivery AS LD
+		ON LDHE.LearningDelivery_Id = LD.LearningDelivery_Id
+	INNER JOIN dbo.ValidLearners AS VL
+		ON VL.Learner_Id = LD.Learner_Id
 end
 GO
  
@@ -528,11 +524,11 @@ select
 	LDWP.WorkPlaceMode,
 	LDWP.WorkPlaceEmpId
 from
-	[Input].[LearningDeliveryWorkPlacement] as LDWP
-	join Input.Learner as l
-	on l.LearnRefNumber = LDWP.LearnRefNumber
-	join dbo.ValidLearners as vl
-	on vl.Learner_Id = l.Learner_Id
+	[Input].[LearningDeliveryWorkPlacement] AS LDWP
+	INNER JOIN Input.LearningDelivery AS LD
+		ON LDWP.LearningDelivery_Id = LD.LearningDelivery_Id
+	INNER JOIN dbo.ValidLearners AS VL
+		on VL.Learner_Id = LD.Learner_Id
 	where LDWP.WorkPlaceEmpId is not null
 end
 GO
@@ -603,11 +599,11 @@ select Distinct
 	PSDM.ProvSpecDelMonOccur,
 	PSDM.ProvSpecDelMon
 from
-	[Input].[ProviderSpecDeliveryMonitoring] as PSDM
-	join Input.Learner as l
-	on l.LearnRefNumber = PSDM.LearnRefNumber
-	join dbo.ValidLearners as vl
-	on vl.Learner_Id = l.Learner_Id
+	[Input].[ProviderSpecDeliveryMonitoring] AS PSDM
+	INNER JOIN Input.LearningDelivery AS LD
+		ON PSDM.LearningDelivery_Id = LD.LearningDelivery_Id
+	INNER JOIN dbo.ValidLearners AS VL
+		ON VL.Learner_Id = LD.Learner_Id
 end
 GO
  
@@ -695,7 +691,164 @@ from
 	[Input].[SourceFile] as SF
 end
 GO
+
+
+-- Materialisation of the [Valid].[LearningDeliveryDenorm] view to a table added as an optimisation on the Insert Cases scripts
+
+if object_id ('[dbo].[TransformInputToValid_LearningDeliveryDenormTbl]','p') is not null
+	exec ('drop procedure [dbo].[TransformInputToValid_LearningDeliveryDenormTbl]')
+GO
  
+create procedure [dbo].[TransformInputToValid_LearningDeliveryDenormTbl] as
+begin
+INSERT [Valid].[LearningDeliveryDenormTbl]
+(
+	 [LearnRefNumber]		
+	,[LearnAimRef]			
+	,[AimType]				
+	,[AimSeqNumber]			
+	,[LearnStartDate]		
+	,[OrigLearnStartDate]	
+	,[LearnPlanEndDate]		
+	,[FundModel]			
+	,[ProgType]				
+	,[FworkCode]			
+	,[PwayCode]				
+	,[StdCode]				
+	,[PartnerUKPRN]			
+	,[DelLocPostCode]		
+	,[AddHours]				
+	,[PriorLearnFundAdj]	
+	,[OtherFundAdj]			
+	,[ConRefNumber]			
+	,[EPAOrgID]				
+	,[EmpOutcome]			
+	,[CompStatus]			
+	,[LearnActEndDate]		
+	,[WithdrawReason]		
+	,[Outcome]				
+	,[AchDate]				
+	,[OutGrade]				
+	,[SWSupAimId]			
+	,[HEM1]					
+	,[HEM2]					
+	,[HEM3]					
+	,[HHS1]					
+	,[HHS2]					
+	,[LDFAM_SOF]			
+	,[LDFAM_EEF]			
+	,[LDFAM_RES]			
+	,[LDFAM_ADL]			
+	,[LDFAM_FFI]			
+	,[LDFAM_WPP]			
+	,[LDFAM_POD]			
+	,[LDFAM_ASL]			
+	,[LDFAM_FLN]			
+	,[LDFAM_NSA]			
+	,[ProvSpecDelMon_A]		
+	,[ProvSpecDelMon_B]		
+	,[ProvSpecDelMon_C]		
+	,[ProvSpecDelMon_D]		
+	,[LDM1]					
+	,[LDM2]					
+	,[LDM3]					
+	,[LDM4]					
+)
+SELECT
+	 [LearnRefNumber]		
+	,[LearnAimRef]			
+	,[AimType]				
+	,[AimSeqNumber]			
+	,[LearnStartDate]		
+	,[OrigLearnStartDate]	
+	,[LearnPlanEndDate]		
+	,[FundModel]			
+	,[ProgType]				
+	,[FworkCode]			
+	,[PwayCode]				
+	,[StdCode]				
+	,[PartnerUKPRN]			
+	,[DelLocPostCode]		
+	,[AddHours]				
+	,[PriorLearnFundAdj]	
+	,[OtherFundAdj]			
+	,[ConRefNumber]			
+	,[EPAOrgID]				
+	,[EmpOutcome]			
+	,[CompStatus]			
+	,[LearnActEndDate]		
+	,[WithdrawReason]		
+	,[Outcome]				
+	,[AchDate]				
+	,[OutGrade]				
+	,[SWSupAimId]			
+	,[HEM1]					
+	,[HEM2]					
+	,[HEM3]					
+	,[HHS1]					
+	,[HHS2]					
+	,[LDFAM_SOF]			
+	,[LDFAM_EEF]			
+	,[LDFAM_RES]			
+	,[LDFAM_ADL]			
+	,[LDFAM_FFI]			
+	,[LDFAM_WPP]			
+	,[LDFAM_POD]			
+	,[LDFAM_ASL]			
+	,[LDFAM_FLN]			
+	,[LDFAM_NSA]			
+	,[ProvSpecDelMon_A]		
+	,[ProvSpecDelMon_B]		
+	,[ProvSpecDelMon_C]		
+	,[ProvSpecDelMon_D]		
+	,[LDM1]					
+	,[LDM2]					
+	,[LDM3]					
+	,[LDM4]		
+FROM	Valid.LearningDeliveryDenorm 
+END
+GO
+
+ 
+ 
+-- Materialisation of the [Valid].[LearnerEmploymentStatusDenorm] view to a table added as an optimisation on the Insert Cases scripts
+
+if object_id ('[dbo].[TransformInputToValid_LearnerEmploymentStatusDenormTbl]','p') is not null
+	exec ('drop procedure [dbo].[TransformInputToValid_LearnerEmploymentStatusDenormTbl]')
+GO
+ 
+create procedure [dbo].[TransformInputToValid_LearnerEmploymentStatusDenormTbl] as
+begin
+INSERT [Valid].[LearnerEmploymentStatusDenormTbl]
+(
+	 [LearnRefNumber]
+	,[EmpStat]
+	,[EmpId]
+	,[DateEmpStatApp]
+	,[ESMCode_BSI]
+	,[ESMCode_EII]
+	,[ESMCode_LOE]
+	,[ESMCode_LOU]
+	,[ESMCode_PEI]
+	,[ESMCode_SEI]
+	,[ESMCode_SEM]
+)
+SELECT
+	 [LearnRefNumber]
+	,[EmpStat]
+	,[EmpId]
+	,[DateEmpStatApp]
+	,[ESMCode_BSI]
+	,[ESMCode_EII]
+	,[ESMCode_LOE]
+	,[ESMCode_LOU]
+	,[ESMCode_PEI]
+	,[ESMCode_SEI]
+	,[ESMCode_SEM]
+FROM [Valid].[LearnerEmploymentStatusDenorm]
+END
+GO
+
 if object_id (N'[dbo].[TransformInputToValid]', 'p') is not null
 	exec ('drop procedure [dbo].[TransformInputToValid]')
 GO
@@ -723,6 +876,11 @@ begin
 	exec [dbo].[TransformInputToValid_ProviderSpecLearnerMonitoring]
 	exec [dbo].[TransformInputToValid_Source]
 	exec [dbo].[TransformInputToValid_SourceFile]
+
+	--Insert to these tables at the end so that dependencies are in place.
+	exec [dbo].[TransformInputToValid_LearningDeliveryDenormTbl]
+	exec [dbo].[TransformInputToValid_LearnerEmploymentStatusDenormTbl] 
+
 end 
 GO
 

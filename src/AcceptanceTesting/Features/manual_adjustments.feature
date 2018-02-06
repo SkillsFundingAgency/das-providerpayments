@@ -30,7 +30,7 @@ Feature: Manual adjustments as a result of payment anomolies
 
 		And the following payments will be added for reversal:
 			| Payment type                 | 05/17 | 06/17 |
-			| On-program                   | 600   | 0   |
+			| On-program                   | 600   | 0     |
 			| Completion                   | 0     | 0     |
 			| Balancing                    | 0     | 0     |
 			| Employer 16-18 incentive     | 0     | 0     |

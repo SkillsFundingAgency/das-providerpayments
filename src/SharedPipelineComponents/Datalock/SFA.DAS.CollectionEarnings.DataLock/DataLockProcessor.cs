@@ -13,9 +13,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.ValidationError.AddValidat
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
-using System.Collections.Generic;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
-using System.Linq;
 
 namespace SFA.DAS.CollectionEarnings.DataLock
 {
@@ -37,6 +35,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         public virtual void Process()
         {
             _logger.Info("Started Data Lock Processor.");
+            _logger.Info($"Using timeout of: {DataLockTask.CommandTimeout}");
 
             var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 

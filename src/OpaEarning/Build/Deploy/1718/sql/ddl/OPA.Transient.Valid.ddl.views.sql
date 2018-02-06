@@ -44,6 +44,13 @@ as
 		,PPE.PPE2
 		,EDF.EDF1
 		,EDF.EDF2
+		,ehc.LearnFAMCode as [EHC]
+		,ecf.LearnFAMCode as [ECF]
+		,hns.LearnFAMCode as [HNS]
+		,dla.LearnFAMCode as [DLA]
+		,mcf.LearnFAMCode as [MCF]
+		,sen.LearnFAMCode as [SEN]
+		,fme.LearnFAMCode as [FME]
 		,ProvSpecMon_A.ProvSpecLearnMon AS ProvSpecLearnMon_A	
 		,ProvSpecMon_B.ProvSpecLearnMon AS ProvSpecLearnMon_B
 	from
@@ -136,7 +143,34 @@ as
 				[LearnRefNumber]
 		) as [EDF]
 			on [EDF].[LearnRefNumber]=l.LearnRefNumber
-
+		left join
+			Valid.LearnerFAM as ehc
+				on ehc.LearnRefNumber = l.LearnRefNumber
+				and ehc.LearnFAMType = 'EHC' 
+		left join
+			Valid.LearnerFAM as ecf
+				on ecf.LearnRefNumber = l.LearnRefNumber
+				and ecf.LearnFAMType = 'ECF'
+		left join
+			Valid.LearnerFAM as hns
+				on hns.LearnRefNumber = l.LearnRefNumber
+				and hns.LearnFAMType = 'HNS'
+		left join
+			Valid.LearnerFAM as dla
+				on dla.LearnRefNumber = l.LearnRefNumber
+				and dla.LearnFAMType = 'DLA'
+		left join
+			Valid.LearnerFAM as mcf
+				on mcf.LearnRefNumber = l.LearnRefNumber
+				and mcf.LearnFAMType = 'MCF'
+		left join
+			Valid.LearnerFAM as sen
+				on sen.LearnRefNumber = l.LearnRefNumber
+				and sen.LearnFAMType = 'SEN'
+		left join
+			Valid.LearnerFAM as fme
+				on fme.LearnRefNumber = l.LearnRefNumber
+				and fme.LearnFAMType = 'FME'
 		left join Valid.[ProviderSpecLearnerMonitoring] as [ProvSpecMon_A]
 			on [ProvSpecMon_A].[LearnRefNumber] = l.LearnRefNumber
 			and [ProvSpecMon_A].[ProvSpecLearnMonOccur]='A'
@@ -155,6 +189,7 @@ as
 SELECT 
 	les.[LearnRefNumber]
 	,les.[EmpStat]
+	,les.EmpId
 	,les.[DateEmpStatApp]
 	,[EmpStatMon_BSI].ESMCode AS ESMCode_BSI
 	,[EmpStatMon_EII].ESMCode AS ESMCode_EII
@@ -167,24 +202,31 @@ FROM
 	Valid.[LearnerEmploymentStatus] as les
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_BSI]
 		on [EmpStatMon_BSI].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_BSI].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_BSI].[ESMType]='BSI'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_EII]
 		on [EmpStatMon_EII].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_EII].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_EII].[ESMType]='EII'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_LOE]
 		on [EmpStatMon_LOE].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_LOE].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_LOE].[ESMType]='LOE'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_LOU]
 		on [EmpStatMon_LOU].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_LOU].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_LOU].[ESMType]='LOU'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_PEI]
 		on [EmpStatMon_PEI].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_PEI].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_PEI].[ESMType]='PEI'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_SEI]
 		on [EmpStatMon_SEI].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_SEI].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_SEI].[ESMType]='SEI'
 	left join Valid.[EmploymentStatusMonitoring] as [EmpStatMon_SEM]
 		on [EmpStatMon_SEM].LearnRefNumber=les.LearnRefNumber
+		and [EmpStatMon_SEM].DateEmpStatApp = les.DateEmpStatApp
 		and [EmpStatMon_SEM].[ESMType]='SEM'
 GO
 
@@ -234,7 +276,11 @@ SELECT
 	,[LDFAM_RES].LearnDelFAMCode AS [LDFAM_RES]
 	,[LDFAM_ADL].LearnDelFAMCode AS [LDFAM_ADL]
 	,[LDFAM_FFI].LearnDelFAMCode AS [LDFAM_FFI]
-	,[LDFAM_SPP].LearnDelFAMCode AS [LDFAM_SPP]
+	,[LDFAM_WPP].LearnDelFAMCode AS [LDFAM_WPP]
+	,[LDFAM_POD].LearnDelFAMCode AS [LDFAM_POD]
+	,[LDFAM_ASL].LearnDelFAMCode AS [LDFAM_ASL]
+	,[LDFAM_FLN].LearnDelFAMCode AS [LDFAM_FLN]
+	,[LDFAM_NSA].LearnDelFAMCode AS [LDFAM_NSA]
 	,[ProvSpecMon_A].ProvSpecDelMon AS ProvSpecDelMon_A
 	,[ProvSpecMon_B].ProvSpecDelMon	AS ProvSpecDelMon_B
 	,[ProvSpecMon_C].ProvSpecDelMon	AS ProvSpecDelMon_C
@@ -325,10 +371,30 @@ FROM
 			AND ld.[AimSeqNumber] = [LDFAM_FFI].[AimSeqNumber]
 			AND [LDFAM_FFI].[LearnDelFAMType] = 'FFI'
 	LEFT JOIN 
-		[Valid].[LearningDeliveryFAM] AS [LDFAM_SPP] 
-			ON ld.[LearnRefNumber] = [LDFAM_SPP].[LearnRefNumber]
-			AND ld.[AimSeqNumber] = [LDFAM_SPP].[AimSeqNumber]
-			AND [LDFAM_SPP].[LearnDelFAMType] = 'SPP'
+		[Valid].[LearningDeliveryFAM] AS [LDFAM_WPP] 
+			ON ld.[LearnRefNumber] = [LDFAM_WPP].[LearnRefNumber]
+			AND ld.[AimSeqNumber] = [LDFAM_WPP].[AimSeqNumber]
+			AND [LDFAM_WPP].[LearnDelFAMType] = 'WPP'
+	LEFT JOIN 
+		[Valid].[LearningDeliveryFAM] AS [LDFAM_POD] 
+			ON ld.[LearnRefNumber] = [LDFAM_POD].[LearnRefNumber]
+			AND ld.[AimSeqNumber] = [LDFAM_POD].[AimSeqNumber]
+			AND [LDFAM_POD].[LearnDelFAMType] = 'POD'
+	LEFT JOIN 
+		[Valid].[LearningDeliveryFAM] AS [LDFAM_ASL] 
+			ON ld.[LearnRefNumber] = [LDFAM_ASL].[LearnRefNumber]
+			AND ld.[AimSeqNumber] = [LDFAM_ASL].[AimSeqNumber]
+			AND [LDFAM_ASL].[LearnDelFAMType] = 'ASL'
+	LEFT JOIN 
+		[Valid].[LearningDeliveryFAM] AS [LDFAM_FLN] 
+			ON ld.[LearnRefNumber] = [LDFAM_FLN].[LearnRefNumber]
+			AND ld.[AimSeqNumber] = [LDFAM_FLN].[AimSeqNumber]
+			AND [LDFAM_FLN].[LearnDelFAMType] = 'FLN'
+	LEFT JOIN 
+		[Valid].[LearningDeliveryFAM] AS [LDFAM_NSA] 
+			ON ld.[LearnRefNumber] = [LDFAM_NSA].[LearnRefNumber]
+			AND ld.[AimSeqNumber] = [LDFAM_NSA].[AimSeqNumber]
+			AND [LDFAM_NSA].[LearnDelFAMType] = 'NSA'
 
 	left join Valid.[ProviderSpecDeliveryMonitoring] as [ProvSpecMon_A]
 		on [ProvSpecMon_A].[LearnRefNumber]=ld.[LearnRefNumber]
@@ -378,6 +444,30 @@ FROM
 	) as [LDM]
 	on [LDM].[LearnRefNumber]=ld.[LearnRefNumber]
 	and LDM.AimSeqNumber = ld.AimSeqNumber
+GO
 
 
+if object_id ('Valid.TrailblazerApprenticeshipFinancialRecord', 'v') is not null
+begin
+	drop view Valid.TrailblazerApprenticeshipFinancialRecord
+end
+GO
 
+if object_id ('Valid.TrailblazerApprenticeshipFinancialRecord', 'u') is not null
+begin
+	drop table Valid.TrailblazerApprenticeshipFinancialRecord
+end
+GO
+
+create view Valid.TrailblazerApprenticeshipFinancialRecord
+as
+	select
+		LearnRefNumber
+		,AimSeqNumber
+		,AFinType as TBFinType
+		,AFinCode as TBFinCode
+		,AFinAmount as TBFinAmount
+		,AFinDate as TBFinDate
+	from
+		Valid.AppFinRecord
+GO

@@ -17,6 +17,12 @@ BEGIN
 END
 GO
 
+
+IF EXISTS (SELECT NULL FROM sys.indexes WHERE name='IX_DataLockPriceEpisode_Uln')
+BEGIN
+	DROP INDEX IX_DataLockPriceEpisode_Uln ON Reference.DataLockPriceEpisode
+END
+
 TRUNCATE TABLE [Reference].[DataLockPriceEpisode]
 GO
 
@@ -85,6 +91,8 @@ INSERT INTO [Reference].[DataLockPriceEpisode] (
             AND ape.PriceEpisodeAimSeqNumber = et.PriceEpisodeAimSeqNumber
 	WHERE ape.PriceEpisodeContractType = 'Levy Contract'
 
+GO
+
 CREATE CLUSTERED INDEX [IDX_DataLockPriceEpisode_Ukprn] ON [Reference].[DataLockPriceEpisode]
 (
 	[Ukprn] ASC
@@ -92,3 +100,6 @@ CREATE CLUSTERED INDEX [IDX_DataLockPriceEpisode_Ukprn] ON [Reference].[DataLock
 GO
 
 CREATE INDEX IX_DataLockPriceEpisode_DataLockEvents ON Reference.DataLockPriceEpisode (UKPRN, LearnRefNumber, PriceEpisodeIdentifier)
+GO
+
+CREATE INDEX IX_DataLockPriceEpisode_Uln ON Reference.DataLockPriceEpisode (Uln)
