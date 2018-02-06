@@ -39,7 +39,7 @@ Feature: 2 learners, paid in priority order
                 | SFA Levy employer budget       | 1000  | 1000  | 1000  | 1000  | ... | 1000  | 0     |
                 | SFA Levy co-funding budget     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
                 | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-        And the provider earnings and payments break down as follows:
+        And OBSOLETE - the provider earnings and payments break down as follows:
                 | Type                           | 08/17 | 09/17 | 10/17 | 11/17 | ... | 07/18 | 08/18 |
                 | Provider Earned Total          | 2000  | 2000  | 2000  | 2000  | ... | 2000  | 0     |
                 | Provider Earned from SFA       | 2000  | 2000  | 2000  | 2000  | ... | 2000  | 0     |
@@ -86,7 +86,7 @@ Feature: 2 learners, paid in priority order
                 | SFA Levy employer budget       | 0     | 0     | 0     | 0     | ... | 0     | 0     |
                 | SFA Levy co-funding budget     | 900   | 900   | 900   | 900   | ... | 900   | 0     |
                 | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-        And the provider earnings and payments break down as follows:
+        And OBSOLETE - the provider earnings and payments break down as follows:
                 | Type                           | 08/17 | 09/17 | 10/17 | 11/17 | ... | 07/18 | 08/18 |
                 | Provider Earned Total          | 2000  | 2000  | 2000  | 2000  | ... | 2000  | 0     |
                 | Provider Earned from SFA       | 1900  | 1900  | 1900  | 1900  | ... | 1900  | 0     |
@@ -133,7 +133,7 @@ Feature: 2 learners, paid in priority order
                 | SFA Levy employer budget       | 500   | 500   | 500   | 500   | ... | 500   | 0     |
                 | SFA Levy co-funding budget     | 450   | 450   | 450   | 450   | ... | 450   | 0     |
                 | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-        And the provider earnings and payments break down as follows:
+        And OBSOLETE - the provider earnings and payments break down as follows:
                 | Type                           | 08/17 | 09/17 | 10/17 | 11/17 | ... | 07/18 | 08/18 |
                 | Provider Earned Total          | 2000  | 2000  | 2000  | 2000  | ... | 2000  | 0     |
                 | Provider Earned from SFA       | 1950  | 1950  | 1950  | 1950  | ... | 1950  | 0     |

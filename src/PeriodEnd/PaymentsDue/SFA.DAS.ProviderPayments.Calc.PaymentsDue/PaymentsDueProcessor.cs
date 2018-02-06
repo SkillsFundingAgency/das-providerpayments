@@ -208,7 +208,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef &&
-                                p.LearningStartDate == earning.LearningStartDate);
+                                p.LearningStartDate.Month == earning.LearningStartDate.Month &&
+                                p.LearningStartDate.Year == earning.LearningStartDate.Year);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                     p.DeliveryYear == earning.CalendarYear).ToArray();

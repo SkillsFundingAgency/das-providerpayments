@@ -524,12 +524,8 @@ Scenario:869-AC01 Levy apprentice, learner moves dates for learning support , on
              | Provider learning support    | 150   | 150   | 
         
         When an ILR file is submitted for the first time on 31/07/17 with the following data:
-            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
-            | learner a | programme only DAS | 9000         | 06/05/2017 | 20/05/2018       |                 | continuing        | programme        | 1                   |          | 403            | 2              | 1            |
-		And the learning support status of the ILR is:
-			| Learning support code | date from  | date to    |
-			| 1                     | 06/07/2017 | 20/07/2018 |
-  
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | aim rate | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to |
+            | learner a | programme only DAS | 9000         | 06/05/2017 | 20/05/2018       |                 | continuing        | programme | 1                   |          | 403            | 2              | 1            | 1                     | 06/07/2017                 | 20/07/2018               |  
   
         Then the provider earnings and payments break down as follows:
             | Type                                    | 05/17 | 06/17 | 07/17 | 08/17 | 09/17 | 10/17 |
