@@ -50,8 +50,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 if (parsedContractType != null)
                     submission.ContractTypes.Add(parsedContractType);
 
-                if(structure.EmploymentStatusTableColumnStructure.EmployerIndex != -1)
-                    submission.EmploymentStatus.Add(ParseEmploymentStatusTableRow(row, structure.EmploymentStatusTableColumnStructure));
+                var parsedEmploymentStatus = ParseEmploymentStatusTableRow(row, structure.EmploymentStatusTableColumnStructure);
+                if (parsedEmploymentStatus != null)
+                    submission.EmploymentStatus.Add(parsedEmploymentStatus);
             }
             
         }
@@ -276,19 +277,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         {
             var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
             int employerId;
-            if (string.IsNullOrEmpty(employerReference))
+            if (string.IsNullOrWhiteSpace(employerReference))
             {
-                employerId = 0;
+                return null;
             }
-            else
+            
+            var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
+            if (!employerMatch.Success)
             {
-                var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
-                if (!employerMatch.Success)
-                {
-                    throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
-                }
-                employerId = int.Parse(employerMatch.Groups[1].Value);
+                throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
             }
+            employerId = int.Parse(employerMatch.Groups[1].Value);
+            
 
             var status = new EmploymentStatusReferenceData
             {
