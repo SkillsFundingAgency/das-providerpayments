@@ -21,7 +21,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         private const long Uln = 98563;
         private const string NiNumber = "AB123456A";
         private const string AcademicYear = "1718";
-        private const string EPAOrgId = "EPAOrgI";
+        private const string EPAOrgId = "EPA0001";
         private readonly DateTime FilePrepDate = new DateTime(2017, 9, 2, 12, 37, 26);
         private readonly DateTime SubmissionTime = new DateTime(2017, 9, 2, 12, 54, 56);
         private readonly DateTime StartDate = new DateTime(2017, 9, 1);

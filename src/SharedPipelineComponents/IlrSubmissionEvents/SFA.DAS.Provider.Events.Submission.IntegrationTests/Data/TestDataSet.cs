@@ -134,7 +134,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                         StdCode = 34,
                         LearnStartDate = startDate,
                         LearnPlanEndDate = DateTime.Today.AddMonths(16),
-                        EPAOrgId = "EPAOrgI" // todo: in expected format
+                        EPAOrgId = "EPA0001"
                     }
                 },
                 LearnersEmploymentStatuses = new List<LearnerEmploymentStatusEntity>

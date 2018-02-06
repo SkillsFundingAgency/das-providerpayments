@@ -47,7 +47,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
                 NiNumber = "AB123456A",
-                EPAOrgId = "EpaOrgI"
+                EPAOrgId = "EPA0001"
             };
             var updatedSubmissionOriginal = new IlrDetails
             {
@@ -65,7 +65,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
                 NiNumber = "AB123456A",
-                EPAOrgId = "EpaOrgI"
+                EPAOrgId = "EPA0001"
             };
             var updatedSubmissionChanged = new IlrDetails
             {
@@ -83,7 +83,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 OnProgrammeTotalPrice = 12500,
                 CompletionTotalPrice = 3050,
                 NiNumber = "AB123456A",
-                EPAOrgId = "EpaOrgI"
+                EPAOrgId = "EPA0001"
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
@@ -177,7 +177,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 OnProgrammeTotalPrice = 12000,
                 CompletionTotalPrice = 3000,
                 NiNumber = "AB123456A",
-                EPAOrgId = "EPAOrgI"
+                EPAOrgId = "EPA0001"
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
