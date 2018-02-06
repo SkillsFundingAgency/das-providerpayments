@@ -26,7 +26,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenAnIlrFileIsSubmitted(Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails, LookupContext);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -34,7 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
         {
             var submission = new Submission() {SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriod(period)};
-            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails, LookupContext);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -42,7 +42,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenMultipleIlrFilesAreSubmitted(Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails, LookupContext);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -50,7 +50,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenIlrSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails, LookupContext);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -58,7 +58,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenIlrFirstSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoContext(submission, ilrDetails, LookupContext);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             
 
             DateTime firstSubmissionDate;
