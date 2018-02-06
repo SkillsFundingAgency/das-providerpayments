@@ -23,6 +23,8 @@ DAS Submission Events Component
    - transient database views that need to be present when the component is executed
   - sql\ddl\submissions.transient.ddl.functions.sql:
    - transient database functions that need to be present when the component is executed
+  - sql\ddl\submissions.transient.ddl.sprocs.sql:
+   - transient database stored procs that need to be present when the component is executed
   
   - sql\ddl\submissions.deds.ddl.tables.sql:
    - deds database tables that need to be present when the component is executed

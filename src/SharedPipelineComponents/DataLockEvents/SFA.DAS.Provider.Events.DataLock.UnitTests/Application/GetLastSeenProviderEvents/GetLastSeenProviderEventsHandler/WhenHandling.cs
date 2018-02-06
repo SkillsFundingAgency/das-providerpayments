@@ -62,7 +62,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetLastSeenProv
                 AcademicYear = "1617",
                 Ukprn = 10000534,
                 Uln = 1000000019,
-                LearnRefnumber = "Lrn-001",
+                LearnRefNumber = "Lrn-001",
                 AimSeqNumber = 1,
                 PriceEpisodeIdentifier = "20-550-6-01/05/2017",
                 CommitmentId = 99,
@@ -309,7 +309,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetLastSeenProv
                    && @event.AcademicYear == _event.AcademicYear
                    && @event.Ukprn == _event.Ukprn
                    && @event.Uln == _event.Uln
-                   && @event.LearnRefnumber == _event.LearnRefnumber
+                   && @event.LearnRefnumber == _event.LearnRefNumber
                    && @event.AimSeqNumber == _event.AimSeqNumber
                    && @event.PriceEpisodeIdentifier == _event.PriceEpisodeIdentifier
                    && @event.CommitmentId == _event.CommitmentId
