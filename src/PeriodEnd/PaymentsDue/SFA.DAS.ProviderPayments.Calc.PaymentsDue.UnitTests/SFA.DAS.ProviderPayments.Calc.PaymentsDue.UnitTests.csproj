@@ -72,6 +72,7 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
+    <Compile Include="PaymentsDueProcessor\WhenChangingAUlnForALearner.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />

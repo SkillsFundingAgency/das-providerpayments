@@ -48,7 +48,8 @@ AS
 		rp.StandardCode,
 		rp.ProgrammeType,
 		rp.FrameworkCode,
-		rp.PathwayCode
+		rp.PathwayCode,
+		rp.LearnRefNumber
 	FROM PaymentsDue.RequiredPayments rp
 		LEFT JOIN LevyPayments.Payments lp ON rp.Id = lp.RequiredPaymentId
 	WHERE (rp.AmountDue - COALESCE(lp.Amount, 0.00)) <> 0

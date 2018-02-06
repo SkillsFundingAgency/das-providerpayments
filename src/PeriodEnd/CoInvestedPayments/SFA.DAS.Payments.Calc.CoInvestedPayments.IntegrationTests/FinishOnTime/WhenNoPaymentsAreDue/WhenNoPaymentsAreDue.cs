@@ -21,6 +21,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime
 
             _taskContext = new IntegrationTaskContext();
             _uut = new CoInvestedPaymentsTask();
+
+            TestDataHelper.CopyReferenceData();
         }
 
         [Test]

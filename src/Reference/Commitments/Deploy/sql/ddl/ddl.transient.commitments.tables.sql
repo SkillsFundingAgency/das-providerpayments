@@ -1,3 +1,10 @@
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Reference')
+BEGIN
+	EXEC('CREATE SCHEMA Reference')
+END
+GO
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- TaskLog
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,13 +27,13 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Commitments
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='DasCommitments' AND [schema_id] = SCHEMA_ID('dbo'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='DasCommitments' AND [schema_id] = SCHEMA_ID('Reference'))
 BEGIN
-	DROP TABLE [dbo].[DasCommitments]
+	DROP TABLE [Reference].[DasCommitments]
 END
 GO
 
-CREATE TABLE [dbo].[DasCommitments](
+CREATE TABLE [Reference].[DasCommitments](
 	[CommitmentId] [bigint] NOT NULL,
 	[VersionId] varchar(25) NOT NULL,
 	[Uln] [bigint] NOT NULL,

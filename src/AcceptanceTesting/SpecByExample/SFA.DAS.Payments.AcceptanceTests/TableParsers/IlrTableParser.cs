@@ -25,7 +25,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        public static void ParseIlrTableIntoSubmission(Submission submission, Table ilrDetails)
+        public static void ParseIlrTableIntoSubmission(Submission submission, Table ilrDetails, LookupContext lookupContext)
         {
             if (ilrDetails.RowCount < 1)
             {
@@ -35,12 +35,24 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             structure = ParseTableStructure(ilrDetails);
             foreach (var row in ilrDetails.Rows)
             {
-                submission.IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
-                if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
+                var commitmentTableRow = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
+
+                if (long.TryParse(commitmentTableRow.Uln, out var uln))
+                {
+                    lookupContext.AddUln(commitmentTableRow.LearnerReference, uln);
+                }
+                else
+                {
+                    lookupContext.AddOrGetUln(commitmentTableRow.LearnerReference);
+                }
+
+                submission.IlrLearnerDetails.Add(commitmentTableRow);
+
+                if (structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
                     submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
             }
-            
         }
+
 
         private static FullIlrStructure ParseTableStructure(Table ilrDetails)
         {
@@ -221,15 +233,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         {
             var rowData = new IlrLearnerReferenceData
             {
-                LearnerReference = row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number", string.Empty),
-                Uln = row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN", Defaults.LearnerId),
+                LearnerReference = row.ReadRowColumnValue(structure.LearnerReferenceIndex, "learner reference number", string.Empty),
+                Uln = row.ReadRowColumnValue(structure.UlnIndex, "ULN", Defaults.LearnerId),
                 AgreedPrice = row.ReadRowColumnValue<int>(structure.AgreedPriceIndex, "agreed price"),
-                LearnerType = (LearnerType)row.ReadRowColumnValue<string>(structure.LearnerTypeIndex, "learner type", "programme only DAS").ToEnumByDescription(typeof(LearnerType)),
+                LearnerType = (LearnerType)row.ReadRowColumnValue(structure.LearnerTypeIndex, "learner type", "programme only DAS").ToEnumByDescription(typeof(LearnerType)),
                 StartDate = row.ReadRowColumnValue<DateTime>(structure.StartDateIndex, "start date"),
                 PlannedEndDate = row.ReadRowColumnValue<DateTime>(structure.PlannedEndDateIndex, "planned end date"),
                 ActualEndDate = row.ReadRowColumnValue<DateTime?>(structure.ActualEndDateIndex, "actual end date"),
                 CompletionStatus = (CompletionStatus)row.ReadRowColumnValue<string>(structure.CompletionStatusIndex, "completion status").ToEnumByDescription(typeof(CompletionStatus)),
-                Provider = row.ReadRowColumnValue<string>(structure.ProviderIndex, "provider", Defaults.ProviderId),
+                Provider = row.ReadRowColumnValue(structure.ProviderIndex, "provider", Defaults.ProviderId),
                 TotalTrainingPrice1 = row.ReadRowColumnValue<int>(structure.TotalTrainingPrice1Index, "total training price 1"),
                 TotalTrainingPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.TotalTrainingPrice1EffectiveDateIndex, "total training price 1 effective date"),
                 TotalAssessmentPrice1 = row.ReadRowColumnValue<int>(structure.TotalAssessmentPrice1Index, "total assessment price 1"),
@@ -246,7 +258,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 ResidualTrainingPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualTrainingPrice2EffectiveDateIndex, "residual training price 2 effective date"),
                 ResidualAssessmentPrice2 = row.ReadRowColumnValue<int>(structure.ResidualAssessmentPrice2Index, "residual assessment price 2"),
                 ResidualAssessmentPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualAssessmentPrice2EffectiveDateIndex, "residual assessment price 2 effective date"),
-                AimType = (AimType)row.ReadRowColumnValue<string>(structure.AimTypeIndex, "aim type", "Programme").ToEnumByDescription(typeof(AimType)),
+                AimType = (AimType)row.ReadRowColumnValue(structure.AimTypeIndex, "aim type", "Programme").ToEnumByDescription(typeof(AimType)),
                 AimRate = row.ReadRowColumnValue<string>(structure.AimRateIndex, "aim rate"),
                 LearnAimRef = row.ReadRowColumnValue<string>(structure.LearnAimRefIndex, "aim reference"),
                 StandardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code"),
@@ -259,15 +271,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 EmployerId = row.ReadRowColumnValue<string>(structure.EmployerIdIndex, "employer id"),
                 SmallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "small employer"),
                 LearnDelFam = row.ReadRowColumnValue<string>(structure.LearnDelFamIndex, "LearnDelFam"),
-                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number")
+                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number"),
+                RestartIndicator = row.ReadRowColumnValue<string>(structure.RestartIndicatorIndex, "restart indicator")?
+                                       .Equals("YES", StringComparison.InvariantCultureIgnoreCase) ?? false,
+                LearningAdjustmentForPriorLearning = row.ParseColumnValue(structure.FundingAdjustmentForPriorLearningIndex),
+                OtherFundingAdjustments = row.ParseColumnValue(structure.OtherFundingAdjustmentIndex)
             };
 
-            rowData.RestartIndicator =
-                row.ReadRowColumnValue<string>(structure.RestartIndicatorIndex, "restart indicator")?
-                    .Equals("YES", StringComparison.InvariantCultureIgnoreCase)??false;
-            rowData.LearningAdjustmentForPriorLearning =
-                row.ParseColumnValue(structure.FundingAdjustmentForPriorLearningIndex);
-            rowData.OtherFundingAdjustments = row.ParseColumnValue(structure.OtherFundingAdjustmentIndex);
 
             var learnRefNumber = string.Empty;
             if (string.IsNullOrEmpty(rowData.LearnerReference) && !string.IsNullOrEmpty(rowData.Uln))
@@ -285,7 +295,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             {
                 rowData.StandardCode = Defaults.StandardCode;
             }
-            
+
             if (rowData.FrameworkCode > 0 && rowData.TotalAssessmentPrice2 > 0)
             {
                 throw new Exception("Framework code and TotalAssessmentPrice2 can't be in the same scenario");

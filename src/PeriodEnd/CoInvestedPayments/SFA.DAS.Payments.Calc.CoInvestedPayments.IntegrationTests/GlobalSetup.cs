@@ -23,7 +23,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 try
                 {
                     RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
-                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
+                    RunSqlScript(@"DasCommitments.Transient.ddl.sql", connection);
 
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);

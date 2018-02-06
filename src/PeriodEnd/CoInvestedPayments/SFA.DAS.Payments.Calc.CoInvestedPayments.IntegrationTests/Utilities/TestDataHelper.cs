@@ -91,23 +91,16 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 endDate = startDate.AddYears(1);
             }
 
-            Execute("INSERT INTO dbo.DasCommitments " +
+            var schema = isDeds ? "dbo" : "Reference";
+
+            Execute($"INSERT INTO {schema}.DasCommitments " +
                     "(CommitmentId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,PaymentStatus,PaymentStatusDescription,Payable,Priority,VersionId) " +
                     "VALUES " +
                     "(@id, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, 'Active', 1, 1, '1')",
                     new { id, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode },isDeds);
         }
 
-        internal static void AddPaymentDueForProvider(
-            long commitmentId,
-            long ukprn,
-            string learnerRefNumber = null,
-            int aimSequenceNumber = 1,
-            TransactionType transactionType = TransactionType.Learning,
-            decimal amountDue = 1000.00m,
-            decimal sfaContributionPercentage = 0.9m,
-            string requiredPaymentId = null,
-            bool isDeds = false)
+        internal static void AddPaymentDueForProvider(long commitmentId, long ukprn, string learnerRefNumber = null, int aimSequenceNumber = 1, TransactionType transactionType = TransactionType.Learning, decimal amountDue = 1000.00m, decimal sfaContributionPercentage = 0.9m, string requiredPaymentId = null, bool isDeds = false, long? uln = null)
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
@@ -124,7 +117,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@requiredPaymentId, "
                   + "CommitmentId, "
                   + "AccountId, "
-                  + "Uln, "
+                  + (!uln.HasValue? "Uln, ": $"{uln.Value}, ")
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "@ukprn, "
@@ -134,7 +127,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@amountDue, "
                   + "@sfaContributionPercentage, "
                   + "'PN', 1, 2017 "
-                  + "FROM dbo.DasCommitments "
+                  + "FROM Reference.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId,requiredPaymentId, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
         }
@@ -183,6 +176,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
             {
                 requiredPaymentId = Guid.NewGuid().ToString();
             }
+
+            var schema = isDeds ? "dbo" : "Reference";
+
             Execute("INSERT INTO PaymentsDue.RequiredPayments (Id, CommitmentId, AccountId, Uln, LearnRefNumber, AimSeqNumber, Ukprn, "
                   + "DeliveryMonth, DeliveryYear, TransactionType, AmountDue, SfaContributionPercentage, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear)"
                   + "SELECT "
@@ -199,7 +195,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                   + "@amountDue, "
                   + "@sfaContributionPercentage, "
                   + "'PN', 1, 2017"
-                  + "FROM dbo.DasCommitments "
+                  + $"FROM {schema}.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
                 new { commitmentId, requiredPaymentId, deliveryMonth, deliveryYear, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage },isDeds);
         }
@@ -279,8 +275,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                         FROM sys.objects o WITH (NOWAIT)
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
-                            AND s.name IN ('dbo', 'PaymentsDue', 'CoInvestedPayments')
-                            AND o.name NOT IN ('Collection_Period_Mapping')
+                            AND s.name IN ('dbo', 'PaymentsDue', 'CoInvestedPayments', 'Reference')
+                            AND o.name NOT IN ('Collection_Period_Mapping', 'CollectionPeriods')
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 
                     EXEC sys.sp_executesql @SQL                
