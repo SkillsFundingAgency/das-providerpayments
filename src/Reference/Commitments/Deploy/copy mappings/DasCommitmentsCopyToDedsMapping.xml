@@ -9,7 +9,7 @@
   </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
-      <Source>[dbo].[DasCommitments]</Source>
+      <Source>[Reference].[DasCommitments]</Source>
       <Destination>[dbo].[DasCommitments]</Destination>
       <Ordinal>1</Ordinal>
       <ColumnMappings>
