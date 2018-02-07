@@ -13,13 +13,20 @@ Scenario:806_AC1- DAS learner, is made redundant within the last 6 months of pla
             | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to |
             | 1             | 1          | provider a | learner a | 01/08/2017 | 01/08/2018 | 15000        | Active    | 01/08/2017     |              |
             
-        When an ILR file is submitted for period R01 with the following data:
-            | ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
+       When an ILR file is submitted with the following data:
+            | ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | 
             | learner a | programme only DAS | 03/08/2017 | 20/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            | 
-
-		And an ILR file is submitted for period R07 with the following data:
-            | ULN       | learner type           | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
-            | learner a | programme only non-DAS | 25/02/2018 | 20/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            |
+        
+        And the Contract type in the ILR is:
+            | contract type | date from  | date to    |
+            | DAS           | 03/08/2017 | 20/02/2018 |        
+            | Non-DAS       | 21/02/2018 |            |
+        
+        
+        And the employment status in the ILR is:
+            | Employer   | Employment Status      | Employment Status Applies |
+            | employer 1 | in paid employment     | 02/08/2017                |
+            |            | not in paid employment | 21/02/2018                |
               
         Then the provider earnings and payments break down as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 |
@@ -49,14 +56,19 @@ Scenario:806_AC2- DAS learner, is made redundant outside of the last 6 months of
             | commitment Id | version Id | Employer        | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to |
             | 1             | 1          | employer 1      | provider a | learner a | 01/08/2017 | 01/08/2018 | 15000        | Active    | 01/08/2017     |              |
             
-        When an ILR file is submitted for period R01 with the following data:
-            | ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | contract type | contract type date from | contract type date to | Employer   | Employer Employment Status | Employer Employment Status Applies |
-            | learner a | programme only DAS | 03/08/2017 | 20/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            | DAS           | 03/08/2017              | 20/08/2018            | employer 1 | in paid employment         | 02/08/2017                         |
-
-		And an ILR file is submitted for period R06 with the following data:
-			| ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | contract type | contract type date from | contract type date to | Employer | Employer Employment Status | Employer Employment Status Applies |
-			| learner a | programme only DAS | 03/08/2017 | 20/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            | DAS           | 03/08/2017              | 19/02/2018            |          | in paid employment         | 02/08/2017                         |
-			|           |                    |            |                  |                 |                   |                      |                                     |                        |                                       | Non-DAS       | 20/02/2018              | 20/08/2018            |          | not in paid employment     | 20/02/2018                         |
+        When an ILR file is submitted with the following data:
+            | ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | 
+            | learner a | programme only DAS | 03/08/2017 | 20/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            | 
+        
+        And the Contract type in the ILR is:
+            | contract type | date from  | date to    |
+            | DAS           | 03/08/2017 | 19/02/2018 |        
+            | Non-DAS       | 20/02/2018 |            |
+        
+        And the employment status in the ILR is:
+            | Employer   | Employment Status      | Employment Status Applies |
+            | employer 1 | in paid employment     | 02/08/2017                |
+            |            | not in paid employment | 20/02/2018                |
               
         Then the provider earnings and payments break down as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 | 06/18 |
