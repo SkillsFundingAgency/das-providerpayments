@@ -90,7 +90,7 @@ namespace ProviderPayments.TestStack.Core
         {
             var context = SetupExecutionEnvironment(string.Empty, environmentVariables ?? new EnvironmentVariables());
             context.DataLockEventsSource = "PeriodEnd";
-
+            
             var workflow = new PrepareForEasWorkflow(_logger);
             workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
         }

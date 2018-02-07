@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
@@ -99,25 +100,28 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
 
         protected void ExecuteBatch<T>(T[] batch, string destination)
         {
-            var columns = typeof(T).GetProperties().Select(p => p.Name).ToArray();
+            var columns = typeof(T).GetProperties().ToDictionary(p => p.Name, p => p.Name);
+            ExecuteBatch(batch, destination, columns);
+        }
 
+        protected void ExecuteBatch<T>(T[] batch, string destination, IDictionary<string, string> columns)
+        {
             using (var bcp = new SqlBulkCopy(_connectionString))
             {
                 foreach (var column in columns)
                 {
-                    bcp.ColumnMappings.Add(column, column);
+                    bcp.ColumnMappings.Add(column.Key, column.Value);
                 }
 
                 bcp.BulkCopyTimeout = 0;
                 bcp.DestinationTableName = destination;
                 bcp.BatchSize = 1000;
 
-                using (var reader = ObjectReader.Create(batch, columns))
+                using (var reader = ObjectReader.Create(batch, columns.Keys.ToArray()))
                 {
                     bcp.WriteToServer(reader);
                 }
             }
-
         }
     }
 }
