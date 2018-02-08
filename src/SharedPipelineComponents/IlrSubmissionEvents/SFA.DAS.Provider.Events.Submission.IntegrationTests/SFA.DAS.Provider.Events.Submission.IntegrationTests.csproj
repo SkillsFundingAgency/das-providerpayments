@@ -115,6 +115,10 @@
       <Link>DbSetupScripts\submissions.transient.ddl.functions.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeploySubmission\sql\ddl\submissions.transient.ddl.sprocs.sql">
+      <Link>DbSetupScripts\submissions.transient.ddl.sprocs.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeploySubmission\sql\ddl\submissions.transient.ddl.tables.sql">
       <Link>DbSetupScripts\submissions.transient.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
