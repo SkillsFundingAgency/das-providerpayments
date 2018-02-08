@@ -1,6 +1,7 @@
-﻿*Acceptance Criteria 1*
+﻿@edit_to_small_employer_funding_details
+Feature: Edit to small employer funding details
 
-Scenario: 16-18 Non-Levy apprentice, provider retrospectively adds small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
+Scenario: DPP-966_01 - 16-18 Non-Levy apprentice, provider retrospectively adds small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -33,9 +34,7 @@ Scenario: 16-18 Non-Levy apprentice, provider retrospectively adds small employe
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 			
 
-*Acceptance Criteria 2*
-
-Scenario: 16-18 Non-Levy apprentice, provider retrospectively removes small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
+Scenario: DPP-966_02 - 16-18 Non-Levy apprentice, provider retrospectively removes small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -68,10 +67,7 @@ Scenario: 16-18 Non-Levy apprentice, provider retrospectively removes small empl
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      | 
 
 
-
-*Acceptance Criteria 3*
-
-Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively adds Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
+Scenario: DPP-966_03 - 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively adds Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -103,11 +99,8 @@ Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provide
             | SFA non-Levy co-funding budget          | 600    | 600    | 600    | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 			
-
-
-*Acceptance Criteria 4*
 			
-Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively removes Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
+Scenario: DPP-966_04 - 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively removes Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -139,11 +132,8 @@ Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provide
             | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      | 
 			
-
-
-*Acceptance Criteria 5*
 			
-Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively adds care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
+Scenario: DPP-966_05 - 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively adds care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -176,10 +166,7 @@ Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provide
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 
 
-
-*Acceptance Criteria 6*
-
-Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively removes care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
+Scenario: DPP-966_06 - 19-24 year old Non-Levy apprentice, small employer flag added, provider retrospectively removes care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
 
         Given levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
@@ -211,11 +198,8 @@ Scenario: 19-24 year old Non-Levy apprentice, small employer flag added, provide
             | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      | 
 			
-			
 
-*Acceptance Criteria 7*
-
-Scenario: 16-18 Levy apprentice, provider retrospectively adds small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
+Scenario: DPP-966_07 - 16-18 Levy apprentice, provider retrospectively adds small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -249,10 +233,7 @@ Scenario: 16-18 Levy apprentice, provider retrospectively adds small employer fl
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 			
 
-
-*Acceptance Criteria 8*
-
-Scenario: 16-18 Levy apprentice, provider retrospectively removes small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
+Scenario: DPP-966_08 - 16-18 Levy apprentice, provider retrospectively removes small employer flag in the ILR, previous on-programme payments are refunded and repaid according to latest small employer status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -299,10 +280,7 @@ Scenario: 16-18 Levy apprentice, provider retrospectively removes small employer
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      | 
 
 
-*Acceptance Criteria 9*
-
-
-Scenario: 19-24 year old Levy apprentice, small employer flag added, provider retrospectively adds Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
+Scenario: DPP-966_09 - 19-24 year old Levy apprentice, small employer flag added, provider retrospectively adds Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -334,11 +312,8 @@ Scenario: 19-24 year old Levy apprentice, small employer flag added, provider re
             | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 
-
-
-*Acceptance Criteria 10*			
-			
-Scenario: 19-24 year old Levy apprentice, small employer flag added, provider retrospectively removes Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
+		
+Scenario: DPP-966_10 - 19-24 year old Levy apprentice, small employer flag added, provider retrospectively removes Education Health Care (EHC) plan flag in the ILR, previous on-programme payments are refunded and repaid according to latest EHC plan status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -371,11 +346,8 @@ Scenario: 19-24 year old Levy apprentice, small employer flag added, provider re
             | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      | 
 
-
-
-*Acceptance Criteria 11*
-			
-Scenario: 19-24 year old Levy apprentice, small employer flag added, provider retrospectively adds care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
+		
+Scenario: DPP-966_11 - 19-24 year old Levy apprentice, small employer flag added, provider retrospectively adds care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -408,9 +380,8 @@ Scenario: 19-24 year old Levy apprentice, small employer flag added, provider re
             | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0      | 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0      |  
 			
-*Acceptance Criteria 12*
 
-Scenario: 19-24 year old Levy apprentice, small employer flag added, provider retrospectively removes care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
+Scenario: DPP-966_12 - 19-24 year old Levy apprentice, small employer flag added, provider retrospectively removes care leaver flag in the ILR, previous on-programme payments are refunded and repaid according to latest care leaver status
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
