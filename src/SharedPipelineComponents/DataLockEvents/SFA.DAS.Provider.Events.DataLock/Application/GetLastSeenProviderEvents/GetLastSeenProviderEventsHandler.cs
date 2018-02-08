@@ -43,7 +43,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                             AcademicYear = e.AcademicYear,
                             Ukprn = e.Ukprn,
                             Uln = e.Uln,
-                            LearnRefnumber = e.LearnRefnumber,
+                            LearnRefnumber = e.LearnRefNumber,
                             AimSeqNumber = e.AimSeqNumber,
                             PriceEpisodeIdentifier = e.PriceEpisodeIdentifier,
                             CommitmentId = e.CommitmentId,
