@@ -25,7 +25,7 @@ Scenario:806_AC1- DAS learner, is made redundant within the last 6 months of pla
         
         And the employment status in the ILR is:
             | Employer   | Employment Status      | Employment Status Applies |
-            | employer 1 | in paid employment     | 02/08/2017                |
+            | employer 0 | in paid employment     | 02/08/2017                |
             |            | not in paid employment | 21/02/2018                |
               
         Then the provider earnings and payments break down as follows:
@@ -54,7 +54,7 @@ Scenario:806_AC2- DAS learner, is made redundant outside of the last 6 months of
             
         And the following commitments exist:
             | commitment Id | version Id | Employer        | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to |
-            | 1             | 1          | employer 1      | provider a | learner a | 01/08/2017 | 01/08/2018 | 15000        | Active    | 01/08/2017     |              |
+            | 1             | 1          | employer 0      | provider a | learner a | 01/08/2017 | 01/08/2018 | 15000        | Active    | 01/08/2017     |              |
             
         When an ILR file is submitted with the following data:
             | ULN       | learner type       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | 
@@ -67,7 +67,7 @@ Scenario:806_AC2- DAS learner, is made redundant outside of the last 6 months of
         
         And the employment status in the ILR is:
             | Employer   | Employment Status      | Employment Status Applies |
-            | employer 1 | in paid employment     | 02/08/2017                |
+            | employer 0 | in paid employment     | 02/08/2017                |
             |            | not in paid employment | 20/02/2018                |
               
         Then the provider earnings and payments break down as follows:
