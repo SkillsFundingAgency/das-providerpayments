@@ -1,7 +1,7 @@
 ﻿@learner_changes_contract_type
 Feature: Learner changes contract type
 
-Scenario: DPP-965_01 - Levy apprentice, provider edits contract type (ACT) in the ILR, previous on-programme and English/math payments are refunded and repaid according to latest contract type
+Scenario: DPP_965_01 - Levy apprentice, provider edits contract type (ACT) in the ILR, previous on-programme and English/math payments are refunded and repaid according to latest contract type
     Given The learner is programme only DAS
 	And levy balance > agreed price for all months
 	And the apprenticeship funding band maximum is 9000
@@ -38,7 +38,7 @@ Scenario: DPP-965_01 - Levy apprentice, provider edits contract type (ACT) in th
         | SFA non-Levy additional payments budget | 39.25  | 39.25  | 0      | 0        |
 
 
-Scenario: DPP-965_02 - Non-Levy apprentice, provider edits contract type (ACT) in the ILR, previous on-programme and English/math payments are refunded and repaid according to latest contract type		
+Scenario: DPP_965_02 - Non-Levy apprentice, provider edits contract type (ACT) in the ILR, previous on-programme and English/math payments are refunded and repaid according to latest contract type		
     Given levy balance > agreed price for all months
     And the apprenticeship funding band maximum is 9000
 
