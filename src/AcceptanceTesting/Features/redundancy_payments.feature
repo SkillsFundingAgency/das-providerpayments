@@ -71,19 +71,19 @@ Scenario:806_AC2- DAS learner, is made redundant outside of the last 6 months of
             |            | not in paid employment | 20/02/2018                |
               
         Then the provider earnings and payments break down as follows:
-            | Type                           | 08/17 | 09/17 | 10/17 | ... | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 | 06/18 |
-            | Provider Earned Total          | 1000  | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 0     | 0     |
-            | Provider Earned from SFA       | 1000  | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 0     | 0     |
-            | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | Provider Paid by SFA           | 0     | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 1000  | 0     |
-            | Refund taken by SFA            | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | Payment due from Employer      | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | Refund due to employer         | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | Levy account debited           | 0     | 1000  | 1000  | ... | 1000  | 1000  | 0     | 0     | 0     | 0     |
-            | Levy account credited          | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | SFA Levy employer budget       | 1000  | 1000  | 1000  | ... | 1000  | 0     | 0     | 0     | 0     | 0     |
-            | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
-            | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 1000  | 1000  | 1000  | 0     | 0     |
+            | Type                           | 08/17 | 09/17 | 10/17 | ... | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 |
+            | Provider Earned Total          | 1000  | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 0     |
+            | Provider Earned from SFA       | 1000  | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 0     |
+            | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | Provider Paid by SFA           | 0     | 1000  | 1000  | ... | 1000  | 1000  | 1000  | 1000  | 1000  |
+            | Refund taken by SFA            | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | Payment due from Employer      | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | Refund due to employer         | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | Levy account debited           | 0     | 1000  | 1000  | ... | 1000  | 1000  | 0     | 0     | 0     |
+            | Levy account credited          | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | SFA Levy employer budget       | 1000  | 1000  | 1000  | ... | 1000  | 0     | 0     | 0     | 0     |
+            | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 1000  | 1000  | 1000  | 0     |
 
 @Redundancy
 Scenario:807_AC1- Non-DAS learner, is made redundant within the last 6 months of planned learning - receives full government funding for the rest of the programme 
