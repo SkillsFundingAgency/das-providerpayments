@@ -82,15 +82,19 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 		ld.EPAOrgId
 			
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
-        JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv 
+			ON pe.[Ukprn] = pv.[Ukprn]
             AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
             AND pe.[PriceEpisodeIdentifier] = pv.[PriceEpisodeIdentifier]
-        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = pe.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l 
+			ON l.[Ukprn] = pe.[Ukprn]
             AND l.[LearnRefNumber] = pe.[LearnRefNumber]
-        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld 
+			ON pe.[Ukprn] = ld.[Ukprn]
             AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
             AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
-		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld 
+			ON pe.[Ukprn] = aecld.[Ukprn]
             AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
             AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
     WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
