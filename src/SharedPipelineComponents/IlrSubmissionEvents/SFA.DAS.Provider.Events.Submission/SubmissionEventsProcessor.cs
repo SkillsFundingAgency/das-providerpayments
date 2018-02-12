@@ -165,7 +165,8 @@ namespace SFA.DAS.Provider.Events.Submission
                 @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
                 @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
                 @event.AcademicYear = currentIlr.AcademicYear;
-                // todo: we think we always want the EPAOrgId, but further down the line we might realise that we only want it if it's changed
+                // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
+                // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
                 @event.EPAOrgId = currentIlr.EPAOrgId;
             }
 
