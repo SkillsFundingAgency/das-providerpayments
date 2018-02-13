@@ -95,7 +95,8 @@ SELECT
 	FundingLineType,
 	PriceEpisodeIdentifier,
 	SfaContributionPercentage,
-	UseLevyBalance
+	UseLevyBalance,
+	IsSmallEmployer
 FROM Reference.RequiredPaymentsHistory
 GO
 
