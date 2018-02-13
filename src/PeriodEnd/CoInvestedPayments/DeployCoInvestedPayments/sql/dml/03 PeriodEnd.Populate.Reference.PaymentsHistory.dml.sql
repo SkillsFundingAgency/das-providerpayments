@@ -3,25 +3,45 @@ GO
 
 INSERT INTO [Reference].[CoInvestedPaymentsHistory]
 
-SELECT
-	p.RequiredPaymentId,
-	rp.Uln,
-	rp.Ukprn,
-	rp.AimSeqNumber,
-	rp.StandardCode,
-	rp.ProgrammeType,
-	rp.FrameworkCode,
-	rp.PathwayCode,
-	p.DeliveryMonth ,
-	p.DeliveryYear ,
-	p.TransactionType ,
-	p.Amount,
-	p.FundingSource ,
-	rp.CommitmentId
-    FROM  ${DAS_PeriodEnd.FQ}.Payments.Payments p 
-	JOIN  ${DAS_PeriodEnd.FQ}.PaymentsDue.RequiredPayments rp on p.RequiredPaymentId = rp.Id
-    WHERE rp.Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-	AND p.FundingSource != 1
+SELECT rp.RequiredPaymentId,
+    rp.Uln,
+    rp.Ukprn,
+    rp.AimSeqNumber,
+    rp.StandardCode,
+    rp.ProgrammeType,
+    rp.FrameworkCode,
+    rp.PathwayCode,
+    rp.DeliveryMonth,
+    rp.DeliveryYear,
+    rp.TransactionType,
+    rp.Amount,
+    rp.FundingSource,
+    rp.CommitmentId
+FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
+	SELECT 
+		p.RequiredPaymentId,
+		rp.Uln,
+		rp.Ukprn,
+		rp.AimSeqNumber,
+		rp.StandardCode,
+		rp.ProgrammeType,
+		rp.FrameworkCode,
+		rp.PathwayCode,
+		p.DeliveryMonth,
+		p.DeliveryYear,
+		p.TransactionType,
+		p.Amount,
+		p.FundingSource,
+		rp.CommitmentId
+	FROM 
+		${DAS_PeriodEnd.databasename}.Payments.Payments p
+		INNER JOIN ${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp ON p.RequiredPaymentId = rp.Id'
+    ) AS rp
+WHERE rp.Ukprn IN (
+        SELECT DISTINCT [Ukprn]
+        FROM [Reference].[Providers]
+        )
+    AND rp.FundingSource != 1
 GO
 
 IF NOT EXISTS (
