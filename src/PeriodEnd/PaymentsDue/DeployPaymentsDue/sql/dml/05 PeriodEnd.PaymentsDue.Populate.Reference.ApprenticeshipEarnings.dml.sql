@@ -1,7 +1,7 @@
 TRUNCATE TABLE [Reference].[ApprenticeshipEarnings]
 GO
 
-if '${YearOfCollection}' <> '1718' 
+if '${YearOfCollection}' <> '1718' and not exists(select 1 from sys.servers where name = 'SELF')
 	raiserror ('This and a few other files cannot run on collection year other than 1718. replace DS_SILR1718_Collection values with relevant ones and adjust this error message accordingly.', 20, 1) with log;
 
 INSERT INTO [Reference].[ApprenticeshipEarnings] (

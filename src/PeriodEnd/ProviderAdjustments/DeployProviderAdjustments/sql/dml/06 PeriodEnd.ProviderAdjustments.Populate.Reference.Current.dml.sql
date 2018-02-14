@@ -1,6 +1,13 @@
 TRUNCATE TABLE [Reference].[ProviderAdjustmentsCurrent]
 GO
 
+INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
+        [Ukprn],
+        [SubmissionId],
+        [SubmissionCollectionPeriod],
+        [PaymentType],
+        [PaymentTypeName],
+        [Amount])
 SELECT 
 	Ukprn,
     Submission_Id,
