@@ -8,7 +8,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class LearnerFAMEntity
     {
-        //Valid.LearnerFAM - contains SEM flag data
         public string LearnRefNumber { get; set; }
         public string LearnFAMType { get; set; }
         public int LearnFAMCode { get; set; }

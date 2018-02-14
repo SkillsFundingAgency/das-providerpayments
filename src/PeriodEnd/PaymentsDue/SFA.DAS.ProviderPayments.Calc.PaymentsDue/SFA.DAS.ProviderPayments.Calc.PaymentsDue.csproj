@@ -71,6 +71,7 @@
     <Compile Include="Application\Learners\GetLearnerFAMsQuery\GetLearnerFAMsQueryHandler.cs" />
     <Compile Include="Application\Learners\GetLearnerFAMsQuery\GetLearnerFAMsQueryResponse.cs" />
     <Compile Include="Application\Learners\GetLearnerFAMsQuery\GetLearnerFAMsQueryRequest.cs" />
+    <Compile Include="Application\Learners\GetLearnerFAMsQuery\LearnerFAMTypes.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
