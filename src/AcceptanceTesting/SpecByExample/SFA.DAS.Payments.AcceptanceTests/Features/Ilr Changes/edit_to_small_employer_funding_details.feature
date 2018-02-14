@@ -6,13 +6,13 @@ Scenario: DPP-966_01 - 16-18 Non-Levy apprentice, provider retrospectively adds 
         Given the apprenticeship funding band maximum is 9000
 
         When an ILR file is submitted for period R01 with the following data:
-            | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | No value       |
+            | learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | 
+            | learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | 
         
 			       
-        And an ILR file is submitted for period R03 with the following data:
-            | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | SEM1           |
+        #And an ILR file is submitted for period R03 with the following data:
+            #| learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | Small Employer |
+            #| learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | SEM1           |
         
   
         Then the provider earnings and payments break down as follows:

@@ -201,8 +201,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 // find SEM flag for earning.LearnerReferenceNumber using new handler
-                var currentEarningIsSmallEmployer =
-                    _mediator.Send(new GetLearnerFAMsQueryRequest() {LearnRefNumber = earning.LearnerReferenceNumber}).Items.SingleOrDefault(x => x.LearnFAMType == LearnerFAMTypes.SEM)?.LearnFAMCode == 1;
+                //var currentEarningIsSmallEmployer =
+                //    _mediator.Send(new GetLearnerFAMsQueryRequest() {LearnRefNumber = earning.LearnerReferenceNumber}).Items.SingleOrDefault(x => x.LearnFAMType == LearnerFAMTypes.SEM)?.LearnFAMCode == 1;
 
                 var historicalAllPayments = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
@@ -215,8 +215,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.LearnAimRef == earning.LearnAimRef &&
                                 p.LearningStartDate.Month == earning.LearningStartDate.Month &&
                                 p.LearningStartDate.Year == earning.LearningStartDate.Year &&
-                                p.ApprenticeshipContractType == earning.ApprenticeshipContractType &&
-                                p.IsSmallEmployer == currentEarningIsSmallEmployer
+                                p.ApprenticeshipContractType == earning.ApprenticeshipContractType// &&
+                                //p.IsSmallEmployer == currentEarningIsSmallEmployer
                                 );
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
