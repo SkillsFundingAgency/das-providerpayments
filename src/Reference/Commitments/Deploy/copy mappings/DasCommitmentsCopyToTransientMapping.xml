@@ -10,7 +10,7 @@
   <TableMappings>
     <TableMapping>
       <Source>[dbo].[DasCommitments]</Source>
-      <Destination>[dbo].[DasCommitments]</Destination>
+      <Destination>[Reference].[DasCommitments]</Destination>
       <Ordinal>1</Ordinal>
       <ColumnMappings>
         <ColumnMapping>

@@ -9,12 +9,12 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers
     {
         internal static CommitmentEntity[] GetCommitments()
         {
-            return DatabaseHelper.Query<CommitmentEntity>("SELECT * FROM dbo.DasCommitments");
+            return DatabaseHelper.Query<CommitmentEntity>("SELECT * FROM Reference.DasCommitments");
         }
 
         internal static void Clean()
         {
-            DatabaseHelper.Execute("DELETE FROM dbo.DasCommitments");
+            DatabaseHelper.Execute("DELETE FROM Reference.DasCommitments");
             DatabaseHelper.Execute("DELETE FROM dbo.DasCommitmentsHistory");
 
             DatabaseHelper.Execute("DELETE FROM dbo.EventStreamPointer");
@@ -39,7 +39,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers
                                            DateTime? effectiveFromDate = null,
                                            DateTime? effectiveToDate = null,
                                            string legalEntityName = "ACME Ltd.",
-                                           string tableName= "dbo.DasCommitments")
+                                           string tableName= "Reference.DasCommitments")
         {
             effectiveFromDate = effectiveFromDate ?? startDate;
 

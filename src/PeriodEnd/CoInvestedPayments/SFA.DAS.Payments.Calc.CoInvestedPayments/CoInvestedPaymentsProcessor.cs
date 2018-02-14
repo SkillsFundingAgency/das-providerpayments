@@ -5,13 +5,13 @@ using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.GetCoInvestedPaymentsHistory;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Payments.ProcessPaymentsCommand;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {
@@ -212,7 +212,8 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 PathwayCode = paymentDue.PathwayCode,
                 ProgrammeType = paymentDue.ProgrammeType,
                 StandardCode = paymentDue.StandardCode,
-                Uln = paymentDue.Uln
+                Uln = paymentDue.Uln,
+                LearnRefNumber = paymentDue.LearnRefNumber
             });
 
             if (!historyPayments.IsValid)

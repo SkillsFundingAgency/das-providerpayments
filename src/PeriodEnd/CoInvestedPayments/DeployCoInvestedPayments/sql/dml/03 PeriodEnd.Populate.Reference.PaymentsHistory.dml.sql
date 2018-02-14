@@ -7,6 +7,7 @@ SELECT
 	p.RequiredPaymentId,
 	rp.Uln,
 	rp.Ukprn,
+	rp.LearnRefNumber,
 	rp.AimSeqNumber,
 	rp.StandardCode,
 	rp.ProgrammeType,

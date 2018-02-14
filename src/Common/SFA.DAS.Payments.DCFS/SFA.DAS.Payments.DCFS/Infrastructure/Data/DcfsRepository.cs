@@ -58,6 +58,11 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             return Query<T>(command, param, timeout).SingleOrDefault();
         }
 
+        protected T QuerySingleByProc<T>(string command, DynamicParameters param = null, int timeout = 180)
+        {
+            return QueryByProc<T>(command, param, timeout).SingleOrDefault();
+        }
+
         protected void Execute(string command, object param = null, int timeout = 180)
         {
             using (var connection = new SqlConnection(_connectionString))

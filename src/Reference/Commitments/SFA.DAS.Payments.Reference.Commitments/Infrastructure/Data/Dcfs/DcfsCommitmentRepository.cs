@@ -6,7 +6,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
 {
     public class DcfsCommitmentRepository : DcfsRepository, ICommitmentRepository
     {
-        private const string Source = "dbo.DasCommitments ";
+        private const string Source = "Reference.DasCommitments ";
         private const string SourceHistory = "dbo.DasCommitmentsHistory ";
         private const string Columns = "CommitmentId, "
                                      + "VersionId,"

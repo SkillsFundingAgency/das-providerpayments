@@ -1,4 +1,7 @@
-﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+﻿using System;
+using System.Data;
+using Dapper;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories
@@ -57,30 +60,37 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositor
             });
         }
 
-        public PaymentHistoryEntity[] GetCoInvestedPaymentsHistory(int deliveryMonth,
-                                                  int deliveryYear,
-                                                  int transactionType,
-                                                  int aimSequenceNumber,
-                                                  long ukprn,
-                                                  long uln,
-                                                  int? frameworkCode,
-                                                  int? pathwayCode,
-                                                  int? programmeType,
-                                                  long? standardCode)
+        public PaymentHistoryEntity[] GetCoInvestedPaymentsHistory(int deliveryMonth, int deliveryYear, int transactionType, int aimSequenceNumber, long ukprn, long uln, int? frameworkCode, int? pathwayCode, int? programmeType, long? standardCode, string learnRefNumber)
         {
-            return Query<PaymentHistoryEntity>(SelectPaymentsHistory, 
-                new {
-                    deliveryMonth,
-                    deliveryYear,
-                    transactionType,
-                    aimSequenceNumber,
-                    ukprn,
-                    uln,
-                    frameworkCode,
-                    pathwayCode,
-                    programmeType,
-                    standardCode
-                });
+            var parameters = new DynamicParameters();
+            parameters.Add("deliveryMonth", deliveryMonth, DbType.Int32);
+            parameters.Add("deliveryYear", deliveryYear, DbType.Int32);
+            parameters.Add("transactionType", transactionType, DbType.Int32);
+            parameters.Add("ukprn", ukprn, DbType.Int64);
+            parameters.Add("learnRefNumber", learnRefNumber, DbType.String, ParameterDirection.Input, 12);
+            parameters.Add("aimSeqNumber", aimSequenceNumber, DbType.Int32);
+
+            if (standardCode.HasValue)
+            {
+                parameters.Add("standardCode", standardCode.Value, DbType.Int64);
+            }
+
+            if (programmeType.HasValue)
+            {
+                parameters.Add("programmeType", programmeType.Value, DbType.Int32);
+            }
+
+            if (frameworkCode.HasValue)
+            {
+                parameters.Add("frameworkCode", frameworkCode.Value, DbType.Int64);
+            }
+
+            if (pathwayCode.HasValue)
+            {
+                parameters.Add("pathwayCode", pathwayCode.Value, DbType.Int32);
+            }
+
+            return QueryByProc<PaymentHistoryEntity>("CoInvestedPayments.GetPaymentHistory", parameters);
         }
     }
 }
