@@ -443,6 +443,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
+        internal static void EditStartDateForACommitment(long commitmentId, DateTime learningStartDate)
+        {
+            Execute("UPDATE dbo.DasCommitments SET StartDate = @learningStartDate WHERE CommitmentId = @commitmentId",
+                new { learningStartDate, commitmentId }, false);
+        }
+
         internal static EarningsToPaymentEntity GetEarningsToPaymentsData(Guid requiredPaymentId)
         {
             return Query<EarningsToPaymentEntity>("SELECT * FROM [PaymentsDue].[vw_EarningsToPayments]"
@@ -506,7 +512,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void AddPaymentForCommitment(long commitmentId, int month,
             int year, int transactionType, decimal amount, string learnRefNumber = "1",
             int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode = null,
-            int? collectionperiodMonth = null, int? collectionPeriodYear = null)
+            int? collectionperiodMonth = null, int? collectionPeriodYear = null, DateTime? startDate = null)
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -545,7 +551,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "'Non-Levy Funding Line', " // FundingLineType
                     + "1, " // UseLevyBalane
                     + "@learnAimref,"
-                    + "StartDate "
+                    + (startDate.HasValue ? "@startDate " : "startDate ")
                     + "FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new
@@ -561,7 +567,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     learnAimRef,
                     academicYear,
                     CollectionPeriodYear = collectionPeriodYear ?? year,
-                    CollectionPeriodMonth = collectionperiodMonth ?? month
+                    CollectionPeriodMonth = collectionperiodMonth ?? month,
+                    startDate
                 }, false);
         }
 

@@ -9,28 +9,43 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public class IlrTableParser
     {
-        public static void ParseIlrTableIntoContext(SubmissionContext context, Table ilrDetails)
-        {
-            ParseIlrTableIntoContext(context.IlrLearnerDetails, ilrDetails);
-        }
+        private static FullIlrStructure structure;
 
-        public static void ParseIlrTableIntoContext(List<IlrLearnerReferenceData> IlrLearnerDetails, Table ilrDetails)
+        public static void ParseIlrTableIntoSubmission(List<IlrLearnerReferenceData> ilrLearnerDetails, Table ilrDetails)
         {
             if (ilrDetails.RowCount < 1)
             {
                 throw new ArgumentException("ILR table must have at least 1 row");
             }
 
-            var structure = ParseTableStructure(ilrDetails);
+            structure = ParseTableStructure(ilrDetails);
             foreach (var row in ilrDetails.Rows)
             {
-                IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure));
+                ilrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
             }
         }
 
-        private static IlrTableStructure ParseTableStructure(Table ilrDetails)
+        public static void ParseIlrTableIntoSubmission(Submission submission, Table ilrDetails)
+        {
+            if (ilrDetails.RowCount < 1)
+            {
+                throw new ArgumentException("ILR table must have at least 1 row");
+            }
+
+            structure = ParseTableStructure(ilrDetails);
+            foreach (var row in ilrDetails.Rows)
+            {
+                submission.IlrLearnerDetails.Add(ParseCommitmentsTableRow(row, structure.IlrTableStructure));
+                if(structure.LearningSupportTableColumnStructure.LearningSupportCodeIndex != -1)
+                    submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure));
+            }
+            
+        }
+
+        private static FullIlrStructure ParseTableStructure(Table ilrDetails)
         {
             var structure = new IlrTableStructure();
+            var learningSupportTableColumnStructure = new LearningSupportTableParser.LearningSupportTableColumnStructure();
 
             for (var c = 0; c < ilrDetails.Header.Count; c++)
             {
@@ -171,13 +186,37 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "other funding adjustment":
                         structure.OtherFundingAdjustmentIndex = c;
                         break;
+                    case "learning support code":
+                        learningSupportTableColumnStructure.LearningSupportCodeIndex = c;
+                        break;
+                    case "learning support date from":
+                        learningSupportTableColumnStructure.DateFromIndex = c;
+                        break;
+                    case "learning support date to":
+                        learningSupportTableColumnStructure.DateToIndex = c;
+                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in ILR table: {header}");
                 }
             }
 
-            return structure;
+            return new FullIlrStructure
+            {
+                IlrTableStructure = structure,
+                LearningSupportTableColumnStructure = learningSupportTableColumnStructure
+            };
         }
+
+        private static LearningSupportReferenceData ParseLearningSupportTableRow(TableRow row, LearningSupportTableParser.LearningSupportTableColumnStructure learningSupportTableColumnStructure)
+        {
+            return new LearningSupportReferenceData
+            {
+                LearningSupportCode = row.ReadRowColumnValue<int>(learningSupportTableColumnStructure.LearningSupportCodeIndex, "Learning support code"),
+                DateFrom = row.ReadRowColumnValue<DateTime>(learningSupportTableColumnStructure.DateFromIndex, "date from"),
+                DateTo = row.ReadRowColumnValue<DateTime>(learningSupportTableColumnStructure.DateToIndex, "date to")
+            };
+        }
+
         private static IlrLearnerReferenceData ParseCommitmentsTableRow(TableRow row, IlrTableStructure structure)
         {
             var rowData = new IlrLearnerReferenceData
@@ -220,7 +259,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 EmployerId = row.ReadRowColumnValue<string>(structure.EmployerIdIndex, "employer id"),
                 SmallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "small employer"),
                 LearnDelFam = row.ReadRowColumnValue<string>(structure.LearnDelFamIndex, "LearnDelFam"),
-                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number"),
+                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number")
             };
 
             rowData.RestartIndicator =
@@ -253,53 +292,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
 
             return rowData;
-        }
-        
-        private class IlrTableStructure
-        {
-            public int LearnerReferenceIndex { get; set; } = -1;
-            public int AgreedPriceIndex { get; set; } = -1;
-            public int LearnerTypeIndex { get; set; } = -1;
-            public int StartDateIndex { get; set; } = -1;
-            public int PlannedEndDateIndex { get; set; } = -1;
-            public int ActualEndDateIndex { get; set; } = -1;
-            public int CompletionStatusIndex { get; set; } = -1;
-            public int ProviderIndex { get; set; } = -1;
-            public int TotalTrainingPrice1Index { get; set; } = -1;
-            public int TotalTrainingPrice1EffectiveDateIndex { get; set; } = -1;
-            public int TotalAssessmentPrice1Index { get; set; } = -1;
-            public int TotalAssessmentPrice1EffectiveDateIndex { get; set; } = -1;
-            public int ResidualTrainingPrice1Index { get; set; } = -1;
-            public int ResidualTrainingPrice1EffectiveDateIndex { get; set; } = -1;
-            public int ResidualAssessmentPrice1Index { get; set; } = -1;
-            public int ResidualAssessmentPrice1EffectiveDateIndex { get; set; } = -1;
-            public int TotalTrainingPrice2Index { get; set; } = -1;
-            public int TotalTrainingPrice2EffectiveDateIndex { get; set; } = -1;
-            public int TotalAssessmentPrice2Index { get; set; } = -1;
-            public int TotalAssessmentPrice2EffectiveDateIndex { get; set; } = -1;
-            public int AimTypeIndex { get; set; } = -1;
-            public int AimRateIndex { get; set; } = -1;
-            public int StandardCodeIndex { get; set; } = -1;
-            public int FrameworkCodeIndex { get; set; } = -1;
-            public int ProgrammeTypeIndex { get; set; } = -1;
-            public int PathwayCodeIndex { get; set; } = -1;
-            public int HomePostcodeDeprivationIndex { get; set; } = -1;
-            public int EmploymentStatusIndex { get; set; } = -1;
-            public int EmploymentStatusAppliesIndex { get; set; } = -1;
-            public int EmployerIdIndex { get; set; } = -1;
-            public int SmallEmployerIndex { get; set; } = -1;
-            public int LearnDelFamIndex { get; set; } = -1;
-            public int ResidualTrainingPrice2Index { get; set; } = -1;
-            public int ResidualTrainingPrice2EffectiveDateIndex { get; set; } = -1;
-            public int ResidualAssessmentPrice2Index { get; set; } = -1;
-            public int ResidualAssessmentPrice2EffectiveDateIndex { get; set; } = -1;
-
-            public int AimSequenceNumberIndex { get; set; } = -1;
-            public int UlnIndex { get; set; } = -1;
-            public int LearnAimRefIndex { get; set; } = -1;
-            public int RestartIndicatorIndex { get; set; } = -1;
-            public int FundingAdjustmentForPriorLearningIndex { get; set; } = -1;
-            public int OtherFundingAdjustmentIndex { get; set; } = -1;
         }
     }
 }
