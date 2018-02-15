@@ -37,11 +37,12 @@ FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 			[CollectionPeriodMonth],
 			[CollectionPeriodYear]
 		FROM 
-			${DAS_PeriodEnd.databasename}.ProviderAdjustments.Payments'
+			${DAS_PeriodEnd.databasename}.ProviderAdjustments.Payments
+		WHERE
+			SubmissionAcademicYear = ${YearOfCollection}'
     ) AS r
 WHERE Ukprn IN (
         SELECT Ukprn
         FROM Reference.ProviderAdjustmentsProviders
-      )
-      AND SubmissionAcademicYear = ${YearOfCollection}
+      )      
 GO

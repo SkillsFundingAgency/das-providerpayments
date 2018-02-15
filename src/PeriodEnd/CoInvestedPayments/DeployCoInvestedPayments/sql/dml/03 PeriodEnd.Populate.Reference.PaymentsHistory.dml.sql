@@ -35,13 +35,14 @@ FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 		rp.CommitmentId
 	FROM 
 		${DAS_PeriodEnd.databasename}.Payments.Payments p
-		INNER JOIN ${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp ON p.RequiredPaymentId = rp.Id'
+		INNER JOIN ${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp ON p.RequiredPaymentId = rp.Id
+	WHERE
+		p.FundingSource != 1'
     ) AS rp
 WHERE rp.Ukprn IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-    AND rp.FundingSource != 1
 GO
 
 IF NOT EXISTS (

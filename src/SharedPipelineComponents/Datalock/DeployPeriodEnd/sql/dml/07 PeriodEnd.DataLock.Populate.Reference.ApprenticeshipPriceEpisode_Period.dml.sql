@@ -30,9 +30,10 @@ FROM
 		${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
 		INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] p ON p.Ukprn = ape.Ukprn
 			AND p.LearnRefNumber = ape.LearnRefNumber
-			AND p.PriceEpisodeIdentifier = ape.PriceEpisodeIdentifier') as ape
+			AND p.PriceEpisodeIdentifier = ape.PriceEpisodeIdentifier
+	WHERE
+		ape.PriceEpisodeContractType = ''Levy Contract''
+		AND (IsNull(p.PriceEpisodeFirstEmp1618Pay, 0) <> 0
+			OR IsNull(p.PriceEpisodeSecondEmp1618Pay, 0) <> 0)') as ape
 WHERE 
-	PriceEpisodeContractType = 'Levy Contract'
-    AND UKPRN IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
-    AND (IsNull(PriceEpisodeFirstEmp1618Pay, 0) <> 0
-        OR IsNull(PriceEpisodeSecondEmp1618Pay, 0) <> 0)
+    UKPRN IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
