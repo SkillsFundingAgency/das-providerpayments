@@ -1,3 +1,25 @@
+SELECT * INTO PaymentsDue.ApprenticeshipEarning_DistinctData
+FROM (SELECT * FROM Staging.ApprenticeshipEarnings1
+    UNION
+    SELECT * FROM Staging.ApprenticeshipEarnings2
+    UNION
+    SELECT * FROM Staging.ApprenticeshipEarnings3) un1
+
+        
+DROP VIEW PaymentsDue.vw_ApprenticeshipEarning
+
+GO
+CREATE INDEX IX_ApprenticeShipEarnings_UKPRN ON PaymentsDue.ApprenticeshipEarning_DistinctData (UKPRN)
+
+GO
+
+CREATE VIEW PaymentsDue.vw_ApprenticeshipEarning
+AS
+SELECT * FROM PaymentsDue.ApprenticeshipEarning_DistinctData
+
+GO
+
+
 TRUNCATE TABLE Staging.EarningsWithoutPayments
 GO
 
