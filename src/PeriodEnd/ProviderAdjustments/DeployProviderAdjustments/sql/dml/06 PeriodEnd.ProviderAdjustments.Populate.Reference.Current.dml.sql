@@ -24,10 +24,10 @@ INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
         p.Payment_Id,
         p.PaymentName,
         sv.PaymentValue
-    FROM ${DAS_PeriodEnd.FQ}.dbo.EAS_Submission s
-        JOIN ${DAS_PeriodEnd.FQ}.dbo.EAS_Submission_Values sv ON s.Submission_Id = sv.Submission_Id
+    FROM ${EAS_Deds.FQ}.dbo.EAS_Submission s
+        JOIN ${EAS_Deds.FQ}.dbo.EAS_Submission_Values sv ON s.Submission_Id = sv.Submission_Id
             AND s.CollectionPeriod = sv.CollectionPeriod
-        JOIN ${DAS_PeriodEnd.FQ}.dbo.Payment_Types p ON sv.Payment_Id = p.Payment_Id
+        JOIN ${EAS_Deds.FQ}.dbo.Payment_Types p ON sv.Payment_Id = p.Payment_Id
     WHERE s.Ukprn IN (SELECT DISTINCT Ukprn FROM Reference.ProviderAdjustmentsProviders)
         AND s.Submission_Id NOT IN (SELECT SubmissionId FROM @AlreadyProcessedSubmissions)
         AND p.FM36 = 1
