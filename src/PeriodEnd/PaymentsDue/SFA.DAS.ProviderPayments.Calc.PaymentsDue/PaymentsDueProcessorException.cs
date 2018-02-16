@@ -2,6 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
+    [Serializable]
     public class PaymentsDueProcessorException : Exception
     {
         public const string ErrorReadingCollectionPeriodMessage = "Error while reading the current collection period.";
