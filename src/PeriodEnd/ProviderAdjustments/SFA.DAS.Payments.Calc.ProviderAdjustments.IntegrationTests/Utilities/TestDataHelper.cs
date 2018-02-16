@@ -154,6 +154,10 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
             return sql.Replace("${EAS_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_PeriodEnd.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DAS_PeriodEnd.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DS_EAS1718_Collection.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DS_EAS1718_Collection.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${YearOfCollection}", "1617");
         }
     }

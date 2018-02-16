@@ -24,6 +24,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 
                 try
                 {
+                    connection.Execute($@"
+                        if not exists(select 1 from sys.servers where name = '{GlobalTestContext.Instance.LinkedServerName}')
+	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
+                    
                     // Pre-req scripts
                     RunSqlScript(@"Ilr.Transient.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                     RunSqlScript(@"Ilr.Transient.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
