@@ -61,6 +61,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             var collectionPeriodForEnvironment = PeriodDefinition.ParsePeriod(collectionPeriod);
             var id = 0;
 
+            var currentYear = true;
             // Will never have r13 or r14
             if (collectionPeriodForEnvironment.Item1 >= 8)
             {
@@ -68,6 +69,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             }
             else
             {
+                currentYear = false;
                 id = collectionPeriodForEnvironment.Item1 + 5;
             }
 
@@ -78,7 +80,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
                 CollectionOpen = 1,
                 PeriodId = id,
             };
-            
+            var firstYear = collectionPeriodForEnvironment.Item2 - 2000;
+            if (!currentYear)
+            {
+                firstYear--;
+            }
+            TestEnvironment.Variables.CurrentYear = $"{firstYear}{firstYear + 1}";
+
             TestEnvironment.ProcessService.RunPrepareForEas(TestEnvironment.Variables);
         }
 
@@ -87,7 +95,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             TestEnvironment.ProcessService.RunSummarisation(TestEnvironment.Variables);
 
             ClearSubmissions();
+        }
 
+        public void GetPayments()
+        {
             _easPayments.AddRange(ProviderAdjustmentsRepository.GetEasPayments());
         }
 

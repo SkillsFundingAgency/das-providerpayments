@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                            bool passedDataLock = true,
                                            int[] notPayablePeriods = null,
                                            int[] notMatchedPeriods = null,
-                                           TransactionType[] transactionTypes = null,
+                                           TransactionTypesFlag transactionTypesFlag = TransactionTypesFlag.AllLearning,
                                            bool addPriceEpisodeMatches = true)
         {
             var minStartDate = new DateTime(2016, 8, 1);
@@ -106,26 +106,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 var censusDate = startDate.LastDayOfMonth();
                 var period = 1;
 
-                transactionTypes = transactionTypes ?? new[] { TransactionType.Balancing, TransactionType.Completion, TransactionType.Learning };
 
                 while (censusDate <= endDate && period <= 12)
                 {
-                    foreach (var traxType in transactionTypes)
-                    {
-                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
-                    }
-
+                    
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypesFlag);
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
                 }
 
                 if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
-                    foreach (var traxType in transactionTypes)
-                    {
-                        AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, traxType);
-                    }
-
+                    AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypesFlag);
                 }
             }
 
@@ -148,7 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                        bool passedDataLock,
                                                        int[] notPayablePeriods,
                                                        int[] notMatchedPeriods,
-                                                       TransactionType transactionType)
+                                                       TransactionTypesFlag transactionTypesFlag)
         {
             if (notMatchedPeriods != null && notMatchedPeriods.Contains(period))
             {
@@ -163,10 +155,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
 
             Execute("INSERT INTO DataLock.PriceEpisodePeriodMatch "
-                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType) "
+                  + "(Ukprn, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, VersionId, Period, Payable, TransactionType, TransactionTypesFlag) "
                   + "VALUES "
-                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable, @transactionType)",
-                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionType });
+                  + "(@ukprn, @priceEpisodeIdentifier, @learnerRefNumber, @aimSequenceNumber, @commitmentId, 1, @period, @payable,0, @transactionTypesFlag)",
+                  new { commitmentId, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, payable, transactionTypesFlag });
         }
 
         internal static void AddEarningForCommitment(long? commitmentId,
@@ -451,6 +443,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
+        internal static void EditStartDateForACommitment(long commitmentId, DateTime learningStartDate)
+        {
+            Execute("UPDATE dbo.DasCommitments SET StartDate = @learningStartDate WHERE CommitmentId = @commitmentId",
+                new { learningStartDate, commitmentId }, false);
+        }
+
         internal static EarningsToPaymentEntity GetEarningsToPaymentsData(Guid requiredPaymentId)
         {
             return Query<EarningsToPaymentEntity>("SELECT * FROM [PaymentsDue].[vw_EarningsToPayments]"
@@ -514,7 +512,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void AddPaymentForCommitment(long commitmentId, int month,
             int year, int transactionType, decimal amount, string learnRefNumber = "1",
             int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode = null,
-            int? collectionperiodMonth = null, int? collectionPeriodYear = null)
+            int? collectionperiodMonth = null, int? collectionPeriodYear = null, DateTime? startDate = null)
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -553,7 +551,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "'Non-Levy Funding Line', " // FundingLineType
                     + "1, " // UseLevyBalane
                     + "@learnAimref,"
-                    + "StartDate "
+                    + (startDate.HasValue ? "@startDate " : "startDate ")
                     + "FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new
@@ -569,7 +567,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     learnAimRef,
                     academicYear,
                     CollectionPeriodYear = collectionPeriodYear ?? year,
-                    CollectionPeriodMonth = collectionperiodMonth ?? month
+                    CollectionPeriodMonth = collectionperiodMonth ?? month,
+                    startDate
                 }, false);
         }
 
@@ -596,7 +595,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@ApprenticeshipContractType, " // ApprenticeshipContractType
                   + "@DeliveryMonth, " // DeliveryMonth
                   + "@DeliveryYear, " // DeliveryYear
-                  + "'1617-R10', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "5, " // CollectionPeriodMonth
                   + "2017, " // CollectionPeriodYear
                   + "@TransactionType, " // TransactionType
@@ -652,7 +651,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'2', " // ApprenticeshipContractType
                   + "@month, " // DeliveryMonth
                   + "@year, " // DeliveryYear
-                  + "'R01', " // CollectionPeriodName
+                  + "'1617-R01', " // CollectionPeriodName
                   + "@month, " // CollectionPeriodMonth
                   + "@year, " // CollectionPeriodYear
                   + "@transactionType, " // TransactionType
@@ -778,10 +777,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         private static string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DS_SILR1718_Collection.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DS_SILR1718_Collection.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_PeriodEnd.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DAS_PeriodEnd.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${YearOfCollection}", "1617");
         }
     }

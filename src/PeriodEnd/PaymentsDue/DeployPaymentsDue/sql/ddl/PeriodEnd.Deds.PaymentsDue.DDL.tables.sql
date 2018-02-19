@@ -39,9 +39,13 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	TransactionType int,
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
-	FundingLineType varchar(60),
+	FundingLineType varchar(120),
 	UseLevyBalance bit
 )
+GO
+
+CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
+ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------

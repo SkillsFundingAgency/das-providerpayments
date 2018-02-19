@@ -43,7 +43,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                             AcademicYear = e.AcademicYear,
                             Ukprn = e.Ukprn,
                             Uln = e.Uln,
-                            LearnRefnumber = e.LearnRefnumber,
+                            LearnRefnumber = e.LearnRefNumber,
                             AimSeqNumber = e.AimSeqNumber,
                             PriceEpisodeIdentifier = e.PriceEpisodeIdentifier,
                             CommitmentId = e.CommitmentId,
@@ -61,7 +61,8 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                             IlrPriceEffectiveToDate = e.IlrPriceEffectiveToDate,
                             Errors = GetEventErrors(e.DataLockEventId),
                             Periods = GetEventPeriods(e.DataLockEventId),
-                            CommitmentVersions = GetEventCommitmentVersions(e.DataLockEventId)
+                            CommitmentVersions = GetEventCommitmentVersions(e.DataLockEventId),
+                            Status = (EventStatus)e.Status
                         })
                         .ToArray();
 
@@ -115,7 +116,8 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                         },
                         CommitmentVersion = e.CommitmentVersion,
                         IsPayable = e.IsPayable,
-                        TransactionType = (TransactionType) e.TransactionType
+                        TransactionType = (TransactionType) e.TransactionType,
+                        TransactionTypesFlag = (TransactionTypesFlag)e.TransactionTypesFlag
                     })
                     .ToArray();
         }

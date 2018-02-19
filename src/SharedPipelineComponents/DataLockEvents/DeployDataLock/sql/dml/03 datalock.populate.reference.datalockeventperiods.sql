@@ -2,7 +2,7 @@
 -- DataLockEventPeriods
 ---------------------------------------------------------------
 INSERT INTO Reference.DataLockEventPeriods
-(DataLockEventId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, CommitmentVersion, IsPayable, TransactionType)
+(DataLockEventId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, CommitmentVersion, IsPayable, TransactionType,TransactionTypesFlag)
 SELECT
 	dlep.DataLockEventId, 
 	dlep.CollectionPeriodName, 
@@ -10,7 +10,9 @@ SELECT
 	dlep.CollectionPeriodYear, 
 	dlep.CommitmentVersion, 
 	dlep.IsPayable,
-    dlep.TransactionType
+    dlep.TransactionType,
+	dlep.TransactionTypesFlag
 FROM Reference.DataLockEvents dle 
-INNER MERGE JOIN ${DAS_ProviderEvents.FQ}.DataLock.DataLockEventPeriods dlep
-On dle.DataLockEventId = dlep.DataLockEventId 
+INNER JOIN OPENQUERY(${DAS_ProviderEvents.servername}, '
+		SELECT * FROM ${DAS_ProviderEvents.databasename}.DataLock.DataLockEventPeriods'
+	) AS dlep ON dle.DataLockEventId = dlep.DataLockEventId

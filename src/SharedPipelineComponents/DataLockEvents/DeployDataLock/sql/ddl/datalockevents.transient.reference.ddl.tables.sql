@@ -47,6 +47,10 @@ CREATE TABLE [Reference].[DataLockEvents]
 )
 GO
 
+CREATE INDEX IX_ReferenceDataLockEvents_DataLockEventId ON Reference.DataLockEvents (DataLockEventId)
+
+GO
+
 --------------------------------------------------------------------------------------
 -- DataLockEventPeriods
 --------------------------------------------------------------------------------------
@@ -65,7 +69,8 @@ CREATE TABLE [Reference].[DataLockEventPeriods]
 	CommitmentVersion		varchar(25)		NOT NULL,
 	IsPayable				bit				NOT NULL,
 	TransactionType			int				NOT NULL,
-	INDEX [IX_Reference_DataLockEventPeriods_DataLockEventId] CLUSTERED (DataLockEventId)
+	TransactionTypesFlag	int				NULL
+	INDEX [IX_Reference_DataLockEventPeriods_DataLockEventId] (DataLockEventId)
 )
 GO
 
@@ -89,7 +94,7 @@ CREATE TABLE [Reference].[DataLockEventCommitmentVersions]
 	CommitmentPathwayCode		int				NULL,
 	CommitmentNegotiatedPrice	decimal(12,5)	NOT NULL,
 	CommitmentEffectiveDate		date			NOT NULL,
-	INDEX [IX_Reference_DataLockEventCommitmentVersions_DataLockEventId] CLUSTERED (DataLockEventId)
+	INDEX [IX_Reference_DataLockEventCommitmentVersions_DataLockEventId] (DataLockEventId)
 )
 GO
 
@@ -108,7 +113,6 @@ CREATE TABLE [Reference].[DataLockEventErrors]
 	ErrorCode				varchar(15)		NOT NULL,
 	SystemDescription		nvarchar(255)	NOT NULL,
 	PRIMARY KEY NONCLUSTERED (DataLockEventId, ErrorCode),
-	INDEX [IX_Reference_DataLockEventErrors_DataLockEventId] CLUSTERED (DataLockEventId)
 )
 GO
 

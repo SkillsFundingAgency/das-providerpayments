@@ -11,13 +11,13 @@ namespace SFA.DAS.Payments.AcceptanceTests
         [BeforeTestRun]
         public static void PrepareDatabasesForTest()
         {
-            PreperationManager.PrepareDatabasesForTestRun();
+            PreparationManager.PrepareDatabasesForTestRun();
         }
 
         [BeforeScenario]
         public static void PrepareDatabasesForScenario()
         {
-            PreperationManager.PrepareDatabasesForScenario();
+            PreparationManager.PrepareDatabasesForScenario();
         }
 
         [BeforeScenario]

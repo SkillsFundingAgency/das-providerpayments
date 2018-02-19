@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 {
     public static class LearningSupportTableParser
     {
-        public static void ParseLearningSupportIntoContext(SubmissionContext submissionContext, Table learningSupportStatus)
+        public static void ParseLearningSupportIntoContext(Submission submission, Table learningSupportStatus)
         {
             if (learningSupportStatus.Rows.Count < 1)
             {
@@ -18,10 +18,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             var structure = ParseContractTypesTableStructure(learningSupportStatus);
             foreach (var row in learningSupportStatus.Rows)
             {
-                submissionContext.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure));
+                submission.LearningSupportStatus.Add(ParseLearningSupportTableRow(row, structure));
             }
         }
-        
+
         private static LearningSupportTableColumnStructure ParseContractTypesTableStructure(Table contractTypes)
         {
             var structure = new LearningSupportTableColumnStructure();
@@ -57,7 +57,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
         
-        private class LearningSupportTableColumnStructure
+        public class LearningSupportTableColumnStructure
         {
             public int LearningSupportCodeIndex { get; set; } = -1;
             public int DateFromIndex { get; set; } = -1;

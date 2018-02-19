@@ -41,24 +41,47 @@ namespace ProviderPayments.TestStack.Core.Workflow
             var dedsConnectionString = context.Properties[KnownContextKeys.DedsDatabaseConnectionString];
             var dedsDatabaseName = ExtractDatabaseName(dedsConnectionString);
 
-            sql = ReplaceSqlTokens(sql, dedsDatabaseName, context);
+            sql = ReplaceSqlTokens(sql, dedsDatabaseName, "SELF", context);
 
-            var commands = sql.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = Regex.Split(sql, @"GO\s*(\n|$|\r\n)", RegexOptions.IgnoreCase);
+
             foreach (var command in commands)
             {
-                connection.Execute(command);
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    continue;
+                }
+                try
+                {
+                    connection.Execute(command);
+                }
+                catch (SqlException e)
+                {
+                    throw new Exception($"Error running SQL command: \n {command}\n\n\n", e);
+                }
             }
         }
-        protected string ReplaceSqlTokens(string sql, string dedsDatabaseName, TestStackContext context)
+        protected string ReplaceSqlTokens(string sql, string dedsDatabaseName, string linkedServerName, TestStackContext context)
         {
             var transformedSql =  sql.Replace("${ILR_Current.FQ}", dedsDatabaseName)
                                      .Replace("${ILR_Previous.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_Accounts.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_Commitments.FQ}", dedsDatabaseName)
+                                     .Replace("${DAS_CommitmentsReferenceData.servername}", linkedServerName)
+                                     .Replace("${DAS_CommitmentsReferenceData.databasename}", dedsDatabaseName)
                                      .Replace("${ILR_Deds.FQ}", dedsDatabaseName)
+                                     .Replace("${DS_SILR1718_Collection.servername}", linkedServerName)
+                                     .Replace("${DS_SILR1718_Collection.databasename}", dedsDatabaseName)
                                      .Replace("${ILR_Summarisation.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_PeriodEnd.FQ}", dedsDatabaseName)
+                                     .Replace("${DAS_PeriodEnd.servername}", linkedServerName)
+                                     .Replace("${DAS_PeriodEnd.databasename}", dedsDatabaseName)
                                      .Replace("${DAS_ProviderEvents.FQ}", dedsDatabaseName)
+                                     .Replace("${DAS_ProviderEvents.servername}", linkedServerName)
+                                     .Replace("${DAS_ProviderEvents.databasename}", dedsDatabaseName)
+                                     .Replace("${DS_EAS1718_Collection.servername}", linkedServerName)
+                                     .Replace("${DS_EAS1718_Collection.databasename}", dedsDatabaseName)
+                                     .Replace("${EAS_Deds.FQ}", dedsDatabaseName)
                                      .Replace("${YearOfCollection}", context.CurrentYear);
 
             var matches = Regex.Matches(transformedSql, @"\$\{.*\}");

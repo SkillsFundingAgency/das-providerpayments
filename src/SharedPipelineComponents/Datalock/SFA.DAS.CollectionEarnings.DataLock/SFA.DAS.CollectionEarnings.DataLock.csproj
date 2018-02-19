@@ -82,8 +82,10 @@
     <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler.cs" />
-    <Compile Include="Application\PriceEpisodePeriodMatch\RemovePriceEpisodePeriodMatchesCommand\RemovePriceEpisodePeriodMatchesCommandHandler.cs" />
-    <Compile Include="Application\PriceEpisodePeriodMatch\RemovePriceEpisodePeriodMatchesCommand\RemovePriceEpisodePeriodMatchesCommandRequest.cs" />
+    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler.cs" />
+    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryRequest.cs" />
+    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryResponse.cs" />
+    <Compile Include="Application\Earnings\IncentiveEarnings.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandHandler.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandRequest.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\PriceEpisodePeriodMatch.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="DataLockTask.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
@@ -120,10 +123,12 @@
     <Compile Include="Infrastructure\Data\IDasAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\IPriceEpisodeMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\IPriceEpisodePeriodMatchRepository.cs" />
+    <Compile Include="Infrastructure\Data\IIncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DasAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository.cs" />

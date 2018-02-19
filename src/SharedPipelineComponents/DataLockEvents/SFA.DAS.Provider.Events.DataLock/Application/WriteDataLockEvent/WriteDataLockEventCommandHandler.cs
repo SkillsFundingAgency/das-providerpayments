@@ -73,7 +73,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent
                     AcademicYear = @event.AcademicYear,
                     Ukprn = @event.Ukprn,
                     Uln = @event.Uln,
-                    LearnRefnumber = @event.LearnRefnumber,
+                    LearnRefNumber = @event.LearnRefnumber,
                     AimSeqNumber = @event.AimSeqNumber,
                     PriceEpisodeIdentifier = @event.PriceEpisodeIdentifier,
                     CommitmentId = @event.CommitmentId,
@@ -109,7 +109,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent
                         CollectionPeriodYear = x.CollectionPeriod.Year,
                         CommitmentVersion = x.CommitmentVersion,
                         IsPayable = x.IsPayable,
-                        TransactionType = (int)x.TransactionType
+                        TransactionTypesFlag = (int)x.TransactionTypesFlag
                     }));
                 }
                 if (@event.CommitmentVersions != null && @event.CommitmentVersions.Any())

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
 using ProviderPayments.TestStack.Core.Context;
 
 namespace ProviderPayments.TestStack.Core.Workflow.RebuildDedsDatabase.Tasks
@@ -45,7 +44,5 @@ namespace ProviderPayments.TestStack.Core.Workflow.RebuildDedsDatabase.Tasks
                 }
             }
         }
-
-
     }
 }
