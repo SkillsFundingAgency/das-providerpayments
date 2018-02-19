@@ -269,7 +269,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             {
                 ContractType = (ContractType)row.ReadRowColumnValue<string>(contractTypesTableColumnStructure.ContractTypeIndex, "contract type").ToEnumByDescription(typeof(ContractType)),
                 DateFrom = row.ReadRowColumnValue<DateTime>(contractTypesTableColumnStructure.DateFromIndex, "date from"),
-                DateTo = row.ReadRowColumnValue<DateTime>(contractTypesTableColumnStructure.DateToIndex, "date to")
+                DateTo = row.ReadRowColumnValue<DateTime?>(contractTypesTableColumnStructure.DateToIndex, "date to")
             };
         }
 
