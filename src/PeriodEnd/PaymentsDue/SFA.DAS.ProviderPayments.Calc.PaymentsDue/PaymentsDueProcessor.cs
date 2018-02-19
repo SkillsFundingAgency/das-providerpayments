@@ -15,6 +15,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 using System;
 using System.Diagnostics;
+using System.IO;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Learners.GetLearnerFAMsQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
@@ -201,10 +202,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 // find SEM flag for earning.LearnerReferenceNumber using new handler
-                //var currentEarningIsSmallEmployer =
-                //    _mediator.Send(new GetLearnerFAMsQueryRequest() {LearnRefNumber = earning.LearnerReferenceNumber}).Items.SingleOrDefault(x => x.LearnFAMType == LearnerFAMTypes.SEM)?.LearnFAMCode == 1;
+                var currentEarningIsSmallEmployer =
+                    _mediator.Send(new GetLearnerFAMsQueryRequest() { LearnRefNumber = earning.LearnerReferenceNumber }).Items.SingleOrDefault(x => x.LearnFAMType == LearnerFAMTypes.SEM)?.LearnFAMCode == 1;
 
-                var historicalAllPayments = paymentHistory
+                //var writer = new StreamWriter($@"C:\temp\hacklogs\{DateTime.UtcNow.ToShortDateString()} - {DateTime.UtcNow.ToShortTimeString()}");
+                //writer.Write($"currentEarningIsSmallEmployer: {currentEarningIsSmallEmployer}");
+                //writer.Close();
+
+                var historicalAllPayments = paymentHistory //paymenthistory is small employer flag is coming back true when should be false
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.LearnerRefNumber == earning.LearnerReferenceNumber &&
                                 p.StandardCode == earning.StandardCode &&
@@ -215,8 +220,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.LearnAimRef == earning.LearnAimRef &&
                                 p.LearningStartDate.Month == earning.LearningStartDate.Month &&
                                 p.LearningStartDate.Year == earning.LearningStartDate.Year &&
-                                p.ApprenticeshipContractType == earning.ApprenticeshipContractType// &&
-                                //p.IsSmallEmployer == currentEarningIsSmallEmployer
+                                p.ApprenticeshipContractType == earning.ApprenticeshipContractType &&
+                                p.IsSmallEmployer == currentEarningIsSmallEmployer
                                 );
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&

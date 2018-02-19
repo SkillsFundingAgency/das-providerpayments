@@ -31,9 +31,9 @@ INSERT INTO [Reference].[RequiredPaymentsHistory]
 		SfaContributionPercentage,
 		FundingLineType,
 		UseLevyBalance,
-		ISNULL(p.IsSmallEmployer, 0) AS SmallEmployerFlag
+		ISNULL(p.IsSmallEmployer, 1) AS SmallEmployerFlag
     FROM DasPaymentsAT_Deds.PaymentsDue.RequiredPayments rp
-	LEFT OUTER JOIN (SELECT TOP 1 payments.RequiredPaymentId, 1 as IsSmallEmployer FROM DasPaymentsAT_Deds.Payments.Payments payments WHERE payments.FundingSource = 2) p
+	LEFT OUTER JOIN (SELECT TOP 1 payments.RequiredPaymentId, 0 as IsSmallEmployer FROM DasPaymentsAT_Deds.Payments.Payments payments WHERE payments.FundingSource = 1 OR payments.FundingSource = 3) p
 		ON p.RequiredPaymentId = rp.Id
     WHERE Ukprn IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
 GO

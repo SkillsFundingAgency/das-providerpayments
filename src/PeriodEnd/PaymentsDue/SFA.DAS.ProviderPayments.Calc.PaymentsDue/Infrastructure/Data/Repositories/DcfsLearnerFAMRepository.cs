@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
     {
         public const string LearnerFAMSource = "Valid.LearnerFAM";
         public const string LearnerFAMColumns = "LearnRefNumber, LearnFAMType, LearnFAMCode";
-        public const string SelectLearnerFAMRecords = "SELECT " + LearnerFAMColumns + " FROM " + LearnerFAMSource;
+        public const string SelectLearnerFAMRecords = "SELECT " + LearnerFAMColumns + " FROM " + LearnerFAMSource + " WHERE LearnRefNumber = @LearnRefNumber";
 
         public DcfsLearnerFAMRepository(string connectionString) : base(connectionString)
         {

@@ -31,7 +31,8 @@ SELECT
 	ph.[ApprenticeshipContractType],
 	ph.[SfaContributionPercentage],
 	ph.[FundingLineType],
-	ph.[UseLevyBalance]
+	ph.[UseLevyBalance],
+	ph.[IsSmallEmployer]
 
 FROM Reference.RequiredPaymentsHistory ph
 LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e

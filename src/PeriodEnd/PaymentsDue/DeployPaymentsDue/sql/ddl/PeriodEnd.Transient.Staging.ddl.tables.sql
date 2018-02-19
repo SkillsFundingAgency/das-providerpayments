@@ -372,6 +372,7 @@ CREATE TABLE Staging.EarningsWithoutPayments (
 	ApprenticeshipContractType int,
 	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(120),
-	UseLevyBalance bit
+	UseLevyBalance bit,
+	IsSmallEmployer bit
 )
 GO
