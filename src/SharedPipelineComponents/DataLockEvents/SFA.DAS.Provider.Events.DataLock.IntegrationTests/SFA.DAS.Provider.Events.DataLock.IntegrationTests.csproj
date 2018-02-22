@@ -36,6 +36,9 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
+    <Reference Include="CS.Common.SqlBulkCopyCat">
+      <HintPath>..\..\..\AcceptanceTesting\Common\assemblies\CS.Common.SqlBulkCopyCat.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
     <Compile Include="SqlExtensions.cs" />
     <Compile Include="TestContext\GlobalTestContext.cs" />
     <Compile Include="TestContext\GlobalTestContextSetupException.cs" />
+    <Compile Include="Transfer\WhenDataLockEventsAreTransferred.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -141,6 +145,10 @@
       <Link>DbSetupScripts\MigrationScripts\004_DataLockEvents_Add_TransactionTypesFlag.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Add_Indexes.sql" >
+      <Link>DbSetupScripts\MigrationScripts\005_DataLockEvents_Add_Indexes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\datalock.reference.transient.ddl.tables.periodend.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -156,6 +164,7 @@
     <Content Include="DbSetupScripts\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    
     <Content Include="DbSetupScripts\Payments.deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

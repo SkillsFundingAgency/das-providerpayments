@@ -97,7 +97,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
             }
 
             using (var transientConnection = GetOpenTransientConnection(context))
-            using (var dedsConnection = GetOpenDedsConnection(context))
+            //using (var dedsConnection = GetOpenDedsConnection(context))
             {
                 try
                 {
@@ -129,7 +129,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 }
                 finally
                 {
-                    dedsConnection.Close();
+                    //dedsConnection.Close();
                     transientConnection.Close();
                 }
             }

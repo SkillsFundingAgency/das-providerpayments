@@ -15,10 +15,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
         {
             var command = "INSERT INTO Submissions.LastSeenVersion " +
                       "(IlrFileName,FileDateTime,SubmittedDateTime,ComponentVersionNumber,UKPRN,ULN,LearnRefNumber,AimSeqNumber,PriceEpisodeIdentifier," +
-                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear) " +
+                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear,EPAOrgId) " +
                       "VALUES " +
                       "(@IlrFileName,@FileDateTime,@SubmittedDateTime,@ComponentVersionNumber,@UKPRN,@ULN,@LearnRefNumber,@AimSeqNumber,@PriceEpisodeIdentifier," +
-                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear)";
+                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear,@EPAOrgId)";
 
             dedsConnection.Execute(command, new
             {
@@ -36,7 +36,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
                 PlannedEndDate = ilrDetails.PlannedEndDate,
                 OnProgrammeTotalPrice = ilrDetails.OnProgrammeTotalPrice,
                 CompletionTotalPrice = ilrDetails.CompletionTotalPrice ,
-                AcademicYear = ilrDetails.AcademicYear
+                AcademicYear = ilrDetails.AcademicYear,
+                EPAOrgId = ilrDetails.EPAOrgId
             });
         }
 

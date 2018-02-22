@@ -21,7 +21,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests
             using (var connection = new SqlConnection(GlobalTestContext.Current.DedsDatabaseConnectionString))
             {
                 connection.RunDbSetupSqlScriptFile("submissions.deds.ddl.tables.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
-            }   
+                connection.RunDbSetupSqlScriptFile("~2_Submissions.Deds.AddColumns.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+            }
         }
 
         private void SetupTransientDatabase()
@@ -33,6 +34,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests
 
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.tables.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.functions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.sprocs.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
                 connection.RunDbSetupSqlScriptFile("submissions.transient.ddl.views.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
             }
         }

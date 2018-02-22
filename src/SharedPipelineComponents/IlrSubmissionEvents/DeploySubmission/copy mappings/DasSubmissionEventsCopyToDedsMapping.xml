@@ -101,6 +101,10 @@
           <Source>EmployerReferenceNumber</Source>
           <Destination>EmployerReferenceNumber</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>EPAOrgId</Source>
+          <Destination>EPAOrgId</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
@@ -195,6 +199,10 @@
         <ColumnMapping>
           <Source>EmployerReferenceNumber</Source>
           <Destination>EmployerReferenceNumber</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>EPAOrgId</Source>
+          <Destination>EPAOrgId</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

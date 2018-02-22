@@ -160,9 +160,9 @@ Scenario:808_AC1- DAS learner, is made redundant within the last 6 months of pla
             | 1             | 1          | learner a | 403            | 2              | 1            | 01/08/2017 | 01/08/2018 | 6125         | Active    | 01/08/2017     |              |
                    
 	    When an ILR file is submitted with the following data:
-	    	| ULN       | learner type             | aim type         | framework code | programme type | pathway code | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-	    	| learner a | 16-18 programme only DAS | programme        | 403            | 2              | 1            | 6125         |          | 06/08/2017 | 20/10/2018       | 08/08/2018      | completed         |
-	    	| learner a | 16-18 programme only DAS | maths or english | 403            | 2              | 1            |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |
+	    	| ULN       | learner type             | aim type         | framework code | programme type | pathway code | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |
+	    	| learner a | 16-18 programme only DAS | programme        | 403            | 2              | 1            | 6125         |          | 06/08/2017 | 20/10/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 20/10/2018               |
+	    	| learner a | 16-18 programme only DAS | maths or english | 403            | 2              | 1            |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017                 | 20/10/2018               |
             
         And the Contract type in the ILR is:
             | contract type | date from  | date to    |
@@ -173,10 +173,6 @@ Scenario:808_AC1- DAS learner, is made redundant within the last 6 months of pla
             | Employer   | Employment Status      | Employment Status Applies |
             | employer 1 | in paid employment     | 05/08/2017                |
             |            | not in paid employment | 21/04/2018                |
-            
-          And the learning support status of the ILR is:
-            | Learning support code | date from  | date to    |
-            | 1                     | 06/08/2017 | 20/10/2018 |
               
             
         Then the provider earnings and payments break down as follows:
@@ -221,9 +217,9 @@ Scenario:808-AC2- DAS learner, is made redundant outside the last 6 months of pl
             | 1             | 1          | learner a | 403            | 2              | 1            | 01/08/2017 | 01/08/2018 | 6125         | Active    | 01/08/2017     |              |
                    
 	    When an ILR file is submitted with the following data:
-	    	| ULN       | learner type             | aim type         | framework code | programme type | pathway code | agreed price | aim rate | start date | planned end date | actual end date | completion status |
-	    	| learner a | 16-18 programme only DAS | programme        | 403            | 2              | 1            | 6125         |          | 06/08/2017 | 20/10/2018       | 08/08/2018      | completed         |
-	    	| learner a | 16-18 programme only DAS | maths or english | 403            | 2              | 1            |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |
+	    	| ULN       | learner type             | aim type         | framework code | programme type | pathway code | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |
+	    	| learner a | 16-18 programme only DAS | programme        | 403            | 2              | 1            | 6125         |          | 06/08/2017 | 20/10/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 20/10/2018               |
+	    	| learner a | 16-18 programme only DAS | maths or english | 403            | 2              | 1            |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017                 | 20/10/2018               |
             
         And the Contract type in the ILR is:
             | contract type | date from  | date to    |
@@ -234,10 +230,6 @@ Scenario:808-AC2- DAS learner, is made redundant outside the last 6 months of pl
             | Employer   | Employment Status      | Employment Status Applies |
             | employer 1 | in paid employment     | 05/08/2017                |
             |            | not in paid employment | 20/04/2018                |
-            
-          And the learning support status of the ILR is:
-            | Learning support code | date from  | date to    |
-            | 1                     | 06/08/2017 | 20/10/2018 |
               
             
 	    Then the provider earnings and payments break down as follows:
