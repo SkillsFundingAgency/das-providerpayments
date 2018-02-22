@@ -1,20 +1,16 @@
 
 
 
-
---DROP INDEX PK__Required__3214EC07AA351B24
---CREATE INDEX IX_RequiredPayments_Id_UKPRN_CommitmentId ON PaymentsDue.RequiredPayments (Id, UKPRN, CommitmentId)
---GO
-
-IF NOT EXISTS (SELECT NULL FROM sys.indexes WHERE name = 'IX_RequiredPayments_Ukprn')
-BEGIN
-	CREATE INDEX IX_RequiredPayments_Ukprn ON PaymentsDue.RequiredPayments (UKPRN)
-END
+ALTER TABLE PaymentsDue.RequiredPayments
+	ALTER COLUMN AccountId bigint
 GO
 
 
-ALTER TABLE PaymentsDue.RequiredPayments
-ALTER COLUMN AccountId bigint
+IF NOT EXISTS(SELECT NULL FROM sys.indexes WHERE name='IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query')
+BEGIN
+	CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Query]
+		ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
+END
 GO
 
 
