@@ -7,13 +7,13 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- ValidationError
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(select 1 from sys.procedures where name = 'CleanupDeds')
+IF EXISTS(select 1 from sys.procedures where name = 'CleanupDedsDatalocks')
 BEGIN
-    DROP PROCEDURE DataLock.CleanupDeds
+    DROP PROCEDURE DataLock.[CleanupDedsDatalocks]
 END
 GO
 
-CREATE PROCEDURE DataLock.CleanupDeds
+CREATE PROCEDURE DataLock.[CleanupDedsDatalocks]
 	@Ukprn bigint NULL	
 AS
 

@@ -1,3 +1,3 @@
-DECLARE @ukprn int = (SELECT DISTINCT [Ukprn] FROM [Valid].[LearningProvider])
+DECLARE @ukprn bigint = (SELECT DISTINCT [Ukprn] FROM [Valid].[LearningProvider])
 
-EXEC ${ILR_Deds.FQ}.[DataLock].[CleanUpDatalock] @ukprn
+EXEC ${ILR_Deds.FQ}.[DataLock].[CleanupDedsDatalocks] @ukprn
