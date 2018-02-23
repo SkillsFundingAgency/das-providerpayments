@@ -1,3 +1,6 @@
+if not exists(select 1 from sys.servers where name = 'SELF')
+	EXEC master.dbo.sp_addlinkedserver @server = N'SELF', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;
+							
 IF NOT EXISTS (SELECT [schema_id] FROM sys.schemas WHERE [name] = 'AT')
 	BEGIN
 		EXEC('CREATE SCHEMA AT')

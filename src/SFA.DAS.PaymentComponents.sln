@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -202,6 +202,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{4844093B-F585-4D61-A370-8356133C1177}"
 	ProjectSection(SolutionItems) = preProject
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.dbo.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.dbo.ddl.tables.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql

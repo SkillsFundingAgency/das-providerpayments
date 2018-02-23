@@ -38,7 +38,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
                 PopulateLastSeen(dedsConnection);
                 
                 // Act
-                transConnection.RunDbSetupSqlScriptFile("dml\\01 submissions.populate.submissions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                transConnection.RunDbSetupSqlScriptFile("dml\\01 submissions.populate.submissions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
 
                 // Assert
                 AssertLastSeen(transConnection);
