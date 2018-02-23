@@ -57,7 +57,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                     {
                         var path = Path.Combine(GlobalTestContext.Current.AssemblyDirectory,
                             @"DbSetupScripts\Copy Reference Data", script);
-                        connection.RunSqlScriptFile(path, GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                        connection.RunSqlScriptFile(path, GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
                     }
                 }
                 finally
@@ -79,7 +79,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                     {
                         var path = Path.Combine(GlobalTestContext.Current.AssemblyDirectory,
                             @"DbSetupScripts\Copy Reference Data", script);
-                        connection.RunSqlScriptFile(path, GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                        connection.RunSqlScriptFile(path, GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
                     }
                 }
                 finally

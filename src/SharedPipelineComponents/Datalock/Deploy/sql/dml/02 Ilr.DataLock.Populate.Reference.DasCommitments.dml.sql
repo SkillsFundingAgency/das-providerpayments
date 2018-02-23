@@ -29,46 +29,68 @@ TRUNCATE TABLE [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]
-    SELECT
-        [CommitmentId],
-        MAX([VersionId]) [VersionId],
-        [Uln],
-        [Ukprn],
-        [AccountId],
-        [StartDate],
-        [EndDate],
-        [AgreedCost],
-        [StandardCode],
-        [ProgrammeType],
-        [FrameworkCode],
-        [PathwayCode],
-        [PaymentStatus],
-        [PaymentStatusDescription],
-        [Priority],
-        [EffectiveFromDate],
-        [EffectiveToDate],
-        [LegalEntityName]
-    FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
-    WHERE [ULN] IN (SELECT DISTINCT [ULN] 
-					FROM 
-					[Valid].[Learner] )
-    GROUP BY [CommitmentId],
-        [Uln],
-        [Ukprn],
-        [AccountId],
-        [StartDate],
-        [EndDate],
-        [AgreedCost],
-        [StandardCode],
-        [ProgrammeType],
-        [FrameworkCode],
-        [PathwayCode],
-        [PaymentStatus],
-        [PaymentStatusDescription],
-        [Priority],
-        [EffectiveFromDate],
-        [EffectiveToDate],
-        [LegalEntityName]
+SELECT 
+	[CommitmentId],
+    MAX([VersionId]) [VersionId],
+    [Uln],
+    [Ukprn],
+    [AccountId],
+    [StartDate],
+    [EndDate],
+    [AgreedCost],
+    [StandardCode],
+    [ProgrammeType],
+    [FrameworkCode],
+    [PathwayCode],
+    [PaymentStatus],
+    [PaymentStatusDescription],
+    [Priority],
+    [EffectiveFromDate],
+    [EffectiveToDate],
+    [LegalEntityName]
+FROM OPENQUERY(${DAS_CommitmentsReferenceData.servername}, '
+		SELECT
+			[CommitmentId],
+			[VersionId],
+			[Uln],
+			[Ukprn],
+			[AccountId],
+			[StartDate],
+			[EndDate],
+			[AgreedCost],
+			[StandardCode],
+			[ProgrammeType],
+			[FrameworkCode],
+			[PathwayCode],
+			[PaymentStatus],
+			[PaymentStatusDescription],
+			[Priority],
+			[EffectiveFromDate],
+			[EffectiveToDate],
+			[LegalEntityName]
+		FROM 
+			${DAS_CommitmentsReferenceData.databasename}.[dbo].[DasCommitments]'
+    ) AS oq
+WHERE 
+	[ULN] IN (SELECT DISTINCT [ULN] FROM [Valid].[Learner])
+GROUP BY 
+	[CommitmentId],
+    [Uln],
+    [Ukprn],
+    [AccountId],
+    [StartDate],
+    [EndDate],
+    [AgreedCost],
+    [StandardCode],
+    [ProgrammeType],
+    [FrameworkCode],
+    [PathwayCode],
+    [PaymentStatus],
+    [PaymentStatusDescription],
+    [Priority],
+    [EffectiveFromDate],
+    [EffectiveToDate],
+    [LegalEntityName]
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])

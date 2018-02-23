@@ -397,6 +397,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             ExecuteScript(
                 GlobalTestContext.Instance.SubmissionConnectionString,
                 databaseName,
+                GlobalTestContext.Instance.LinkedServerName,
                 sql);
         }
 
@@ -411,6 +412,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             ExecuteScript(
                 GlobalTestContext.Instance.PeriodEndConnectionString,
                 databaseName,
+                GlobalTestContext.Instance.LinkedServerName,
                 sql);
         }
 
@@ -423,6 +425,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                 ExecuteScript(
                     GlobalTestContext.Instance.SubmissionConnectionString,
                     GlobalTestContext.Instance.BracketedSubmissionDatabaseName,
+                    GlobalTestContext.Instance.LinkedServerName,
                     sql);
             }
         }
@@ -436,13 +439,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                 ExecuteScript(
                     GlobalTestContext.Instance.PeriodEndConnectionString,
                     GlobalTestContext.Instance.BracketedPeriodEndDatabaseName,
+                    GlobalTestContext.Instance.LinkedServerName,
                     sql);
             }
         }
 
-        private static void ExecuteScript(string connectionString, string databaseName, string sql)
+        private static void ExecuteScript(string connectionString, string databaseName, string linkedServerName, string sql)
         {
-            var commands = ReplaceSqlTokens(sql, databaseName).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = ReplaceSqlTokens(sql, databaseName, linkedServerName).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var command in commands)
             {
@@ -482,11 +486,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             }
         }
 
-        private static string ReplaceSqlTokens(string sql, string databaseName)
+        private static string ReplaceSqlTokens(string sql, string databaseName, string linkedServerName)
         {
             return sql.Replace("${ILR_Deds.FQ}", databaseName)
                       .Replace("${ILR_Summarisation.FQ}", databaseName)
                       .Replace("${DAS_Commitments.FQ}", databaseName)
+                      .Replace("${DAS_CommitmentsReferenceData.servername}", linkedServerName)
+                      .Replace("${DAS_CommitmentsReferenceData.databasename}", databaseName)
+                      .Replace("${DS_SILR1718_Collection.servername}", linkedServerName)
+                      .Replace("${DS_SILR1718_Collection.databasename}", databaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", databaseName)
                       .Replace("${DAS_Accounts.FQ}", databaseName)
                       .Replace("${YearOfCollection}", "1617");
