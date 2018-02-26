@@ -559,7 +559,7 @@ Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximu
 	  
 #	The English or maths aim is submitted with the same start and planned end date
       
-    Then the earnings and payments break down for provider A is as follows:
+    Then OBSOLETE - the earnings and payments break down for provider A is as follows:
 		  | Type                                    | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
 		  | Provider Earned Total                   | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 0       |
 		  | Provider Paid by SFA                    | 0       | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 |
@@ -580,7 +580,7 @@ Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximu
 		  | English and maths Balancing    | 0     | 0     | 0     | 0     | 0     |
 
 
-    Then the earnings and payments break down for provider B is as follows:
+    Then OBSOLETE - the earnings and payments break down for provider B is as follows:
 		  | Type                                    | 01/18   | 02/18   | 03/18   | ... | 07/18   | 08/18   |
 		  | Provider Earned Total                   | 1189.96 | 1189.96 | 1189.96 | ... | 1189.96 | 0       |
 		  | Provider Paid by SFA                    | 0       | 1189.96 | 1189.96 | ... | 1189.96 | 1189.96 |

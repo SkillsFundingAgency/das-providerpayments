@@ -42,9 +42,14 @@ CREATE TABLE [Reference].[DataLockEvents]
 	IlrPriceEffectiveFromDate	date				NULL,
 	IlrPriceEffectiveToDate		date				NULL,
 	DataLockEventId				uniqueidentifier	NOT NULL
-	CONSTRAINT [PK_Reference_DataLockEvents] PRIMARY KEY NONCLUSTERED (Id),
-	INDEX [IX_Reference_DataLockEvents_UKPRN]  CLUSTERED (UKPRN)
+	CONSTRAINT [PK_Reference_DataLockEvents] PRIMARY KEY NONCLUSTERED (Id)
 )
+GO
+
+CREATE INDEX IX_Reference_DataLockEvents_UKPRN ON Reference.DataLockEvents (UKPRN)
+GO
+
+CREATE INDEX IX_ReferenceDataLockEvents_DataLockEventId ON Reference.DataLockEvents (DataLockEventId)
 GO
 
 --------------------------------------------------------------------------------------
@@ -65,8 +70,11 @@ CREATE TABLE [Reference].[DataLockEventPeriods]
 	CommitmentVersion		varchar(25)		NOT NULL,
 	IsPayable				bit				NOT NULL,
 	TransactionType			int				NOT NULL,
-	INDEX [IX_Reference_DataLockEventPeriods_DataLockEventId] CLUSTERED (DataLockEventId)
+	TransactionTypesFlag	int				NULL
 )
+GO
+
+CREATE INDEX IX_Reference_DataLockEventPeriods_DataLockEventId ON [Reference].[DataLockEventPeriods] (DataLockEventId)
 GO
 
 --------------------------------------------------------------------------------------
@@ -88,9 +96,11 @@ CREATE TABLE [Reference].[DataLockEventCommitmentVersions]
 	CommitmentFrameworkCode		int				NULL,
 	CommitmentPathwayCode		int				NULL,
 	CommitmentNegotiatedPrice	decimal(12,5)	NOT NULL,
-	CommitmentEffectiveDate		date			NOT NULL,
-	INDEX [IX_Reference_DataLockEventCommitmentVersions_DataLockEventId] CLUSTERED (DataLockEventId)
+	CommitmentEffectiveDate		date			NOT NULL
 )
+GO
+
+CREATE INDEX IX_Reference_DataLockEventCommitmentVersions_DataLockEventId ON [Reference].[DataLockEventCommitmentVersions] (DataLockEventId)
 GO
 
 --------------------------------------------------------------------------------------
@@ -108,7 +118,6 @@ CREATE TABLE [Reference].[DataLockEventErrors]
 	ErrorCode				varchar(15)		NOT NULL,
 	SystemDescription		nvarchar(255)	NOT NULL,
 	PRIMARY KEY NONCLUSTERED (DataLockEventId, ErrorCode),
-	INDEX [IX_Reference_DataLockEventErrors_DataLockEventId] CLUSTERED (DataLockEventId)
 )
 GO
 

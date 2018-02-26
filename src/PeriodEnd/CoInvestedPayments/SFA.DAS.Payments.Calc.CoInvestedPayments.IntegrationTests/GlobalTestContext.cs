@@ -30,7 +30,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
         public string BracketedDatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
         public string DedsConnectionString { get; private set; }
-
+        public string LinkedServerName => "SELF";
 
 
         private void SetupConnectionString()

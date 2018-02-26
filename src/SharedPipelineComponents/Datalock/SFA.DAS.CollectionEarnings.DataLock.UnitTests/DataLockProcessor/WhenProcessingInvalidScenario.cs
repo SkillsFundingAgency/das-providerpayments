@@ -17,6 +17,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.ValidationError;
 using SFA.DAS.CollectionEarnings.DataLock.Application.ValidationError.AddValidationErrorsCommand;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
+using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.DataLockProcessor
 {
@@ -139,6 +140,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.DataLockProcessor
             _mediator
                 .Setup(m => m.Send(It.IsAny<AddPriceEpisodePeriodMatchesCommandRequest>()))
                 .Returns(Unit.Value);
+
+            _mediator
+          .Setup(m => m.Send(It.IsAny<Get16To18IncentiveEarningsQueryRequest>()))
+          .Returns(new Get16To18IncentiveEarningsQueryResponse
+          {
+              IsValid = true,
+              Items = new[]
+              {
+                        new IncentiveEarningsBuilder().Build()
+              }
+          });
+
         }
 
         [Test]

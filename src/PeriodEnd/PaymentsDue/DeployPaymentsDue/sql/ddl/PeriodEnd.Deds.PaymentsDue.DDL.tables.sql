@@ -7,51 +7,53 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- RequiredPayments
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='RequiredPayments' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+
+IF NOT EXISTS(SELECT NULL FROM 
+	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+	WHERE t.name='RequiredPayments' AND s.name='PaymentsDue'
+)
 BEGIN
-	DROP TABLE PaymentsDue.RequiredPayments
+	CREATE TABLE PaymentsDue.RequiredPayments
+	(
+		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+		CommitmentId bigint,
+		CommitmentVersionId varchar(50),
+		AccountId varchar(50),
+		AccountVersionId varchar(50),
+		Uln bigint,
+		LearnRefNumber varchar(12),
+		AimSeqNumber int,
+		Ukprn bigint,
+		IlrSubmissionDateTime datetime,
+		PriceEpisodeIdentifier varchar(25),
+		StandardCode bigint,
+		ProgrammeType int,
+		FrameworkCode int,
+		PathwayCode int,
+		ApprenticeshipContractType int,
+		DeliveryMonth int,
+		DeliveryYear int,
+		CollectionPeriodName varchar(8) NOT NULL,
+		CollectionPeriodMonth int NOT NULL,
+		CollectionPeriodYear int NOT NULL,
+		TransactionType int,
+		AmountDue decimal(15,5),
+		SfaContributionPercentage decimal(15,5),
+		FundingLineType varchar(60),
+		UseLevyBalance bit
+	)
 END
 GO
 
-CREATE TABLE PaymentsDue.RequiredPayments
-(
-	Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
-	CommitmentId bigint,
-	CommitmentVersionId varchar(50),
-	AccountId varchar(50),
-	AccountVersionId varchar(50),
-	Uln bigint,
-	LearnRefNumber varchar(12),
-	AimSeqNumber int,
-	Ukprn bigint,
-	IlrSubmissionDateTime datetime,
-	PriceEpisodeIdentifier varchar(25),
-	StandardCode bigint,
-	ProgrammeType int,
-	FrameworkCode int,
-	PathwayCode int,
-	ApprenticeshipContractType int,
-	DeliveryMonth int,
-	DeliveryYear int,
-	CollectionPeriodName varchar(8) NOT NULL,
-	CollectionPeriodMonth int NOT NULL,
-	CollectionPeriodYear int NOT NULL,
-	TransactionType int,
-	AmountDue decimal(15,5),
-	SfaContributionPercentage decimal(15,5),
-	FundingLineType varchar(60),
-	UseLevyBalance bit
-)
-GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Earnings
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Earnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+IF NOT EXISTS(SELECT NULL FROM 
+	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+	WHERE t.name='Earnings' AND s.name='PaymentsDue'
+)
 BEGIN
-    DROP TABLE PaymentsDue.Earnings
-END
-GO
 CREATE TABLE PaymentsDue.Earnings
 (
     RequiredPaymentId uniqueidentifier NOT NULL, 
@@ -64,3 +66,4 @@ CREATE TABLE PaymentsDue.Earnings
 	TotalInstallments int NOT NULL,
 	EndpointAssessorId varchar(7) NULL
 )
+END

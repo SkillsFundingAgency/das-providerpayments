@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+using Dapper;
 using IlrGenerator;
 using Newtonsoft.Json;
 using ProviderPayments.TestStack.Core.Context;
 using ProviderPayments.TestStack.Core.ExecutionStatus;
+using ProviderPayments.TestStack.Core.Properties;
 using ProviderPayments.TestStack.Core.Workflow.AccountsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.CommitmentsReferenceData;
 using ProviderPayments.TestStack.Core.Workflow.IlrSubmission;
@@ -18,6 +22,40 @@ namespace ProviderPayments.TestStack.Core
         public ProcessService(ILogger logger)
         {
             _logger = logger;
+        }
+
+        public void PrepareTablesNotOwnedByPayments(EnvironmentVariables environmentVariables = null)
+        {
+            var context = SetupExecutionEnvironment(null, environmentVariables ?? new EnvironmentVariables());
+            var connectionString = context.Properties[KnownContextKeys.DedsDatabaseConnectionString];
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                try
+                {
+                    var commands = Regex.Split(Resources.CopyValidLearnerRecordsTaskScript, @"GO\s*(\n|$|\r\n)", RegexOptions.IgnoreCase);
+                    
+                    foreach (var command in commands)
+                    {
+                        if (string.IsNullOrWhiteSpace(command))
+                        {
+                            continue;
+                        }
+                        try
+                        {
+                            connection.Execute(command);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"Error with command: {command}", e);
+                        }
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void RunIlrSubmission(IlrSubmission submission, EnvironmentVariables environmentVariables = null, StatusWatcherBase statusWatcher = null)
@@ -52,7 +90,7 @@ namespace ProviderPayments.TestStack.Core
         {
             var context = SetupExecutionEnvironment(string.Empty, environmentVariables ?? new EnvironmentVariables());
             context.DataLockEventsSource = "PeriodEnd";
-
+            
             var workflow = new PrepareForEasWorkflow(_logger);
             workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
         }

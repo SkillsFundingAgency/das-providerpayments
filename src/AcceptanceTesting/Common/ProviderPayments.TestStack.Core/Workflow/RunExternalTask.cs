@@ -48,19 +48,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 return;
             }
 
-            var appDomain = CreateExecutionAppDomain(executablesDirectory);
-            try
-            {
-                var proxyTask = GetExecutionProxy(appDomain);
-                var proxyContext = GetProxyContext(context);
-                proxyContext.Properties.Add("ExecutablesDirectory", executablesDirectory);
+            var appDomain = AppDomainProvider.GetAppDomain(executablesDirectory);
 
-                proxyTask.Execute(proxyContext);
-            }
-            finally
-            {
-                AppDomain.Unload(appDomain);
-            }
+            var proxyTask = GetExecutionProxy(appDomain);
+            var proxyContext = GetProxyContext(context);
+            proxyContext.Properties.Add("ExecutablesDirectory", executablesDirectory);
+
+            proxyTask.Execute(proxyContext);
+            
         }
 
         private string GetComponentWorkingDirectory(TestStackContext context)
@@ -82,6 +77,11 @@ namespace ProviderPayments.TestStack.Core.Workflow
             throw new DirectoryNotFoundException($"Cannot find component directory for {_componentType} in {componentsDirectory.FullName}");
         }
 
+        private bool ShouldScriptBeRan(string sqlFile)
+        {
+            return DdlManager.IsScriptRequiredOnEveryRun(sqlFile);
+        }
+
         private void PrepareDatabase(string componentDirectory, TestStackContext context)
         {
             _logger.Debug($"Preparing database for component {_componentType}");
@@ -101,9 +101,17 @@ namespace ProviderPayments.TestStack.Core.Workflow
             {
                 try
                 {
+                    var runAllDdl = !DdlManager.HasRan(componentDirectory);
+
                     foreach (var sqlFile in GetOrderedSqlFiles(sqlDirectory))
                     {
                         _logger.Debug($"Found script {sqlFile}");
+
+                        if (!runAllDdl && !ShouldScriptBeRan(sqlFile))
+                        {
+                            _logger.Debug($"Skipping DDL file on subsequent runs - {sqlFile}");
+                            continue;
+                        }
 
                         var isDedsScript = Regex.IsMatch(sqlFile, @".*\.deds\..*\.sql$", RegexOptions.IgnoreCase);
                         if (!isDedsScript)
@@ -144,6 +152,9 @@ namespace ProviderPayments.TestStack.Core.Workflow
 
             var sourcePath = typeof(LateBoundTaskProxy).Assembly.Location ?? string.Empty;
             var destinationPath = Path.Combine(executablesDirectory, Path.GetFileName(sourcePath));
+            if (File.Exists(destinationPath))
+                return;
+            
             File.Copy(sourcePath, destinationPath, true);
         }
         private void PrepareForExecution(string componentDirectory, TestStackContext context)
@@ -215,16 +226,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
             }
             return int.MaxValue;
         }
-        private AppDomain CreateExecutionAppDomain(string executablesDirectory)
-        {
-            var info = new AppDomainSetup
-            {
-                ApplicationBase = executablesDirectory
-            };
-            var evidence = AppDomain.CurrentDomain.Evidence;
-            var name = $"{_componentType}-{DateTime.Now.Ticks}";
-            return AppDomain.CreateDomain(name, evidence, info);
-        }
+
         private LateBoundTaskProxy GetExecutionProxy(AppDomain executionDomain)
         {
             var proxyType = typeof(LateBoundTaskProxy);

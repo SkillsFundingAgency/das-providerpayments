@@ -39,5 +39,6 @@ namespace SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities
         public decimal CommitmentNegotiatedPrice { get; set; }
         public DateTime CommitmentEffectiveDate { get; set; }
         public string RuleId { get; set; }
+        public int TransactionTypesFlag { get; set; }
     }
 }

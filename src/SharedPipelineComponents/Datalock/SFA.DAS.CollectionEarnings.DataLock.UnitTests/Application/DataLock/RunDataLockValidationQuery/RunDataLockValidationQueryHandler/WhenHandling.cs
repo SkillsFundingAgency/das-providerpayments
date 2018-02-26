@@ -7,6 +7,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValida
 using SFA.DAS.CollectionEarnings.DataLock.Tools.Providers;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
+using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.RunDataLockValidationQuery.RunDataLockValidationQueryHandler
 {
@@ -83,7 +84,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     new PriceEpisodeBuilder().Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build()}
             };
 
             // Act
@@ -94,7 +96,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -111,7 +113,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     new PriceEpisodeBuilder().WithUkprn(10007458).Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -122,7 +125,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingUkprn));
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -168,7 +171,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     new PriceEpisodeBuilder().WithStandardCode(998).Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build()}
             };
 
             // Act
@@ -179,7 +183,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingStandard));
             Assert.AreEqual(0, response.PriceEpisodeMatches.Count(x => x.IsSuccess));
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -197,7 +201,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     dasLearner
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build()}
             };
 
             // Act
@@ -208,7 +213,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingFramework));
             Assert.AreEqual(0, response.PriceEpisodeMatches.Count(x => x.IsSuccess));
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -226,7 +231,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     dasLearner
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -237,7 +243,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingProgramme));
             Assert.AreEqual(0, response.PriceEpisodeMatches.Count(x => x.IsSuccess));
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -255,7 +261,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     dasLearner
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -266,7 +273,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingPathway));
             Assert.AreEqual(0, response.PriceEpisodeMatches.Count(x => x.IsSuccess));
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -284,7 +291,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     dasLearner
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -295,7 +303,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MismatchingPrice));
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -318,7 +326,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                         .WithStartDate(new DateTime(2016, 8, 31))
                         .Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
             };
 
             // Act
@@ -329,7 +338,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.EarlierStartDate));
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.AreEqual(121, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(11, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -349,7 +358,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                 {
                     new PriceEpisodeBuilder().Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build()}
+                DasAccounts = new[] { new DasAccountBuilder().Build()},
+                IncentiveEarnings = new[] { new IncentiveEarnings () }
             };
 
             // Act
@@ -360,7 +370,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(1, response.ValidationErrors.Count(ve => ve.RuleId == DataLockErrorCodes.MultipleMatches));
             Assert.AreEqual(0, response.PriceEpisodeMatches.Count(x => x.IsSuccess));
-            Assert.AreEqual(242, response.PriceEpisodePeriodMatches.Length);
+            Assert.AreEqual(22, response.PriceEpisodePeriodMatches.Length);
         }
 
         [Test]
@@ -394,7 +404,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             {
                 Commitments = commitments,
                 PriceEpisodes = priceEpisodes,
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder().Build() }
 
             };
 
@@ -450,7 +461,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .WithNegotiatedPrice(7500)
                     .Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder()
+                                                .WithPeriod(4)
+                                                .WithLearnRefNumber("Lrn001")
+                                                .WithFirstIncentiveAmount()
+                                                .Build() }
             };
 
             // Act
@@ -461,12 +477,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x=> x.Period == 4 && x.TransactionType==Payments.DCFS.Domain.TransactionType.First16To18EmployerIncentive).Payable);
-            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x => x.Period == 4 && x.TransactionType == Payments.DCFS.Domain.TransactionType.First16To18ProviderIncentive).Payable);
-
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 4 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning).Payable);
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 4 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Balancing).Payable);
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 4 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Completion).Payable);
+            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x=> x.Period == 4 && x.TransactionTypesFlag== Payments.DCFS.Domain.TransactionTypesFlag.FirstEmployerProviderIncentives).Payable);
+            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 4 && x.TransactionTypesFlag ==Payments.DCFS.Domain.TransactionTypesFlag.AllLearning ).Payable);
 
         }
 
@@ -507,7 +519,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .WithNegotiatedPrice(7500)
                     .Build()
                 },
-                DasAccounts = new[] { new DasAccountBuilder().Build() }
+                DasAccounts = new[] { new DasAccountBuilder().Build() },
+                IncentiveEarnings = new[] { new IncentiveEarningsBuilder()
+                                                .WithPeriod(11)
+                                                .WithLearnRefNumber("Lrn001")
+                                                .WithSecondIncentiveAmount()
+                                                .Build() }
             };
 
             // Act
@@ -518,11 +535,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
             Assert.IsTrue(response.IsValid);
             Assert.AreEqual(0, response.ValidationErrors.Length);
             Assert.AreEqual(1, response.PriceEpisodeMatches.Length);
-            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionType ==Payments.DCFS.Domain.TransactionType.Second16To18EmployerIncentive).Payable);
-            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Second16To18ProviderIncentive).Payable);
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Learning).Payable);
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Balancing).Payable);
-            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionType == Payments.DCFS.Domain.TransactionType.Completion).Payable);
+
+            Assert.IsTrue(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.SecondEmployerProviderIncentives).Payable);
+            Assert.IsFalse(response.PriceEpisodePeriodMatches.Single(x => x.Period == 11 && x.TransactionTypesFlag == Payments.DCFS.Domain.TransactionTypesFlag.AllLearning).Payable);
 
 
         }

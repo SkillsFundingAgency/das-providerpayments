@@ -33,6 +33,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
             For<IPriceEpisodePeriodMatchRepository>().Use<PriceEpisodePeriodMatchRepository>();
             For<IDateTimeProvider>().Use<DateTimeProvider>();
             For<IDasAccountRepository>().Use<DasAccountRepository>();
+            For<IIncentiveEarningsRepository>().Use<IncentiveEarningsRepository>();
 
 
             For<IMatcher>().Use(() => MatcherFactory.CreateMatcher());

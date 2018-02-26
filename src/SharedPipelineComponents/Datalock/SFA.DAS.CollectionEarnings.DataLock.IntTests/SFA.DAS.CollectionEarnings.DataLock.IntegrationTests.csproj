@@ -72,6 +72,8 @@
     <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrSubmission.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringPeriodEnd.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository\WhenAddPriceEpisodePeriodMatchesCalledDuringAnIlrPeriodEnd.cs" />
@@ -180,9 +182,18 @@
       <Link>Utilities\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql">
+      <Link>DbSetupScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
+    </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql">
+      <Link>DbSetupScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql">
       <Link>DbSetupScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql">
+      <Link>DbSetupScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql</Link>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.sprocs.sql">
       <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.sprocs.sql</Link>
@@ -268,6 +279,21 @@
     <Content Include="Utilities\Sql\DPP-222\IlrAcceptanceCriteria1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndFirstIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroSecondIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroFirstIncentiveEarnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Utilities\Sql\IlrSubmissionLearnerChangesProvider.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -275,6 +301,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMatchFound.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionFirstIncentiveEarnings.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMultipleMatches.sql">

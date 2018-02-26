@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         public Guid Id { get; set; }
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
-        public string AccountId { get; set; } = "";
+        public long AccountId { get; set; } = 0;
         public string AccountVersionId { get; set; } = "";
         public long Uln { get; set; }
         public string LearnRefNumber { get; set; }

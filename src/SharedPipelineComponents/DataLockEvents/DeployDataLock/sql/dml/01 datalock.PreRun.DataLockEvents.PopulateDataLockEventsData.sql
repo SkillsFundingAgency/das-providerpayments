@@ -1,3 +1,23 @@
+
+IF NOT EXISTS (SELECT NULL FROM sys.indexes WHERE [name] = 'IX_PriceEpisodePeriodMatch_2')
+BEGIN
+	CREATE NONCLUSTERED INDEX [IX_PriceEpisodePeriodMatch_2]
+		ON [DataLock].[PriceEpisodePeriodMatch] ([Ukprn],[PriceEpisodeIdentifier],[LearnRefNumber],[VersionId])
+		INCLUDE ([AimSeqNumber],[Period],[Payable],[TransactionType])
+END
+GO
+
+
+
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DataLockEventsData'
+AND i.name = 'IX_DataLockEventsData_Query')
+BEGIN
+	DROP INDEX IX_DataLockEventsData_Query ON DataLockEvents.DataLockEventsData
+END
+GO
+
 TRUNCATE TABLE DataLockEvents.DataLockEventsData
 GO
 
@@ -5,7 +25,7 @@ INSERT INTO DataLockEvents.DataLockEventsData
 (
 	Ukprn ,PriceEpisodeIdentifier ,LearnRefNumber ,AimSeqNumber ,CommitmentId ,IsSuccess ,
 	IlrFilename,SubmittedTime,ULN,IlrStartDate,IlrStandardCode,IlrProgrammeType,IlrFrameworkCode,IlrPathwayCode,IlrTrainingPrice,IlrEndpointAssessorPrice,IlrPriceEffectiveFromDate,IlrPriceEffectiveToDate,
-	CommitmentVersionId ,Period ,Payable,TransactionType ,EmployerAccountId ,CommitmentStartDate,CommitmentStandardCode ,CommitmentProgrammeType,
+	CommitmentVersionId ,Period ,Payable,TransactionType,TransactionTypesFlag  ,EmployerAccountId ,CommitmentStartDate,CommitmentStandardCode ,CommitmentProgrammeType,
 	CommitmentFrameworkCode,CommitmentPathwayCode ,CommitmentNegotiatedPrice ,CommitmentEffectiveDate ,RuleId 
 )
 
@@ -34,6 +54,7 @@ SELECT
 		pepm.Period,
 		pepm.Payable,
 		pepm.TransactionType,
+		pepm.TransactionTypesFlag,
 
 		c.AccountId  EmployerAccountId,
 		c.StartDate CommitmentStartDate,
@@ -61,3 +82,9 @@ SELECT
 		ON pem.Ukprn = err.Ukprn
 		AND pem.LearnRefNumber = err.LearnRefNumber
 		AND pem.PriceEpisodeIdentifier = err.PriceEpisodeIdentifier
+
+GO
+
+
+CREATE CLUSTERED INDEX [IX_DataLockEventsData_Query] ON [DataLockEvents].[DataLockEventsData] (UKPRN, LearnRefNumber, AimSeqNumber, RuleId)
+GO

@@ -67,9 +67,6 @@
     <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandRequest.cs" />
     <Compile Include="Application\Accounts\AllocateLevyCommand\AllocateLevyCommandResponse.cs" />
     <Compile Include="Application\Accounts\Commitment.cs" />
-    <Compile Include="Application\Accounts\GetAccountAndPaymentInformationQuery\GetAccountAndPaymentQueryHandler.cs" />
-    <Compile Include="Application\Accounts\GetAccountAndPaymentInformationQuery\GetAccountAndPaymentQueryRequest.cs" />
-    <Compile Include="Application\Accounts\GetAccountAndPaymentInformationQuery\GetAccountAndPaymentQueryResponse.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryHandler.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryRequest.cs" />
     <Compile Include="Application\Accounts\GetNextAccountQuery\GetNextAccountQueryResponse.cs" />
@@ -96,7 +93,6 @@
     <Compile Include="Application\Response.cs" />
     <Compile Include="DependencyResolution\CalcRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="Infrastructure\Data\Entities\AccountPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
