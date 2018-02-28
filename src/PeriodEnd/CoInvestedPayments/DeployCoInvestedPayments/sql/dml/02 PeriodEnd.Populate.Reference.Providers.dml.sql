@@ -17,4 +17,6 @@ INSERT INTO [Reference].[Providers] (
 			SELECT MAX(ID) AS ID FROM ${ILR_Deds.FQ}.[dbo].[FileDetails] GROUP BY UKPRN
 		) LatestByUkprn
 			ON fd.ID = LatestByUkprn.ID
+	ORDER BY
+		[p].[UKPRN]
 GO

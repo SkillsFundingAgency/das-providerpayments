@@ -1,7 +1,7 @@
 TRUNCATE TABLE Staging.EarningsWithoutPayments
 GO
 
-INSERT INTO Staging.EarningsWithoutPayments
+INSERT INTO Staging.EarningsWithoutPayments WITH (TABLOCKX)
 
 Select ph.*
 

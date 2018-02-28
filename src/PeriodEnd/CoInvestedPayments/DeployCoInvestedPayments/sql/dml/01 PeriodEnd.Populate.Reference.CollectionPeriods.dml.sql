@@ -10,4 +10,5 @@ INSERT INTO [Reference].[CollectionPeriods]
         [Collection_Open] AS [Open]
 	FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
 	WHERE [Collection_Year] = ${YearOfCollection}
+	ORDER BY [Period_ID] 
 GO

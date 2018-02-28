@@ -1,7 +1,11 @@
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IX_TransType_StartDate')
+	ALTER INDEX [IX_TransType_StartDate] ON [Staging].[ApprenticeshipEarnings] DISABLE;
+GO
+
 TRUNCATE TABLE Staging.ApprenticeshipEarnings
 GO
 
-INSERT INTO Staging.ApprenticeshipEarnings
+INSERT INTO Staging.ApprenticeshipEarnings WITH (TABLOCKX)
 SELECT distinct pepm.CommitmentId,
     pepm.VersionId CommitmentVersionId,
     a.AccountId,
@@ -95,4 +99,9 @@ FROM Staging.ApprenticeshipEarningsRequiringPayments ae
       OR ph.AmountDue> 0
       )
       AND (pepm.Period Is Null OR ae.Period = pepm.Period OR ph.AmountDue >0)
+GO
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'ApprenticeshipEarnings' AND i.name = 'IX_TransType_StartDate')
+	ALTER INDEX [IX_TransType_StartDate] ON [Staging].[ApprenticeshipEarnings] REBUILD;
+GO
 

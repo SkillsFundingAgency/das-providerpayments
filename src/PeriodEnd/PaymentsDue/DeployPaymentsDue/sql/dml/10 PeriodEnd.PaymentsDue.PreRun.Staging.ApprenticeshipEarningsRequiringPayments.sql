@@ -1,7 +1,7 @@
 TRUNCATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 GO
 
-INSERT INTO Staging.ApprenticeshipEarningsRequiringPayments
+INSERT INTO Staging.ApprenticeshipEarningsRequiringPayments WITH (TABLOCKX)
 SELECT
 	ae.Ukprn,
     ae.Uln,

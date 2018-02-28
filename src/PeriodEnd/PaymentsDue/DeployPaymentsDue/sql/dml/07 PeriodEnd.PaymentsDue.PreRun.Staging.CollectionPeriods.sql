@@ -1,7 +1,7 @@
 TRUNCATE TABLE Staging.CollectionPeriods
 GO
 
-INSERT INTO Staging.CollectionPeriods
+INSERT INTO Staging.CollectionPeriods WITH (TABLOCKX)
 SELECT
 	Id,
 	Name,
@@ -14,3 +14,5 @@ SELECT
 		ELSE DATEFROMPARTS(CalendarYear - 1,8,1)
 	END AS FirstDayOfAcademicYear
 FROM Reference.CollectionPeriods
+ORDER BY
+	Id

@@ -1,7 +1,7 @@
 TRUNCATE TABLE [Reference].[CollectionPeriods]
 GO
 
-INSERT INTO [Reference].[CollectionPeriods]
+INSERT INTO [Reference].[CollectionPeriods] WITH (TABLOCKX)
  SELECT
         [Period_ID] AS [Id],
         [Return_Code] AS [Name],
@@ -10,4 +10,5 @@ INSERT INTO [Reference].[CollectionPeriods]
         [Collection_Open] AS [Open]
 	FROM ${DAS_PeriodEnd.FQ}.[dbo].[Collection_Period_Mapping]
 	WHERE [Collection_Year] = ${YearOfCollection}
+	ORDER BY [Period_ID]
 GO

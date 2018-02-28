@@ -52,7 +52,11 @@ GROUP BY
     ae1.AimSeqNumber,
     ae1.Period
 
-INSERT INTO Staging.LearnerPriceEpisodePerPeriod
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'LearnerPriceEpisodePerPeriod' AND i.name = 'IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate')
+	ALTER INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate] ON Staging.LearnerPriceEpisodePerPeriod DISABLE;
+GO
+
+INSERT INTO Staging.LearnerPriceEpisodePerPeriod WITH (TABLOCKX)
 SELECT
 	x.Ukprn,
     x.LearnRefNumber, 
@@ -65,6 +69,13 @@ LEFT JOIN #MaxStartDateForEpisodesInPeriod y
 	AND x.LearnRefNumber = y.LearnRefNumber
 	AND x.AimSeqNumber = y.AimSeqNumber
 	AND x.Period = y.Period	
+
+IF EXISTS (SELECT * FROM sys.indexes i JOIN sys.objects t ON i.object_id = t.object_id WHERE t.name = 'LearnerPriceEpisodePerPeriod' AND i.name = 'IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate')
+	ALTER INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate] ON Staging.LearnerPriceEpisodePerPeriod REBUILD;
+ELSE
+	CREATE NONCLUSTERED INDEX [IX_DAS_UkPrn_LearnRefNumber_AimSeqNumber_Period_MaxEpisodeStartDate]
+	ON [Staging].[LearnerPriceEpisodePerPeriod] ([Ukprn],[LearnRefNumber],[AimSeqNumber],[Period],[MaxEpisodeStartDate])
+GO
 
 DROP TABLE #MaxStartDateForEpisodes
 DROP TABLE #MaxStartDateForEpisodesInPeriod

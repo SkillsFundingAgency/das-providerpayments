@@ -95,7 +95,7 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 
 		FROM [Input].[LearningDelivery] ld
 		WHERE ld.StdCode IS NULL
-		UNION
+		UNION ALL
 		SELECT
 			2000.00 AS [1618Incentive],
 			ld.[StdCode] AS [ApprenticeshipCode],
@@ -128,6 +128,13 @@ INSERT INTO [Reference].[LARS_ApprenticeshipFunding]
 		x.[1618ProviderAdditionalPayment],
 		x.[1618EmployerAdditionalPayment],
 		x.[1618FrameworkUplift]
+	ORDER BY
+		x.[ApprenticeshipCode],
+		x.[ApprenticeshipType],
+		x.[EffectiveFrom],
+		x.[FundingCategory],
+		x.[ProgType],
+		x.[PwayCode]
 GO
 
 INSERT INTO [Reference].[LARS_Current_Version] (CurrentVersion) VALUES ('LARS-TestStack-v1')
@@ -172,6 +179,11 @@ INSERT INTO [Reference].[LARS_FrameworkCmnComp] (
     FROM [Input].[LearningDelivery]
     WHERE [FworkCode] IS NOT NULL
         AND [LearnAimRef] != 'ZPROG001'
+	ORDER BY
+		[FworkCode],
+		[ProgType],
+		[PwayCode]
+
 GO
 
 INSERT INTO [Reference].[LARS_StandardCommonComponent] (
@@ -187,6 +199,8 @@ INSERT INTO [Reference].[LARS_StandardCommonComponent] (
     FROM [Input].[LearningDelivery]
     WHERE [StdCode] IS NOT NULL
         AND [LearnAimRef] != 'ZPROG001'
+	ORDER BY
+		[StdCode]
 GO
 
 INSERT INTO [Reference].[AEC_LatestInYearEarningHistory] (
@@ -246,6 +260,13 @@ SELECT * FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		[LatestInYear]
     FROM ${DS_SILR1718_Collection.databasename}.[Version_001].[AEC_LatestInYearEarningHistory]') as oq
     WHERE [ULN] IN (SELECT [ULN] FROM [Valid].[Learner])
+	ORDER BY
+		[LatestInYear] DESC,
+		[LearnRefNumber] ASC,
+		[UKPRN] ASC,
+		[CollectionYear] ASC,
+		[CollectionReturnCode] ASC,
+		[AppIdentifier] ASC
 GO
 
 
@@ -266,6 +287,8 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		FROM ${DS_SILR1718_Collection.databasename}.[AT].[ReferenceData]') d
 	INNER JOIN [VALID].[Learner] l ON d.[Key] = l.[PostcodePrior]
 WHERE d.[Type] = 'PostCode'
+	ORDER BY 	
+		l.[PostcodePrior]
 GO
 
 

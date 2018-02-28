@@ -1,3 +1,13 @@
+IF EXISTS (
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'CoInvestedPaymentsHistory'
+		AND i.[name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
+		)
+DROP INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory
+GO
+
 TRUNCATE TABLE [Reference].[CoInvestedPaymentsHistory]
 GO
 
@@ -45,13 +55,5 @@ WHERE rp.Ukprn IN (
         )
 GO
 
-IF NOT EXISTS (
-		SELECT 1
-		FROM [sys].[indexes] i
-		JOIN sys.objects t ON i.object_id = t.object_id
-		WHERE t.name = 'CoInvestedPaymentsHistory'
-		AND i.[name] = 'IX_CoInvestedPaymentsHistory_RequiredPaymentId'
-		)
-BEGIN
-	CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
-END
+CREATE INDEX IX_CoInvestedPaymentsHistory_RequiredPaymentId ON Reference.CoInvestedPaymentsHistory (RequiredPaymentId)
+GO

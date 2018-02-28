@@ -10,7 +10,7 @@ GO
 TRUNCATE TABLE [Reference].[DasAccounts]
 GO
 
-INSERT INTO [Reference].[DasAccounts]
+INSERT INTO [Reference].[DasAccounts] WITH (TABLOCKX)
     SELECT
         [AccountId],
 		[AccountHashId],
@@ -19,6 +19,7 @@ INSERT INTO [Reference].[DasAccounts]
 		[VersionId],
 		[IsLevyPayer]
 	FROM ${DAS_Accounts.FQ}.[dbo].[DasAccounts]
+	ORDER BY [AccountId]
 GO
 
 CREATE INDEX [IX_DasAccount_AccountId] ON [Reference].[DasAccounts] (AccountId)

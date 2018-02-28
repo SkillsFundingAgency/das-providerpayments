@@ -1,7 +1,7 @@
 TRUNCATE TABLE Staging.ApprenticeshipEarnings2
 GO
 
-INSERT INTO Staging.ApprenticeshipEarnings2
+INSERT INTO Staging.ApprenticeshipEarnings2 WITH (TABLOCKX)
 SELECT
 	DISTINCT 
     pepm.CommitmentId,

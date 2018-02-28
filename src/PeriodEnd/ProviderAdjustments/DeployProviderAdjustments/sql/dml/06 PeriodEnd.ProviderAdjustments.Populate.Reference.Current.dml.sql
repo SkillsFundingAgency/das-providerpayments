@@ -3,6 +3,7 @@ GO
 
 DECLARE @AlreadyProcessedSubmissions TABLE (SubmissionId UNIQUEIDENTIFIER)
 
+INSERT INTO [Reference].[ProviderAdjustmentsCurrent] WITH (TABLOCKX) (
 INSERT INTO @AlreadyProcessedSubmissions (SubmissionId)
 SELECT DISTINCT SubmissionId
 FROM ${DAS_PeriodEnd.FQ}.ProviderAdjustments.Payments
