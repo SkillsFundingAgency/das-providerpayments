@@ -230,7 +230,8 @@ INSERT INTO [Reference].[AEC_LatestInYearEarningHistory] (
     [UKPRN],
     [ULN],
 	[LatestInYear])
-    SELECT
+SELECT * FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
+	SELECT
         [AppIdentifier],
         [AppProgCompletedInTheYearInput],
         [CollectionYear],
@@ -257,7 +258,7 @@ INSERT INTO [Reference].[AEC_LatestInYearEarningHistory] (
         [UKPRN],
         [ULN],
 		[LatestInYear]
-    FROM ${ILR_Deds.FQ}.[Version_001].[AEC_LatestInYearEarningHistory]
+    FROM ${DS_SILR1718_Collection.databasename}.[Version_001].[AEC_LatestInYearEarningHistory]') as oq
     WHERE [ULN] IN (SELECT [ULN] FROM [Valid].[Learner])
 	ORDER BY
 		[LatestInYear] DESC,
@@ -275,17 +276,17 @@ INSERT INTO [Reference].[SFA_PostcodeDisadvantage]
 	[Postcode],
 	[Uplift],
 	[Apprenticeship_Uplift])
-	SELECT
-		DISTINCT
-		'2015-10-10',
-		NULL,
-		l.[PostcodePrior],
-		CASE d.[Value] When '1-10%' THEN 1.15 WHEN '11-20%' THEN 1.11 WHEN '20-27%' THEN 1.01 ELSE 0 END,
-		CASE d.[Value] When '1-10%' THEN 600 WHEN '11-20%' THEN 300 WHEN '20-27%' THEN 200 ELSE 0 END
-	FROM
-	${ILR_Deds.FQ}.[AT].[ReferenceData] d JOIN
-	[VALID].[Learner] l on d.[Key] = l.[PostcodePrior]
-	WHERE d.[Type] = 'PostCode'
+SELECT DISTINCT 
+	'2015-10-10',
+    NULL,
+    l.[PostcodePrior],
+    CASE d.[Value] WHEN '1-10%' THEN 1.15 WHEN '11-20%' THEN 1.11 WHEN '20-27%' THEN 1.01 ELSE 0 END,
+    CASE d.[Value] WHEN '1-10%' THEN 600 WHEN '11-20%' THEN 300 WHEN '20-27%' THEN 200 ELSE 0 END
+FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
+		SELECT [Key], [Value], [Type]
+		FROM ${DS_SILR1718_Collection.databasename}.[AT].[ReferenceData]') d
+	INNER JOIN [VALID].[Learner] l ON d.[Key] = l.[PostcodePrior]
+WHERE d.[Type] = 'PostCode'
 	ORDER BY 	
 		l.[PostcodePrior]
 GO

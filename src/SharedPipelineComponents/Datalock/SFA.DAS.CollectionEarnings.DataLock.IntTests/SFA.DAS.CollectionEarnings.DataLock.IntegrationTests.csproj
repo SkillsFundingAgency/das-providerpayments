@@ -182,9 +182,18 @@
       <Link>Utilities\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql">
+      <Link>DbSetupScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
+    </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql">
+      <Link>DbSetupScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql">
       <Link>DbSetupScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql">
+      <Link>DbSetupScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql</Link>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.sprocs.sql">
       <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.sprocs.sql</Link>

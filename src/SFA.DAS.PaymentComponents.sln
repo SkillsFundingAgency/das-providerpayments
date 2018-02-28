@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoInvested Payments", "CoInvested Payments", "{5A408B2C-02FA-4245-9D4E-DBF01978CB0C}"
 EndProject
@@ -202,6 +202,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{4844093B-F585-4D61-A370-8356133C1177}"
 	ProjectSection(SolutionItems) = preProject
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.deds.ddl.tables.sql
+		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.dbo.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.dbo.ddl.tables.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.procedures.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.tables.sql
 		SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql = SharedPipelineComponents\DataLockEvents\DeployDataLock\sql\ddl\datalockevents.transient.ddl.views.periodend.sql
@@ -515,8 +516,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql = PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\Migration Scripts\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcceptanceTesting", "AcceptanceTesting", "{977F32A3-607D-44D4-BEE2-2AA8AE8AA1C2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acceptance Tests", "Acceptance Tests", "{8BC4C069-9675-4B28-81A6-823EDA9771E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.AcceptanceTests", "AcceptanceTesting\SpecByExample\SFA.DAS.Payments.AcceptanceTests\SFA.DAS.Payments.AcceptanceTests.csproj", "{1CF0088D-EB97-4D4F-9F8F-7B09F02AA9AF}"
@@ -536,8 +535,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.Core", "AcceptanceTesting\Common\ProviderPayments.TestStack.Core\ProviderPayments.TestStack.Core.csproj", "{ED159396-0D7D-4B64-8369-6C1BAD8AAE15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.Core.ExecutionProxy", "AcceptanceTesting\Common\ProviderPayments.TestStack.Core.ExecutionProxy\ProviderPayments.TestStack.Core.ExecutionProxy.csproj", "{C7AD11E0-04AF-4D3A-9166-296FF68CC416}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestStack", "TestStack", "{23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -822,11 +819,10 @@ Global
 		{1FD2AFAF-BC7E-4A40-AAEE-1F4CB5225A88} = {4E51108D-D522-472D-BC9E-A27F55DDE910}
 		{1CF0088D-EB97-4D4F-9F8F-7B09F02AA9AF} = {8BC4C069-9675-4B28-81A6-823EDA9771E9}
 		{CD71D53B-72B2-4141-A6E5-DC5AC3D648F1} = {8BC4C069-9675-4B28-81A6-823EDA9771E9}
-		{7581C258-4B95-4FF8-998B-788394B77241} = {977F32A3-607D-44D4-BEE2-2AA8AE8AA1C2}
+		{7581C258-4B95-4FF8-998B-788394B77241} = {8BC4C069-9675-4B28-81A6-823EDA9771E9}
 		{5076BA97-2E9E-4845-9359-0E16DFF7B3A6} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 		{ED159396-0D7D-4B64-8369-6C1BAD8AAE15} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
-		{C7AD11E0-04AF-4D3A-9166-296FF68CC416} = {23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC}
-		{23E2FE3E-8E8A-4F9D-A8E3-8E520D9FFFBC} = {977F32A3-607D-44D4-BEE2-2AA8AE8AA1C2}
+		{C7AD11E0-04AF-4D3A-9166-296FF68CC416} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}

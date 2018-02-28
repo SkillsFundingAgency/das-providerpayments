@@ -22,6 +22,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.TestContext
         public string DedsDatabaseConnectionString { get; private set; }
         public string DedsDatabaseName { get; private set; }
         public string DedsDatabaseNameBracketed { get; private set; }
+        public string LinkedServerName => "SELF";
 
 
 

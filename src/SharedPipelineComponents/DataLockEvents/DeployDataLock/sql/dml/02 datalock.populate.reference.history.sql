@@ -95,35 +95,38 @@ INSERT INTO [Reference].[DataLockEvents] (
 	[IlrPriceEffectiveFromDate],
 	[IlrPriceEffectiveToDate]
 	)
-SELECT dle.[Id],
-	dle.[DataLockEventId],
-	dle.[ProcessDateTime],
-	dle.[Status],
-	dle.[IlrFileName],
-	dle.[SubmittedDateTime],
-	dle.[AcademicYear],
-	dle.[UKPRN],
-	dle.[ULN],
-	dle.[LearnRefNumber],
-	dle.[AimSeqNumber],
-	dle.[PriceEpisodeIdentifier],
-	dle.[CommitmentId],
-	dle.[EmployerAccountId],
-	dle.[EventSource],
-	dle.[HasErrors],
-	dle.[IlrStartDate],
-	dle.[IlrStandardCode],
-	dle.[IlrProgrammeType],
-	dle.[IlrFrameworkCode],
-	dle.[IlrPathwayCode],
-	dle.[IlrTrainingPrice],
-	dle.[IlrEndpointAssessorPrice],
-	dle.[IlrPriceEffectiveFromDate],
-	dle.[IlrPriceEffectiveToDate]
-FROM [DataLock].[vw_Providers] ptp	WITH ( NOLOCK )
-INNER JOIN 
-	${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle WITH ( NOLOCK )
-	ON ptp.[UKPRN] = dle.[UKPRN]
+SELECT 
+	dle.[Id],
+    dle.[DataLockEventId],
+    dle.[ProcessDateTime],
+    dle.[Status],
+    dle.[IlrFileName],
+    dle.[SubmittedDateTime],
+    dle.[AcademicYear],
+    dle.[UKPRN],
+    dle.[ULN],
+    dle.[LearnRefNumber],
+    dle.[AimSeqNumber],
+    dle.[PriceEpisodeIdentifier],
+    dle.[CommitmentId],
+    dle.[EmployerAccountId],
+    dle.[EventSource],
+    dle.[HasErrors],
+    dle.[IlrStartDate],
+    dle.[IlrStandardCode],
+    dle.[IlrProgrammeType],
+    dle.[IlrFrameworkCode],
+    dle.[IlrPathwayCode],
+    dle.[IlrTrainingPrice],
+    dle.[IlrEndpointAssessorPrice],
+    dle.[IlrPriceEffectiveFromDate],
+    dle.[IlrPriceEffectiveToDate]
+FROM 
+	[DataLock].[vw_Providers] ptp WITH (NOLOCK)
+	INNER JOIN OPENQUERY(${DAS_ProviderEvents.servername}, '
+		SELECT * 
+		FROM ${DAS_ProviderEvents.databasename}.[DataLock].[DataLockEvents] dle WITH (NOLOCK)'
+	) AS dle ON ptp.[UKPRN] = dle.[UKPRN]
 
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
