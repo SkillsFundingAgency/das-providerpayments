@@ -21,6 +21,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [FrameworkCode],
     [PathwayCode],
     [ApprenticeshipContractType],
+	[ApprenticeshipContractTypeCode],
+	[ApprenticeshipContractTypeStartDate],
+	[ApprenticeshipContractTypeEndDate],
     [PriceEpisodeFundLineType],
     [PriceEpisodeSfaContribPct],
     [PriceEpisodeLevyNonPayInd],
@@ -61,6 +64,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
         ld.[FworkCode],
         ld.[PwayCode],
         Case pe.[PriceEpisodeContractType] When 'Levy Contract' Then 1 Else 2 END,
+		act.LearnDelFAMCode,
+		act.LearnDelFAMDateFrom,
+		act.LearnDelFAMDateTo,
         pe.[PriceEpisodeFundLineType],
         pv.[PriceEpisodeSFAContribPct],
         pv.[PriceEpisodeLevyNonPayInd],
@@ -93,7 +99,11 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
             AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
             AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
+		LEFT OUTER JOIN ${ILR_Deds.FQ}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
+            AND pe.[LearnRefNumber] = act.[LearnRefNumber]
+            AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
     WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+	AND	act.LearnDelFAMType = 'ACT'
         
 GO
 

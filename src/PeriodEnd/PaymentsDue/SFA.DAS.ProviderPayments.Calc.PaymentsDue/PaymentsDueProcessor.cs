@@ -182,7 +182,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 paymentHistory.AddRange(historyResponse.Items);
             }
 
-
             foreach (var earning in earningResponse.Items)
             {
                 var amountEarned = earning.EarnedValue;
@@ -194,7 +193,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
 
                 if (earning.CalendarYear > currentPeriod.Year
-                    || (earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month))
+                    || earning.CalendarYear == currentPeriod.Year && earning.CalendarMonth > currentPeriod.Month)
                 {
                     continue;
                 }
@@ -209,9 +208,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef &&
                                 p.LearningStartDate.Month == earning.LearningStartDate.Month &&
-                                p.LearningStartDate.Year == earning.LearningStartDate.Year &&
-                                p.ApprenticeshipContractType == earning.ApprenticeshipContractType
-                                );
+                                p.LearningStartDate.Year == earning.LearningStartDate.Year);
+
+                ProcessContractTypeChanges(historicalAllPayments, earning, provider, paymentsDue);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                     p.DeliveryYear == earning.CalendarYear).ToArray();
@@ -248,6 +247,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     {
                         ApportionPaymentDuesWithHistoricalPayments(provider, paymentsDue, earning, historicalAllPayments.ToArray(), amountDue, currentPeriod);
                     }
+                }
+            }
+        }
+
+        private void ProcessContractTypeChanges(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)
+        {
+            var contractTypeChangePayments = historicalAllPayments.Where(h => h.DeliveryMonth == earning.CalendarMonth &&
+                                                                       h.DeliveryYear == earning.CalendarYear &&
+                                                                       h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
+                                                                       earning.ApprenticeshipContractTypeStartDate.HasValue &&
+                                                                       new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) <= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year, earning.ApprenticeshipContractTypeStartDate.Value.Month, 1));
+
+            if (historicalAllPayments.Count() == 1 && historicalAllPayments.First().AmountDue > 0)
+            {
+                foreach (var payment in contractTypeChangePayments)
+                {
+                    AddPaymentsDue(paymentsDue, payment, -payment.AmountDue, earning, provider);
+                    AddPaymentsDue(provider, paymentsDue, earning, earning.EarnedValue);
                 }
             }
         }
@@ -472,6 +489,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 LearnAimRef = earning.LearnAimRef,
                 LearningStartDate = earning.LearningStartDate
             });
+        }
+
+        private void AddPaymentsDue(List<RequiredPayment> paymentsDue, RequiredPayment payment, decimal amountDue,
+            PeriodEarning earning, Provider provider)
+        {
+            payment.AmountDue = amountDue;
+            payment.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
+
+            paymentsDue.Add(payment);
         }
     }
 }
