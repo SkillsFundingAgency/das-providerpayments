@@ -61,13 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
 
         private void InitialMockSetup()
         {
-            _mediator
-                .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
-                .Returns(new GetCurrentCollectionPeriodQueryResponse
-                {
-                    IsValid = true,
-                    Period = new CollectionPeriod { PeriodId = 1, Month = 9, Year = 2017 }
-                });
+            SetCurrentCollectionPeriod();
 
             _mediator
                 .Setup(m => m.Send(It.IsAny<GetProvidersQueryRequest>()))
@@ -89,10 +83,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 .Setup(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()))
                 .Returns(new AddRequiredPaymentsCommandResponse
                 {
-                    IsValid = true,
+                    IsValid = true
                 })
                 .Callback<AddRequiredPaymentsCommandRequest>(a => _requiredPayments = a.Payments)
                 .Verifiable();
+        }
+
+        private void SetCurrentCollectionPeriod(int month = 9)
+        {
+            _mediator
+                .Setup(m => m.Send(It.IsAny<GetCurrentCollectionPeriodQueryRequest>()))
+                .Returns(new GetCurrentCollectionPeriodQueryResponse
+                {
+                    IsValid = true,
+                    Period = new CollectionPeriod {PeriodId = 1, Month = month, Year = 2017}
+                });
         }
 
         [Test]
@@ -154,7 +159,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             _mediator
                 .Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Once);
 
-            Assert.AreEqual(3, _requiredPayments.Length);
+            Assert.AreEqual(2, _requiredPayments.Length);
         }
 
         [Test]
@@ -170,6 +175,169 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 .Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Once);
 
             Assert.AreEqual(1, _requiredPayments.Length);
+        }
+
+        [Test]
+        public void ThenInFuturePeriodsWherePreviousPeriodsHaveBeenRefundedOnlyTheLatestIsTakenIntoConsideration()
+        {
+            SetCurrentCollectionPeriod(10);
+
+            var payments = new List<RequiredPayment>
+            {
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = AmountDue,
+                    ApprenticeshipContractType = 1,
+                    DeliveryMonth = 8,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 8,
+                    CollectionPeriodYear = 2017
+                },
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = -AmountDue,
+                    ApprenticeshipContractType = 1,
+                    DeliveryMonth = 8,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 8,
+                    CollectionPeriodYear = 2017
+                },
+
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = AmountDue,
+                    ApprenticeshipContractType = 2,
+                    DeliveryMonth = 8,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 10,
+                    CollectionPeriodYear = 2017
+                },
+
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = AmountDue,
+                    ApprenticeshipContractType = 1,
+                    DeliveryMonth = 9,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 9,
+                    CollectionPeriodYear = 2017
+                },
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = -AmountDue,
+                    ApprenticeshipContractType = 1,
+                    DeliveryMonth = 9,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 9,
+                    CollectionPeriodYear = 2017
+                },
+
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = AmountDue,
+                    ApprenticeshipContractType = 2,
+                    DeliveryMonth = 9,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 10,
+                    CollectionPeriodYear = 2017
+                },
+
+                new RequiredPayment
+                {
+                    CommitmentId = CommitmentId,
+                    Ukprn = Ukprn,
+                    LearnerRefNumber = LearnerRefNumber,
+                    AimSequenceNumber = AimSeqNumber,
+                    StandardCode = StandardCode,
+                    FrameworkCode = null,
+                    PathwayCode = null,
+                    ProgrammeType = null,
+                    TransactionType = TransactionType.Learning,
+                    LearningStartDate = LearningStartDate,
+                    AmountDue = AmountDue,
+                    ApprenticeshipContractType = 1,
+                    DeliveryMonth = 10,
+                    DeliveryYear = 2017,
+                    CollectionPeriodMonth = 10,
+                    CollectionPeriodYear = 2017
+                }
+            };
+
+            _mediator.Setup(m => m.Send(It.IsAny<GetPaymentHistoryQueryRequest>()))
+                .Returns(new GetPaymentHistoryQueryResponse
+                {
+                    IsValid = true,
+                    Items = payments.ToArray()
+                });
+
+            SetupProviderEarnings(2, new DateTime(2018,8,1), 10);
+
+            _processor.Process();
+
+            _mediator
+                .Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Once);
+
+            Assert.AreEqual(2, _requiredPayments.Length);
         }
 
         private void SetupProviderEarnings(int apprenticeshipContractType, DateTime? startDate = null, int calendarMonth = 9)
@@ -201,7 +369,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             IsSuccess = true,
                             Payable = true,
                             ApprenticeshipContractType = apprenticeshipContractType,
-                            ApprenticeshipContractTypeStartDate = startDate
+                            ApprenticeshipContractTypeStartDate = startDate,
                         }
                     }
                 });
