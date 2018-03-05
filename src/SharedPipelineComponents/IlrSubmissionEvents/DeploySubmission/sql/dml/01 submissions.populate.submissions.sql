@@ -25,7 +25,8 @@ INSERT INTO [Submissions].[LastSeenVersion]
 	NINumber,
 	CommitmentId,
 	AcademicYear,
-	EmployerReferenceNumber 
+	EmployerReferenceNumber,
+	EPAOrgId
 )
 SELECT
 	IlrFileName,
@@ -49,7 +50,8 @@ SELECT
 	NINumber,
 	CommitmentId,
 	AcademicYear,
-	EmployerReferenceNumber 
+	EmployerReferenceNumber,
+	EPAOrgId 
 FROM ${DAS_ProviderEvents.FQ}.Submissions.LastSeenVersion lv
 WHERE UKPRN IN (SELECT UKPRN FROM [Valid].[LearningProvider])
 GO

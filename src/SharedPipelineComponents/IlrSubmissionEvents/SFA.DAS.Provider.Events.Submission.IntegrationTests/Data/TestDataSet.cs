@@ -133,7 +133,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                         AimSeqNumber = 1,
                         StdCode = 34,
                         LearnStartDate = startDate,
-                        LearnPlanEndDate = DateTime.Today.AddMonths(16)
+                        LearnPlanEndDate = DateTime.Today.AddMonths(16),
+                        EPAOrgId = "EPA0001"
                     }
                 },
                 LearnersEmploymentStatuses = new List<LearnerEmploymentStatusEntity>
@@ -244,7 +245,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                             NiNumber = learner.NiNumber,
                             CommitmentId = match.CommitmentId,
                             EmployerReferenceNumber = employmentStatus.EmployerId,
-                            AcademicYear = dataset.AcademicYear
+                            AcademicYear = dataset.AcademicYear,
+                            EPAOrgId = learningDelivery.EPAOrgId
                         };
                     }));
             }

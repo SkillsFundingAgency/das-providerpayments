@@ -197,7 +197,7 @@ namespace SFA.OPA.InterfaceTransform.Console
                     continue;
                 }
 
-                outputDdl.Add(line.ReplaceCaseInsensitive(rulebaseVersion, "'${YearOfCollection}'"));
+                outputDdl.Add(line.ReplaceCaseInsensitive(rulebaseVersion, "${YearOfCollection}"));
             }
 
             File.WriteAllLines($@"{outputPath}\{OutputSqlDdlDeployLocation}\{outputFileName}", outputDdl);
@@ -600,11 +600,15 @@ namespace SFA.OPA.InterfaceTransform.Console
                         "UptoEndDate"
                     }
                 });
-
+            
             var outputDoc = new XDocument(
                 new XElement("CopyCatConfig",
                     new XElement("SourceConnectionString", "SourceConnectionString"),
                     new XElement("DestinationConnectionString", "DestinationConnectionString"),
+                    new XElement("SqlBulkCopySettings", 
+                        new XElement("BatchSize", 2000),
+                        new XElement("BulkCopyTimeout", 7200),
+                        new XElement("EnableStreaming", true)),
                     new XElement("TableMappings", tableMappings.Select(tm => tm.Mapping))
                     )
                 );

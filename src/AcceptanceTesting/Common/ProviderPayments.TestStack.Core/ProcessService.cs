@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using Dapper;
 using IlrGenerator;
 using Newtonsoft.Json;
@@ -32,11 +33,22 @@ namespace ProviderPayments.TestStack.Core
                 connection.Open();
                 try
                 {
-                    var commands = Resources.CopyValidLearnerRecordsTaskScript
-                        .Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+                    var commands = Regex.Split(Resources.CopyValidLearnerRecordsTaskScript, @"GO\s*(\n|$|\r\n)", RegexOptions.IgnoreCase);
+                    
                     foreach (var command in commands)
                     {
-                        connection.Execute(command);
+                        if (string.IsNullOrWhiteSpace(command))
+                        {
+                            continue;
+                        }
+                        try
+                        {
+                            connection.Execute(command);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"Error with command: {command}", e);
+                        }
                     }
                 }
                 finally
@@ -78,7 +90,7 @@ namespace ProviderPayments.TestStack.Core
         {
             var context = SetupExecutionEnvironment(string.Empty, environmentVariables ?? new EnvironmentVariables());
             context.DataLockEventsSource = "PeriodEnd";
-
+            
             var workflow = new PrepareForEasWorkflow(_logger);
             workflow.Execute(context, statusWatcher ?? new NullStatusWatcher());
         }

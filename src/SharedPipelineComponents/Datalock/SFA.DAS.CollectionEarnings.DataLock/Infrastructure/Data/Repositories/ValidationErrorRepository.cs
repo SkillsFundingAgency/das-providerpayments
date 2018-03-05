@@ -24,7 +24,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
                 AimSeqNumber = validationError.AimSeqNumber,
                 RuleId = validationError.RuleId,
                 PriceEpisodeIdentifier = validationError.PriceEpisodeIdentifier
-            });
+            }, DataLockTask.CommandTimeout);
         }
 
         public void AddValidationErrors(ValidationErrorEntity[] validationErrors)

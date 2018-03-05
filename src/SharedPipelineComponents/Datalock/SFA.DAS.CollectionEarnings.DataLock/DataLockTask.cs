@@ -1,4 +1,5 @@
-﻿using SFA.DAS.CollectionEarnings.DataLock.Context;
+﻿using System;
+using SFA.DAS.CollectionEarnings.DataLock.Context;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolution;
 using SFA.DAS.Payments.DCFS;
 using SFA.DAS.Payments.DCFS.Context;
@@ -8,8 +9,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 {
     public class DataLockTask : DcfsTask
     {
-        private IDependencyResolver _dependencyResolver;
+        private readonly IDependencyResolver _dependencyResolver;
         private const string DataLockSchema = "DataLock";
+
+        public static int CommandTimeout = 180;
 
         public DataLockTask()
             : base(DataLockSchema)
@@ -25,11 +28,32 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
         protected override void Execute(ContextWrapper context)
         {
+            SetCommandTimeout(context);
             _dependencyResolver.Init(typeof(DataLockProcessor), context);
 
             var processor = _dependencyResolver.GetInstance<DataLockProcessor>();
 
             processor.Process();
+        }
+
+        void SetCommandTimeout(ContextWrapper context)
+        {
+            try
+            {
+                var timeout = context.GetPropertyValue(DataLockContextPropertyKeys.CommandTimeout);
+                if (timeout != null)
+                {
+                    int configuredTimeout;
+                    if (int.TryParse(timeout, out configuredTimeout))
+                    {
+                        CommandTimeout = configuredTimeout;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Always continue using the default value
+            }
         }
 
         protected override bool IsValidContext(ContextWrapper contextWrapper)

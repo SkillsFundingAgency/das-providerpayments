@@ -146,6 +146,10 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
             }
 
+            if (currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId)
+            {
+                (@event = @event ?? new SubmissionEvent()).EPAOrgId = currentIlr.EPAOrgId;
+            }
 
             // If there have been changes then set the standard properties
             if (@event != null)
@@ -161,6 +165,9 @@ namespace SFA.DAS.Provider.Events.Submission
                 @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
                 @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
                 @event.AcademicYear = currentIlr.AcademicYear;
+                // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
+                // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
+                @event.EPAOrgId = currentIlr.EPAOrgId;
             }
 
             return @event;

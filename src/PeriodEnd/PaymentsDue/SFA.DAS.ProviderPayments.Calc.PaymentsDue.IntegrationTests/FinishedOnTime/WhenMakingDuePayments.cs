@@ -168,6 +168,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
             Assert.False(duePayments.Any(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016));
         }
 
+        [TestCase(1)]
+        [TestCase(-1)]
+        public void ThenItShouldNotMakePaymentsForPeriodWhereEarningHasBeenFullyPaidAlreadyRegardlessOfDifferingStartDateWithinMonth(int dayModifer)
+        {
+            // Arrange
+            var ukprn = 863145;
+            var commitmentId = 1L;
+            var startDate = new DateTime(2016, 8, 12);
+            var plannedEndDate = new DateTime(2017, 8, 27);
+            var learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
+
+            TestDataHelper.AddProvider(ukprn);
+
+            TestDataHelper.AddCommitment(commitmentId, ukprn, learnerRefNumber, startDate: startDate, endDate: plannedEndDate);
+
+            TestDataHelper.SetOpenCollection(5);
+
+            TestDataHelper.AddEarningForCommitment(commitmentId, learnerRefNumber, currentPeriod: 5);
+
+            TestDataHelper.AddPaymentForCommitment(commitmentId, 8, 2016, (int)TransactionType.Learning, 1000, learnRefNumber: learnerRefNumber, startDate: startDate.AddDays(dayModifer));
+
+            TestDataHelper.EditStartDateForACommitment(commitmentId, startDate.AddDays(1));
+
+            TestDataHelper.CopyReferenceData();
+
+            // Act
+            var context = new ExternalContextStub();
+            var task = new PaymentsDueTask();
+            task.Execute(context);
+
+            // Assert
+            var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
+            Assert.AreEqual(4, duePayments.Length);
+            Assert.False(duePayments.Any(p => p.DeliveryMonth == 8 && p.DeliveryYear == 2016));
+        }
+
         [Test]
         public void ThenItShouldMakePartPaymentsForPeriodWhereEarningHasBeenPartiallyPaidAlready()
         {

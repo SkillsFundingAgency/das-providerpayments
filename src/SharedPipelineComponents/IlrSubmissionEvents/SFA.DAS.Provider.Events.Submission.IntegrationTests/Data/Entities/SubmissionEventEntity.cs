@@ -26,5 +26,6 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data.Entities
         public string NiNumber { get; set; }
         public int EmployerReferenceNumber { get; set; }
         public string AcademicYear { get; set; }
+        public string EPAOrgId { get; set; }
     }
 }
