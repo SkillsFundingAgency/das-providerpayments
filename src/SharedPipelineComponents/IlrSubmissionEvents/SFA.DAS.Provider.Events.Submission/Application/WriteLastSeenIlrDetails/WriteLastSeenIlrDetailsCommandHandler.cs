@@ -14,7 +14,8 @@ namespace SFA.DAS.Provider.Events.Submission.Application.WriteLastSeenIlrDetails
 
         public Unit Handle(WriteLastSeenIlrDetailsCommand message)
         {
-            _ilrSubmissionRepository.StoreLastSeenVersions(message.LastSeenIlrs);
+            if (message.LastSeenIlrs != null && message.LastSeenIlrs.Length > 0)
+                _ilrSubmissionRepository.StoreLastSeenVersions(message.LastSeenIlrs);
 
             return Unit.Value;
         }

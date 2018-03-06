@@ -273,11 +273,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         private static string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                    .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                    .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                    .Replace("${YearOfCollection}", "1617");
+                .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${DAS_PeriodEnd.servername}", GlobalTestContext.Instance.LinkedServerName)
+                .Replace("${DAS_PeriodEnd.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${YearOfCollection}", "1617");
 
         }
     }
