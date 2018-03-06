@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
         private Mock<ILogger> _logger;
         private Mock<IMediator> _mediator;
         private Mock<IExternalContext> _externalContext;
-        private DateTime LearningStartDate = new DateTime(2017, 12, 1);
+        private readonly DateTime _learningStartDate = new DateTime(2017, 12, 1);
         private const decimal AmountDue = 1000M;
         private const long StandardCode = 1L;
         private const int AimSeqNumber = 1;
@@ -195,7 +195,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = 1,
                     DeliveryMonth = 8,
@@ -214,7 +214,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = -AmountDue,
                     ApprenticeshipContractType = 1,
                     DeliveryMonth = 8,
@@ -234,7 +234,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = 2,
                     DeliveryMonth = 8,
@@ -254,7 +254,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = 1,
                     DeliveryMonth = 9,
@@ -273,7 +273,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = -AmountDue,
                     ApprenticeshipContractType = 1,
                     DeliveryMonth = 9,
@@ -293,7 +293,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = 2,
                     DeliveryMonth = 9,
@@ -313,7 +313,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = 1,
                     DeliveryMonth = 10,
@@ -337,7 +337,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             _mediator
                 .Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Once);
 
-            Assert.AreEqual(2, _requiredPayments.Length);
+            Assert.AreEqual(1, _requiredPayments.Length);
         }
 
         private void SetupProviderEarnings(int apprenticeshipContractType, DateTime? startDate = null, int calendarMonth = 9)
@@ -355,7 +355,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             Ukprn = Ukprn,
                             LearnerReferenceNumber = LearnerRefNumber,
                             AimSequenceNumber = AimSeqNumber,
-                            LearningStartDate = LearningStartDate,
+                            LearningStartDate = _learningStartDate,
                             CollectionPeriodNumber = 2,
                             CollectionAcademicYear = "1718",
                             CalendarMonth = calendarMonth,
@@ -369,7 +369,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                             IsSuccess = true,
                             Payable = true,
                             ApprenticeshipContractType = apprenticeshipContractType,
-                            ApprenticeshipContractTypeStartDate = startDate,
+                            ApprenticeshipContractTypeStartDate = startDate
                         }
                     }
                 });
@@ -390,7 +390,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     PathwayCode = null,
                     ProgrammeType = null,
                     TransactionType = TransactionType.Learning,
-                    LearningStartDate = LearningStartDate,
+                    LearningStartDate = _learningStartDate,
                     AmountDue = AmountDue,
                     ApprenticeshipContractType = apprenticeshipContractType,
                     DeliveryMonth = 8,
@@ -412,7 +412,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                         PathwayCode = null,
                         ProgrammeType = null,
                         TransactionType = TransactionType.Learning,
-                        LearningStartDate = LearningStartDate,
+                        LearningStartDate = _learningStartDate,
                         AmountDue = -AmountDue,
                         ApprenticeshipContractType = apprenticeshipContractType,
                         DeliveryMonth = 8,
