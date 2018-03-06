@@ -31,5 +31,15 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.Application.WriteLastSeen
             // Assert
             _ilrSubmissionRepository.Verify(r => r.StoreLastSeenVersions(It.Is<IlrDetails[]>(x => x[0] == _ilr)), Times.Once);
         }
+
+        [Test]
+        public void ThenItShouldNotCallDbIfNothingToStore()
+        {
+            // Act
+            _handler.Handle(new WriteLastSeenIlrDetailsCommand { LastSeenIlrs = new IlrDetails[0] });
+
+            // Assert
+            _ilrSubmissionRepository.Verify(r => r.StoreLastSeenVersions(It.IsAny<IlrDetails[]>()), Times.Never, "Repository method was called when nothing to save");
+        }
     }
 }

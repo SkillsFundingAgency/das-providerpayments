@@ -30,6 +30,9 @@ namespace SFA.DAS.Provider.Events.Submission.Infrastructure.Data
 
         public void StoreLastSeenVersions(IlrDetails[] details)
         {
+            if (details == null || details.Length == 0)
+                return;
+
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
