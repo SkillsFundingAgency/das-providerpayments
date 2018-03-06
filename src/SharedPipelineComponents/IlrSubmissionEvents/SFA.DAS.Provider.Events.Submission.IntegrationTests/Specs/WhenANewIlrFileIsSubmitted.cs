@@ -92,6 +92,24 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         }
 
         [Test]
+        public void AndThereAreNoValidLearnersThenItShouldNotStoreLastSeenVersions()
+        {
+            // Arrange
+            var testDataSet = TestDataSet.GetFirstSubmissionDataset();
+            testDataSet.Learners.Clear();
+            testDataSet.Clean();
+            testDataSet.Store();
+
+            // Act
+            TaskRunner.RunTask();
+
+            // Assert
+            var lastSeenVersions = LastSeenVersionRepository.GetLastestVersionsForProvider(testDataSet.Providers[0].Ukprn);
+            Assert.IsNotNull(lastSeenVersions);
+            Assert.AreEqual(0, lastSeenVersions.Length);
+        }
+
+        [Test]
         public void ThenItShouldWriteIlrDetailsToLastSeenVersion()
         {
             // Arrange

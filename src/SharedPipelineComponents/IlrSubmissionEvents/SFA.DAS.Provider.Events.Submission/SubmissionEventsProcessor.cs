@@ -37,10 +37,13 @@ namespace SFA.DAS.Provider.Events.Submission
                 _logger.Error(currentVersions.Exception, "Error getting current versions");
                 throw currentVersions.Exception;
             }
+
             if (!currentVersions.HasAnyItems())
             {
                 _logger.Info("Did not find any current versions. Exiting");
+                return;
             }
+
             _logger.Info($"Found {currentVersions.Items.Length} current versions");
 
             var lastSeenVersions = _mediator.Send(new GetLastSeenVersionsQuery());
