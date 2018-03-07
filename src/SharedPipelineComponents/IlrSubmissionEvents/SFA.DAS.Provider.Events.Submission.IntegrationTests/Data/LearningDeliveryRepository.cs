@@ -11,10 +11,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
         {
             using (var connection = new SqlConnection(GlobalTestContext.Current.TransientDatabaseConnectionString))
             {
-                connection.Execute("INSERT INTO Valid.LearningDelivery (LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, LearnActEndDate, FundModel, ProgType, FworkCode, PwayCode, StdCode) " +
+                connection.Execute("INSERT INTO Valid.LearningDelivery (LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, LearnActEndDate, FundModel, ProgType, FworkCode, PwayCode, StdCode, EPAOrgId) " +
                                    "VALUES " +
-                                   "(@LearnRefNumber, 'ZPROG001', 1, @AimSeqNumber, @LearnStartDate, @LearnPlanEndDate, @LearnActEndDate, 36, @ProgType, @FworkCode, @PwayCode, @StdCode)", 
-                                   learningDelivery);
+                                   "(@LearnRefNumber, 'ZPROG001', 1, @AimSeqNumber, @LearnStartDate, @LearnPlanEndDate, @LearnActEndDate, 36, @ProgType, @FworkCode, @PwayCode, @StdCode, @EPAOrgId)",
+                    learningDelivery);
             }
         }
 

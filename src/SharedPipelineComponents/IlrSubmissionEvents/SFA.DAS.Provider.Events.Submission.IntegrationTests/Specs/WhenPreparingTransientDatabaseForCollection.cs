@@ -16,6 +16,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         private const long Uln = 98563;
         private const string NiNumber = "AB123456A";
         private const string AcademicYear = "1718";
+        private const string EPAOrgId = "EPA0001";
         private readonly DateTime FilePrepDate = new DateTime(2017, 9, 2, 12, 37, 26);
         private readonly DateTime SubmissionTime = new DateTime(2017, 9, 2, 12, 54, 56);
         private readonly DateTime StartDate = new DateTime(2017, 9, 1);
@@ -37,7 +38,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
                 PopulateLastSeen(dedsConnection);
                 
                 // Act
-                transConnection.RunDbSetupSqlScriptFile("dml\\01 submissions.populate.submissions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed);
+                transConnection.RunDbSetupSqlScriptFile("dml\\01 submissions.populate.submissions.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
 
                 // Assert
                 AssertLastSeen(transConnection);
@@ -77,7 +78,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
                 PlannedEndDate = EndDate,
                 OnProgrammeTotalPrice = OnProgPrice * 0.8m,
                 CompletionTotalPrice = EndpointPrice * 0.8m,
-                AcademicYear = AcademicYear
+                AcademicYear = AcademicYear,
+                EPAOrgId = EPAOrgId
             };
 
             TestDataHelper.PopulateLastSeen(dedsConnection, ilrDetails);
@@ -91,7 +93,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
 
             Assert.AreEqual(1, lastSeen.Length);
 
-            Assert.AreEqual($"ILR-{Ukprn}-{AcademicYear}-{FilePrepDate.AddDays(-1).ToString("yyyyMMdd-HHmmss")}-01.xml", lastSeen[0].IlrFileName);
+            Assert.AreEqual($"ILR-{Ukprn}-{AcademicYear}-{FilePrepDate.AddDays(-1):yyyyMMdd-HHmmss}-01.xml", lastSeen[0].IlrFileName);
             Assert.AreEqual(FilePrepDate.AddDays(-1), lastSeen[0].FileDateTime);
             Assert.AreEqual(SubmissionTime.AddDays(-1), lastSeen[0].SubmittedDateTime);
             Assert.AreEqual(1, lastSeen[0].ComponentVersionNumber);
@@ -99,13 +101,14 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(Uln, lastSeen[0].Uln);
             Assert.AreEqual("1", lastSeen[0].LearnRefNumber);
             Assert.AreEqual(1, lastSeen[0].AimSeqNumber);
-            Assert.AreEqual($"00-34-01/{StartDate.ToString("MM/yyyy")}", lastSeen[0].PriceEpisodeIdentifier);
+            Assert.AreEqual($"00-34-01/{StartDate:MM/yyyy}", lastSeen[0].PriceEpisodeIdentifier);
             Assert.AreEqual(34, lastSeen[0].StandardCode);
             Assert.AreEqual(StartDate, lastSeen[0].ActualStartDate);
             Assert.AreEqual(EndDate, lastSeen[0].PlannedEndDate);
             Assert.AreEqual(OnProgPrice * 0.8m, lastSeen[0].OnProgrammeTotalPrice);
             Assert.AreEqual(EndpointPrice * 0.8m, lastSeen[0].CompletionTotalPrice);
             Assert.AreEqual(AcademicYear, lastSeen[0].AcademicYear);
+            Assert.AreEqual(EPAOrgId, lastSeen[0].EPAOrgId);
         }
     }
 }

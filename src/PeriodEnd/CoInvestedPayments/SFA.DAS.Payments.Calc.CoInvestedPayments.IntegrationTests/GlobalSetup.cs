@@ -21,7 +21,11 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
             {
                 connection.Open();
                 try
-                {
+                {                    
+                    connection.Execute($@"
+                        if not exists(select 1 from sys.servers where name = '{GlobalTestContext.Instance.LinkedServerName}')
+	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
+
                     RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
 

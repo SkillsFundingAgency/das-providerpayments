@@ -207,9 +207,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.PathwayCode == earning.PathwayCode &&
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.TransactionType == earning.Type &&
-                                p.LearnAimRef == earning.LearnAimRef &&
-                                p.LearningStartDate.Month == earning.LearningStartDate.Month &&
-                                p.LearningStartDate.Year == earning.LearningStartDate.Year);
+                                p.LearnAimRef == earning.LearnAimRef);
 
                 ProcessContractTypeChanges(historicalAllPayments, earning, provider, contractTypeChangePayments);
 

@@ -45,7 +45,8 @@ SELECT
 	ld.StdCode,
 	ld.LearnStartDate,
 	ld.LearnPlanEndDate,
-	ld.LearnActEndDate
+	ld.LearnActEndDate,
+	ld.EPAOrgID
 FROM Valid.LearningDelivery ld
 INNER JOIN Valid.Learner l
 	ON ld.LearnRefNumber = l.LearnRefNumber
@@ -128,7 +129,8 @@ SELECT
 	END CompletionTotalPrice,
 	ld.NINumber,
 	pe.CommitmentId,
-	pe.EmpId As EmployerReferenceNumber
+	pe.EmpId As EmployerReferenceNumber,
+	ld.EPAOrgId
 FROM Submissions.vw_Providers p
 INNER JOIN Submissions.vw_LearningDeliveries ld
 	ON p.UKPRN = ld.UKPRN

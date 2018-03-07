@@ -27,6 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
         public string DatabaseName { get; private set; }
         public string BracketedDatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
+        public string LinkedServerName => "SELF";
 
 
 

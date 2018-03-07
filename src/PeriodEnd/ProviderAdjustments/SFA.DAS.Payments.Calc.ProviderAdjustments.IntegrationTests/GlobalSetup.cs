@@ -25,6 +25,10 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests
 
                 try
                 {
+                    transientConnection.Execute($@"
+                        if not exists(select 1 from sys.servers where name = '{GlobalTestContext.Instance.LinkedServerName}')
+	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
+
                     // Pre-req scripts
                     RunSqlScript(@"EAS.Deds.ddl.tables.sql", dedsConnection);
                     RunSqlScript(@"EAS.Deds.PaymentTypes.dml.sql", dedsConnection);

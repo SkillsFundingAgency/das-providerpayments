@@ -99,6 +99,18 @@
       <Link>DbSetupScripts\ddl.transient.commitments.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\0010_AlterColumns.sql">
+      <Link>DbSetupScripts\0010_AlterColumns.sql</Link>
+    </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql">
+      <Link>DbSetupScripts\0012_AlterTable_AECEarningHistory.sql</Link>
+    </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql">
+      <Link>DbSetupScripts\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
+    </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql">
+      <Link>DbSetupScripts\002_ddl.deds.commitments.tables.add_indexes.sql</Link>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">

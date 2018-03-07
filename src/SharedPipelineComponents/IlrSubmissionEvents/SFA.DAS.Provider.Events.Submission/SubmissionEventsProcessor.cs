@@ -37,10 +37,13 @@ namespace SFA.DAS.Provider.Events.Submission
                 _logger.Error(currentVersions.Exception, "Error getting current versions");
                 throw currentVersions.Exception;
             }
+
             if (!currentVersions.HasAnyItems())
             {
                 _logger.Info("Did not find any current versions. Exiting");
+                return;
             }
+
             _logger.Info($"Found {currentVersions.Items.Length} current versions");
 
             var lastSeenVersions = _mediator.Send(new GetLastSeenVersionsQuery());
@@ -146,6 +149,10 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
             }
 
+            if (currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId)
+            {
+                (@event = @event ?? new SubmissionEvent()).EPAOrgId = currentIlr.EPAOrgId;
+            }
 
             // If there have been changes then set the standard properties
             if (@event != null)
@@ -161,6 +168,9 @@ namespace SFA.DAS.Provider.Events.Submission
                 @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
                 @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
                 @event.AcademicYear = currentIlr.AcademicYear;
+                // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
+                // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
+                @event.EPAOrgId = currentIlr.EPAOrgId;
             }
 
             return @event;

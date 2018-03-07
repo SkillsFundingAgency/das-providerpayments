@@ -44,6 +44,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
         public string BracketedPeriodEndDatabaseName { get; private set; }
         public string BracketedPeriodEndDedsDatabaseName { get; private set; }
         public string AssemblyDirectory { get; private set; }
+        public string LinkedServerName => "SELF";
 
         private void SetupConnectionStrings()
         {
