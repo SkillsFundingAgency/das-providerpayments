@@ -12,6 +12,7 @@ if not exist "Deploy\%RuleBaseVersion%\component" ( md "Deploy\%RuleBaseVersion%
 if not exist "Deploy\%RuleBaseVersion%\test-results" ( md "Deploy\%RuleBaseVersion%\test-results" )
 
 xcopy SFA.DAS.CollectionEarnings.Calculator\bin\%BuildConfig%\*.dll Deploy\%RuleBaseVersion%\component\
+xcopy SFA.DAS.CollectionEarnings.Calculator\bin\%BuildConfig%\*.pdb Deploy\%RuleBaseVersion%\component\
 xcopy SFA.DAS.CollectionEarnings.Calculator\Resources\%RuleBaseVersion%\*.* Deploy\%RuleBaseVersion%\component\Resources\
 
 exit /b 0
