@@ -777,10 +777,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         private static string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DS_SILR1718_Collection.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DS_SILR1718_Collection.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                      .Replace("${DAS_PeriodEnd.servername}", GlobalTestContext.Instance.LinkedServerName)
+                      .Replace("${DAS_PeriodEnd.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${YearOfCollection}", "1617");
         }
     }

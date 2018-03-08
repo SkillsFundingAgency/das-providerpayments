@@ -1,10 +1,12 @@
-IF NOT EXISTS (SELECT 1 FROM sys.indexes i
+IF EXISTS (SELECT 1 FROM sys.indexes i
 JOIN sys.objects t ON i.object_id = t.object_id
 WHERE t.name = 'Collection_Period_Mapping'
 AND i.name = 'IX_PeriodMapping_YearOfCollection')
 BEGIN
-	CREATE INDEX IX_PeriodMapping_YearOfCollection ON [dbo].[Collection_Period_Mapping] (YearOfCollection);
+	DROP INDEX IX_PeriodMapping_YearOfCollection ON [dbo].[Collection_Period_Mapping]
 END
+GO
+CREATE INDEX IX_PeriodMapping_YearOfCollection ON [dbo].[Collection_Period_Mapping] (Collection_Year);
 GO
 
 -- Think this already exists
@@ -14,22 +16,25 @@ GO
 --DROP INDEX PK__Payments__9B556A387D159181
 --CREATE INDEX PK_Payments ON Payments.Payments (PaymentId)
 
-IF NOT EXISTS (SELECT 1 FROM sys.indexes i
+IF EXISTS (SELECT 1 FROM sys.indexes i
 JOIN sys.objects t ON i.object_id = t.object_id
 WHERE t.name = 'Payments'
 AND i.name = 'IX_Payments_RequiredPayment')
 BEGIN
-	CREATE INDEX IX_Payments_RequiredPayment ON Payments.Payments (RequiredPaymentId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, FundingSource);
+	DROP INDEX IX_Payments_RequiredPayment ON Payments.Payments 
 END
+GO
+CREATE INDEX IX_Payments_RequiredPayment ON Payments.Payments (RequiredPaymentId, CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear, FundingSource);
 GO
 
 -- Replace clustered index on random
 --CREATE INDEX PK_RequiredPayments ON PaymentsDue.RequiredPayments (Id)
-IF NOT EXISTS (SELECT 1 FROM sys.indexes i
+IF EXISTS (SELECT 1 FROM sys.indexes i
 JOIN sys.objects t ON i.object_id = t.object_id
 WHERE t.name = 'RequiredPayments'
 AND i.name = 'IX_RequiredPayments_Ukprn')
 BEGIN
-	CREATE INDEX IX_RequiredPayments_Ukprn ON PaymentsDue.RequiredPayments (UKPRN, FundingSource)
+	DROP INDEX IX_RequiredPayments_Ukprn ON PaymentsDue.RequiredPayments
 END
 GO
+CREATE INDEX IX_RequiredPayments_Ukprn ON PaymentsDue.RequiredPayments (UKPRN, FundingLineType)

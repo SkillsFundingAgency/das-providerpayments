@@ -152,6 +152,9 @@
       <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployCoInvestedPayments\sql\Migration Scripts\1_CoInvestedPayments.deds.Add_Indexes.sql">
+      <Link>DbSetupScripts\1_CoInvestedPayments.deds.Add_Indexes.sql</Link>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Transient.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,6 +1,9 @@
 TRUNCATE TABLE [Reference].[ApprenticeshipEarnings]
 GO
 
+if '${YearOfCollection}' <> '1718' and not exists(select 1 from sys.servers where name = 'SELF')
+	raiserror ('This and a few other files cannot run on collection year other than 1718. replace DS_SILR1718_Collection values with relevant ones and adjust this error message accordingly.', 20, 1) with log;
+
 INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [Ukprn],
     [Uln],
@@ -21,6 +24,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [FrameworkCode],
     [PathwayCode],
     [ApprenticeshipContractType],
+	[ApprenticeshipContractTypeCode],
+	[ApprenticeshipContractTypeStartDate],
+	[ApprenticeshipContractTypeEndDate],
     [PriceEpisodeFundLineType],
     [PriceEpisodeSfaContribPct],
     [PriceEpisodeLevyNonPayInd],
@@ -41,59 +47,113 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[MonthlyInstallment],
 	[EndpointAssessorId] 
 	)
-    SELECT
-        pe.[Ukprn],
-        l.[Uln],
-        pe.[LearnRefNumber],
-        pe.[PriceEpisodeAimSeqNumber],
-        pe.[PriceEpisodeIdentifier],
-        pv.[Period],
-        COALESCE(pe.[PriceEpisodeActualEndDate],pe.[PriceEpisodePlannedEndDate]),
-        ISNULL(pv.[PriceEpisodeOnProgPayment], 0),
-        ISNULL(pv.[PriceEpisodeCompletionPayment], 0),
-        ISNULL(pv.[PriceEpisodeBalancePayment], 0),
-        ISNULL(pv.[PriceEpisodeFirstEmp1618Pay], 0),
-        ISNULL(pv.[PriceEpisodeFirstProv1618Pay], 0),
-        ISNULL(pv.[PriceEpisodeSecondEmp1618Pay], 0),
-        ISNULL(pv.[PriceEpisodeSecondProv1618Pay], 0),
-        ld.[StdCode],
-        ld.[ProgType],
-        ld.[FworkCode],
-        ld.[PwayCode],
-        Case pe.[PriceEpisodeContractType] When 'Levy Contract' Then 1 Else 2 END,
-        pe.[PriceEpisodeFundLineType],
-        pv.[PriceEpisodeSFAContribPct],
-        pv.[PriceEpisodeLevyNonPayInd],
-        ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftBalancing], 0),
-        ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment], 0),
-        ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment], 0),
-        ISNULL(pv.[PriceEpisodeFirstDisadvantagePayment], 0),
-        ISNULL(pv.[PriceEpisodeSecondDisadvantagePayment], 0),
-        ISNULL(pv.[PriceEpisodeLSFCash], 0),
-		pe.[EpisodeStartDate],
-		ld.LearnAimRef,
-		ld.LearnStartDate,
-		ld.LearnPlanEndDate,
-		ld.LearnActEndDate,
-		ld.CompStatus,
-		pe.PriceEpisodeCompletionElement,
-		aecld.PlannedNumOnProgInstalm,
-		pe.PriceEpisodeInstalmentValue,
-		ld.EPAOrgId
-			
-    FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
-        JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
-            AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
-            AND pe.[PriceEpisodeIdentifier] = pv.[PriceEpisodeIdentifier]
-        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = pe.[Ukprn]
-            AND l.[LearnRefNumber] = pe.[LearnRefNumber]
-        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
-            AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
-            AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
-		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
-            AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
-            AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
-    WHERE pe.[Ukprn] IN (SELECT DISTINCT [Ukprn] FROM [Reference].[Providers])
+SELECT 
+	pe.[Ukprn],
+    pe.[Uln],
+    pe.[LearnRefNumber],
+    pe.[PriceEpisodeAimSeqNumber],
+    pe.[PriceEpisodeIdentifier],
+    pe.[Period],
+    pe.[PriceEpisodeActualEndDate],
+    pe.[PriceEpisodeOnProgPayment],
+    pe.[PriceEpisodeCompletionPayment],
+    pe.[PriceEpisodeBalancePayment],
+    pe.[PriceEpisodeFirstEmp1618Pay],
+    pe.[PriceEpisodeFirstProv1618Pay],
+    pe.[PriceEpisodeSecondEmp1618Pay],
+    pe.[PriceEpisodeSecondProv1618Pay],
+    pe.[StdCode],
+    pe.[ProgType],
+    pe.[FworkCode],
+    pe.[PwayCode],
+	pe.[PriceEpisodeContractType],
+	pe.[LearnDelFAMCode],
+	pe.[LearnDelFAMDateFrom],
+	pe.[LearnDelFAMDateTo],
+    pe.[PriceEpisodeFundLineType],
+    pe.[PriceEpisodeSfaContribPct],
+    pe.[PriceEpisodeLevyNonPayInd],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftBalancing],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
+    pe.[PriceEpisodeFirstDisadvantagePayment],
+    pe.[PriceEpisodeSecondDisadvantagePayment],
+    pe.[PriceEpisodeLSFCash],
+	pe.[EpisodeStartDate],
+	pe.[LearnAimRef] ,
+	pe.[LearnStartDate],
+	pe.[LearnPlanEndDate],
+	pe.[LearnActEndDate],
+	pe.[CompStatus],
+	pe.[PriceEpisodeCompletionElement],
+	pe.[PlannedNumOnProgInstalm],
+	pe.[PriceEpisodeInstalmentValue],
+	pe.[EPAOrgId] 
+FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
+		SELECT
+			pe.[Ukprn],
+			l.[Uln],
+			pe.[LearnRefNumber],
+			pe.[PriceEpisodeAimSeqNumber],
+			pe.[PriceEpisodeIdentifier],
+			pv.[Period],
+			COALESCE(pe.[PriceEpisodeActualEndDate], pe.[PriceEpisodePlannedEndDate]) PriceEpisodeActualEndDate,
+			ISNULL(pv.[PriceEpisodeOnProgPayment], 0) PriceEpisodeOnProgPayment,
+			ISNULL(pv.[PriceEpisodeCompletionPayment], 0) PriceEpisodeCompletionPayment,
+			ISNULL(pv.[PriceEpisodeBalancePayment], 0) PriceEpisodeBalancePayment,
+			ISNULL(pv.[PriceEpisodeFirstEmp1618Pay], 0) PriceEpisodeFirstEmp1618Pay,
+			ISNULL(pv.[PriceEpisodeFirstProv1618Pay], 0) PriceEpisodeFirstProv1618Pay,
+			ISNULL(pv.[PriceEpisodeSecondEmp1618Pay], 0) PriceEpisodeSecondEmp1618Pay,
+			ISNULL(pv.[PriceEpisodeSecondProv1618Pay], 0) PriceEpisodeSecondProv1618Pay,
+			ld.[StdCode],
+			ld.[ProgType],
+			ld.[FworkCode],
+			ld.[PwayCode],
+			CASE pe.[PriceEpisodeContractType] WHEN ''Levy Contract'' THEN 1 ELSE 2 END PriceEpisodeContractType,
+			act.LearnDelFAMType,
+			act.LearnDelFAMCode,
+			act.LearnDelFAMDateFrom,
+			act.LearnDelFAMDateTo,
+			pe.[PriceEpisodeFundLineType],
+			pv.[PriceEpisodeSFAContribPct],
+			pv.[PriceEpisodeLevyNonPayInd],
+			ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftBalancing], 0) PriceEpisodeApplic1618FrameworkUpliftBalancing,
+			ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment], 0) PriceEpisodeApplic1618FrameworkUpliftCompletionPayment,
+			ISNULL(pv.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment], 0) PriceEpisodeApplic1618FrameworkUpliftOnProgPayment,
+			ISNULL(pv.[PriceEpisodeFirstDisadvantagePayment], 0) PriceEpisodeFirstDisadvantagePayment,
+			ISNULL(pv.[PriceEpisodeSecondDisadvantagePayment], 0) PriceEpisodeSecondDisadvantagePayment,
+			ISNULL(pv.[PriceEpisodeLSFCash], 0) PriceEpisodeLSFCash,
+			pe.[EpisodeStartDate],
+			ld.LearnAimRef,
+			ld.LearnStartDate,
+			ld.LearnPlanEndDate,
+			ld.LearnActEndDate,
+			ld.CompStatus,
+			pe.PriceEpisodeCompletionElement,
+			aecld.PlannedNumOnProgInstalm,
+			pe.PriceEpisodeInstalmentValue,
+			ld.EPAOrgId
+		FROM
+			${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
+			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
+				AND pe.[LearnRefNumber] = pv.[LearnRefNumber]
+				AND pe.[PriceEpisodeIdentifier] = pv.[PriceEpisodeIdentifier]
+			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[Learner] l ON l.[Ukprn] = pe.[Ukprn]
+				AND l.[LearnRefNumber] = pe.[LearnRefNumber]
+			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDelivery] ld ON pe.[Ukprn] = ld.[Ukprn]
+				AND pe.[LearnRefNumber] = ld.[LearnRefNumber]
+				AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
+			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
+				AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
+				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
+			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
+				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
+				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]') as pe
+WHERE pe.[Ukprn] IN (
+        SELECT DISTINCT [Ukprn]
+        FROM [Reference].[Providers]
+        )
+AND	pe.LearnDelFAMType = 'ACT'
         
 GO
 

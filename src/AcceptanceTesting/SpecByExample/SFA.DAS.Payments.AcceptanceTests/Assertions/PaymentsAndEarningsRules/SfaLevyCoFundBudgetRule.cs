@@ -13,7 +13,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
         {
             var payments = GetPaymentsForBreakdown(breakdown, submissionResults)
                 .Where(p => p.FundingSource == FundingSource.CoInvestedSfa && 
-                p.ContractType == ContractType.ContractWithEmployer )
+                p.ContractType == ContractType.ContractWithSfa )
                 .ToArray();
             foreach (var period in breakdown.SfaLevyCoFundBudget)
             {

@@ -75,6 +75,7 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingContractTypeChange.cs" />
+    <Compile Include="PaymentsDueProcessor\WhenApprenticeshipContractTypeChanges.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingSmallEmployerChange.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />

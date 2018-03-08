@@ -484,7 +484,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 return contractTypes.Select(x => new LearningDeliveryFamRecord
                 {
                     FamType = FamCodeAct,
-                    Code = x.ContractType == ContractType.ContractWithEmployer ? FamCodeActDasValue.ToString() : FamCodeActNonDasValue.ToString(),
+                    Code = ((int)x.ContractType).ToString(),
                     From = x.DateFrom,
                     To = x.DateTo
                 }).ToArray();
