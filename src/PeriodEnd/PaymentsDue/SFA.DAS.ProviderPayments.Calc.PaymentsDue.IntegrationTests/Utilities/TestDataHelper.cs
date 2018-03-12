@@ -266,7 +266,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? pathwayCode = null,
                                         int? completionStatus = 1,
                                         DateTime? actualEndDate = null,
-                                        string opaOrgId = null)
+                                        string opaOrgId = null,
+                                        int? transactionType = null)
         {
             var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
@@ -280,7 +281,41 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
+            if (!transactionType.HasValue)
+            {
+                transactionType = 1;
+            }
 
+            // Only care about 1,13,14,15 right now
+            
+            var onProgPayment = 0m;
+            var learningSupportPayment = 0m;
+            var mathsOrEnglishOnProgPayment = 0m;
+            var mathsOrEnglishBalancingPayment = 0m;
+            var mathsEnglishPercent = 0m;
+            var mathsEnglishBalancingPercent = 0m;
+            var payLearningSupport = false;
+
+            switch (transactionType)
+            {
+                case 1:
+                    onProgPayment = tnp1;
+                    break;
+                case 13:
+                    mathsOrEnglishOnProgPayment = agreedCost;
+                    mathsEnglishPercent = 0.2m;
+                    break;
+                case 14:
+                    mathsOrEnglishBalancingPayment = agreedCost;
+                    mathsEnglishBalancingPercent = 0.2m;
+                    break;
+                case 15:
+                    learningSupportPayment = agreedCost;
+                    payLearningSupport = true;
+                    break;
+                default:
+                    throw new ApplicationException("Transaction type is not supported, you can add it though (TestDataHelper.cs)");
+            }
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                   + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
@@ -343,14 +378,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
 
             Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
-                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
+                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm," +
+                    "MathEngAimValue)"
                   + "VALUES ( "
                   + "@Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "'ZPROG001', "
-                  + "12) ",
-                new { ukprn, learnerRefNumber, aimSequenceNumber }, false);
+                  + "12," +
+                    "@mathsOrEnglishOnProgPayment) ",
+                new { ukprn, learnerRefNumber, aimSequenceNumber, mathsOrEnglishOnProgPayment }, false);
+
+            for (var i = 1; i <= 12; i++)
+            {
+                Execute("INSERT INTO Rulebase.AEC_LearningDelivery_Period " +
+                        "(UKPRN, LearnRefNumber, AimSeqNumber, Period, ProgrammeAimOnProgPayment, " +
+                        "MathEngBalPayment, MathEngOnProgPayment, LearnSuppFundCash, LearnSuppFund," +
+                        "MathEngBalPct, MathEngOnProgPct) VALUES (" +
+                        "@ukprn, @learnerRefNumber, @aimSequenceNumber, @i, @onProgPayment, " +
+                        "@mathsOrEnglishBalancingPayment, @mathsOrEnglishOnProgPayment," +
+                        "@learningSupportPayment, @payLearningSupport, " +
+                        "@mathsEnglishBalancingPercent, @mathsEnglishPercent" +
+                        ")", new
+                        {
+                            ukprn,
+                            learnerRefNumber,
+                            aimSequenceNumber,
+                            i,
+                            onProgPayment,
+                            mathsOrEnglishBalancingPayment,
+                            mathsOrEnglishOnProgPayment,
+                            learningSupportPayment,
+                            payLearningSupport,
+                            mathsEnglishBalancingPercent,
+                            mathsEnglishPercent
+                        }, false);
+            }
         }
 
 
@@ -737,6 +800,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void ClearApprenticeshipPriceEpisodePeriod()
         {
             Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period", null, false);
+        }
+
+        internal static void ClearPayments()
+        {
+            Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode_Period", null, false);
+            Execute("TRUNCATE TABLE Valid.Learner", null, false);
+            Execute("TRUNCATE TABLE Valid.LearningDelivery ", null, false);
+            Execute("TRUNCATE TABLE Valid.LearningDeliveryFAM", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_Period", null, false);
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)
