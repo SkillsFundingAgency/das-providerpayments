@@ -15,7 +15,7 @@ SELECT
     ade.[Period],
     ae.PriceEpisodeEndDate,
     ade.StandardCode,
-    (CASE WHEN ade.StandardCode IS NULL THEN ade.ProgrammeType ELSE NULL END) ProgrammeType,
+    ade.ProgrammeType ProgrammeType,
     ade.FrameworkCode,
     ade.PathwayCode,
     ade.ApprenticeshipContractType,

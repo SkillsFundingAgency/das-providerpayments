@@ -61,6 +61,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Issues
             task = new PaymentsDueTask();
             task.Execute(context);
 
+            // TODO: Make these work somewhere close to reality
+            //TestDataHelper.CopyToDeds();
+
             // Assert
             var duePayments = TestDataHelper.GetRequiredPaymentsForProvider(ukprn);
             Assert.AreEqual(2, duePayments.Length);
