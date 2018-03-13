@@ -14,6 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Issues
         }
 
         [Test]
+        [Ignore("Harness does not support multi-period-end tests")]
         [TestCase(1)]
         [TestCase(13)]
         [TestCase(14)]
