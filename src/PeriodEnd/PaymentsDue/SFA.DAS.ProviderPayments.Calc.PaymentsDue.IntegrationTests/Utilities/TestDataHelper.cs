@@ -266,8 +266,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? pathwayCode = null,
                                         int? completionStatus = 1,
                                         DateTime? actualEndDate = null,
-                                        string opaOrgId = null,
-                                        int? transactionType = null)
+                                        string opaOrgId = null)
         {
             var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
@@ -281,41 +280,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
-            if (!transactionType.HasValue)
-            {
-                transactionType = 1;
-            }
 
-            // Only care about 1,13,14,15 right now
-            
-            var onProgPayment = 0m;
-            var learningSupportPayment = 0m;
-            var mathsOrEnglishOnProgPayment = 0m;
-            var mathsOrEnglishBalancingPayment = 0m;
-            var mathsEnglishPercent = 0m;
-            var mathsEnglishBalancingPercent = 0m;
-            var payLearningSupport = false;
-
-            switch (transactionType)
-            {
-                case 1:
-                    onProgPayment = tnp1;
-                    break;
-                case 13:
-                    mathsOrEnglishOnProgPayment = agreedCost;
-                    mathsEnglishPercent = 0.2m;
-                    break;
-                case 14:
-                    mathsOrEnglishBalancingPayment = agreedCost;
-                    mathsEnglishBalancingPercent = 0.2m;
-                    break;
-                case 15:
-                    learningSupportPayment = agreedCost;
-                    payLearningSupport = true;
-                    break;
-                default:
-                    throw new ApplicationException("Transaction type is not supported, you can add it though (TestDataHelper.cs)");
-            }
 
             Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
                   + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
@@ -337,7 +302,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@numberOfPeriods,"
                   + "@tnp1 * 0.2,"
                   + "@tnp1 / @numberOfPeriods ",
-                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher,numberOfPeriods }, false);
+                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher, numberOfPeriods }, false);
 
             for (var x = 1; x <= 12; x++)
             {
@@ -369,7 +334,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Valid.LearningDelivery "
                     + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus,EPAOrgId) "
                     + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus,@opaOrgId )",
-                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode,completionStatus,opaOrgId }, false);
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode, completionStatus, opaOrgId }, false);
 
             Execute("INSERT INTO Valid.LearningDeliveryFAM "
                     + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
@@ -378,42 +343,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
 
             Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
-                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm," +
-                    "MathEngAimValue)"
+                 + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
                   + "VALUES ( "
                   + "@Ukprn, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "'ZPROG001', "
-                  + "12," +
-                    "@mathsOrEnglishOnProgPayment) ",
-                new { ukprn, learnerRefNumber, aimSequenceNumber, mathsOrEnglishOnProgPayment }, false);
-
-            for (var i = 1; i <= 12; i++)
-            {
-                Execute("INSERT INTO Rulebase.AEC_LearningDelivery_Period " +
-                        "(UKPRN, LearnRefNumber, AimSeqNumber, Period, ProgrammeAimOnProgPayment, " +
-                        "MathEngBalPayment, MathEngOnProgPayment, LearnSuppFundCash, LearnSuppFund," +
-                        "MathEngBalPct, MathEngOnProgPct) VALUES (" +
-                        "@ukprn, @learnerRefNumber, @aimSequenceNumber, @i, @onProgPayment, " +
-                        "@mathsOrEnglishBalancingPayment, @mathsOrEnglishOnProgPayment," +
-                        "@learningSupportPayment, @payLearningSupport, " +
-                        "@mathsEnglishBalancingPercent, @mathsEnglishPercent" +
-                        ")", new
-                        {
-                            ukprn,
-                            learnerRefNumber,
-                            aimSequenceNumber,
-                            i,
-                            onProgPayment,
-                            mathsOrEnglishBalancingPayment,
-                            mathsOrEnglishOnProgPayment,
-                            learningSupportPayment,
-                            payLearningSupport,
-                            mathsEnglishBalancingPercent,
-                            mathsEnglishPercent
-                        }, false);
-            }
+                  + "12) ",
+                new { ukprn, learnerRefNumber, aimSequenceNumber }, false);
         }
 
 
