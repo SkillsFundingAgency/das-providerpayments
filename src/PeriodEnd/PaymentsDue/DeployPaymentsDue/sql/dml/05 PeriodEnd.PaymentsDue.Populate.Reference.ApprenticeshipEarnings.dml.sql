@@ -45,7 +45,8 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[CompletionAmount],
 	[TotalInstallments],
 	[MonthlyInstallment],
-	[EndpointAssessorId] 
+	[EndpointAssessorId],
+	[IsSmallEmployer]
 	)
 SELECT 
 	pe.[Ukprn],
@@ -88,7 +89,8 @@ SELECT
 	pe.[PriceEpisodeCompletionElement],
 	pe.[PlannedNumOnProgInstalm],
 	pe.[PriceEpisodeInstalmentValue],
-	pe.[EPAOrgId] 
+	pe.[EPAOrgId] ,
+	ISNULL(es.ESMType, 0)
 FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
 			pe.[Ukprn],
@@ -149,12 +151,13 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]') as pe
+LEFT OUTER JOIN Valid.EmploymentStatusMonitoring es ON pe.LearnRefNumber = es.LearnRefNumber
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
 AND	pe.LearnDelFAMType = 'ACT'
-        
+AND es.ESMType = 'SEM'        
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]

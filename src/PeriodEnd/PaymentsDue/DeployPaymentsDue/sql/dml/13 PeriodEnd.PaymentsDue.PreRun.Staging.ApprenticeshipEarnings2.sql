@@ -43,7 +43,8 @@ SELECT
 		ade.CompletionAmount,
 		ade.TotalInstallments ,
 		ade.MonthlyInstallment,
-		ade.EndpointAssessorId 	
+		ade.EndpointAssessorId,
+		ae.IsSmallEmployer
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae

@@ -282,7 +282,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 return null;
             }
             
-            var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
+            var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$", RegexOptions.IgnoreCase);
             if (!employerMatch.Success)
             {
                 throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
@@ -298,10 +298,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
 
             var smallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "Small Employer");
-            if (smallEmployer?.Length > 3)
+            if (smallEmployer?.Length > 3 && smallEmployer != "No value")
             {
-                status.MonitoringType = (EmploymentStatusMonitoringType)smallEmployer.Substring(0, 3).ToEnumByDescription(typeof(EmploymentStatusMonitoringType));
-                status.MonitoringCode = int.Parse(smallEmployer.Substring(3));
+                EmploymentStatusMonitoringType monitoringType;
+
+                if (Enum.TryParse(smallEmployer.Substring(0, 3), out monitoringType))
+                {
+                    status.MonitoringType = monitoringType;
+                    status.MonitoringCode = int.Parse(smallEmployer.Substring(3));
+                }
             }
 
             return status;

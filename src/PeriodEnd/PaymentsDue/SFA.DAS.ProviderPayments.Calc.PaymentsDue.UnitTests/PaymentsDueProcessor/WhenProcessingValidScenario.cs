@@ -10,9 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.AddRequiredPaymentsCommand;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryQuery;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Learners.GetLearnerFAMsQuery;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcessor
 {
@@ -88,13 +86,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                         PeriodEarning2,
                         PeriodEarning3
                     }
-                });
-            Mediator
-                .Setup(m => m.Send(It.IsAny<GetLearnerFAMsQueryRequest>()))
-                .Returns(new GetLearnerFAMsQueryResponse
-                {
-                    IsValid = true,
-                    Items = new LearnerFAMEntity[] { }
                 });
         }
 

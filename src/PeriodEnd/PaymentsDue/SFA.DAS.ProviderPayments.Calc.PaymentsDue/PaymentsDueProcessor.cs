@@ -14,7 +14,6 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.Get
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments.GetPaymentHistoryWhereNoEarningQuery;
 using System;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Learners.GetLearnerFAMsQuery;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
@@ -168,7 +167,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 .Distinct()
                 .ToArray();
 
-            var contractTypeChangePayments = new List<RequiredPayment>();
+            var previousPeriodPayments = new List<RequiredPayment>();
 
             foreach (var earningItem in earningsData)
             {
@@ -200,14 +199,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                // find SEM flag for earning.LearnerReferenceNumber using new handler
-                var currentEarningIsSmallEmployer =
-                    _mediator.Send(new GetLearnerFAMsQueryRequest() { LearnRefNumber = earning.LearnerReferenceNumber }).Items.SingleOrDefault(x => x.LearnFAMType == LearnerFAMTypes.SEM)?.LearnFAMCode == 1;
-
-                //var writer = new StreamWriter($@"C:\temp\hacklogs\{DateTime.UtcNow.ToShortDateString()} - {DateTime.UtcNow.ToShortTimeString()}");
-                //writer.Write($"currentEarningIsSmallEmployer: {currentEarningIsSmallEmployer}");
-                //writer.Close();
-
                 var historicalAllPayments = paymentHistory //paymenthistory is small employer flag is coming back true when should be false
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.LearnerRefNumber == earning.LearnerReferenceNumber &&
@@ -216,15 +207,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.PathwayCode == earning.PathwayCode &&
                                 p.ProgrammeType == earning.ProgrammeType &&
                                 p.TransactionType == earning.Type &&
-                                p.LearnAimRef == earning.LearnAimRef &&
-                                p.IsSmallEmployer == currentEarningIsSmallEmployer);
+                                p.LearnAimRef == earning.LearnAimRef);
 
-                ProcessContractTypeChanges(historicalAllPayments, earning, provider, contractTypeChangePayments);
-
+                ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                         p.DeliveryYear == earning.CalendarYear &&
-                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType).ToArray();
+                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType &&
+                                                                        p.IsSmallEmployer == earning.IsSmallEmployer).ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
 
@@ -260,16 +250,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
             }
 
-            paymentsDue.AddRange(contractTypeChangePayments);
+            paymentsDue.AddRange(previousPeriodPayments);
         }
 
-        private void ProcessContractTypeChanges(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)
+        private void ProcessPreviousPeriodReversals(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)
         {
             var contractTypeChangePayments = historicalAllPayments.Where(h => h.DeliveryMonth == earning.CalendarMonth &&
-                                                                       h.DeliveryYear == earning.CalendarYear &&
-                                                                       h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
-                                                                       earning.ApprenticeshipContractTypeStartDate.HasValue &&
-                                                                       new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year, earning.ApprenticeshipContractTypeStartDate.Value.Month, 1));
+                                                                              h.DeliveryYear == earning.CalendarYear &&
+                                                                              (h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
+                                                                               earning.ApprenticeshipContractTypeStartDate.HasValue &&
+                                                                               new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
+                                                                                   earning.ApprenticeshipContractTypeStartDate.Value.Month, 1) ||
+                                                                               h.IsSmallEmployer != earning.IsSmallEmployer));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)
             {

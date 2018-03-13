@@ -52,7 +52,8 @@ SELECT
 	ae.CompletionAmount,
 	ae.TotalInstallments ,	
 	ae.MonthlyInstallment,
-	ae.EndpointAssessorId 
+	ae.EndpointAssessorId ,
+	ae.IsSmallEmployer
 FROM Staging.ApprenticeshipEarnings ae
 WHERE ae.EpisodeStartDate >= (
     Select

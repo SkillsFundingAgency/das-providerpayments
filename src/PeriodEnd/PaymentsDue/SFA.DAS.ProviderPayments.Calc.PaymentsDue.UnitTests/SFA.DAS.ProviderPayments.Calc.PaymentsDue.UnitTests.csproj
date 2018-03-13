@@ -67,8 +67,6 @@
   <ItemGroup>
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Learners\GetLearnerFAMsQuery\GivenAGetLearnerFAMsQueryHandlerWhenHandling.cs" />
-    <Compile Include="Application\Learners\GetLearnerFAMsQuery\GivenAGetLearnerFAMsQueryHandlerWhenHandlingAndAnExceptionIsThrown.cs" />
     <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />

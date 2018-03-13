@@ -6,13 +6,13 @@ Scenario: DPP-966_01 - 16-18 Non-Levy apprentice, provider retrospectively adds 
         Given the apprenticeship funding band maximum is 9000
 
         When an ILR file is submitted for period R01 with the following data:
-            | learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | 
-            | learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | 
+            | learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id |
+            | learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | in paid employment         | 05/08/2017                         | employer 1 | 12345678    |
         
 			       
         And an ILR file is submitted for period R03 with the following data:
-            | learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employment Status  | Employment Status Applies | Employer Id | Employer Small Employer |
-            | learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | In paid employment | 05/08/2017                | 12345678    | SEM1                    |
+            | learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id | Employer Small Employer |
+            | learner a                | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | in paid employment         | 05/08/2017                         | employer 1 | 12345678    | SEM1                    |
         
   
         Then the provider earnings and payments break down as follows:
@@ -40,12 +40,12 @@ Scenario: DPP-966_02 - 16-18 Non-Levy apprentice, provider retrospectively remov
 
       When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
+            | learner a | 16-18 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
         
 			       
       And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	No value       |
+            | learner a | 16-18 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	No value       |
         
   
         Then the provider earnings and payments break down as follows:
@@ -73,12 +73,12 @@ Scenario: DPP-966_03 - 19-24 year old Non-Levy apprentice, small employer flag a
 
         When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
 
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
         
   
         Then the provider earnings and payments break down as follows:
@@ -106,12 +106,12 @@ Scenario: DPP-966_04 - 19-24 year old Non-Levy apprentice, small employer flag a
 
        When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
      
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
         
   
         Then the provider earnings and payments break down as follows:
@@ -139,12 +139,12 @@ Scenario: DPP-966_05 - 19-24 year old Non-Levy apprentice, small employer flag a
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
         
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
         
   
         Then the provider earnings and payments break down as follows:
@@ -172,12 +172,12 @@ Scenario: DPP-966_06 - 19-24 year old Non-Levy apprentice, small employer flag a
 
        When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
         
 			       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type                 | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    | SEM1           | No value    |
+            | learner a | 19-24 programme only non-DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    | SEM1           | No value    |
         
   
         Then the provider earnings and payments break down as follows:
@@ -206,12 +206,12 @@ Scenario: DPP-966_07 - 16-18 Levy apprentice, provider retrospectively adds smal
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	No value       |
+            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	No value       |
         
 	
 		And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
+            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
         
   
         Then the provider earnings and payments break down as follows:
@@ -240,7 +240,7 @@ Scenario: DPP-966_08 - 16-18 Levy apprentice, provider retrospectively removes s
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
+            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           |
         
 		And the following programme earnings and payments have been made to the provider A for learner a:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 |
@@ -258,7 +258,7 @@ Scenario: DPP-966_08 - 16-18 Levy apprentice, provider retrospectively removes s
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer |
-            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	No value       |
+            | learner a | 16-18 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	No value       |
         
   
         Then the provider earnings and payments break down as follows:
@@ -287,11 +287,11 @@ Scenario: DPP-966_09 - 19-24 year old Levy apprentice, small employer flag added
 
         When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
         
   
         Then the provider earnings and payments break down as follows:
@@ -320,12 +320,12 @@ Scenario: DPP-966_10 - 19-24 year old Levy apprentice, small employer flag added
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF2        |
         
 			       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
         
   
         Then the provider earnings and payments break down as follows:
@@ -354,12 +354,12 @@ Scenario: DPP-966_11 - 19-24 year old Levy apprentice, small employer flag added
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
         
 			       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
         
   
         Then the provider earnings and payments break down as follows:
@@ -388,12 +388,12 @@ Scenario: DPP-966_12 - 19-24 year old Levy apprentice, small employer flag added
 
 		When an ILR file is submitted for period R02 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | EEF4        |
         	
 		       
         And an ILR file is submitted for period R03 with the following data:
             | ULN       | learner type             | start date | aim sequence number | aim type  | completion status | framework code | programme type | pathway code | Employment Status	| Employment Status Applies | Employer Id | Small Employer | LearnDelFam |
-            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | In paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
+            | learner a | 19-24 programme only DAS | 06/08/2017 | 1                   | programme | continuing        | 403            | 2              | 1            | in paid employment	| 05/08/2017	            | 12345678    |	SEM1           | No value    |
         
   
         Then the provider earnings and payments break down as follows:
