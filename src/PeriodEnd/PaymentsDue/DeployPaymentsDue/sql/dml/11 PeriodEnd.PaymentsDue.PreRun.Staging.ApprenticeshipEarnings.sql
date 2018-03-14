@@ -50,7 +50,8 @@ SELECT distinct pepm.CommitmentId,
 	ae.CompletionAmount,
 	ae.TotalInstallments,
 	ae.MonthlyInstallment,
-	ae.EndpointAssessorId 
+	ae.EndpointAssessorId,
+	ae.IsSmallEmployer
 FROM Staging.ApprenticeshipEarningsRequiringPayments ae
       JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber
