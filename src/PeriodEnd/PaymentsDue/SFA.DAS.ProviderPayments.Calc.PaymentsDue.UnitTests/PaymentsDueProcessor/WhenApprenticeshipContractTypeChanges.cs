@@ -330,14 +330,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                     Items = payments.ToArray()
                 });
 
-            SetupProviderEarnings(2, new DateTime(2018,8,1), 10);
+            SetupProviderEarnings(2, new DateTime(2017,10,1), 10);
 
             _processor.Process();
 
             _mediator
                 .Verify(m => m.Send(It.IsAny<AddRequiredPaymentsCommandRequest>()), Times.Once);
 
-            Assert.AreEqual(1, _requiredPayments.Length);
+            Assert.AreEqual(2, _requiredPayments.Length);
         }
 
         private void SetupProviderEarnings(int apprenticeshipContractType, DateTime? startDate = null, int calendarMonth = 9)

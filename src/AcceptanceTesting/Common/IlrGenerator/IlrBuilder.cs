@@ -99,7 +99,7 @@ namespace IlrGenerator
                     var newEmploymentStatusElement = DuplicateElement(employmentStatusElement);
 
                     FindElement(newEmploymentStatusElement, "EmpStat").Value = employmentStatus.StatusCode.ToString();
-                    if (employmentStatus.EmployerId > 0)
+                    if (employmentStatus.EmployerId.HasValue)
                     {
                         FindElement(newEmploymentStatusElement, "EmpId").Value = employmentStatus.EmployerId.ToString();
                     }

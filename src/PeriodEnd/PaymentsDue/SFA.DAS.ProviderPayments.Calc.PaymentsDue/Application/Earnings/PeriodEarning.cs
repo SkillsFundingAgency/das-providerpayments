@@ -45,5 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
         public int? ApprenticeshipContractTypeCode { get; set; }
         public DateTime? ApprenticeshipContractTypeStartDate { get; set; }
         public DateTime? ApprenticeshipContractTypeEndDate { get; set; }
+
+        public DateTime PriceEpisodeEndDate { get; set; }
     }
 }

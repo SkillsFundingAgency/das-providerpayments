@@ -110,6 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 ApprenticeshipContractTypeCode = int.TryParse(entity.ApprenticeshipContractTypeCode, out contractTypeCode) ? (int?)contractTypeCode : null,
                 ApprenticeshipContractTypeStartDate = entity.ApprenticeshipContractTypeStartDate,
                 ApprenticeshipContractTypeEndDate = entity.ApprenticeshipContractTypeEndDate,
+                PriceEpisodeEndDate = entity.PriceEpisodeEndDate,
                 PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
                 SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
                 FundingLineType = entity.PriceEpisodeFundLineType,

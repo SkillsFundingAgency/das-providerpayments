@@ -199,6 +199,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
+                var currentMonth = GetMonthStart(currentPeriod.Year, currentPeriod.Month);
+                var priceEpisodeEndDate = GetMonthStart(earning.PriceEpisodeEndDate);
+
+                if (earning.ApprenticeshipContractTypeEndDate.HasValue &&
+                    GetMonthStart(earning.ApprenticeshipContractTypeEndDate.Value) < priceEpisodeEndDate)
+                {
+                    continue;
+                }
+
+                if (earning.ApprenticeshipContractTypeStartDate.HasValue &&
+                    GetMonthStart(earning.ApprenticeshipContractTypeStartDate.Value) > currentMonth)
+                {
+                    continue;
+                }
+
+                if (earning.ApprenticeshipContractTypeStartDate.HasValue && earning.ApprenticeshipContractTypeEndDate.HasValue &&
+                    earning.ApprenticeshipContractTypeCode.HasValue &&
+                    earning.ApprenticeshipContractType != earning.ApprenticeshipContractTypeCode.Value &&
+                    GetMonthStart(earning.ApprenticeshipContractTypeStartDate.Value) > currentMonth)
+                {
+                    continue;
+                }
+
                 var historicalAllPayments = paymentHistory
                     .Where(p => p.Ukprn == earning.Ukprn &&
                                 p.LearnerRefNumber == earning.LearnerReferenceNumber &&
@@ -250,6 +273,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             }
 
             paymentsDue.AddRange(contractTypeChangePayments);
+        }
+
+        private static DateTime GetMonthStart(int year, int month)
+        {
+            return new DateTime(year, month, 1);
+        }
+
+        private static DateTime GetMonthStart(DateTime date)
+        {
+            return GetMonthStart(date.Year, date.Month);
         }
 
         private void ProcessContractTypeChanges(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)

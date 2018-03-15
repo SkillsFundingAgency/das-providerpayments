@@ -68,12 +68,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableColumnStructure structure)
         {
             var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
-            int employerId;
-            if (string.IsNullOrEmpty(employerReference))
+            var employmentStatus = row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status");
+            int? employerId = null;
+
+            if (string.IsNullOrWhiteSpace(employmentStatus))
             {
-                employerId = 0;
+                return null;
             }
-            else
+
+            if (!string.IsNullOrEmpty(employerReference))
             {
                 var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
                 if (!employerMatch.Success)
@@ -86,7 +89,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             var status = new EmploymentStatusReferenceData
             {
                 EmployerId = employerId,
-                EmploymentStatus = (EmploymentStatus)row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status").ToEnumByDescription(typeof(EmploymentStatus)),
+                EmploymentStatus = (EmploymentStatus)employmentStatus.ToEnumByDescription(typeof(EmploymentStatus)),
                 EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies"),
             };
 
