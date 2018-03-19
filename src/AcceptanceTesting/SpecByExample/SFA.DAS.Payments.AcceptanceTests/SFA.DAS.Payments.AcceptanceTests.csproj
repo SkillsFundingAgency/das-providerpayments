@@ -600,6 +600,21 @@
     <VerboseOutput Condition="'$(VerboseOutput)'==''">true</VerboseOutput>
   </PropertyGroup>
   <Import Project="..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets')" />
+  <!--<ItemGroup>
+    -->
+  <!-- include all feature files from the folder "FeatureFiles" -->
+  <!--
+    <None Include="Features\**\*.feature" /> 
+  </ItemGroup>
+  <Target Name="AfterUpdateFeatureFilesInProject">
+      -->
+	  <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
+  <!-- include any files that specflow generated into the compilation of the project -->
+  <!--
+      <ItemGroup>
+          <Compile Include="@(SpecFlowGeneratedFiles)" />
+      </ItemGroup>
+  </Target>-->
   <Target Name="AfterUpdateFeatureFilesInProject">
     <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
   </Target>

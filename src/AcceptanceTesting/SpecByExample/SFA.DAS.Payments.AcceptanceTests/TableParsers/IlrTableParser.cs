@@ -276,25 +276,31 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableParser.EmploymentStatusTableColumnStructure structure)
         {
             var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
-            int employerId;
-            if (string.IsNullOrWhiteSpace(employerReference))
+            var employmentStatus = row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status");
+
+            if (string.IsNullOrWhiteSpace(employmentStatus))
             {
                 return null;
             }
-            
-            var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$", RegexOptions.IgnoreCase);
-            if (!employerMatch.Success)
+
+            int? employerId = null;
+
+            if (!string.IsNullOrWhiteSpace(employerReference))
             {
-                throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
+                var employerMatch = Regex.Match(employerReference, "^employer ([0-9]{1,})$");
+                if (!employerMatch.Success)
+                {
+                    throw new ArgumentException($"Employer '{employerReference}' is not a valid employer reference");
+                }
+
+                employerId = int.Parse(employerMatch.Groups[1].Value);
             }
-            employerId = int.Parse(employerMatch.Groups[1].Value);
-            
 
             var status = new EmploymentStatusReferenceData
             {
                 EmployerId = employerId,
-                EmploymentStatus = (EmploymentStatus)row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status").ToEnumByDescription(typeof(EmploymentStatus)),
-                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies"),
+                EmploymentStatus = (EmploymentStatus)employmentStatus.ToEnumByDescription(typeof(EmploymentStatus)),
+                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies")
             };
 
             var smallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "Small Employer");

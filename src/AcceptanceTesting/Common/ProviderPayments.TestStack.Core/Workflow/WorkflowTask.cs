@@ -63,6 +63,11 @@ namespace ProviderPayments.TestStack.Core.Workflow
         }
         protected string ReplaceSqlTokens(string sql, string dedsDatabaseName, string linkedServerName, TestStackContext context)
         {
+            if (sql.Contains("INSERT INTO [Reference].[ApprenticeshipEarnings]"))
+            {
+                var breakpoint = "";
+            }
+
             var transformedSql =  sql.Replace("${ILR_Current.FQ}", dedsDatabaseName)
                                      .Replace("${ILR_Previous.FQ}", dedsDatabaseName)
                                      .Replace("${DAS_Accounts.FQ}", dedsDatabaseName)
