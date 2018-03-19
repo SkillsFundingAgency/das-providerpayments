@@ -236,8 +236,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                         p.DeliveryYear == earning.CalendarYear &&
-                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType &&
-                                                                        p.IsSmallEmployer == earning.IsSmallEmployer).ToArray();
+                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType
+                                                                        && p.IsSmallEmployer == earning.IsSmallEmployer
+                                                                        ).ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
 
@@ -293,8 +294,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                               (h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
                                                                                earning.ApprenticeshipContractTypeStartDate.HasValue &&
                                                                                new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
-                                                                                   earning.ApprenticeshipContractTypeStartDate.Value.Month, 1) ||
-                                                                               h.IsSmallEmployer != earning.IsSmallEmployer));
+                                                                                   earning.ApprenticeshipContractTypeStartDate.Value.Month, 1)
+                                                                               || h.IsSmallEmployer != earning.IsSmallEmployer
+                                                                               ));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)
             {

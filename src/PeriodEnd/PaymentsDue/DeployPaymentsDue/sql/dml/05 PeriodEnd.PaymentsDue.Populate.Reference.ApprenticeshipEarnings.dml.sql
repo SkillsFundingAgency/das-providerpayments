@@ -156,8 +156,8 @@ WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
---AND	pe.LearnDelFAMType = 'ACT'
---AND es.ESMType = 'SEM'        
+AND	pe.LearnDelFAMType = 'ACT'
+AND ISNULL(es.ESMType, 'SEM') = 'SEM'
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]
