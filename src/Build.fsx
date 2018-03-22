@@ -269,7 +269,6 @@ Target "Clean Projects" (fun _ ->
         -- @".\**\ProviderPayments.TestStack.UI.csproj"
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.UnitTests.csproj"
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.csproj"
-        -- @".\**\ProviderPayments.TestStack.Domain.csproj"
         |> myBuildConfig "" "Clean"
         |> Log "AppBuild-Output: "
 )
@@ -288,7 +287,6 @@ Target "Build Projects" (fun _ ->
         -- @".\**\IlrGeneratorApp.csproj"
         -- @".\**\ProviderPayments.TestStack.Engine.csproj"
         -- @".\**\ProviderPayments.TestStack.Application.csproj"
-        -- @".\**\ProviderPayments.TestStack.Domain.csproj"
         -- @".\**\ManualTaskRunner.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
