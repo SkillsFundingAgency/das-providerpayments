@@ -101,5 +101,5 @@ WHERE rp.Ukprn IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-AND es.ESMType = 'SEM'
+AND ISNULL(es.ESMType, 'SEM') = 'SEM'
 GO

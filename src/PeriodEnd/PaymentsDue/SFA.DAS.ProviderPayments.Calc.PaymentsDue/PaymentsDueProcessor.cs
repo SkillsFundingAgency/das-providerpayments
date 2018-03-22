@@ -181,6 +181,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
                 }
                 paymentHistory.AddRange(historyResponse.Items);
+                //no history coming through which means that the processor thinks that no payments have been made even when they have
+                // causing every payment to be scheduled every month for that and previous months. (n,2n,3n,4n etc.)
             }
 
             foreach (var earning in earningResponse.Items)
@@ -234,6 +236,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
+                //todo, looks like earning.IsSmallEmployer is always false, possibly because query 05 is wrong and not joining to the right table or the data is not being populated in the table due to the test framework
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                         p.DeliveryYear == earning.CalendarYear &&
                                                                         p.ApprenticeshipContractType == earning.ApprenticeshipContractType

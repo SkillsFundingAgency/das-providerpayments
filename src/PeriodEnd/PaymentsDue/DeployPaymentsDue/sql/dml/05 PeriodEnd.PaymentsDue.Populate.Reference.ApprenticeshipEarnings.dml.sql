@@ -90,7 +90,7 @@ SELECT
 	pe.[PlannedNumOnProgInstalm],
 	pe.[PriceEpisodeInstalmentValue],
 	pe.[EPAOrgId] ,
-	ISNULL(es.ESMType, 0)
+	ISNULL(es.ESMCode, 0)
 FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
 			pe.[Ukprn],
