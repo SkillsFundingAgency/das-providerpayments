@@ -160,12 +160,15 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 		1,
 		ld.EPAOrgId
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
-        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l 
+			ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]
-        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld 
+			ON p.[Ukprn] = ld.[Ukprn]
             AND p.[LearnRefNumber] = ld.[LearnRefNumber]
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
-		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON p.[Ukprn] = aecld.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld 
+			ON p.[Ukprn] = aecld.[Ukprn]
             AND p.[LearnRefNumber] = aecld.[LearnRefNumber]
             AND p.[AimSeqNumber] = aecld.[AimSeqNumber]
 		
