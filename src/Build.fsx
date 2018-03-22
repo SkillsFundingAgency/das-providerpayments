@@ -270,7 +270,6 @@ Target "Clean Projects" (fun _ ->
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.UnitTests.csproj"
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.csproj"
         -- @".\**\ProviderPayments.TestStack.Domain.csproj"
-        -- @".\**\ProviderPayments.TestStack.Engine.ExecutionProxy.csproj"
         |> myBuildConfig "" "Clean"
         |> Log "AppBuild-Output: "
 )
@@ -291,7 +290,6 @@ Target "Build Projects" (fun _ ->
         -- @".\**\ProviderPayments.TestStack.Application.csproj"
         -- @".\**\ProviderPayments.TestStack.Domain.csproj"
         -- @".\**\ManualTaskRunner.csproj"
-        -- @".\**\ProviderPayments.TestStack.Engine.ExecutionProxy.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
