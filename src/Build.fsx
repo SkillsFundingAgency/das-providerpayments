@@ -45,7 +45,9 @@ Target "Set version number" (fun _ ->
 
         if testDirectory.ToLower() = "release" then
             versionNumber <- buildVersion
-            if versionNumber.ToLower() <> "localbuild" then
+            if buildVersion.Contains(".") then
+                versionNumber <- buildVersion
+            else if versionNumber.ToLower() <> "localbuild" then
                 versionNumber <- sprintf  @"%s.%s.0.%s" assemblyMajorNumber assemblyMinorNumber buildVersion
             else
                 versionNumber <- "1.0.0.0"
@@ -269,8 +271,6 @@ Target "Clean Projects" (fun _ ->
         -- @".\**\ProviderPayments.TestStack.UI.csproj"
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.UnitTests.csproj"
         -- @".\**\SFA.DAS.Payments.Automation.WebUI.csproj"
-        -- @".\**\ProviderPayments.TestStack.Domain.csproj"
-        -- @".\**\ProviderPayments.TestStack.Engine.ExecutionProxy.csproj"
         |> myBuildConfig "" "Clean"
         |> Log "AppBuild-Output: "
 )
@@ -289,9 +289,7 @@ Target "Build Projects" (fun _ ->
         -- @".\**\IlrGeneratorApp.csproj"
         -- @".\**\ProviderPayments.TestStack.Engine.csproj"
         -- @".\**\ProviderPayments.TestStack.Application.csproj"
-        -- @".\**\ProviderPayments.TestStack.Domain.csproj"
         -- @".\**\ManualTaskRunner.csproj"
-        -- @".\**\ProviderPayments.TestStack.Engine.ExecutionProxy.csproj"
         |> myBuildConfig "" "Rebuild"
         |> Log "AppBuild-Output: "
 )
