@@ -26,6 +26,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("TRUNCATE TABLE Valid.LearningProvider");
                 connection.Execute("TRUNCATE TABLE Valid.LearningDelivery");
                 connection.Execute("TRUNCATE TABLE Valid.LearningDeliveryFAM");
+                connection.Execute("TRUNCATE TABLE Valid.EmploymentStatusMonitoring");
                 if (TestEnvironment.Variables.OpaRulebaseYear == "1617")
                 {
                     connection.Execute("TRUNCATE TABLE Valid.TrailblazerApprenticeshipFinancialRecord");

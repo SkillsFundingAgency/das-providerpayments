@@ -236,7 +236,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
-                //todo, looks like earning.IsSmallEmployer is always false, possibly because query 05 is wrong and not joining to the right table or the data is not being populated in the table due to the test framework
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
                                                                         p.DeliveryYear == earning.CalendarYear &&
                                                                         p.ApprenticeshipContractType == earning.ApprenticeshipContractType

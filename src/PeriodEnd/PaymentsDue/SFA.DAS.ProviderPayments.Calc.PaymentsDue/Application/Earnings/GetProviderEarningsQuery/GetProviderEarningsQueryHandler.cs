@@ -118,7 +118,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 IsSuccess = entity.IsSuccess,
                 Payable = entity.Payable,
                 LearnAimRef =entity.LearnAimRef,
-                LearningStartDate=entity.LearningStartDate
+                LearningStartDate=entity.LearningStartDate,
+                IsSmallEmployer = entity.IsSmallEmployer
             });
 
         }

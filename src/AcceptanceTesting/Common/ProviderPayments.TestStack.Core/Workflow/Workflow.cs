@@ -28,7 +28,13 @@ namespace ProviderPayments.TestStack.Core.Workflow
             statusWatcherBase.ExecutionStarted(GetTaskDescriptors());
             try
             {
-                PrepareTransient(context);
+                PrepareTransient(context); //this is what deletes all the data
+                //what we need to do is create task (to run at the end of build and submit ilr) which copies
+                // the data from the valid schemas to deds. We can leverage the existing copycat functionality for this
+                // in the real world there are two seperate deds databases, one to handle ilr submission and one which
+                // the valid etc. data gets copied to for period end. To keep it simple and not make a massive breaking
+                // change, we will stick with one for 966
+
                 PrepareTasks(context);
 
                 var didATaskError = false;
