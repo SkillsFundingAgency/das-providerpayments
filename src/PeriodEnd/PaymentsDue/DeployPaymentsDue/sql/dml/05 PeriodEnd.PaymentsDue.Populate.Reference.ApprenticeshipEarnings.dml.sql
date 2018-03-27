@@ -149,7 +149,7 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
-				AND	pe.LearnDelFAMType = ''ACT''') as pe
+				AND	act.LearnDelFAMType = ''ACT''') as pe
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
