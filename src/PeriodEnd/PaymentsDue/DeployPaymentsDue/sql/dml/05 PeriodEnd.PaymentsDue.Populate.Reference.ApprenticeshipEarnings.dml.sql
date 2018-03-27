@@ -148,12 +148,12 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
-				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]') as pe
+				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
+				AND	pe.LearnDelFAMType = ''ACT''') as pe
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-AND	pe.LearnDelFAMType = 'ACT'
         
 GO
 
