@@ -99,7 +99,7 @@ namespace IlrGenerator
                     var newEmploymentStatusElement = DuplicateElement(employmentStatusElement);
 
                     FindElement(newEmploymentStatusElement, "EmpStat").Value = employmentStatus.StatusCode.ToString();
-                    if (employmentStatus.EmployerId > 0)
+                    if (employmentStatus.EmployerId.HasValue)
                     {
                         FindElement(newEmploymentStatusElement, "EmpId").Value = employmentStatus.EmployerId.ToString();
                     }
@@ -308,7 +308,16 @@ namespace IlrGenerator
             {
                 FindElement(dasFam, "LearnDelFAMCode").Value = actFamRecords[0].Code;
                 FindElement(dasFam, "LearnDelFAMDateFrom").Value = actFamRecords[0].From.ToString(DateFormat);
-                FindElement(dasFam, "LearnDelFAMDateTo").Value = GetFamToDate(actFamRecords[0].To, delivery.ActualEndDate).ToString(DateFormat);
+                var dateTo = GetFamToDate(actFamRecords[0].To, delivery.ActualEndDate);
+                if (dateTo.HasValue)
+                {
+                    FindElement(dasFam, "LearnDelFAMDateTo").Value = dateTo.Value.ToString(DateFormat);
+                }
+                else
+                {
+                    FindElement(dasFam, "LearnDelFAMDateTo").Remove();
+                }
+                    
 
                 for (var x = 1; x < actFamRecords.Length; x++)
                 {
@@ -316,7 +325,16 @@ namespace IlrGenerator
 
                     FindElement(newDasFam, "LearnDelFAMCode").Value = actFamRecords[x].Code;
                     FindElement(newDasFam, "LearnDelFAMDateFrom").Value = actFamRecords[x].From.ToString(DateFormat);
-                    FindElement(newDasFam, "LearnDelFAMDateTo").Value = GetFamToDate(actFamRecords[x].To, delivery.ActualEndDate).ToString(DateFormat);
+                    dateTo = GetFamToDate(actFamRecords[x].To, delivery.ActualEndDate);
+                    if (dateTo.HasValue)
+                    {
+                        FindElement(newDasFam, "LearnDelFAMDateTo").Value = dateTo.Value.ToString(DateFormat);
+                    }
+                    else
+                    {
+                        FindElement(newDasFam, "LearnDelFAMDateTo").Remove();
+                    }
+                        
 
                     dasFam.AddAfterSelf(newDasFam);
                 }
@@ -349,9 +367,13 @@ namespace IlrGenerator
                     if (!famRecord.FamType.Equals("RES", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var famDateFrom = CreateElement("LearnDelFAMDateFrom", famRecord.From.ToString(DateFormat));
-                        var famDateTo = CreateElement("LearnDelFAMDateTo", GetFamToDate(famRecord.To, delivery.ActualEndDate).ToString(DateFormat));
-
-                        FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateTo);
+                        var dateTo = GetFamToDate(famRecord.To, delivery.ActualEndDate);
+                        if (dateTo.HasValue)
+                        {
+                            var famDateTo = CreateElement("LearnDelFAMDateTo", dateTo.Value.ToString(DateFormat));
+                            FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateTo);
+                        }
+                        
                         FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateFrom);
                     }
 
@@ -360,11 +382,16 @@ namespace IlrGenerator
             }
         }
         
-        private DateTime GetFamToDate(DateTime famToDate, DateTime? actualEndDate)
+        private DateTime? GetFamToDate(DateTime? famToDate, DateTime? actualEndDate)
         {
             if (!actualEndDate.HasValue)
             {
                 return famToDate;
+            }
+
+            if (!famToDate.HasValue)
+            {
+                return null;
             }
             return famToDate > actualEndDate.Value ? actualEndDate.Value : famToDate;
         }

@@ -19,6 +19,9 @@ SELECT
     ade.FrameworkCode,
     ade.PathwayCode,
     ade.ApprenticeshipContractType,
+	ae.ApprenticeshipContractTypeCode,
+	ae.ApprenticeshipContractTypeStartDate,
+	ae.ApprenticeshipContractTypeEndDate,
     ae.PriceEpisodeIdentifier,
     ade.FundingLineType AS PriceEpisodeFundLineType,
     ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
@@ -107,3 +110,22 @@ SELECT
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
 		 And   ndtt.TransactionType In ( 13,14,15)
+GO
+
+IF EXISTS (
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'ApprenticeshipEarnings2'
+		AND i.[name] = 'IX_ApprenticeshipEarnings2_UKPRN'
+		)
+BEGIN
+	DROP INDEX [IX_ApprenticeshipEarnings2_UKPRN]
+		ON [Staging].[ApprenticeshipEarnings2]
+END
+
+CREATE CLUSTERED INDEX [IX_ApprenticeshipEarnings2_UKPRN] ON [Staging].[ApprenticeshipEarnings2]
+(
+	[Ukprn] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
