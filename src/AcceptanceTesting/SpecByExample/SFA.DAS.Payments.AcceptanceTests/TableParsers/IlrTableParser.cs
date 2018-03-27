@@ -41,7 +41,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 var parsedLearner = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
                 if (parsedLearner != null)
                 {
-                    if (long.TryParse(parsedLearner.Uln, out var uln))
+                    long uln;
+                    if (long.TryParse(parsedLearner.Uln, out uln))
                     {
                         lookupContext.AddUln(parsedLearner.LearnerReference, uln);
                     }
