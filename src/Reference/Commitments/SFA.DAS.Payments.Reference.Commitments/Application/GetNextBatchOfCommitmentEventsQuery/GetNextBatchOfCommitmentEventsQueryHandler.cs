@@ -56,11 +56,16 @@ namespace SFA.DAS.Payments.Reference.Commitments.Application.GetNextBatchOfCommi
                 if (e.PriceHistory != null && e.PriceHistory.Any())
                 {
                     var priceHistoryList = e.PriceHistory.ToList();
-                    e.PriceHistory = priceHistoryList.Where(h => !h.EffectiveTo.HasValue || h.EffectiveFrom <= h.EffectiveTo.Value).ToList();
+                    e.PriceHistory = priceHistoryList.Where(h => EffectiveFromIsBeforeEffectiveTo(h.EffectiveFrom, h.EffectiveTo)).ToList();
                 }
             });
 
-            return events;
+            return events.Where(e => EffectiveFromIsBeforeEffectiveTo(e.EffectiveFrom, e.EffectiveTo));
+        }
+
+        private static bool EffectiveFromIsBeforeEffectiveTo(DateTime? effectiveFrom, DateTime? effectiveTo)
+        {
+            return !effectiveFrom.HasValue || ( !effectiveTo.HasValue || effectiveFrom.Value <= effectiveTo.Value);
         }
     }
 }
