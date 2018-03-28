@@ -637,6 +637,100 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
             Assert.AreEqual(1, history.Length);
         }
 
+        [Test]
+        public void ThenItShouldNotAddEventWhereEffectiveFromIsBeforeEffectiveTo()
+        {
+            var effectiveDate = DateTime.Today;
+
+            StubbedEventsApi.Events.Clear();
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
+            {
+                Id = 3,
+                ApprenticeshipId = 2,
+                ProviderId = "369",
+                LearnerId = "258",
+                EmployerAccountId = "2",
+                TrainingType = TrainingTypes.Framework,
+                TrainingId = "854-965-621",
+                TrainingStartDate = new DateTime(2020, 9, 1),
+                TrainingEndDate = new DateTime(2021, 10, 1),
+                TrainingTotalCost = 99999,
+                PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
+                PaymentOrder = 99, //changed
+                CreatedOn = new DateTime(2019, 12, 1),
+                LegalEntityName = "ACME Ltd.",
+                PriceHistory = new List<PriceHistory>
+                {
+                    new PriceHistory
+                    {
+                        EffectiveFrom = effectiveDate.AddDays(-1),
+                        EffectiveTo = effectiveDate
+                    }
+                },
+                EffectiveFrom = new DateTime(2019, 9, 1),
+                EffectiveTo = new DateTime(2019, 8, 1)
+            });
+
+
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var commitments = CommitmentDataHelper.GetCommitments();
+            Assert.AreEqual(0, commitments.Length);
+
+            var history = CommitmentDataHelper.GetCommitmentHistory();
+            Assert.AreEqual(0, history.Length);
+        }
+
+        [Test]
+        public void ThenItShouldAddEventWhereEffectiveFromIsAfterEffectiveTo()
+        {
+            var effectiveDate = DateTime.Today;
+
+            StubbedEventsApi.Events.Clear();
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
+            {
+                Id = 3,
+                ApprenticeshipId = 2,
+                ProviderId = "369",
+                LearnerId = "258",
+                EmployerAccountId = "2",
+                TrainingType = TrainingTypes.Framework,
+                TrainingId = "854-965-621",
+                TrainingStartDate = new DateTime(2020, 9, 1),
+                TrainingEndDate = new DateTime(2021, 10, 1),
+                TrainingTotalCost = 99999,
+                PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
+                PaymentOrder = 99, //changed
+                CreatedOn = new DateTime(2019, 12, 1),
+                LegalEntityName = "ACME Ltd.",
+                PriceHistory = new List<PriceHistory>
+                {
+                    new PriceHistory
+                    {
+                        EffectiveFrom = effectiveDate.AddDays(-1),
+                        EffectiveTo = effectiveDate
+                    }
+                },
+                EffectiveFrom = new DateTime(2019, 8, 1),
+                EffectiveTo = new DateTime(2019, 9, 1)
+            });
+
+
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var commitments = CommitmentDataHelper.GetCommitments();
+            Assert.AreEqual(1, commitments.Length);
+
+            var history = CommitmentDataHelper.GetCommitmentHistory();
+            Assert.AreEqual(1, history.Length);
+        }
+
 
         private static object[] TestCases => new object[]
        {
