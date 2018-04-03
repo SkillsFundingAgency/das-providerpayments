@@ -1,10 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using SFA.DAS.Payments.Reference.Commitments.Application;
 using SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers;
 using SFA.DAS.Payments.Reference.Commitments.IntegrationTests.StubbedInfrastructure;
 using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.Events.Api.Types;
+using PaymentStatus = SFA.DAS.Payments.Reference.Commitments.Application.PaymentStatus;
 
 namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvailable
 {
@@ -19,22 +20,22 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
             CommitmentDataHelper.Clean();
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 1,
                 ApprenticeshipId = 1,
                 ProviderId = "123",
                 LearnerId = "456",
                 EmployerAccountId = "1",
-                TrainingType = Events.Api.Types.TrainingTypes.Standard,
+                TrainingType = TrainingTypes.Standard,
                 TrainingId = "987",
                 TrainingStartDate = new DateTime(2017, 9, 1),
                 TrainingEndDate = new DateTime(2018, 10, 1),
                 PaymentStatus = Events.Api.Types.PaymentStatus.Active,
                 PaymentOrder=1,
                 LegalEntityName="name1",
-                PriceHistory = new List<Events.Api.Types.PriceHistory>() {
-                    new Events.Api.Types.PriceHistory {
+                PriceHistory = new List<PriceHistory>() {
+                    new PriceHistory {
                         TotalCost=12345,
                         EffectiveFrom= new DateTime(2017,10,10),
                         EffectiveTo = new DateTime(2017, 12, 10)
@@ -42,14 +43,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 }
 
             });
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 2,
                 ApprenticeshipId = 2,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = "854-965-621",
                 TrainingStartDate = new DateTime(2019, 9, 1),
                 TrainingEndDate = new DateTime(2020, 10, 1),
@@ -57,8 +58,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
                 PaymentOrder=2,
                 LegalEntityName = "name2",
-                PriceHistory = new List<Events.Api.Types.PriceHistory>() {
-                    new Events.Api.Types.PriceHistory {
+                PriceHistory = new List<PriceHistory>() {
+                    new PriceHistory {
                         TotalCost=14523,
                         EffectiveFrom= new DateTime(2019, 9, 1)
                     }
@@ -147,14 +148,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     commitment.VersionId,commitment.EffectiveFromDate,commitment.EffectiveToDate,commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 3,
                 ApprenticeshipId = 2,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = "854-965-621",
                 TrainingStartDate = new DateTime(2019, 9, 1),
                 TrainingEndDate = new DateTime(2020, 10, 1),
@@ -163,15 +164,15 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName= "ACME Ltd.",
-                PriceHistory = new List<Events.Api.Types.PriceHistory> {
-                    new Events.Api.Types.PriceHistory {
+                PriceHistory = new List<PriceHistory> {
+                    new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 9, 1),
                         TotalCost=14523m,
                         EffectiveTo = new DateTime(2019, 10, 31)
                     },
-                    new Events.Api.Types.PriceHistory {
+                    new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 11, 1),
-                        TotalCost=9999m,
+                        TotalCost=9999m
                     }
                 }
             });
@@ -242,14 +243,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 3,
                 ApprenticeshipId = commitmentId ?? 2,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = course ?? "854-965-621",
                 TrainingStartDate = startDate?? new DateTime(2019, 9, 1),
                 TrainingEndDate = endDate ?? new DateTime(2020, 10, 1),
@@ -258,11 +259,11 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 DateOfBirth= dateofBirth ?? new DateTime(2000,10,10),
-                PriceHistory = new List<Events.Api.Types.PriceHistory> {
-                        new Events.Api.Types.PriceHistory {
+                PriceHistory = new List<PriceHistory> {
+                        new PriceHistory {
                             EffectiveFrom=effectiveFromDate?? new DateTime(2019, 9, 1),
                             EffectiveTo=new DateTime(2020, 10, 1),
-                            TotalCost = agreedCost ?? 14523m,
+                            TotalCost = agreedCost ?? 14523m
                         }
                     }
             });
@@ -312,14 +313,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
             Assert.AreEqual(1, commitments.Length);
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 3,
                 ApprenticeshipId = 1,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = "854-965-621",
                 TrainingStartDate = new DateTime(2019, 9, 1),
                 TrainingEndDate = new DateTime(2020, 10, 1),
@@ -327,16 +328,16 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 PaymentOrder = 1,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
-                PriceHistory = new List<Events.Api.Types.PriceHistory> {
-                    new Events.Api.Types.PriceHistory {
+                PriceHistory = new List<PriceHistory> {
+                    new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 9, 1),
-                        TotalCost=14523m,
+                        TotalCost=14523m
                     },
-                    new Events.Api.Types.PriceHistory {
+                    new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 11, 1),
-                        TotalCost=9999m,
+                        TotalCost=9999m
                     },
-                     new Events.Api.Types.PriceHistory {
+                     new PriceHistory {
                         TotalCost=1234599,
                         EffectiveFrom= new DateTime(2019,10,10),
                         EffectiveTo = new DateTime(2019, 12, 10)
@@ -398,14 +399,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
             Assert.AreEqual(2, commitments.Length);
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 3,
                 ApprenticeshipId = 1,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = "854-965-621",
                 TrainingStartDate = new DateTime(2019, 9, 1),
                 TrainingEndDate = new DateTime(2020, 10, 1),
@@ -413,16 +414,16 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 PaymentOrder = 1000,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
-                PriceHistory = new List<Events.Api.Types.PriceHistory> {
+                PriceHistory = new List<PriceHistory> {
                     
-                    new Events.Api.Types.PriceHistory {
+                    new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 9, 1),
                         EffectiveTo =  new DateTime(2019, 9, 30),
-                        TotalCost=14523m,
+                        TotalCost=14523m
                     },
-                      new Events.Api.Types.PriceHistory {
+                      new PriceHistory {
                         EffectiveFrom = new DateTime(2019, 10, 1),
-                        TotalCost=14523m,
+                        TotalCost=14523m
                     }
                 }
             });
@@ -468,14 +469,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
-            StubbedEventsApi.Events.Add(new Events.Api.Types.ApprenticeshipEventView
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
             {
                 Id = 3,
                 ApprenticeshipId = 2,
                 ProviderId = "369",
                 LearnerId = "258",
                 EmployerAccountId = "2",
-                TrainingType = Events.Api.Types.TrainingTypes.Framework,
+                TrainingType = TrainingTypes.Framework,
                 TrainingId = "854-965-621",
                 TrainingStartDate = new DateTime(2020, 9, 1), 
                 TrainingEndDate = new DateTime(2021, 10, 1),
@@ -496,11 +497,145 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
 
             //check that its same commitment and no data is changed
             Assert.IsNotNull(commitments.Any(x => x.CommitmentId == 2 && x.VersionId == "2-001" && x.Priority == 1 && x.AgreedCost == 14523m));
-
-
-
         }
 
+        [Test]
+        public void ThenItShouldIgnoreEventPriceHistoryWhereEffectiveFromIsAfterEffectiveTo()
+        {
+            var effectiveDate = DateTime.Today;
+
+            var commitment = new DataHelpers.Entities.CommitmentEntity
+            {
+                CommitmentId = 2,
+                AccountId = 2,
+                Uln = 258,
+                Ukprn = 369,
+                StartDate = new DateTime(2019, 9, 1),
+                EndDate = new DateTime(2020, 10, 1),
+                AgreedCost = 14523m,
+                ProgrammeType = 965,
+                FrameworkCode = 854,
+                PathwayCode = 621,
+                Priority = 1,
+                PaymentStatus = (int)PaymentStatus.Withdrawn,
+                PaymentStatusDescription = PaymentStatus.Withdrawn.ToString(),
+                VersionId = "2-001",
+                EffectiveFromDate = new DateTime(2019, 9, 1),
+                LegalEntityName = "ACME Ltd."
+            };
+            // Arrange
+            CommitmentDataHelper.AddCommitment(commitment.CommitmentId, commitment.AccountId
+                    , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
+                    null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
+                    commitment.PaymentStatus, commitment.PaymentStatusDescription,
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+
+            StubbedEventsApi.Events.Clear();
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
+            {
+                Id = 3,
+                ApprenticeshipId = 2,
+                ProviderId = "369",
+                LearnerId = "258",
+                EmployerAccountId = "2",
+                TrainingType = TrainingTypes.Framework,
+                TrainingId = "854-965-621",
+                TrainingStartDate = new DateTime(2020, 9, 1),
+                TrainingEndDate = new DateTime(2021, 10, 1),
+                TrainingTotalCost = 99999,
+                PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
+                PaymentOrder = 99, //changed
+                CreatedOn = new DateTime(2019, 12, 1),
+                LegalEntityName = "ACME Ltd.",
+                PriceHistory = new List<PriceHistory>
+                {
+                    new PriceHistory
+                    {
+                        EffectiveFrom = effectiveDate,
+                        EffectiveTo = effectiveDate.AddDays(-1)
+                    }
+                }
+            });
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var commitments = CommitmentDataHelper.GetCommitments();
+            Assert.AreEqual(1, commitments.Length);
+
+            var history = CommitmentDataHelper.GetCommitmentHistory();
+            Assert.AreEqual(0, history.Length);
+        }
+
+        [Test]
+        public void ThenItShouldAddEventPriceHistoryWhereEffectiveFromIsBeforeEffectiveTo()
+        {
+            var effectiveDate = DateTime.Today;
+
+            var commitment = new DataHelpers.Entities.CommitmentEntity
+            {
+                CommitmentId = 2,
+                AccountId = 2,
+                Uln = 258,
+                Ukprn = 369,
+                StartDate = new DateTime(2019, 9, 1),
+                EndDate = new DateTime(2020, 10, 1),
+                AgreedCost = 14523m,
+                ProgrammeType = 965,
+                FrameworkCode = 854,
+                PathwayCode = 621,
+                Priority = 1,
+                PaymentStatus = (int)PaymentStatus.Withdrawn,
+                PaymentStatusDescription = PaymentStatus.Withdrawn.ToString(),
+                VersionId = "2-001",
+                EffectiveFromDate = new DateTime(2019, 9, 1),
+                LegalEntityName = "ACME Ltd."
+            };
+            // Arrange
+            CommitmentDataHelper.AddCommitment(commitment.CommitmentId, commitment.AccountId
+                    , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
+                    null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
+                    commitment.PaymentStatus, commitment.PaymentStatusDescription,
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+
+            StubbedEventsApi.Events.Clear();
+            StubbedEventsApi.Events.Add(new ApprenticeshipEventView
+            {
+                Id = 3,
+                ApprenticeshipId = 2,
+                ProviderId = "369",
+                LearnerId = "258",
+                EmployerAccountId = "2",
+                TrainingType = TrainingTypes.Framework,
+                TrainingId = "854-965-621",
+                TrainingStartDate = new DateTime(2020, 9, 1),
+                TrainingEndDate = new DateTime(2021, 10, 1),
+                TrainingTotalCost = 99999,
+                PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
+                PaymentOrder = 99, //changed
+                CreatedOn = new DateTime(2019, 12, 1),
+                LegalEntityName = "ACME Ltd.",
+                PriceHistory = new List<PriceHistory>
+                {
+                    new PriceHistory
+                    {
+                        EffectiveFrom = effectiveDate.AddDays(-1),
+                        EffectiveTo = effectiveDate
+                    }
+                }
+            });
+
+            // Act
+            _task.Execute(_context);
+
+            // Assert
+            var commitments = CommitmentDataHelper.GetCommitments();
+            Assert.AreEqual(1, commitments.Length);
+
+            var history = CommitmentDataHelper.GetCommitmentHistory();
+            Assert.AreEqual(1, history.Length);
+        }
 
 
         private static object[] TestCases => new object[]

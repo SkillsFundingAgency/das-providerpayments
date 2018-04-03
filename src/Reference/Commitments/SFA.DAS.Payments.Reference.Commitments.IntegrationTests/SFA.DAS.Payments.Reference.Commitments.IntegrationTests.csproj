@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="DataHelpers\CommitmentDataHelper.cs" />
     <Compile Include="DataHelpers\DatabaseHelper.cs" />
+    <Compile Include="DataHelpers\Entities\CommitmentHistoryEntity.cs" />
     <Compile Include="DataHelpers\Entities\CommitmentEntity.cs" />
     <Compile Include="GivenApiAvailable\WhenReadingEvents.cs" />
     <Compile Include="GlobalSetup.cs" />
