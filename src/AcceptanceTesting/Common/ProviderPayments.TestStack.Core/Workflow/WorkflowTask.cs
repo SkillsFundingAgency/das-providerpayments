@@ -74,8 +74,44 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 var breakpoint = "";
             }
 
+            if (sql.ToLower().Contains("insert into staging.apprenticeshipearnings1") ||
+                sql.ToLower().Contains("insert into [staging].[apprenticeshipearnings1]"))
+            {
+                var breakpoint = "";
+            }
+
+            if (sql.ToLower().Contains("insert into staging.apprenticeshipearnings2") ||
+                sql.ToLower().Contains("insert into [staging].[apprenticeshipearnings2]"))
+            {
+                var breakpoint = "";
+            }
+
+            if (sql.ToLower().Contains("insert into staging.apprenticeshipearnings3") ||
+                sql.ToLower().Contains("insert into [staging].[apprenticeshipearnings3]"))
+            {
+                var breakpoint = "";
+            }
+
             if (sql.ToLower().Contains("insert into reference.requiredpaymentshistory") ||
                 sql.ToLower().Contains("insert into [reference].[requiredpaymentshistory]"))
+            {
+                var breakpoint = "";
+            }
+
+            if (sql.ToLower().Contains("insert into staging.apprenticeshipearningsrequiringpayments") ||
+                sql.ToLower().Contains("insert into [staging].[apprenticeshipearningsrequiringpayments]"))
+            {
+                var breakpoint = "";
+            }
+
+            //INSERT INTO Staging.EarningsWithoutPayments
+            if (sql.Contains("INSERT INTO Staging.EarningsWithoutPayments"))
+            {
+                var breakpoint = "";
+            }
+
+            if (sql.ToLower().Contains("insert into staging.apprenticeshipearnings3") ||
+                sql.ToLower().Contains("insert into [staging].[apprenticeshipearnings3]"))
             {
                 var breakpoint = "";
             }
