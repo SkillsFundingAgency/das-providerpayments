@@ -46,7 +46,9 @@ SELECT
 	ld.LearnStartDate,
 	ld.LearnPlanEndDate,
 	ld.LearnActEndDate,
-	ld.EPAOrgID
+	ld.EPAOrgID,
+	l.FamilyName,
+	l.GivenNames
 FROM Valid.LearningDelivery ld
 INNER JOIN Valid.Learner l
 	ON ld.LearnRefNumber = l.LearnRefNumber
@@ -130,7 +132,9 @@ SELECT
 	ld.NINumber,
 	pe.CommitmentId,
 	pe.EmpId As EmployerReferenceNumber,
-	ld.EPAOrgId
+	ld.EPAOrgId,
+	ld.FamilyName,
+	ld.GivenNames
 FROM Submissions.vw_Providers p
 INNER JOIN Submissions.vw_LearningDeliveries ld
 	ON p.UKPRN = ld.UKPRN
