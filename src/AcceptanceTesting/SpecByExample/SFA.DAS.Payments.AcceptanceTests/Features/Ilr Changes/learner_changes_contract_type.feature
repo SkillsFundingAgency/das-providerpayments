@@ -186,3 +186,52 @@ Scenario: DPP_965_05 - Non-Levy apprentice, provider edits contract type (ACT) i
         | SFA Levy additional payments budget     | 39.25  | 0      | 0      | 0      |
         | SFA non-Levy co-funding budget          | 0      | 540    | 540    | 540    |
         | SFA non-Levy additional payments budget | 0      | 39.25  | 39.25  | 39.25  |
+
+Scenario: DPP_965_06 - 16-18 Levy apprentice with disadanvated postcode, provider edits contract type (ACT) in the ILR, first ILR has one contract type for duration of learning and second ILR shows a change between two contract types - change made in submission month 
+    Given levy balance > agreed price for all months
+	And the apprenticeship funding band maximum is 9000
+
+	And the following commitments exist:
+		| commitment Id | version Id | Employer   | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status | effective from | effective to |
+		| 1             | 1          | employer 0 | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active | 01/08/2017     |              |
+        
+	When an ILR file is submitted for period R01 with the following data:
+        | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code | contract type | contract type date from | home postcode deprivation |
+        | learner a | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            | Non-DAS       | 06/08/2017              | 1-10%                     |
+        | learner a | 16-18 programme only non-DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            |               |                         | 1-10%                     |
+        
+    And an ILR file is submitted for period R05 with the following data:
+        | ULN       | learner type             | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code | contract type | contract type date from | contract type date to | home postcode deprivation |
+        | learner a | 16-18 programme only DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            | Non-DAS       | 06/08/2017              | 05/12/2017            | 1-10%                     |
+        |           |                          |              |            |                  |                 |                   |                  |                     |          |                |                |              | DAS           | 06/12/2017              |                       | 1-10%                     |
+        | learner a | 16-18 programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |               |                         |                       | 1-10%                     |
+        |           |                          |              |            |                  |                 |                   |                  |                     |          |                |                |              |               |                         |                       | 1-10%                     |
+		
+	Then the provider earnings and payments break down as follows:
+        | Type                                    | 08/17  | 09/17  | 10/17  | 11/17   | 12/17   | 01/18  | 02/18  | 03/18  |
+        | Provider Earned Total                   | 759.25 | 759.25 | 759.25 | 2059.25 | 759.25  | 759.25 | 759.25 | 759.25 |
+        | Provider Earned from SFA                | 579.25 | 639.25 | 639.25 | 639.25  | 639.25  | 639.25 | 639.25 | 639.25 |
+        | Provider Earned from Employer           | 60     | 0      | 0      | 0       | 0       | 0      | 0      | 0      |
+        | Provider Paid by SFA                    | 0      | 699.25 | 699.25 | 699.25  | 1999.25 | 759.25 | 759.25 | 759.25 |
+        | Refund taken by SFA                     | 0      | 0      | 0      | 0       | 0       | 0      | 0      | 0      |
+        | Payment due from Employer               | 0      | 60     | 60     | 60      | 60      | 0      | 0      | 0      |
+        | Refund due to employer                  | 0      | 0      | 0      | 0       | 0       | 0      | 0      | 0      |
+        | Levy account debited                    | 0      | 0      | 0      | 0       | 0       | 600    | 600    | 600    |
+        | Levy account credited                   | 0      | 0      | 0      | 0       | 0       | 0      | 0      | 0      |
+        | SFA Levy employer budget                | 0      | 0      | 0      | 0       | 600     | 600    | 600    | 600    |
+        | SFA Levy co-funding budget              | 0      | 0      | 0      | 0       | 0       | 0      | 0      | 0      |
+        | SFA Levy additional payments budget     | 0      | 0      | 0      | 0       | 159.25  | 159.25 | 159.25 | 159.25 |
+        | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540     | 0       | 0      | 0      | 0      |
+        | SFA non-Levy additional payments budget | 159.25 | 159.25 | 159.25 | 1459.25 | 0       | 0      | 0      | 0      |
+
+	And the transaction types for the payments are:
+        | Payment type                 | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 05/18 | 06/18 | 07/18 | 08/18 | 09/18 |
+        | On-program                   | 0     | 540   | 540   | 540   | 540   | ... | 600   | 600   | 600   | 600   | 0     |
+        | Completion                   | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+        | Balancing                    | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+        | Employer 16-18 incentive     | 0     | 0     | 0     | 0     | 500   | ... | 0     | 0     | 0     | 0     | 0     |
+        | Provider 16-18 incentive     | 0     | 0     | 0     | 0     | 500   | ... | 0     | 0     | 0     | 0     | 0     |
+        | Framework uplift on-program  | 0     | 120   | 120   | 120   | 120   | ... | 120   | 120   | 120   | 120   | 0     |
+        | Framework uplift completion  | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+        | Framework uplift balancing   | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+        | Provider disadvantage uplift | 0     | 0     | 0     | 300   | 0     | ..  | 0     | 0     | 0     | 0     | 0     |
