@@ -498,6 +498,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{20BE3CD0-AB7B-4D05-A456-0D9660F9EE34}"
 	ProjectSection(SolutionItems) = preProject
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql
+		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql
 	EndProjectSection
 EndProject

@@ -14,7 +14,7 @@ INSERT INTO Staging.ApprenticeshipEarnings3
             ade.[Period],
             ae.PriceEpisodeEndDate,
             ade.StandardCode,
-            (CASE WHEN ade.StandardCode IS NULL THEN ade.ProgrammeType ELSE NULL END) ProgrammeType,
+            ade.ProgrammeType ProgrammeType,
             ade.FrameworkCode,
             ade.PathwayCode,
             ade.ApprenticeshipContractType,
@@ -99,22 +99,4 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 				(COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND  ndtt.TransactionType = 14 And ade.MathEngBalPayment <> 0 ) OR
 				(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 15 AND ade.LearningSupportPayment <> 0 )
 			)
-GO
-
-IF EXISTS (
-		SELECT 1
-		FROM [sys].[indexes] i
-		JOIN sys.objects t ON i.object_id = t.object_id
-		WHERE t.name = 'ApprenticeshipEarnings3'
-		AND i.[name] = 'IX_ApprenticeshipEarnings3_UKPRN'
-		)
-BEGIN
-	DROP INDEX [IX_ApprenticeshipEarnings3_UKPRN]
-		ON [Staging].[ApprenticeshipEarnings3]
-END
-
-CREATE CLUSTERED INDEX [IX_ApprenticeshipEarnings3_UKPRN] ON [Staging].[ApprenticeshipEarnings3]
-(
-	[Ukprn] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO

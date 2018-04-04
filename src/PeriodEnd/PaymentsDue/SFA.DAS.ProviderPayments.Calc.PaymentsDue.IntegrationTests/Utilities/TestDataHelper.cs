@@ -302,7 +302,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@numberOfPeriods,"
                   + "@tnp1 * 0.2,"
                   + "@tnp1 / @numberOfPeriods ",
-                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher,numberOfPeriods }, false);
+                new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher, numberOfPeriods }, false);
 
             for (var x = 1; x <= 12; x++)
             {
@@ -334,7 +334,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("INSERT INTO Valid.LearningDelivery "
                     + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus,EPAOrgId) "
                     + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus,@opaOrgId )",
-                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode,completionStatus,opaOrgId }, false);
+                new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode, completionStatus, opaOrgId }, false);
 
             Execute("INSERT INTO Valid.LearningDeliveryFAM "
                     + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
@@ -737,6 +737,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void ClearApprenticeshipPriceEpisodePeriod()
         {
             Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period", null, false);
+        }
+
+        internal static void ClearPayments()
+        {
+            Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_ApprenticeshipPriceEpisode_Period", null, false);
+            Execute("TRUNCATE TABLE Valid.Learner", null, false);
+            Execute("TRUNCATE TABLE Valid.LearningDelivery ", null, false);
+            Execute("TRUNCATE TABLE Valid.LearningDeliveryFAM", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery", null, false);
+            Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_Period", null, false);
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)

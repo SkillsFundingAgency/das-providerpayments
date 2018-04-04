@@ -51,10 +51,10 @@ JOIN Staging.CollectionPeriods cp
 LEFT JOIN Reference.RequiredPaymentsHistory ph
               ON ae.Ukprn = ph.Ukprn
               AND ae.LearnRefNumber = ph.LearnRefNumber
-              --AND ae.LearnRefNumber = ph.LearnRefNumber
               --AND ae.AimSeqNumber = ph.AimSeqNumber
               AND ae.StandardCode = ph.StandardCode
-              AND (ISNULL(ae.StandardCode,0) > 0 OR ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0))
+              AND ISNULL(ae.StandardCode,0) = ISNULL(ph.StandardCode, 0)
+			  AND ISNULL(ae.ProgrammeType,0) = ISNULL(ph.ProgrammeType,0)
               AND ISNULL(ae.FrameworkCode,0) = ISNULL(ph.FrameworkCode,0)
               AND ISNULL(ae.PathwayCode,0) = ISNULL(ph.PathwayCode,0)
               AND case 

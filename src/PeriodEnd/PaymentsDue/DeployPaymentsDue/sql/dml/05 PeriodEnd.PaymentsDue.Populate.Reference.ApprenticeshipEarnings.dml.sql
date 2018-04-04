@@ -153,6 +153,7 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
+				AND	act.LearnDelFAMType = ''ACT'''
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[EmploymentStatusMonitoring] esm ON pe.[Ukprn] = esm.[Ukprn]
 				AND esm.[LearnRefNumber] = pe.[LearnRefNumber]
 				AND esm.[ESMType] = ''SEM''
@@ -162,7 +163,6 @@ WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-AND	pe.LearnDelFAMType = 'ACT'
 --AND ISNULL(es.ESMType, 'SEM') = 'SEM'
 GO
 
@@ -222,12 +222,15 @@ INSERT INTO [Reference].[ApprenticeshipDeliveryEarnings] (
 		1,
 		ld.EPAOrgId
     FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] p
-        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON l.[Ukprn] = p.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l 
+			ON l.[Ukprn] = p.[Ukprn]
             AND l.[LearnRefNumber] = p.[LearnRefNumber]
-        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON p.[Ukprn] = ld.[Ukprn]
+        JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld 
+			ON p.[Ukprn] = ld.[Ukprn]
             AND p.[LearnRefNumber] = ld.[LearnRefNumber]
             AND p.[AimSeqNumber] = ld.[AimSeqNumber]
-		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld ON p.[Ukprn] = aecld.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] aecld 
+			ON p.[Ukprn] = aecld.[Ukprn]
             AND p.[LearnRefNumber] = aecld.[LearnRefNumber]
             AND p.[AimSeqNumber] = aecld.[AimSeqNumber]
 		

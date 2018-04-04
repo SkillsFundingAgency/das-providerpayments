@@ -12,6 +12,11 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers
             return DatabaseHelper.Query<CommitmentEntity>("SELECT * FROM dbo.DasCommitments");
         }
 
+        internal static CommitmentHistoryEntity[] GetCommitmentHistory()
+        {
+            return DatabaseHelper.Query<CommitmentHistoryEntity>("SELECT * FROM dbo.DasCommitmentsHistory");
+        }
+
         internal static void Clean()
         {
             DatabaseHelper.Execute("DELETE FROM dbo.DasCommitments");
