@@ -234,6 +234,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef);
 
+                //this has logic for contract type, which is the only non delivery month criteria in the next linq statement
+                //EXCEPT for the added small employer, do we need to do a similar thing for small employer?
+                // we already are, why? do we need to be? small employer changes mid year, not retrospectively as contract type does
+                // possibly need to handle retrospective change to small employer too but dates are relevant here and we are just not considering
+                // them in the small employer part of this method
                 ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
@@ -297,7 +302,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                                earning.ApprenticeshipContractTypeStartDate.HasValue &&
                                                                                new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
                                                                                    earning.ApprenticeshipContractTypeStartDate.Value.Month, 1)
-                                                                               || h.IsSmallEmployer != earning.IsSmallEmployer
+                                                                               || h.IsSmallEmployer != earning.IsSmallEmployer //is this needed?
                                                                                ));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)

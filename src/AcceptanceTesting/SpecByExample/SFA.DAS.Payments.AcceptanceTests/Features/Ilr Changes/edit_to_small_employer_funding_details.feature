@@ -21,10 +21,9 @@ Scenario: DPP-966_01 - 16-18 Non-Levy apprentice, provider retrospectively adds 
             | Provider Earned Total                   | 600   | 600   | 600   | 1600  |
             | Provider Earned from SFA                | 600   | 600   | 600   | 1600  |
             | Provider Earned from Employer           | 0     | 0     | 0     | 0     |
-            #| Provider Paid by SFA                    | 0     | 540   | 540   | 1800  |
-            #| Refund taken by SFA                     | 0     | 0     | 0     | -1080 |
-            #| Payment due from Employer               | 0     | 60    | 60    | 60     |
-			#last 60 added line above
+            | Provider Paid by SFA                    | 0     | 540   | 540   | 1800  |
+            | Refund taken by SFA                     | 0     | 0     | 0     | -1080 |
+            | Payment due from Employer               | 0     | 60    | 60    | 0     |
             | Refund due to employer                  | 0     | 0     | 0     | 120   |
             | Levy account debited                    | 0     | 0     | 0     | 0     |
             | Levy account credited                   | 0     | 0     | 0     | 0     |

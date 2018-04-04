@@ -43,7 +43,7 @@ LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e
 	AND IsNull(ph.FrameworkCode,0) = IsNull(e.FrameworkCode,0)
 	AND IsNull(ph.PathwayCode ,0)= IsNull(e.PathwayCode,0)
 	AND IsNull(ph.ProgrammeType,0) = IsNull(e.ProgrammeType,0)
-	And IsNull(ph.IsSmallEmployer,'') = IsNull(e.IsSmallEmployer,'')
+	--And IsNull(ph.IsSmallEmployer,'') = IsNull(e.IsSmallEmployer,'')
 	AND case When DeliveryMonth between 1 and 7 Then DeliveryMonth + 5 Else DeliveryMonth - 7 END =  e.Period  
 	AND ph.TransactionType = e.TransactionType
 WHERE 
@@ -74,7 +74,7 @@ AND NOT EXISTS(
 		and IsNull(ph.CommitmentVersionId,'') = IsNull(p.CommitmentVersionId,'')
 		And IsNull(ph.LearnAimRef,'') = IsNull(p.LearnAimRef,'')
 		And IsNull(ph.LearningStartDate,'') = IsNull(p.LearningStartDate,'')
-	And IsNull(ph.IsSmallEmployer,'') = IsNull(p.IsSmallEmployer,'')
+	--And IsNull(ph.IsSmallEmployer,'') = IsNull(p.IsSmallEmployer,'')
 		And ph.AmountDue *-1  = p.AmountDue
 		And p.Id <> ph.Id
 )

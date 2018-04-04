@@ -34,6 +34,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 // in the real world there are two seperate deds databases, one to handle ilr submission and one which
                 // the valid etc. data gets copied to for period end. To keep it simple and not make a massive breaking
                 // change, we will stick with one for 966
+                // not strictly true
 
                 PrepareTasks(context);
 
