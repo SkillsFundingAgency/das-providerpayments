@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 
@@ -48,6 +49,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         }
         private static void ParseEarningAndPaymentsRows(EarningsAndPaymentsBreakdown breakdown, Table earningAndPayments, string[] periodNames)
         {
+            breakdown.PeriodDates = periodNames
+                .Select(name => PeriodNameHelper.GetDateFromStringDate(name).GetValueOrDefault())
+                .ToList();
+
             foreach (var row in earningAndPayments.Rows)
             {
                 Match match;
