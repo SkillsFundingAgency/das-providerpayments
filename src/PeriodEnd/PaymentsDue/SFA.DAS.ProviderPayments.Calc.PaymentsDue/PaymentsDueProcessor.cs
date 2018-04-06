@@ -297,7 +297,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                                earning.ApprenticeshipContractTypeStartDate.HasValue &&
                                                                                new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
                                                                                    earning.ApprenticeshipContractTypeStartDate.Value.Month, 1)
-                                                                               || h.IsSmallEmployer != earning.IsSmallEmployer
                                                                                ));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)
