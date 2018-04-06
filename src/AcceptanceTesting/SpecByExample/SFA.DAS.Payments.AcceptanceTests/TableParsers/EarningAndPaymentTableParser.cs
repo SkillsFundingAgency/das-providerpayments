@@ -50,6 +50,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         private static void ParseEarningAndPaymentsRows(EarningsAndPaymentsBreakdown breakdown, Table earningAndPayments, string[] periodNames)
         {
             breakdown.PeriodDates = periodNames
+                .Skip(1)
                 .Select(name => PeriodNameHelper.GetDateFromStringDate(name).GetValueOrDefault())
                 .ToList();
 
