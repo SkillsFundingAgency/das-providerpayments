@@ -74,7 +74,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: providerBreakdown.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
@@ -95,7 +95,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
 
             PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
-                EmployerAccountContext.EmployerAccounts));
+                EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max()));
 
             AssertResults();
         }

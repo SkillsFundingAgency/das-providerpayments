@@ -17,7 +17,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
-        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts)
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts, DateTime lastAssertionPeriodDate)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -30,9 +30,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 periods.AddRange(ExtractPeriods(submission.IlrLearnerDetails, submission.FirstSubmissionDate));
             }
-
-            periods = periods.Distinct().ToList();
-
+            
             foreach (var period in periods)
             {
                 SetEnvironmentToPeriod(period);
@@ -54,7 +52,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                         submission.LearningSupportStatus);
                     submission.HaveSubmissionsBeenDone = true;
                 }
-
+                
                 RunMonthEnd(period);
 
                 EarningsCollector.CollectForPeriod(period, results, lookupContext);
@@ -80,7 +78,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             List<ContractTypeReferenceData> contractTypes,
             List<EmploymentStatusReferenceData> employmentStatus,
             List<LearningSupportReferenceData> learningSupportStatus,
-            string[] periodsToSubmitTo = null)
+            List<string> periodsToSubmitTo = null,
+            DateTime? lastAssertionPeriodDate = null)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -117,7 +116,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return results;
         }
 
-        private static string[] ExtractPeriods(List<IlrLearnerReferenceData> ilrLearnerDetails, DateTime? firstSubmissionDate)
+        private static List<string> ExtractPeriods(List<IlrLearnerReferenceData> ilrLearnerDetails, DateTime? firstSubmissionDate)
         {
             var periods = new List<string>();
 
@@ -157,7 +156,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 maxExplicitSubmissionPeriod = maxExplicitSubmissionPeriod.Value.AddMonths(-1);
             }
 
-            return periods.ToArray();
+            return periods.Distinct().ToList();
         }
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
