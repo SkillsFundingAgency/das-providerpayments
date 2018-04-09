@@ -261,6 +261,11 @@
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="ExecutionManagers\ProviderSubmissionDetails.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Features\Ilr Changes\learner_changes_contract_type.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>learner_changes_contract_type.feature</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -523,6 +528,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Features\Ilr Changes\learner_changes_contract_type.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>learner_changes_contract_type.feature.cs</LastGenOutput>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -532,10 +541,6 @@
     <None Include="Resources\ddl.AT.deds.tables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PeriodEnd\ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments\SFA.DAS.Payments.Calc.ProviderAdjustments.csproj">
-      <Project>{13240c68-1925-4dc2-b975-00691dc524f8}</Project>
-      <Name>SFA.DAS.Payments.Calc.ProviderAdjustments</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\IlrGenerator\IlrGenerator.csproj">
       <Project>{5076ba97-2e9e-4845-9359-0e16dff7b3a6}</Project>
       <Name>IlrGenerator</Name>
@@ -586,6 +591,21 @@
     <VerboseOutput Condition="'$(VerboseOutput)'==''">true</VerboseOutput>
   </PropertyGroup>
   <Import Project="..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.1\tools\TechTalk.SpecFlow.targets')" />
+  <!--<ItemGroup>
+    -->
+  <!-- include all feature files from the folder "FeatureFiles" -->
+  <!--
+    <None Include="Features\**\*.feature" /> 
+  </ItemGroup>
+  <Target Name="AfterUpdateFeatureFilesInProject">
+      -->
+	  <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
+  <!-- include any files that specflow generated into the compilation of the project -->
+  <!--
+      <ItemGroup>
+          <Compile Include="@(SpecFlowGeneratedFiles)" />
+      </ItemGroup>
+  </Target>-->
   <Target Name="AfterUpdateFeatureFilesInProject">
     <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
   </Target>

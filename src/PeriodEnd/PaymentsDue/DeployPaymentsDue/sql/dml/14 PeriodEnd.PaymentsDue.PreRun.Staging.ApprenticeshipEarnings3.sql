@@ -18,6 +18,9 @@ INSERT INTO Staging.ApprenticeshipEarnings3
             ade.FrameworkCode,
             ade.PathwayCode,
             ade.ApprenticeshipContractType,
+			ae.ApprenticeshipContractTypeCode,
+			ae.ApprenticeshipContractTypeStartDate,
+			ae.ApprenticeshipContractTypeEndDate,
             ae.PriceEpisodeIdentifier,
             ade.FundingLineType AS PriceEpisodeFundLineType,
             ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
@@ -95,5 +98,4 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 				(COALESCE(pepm.TransactionTypesFlag, 1) = 1 AND  ndtt.TransactionType = 14 And ade.MathEngBalPayment <> 0 ) OR
 				(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 15 AND ade.LearningSupportPayment <> 0 )
 			)
-GO
 GO
