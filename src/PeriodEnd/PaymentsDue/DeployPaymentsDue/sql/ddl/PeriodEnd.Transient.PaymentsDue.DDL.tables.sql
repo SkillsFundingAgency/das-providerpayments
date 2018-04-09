@@ -59,7 +59,8 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	FundingLineType varchar(100),
 	UseLevyBalance bit ,
 	LearnAimRef varchar(8),
-	LearningStartDate datetime	
+	LearningStartDate datetime,
+	IsSmallEmployer bit
 )
 GO
 

@@ -65,7 +65,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
         {
             if (sql.Contains("INSERT INTO [Reference].[ApprenticeshipEarnings]"))
             {
-                var breakpoint = "";
+                var breakpoint = ""; //here after lunch
             }
 
             if (sql.ToLower().Contains("insert into staging.apprenticeshipearnings") ||

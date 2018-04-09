@@ -62,7 +62,7 @@ SELECT
     rp.SfaContributionPercentage,
     rp.FundingLineType,
     rp.UseLevyBalance,
-	ISNULL(es.ESMType, 0)
+	rp.IsSmallEmployer
 FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 		select
 			rp.Id,
@@ -92,14 +92,13 @@ FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 			rp.ApprenticeshipContractType,
 			rp.SfaContributionPercentage,
 			rp.FundingLineType,
-			rp.UseLevyBalance
+			rp.UseLevyBalance,
+			rp.IsSmallEmployer
 		from 
 			${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp'
     ) rp
-LEFT OUTER JOIN Valid.EmploymentStatusMonitoring es ON rp.LearnRefNumber = es.LearnRefNumber
 WHERE rp.Ukprn IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-AND ISNULL(es.ESMType, 'SEM') = 'SEM'
 GO

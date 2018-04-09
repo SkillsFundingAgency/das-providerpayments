@@ -90,8 +90,7 @@ SELECT
 	pe.[PlannedNumOnProgInstalm],
 	pe.[PriceEpisodeInstalmentValue],
 	pe.[EPAOrgId] ,
-	--ISNULL(es.ESMCode, 0)
-	IsSmallEmployer
+	ISNULL(pe.ESMCode, 0) as IsSmallEmployer
 FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
 			pe.[Ukprn],
@@ -136,7 +135,8 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			aecld.PlannedNumOnProgInstalm,
 			pe.PriceEpisodeInstalmentValue,
 			ld.EPAOrgId,
-			ISNULL(esm.ESMCode, 0) as IsSmallEmployer
+			esm.ESMType,
+			esm.ESMCode
 		FROM
 			${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
@@ -155,7 +155,7 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[EmploymentStatusMonitoring] esm ON pe.[Ukprn] = esm.[Ukprn]
 				AND esm.[LearnRefNumber] = pe.[LearnRefNumber]
-				AND esm.[ESMType] = ''SEM''
+				AND esm.ESMType = ''SEM''
 			') as pe
 --LEFT OUTER JOIN Valid.EmploymentStatusMonitoring es ON pe.LearnRefNumber = es.LearnRefNumber
 WHERE pe.[Ukprn] IN (
@@ -163,7 +163,7 @@ WHERE pe.[Ukprn] IN (
         FROM [Reference].[Providers]
         )
 AND	pe.LearnDelFAMType = 'ACT'
---AND ISNULL(es.ESMType, 'SEM') = 'SEM'
+--AND ISNULL(pe.ESMType, 'SEM') = 'SEM'
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]

@@ -154,7 +154,8 @@ SELECT
     FundingLineType,
     UseLevyBalance,
 	LearnAimRef,
-	LearningStartDate
+	LearningStartDate,
+	IsSmallEmployer
 FROM PaymentsDue.RequiredPayments
 GO
 
