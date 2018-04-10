@@ -33,6 +33,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             
             foreach (var period in periods)
             {
+                Console.WriteLine(period);
+
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
 
@@ -61,6 +63,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 SavedDataCollector.CaptureAccountsDataForScenario();
                 SavedDataCollector.CaptureCommitmentsDataForScenario();
+
+                results.ForEach(learnerResults => Console.WriteLine(learnerResults));
             }
 
             DataLockEventsDataCollector.CollectDataLockEventsForAllPeriods(results, lookupContext);
