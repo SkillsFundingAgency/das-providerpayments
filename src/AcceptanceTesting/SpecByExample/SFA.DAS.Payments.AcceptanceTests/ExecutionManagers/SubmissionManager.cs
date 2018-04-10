@@ -30,6 +30,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 periods.AddRange(ExtractPeriods(submission.IlrLearnerDetails, submission.FirstSubmissionDate));
             }
+            periods = periods.Distinct().ToList();
             
             foreach (var period in periods)
             {
@@ -160,7 +161,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 maxExplicitSubmissionPeriod = maxExplicitSubmissionPeriod.Value.AddMonths(-1);
             }
 
-            return periods.Distinct().ToList();
+            return periods;
         }
 
         private static ProviderSubmissionDetails[] GroupLearnersByProvider(List<IlrLearnerReferenceData> ilrLearnerDetails, LookupContext lookupContext)
