@@ -73,8 +73,8 @@ Scenario: DPP-966_03 - 19-24 year old Non-Levy apprentice, small employer flag a
 
 
 		When an ILR file is submitted for period R01 with the following data:
-			| learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id | Employer Small Employer | LearnDelFam |
-			| learner a                | learner a | 19-24 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | in paid employment         | 05/08/2017                         | employer 1 | 12345678    | SEM1                    | No value    |
+			| learner reference number | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | aim sequence number | aim type  | completion status | standard code | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id | Employer Small Employer |
+			| learner a                | learner a | 19-24 programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | 1                   | programme | continuing        | 50            | in paid employment         | 05/08/2017                         | employer 1 | 12345678    | SEM1                    |
         
 			       
         And an ILR file is submitted for period R03 with the following data:
