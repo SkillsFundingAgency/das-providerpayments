@@ -34,7 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             
             foreach (var period in periods)
             {
-                Console.WriteLine(period);
+                Console.WriteLine($@"Period: [{period}] ======================");
 
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
