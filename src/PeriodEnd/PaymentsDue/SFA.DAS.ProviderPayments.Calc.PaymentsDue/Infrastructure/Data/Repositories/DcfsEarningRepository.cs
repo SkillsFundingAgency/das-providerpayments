@@ -33,7 +33,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                        Payable,
                                                        LearnAimRef,
                                                        LearningStartDate,
-                                                       IsSmallEmployer
+                                                       IsSmallEmployer,
+                                                        IsOnEHCPlan,
+                                                        IsCareLeaver
                                              FROM PaymentsDue.vw_ApprenticeshipEarning
                                              WHERE Ukprn = @ukprn";
 

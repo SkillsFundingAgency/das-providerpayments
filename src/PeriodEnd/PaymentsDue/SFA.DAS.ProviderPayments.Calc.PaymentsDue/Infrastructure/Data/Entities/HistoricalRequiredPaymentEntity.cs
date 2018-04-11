@@ -36,5 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int CollectionPeriodYear { get; set; }
 
         public bool IsSmallEmployer { get; set; }
+        public bool IsOnEHCPlan { get; set; }
+        public bool IsCareLeaver { get; set; }
     }
 }

@@ -240,6 +240,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                         p.DeliveryYear == earning.CalendarYear &&
                                                                         p.ApprenticeshipContractType == earning.ApprenticeshipContractType
                                                                         && p.IsSmallEmployer == earning.IsSmallEmployer
+                                                                        && p.IsOnEHCPlan == earning.IsOnEHCPlan
+                                                                        && p.IsCareLeaver == earning.IsCareLeaver
                                                                         ).ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
@@ -297,7 +299,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                                                                earning.ApprenticeshipContractTypeStartDate.HasValue &&
                                                                                new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
                                                                                    earning.ApprenticeshipContractTypeStartDate.Value.Month, 1)
-                                                                                || h.IsSmallEmployer != earning.IsSmallEmployer));
+                                                                                || h.IsSmallEmployer != earning.IsSmallEmployer
+                                                                                || h.IsOnEHCPlan != earning.IsOnEHCPlan
+                                                                                || h.IsCareLeaver != earning.IsCareLeaver));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)
             {
@@ -525,7 +529,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 UseLevyBalance = earning.UseLevyBalance,
                 LearnAimRef = earning.LearnAimRef,
                 LearningStartDate = earning.LearningStartDate,
-                IsSmallEmployer = earning.IsSmallEmployer
+                IsSmallEmployer = earning.IsSmallEmployer,
+                IsOnEHCPlan = earning.IsOnEHCPlan,
+                IsCareLeaver = earning.IsCareLeaver
             });
         }
 

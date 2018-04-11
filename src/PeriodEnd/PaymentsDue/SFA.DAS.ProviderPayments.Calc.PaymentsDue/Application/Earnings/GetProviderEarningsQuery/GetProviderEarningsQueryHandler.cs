@@ -119,7 +119,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 Payable = entity.Payable,
                 LearnAimRef =entity.LearnAimRef,
                 LearningStartDate=entity.LearningStartDate,
-                IsSmallEmployer = entity.IsSmallEmployer
+                IsSmallEmployer = entity.IsSmallEmployer,
+                IsOnEHCPlan = entity.IsOnEHCPlan,
+                IsCareLeaver = entity.IsCareLeaver
             });
 
         }

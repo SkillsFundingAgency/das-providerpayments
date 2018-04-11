@@ -96,7 +96,9 @@ SELECT
 	PriceEpisodeIdentifier,
 	SfaContributionPercentage,
 	UseLevyBalance,
-	IsSmallEmployer
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
 FROM Reference.RequiredPaymentsHistory
 GO
 
@@ -155,7 +157,9 @@ SELECT
     UseLevyBalance,
 	LearnAimRef,
 	LearningStartDate,
-	IsSmallEmployer
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
 FROM PaymentsDue.RequiredPayments
 GO
 

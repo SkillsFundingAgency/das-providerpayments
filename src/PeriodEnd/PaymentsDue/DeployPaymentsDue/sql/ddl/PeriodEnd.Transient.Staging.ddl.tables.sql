@@ -125,7 +125,9 @@ CREATE TABLE Staging.ApprenticeshipEarningsRequiringPayments
 	TotalInstallments int NOT NULL	,
 	MonthlyInstallment decimal(15,5) NOT NULL,
 	EndpointAssessorId varchar(7),
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -187,7 +189,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings
 	TotalInstallments int NOT NULL	,
 	MonthlyInstallment decimal(15,5) NOT NULL,
 	EndpointAssessorId varchar(7),
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 
@@ -247,7 +251,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings1
 	TotalInstallments int NOT NULL,
 	MonthlyInstallment decimal(15,5) NOT NULL,
 	EndpointAssessorId varchar(7),
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 
@@ -298,7 +304,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings2
 	TotalInstallments int NOT NULL		,
 	MonthlyInstallment decimal(15,5) NOT NULL,
 	EndpointAssessorId varchar(7),
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 
@@ -349,7 +357,9 @@ CREATE TABLE Staging.ApprenticeshipEarnings3
 	TotalInstallments int NOT NULL,
 	MonthlyInstallment	decimal(15,5) not null,
 	EndpointAssessorId varchar(7),
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 
@@ -393,6 +403,8 @@ CREATE TABLE Staging.EarningsWithoutPayments (
 	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(120),
 	UseLevyBalance bit,
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO

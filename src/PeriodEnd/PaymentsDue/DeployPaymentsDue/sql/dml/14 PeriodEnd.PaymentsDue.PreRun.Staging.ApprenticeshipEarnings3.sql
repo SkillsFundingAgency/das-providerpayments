@@ -43,7 +43,9 @@ INSERT INTO Staging.ApprenticeshipEarnings3
 			ade.TotalInstallments ,
 			ade.MonthlyInstallment	,
 			ade.EndpointAssessorId,
-			ae.IsSmallEmployer
+			ae.IsSmallEmployer,
+			ae.IsOnEHCPlan,
+			ae.IsCareLeaver
         FROM (SELECT MAX(PriceEpisodeEndDate) as LatestPriceEpisodeEndDate , 
 				Ukprn, LearnRefNumber,StandardCode,FrameworkCode,ProgrammeType,PathwayCode
 				from Reference.ApprenticeshipEarnings 

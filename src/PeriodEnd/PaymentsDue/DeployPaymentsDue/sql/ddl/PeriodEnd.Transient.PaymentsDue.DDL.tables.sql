@@ -60,7 +60,9 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	UseLevyBalance bit ,
 	LearnAimRef varchar(8),
 	LearningStartDate datetime,
-	IsSmallEmployer bit
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 

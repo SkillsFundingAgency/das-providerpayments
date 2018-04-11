@@ -47,6 +47,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
         public DateTime? ApprenticeshipContractTypeEndDate { get; set; }
 
         public bool IsSmallEmployer { get; set; }
+        public bool IsOnEHCPlan { get; set; }
+        public bool IsCareLeaver { get; set; }
         public DateTime PriceEpisodeEndDate { get; set; }
     }
 }

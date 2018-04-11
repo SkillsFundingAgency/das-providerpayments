@@ -129,6 +129,14 @@
           <Source>IsSmallEmployer</Source>
           <Destination>IsSmallEmployer</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>IsOnEHCPlan</Source>
+          <Destination>IsOnEHCPlan</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>IsCareLeaver</Source>
+          <Destination>IsCareLeaver</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

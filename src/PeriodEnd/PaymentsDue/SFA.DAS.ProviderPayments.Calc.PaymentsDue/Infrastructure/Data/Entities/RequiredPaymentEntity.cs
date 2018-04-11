@@ -32,5 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
         public bool IsSmallEmployer { get; set; }
+        public bool IsOnEHCPlan { get; set; }
+        public bool IsCareLeaver { get; set; }
     }
 }

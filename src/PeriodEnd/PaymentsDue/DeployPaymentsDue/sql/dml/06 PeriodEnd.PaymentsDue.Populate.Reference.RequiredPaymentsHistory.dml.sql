@@ -31,7 +31,9 @@ Id,
     SfaContributionPercentage,
     FundingLineType,
     UseLevyBalance,
-	IsSmallEmployer
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
 )
 SELECT 
 	rp.Id,
@@ -62,7 +64,9 @@ SELECT
     rp.SfaContributionPercentage,
     rp.FundingLineType,
     rp.UseLevyBalance,
-	rp.IsSmallEmployer
+	rp.IsSmallEmployer,
+	rp.IsOnEHCPlan,
+	rp.IsCareLeaver
 FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 		select
 			rp.Id,
@@ -93,7 +97,9 @@ FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 			rp.SfaContributionPercentage,
 			rp.FundingLineType,
 			rp.UseLevyBalance,
-			rp.IsSmallEmployer
+			rp.IsSmallEmployer,
+			rp.IsOnEHCPlan,
+			rp.IsCareLeaver
 		from 
 			${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp'
     ) rp

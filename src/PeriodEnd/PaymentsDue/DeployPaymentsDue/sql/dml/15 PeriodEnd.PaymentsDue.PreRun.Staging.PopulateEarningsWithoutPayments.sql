@@ -32,7 +32,9 @@ SELECT
 	ph.[SfaContributionPercentage],
 	ph.[FundingLineType],
 	ph.[UseLevyBalance],
-	ph.[IsSmallEmployer]
+	ph.[IsSmallEmployer],
+	ph.[IsOnEHCPlan],
+	ph.[IsCareLeaver]
 
 FROM Reference.RequiredPaymentsHistory ph
 LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e

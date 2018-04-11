@@ -44,7 +44,9 @@ SELECT
 		ade.TotalInstallments ,
 		ade.MonthlyInstallment,
 		ade.EndpointAssessorId,
-		ae.IsSmallEmployer
+		ae.IsSmallEmployer,
+		ae.IsOnEHCPlan,
+		ae.IsCareLeaver
 
         FROM Reference.ApprenticeshipEarnings ae
 			JOIN  Staging.LearnerPriceEpisodePerPeriod pae
