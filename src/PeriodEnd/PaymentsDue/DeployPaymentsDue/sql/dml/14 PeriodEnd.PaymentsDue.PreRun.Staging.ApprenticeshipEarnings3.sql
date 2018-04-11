@@ -14,7 +14,7 @@ INSERT INTO Staging.ApprenticeshipEarnings3
             ade.[Period],
             ae.PriceEpisodeEndDate,
             ade.StandardCode,
-            (CASE WHEN ade.StandardCode IS NULL THEN ade.ProgrammeType ELSE NULL END) ProgrammeType,
+            ade.ProgrammeType ProgrammeType,
             ade.FrameworkCode,
             ade.PathwayCode,
             ade.ApprenticeshipContractType,
@@ -119,4 +119,3 @@ CREATE CLUSTERED INDEX [IX_ApprenticeshipEarnings3_UKPRN] ON [Staging].[Apprenti
 (
 	[Ukprn] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
