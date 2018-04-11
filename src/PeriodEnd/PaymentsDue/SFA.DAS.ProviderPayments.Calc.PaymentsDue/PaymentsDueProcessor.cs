@@ -181,8 +181,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
                 }
                 paymentHistory.AddRange(historyResponse.Items);
-                //no history coming through which means that the processor thinks that no payments have been made even when they have
-                // causing every payment to be scheduled every month for that and previous months. (n,2n,3n,4n etc.)
             }
 
             foreach (var earning in earningResponse.Items)

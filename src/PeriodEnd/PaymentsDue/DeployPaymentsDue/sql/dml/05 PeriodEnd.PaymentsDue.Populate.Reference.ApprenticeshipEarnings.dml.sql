@@ -166,13 +166,11 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 				AND esm.[LearnRefNumber] = pe.[LearnRefNumber]
 				AND esm.ESMType = ''SEM''
 			') as pe
---LEFT OUTER JOIN Valid.EmploymentStatusMonitoring es ON pe.LearnRefNumber = es.LearnRefNumber
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
 AND	pe.LearnDelFAMType = 'ACT'
---AND ISNULL(pe.ESMType, 'SEM') = 'SEM'
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]
