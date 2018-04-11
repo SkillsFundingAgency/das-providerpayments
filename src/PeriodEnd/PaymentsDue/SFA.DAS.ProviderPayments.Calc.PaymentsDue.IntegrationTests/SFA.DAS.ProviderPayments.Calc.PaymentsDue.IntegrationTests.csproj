@@ -185,6 +185,15 @@
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql">
       <Link>DbSetupScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\6_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql">
+      <Link>DbSetupScripts\6_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql">
+      <Link>DbSetupScripts\7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -35,7 +35,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 FundingLineType = "Levy Funding Line Type",
                 IsSuccess = true,
                 Payable = true,
-                LearningStartDate = new DateTime(2017, 08, 15)
+                LearningStartDate = new DateTime(2017, 08, 15),
+                IsSmallEmployer = true
             };
             PeriodEarning2 = new PeriodEarning
             {
@@ -55,7 +56,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 FundingLineType = "Levy Funding Line Type",
                 IsSuccess = true,
                 Payable = true,
-                LearningStartDate = new DateTime(2017, 08, 15)
+                LearningStartDate = new DateTime(2017, 08, 15),
+                IsSmallEmployer = true
             };
             PeriodEarning3 = new PeriodEarning
             {
@@ -75,7 +77,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                 FundingLineType = "Levy Funding Line Type",
                 IsSuccess = true,
                 Payable = true,
-                LearningStartDate = new DateTime(2017, 08, 15)
+                LearningStartDate = new DateTime(2017, 08, 15),
+                IsSmallEmployer = true
             };
             Mediator
                 .Setup(m => m.Send(It.IsAny<GetProviderEarningsQueryRequest>()))
@@ -127,8 +130,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             Processor.Process();
 
             // Assert
-            Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
-                request => request.Payments.Length == 3)), Times.Once, "Expected 3 payments");
             Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
                 request => request.Payments.Any(p => PaymentForEarning(p, PeriodEarning1, PeriodEarning1.EarnedValue)))), Times.Once, "Expected a payment for earning 1");
             Mediator.Verify(m => m.Send(It.Is<AddRequiredPaymentsCommandRequest>(
