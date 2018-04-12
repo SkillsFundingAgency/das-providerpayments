@@ -28,7 +28,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var periods = new List<string>();
             foreach (var submission in multipleSubmissionsContext.Submissions)
             {
-                periods.AddRange(ExtractPeriods(submission.IlrLearnerDetails, submission.FirstSubmissionDate));
+                periods.AddRange(ExtractPeriods(submission.IlrLearnerDetails, submission.FirstSubmissionDate, lastAssertionPeriodDate));
             }
             periods = periods.Distinct().ToList();
             
@@ -92,7 +92,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 return results;
             }
             
-            var periods = periodsToSubmitTo ?? ExtractPeriods(ilrLearnerDetails, firstSubmissionDate);
+            var periods = periodsToSubmitTo ?? ExtractPeriods(ilrLearnerDetails, firstSubmissionDate, lastAssertionPeriodDate);
             var providerLearners = GroupLearnersByProvider(ilrLearnerDetails, lookupContext);
             foreach (var period in periods)
             {
@@ -121,7 +121,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return results;
         }
 
-        private static List<string> ExtractPeriods(List<IlrLearnerReferenceData> ilrLearnerDetails, DateTime? firstSubmissionDate)
+        private static List<string> ExtractPeriods(List<IlrLearnerReferenceData> ilrLearnerDetails, DateTime? firstSubmissionDate, DateTime? lastAssertionPeriodDate)
         {
             var periods = new List<string>();
 
@@ -129,9 +129,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var latestPlannedDate = ilrLearnerDetails.Select(x => x.PlannedEndDate).Max();
             var latestActualDate = ilrLearnerDetails.Select(x => x.ActualEndDate).Max();
             var latestDate = latestActualDate.HasValue && latestActualDate > latestPlannedDate ? latestActualDate : latestPlannedDate;
+            if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
+                latestDate = lastAssertionPeriodDate.Value;
 
             var date = earliestDate;
-            while (date <= latestDate)
+            while (string.CompareOrdinal(date.ToString("yyyyMM"), latestDate.Value.ToString("yyyyMM")) <= 0)
             {
                 if (firstSubmissionDate.HasValue && date < firstSubmissionDate.Value.AddDays(-firstSubmissionDate.Value.Day + 1))
                 {
