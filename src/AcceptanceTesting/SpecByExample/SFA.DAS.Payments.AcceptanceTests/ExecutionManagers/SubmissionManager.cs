@@ -130,10 +130,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var latestActualDate = ilrLearnerDetails.Select(x => x.ActualEndDate).Max();
             var latestDate = latestActualDate.HasValue && latestActualDate > latestPlannedDate ? latestActualDate : latestPlannedDate;
             if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
-                latestDate = lastAssertionPeriodDate.Value;
+                latestDate = lastAssertionPeriodDate.Value.AddMonths(1).AddDays(-1);
 
             var date = earliestDate;
-            while (string.CompareOrdinal(date.ToString("yyyyMM"), latestDate.Value.ToString("yyyyMM")) <= 0)
+            while (date <= latestDate)
             {
                 if (firstSubmissionDate.HasValue && date < firstSubmissionDate.Value.AddDays(-firstSubmissionDate.Value.Day + 1))
                 {
