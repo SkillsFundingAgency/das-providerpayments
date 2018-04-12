@@ -551,7 +551,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "'Non-Levy Funding Line', " // FundingLineType
                     + "1, " // UseLevyBalane
                     + "@learnAimref,"
-                    + (startDate.HasValue ? "@startDate " : "startDate ")
+                    + (startDate.HasValue ? "@startDate ," : "startDate ,")
+                    + "0,0,0"
                     + "FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new
