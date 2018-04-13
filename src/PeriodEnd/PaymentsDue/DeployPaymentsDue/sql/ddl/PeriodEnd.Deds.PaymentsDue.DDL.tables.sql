@@ -67,3 +67,32 @@ CREATE TABLE PaymentsDue.Earnings
 	EndpointAssessorId varchar(7) NULL
 )
 END
+
+
+
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Valid')
+BEGIN
+	EXEC('CREATE SCHEMA Valid')
+END
+GO
+
+IF NOT EXISTS(SELECT NULL FROM 
+	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+	WHERE t.name='EmploymentStatusMonitoring' AND s.name='Valid'
+)
+BEGIN
+CREATE TABLE [Valid].[EmploymentStatusMonitoring](
+	[UKPRN] [int] NOT NULL,
+	[LearnRefNumber] [varchar](12) NOT NULL,
+	[DateEmpStatApp] [date] NOT NULL,
+	[ESMType] [varchar](3) NOT NULL,
+	[ESMCode] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UKPRN] ASC,
+	[LearnRefNumber] ASC,
+	[DateEmpStatApp] ASC,
+	[ESMType] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
