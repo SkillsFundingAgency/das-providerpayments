@@ -109,6 +109,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the transaction types for the payments for provider (.*) are:")]
         public void ThenTheTransactionTypesForNamedProviderEarningsAre(string providerIdSuffix, Table transactionTypes)
         {
+            TransactionTypeTableParser.ParseTransactionTypeTableIntoContext(EarningsAndPaymentsContext, $"provider {providerIdSuffix}", transactionTypes);
+
             foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
                 if (!submission.HaveSubmissionsBeenDone)
@@ -116,12 +118,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: EarningsAndPaymentsContext.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
 
-            TransactionTypeTableParser.ParseTransactionTypeTableIntoContext(EarningsAndPaymentsContext, $"provider {providerIdSuffix}", transactionTypes);
             AssertResults();
         }
 
