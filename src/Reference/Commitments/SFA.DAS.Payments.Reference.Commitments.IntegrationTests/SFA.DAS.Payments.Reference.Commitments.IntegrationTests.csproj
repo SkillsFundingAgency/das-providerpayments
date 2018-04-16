@@ -106,6 +106,9 @@
     <Content Include="..\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql">
       <Link>DbSetupScripts\0012_AlterTable_AECEarningHistory.sql</Link>
     </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql">
+      <Link>DbSetupScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql</Link>
+    </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql">
       <Link>DbSetupScripts\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
     </Content>

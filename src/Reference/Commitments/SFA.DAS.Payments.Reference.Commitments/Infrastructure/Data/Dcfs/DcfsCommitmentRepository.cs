@@ -1,6 +1,5 @@
 ﻿using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Entities;
-using System;
 
 namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
 {
@@ -8,73 +7,103 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
     {
         private const string Source = "dbo.DasCommitments ";
         private const string SourceHistory = "dbo.DasCommitmentsHistory ";
-        private const string Columns = "CommitmentId, "
-                                     + "VersionId,"
-                                     + "Uln, "
-                                     + "Ukprn, "
-                                     + "AccountId, "
-                                     + "StartDate, "
-                                     + "EndDate, "
-                                     + "AgreedCost, "
-                                     + "StandardCode, "
-                                     + "ProgrammeType, "
-                                     + "FrameworkCode, "
-                                     + "PathwayCode, "
-                                     + "Priority, "
-                                     + "PaymentStatus, "
-                                     + "PaymentStatusDescription, "
-                                     + "EffectiveFromDate, "
-                                     + "EffectiveToDate, "
-                                     + "LegalEntityName";
 
-        private const string SingleCommitmentClause = " WHERE CommitmentId = @commitmentId ";
-        private const string VerionWhereClause = " VersionId = @VersionId ";
-        private const string OrderByClause = " ORDER BY VersionId DESC ";
-        private const string SelectByIdCommand = "SELECT TOP 1 " + Columns + " FROM " + Source + " " + SingleCommitmentClause + " " + OrderByClause;
-        private const string InsertCommand = "INSERT INTO " + Source + " (" + Columns + ") VALUES ("
-                                           + "@CommitmentId,@VersionId,@Uln,@Ukprn,@AccountId,@StartDate,@EndDate,"
-                                           + "@AgreedCost,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,"
-                                           + "@Priority,@PaymentStatus,@PaymentStatusDescription,@EffectiveFromDate,@EffectiveToDate,@LegalEntityName)";
-        private const string UpdateCommand = "UPDATE " + Source + " SET "
-                                          + "CommitmentId = @CommitmentId, "
-                                          + "Uln = @Uln, "
-                                          + "Ukprn = @Ukprn, "
-                                          + "AccountId = @AccountId, "
-                                          + "StartDate = @StartDate, "
-                                          + "EndDate = @EndDate, "
-                                          + "AgreedCost = @AgreedCost, "
-                                          + "StandardCode = @StandardCode, "
-                                          + "ProgrammeType = @ProgrammeType, "
-                                          + "FrameworkCode = @FrameworkCode, "
-                                          + "PathwayCode = @PathwayCode, "
-                                          + "Priority = @Priority, "
-                                          + "VersionId = @VersionId, "
-                                          + "PaymentStatus = @PaymentStatus, "
-                                          + "PaymentStatusDescription = @PaymentStatusDescription, "
-                                          + "EffectiveFromDate = @EffectiveFromDate, "
-                                          + "EffectiveToDate = @EffectiveToDate, "
-                                          + "LegalEntityName = @LegalEntityName "
-                                          + SingleCommitmentClause + " AND "
-                                          + VerionWhereClause;
+        private const string SelectByIdCommand = @" SELECT TOP 1 
+                                                        CommitmentId, 
+                                                        VersionId,
+                                                        Uln,
+                                                        Ukprn,
+                                                        AccountId,
+                                                        StartDate,
+                                                        EndDate,
+                                                        AgreedCost,
+                                                        StandardCode,
+                                                        ProgrammeType,
+                                                        FrameworkCode,
+                                                        PathwayCode,
+                                                        Priority,
+                                                        PaymentStatus,
+                                                        PaymentStatusDescription,
+                                                        EffectiveFromDate,
+                                                        EffectiveToDate,
+                                                        LegalEntityName,
+                                                        TransferSendingEmployerAccountId,
+                                                        TransferApprovalDate 
+                                                    FROM dbo.DasCommitments 
+                                                    WHERE CommitmentId = @commitmentId 
+                                                    ORDER BY VersionId DESC ";
+        private const string InsertCommand = @"INSERT INTO dbo.DasCommitments 
+                                                (
+                                                    CommitmentId, 
+                                                    VersionId,
+                                                    Uln,
+                                                    Ukprn,
+                                                    AccountId,
+                                                    StartDate,
+                                                    EndDate,
+                                                    AgreedCost,
+                                                    StandardCode,
+                                                    ProgrammeType,
+                                                    FrameworkCode,
+                                                    PathwayCode,
+                                                    Priority,
+                                                    PaymentStatus,
+                                                    PaymentStatusDescription,
+                                                    EffectiveFromDate,
+                                                    EffectiveToDate,
+                                                    LegalEntityName,
+                                                    TransferSendingEmployerAccountId,
+                                                    TransferApprovalDate
+                                                )
+                                                VALUES
+                                                (
+                                                    @CommitmentId,
+                                                    @VersionId,
+                                                    @Uln,
+                                                    @Ukprn,
+                                                    @AccountId,
+                                                    @StartDate,
+                                                    @EndDate,
+                                                    @AgreedCost,
+                                                    @StandardCode,
+                                                    @ProgrammeType,
+                                                    @FrameworkCode,
+                                                    @PathwayCode,
+                                                    @Priority,
+                                                    @PaymentStatus,
+                                                    @PaymentStatusDescription,
+                                                    @EffectiveFromDate,
+                                                    @EffectiveToDate,
+                                                    @LegalEntityName,
+                                                    @TransferSendingEmployerAccountId,
+                                                    @TransferApprovalDate
+                                                )";
 
-        private const string GetByAttributesCommand = "SELECT CommitmentId from " + Source + " WHERE "
-                                                    +"  CommitmentId = @CommitmentId AND "
-                                                    + "Uln = @Uln AND "
-                                                    + "Ukprn = @Ukprn AND "
-                                                    + "AccountId = @AccountId AND "
-                                                    + "StartDate = @StartDate AND "
-                                                    + "EndDate = @EndDate AND "
-                                                    + "AgreedCost = @AgreedCost AND "
-                                                    + "IsNull(StandardCode,0) = @StandardCode AND "
-                                                    + "IsNull(ProgrammeType,0) = @ProgrammeType AND "
-                                                    + "IsNull(FrameworkCode,0) = @FrameworkCode AND "
-                                                    + "IsNull(PathwayCode,0) = @PathwayCode AND "
-                                                    + "Priority = @Priority AND "
-                                                    + "PaymentStatus = @PaymentStatus AND "
-                                                    + "EffectiveFromDate = @EffectiveFromDate AND "
-                                                    + "LegalEntityName = @LegalEntityName AND ";
+        private const string UpdateCommand = @" UPDATE dbo.DasCommitments
+                                                SET CommitmentId = @CommitmentId,
+                                                    Uln = @Uln,
+                                                    Ukprn = @Ukprn,
+                                                    AccountId = @AccountId,
+                                                    StartDate = @StartDate,
+                                                    EndDate = @EndDate,
+                                                    AgreedCost = @AgreedCost,
+                                                    StandardCode = @StandardCode,
+                                                    ProgrammeType = @ProgrammeType,
+                                                    FrameworkCode = @FrameworkCode,
+                                                    PathwayCode = @PathwayCode,
+                                                    Priority = @Priority,
+                                                    VersionId = @VersionId,
+                                                    PaymentStatus = @PaymentStatus,
+                                                    PaymentStatusDescription = @PaymentStatusDescription,
+                                                    EffectiveFromDate = @EffectiveFromDate,
+                                                    EffectiveToDate = @EffectiveToDate,
+                                                    LegalEntityName = @LegalEntityName,
+                                                    TransferSendingEmployerAccountId = @TransferSendingEmployerAccountId,
+                                                    TransferApprovalDate = @TransferApprovalDate
+                                                WHERE CommitmentId = @commitmentId  
+                                                AND VersionId = @VersionId ";
 
-        private const string DeleteCommand = "DELETE FROM " + Source + SingleCommitmentClause;
+        private const string DeleteCommand = "DELETE FROM dbo.DasCommitments WHERE CommitmentId = @commitmentId";
 
         public DcfsCommitmentRepository(string connectionString)
            : base(connectionString)
@@ -88,11 +117,30 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
 
         public bool CommitmentExists(CommitmentEntity commitment)
         {
-            var effetiveToClause = commitment.EffectiveToDate == null ? " EffectiveToDate Is Null " : $" EffectiveToDate = '{commitment.EffectiveToDate.Value.ToString("yyyy-MM-dd")}' ";
-            var selectCommand = GetByAttributesCommand + effetiveToClause;
+            var effectiveToClause = commitment.EffectiveToDate == null ? " EffectiveToDate Is Null " : $" EffectiveToDate = '{commitment.EffectiveToDate.Value.ToString("yyyy-MM-dd")}' ";
+            var selectCommand = @"SELECT CommitmentId 
+                                                        FROM dbo.DasCommitments 
+                                                        WHERE  CommitmentId = @CommitmentId 
+                                                        AND Uln = @Uln 
+                                                        AND Ukprn = @Ukprn
+                                                        AND AccountId = @AccountId
+                                                        AND StartDate = @StartDate
+                                                        AND EndDate = @EndDate 
+                                                        AND AgreedCost = @AgreedCost
+                                                        AND IsNull(StandardCode,0) = @StandardCode 
+                                                        AND IsNull(ProgrammeType,0) = @ProgrammeType
+                                                        AND IsNull(FrameworkCode,0) = @FrameworkCode
+                                                        AND IsNull(PathwayCode,0) = @PathwayCode
+                                                        AND Priority = @Priority
+                                                        AND PaymentStatus = @PaymentStatus
+                                                        AND EffectiveFromDate = @EffectiveFromDate
+                                                        AND LegalEntityName = @LegalEntityName 
+                                                        AND TransferSendingEmployerAccountId = @TransferSendingEmployerAccountId
+                                                        AND TransferApprovalDate = @TransferApprovalDate
+                                                        AND" + effectiveToClause;
 
             var result = QuerySingle<int>(selectCommand, commitment);
-            return result == 0 ? false : true;
+            return result != 0;
         }
 
         public CommitmentEntity GetById(long commitmentId)
