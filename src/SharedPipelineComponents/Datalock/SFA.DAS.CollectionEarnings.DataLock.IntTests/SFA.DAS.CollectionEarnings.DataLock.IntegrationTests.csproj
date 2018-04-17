@@ -114,6 +114,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\Reference\Accounts\Deploy\sql\Migration Scripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql">
+      <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.sprocs.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
