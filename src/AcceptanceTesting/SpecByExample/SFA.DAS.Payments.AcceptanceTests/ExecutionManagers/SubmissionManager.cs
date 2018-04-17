@@ -132,10 +132,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
                 latestDate = lastAssertionPeriodDate.Value.AddMonths(1).AddDays(-1);
 
-            //hax: commitments needs month after as well, not sure why
-            latestDate = latestDate.Value.AddMonths(1);
-            //endhax
-
             var date = earliestDate;
             while (date <= latestDate)
             {
