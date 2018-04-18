@@ -548,6 +548,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IlrGenerator", "AcceptanceTesting\Common\IlrGenerator\IlrGenerator.csproj", "{5076BA97-2E9E-4845-9359-0E16DFF7B3A6}"
 EndProject
+		PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml = PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.csproj", "{861C358B-6086-4EF8-9A72-B2A3F5D4F7C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests\SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.csproj", "{DC0D2659-A9F3-48AC-AD7A-29153B7E4BA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests.csproj", "{120A310C-CA9D-4546-83E9-92664E139AF1}"
+End Project
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
