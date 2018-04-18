@@ -103,7 +103,7 @@
     <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Transfers.DDL.views.sql</Link>
     </Content>
-    <Content Include="..\DeployTransfers\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+    <Content Include="..\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
     </Content>
   </ItemGroup>
