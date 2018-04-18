@@ -1,12 +1,10 @@
 ﻿using System;
-using AutoFixture.NUnit3;
 using CS.Common.External.Interfaces;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests.Utilities;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests.TransfersTaskTests
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.TransfersTaskTests
 {
     public class WhenExecutingWithValidContext
     {

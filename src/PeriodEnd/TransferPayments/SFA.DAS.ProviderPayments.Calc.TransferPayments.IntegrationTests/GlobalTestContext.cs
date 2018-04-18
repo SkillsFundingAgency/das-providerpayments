@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Text.RegularExpressions;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests
 {
     internal class GlobalTestContext
     {

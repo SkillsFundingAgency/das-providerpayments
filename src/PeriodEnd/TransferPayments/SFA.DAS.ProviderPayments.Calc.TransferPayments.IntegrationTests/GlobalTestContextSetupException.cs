@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests
 {
     public class GlobalTestContextSetupException : Exception
     {

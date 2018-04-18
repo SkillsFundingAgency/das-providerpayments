@@ -2,7 +2,7 @@
 using CS.Common.External.Interfaces;
 using SFA.DAS.Payments.DCFS.Context;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests.Utilities
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests.Utilities
 {
     internal class ExternalContextStub : IExternalContext
     {

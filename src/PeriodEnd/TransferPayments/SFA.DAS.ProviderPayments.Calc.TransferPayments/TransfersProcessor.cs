@@ -2,7 +2,7 @@
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
 {
     public class TransfersProcessor
     {

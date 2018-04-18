@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests.Utilities
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests.Utilities
 {
     internal static class TestDataHelper
     {
