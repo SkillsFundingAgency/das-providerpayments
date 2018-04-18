@@ -195,6 +195,9 @@
       <Link>DbSetupScripts\7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

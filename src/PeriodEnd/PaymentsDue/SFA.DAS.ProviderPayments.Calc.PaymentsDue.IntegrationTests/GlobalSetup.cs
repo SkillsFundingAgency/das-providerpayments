@@ -44,9 +44,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql", dedsConnection);
                     RunSqlScript(@"2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql", dedsConnection);
                     RunSqlScript(@"4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql", dedsConnection);
-                    RunSqlScript(@"5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql", dedsConnection);
-                    RunSqlScript(@"6_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql", dedsConnection);
-                    RunSqlScript(@"7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql", dedsConnection);
+                    RunSqlScript(@"6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql", dedsConnection);
+                    RunSqlScript(@"7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql", dedsConnection);
+                    RunSqlScript(@"8_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql", dedsConnection);
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
