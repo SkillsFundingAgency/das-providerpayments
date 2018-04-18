@@ -181,8 +181,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     throw new PaymentsDueProcessorException(PaymentsDueProcessorException.ErrorReadingPaymentHistoryMessage, historyResponse.Exception);
                 }
                 paymentHistory.AddRange(historyResponse.Items);
-                //no history coming through which means that the processor thinks that no payments have been made even when they have
-                // causing every payment to be scheduled every month for that and previous months. (n,2n,3n,4n etc.)
             }
 
             foreach (var earning in earningResponse.Items)
@@ -234,11 +232,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef);
 
-                //this has logic for contract type, which is the only non delivery month criteria in the next linq statement
-                //EXCEPT for the added small employer, do we need to do a similar thing for small employer?
-                // we already are, why? do we need to be? small employer changes mid year, not retrospectively as contract type does
-                // possibly need to handle retrospective change to small employer too but dates are relevant here and we are just not considering
-                // them in the small employer part of this method
                 ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&

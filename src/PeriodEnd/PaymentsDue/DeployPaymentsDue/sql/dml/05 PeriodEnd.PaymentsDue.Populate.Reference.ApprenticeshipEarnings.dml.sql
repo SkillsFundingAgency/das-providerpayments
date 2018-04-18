@@ -90,7 +90,6 @@ SELECT
 	pe.[PlannedNumOnProgInstalm],
 	pe.[PriceEpisodeInstalmentValue],
 	pe.[EPAOrgId] ,
-	--ISNULL(es.ESMCode, 0)
 	IsSmallEmployer
 FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
@@ -153,17 +152,15 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
-				AND	act.LearnDelFAMType = ''ACT'''
+				AND	act.LearnDelFAMType = ''ACT''
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[EmploymentStatusMonitoring] esm ON pe.[Ukprn] = esm.[Ukprn]
 				AND esm.[LearnRefNumber] = pe.[LearnRefNumber]
 				AND esm.[ESMType] = ''SEM''
 			') as pe
---LEFT OUTER JOIN Valid.EmploymentStatusMonitoring es ON pe.LearnRefNumber = es.LearnRefNumber
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
---AND ISNULL(es.ESMType, 'SEM') = 'SEM'
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]
