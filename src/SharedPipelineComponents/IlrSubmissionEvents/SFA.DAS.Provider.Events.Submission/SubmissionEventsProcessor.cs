@@ -184,6 +184,9 @@ namespace SFA.DAS.Provider.Events.Submission
                 @event.GivenNames = currentIlr.GivenNames;
                 @event.FamilyName = currentIlr.FamilyName;
                 @event.CommitmentId = currentIlr.CommitmentId;
+
+                @event.StandardCode = currentIlr.StandardCode;
+                @event.ActualStartDate = currentIlr.ActualStartDate;
             }
 
             return @event;
