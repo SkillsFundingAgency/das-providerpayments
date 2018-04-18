@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Transfers
             _dependencyResolver = new TaskDependencyResolver();
         }
 
-        internal TransfersTask(IDependencyResolver dependencyResolver)
+        public TransfersTask(IDependencyResolver dependencyResolver)
             : base(DatabaseSchema)
         {
             _dependencyResolver = dependencyResolver;
