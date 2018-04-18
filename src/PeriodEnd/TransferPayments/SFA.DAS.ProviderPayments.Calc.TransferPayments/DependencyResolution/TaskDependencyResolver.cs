@@ -1,9 +1,9 @@
 ﻿using System;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.StructureMap.Infrastructure.DependencyResolution;
 using StructureMap;
-using SFA.DAS.Payments.DCFS.Context;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.DependencyResolution
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.DependencyResolution
 {
     public class TaskDependencyResolver : StructureMapDependencyResolver
     {

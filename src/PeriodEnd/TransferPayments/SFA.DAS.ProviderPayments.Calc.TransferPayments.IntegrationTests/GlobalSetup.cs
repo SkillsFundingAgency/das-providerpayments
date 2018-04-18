@@ -4,7 +4,7 @@ using System.IO;
 using Dapper;
 using NUnit.Framework;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests
 {
     [SetUpFixture]
     public class GlobalSetup

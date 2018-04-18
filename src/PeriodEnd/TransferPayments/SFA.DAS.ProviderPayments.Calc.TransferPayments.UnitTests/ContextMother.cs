@@ -4,7 +4,7 @@ using CS.Common.External.Interfaces;
 using Moq;
 using SFA.DAS.Payments.DCFS.Context;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests
 {
     internal static class ContextMother
     {

@@ -551,33 +551,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transfer Payments", "Transf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{BB0EFDE9-7087-4A99-924C-F610BD2EC20B}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\TransferPayments\DeployTransfers\copy mappings\DasTransfersCopyToDedsMapping.xml = PeriodEnd\TransferPayments\DeployTransfers\copy mappings\DasTransfersCopyToDedsMapping.xml
+		PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml = PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{8E6FE549-CD8E-4B8C-80F3-504F28BDD180}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{0D82E8AB-6FD0-4A49-A905-8E4868DAF55D}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql
-		PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql
-		PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql = PeriodEnd\TransferPayments\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{1656C474-4069-4262-A37E-14E8F854519E}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\TransferPayments\DeployTransfers\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\TransferPayments\DeployTransfers\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{B10B28CE-C6DF-4F22-93AF-54E3FFBDEDE2}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\TransferPayments\DeployTransfers\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql = PeriodEnd\TransferPayments\DeployTransfers\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Transfers", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.Transfers\SFA.DAS.ProviderPayments.Calc.Transfers.csproj", "{861C358B-6086-4EF8-9A72-B2A3F5D4F7C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.csproj", "{861C358B-6086-4EF8-9A72-B2A3F5D4F7C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests\SFA.DAS.ProviderPayments.Calc.Transfers.UnitTests.csproj", "{DC0D2659-A9F3-48AC-AD7A-29153B7E4BA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests\SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.csproj", "{DC0D2659-A9F3-48AC-AD7A-29153B7E4BA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Transfers.IntegrationTests.csproj", "{120A310C-CA9D-4546-83E9-92664E139AF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests.csproj", "{120A310C-CA9D-4546-83E9-92664E139AF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

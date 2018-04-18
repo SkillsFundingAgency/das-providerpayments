@@ -1,8 +1,8 @@
 ﻿using SFA.DAS.Payments.DCFS;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.Transfers.DependencyResolution;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.DependencyResolution;
 
-namespace SFA.DAS.ProviderPayments.Calc.Transfers
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
 {
     public class TransfersTask : DcfsTask
     {
