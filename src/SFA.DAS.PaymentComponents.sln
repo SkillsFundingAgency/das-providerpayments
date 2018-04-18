@@ -549,6 +549,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderPayments.TestStack.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IlrGenerator", "AcceptanceTesting\Common\IlrGenerator\IlrGenerator.csproj", "{5076BA97-2E9E-4845-9359-0E16DFF7B3A6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TransfersPayments", "TransfersPayments", "{87DAFA2B-0123-47BF-AF35-0F94C1F3A7B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{CCD514F9-AD8F-424D-BCAE-88EE13FFB23A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{7FC78715-2C83-4C75-9B2F-C92AD05A753C}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd.Deds.TransferPayments.DDL.Tables.sql = PeriodEnd.Deds.TransferPayments.DDL.Tables.sql
+		PeriodEnd.Transient.TransferPayments.DDL.tables.sql = PeriodEnd.Transient.TransferPayments.DDL.tables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -836,6 +846,9 @@ Global
 		{ED159396-0D7D-4B64-8369-6C1BAD8AAE15} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 		{5076BA97-2E9E-4845-9359-0E16DFF7B3A6} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
+		{87DAFA2B-0123-47BF-AF35-0F94C1F3A7B6} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{CCD514F9-AD8F-424D-BCAE-88EE13FFB23A} = {87DAFA2B-0123-47BF-AF35-0F94C1F3A7B6}
+		{7FC78715-2C83-4C75-9B2F-C92AD05A753C} = {CCD514F9-AD8F-424D-BCAE-88EE13FFB23A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}
