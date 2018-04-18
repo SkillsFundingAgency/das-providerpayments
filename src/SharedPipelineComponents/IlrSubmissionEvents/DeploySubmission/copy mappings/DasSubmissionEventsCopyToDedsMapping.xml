@@ -105,6 +105,14 @@
           <Source>EPAOrgId</Source>
           <Destination>EPAOrgId</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>GivenNames</Source>
+          <Destination>GivenNames</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>FirstName</Source>
+          <Destination>FirstName</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
@@ -203,6 +211,14 @@
         <ColumnMapping>
           <Source>EPAOrgId</Source>
           <Destination>EPAOrgId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>GivenNames</Source>
+          <Destination>GivenNames</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>FirstName</Source>
+          <Destination>FirstName</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

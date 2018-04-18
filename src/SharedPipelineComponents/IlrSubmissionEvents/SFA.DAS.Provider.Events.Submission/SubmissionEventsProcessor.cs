@@ -154,6 +154,16 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).EPAOrgId = currentIlr.EPAOrgId;
             }
 
+            if (currentIlr.GivenNames != lastSeenIlr?.GivenNames)
+            {
+                (@event = @event ?? new SubmissionEvent()).GivenNames = currentIlr.GivenNames;
+            }
+
+            if (currentIlr.FamilyName != lastSeenIlr?.FamilyName)
+            {
+                (@event = @event ?? new SubmissionEvent()).FamilyName = currentIlr.FamilyName;
+            }
+
             // If there have been changes then set the standard properties
             if (@event != null)
             {
@@ -171,6 +181,9 @@ namespace SFA.DAS.Provider.Events.Submission
                 // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
                 // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
                 @event.EPAOrgId = currentIlr.EPAOrgId;
+                @event.GivenNames = currentIlr.GivenNames;
+                @event.FamilyName = currentIlr.FamilyName;
+                @event.CommitmentId = currentIlr.CommitmentId;
             }
 
             return @event;
