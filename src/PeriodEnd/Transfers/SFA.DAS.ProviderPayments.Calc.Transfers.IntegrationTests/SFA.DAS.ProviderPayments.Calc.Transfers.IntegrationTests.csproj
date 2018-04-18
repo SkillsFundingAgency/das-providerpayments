@@ -68,10 +68,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="GlobalSetup.cs" />
+    <Compile Include="GlobalTestContext.cs" />
+    <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\ExternalContextStub.cs" />
+    <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +88,31 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\DeployTransfers\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Deds.Transfers.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Transfers.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployTransfers\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Transfers.DDL.views.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DeployTransfers\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+    </Content>
+    <Content Include="..\DeployTransfers\sql\MigrationScripts\1_PeriodEnd.Deds.Transfers.Initial.sql">
+      <Link>DbSetupScripts\1_PeriodEnd.Deds.Transfers.Initial.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
