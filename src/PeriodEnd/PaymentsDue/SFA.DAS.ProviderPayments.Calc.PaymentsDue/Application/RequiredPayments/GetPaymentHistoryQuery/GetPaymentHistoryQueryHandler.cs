@@ -54,8 +54,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             IlrSubmissionDateTime=e.IlrSubmissionDateTime,
                             PriceEpisodeIdentifier =e.PriceEpisodeIdentifier,
                             SfaContributionPercentage =e.SfaContributionPercentage,
-                            UseLevyBalance =e.UseLevyBalance
-                            
+                            UseLevyBalance =e.UseLevyBalance,
+                            IsSmallEmployer = e.IsSmallEmployer,
+                            IsOnEHCPlan = e.IsOnEHCPlan,
+                            IsCareLeaver = e.IsCareLeaver
                         }).ToArray()
                 };
             }

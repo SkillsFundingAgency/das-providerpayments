@@ -29,6 +29,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
             try
             {
                 PrepareTransient(context);
+
                 PrepareTasks(context);
 
                 var didATaskError = false;

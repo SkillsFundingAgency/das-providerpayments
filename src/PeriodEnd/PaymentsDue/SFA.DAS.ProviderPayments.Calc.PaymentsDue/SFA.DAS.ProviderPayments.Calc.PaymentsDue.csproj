@@ -82,9 +82,12 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryRequest.cs" />
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
+    <Compile Include="Infrastructure\Data\Entities\LearnerFAMEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\ILearnerFAMRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DcfsLearnerFAMRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
@@ -120,6 +123,7 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

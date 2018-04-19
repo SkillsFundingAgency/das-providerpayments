@@ -3,7 +3,38 @@ GO
 
 INSERT INTO Staging.EarningsWithoutPayments
 
-Select ph.*
+SELECT
+	ph.[Id],
+	ph.[CommitmentId],
+	ph.[CommitmentVersionId],
+	ph.[AccountId],
+	ph.[AccountVersionId],
+	ph.[LearnRefNumber],
+	ph.[Uln],
+	ph.[AimSeqNumber],
+	ph.[Ukprn],
+	ph.[DeliveryMonth],
+	ph.[DeliveryYear],
+	ph.[CollectionPeriodName],
+	ph.[CollectionPeriodMonth],
+	ph.[CollectionPeriodYear],
+	ph.[TransactionType],
+	ph.[AmountDue],
+	ph.[StandardCode],
+	ph.[ProgrammeType],
+	ph.[FrameworkCode],
+	ph.[PathwayCode],
+	ph.[PriceEpisodeIdentifier],
+	ph.[LearnAimRef],
+	ph.[LearningStartDate],
+	ph.[IlrSubmissionDateTime],
+	ph.[ApprenticeshipContractType],
+	ph.[SfaContributionPercentage],
+	ph.[FundingLineType],
+	ph.[UseLevyBalance],
+	ph.[IsSmallEmployer],
+	ph.[IsOnEHCPlan],
+	ph.[IsCareLeaver]
 
 FROM Reference.RequiredPaymentsHistory ph
 LEFT JOIN PaymentsDue.vw_ApprenticeshipEarning e

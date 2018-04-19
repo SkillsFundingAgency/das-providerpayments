@@ -20,6 +20,10 @@ DELETE FROM ${ILR_Deds.FQ}.Valid.Learner
 WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[LearningProvider])
 GO
 
+DELETE FROM ${ILR_Deds.FQ}.Valid.EmploymentStatusMonitoring
+WHERE Ukprn IN (SELECT Ukprn FROM [Valid].[EmploymentStatusMonitoring])
+GO
+
 -- Valid.LearningProvider
 INSERT INTO ${ILR_Deds.FQ}.Valid.LearningProvider
 	SELECT
@@ -129,3 +133,15 @@ SELECT
 FROM Valid.LearningProvider lp
 INNER JOIN dbo.FileDetails fd
 	ON lp.UKPRN = fd.UKPRN
+
+GO
+--Valid.EmploymentStatusMonitoring
+INSERT INTO ${ILR_Deds.FQ}.[Valid].[EmploymentStatusMonitoring]
+           ([UKPRN], [LearnRefNumber],[DateEmpStatApp],[ESMType],[ESMCode])
+SELECT
+	(SELECT TOP 1 Ukprn FROM [Valid].[LearningProvider]),
+	esm.LearnRefNumber,
+	esm.DateEmpStatApp,
+	esm.ESMType,
+	esm.ESMCode
+FROM Valid.EmploymentStatusMonitoring esm

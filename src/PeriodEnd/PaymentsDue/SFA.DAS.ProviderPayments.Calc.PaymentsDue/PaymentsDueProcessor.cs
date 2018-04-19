@@ -167,7 +167,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 .Distinct()
                 .ToArray();
 
-            var contractTypeChangePayments = new List<RequiredPayment>();
+            var previousPeriodPayments = new List<RequiredPayment>();
 
             foreach (var earningItem in earningsData)
             {
@@ -232,11 +232,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                                 p.TransactionType == earning.Type &&
                                 p.LearnAimRef == earning.LearnAimRef);
 
-                ProcessContractTypeChanges(historicalAllPayments, earning, provider, contractTypeChangePayments);
+                ProcessPreviousPeriodReversals(historicalAllPayments, earning, provider, previousPeriodPayments);
 
                 var alreadyPaidItems = historicalAllPayments.Where(p => p.DeliveryMonth == earning.CalendarMonth &&
-                                                                    p.DeliveryYear == earning.CalendarYear &&
-                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType).ToArray();
+                                                                        p.DeliveryYear == earning.CalendarYear &&
+                                                                        p.ApprenticeshipContractType == earning.ApprenticeshipContractType
+                                                                        && p.IsSmallEmployer == earning.IsSmallEmployer
+                                                                        && p.IsOnEHCPlan == earning.IsOnEHCPlan
+                                                                        && p.IsCareLeaver == earning.IsCareLeaver
+                                                                        ).ToArray();
 
                 var amountDue = amountEarned - alreadyPaidItems.Sum(p => p.AmountDue);
 
@@ -272,7 +276,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 }
             }
 
-            paymentsDue.AddRange(contractTypeChangePayments);
+            paymentsDue.AddRange(previousPeriodPayments);
         }
 
         private static DateTime GetMonthStart(int year, int month)
@@ -285,13 +289,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             return GetMonthStart(date.Year, date.Month);
         }
 
-        private void ProcessContractTypeChanges(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)
+        private void ProcessPreviousPeriodReversals(IEnumerable<RequiredPayment> historicalAllPayments, PeriodEarning earning, Provider provider, List<RequiredPayment> paymentsDue)
         {
             var contractTypeChangePayments = historicalAllPayments.Where(h => h.DeliveryMonth == earning.CalendarMonth &&
-                                                                       h.DeliveryYear == earning.CalendarYear &&
-                                                                       h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
-                                                                       earning.ApprenticeshipContractTypeStartDate.HasValue &&
-                                                                       new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year, earning.ApprenticeshipContractTypeStartDate.Value.Month, 1));
+                                                                              h.DeliveryYear == earning.CalendarYear &&
+                                                                              (h.ApprenticeshipContractType != earning.ApprenticeshipContractType &&
+                                                                               earning.ApprenticeshipContractTypeStartDate.HasValue &&
+                                                                               new DateTime(h.DeliveryYear, h.DeliveryMonth, 1) >= new DateTime(earning.ApprenticeshipContractTypeStartDate.Value.Year,
+                                                                                   earning.ApprenticeshipContractTypeStartDate.Value.Month, 1)
+                                                                                || h.IsSmallEmployer != earning.IsSmallEmployer
+                                                                                || h.IsOnEHCPlan != earning.IsOnEHCPlan
+                                                                                || h.IsCareLeaver != earning.IsCareLeaver));
 
             if (contractTypeChangePayments.Any() && contractTypeChangePayments.Count() == 1)
             {
@@ -518,7 +526,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 FundingLineType = earning.FundingLineType,
                 UseLevyBalance = earning.UseLevyBalance,
                 LearnAimRef = earning.LearnAimRef,
-                LearningStartDate = earning.LearningStartDate
+                LearningStartDate = earning.LearningStartDate,
+                IsSmallEmployer = earning.IsSmallEmployer,
+                IsOnEHCPlan = earning.IsOnEHCPlan,
+                IsCareLeaver = earning.IsCareLeaver
             });
         }
 

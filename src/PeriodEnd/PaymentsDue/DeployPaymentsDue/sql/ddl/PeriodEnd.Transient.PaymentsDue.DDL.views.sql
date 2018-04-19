@@ -95,7 +95,10 @@ SELECT
 	FundingLineType,
 	PriceEpisodeIdentifier,
 	SfaContributionPercentage,
-	UseLevyBalance
+	UseLevyBalance,
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
 FROM Reference.RequiredPaymentsHistory
 GO
 
@@ -153,7 +156,10 @@ SELECT
     FundingLineType,
     UseLevyBalance,
 	LearnAimRef,
-	LearningStartDate
+	LearningStartDate,
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
 FROM PaymentsDue.RequiredPayments
 GO
 

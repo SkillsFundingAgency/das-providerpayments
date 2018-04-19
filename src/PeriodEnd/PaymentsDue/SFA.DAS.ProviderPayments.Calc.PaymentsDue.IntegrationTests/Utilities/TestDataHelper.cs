@@ -551,7 +551,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "'Non-Levy Funding Line', " // FundingLineType
                     + "1, " // UseLevyBalane
                     + "@learnAimref,"
-                    + (startDate.HasValue ? "@startDate " : "startDate ")
+                    + (startDate.HasValue ? "@startDate ," : "startDate ,")
+                    + "0,0,0"
                     + "FROM dbo.DasCommitments "
                     + "WHERE CommitmentId = @commitmentId",
                 new
@@ -604,7 +605,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@FundingLineType, " // FundingLineType
                   + "@UseLevyBalance," //UseLevyBalance
                   + "@LearnAimRef,"
-                  + "@learningStartDate)",
+                  + "@learningStartDate," +
+                    "0, 0, 0)",
                   requiredPayment, false);
         }
         
@@ -660,7 +662,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "'Non-Levy Funding Line', " // FundingLineType
                   + "1," //UseLevyBalance
                   + "@LearnAimRef,"
-                  + "@learningStartDate)",
+                  + "@learningStartDate," +
+                    "0,0,0)",
                   new { uln, ukprn,learnRefNumber, aimSequenceNumber, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode, learnAimRef, learningStartDate }, false);
         }
 

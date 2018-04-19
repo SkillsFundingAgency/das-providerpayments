@@ -2,8 +2,8 @@ TRUNCATE TABLE [Reference].[RequiredPaymentsHistory]
 GO
 
 INSERT INTO [Reference].[RequiredPaymentsHistory]
-SELECT 
-	Id,
+(
+Id,
     CommitmentId,
     CommitmentVersionId,
     AccountId,
@@ -30,43 +30,81 @@ SELECT
     ApprenticeshipContractType,
     SfaContributionPercentage,
     FundingLineType,
-    UseLevyBalance
+    UseLevyBalance,
+	IsSmallEmployer,
+	IsOnEHCPlan,
+	IsCareLeaver
+)
+SELECT 
+	rp.Id,
+    rp.CommitmentId,
+    rp.CommitmentVersionId,
+    rp.AccountId,
+    rp.AccountVersionId,
+    rp.LearnRefNumber,
+    rp.Uln,
+    rp.AimSeqNumber,
+    rp.Ukprn,
+    rp.DeliveryMonth,
+    rp.DeliveryYear,
+    rp.CollectionPeriodName,
+    rp.CollectionPeriodMonth,
+    rp.CollectionPeriodYear,
+    rp.TransactionType,
+    rp.AmountDue,
+    rp.StandardCode,
+    rp.ProgrammeType,
+    rp.FrameworkCode,
+    rp.PathwayCode,
+    rp.PriceEpisodeIdentifier,
+    rp.LearnAimRef,
+    rp.LearningStartDate,
+    rp.IlrSubmissionDateTime,
+    rp.ApprenticeshipContractType,
+    rp.SfaContributionPercentage,
+    rp.FundingLineType,
+    rp.UseLevyBalance,
+	rp.IsSmallEmployer,
+	rp.IsOnEHCPlan,
+	rp.IsCareLeaver
 FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 		select
-			Id,
-			CommitmentId,
-			CommitmentVersionId,
-			AccountId,
-			AccountVersionId,
-			LearnRefNumber,
-			Uln,
-			AimSeqNumber,
-			Ukprn,
-			DeliveryMonth,
-			DeliveryYear,
-			CollectionPeriodName,
-			CollectionPeriodMonth,
-			CollectionPeriodYear,
-			TransactionType,
-			AmountDue,
-			StandardCode,
-			ProgrammeType,
-			FrameworkCode,
-			PathwayCode,
-			PriceEpisodeIdentifier,
-			LearnAimRef,
-			LearningStartDate,
-			IlrSubmissionDateTime,
-			ApprenticeshipContractType,
-			SfaContributionPercentage,
-			FundingLineType,
-			UseLevyBalance
+			rp.Id,
+			rp.CommitmentId,
+			rp.CommitmentVersionId,
+			rp.AccountId,
+			rp.AccountVersionId,
+			rp.LearnRefNumber,
+			rp.Uln,
+			rp.AimSeqNumber,
+			rp.Ukprn,
+			rp.DeliveryMonth,
+			rp.DeliveryYear,
+			rp.CollectionPeriodName,
+			rp.CollectionPeriodMonth,
+			rp.CollectionPeriodYear,
+			rp.TransactionType,
+			rp.AmountDue,
+			rp.StandardCode,
+			rp.ProgrammeType,
+			rp.FrameworkCode,
+			rp.PathwayCode,
+			rp.PriceEpisodeIdentifier,
+			rp.LearnAimRef,
+			rp.LearningStartDate,
+			rp.IlrSubmissionDateTime,
+			rp.ApprenticeshipContractType,
+			rp.SfaContributionPercentage,
+			rp.FundingLineType,
+			rp.UseLevyBalance,
+			rp.IsSmallEmployer,
+			rp.IsOnEHCPlan,
+			rp.IsCareLeaver
 		from 
-			${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments'
+			${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments rp'
     ) rp
-WHERE Ukprn IN (
+WHERE rp.Ukprn IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-	
 GO

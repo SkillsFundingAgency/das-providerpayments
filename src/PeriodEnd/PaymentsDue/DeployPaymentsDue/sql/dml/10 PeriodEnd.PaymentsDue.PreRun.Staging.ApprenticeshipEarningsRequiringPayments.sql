@@ -43,7 +43,10 @@ SELECT
 	ae.CompletionAmount,
 	ae.TotalInstallments ,
 	ae.MonthlyInstallment,
-	ae.EndpointAssessorId 
+	ae.EndpointAssessorId,
+	ae.IsSmallEmployer,
+	ae.IsOnEHCPlan,
+	ae.IsCareLeaver
 FROM Reference.ApprenticeshipEarnings AE
 JOIN Staging.CollectionPeriods cp
               ON ae.Period = cp.PeriodNumber

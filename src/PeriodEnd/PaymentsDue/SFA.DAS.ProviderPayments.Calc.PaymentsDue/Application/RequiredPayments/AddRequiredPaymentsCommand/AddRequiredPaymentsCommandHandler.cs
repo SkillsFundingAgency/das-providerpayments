@@ -45,8 +45,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
                             SfaContributionPercentage = p.SfaContributionPercentage,
                             UseLevyBalance = p.UseLevyBalance,
                             FundingLineType = p.FundingLineType,
-                            LearnAimRef=p.LearnAimRef,
-                            LearningStartDate=p.LearningStartDate
+                            LearnAimRef = p.LearnAimRef,
+                            LearningStartDate = p.LearningStartDate,
+                            IsSmallEmployer = p.IsSmallEmployer,
+                            IsOnEHCPlan = p.IsOnEHCPlan,
+                            IsCareLeaver = p.IsCareLeaver
                         })
                     .ToArray();
 

@@ -261,6 +261,11 @@
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="ExecutionManagers\ProviderSubmissionDetails.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Features\Ilr Changes\edit_to_small_employer_funding_details.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>edit_to_small_employer_funding_details.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Ilr Changes\learner_changes_contract_type.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -528,6 +533,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Features\Ilr Changes\edit_to_small_employer_funding_details.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>edit_to_small_employer_funding_details.feature.cs</LastGenOutput>
+    </None>
     <None Include="Features\Ilr Changes\learner_changes_contract_type.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>learner_changes_contract_type.feature.cs</LastGenOutput>

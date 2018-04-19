@@ -350,6 +350,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\7_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_Small_Employer_Flag.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\8_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\8_PeriodEnd.Deds.PaymentsDue.RequiredPayments.Add_IsOnEHCPlan_And_IsCareLeaver_Flags.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{84CAD59F-0BC2-4573-9547-4F7D54040402}"

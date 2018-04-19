@@ -33,7 +33,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                                                    + "SfaContributionPercentage,"
                                                    + "UseLevyBalance,"
                                                    + "CollectionPeriodMonth,"
-                                                   + "CollectionPeriodYear";
+                                                   + "CollectionPeriodYear,"
+                                                   + "IsSmallEmployer,"
+                                                   + "IsOnEHCPlan,"
+                                                   + "IsCareLeaver";
 
         private const string SelectPayments = "SELECT " + PaymentHistoryColumns + " FROM " + PaymentHistorySource;
         private const string SelectProviderPayments = SelectPayments + " WHERE Ukprn = @ukprn";

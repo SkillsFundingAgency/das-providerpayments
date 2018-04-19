@@ -45,7 +45,10 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[CompletionAmount],
 	[TotalInstallments],
 	[MonthlyInstallment],
-	[EndpointAssessorId] 
+	[EndpointAssessorId],
+	[IsSmallEmployer],
+	[IsOnEHCPlan],
+	[IsCareLeaver]
 	)
 SELECT 
 	pe.[Ukprn],
@@ -88,7 +91,10 @@ SELECT
 	pe.[PriceEpisodeCompletionElement],
 	pe.[PlannedNumOnProgInstalm],
 	pe.[PriceEpisodeInstalmentValue],
-	pe.[EPAOrgId] 
+	pe.[EPAOrgId] ,
+	ISNULL(pe.ESMCode, 0) as IsSmallEmployer,
+	Convert(Bit, Case When pe.eefResult = 2 Then 1 Else 0 End) As IsOnEHCPlan,
+	Convert(Bit, Case When pe.eefResult = 4 Then 1 Else 0 End) As IsCareLeaver
 FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
 			pe.[Ukprn],
@@ -132,7 +138,10 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			pe.PriceEpisodeCompletionElement,
 			aecld.PlannedNumOnProgInstalm,
 			pe.PriceEpisodeInstalmentValue,
-			ld.EPAOrgId
+			ld.EPAOrgId,
+			esm.ESMType,
+			esm.ESMCode,
+			eef.LearnDelFAMCode as eefResult
 		FROM
 			${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] pe
 			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] pv ON pe.[Ukprn] = pv.[Ukprn]
@@ -149,12 +158,19 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
 				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
 				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
-				AND	act.LearnDelFAMType = ''ACT''') as pe
+			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] eef ON pe.[Ukprn] = eef.[Ukprn]
+				AND pe.[LearnRefNumber] = eef.[LearnRefNumber]
+				AND pe.[PriceEpisodeAimSeqNumber] = eef.[AimSeqNumber]
+				AND eef.[LearnDelFAMType] = ''EEF''
+			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[EmploymentStatusMonitoring] esm ON pe.[Ukprn] = esm.[Ukprn]
+				AND esm.[LearnRefNumber] = pe.[LearnRefNumber]
+				AND esm.ESMType = ''SEM''
+			') as pe
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
         )
-        
+AND	pe.LearnDelFAMType = 'ACT'
 GO
 
 TRUNCATE TABLE [Reference].[ApprenticeshipDeliveryEarnings]

@@ -28,6 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IProviderRepository>().Use<DcfsProviderRepository>();
             For<IEarningRepository>().Use<DcfsEarningRepository>();
             For<IRequiredPaymentRepository>().Use<DcfsRequiredPaymentRepository>();
+            For<ILearnerFAMRepository>().Use<DcfsLearnerFAMRepository>();
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 

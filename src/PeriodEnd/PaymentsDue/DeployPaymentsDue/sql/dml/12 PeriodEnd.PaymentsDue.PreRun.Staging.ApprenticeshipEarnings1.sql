@@ -52,7 +52,10 @@ SELECT
 	ae.CompletionAmount,
 	ae.TotalInstallments ,	
 	ae.MonthlyInstallment,
-	ae.EndpointAssessorId 
+	ae.EndpointAssessorId ,
+	ae.IsSmallEmployer,
+	ae.IsOnEHCPlan,
+	ae.IsCareLeaver
 FROM Staging.ApprenticeshipEarnings ae
 WHERE ae.EpisodeStartDate >= (
     Select
@@ -66,3 +69,22 @@ WHERE ae.EpisodeStartDate >= (
         From  Reference.CollectionPeriods Where [Open] = 1)
 AND    ae.TransactionType In (1,2,3,4,5,6,7,8,9,10,11,12,15)
 GO
+
+IF EXISTS (
+		SELECT 1
+		FROM [sys].[indexes] i
+		JOIN sys.objects t ON i.object_id = t.object_id
+		WHERE t.name = 'ApprenticeshipEarnings1'
+		AND i.[name] = 'IX_ApprenticeshipEarnings1_UKPRN'
+		)
+BEGIN
+	DROP INDEX [IX_ApprenticeshipEarnings1_UKPRN]
+		ON [Staging].[ApprenticeshipEarnings1]
+END
+
+CREATE CLUSTERED INDEX [IX_ApprenticeshipEarnings1_UKPRN] ON [Staging].[ApprenticeshipEarnings1]
+(
+	[Ukprn] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+

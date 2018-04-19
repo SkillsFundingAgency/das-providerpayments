@@ -60,7 +60,10 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(120),
-	UseLevyBalance bit
+	UseLevyBalance bit,
+	IsSmallEmployer bit,
+	IsOnEHCPlan bit,
+	IsCareLeaver bit
 )
 GO
 
