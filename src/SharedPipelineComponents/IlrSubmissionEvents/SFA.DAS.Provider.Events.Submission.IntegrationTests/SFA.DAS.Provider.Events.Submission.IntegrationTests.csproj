@@ -147,12 +147,14 @@
       <Link>DbSetupScripts\~2_Submissions.Deds.AddColumns.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\4_SubmissionEvents.Deds.Add_Uln_Index.sql" />
     <Content Include="DbSetupScripts\datalock.transient.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\ilr.transient.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DbSetupScripts\~3_Submissions.Deds.AddColumns.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.Provider.Events.Submission\SFA.DAS.Provider.Events.Submission.csproj">
