@@ -71,10 +71,6 @@
     <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Reference\Accounts\Deploy\sql\Migration Scripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql">
-      <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

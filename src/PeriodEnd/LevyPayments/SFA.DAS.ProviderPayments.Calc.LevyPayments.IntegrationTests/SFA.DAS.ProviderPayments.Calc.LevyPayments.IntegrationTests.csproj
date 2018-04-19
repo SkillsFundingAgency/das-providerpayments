@@ -71,10 +71,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Reference\Accounts\Deploy\sql\Migration Scripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql">
-      <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
