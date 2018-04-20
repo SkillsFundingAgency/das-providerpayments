@@ -120,7 +120,9 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 VersionId = @event.Id,
                 Priority = @event.PaymentOrder,
                 PaymentStatus = paymentStatus,
-                LegalEntityName = @event.LegalEntityName
+                LegalEntityName = @event.LegalEntityName,
+                TransferSendingEmployerAccountId = @event.TransferSenderId,
+                TransferApprovalDate = @event.TransferApprovalActionedOn
             };
             
             ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).
