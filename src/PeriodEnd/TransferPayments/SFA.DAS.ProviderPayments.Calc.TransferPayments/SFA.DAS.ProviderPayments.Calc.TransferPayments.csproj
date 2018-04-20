@@ -61,6 +61,7 @@
     <Compile Include="Dal\Data\AccountLevyTransfer.cs" />
     <Compile Include="Dal\Data\DasAccount.cs" />
     <Compile Include="Dal\Data\RequiredTransferPayment.cs" />
+    <Compile Include="Dal\Data\TransferLevyPayment.cs" />
     <Compile Include="Dal\Repositories\AccountRepository.cs" />
     <Compile Include="Dal\Repositories\TransferRepository.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
