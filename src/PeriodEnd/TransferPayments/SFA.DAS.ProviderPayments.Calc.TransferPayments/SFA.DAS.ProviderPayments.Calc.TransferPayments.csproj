@@ -58,6 +58,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\Data\AccountLevyTransfer.cs" />
+    <Compile Include="Dal\Data\DasAccount.cs" />
+    <Compile Include="Dal\Data\RequiredTransferPayment.cs" />
+    <Compile Include="Dal\Repositories\AccountRepository.cs" />
+    <Compile Include="Dal\Repositories\TransferRepository.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TransfersRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,5 +86,6 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
