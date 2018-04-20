@@ -11,5 +11,5 @@ SELECT null FROM sys.columns c
 )
 BEGIN
 ALTER TABLE ${DAS_Accounts.FQ}.dbo.DasAccounts
-	Add TransferAllowance decimal(15, 2) NULL
+	Add TransferAllowance decimal(15, 5) NULL
 END

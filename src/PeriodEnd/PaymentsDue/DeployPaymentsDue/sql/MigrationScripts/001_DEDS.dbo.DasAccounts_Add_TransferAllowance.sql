@@ -10,6 +10,6 @@ SELECT null FROM sys.columns c
 	AND c.name='TransferAllowance'
 )
 BEGIN
-ALTER TABLE  dbo.DasAccounts
-	Add TransferAllowance decimal(15, 2) NULL
+ALTER TABLE ${DAS_Accounts.FQ}.dbo.DasAccounts
+	Add TransferAllowance decimal(15, 5) NULL
 END
