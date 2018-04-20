@@ -18,7 +18,7 @@ BEGIN
 		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 		SendingAccountId bigint NOT NULL,
 		RecievingAccountId bigint NOT NULL,
-		RequiredPaymentId bigint NOT NULL,
+		RequiredPaymentId uniqueidentifier NOT NULL,
 		CommitmentId bigint NOT NULL,
 		Amount decimal(15,5) NOT NULL,
 		TransferType int NOT NULL,
