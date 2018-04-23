@@ -186,6 +186,9 @@
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql">
       <Link>DbSetupScripts\5_PeriodEnd.Deds.PaymentsDue.Add_Indexes.sql</Link>
     </Content>
+    <Content Include="DbSetupScripts\6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DbSetupScripts\DasAccounts.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
