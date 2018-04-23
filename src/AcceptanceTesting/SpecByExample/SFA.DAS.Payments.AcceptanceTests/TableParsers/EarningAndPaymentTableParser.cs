@@ -87,6 +87,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountCredited);
+                }
                 else if (row[0].Equals("SFA Levy employer budget", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseNonEmployerRow(row, periodNames, breakdown.SfaLevyBudget);
