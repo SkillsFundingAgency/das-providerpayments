@@ -3,7 +3,7 @@ using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
 {
-    class TransferLevyPayment
+    public class TransferLevyPayment
     {
         public TransferLevyPayment(RequiredTransferPayment requiredPayment, decimal amount)
         {

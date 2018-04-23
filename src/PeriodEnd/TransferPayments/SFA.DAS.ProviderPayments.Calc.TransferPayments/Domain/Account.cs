@@ -54,5 +54,12 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
 
             return result;
         }
+
+        public TransferLevyPayment CreatePayment(RequiredTransferPayment requiredPayment, decimal amount)
+        {
+            var payment = new TransferLevyPayment(requiredPayment, amount);
+
+            return payment;
+        }
     }
 }
