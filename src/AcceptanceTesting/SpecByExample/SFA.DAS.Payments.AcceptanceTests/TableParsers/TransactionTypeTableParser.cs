@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 
@@ -50,6 +51,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static void ParseTransationTypesRows(EarningsAndPaymentsContext context, string providerId, Table transactionTypesTable, string[] periodNames)
         {
+            context.PeriodDates = periodNames
+                .Skip(1)
+                .Select(name => PeriodNameHelper.GetDateFromStringDate(name).GetValueOrDefault())
+                .ToList();
+
             foreach (var row in transactionTypesTable.Rows)
             {
                 Match match;
