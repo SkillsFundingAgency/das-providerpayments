@@ -482,7 +482,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 TrainingEndDate = new DateTime(2021, 10, 1),
                 TrainingTotalCost = 99999,
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
-                PaymentOrder = 99, //changed
+                PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 PriceHistory = null
@@ -544,7 +544,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 TrainingEndDate = new DateTime(2021, 10, 1),
                 TrainingTotalCost = 99999,
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
-                PaymentOrder = 99, //changed
+                PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 PriceHistory = new List<PriceHistory>
@@ -613,7 +613,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 TrainingEndDate = new DateTime(2021, 10, 1),
                 TrainingTotalCost = 99999,
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
-                PaymentOrder = 99, //changed
+                PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 PriceHistory = new List<PriceHistory>
@@ -638,7 +638,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
         }
 
         [Test]
-        public void ThenItShouldNotAddEventWhereEffectiveFromIsBeforeEffectiveTo()
+        public void ThenItShouldNotAddEventWhereEffectiveFromIsAfterEffectiveTo()
         {
             var effectiveDate = DateTime.Today;
 
@@ -656,7 +656,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 TrainingEndDate = new DateTime(2021, 10, 1),
                 TrainingTotalCost = 99999,
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
-                PaymentOrder = 99, //changed
+                PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 PriceHistory = new List<PriceHistory>
@@ -685,7 +685,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
         }
 
         [Test]
-        public void ThenItShouldAddEventWhereEffectiveFromIsAfterEffectiveTo()
+        public void ThenItShouldAddEventWhereEffectiveFromIsBeforeEffectiveTo()
         {
             var effectiveDate = DateTime.Today;
 
@@ -703,7 +703,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                 TrainingEndDate = new DateTime(2021, 10, 1),
                 TrainingTotalCost = 99999,
                 PaymentStatus = Events.Api.Types.PaymentStatus.Withdrawn,
-                PaymentOrder = 99, //changed
+                PaymentOrder = 99,
                 CreatedOn = new DateTime(2019, 12, 1),
                 LegalEntityName = "ACME Ltd.",
                 PriceHistory = new List<PriceHistory>
