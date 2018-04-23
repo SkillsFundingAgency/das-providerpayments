@@ -212,6 +212,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>small_employers.feature</DependentUpon>
     </Compile>
+    <Compile Include="..\..\Features\temporary_uln_changes.feature.cs">
+      <Link>Features\temporary_uln_changes.feature.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>temporary_uln_changes.feature</DependentUpon>
+    </Compile>
     <Compile Include="..\..\features\two_learners_paid_in_priority.feature.cs">
       <Link>Features\two_learners_paid_in_priority.feature.cs</Link>
       <AutoGen>True</AutoGen>
@@ -504,6 +510,11 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>small_employers.feature.cs</LastGenOutput>
     </None>
+    <None Include="..\..\Features\temporary_uln_changes.feature">
+      <Link>Features\temporary_uln_changes.feature</Link>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>temporary_uln_changes.feature.cs</LastGenOutput>
+    </None>
     <None Include="..\..\features\two_learners_paid_in_priority.feature">
       <Link>Features\two_learners_paid_in_priority.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -599,7 +610,7 @@
   </ItemGroup>
   <Target Name="AfterUpdateFeatureFilesInProject">
       -->
-	  <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
+  <!--<Move SourceFiles="@(SpecFlowGeneratedFiles)" DestinationFolder="Features" OverwriteReadOnlyFiles="true" />-->
   <!-- include any files that specflow generated into the compilation of the project -->
   <!--
       <ItemGroup>
