@@ -1,4 +1,5 @@
 ﻿using System;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
 {
@@ -12,6 +13,8 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }
         public string PriceEpisodeIdentifier { get; set; }
+        public long CommitmentId { get; set; }
+        public string CommitmentVersionId { get; set; }
         public long StandardCode { get; set; }
         public int ProgrammeType { get; set; }
         public int FrameworkCode { get; set; }
@@ -19,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public int ApprenticeshipContractType { get; set; }
         public int DeliveryMonth { get; set; }
         public int DeliveryYear { get; set; }
-        public int TransactionType { get; set; }
+        public TransactionType TransactionType { get; set; }
         public decimal AmountDue { get; set; }
         public decimal SfaContributionPercentage { get; set; }
         public string FundingLineType { get; set; }
@@ -27,6 +30,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
         public long TransferSendingEmployerAccountId { get; set; }
+        public string CollectionPeriodName { get; set; }
+        public int CollectionPeriodMonth { get; set; }
+        public int CollectionPeriodYear { get; set; }
     }
 }
 

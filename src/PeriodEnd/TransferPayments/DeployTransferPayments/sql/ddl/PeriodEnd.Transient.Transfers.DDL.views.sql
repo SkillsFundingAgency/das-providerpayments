@@ -25,6 +25,8 @@ AS
 		R.AimSeqNumber,
 		R.UKPRN,
 		R.PriceEpisodeIdentifier,
+		R.CommitmentId,
+		R.CommitmentVersionId,
 		R.StandardCode,
 		R.ProgrammeType,
 		R.FrameworkCode,
@@ -38,8 +40,11 @@ AS
 		R.FundingLineType,
 		R.UseLevyBalance,
 		R.LearnAimRef,
-		R.LearningStartDate
-		--,C.TransferSendingEmployerAccountId
+		R.LearningStartDate,
+		--,C.TransferSendingEmployerAccountId,
+		R.CollectionPeriodName,
+		R.CollectionPeriodMonth,
+		R.CollectionPeriodYear
 	FROM
 		Reference.DasCommitments C
 	INNER JOIN 

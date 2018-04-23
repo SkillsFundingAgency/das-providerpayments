@@ -5,6 +5,18 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
 {
     class AccountLevyTransfer
     {
+        public AccountLevyTransfer(RequiredTransferPayment requiredPayment, decimal amount)
+        {
+            SendingAccountId = requiredPayment.TransferSendingEmployerAccountId;
+            ReceivingAccountId = requiredPayment.AccountId;
+            RequiredPaymentId = requiredPayment.RequiredPaymentId;
+            CommitmentId = requiredPayment.CommitmentId;
+            FundingSource = FundingSource.Transfer;
+            TransferedDate = DateTime.Now;
+            CollectionPeriodName = requiredPayment.CollectionPeriodName;
+            Amount = amount;
+        }
+
         public long SendingAccountId { get; set; }
         public long ReceivingAccountId { get; set; }
         public Guid RequiredPaymentId { get; set; }

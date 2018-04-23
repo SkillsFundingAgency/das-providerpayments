@@ -26,6 +26,8 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           "AimSeqNumber, " +
                           "Ukprn, " +
                           "PriceEpisodeIdentifier, " +
+                          "CommitmentId, " +
+                          "CommitmentVersionId, " +
                           "StandardCode, " +
                           "ProgrammeType, " +
                           "FrameworkCode, " +
@@ -40,7 +42,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           "UseLevyBalance, " +
                           "LearnAimRef, " +
                           "LearningStartDate, " +
-                          "TransferSendingEmployerAccountId " +
+                          "TransferSendingEmployerAccountId, " +
+                          "CollectionPeriodName, " +
+                          "CollectionPeriodMonth, " +
+                          "CollectionPeriodYear " +
                           "FROM " +
                           "RequiredTransferPayments.vw_TransfersLearners";
             var results = Query<RequiredTransferPayment>(command);
