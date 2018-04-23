@@ -16,10 +16,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             UpdateHasTransferBalance();
         }
 
-        long AccountId { get; set; }
+        long AccountId { get; }
         decimal Balance { get; set; }
-        bool IsLevyPayer { get; set; }
-        decimal TransferBalance { get; set; }
+        bool IsLevyPayer { get; }
+        decimal TransferBalance { get; }
         private decimal AvailableTransferBalance { get; set; }
 
         void UpdateHasTransferBalance()
@@ -34,6 +34,13 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
 
         public CreateTransferResult CreateTransfer(Account receiver, RequiredTransferPayment requiredPayment)
         {
+            //if (receiver.AccountId != requiredPayment.AccountId)
+            //{
+            //    throw new ArgumentException($"There is a mismatch between the required payment and the receiving account " +
+            //                                $"The receiving account id is: {receiver.AccountId} and the required payment " +
+            //                                $"is for {requiredPayment.AccountId}");
+            //}
+
             var result = new CreateTransferResult();
             var amountToTransfer = Math.Min(requiredPayment.AmountDue, AvailableTransferBalance);
 

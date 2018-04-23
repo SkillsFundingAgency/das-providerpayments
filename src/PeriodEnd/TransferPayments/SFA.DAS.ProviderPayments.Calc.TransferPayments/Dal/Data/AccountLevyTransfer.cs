@@ -12,7 +12,8 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
             RequiredPaymentId = requiredPayment.RequiredPaymentId;
             CommitmentId = requiredPayment.CommitmentId;
             FundingSource = FundingSource.Transfer;
-            TransferedDate = DateTime.Now;
+            CollectionPeriodMonth = requiredPayment.CollectionPeriodMonth;
+            CollectionPeriodYear = requiredPayment.CollectionPeriodYear;
             CollectionPeriodName = requiredPayment.CollectionPeriodName;
             Amount = amount;
         }
@@ -25,5 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public FundingSource FundingSource { get; set; }
         public DateTime TransferedDate { get; set; }
         public string CollectionPeriodName { get; set; }
+        public int CollectionPeriodMonth { get; set; }
+        public int CollectionPeriodYear { get; set; }
     }
 }

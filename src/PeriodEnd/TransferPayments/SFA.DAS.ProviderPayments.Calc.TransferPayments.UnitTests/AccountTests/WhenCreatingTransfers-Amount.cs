@@ -7,7 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    public class WhenCreatingTransfers
+    public partial class WhenCreatingTransfers
     {
         public class AndThereIsExtraAvailableBalance
         {
@@ -18,6 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 decimal expected)
             {
                 requiredPayment.AmountDue = expected;
+
                 var sut = new Account(new DasAccount
                 {
                     Balance = expected * 2, TransferBalance = expected * 2, IsLevyPayer = true
