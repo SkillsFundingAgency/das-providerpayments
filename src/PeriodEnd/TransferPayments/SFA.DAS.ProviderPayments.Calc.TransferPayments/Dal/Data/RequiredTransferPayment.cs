@@ -3,7 +3,7 @@ using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
 {
-    class RequiredTransferPayment
+    public class RequiredTransferPayment
     {
         public Guid RequiredPaymentId { get; set; }
         public long AccountId { get; set; }
@@ -33,6 +33,12 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
+
+        private TransferLevyPayment CreatePayment(decimal amount)
+        {
+            var payment = new TransferLevyPayment(this, amount);
+            return payment;
+        }
     }
 }
 

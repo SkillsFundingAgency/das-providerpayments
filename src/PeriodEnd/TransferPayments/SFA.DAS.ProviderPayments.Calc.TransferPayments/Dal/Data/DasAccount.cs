@@ -1,6 +1,6 @@
 ﻿namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
 {
-    class DasAccount
+    public class DasAccount
     {
         public long AccountId { get; set; }
         public decimal Balance { get; set; }
