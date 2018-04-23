@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
 
             var result = new CreateTransferResult();
             var amountToTransfer = Math.Min(requiredPayment.AmountDue, AvailableTransferBalance);
-
+            
             var transfer = new AccountLevyTransfer(requiredPayment, amountToTransfer);
 
             result.AccountLevyTransfer = transfer;
