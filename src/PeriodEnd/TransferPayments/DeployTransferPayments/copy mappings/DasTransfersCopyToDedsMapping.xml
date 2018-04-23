@@ -9,8 +9,8 @@
   </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
-      <Source>[TransferPayments].[vw_RequiredPayments]</Source>
-      <Destination>[TransferPayments].[Payments]</Destination>
+      <Source>[TransferPayments].[AccountTransfers]</Source>
+      <Destination>[TransferPayments].[AccountTransfers]</Destination>
       <Ordinal>1</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
@@ -18,8 +18,8 @@
           <Destination>Id</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>CommitmentId</Source>
-          <Destination>CommitmentId</Destination>
+          <Source>SendingAccountId</Source>
+          <Destination>SendingAccountId</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>CommitmentVersionId</Source>
