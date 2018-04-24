@@ -1,7 +1,7 @@
 ﻿using System;
 using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
 {
     public class RequiredTransferPayment
     {
@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
         public long TransferSendingEmployerAccountId { get; set; }
+        public DateTime TransferApprovedDate { get; set; }
         public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }

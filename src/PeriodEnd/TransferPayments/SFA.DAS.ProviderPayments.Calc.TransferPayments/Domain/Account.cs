@@ -1,5 +1,5 @@
 ﻿using System;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dto;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
@@ -14,6 +14,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             TransferBalance = persistedEntity.TransferBalance;
 
             UpdateHasTransferBalance();
+        }
+
+        public long Id
+        {
+            get { return AccountId; }
         }
 
         long AccountId { get; }
@@ -34,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
 
         public CreateTransferResult CreateTransfer(Account receiver, RequiredTransferPayment requiredPayment)
         {
-            //if (receiver.AccountId != requiredPayment.AccountId)
+            //if (receiver.Id != requiredPayment.AccountId)
             //{
             //    throw new ArgumentException($"There is a mismatch between the required payment and the receiving account " +
             //                                $"The receiving account id is: {receiver.AccountId} and the required payment " +

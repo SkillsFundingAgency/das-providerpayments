@@ -42,6 +42,7 @@ AS
 		R.LearnAimRef,
 		R.LearningStartDate,
 		--,C.TransferSendingEmployerAccountId,
+		--,C.TransferApprovedDate,
 		R.CollectionPeriodName,
 		R.CollectionPeriodMonth,
 		R.CollectionPeriodYear
@@ -55,8 +56,5 @@ AS
 
 	--WHERE
 		--ISNULL(C.TransferSendingEmployerAccountId, 0) > 0
-	ORDER BY
-		--C.TransferSendingEmployerAccountId,
-		--C.TransferApprovedDate,
-		R.Uln
+	
 GO

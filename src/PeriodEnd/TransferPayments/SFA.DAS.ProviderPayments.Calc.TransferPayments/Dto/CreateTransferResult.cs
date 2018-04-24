@@ -1,4 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+﻿using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dto
 {

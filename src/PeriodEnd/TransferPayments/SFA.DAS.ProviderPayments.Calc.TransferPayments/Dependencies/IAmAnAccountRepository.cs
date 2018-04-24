@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies
 {
-    interface IAmAnAccountRepository
+    public interface IAmAnAccountRepository
     {
+        IEnumerable<Account> AllAccounts();
     }
 }

@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests

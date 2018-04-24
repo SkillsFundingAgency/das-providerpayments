@@ -1,7 +1,7 @@
 ﻿using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests

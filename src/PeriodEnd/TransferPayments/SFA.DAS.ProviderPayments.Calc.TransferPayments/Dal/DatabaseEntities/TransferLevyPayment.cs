@@ -1,7 +1,7 @@
 ﻿using System;
 using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
+namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
 {
     public class TransferLevyPayment
     {

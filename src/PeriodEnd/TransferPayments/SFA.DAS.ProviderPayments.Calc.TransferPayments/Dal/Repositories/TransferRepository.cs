@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dto;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
 {
-    class TransferRepository : DcfsRepository
+    class TransferRepository : DcfsRepository, IAmATransferRepository
     {
         public TransferRepository(string connectionString) : base(connectionString)
         {
         }
 
-        public void AddAccountLevyTransfers(IEnumerable<AccountLevyTransfer> accountLevyTransfers)
+        public void AddTransfers(List<TransferPaymentSet> transfers)
         {
-            ExecuteBatch(accountLevyTransfers.ToArray(), "RequiredTransferPayments.Payments");
+            ExecuteBatch(transfers.SelectMany(x => x.TransferPayments).ToArray(), "RequiredTransferPayments.Payments");
+            ExecuteBatch(transfers.SelectMany(x => x.AccountTransfers).ToArray(), "TransferPayments.AccountTransfers");
         }
 
         public IEnumerable<RequiredTransferPayment> RequiredTransferPayments()
@@ -43,6 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           "LearnAimRef, " +
                           "LearningStartDate, " +
                           "TransferSendingEmployerAccountId, " +
+                          "TransferApprovedDate, " +
                           "CollectionPeriodName, " +
                           "CollectionPeriodMonth, " +
                           "CollectionPeriodYear " +

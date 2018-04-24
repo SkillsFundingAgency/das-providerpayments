@@ -3,7 +3,7 @@ using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Services;
 

@@ -58,13 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dal\Data\AccountLevyTransfer.cs" />
-    <Compile Include="Dal\Data\DasAccount.cs" />
-    <Compile Include="Dal\Data\RequiredTransferPayment.cs" />
-    <Compile Include="Dal\Data\TransferLevyPayment.cs" />
+    <Compile Include="Dal\DatabaseEntities\AccountLevyTransfer.cs" />
+    <Compile Include="Dal\DatabaseEntities\DasAccount.cs" />
+    <Compile Include="Dal\DatabaseEntities\RequiredTransferPayment.cs" />
+    <Compile Include="Dal\DatabaseEntities\TransferLevyPayment.cs" />
     <Compile Include="Dal\Repositories\AccountRepository.cs" />
     <Compile Include="Dal\Repositories\TransferRepository.cs" />
     <Compile Include="Dependencies\IAmAnAccountRepository.cs" />
+    <Compile Include="Dependencies\IAmATransferRepository.cs" />
+    <Compile Include="Dependencies\IProcessLevyTransfers.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TransfersRegistry.cs" />
     <Compile Include="Domain\Account.cs" />

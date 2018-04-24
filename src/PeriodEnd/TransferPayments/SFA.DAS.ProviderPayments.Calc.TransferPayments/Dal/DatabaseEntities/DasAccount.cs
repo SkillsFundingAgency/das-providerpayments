@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Data
+﻿namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
 {
     public class DasAccount
     {
