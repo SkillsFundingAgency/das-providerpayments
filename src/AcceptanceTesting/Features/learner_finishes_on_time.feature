@@ -22,8 +22,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                       | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total      | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -40,8 +40,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -85,8 +85,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | agreed price | learner type           | start date | planned end date | actual end date | completion status |
-            | 15000        | programme only non-DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | agreed price | learner type           | start date | planned end date | actual end date | completion status |
+            | learner a | 15000        | programme only non-DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -108,8 +108,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |

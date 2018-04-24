@@ -12,7 +12,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
         public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, IEnumerable<LearnerResults> submissionResults, EmployerAccountContext employerAccountContext)
         {
             var payments = GetPaymentsForBreakdown(breakdown, submissionResults)
-                .Where(p => p.FundingSource == FundingSource.FullyFundedSfa && p.ContractType == ContractType.ContractWithEmployer)
+                .Where(p => p.FundingSource == FundingSource.FullyFundedSfa && p.ContractType == ContractType.ContractWithSfa)
                 .ToArray();
             foreach (var period in breakdown.SfaLevyAdditionalPayments)
             {

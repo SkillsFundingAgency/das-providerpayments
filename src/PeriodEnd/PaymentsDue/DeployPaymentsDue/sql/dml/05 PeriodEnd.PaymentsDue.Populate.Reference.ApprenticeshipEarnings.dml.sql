@@ -24,6 +24,9 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [FrameworkCode],
     [PathwayCode],
     [ApprenticeshipContractType],
+	[ApprenticeshipContractTypeCode],
+	[ApprenticeshipContractTypeStartDate],
+	[ApprenticeshipContractTypeEndDate],
     [PriceEpisodeFundLineType],
     [PriceEpisodeSfaContribPct],
     [PriceEpisodeLevyNonPayInd],
@@ -44,7 +47,49 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
 	[MonthlyInstallment],
 	[EndpointAssessorId] 
 	)
-SELECT * FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
+SELECT 
+	pe.[Ukprn],
+    pe.[Uln],
+    pe.[LearnRefNumber],
+    pe.[PriceEpisodeAimSeqNumber],
+    pe.[PriceEpisodeIdentifier],
+    pe.[Period],
+    pe.[PriceEpisodeActualEndDate],
+    pe.[PriceEpisodeOnProgPayment],
+    pe.[PriceEpisodeCompletionPayment],
+    pe.[PriceEpisodeBalancePayment],
+    pe.[PriceEpisodeFirstEmp1618Pay],
+    pe.[PriceEpisodeFirstProv1618Pay],
+    pe.[PriceEpisodeSecondEmp1618Pay],
+    pe.[PriceEpisodeSecondProv1618Pay],
+    pe.[StdCode],
+    pe.[ProgType],
+    pe.[FworkCode],
+    pe.[PwayCode],
+	pe.[PriceEpisodeContractType],
+	pe.[LearnDelFAMCode],
+	pe.[LearnDelFAMDateFrom],
+	pe.[LearnDelFAMDateTo],
+    pe.[PriceEpisodeFundLineType],
+    pe.[PriceEpisodeSfaContribPct],
+    pe.[PriceEpisodeLevyNonPayInd],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftBalancing],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftCompletionPayment],
+    pe.[PriceEpisodeApplic1618FrameworkUpliftOnProgPayment],
+    pe.[PriceEpisodeFirstDisadvantagePayment],
+    pe.[PriceEpisodeSecondDisadvantagePayment],
+    pe.[PriceEpisodeLSFCash],
+	pe.[EpisodeStartDate],
+	pe.[LearnAimRef] ,
+	pe.[LearnStartDate],
+	pe.[LearnPlanEndDate],
+	pe.[LearnActEndDate],
+	pe.[CompStatus],
+	pe.[PriceEpisodeCompletionElement],
+	pe.[PlannedNumOnProgInstalm],
+	pe.[PriceEpisodeInstalmentValue],
+	pe.[EPAOrgId] 
+FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 		SELECT
 			pe.[Ukprn],
 			l.[Uln],
@@ -65,6 +110,10 @@ SELECT * FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			ld.[FworkCode],
 			ld.[PwayCode],
 			CASE pe.[PriceEpisodeContractType] WHEN ''Levy Contract'' THEN 1 ELSE 2 END PriceEpisodeContractType,
+			act.LearnDelFAMType,
+			act.LearnDelFAMCode,
+			act.LearnDelFAMDateFrom,
+			act.LearnDelFAMDateTo,
 			pe.[PriceEpisodeFundLineType],
 			pv.[PriceEpisodeSFAContribPct],
 			pv.[PriceEpisodeLevyNonPayInd],
@@ -96,7 +145,11 @@ SELECT * FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 				AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
 			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
 				AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
-				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]') as pe
+				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
+			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
+				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
+				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
+				AND	act.LearnDelFAMType = ''ACT''') as pe
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]

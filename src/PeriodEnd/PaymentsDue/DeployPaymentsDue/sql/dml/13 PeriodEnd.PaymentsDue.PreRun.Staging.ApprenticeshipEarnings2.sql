@@ -19,6 +19,9 @@ SELECT
     ade.FrameworkCode,
     ade.PathwayCode,
     ade.ApprenticeshipContractType,
+	ae.ApprenticeshipContractTypeCode,
+	ae.ApprenticeshipContractTypeStartDate,
+	ae.ApprenticeshipContractTypeEndDate,
     ae.PriceEpisodeIdentifier,
     ade.FundingLineType AS PriceEpisodeFundLineType,
     ade.SfaContributionPercentage AS PriceEpisodeSfaContribPct,
@@ -107,3 +110,4 @@ SELECT
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
 		 And   ndtt.TransactionType In ( 13,14,15)
+GO
