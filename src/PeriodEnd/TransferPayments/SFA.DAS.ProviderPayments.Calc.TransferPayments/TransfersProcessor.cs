@@ -26,13 +26,8 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
             _levyTransferProcessor = levyTransferProcessor;
         }
 
-        public TransfersProcessor(
-            IAmATransferRepository transferRepository, 
-            IAmAnAccountRepository accountRepository, 
-            IProcessLevyTransfers levyTransferProcessor)
+        public TransfersProcessor()
         {
-            _transferRepository = transferRepository;
-            _levyTransferProcessor = levyTransferProcessor;
             // So we can mock
         }
 

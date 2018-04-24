@@ -50,25 +50,30 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Services
 
             var transferListForAccount = new List<TransferPaymentSet>();
 
-            var groupedPayments = requiredPayments.GroupBy(x => x.AccountId);
-            foreach (var paymentList in groupedPayments)
-            {
-                _logger.Info($"Processing transfers from {sendingAccountId} to {paymentList.Key}");
-                Account receivingAccount;
-                if (!_accounts.TryGetValue(paymentList.Key, out receivingAccount))
-                {
-                    _logger.Error($"Could not find receiving account with id {paymentList.Key} - aborting processing for account");
-                    continue;
-                }
+            var groupedPaymentsByApprovedDate = requiredPayments
+                .GroupBy(x => x.TransferApprovedDate)
+                .OrderBy(x => x.Key);
 
-                var sortedPayments = paymentList.OrderBy(x => x.TransferApprovedDate).ThenBy(x => x.Uln);
-                _logger.Info($"Creating transfer payment sets for sending account {sendingAccountId} and receiving account: {receivingAccount.Id}");
-                var results = ProcessTransfers(sendingAccount, receivingAccount, sortedPayments);
-                transferListForAccount.Add(results);
+            foreach (var paymentList in groupedPaymentsByApprovedDate)
+            {
+                Account receivingAccount;
+
+                var sortedPayments = paymentList.OrderBy(x => x.Uln);
+                foreach (var requiredTransferPayment in sortedPayments)
+                {
+                    _logger.Info($"Processing transfer from {sendingAccountId} to {paymentList.Key}");
+                    if (!_accounts.TryGetValue(requiredTransferPayment.AccountId, out receivingAccount))
+                    {
+                        _logger.Error($"Could not find receiving account with id {paymentList.Key} - aborting processing for account");
+                        continue;
+                    }
+
+                    var results = ProcessTransfers(sendingAccount, receivingAccount, new List<RequiredTransferPayment>{requiredTransferPayment});
+                    transferListForAccount.Add(results);
+                }
             }
 
             return transferListForAccount;
-            
         }
 
         public TransferPaymentSet ProcessTransfers(

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.AutoMoq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Services;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 {
@@ -22,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             public class AndThereIsSufficientBalanceForAllPayments
             {
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenThreePaymentSetsAreCreated(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -38,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     actual.Should().Be(requiredPayments.Count);
                 }
 
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenThePaymentAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -55,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     actual.Should().Be(expected);
                 }
 
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenTheTransferAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -75,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             public class AndThereIsNotSufficientBalanceForAllPayments
             {
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenThePaymentAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -93,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     actual.Should().Be(expected);
                 }
 
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenTheTransferAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -120,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             public class AndThereIsSufficientBalanceForAllPayments
             {
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenThePaymentAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -138,7 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     actual.Should().Be(expected);
                 }
 
-                [Test, AutoData]
+                [Test, TransfersAutoData]
                 public void ThenTheTransferAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -164,7 +166,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
                 public class WithBalanceHigherThanTheTransferBalance
                 {
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenLessThanThreePaymentSetsAreCreated(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -182,7 +184,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         actual.Should().BeLessThan(requiredPayments.Count);
                     }
 
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenThePaymentAmountsAreCorrect(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -200,7 +202,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         actual.Should().Be(expected);
                     }
 
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenTheTransferAmountsAreCorrect(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -221,7 +223,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
                 public class WithBalanceLowerThanTheTransferBalance
                 {
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenLessThanThreePaymentSetsAreCreated(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -239,7 +241,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         actual.Should().BeLessThan(requiredPayments.Count);
                     }
 
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenThePaymentAmountsAreCorrect(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
@@ -257,7 +259,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         actual.Should().Be(expected);
                     }
 
-                    [Test, AutoData]
+                    [Test, TransfersAutoData]
                     public void ThenTheTransferAmountsAreCorrect(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
