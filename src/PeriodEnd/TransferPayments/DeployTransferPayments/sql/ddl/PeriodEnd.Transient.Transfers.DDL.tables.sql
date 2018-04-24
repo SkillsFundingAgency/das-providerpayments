@@ -37,7 +37,7 @@ GO
 IF NOT EXISTS(SELECT NULL FROM 
 	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
 	WHERE t.name='AccountTransfers' AND s.name='TransferPayments'
-)
+) 
 BEGIN
 	CREATE TABLE TransferPayments.AccountTransfers
 	(
