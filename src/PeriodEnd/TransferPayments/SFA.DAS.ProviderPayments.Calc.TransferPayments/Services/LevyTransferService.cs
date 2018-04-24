@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Services
                 }
 
                 var transferResult = sendingAccount.CreateTransfer(receiver, requiredPayment);
-                var payment = sendingAccount.CreatePayment(requiredPayment, transferResult.Amount);
+                var payment = sendingAccount.CreateTransferPayment(requiredPayment, transferResult.Amount);
 
                 result.AddTransferWithPayment(transferResult.AccountLevyTransfer, payment);
             }

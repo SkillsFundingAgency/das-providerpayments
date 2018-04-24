@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    public partial class WhenCreatingPayments
+    public partial class WhenCreatingTransferPayments
     {
         [Test, AutoData]
         public void ThenTheRequiredPaymentIdIsCorrect(
@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.RequiredPaymentId.Should().Be(requiredPayment.RequiredPaymentId);
         }
@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.DeliveryMonth.Should().Be(requiredPayment.DeliveryMonth);
         }
@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.DeliveryYear.Should().Be(requiredPayment.DeliveryYear);
         }
@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.CollectionPeriodName.Should().Be(requiredPayment.CollectionPeriodName);
         }
@@ -60,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.CollectionPeriodMonth.Should().Be(requiredPayment.CollectionPeriodMonth);
         }
@@ -71,7 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.CollectionPeriodYear.Should().Be(requiredPayment.CollectionPeriodYear);
         }
@@ -82,7 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.FundingSource.Should().Be(FundingSource.Transfer);
         }
@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.TransactionType.Should().Be(requiredPayment.TransactionType);
         }
@@ -104,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account sut,
             decimal amount)
         {
-            var actual = sut.CreatePayment(requiredPayment, amount);
+            var actual = sut.CreateTransferPayment(requiredPayment, amount);
 
             actual.Amount.Should().Be(amount);
         }

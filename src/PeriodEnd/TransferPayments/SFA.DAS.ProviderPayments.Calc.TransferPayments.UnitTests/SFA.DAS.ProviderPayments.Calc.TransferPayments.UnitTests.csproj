@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests\WhenConstructing.cs" />
-    <Compile Include="AccountTests\WhenCreatingPayments.cs" />
+    <Compile Include="AccountTests\WhenCreatingTransferPayments.cs" />
     <Compile Include="AccountTests\WhenCreatingTransfers-Amount.cs" />
     <Compile Include="AccountTests\WhenCreatingTransfers-Transfer.cs" />
     <Compile Include="AccountTests\WhenCreatingTransfers-Exceptions.cs" />

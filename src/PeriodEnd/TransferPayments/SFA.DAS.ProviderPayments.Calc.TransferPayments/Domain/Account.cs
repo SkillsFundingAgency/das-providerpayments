@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
         long AccountId { get; }
         decimal Balance { get; set; }
         bool IsLevyPayer { get; }
-        decimal TransferBalance { get; }
+        private decimal TransferBalance { get; set; }
         private decimal AvailableTransferBalance { get; set; }
 
         void UpdateHasTransferBalance()
@@ -50,12 +50,13 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             result.Amount = transfer.Amount;
 
             Balance -= transfer.Amount;
+            TransferBalance -= transfer.Amount;
             UpdateHasTransferBalance();
 
             return result;
         }
 
-        public TransferLevyPayment CreatePayment(RequiredTransferPayment requiredPayment, decimal amount)
+        public TransferLevyPayment CreateTransferPayment(RequiredTransferPayment requiredPayment, decimal amount)
         {
             var payment = new TransferLevyPayment(requiredPayment, amount);
 

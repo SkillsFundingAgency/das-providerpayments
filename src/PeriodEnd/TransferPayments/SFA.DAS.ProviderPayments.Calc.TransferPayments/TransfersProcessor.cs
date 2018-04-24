@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
     public partial class TransfersProcessor
     {
         private readonly ILogger _logger;
-        private readonly IMediator _mediator;
+
         private readonly ContextWrapper _context;
 
         public TransfersProcessor(ILogger logger, IMediator mediator, ContextWrapper context)
@@ -29,6 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
             _logger.Info("Started Transfers Processor.");
 
             // Get a list of accounts with transfers
+            var accounts = 
 
             // In parallel, process each sending employer
 

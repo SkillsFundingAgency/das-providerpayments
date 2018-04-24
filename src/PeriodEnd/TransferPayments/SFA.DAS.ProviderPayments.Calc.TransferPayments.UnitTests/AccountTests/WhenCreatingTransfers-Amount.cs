@@ -140,6 +140,30 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 }
             }
 
+            public class AndTheCombinedTotalIsMoreThanTheTransferBalance
+            {
+                [Test, AutoData]
+                public void ThenThereWillBeATransferForLessThanTheRequestedAmount(
+                    RequiredTransferPayment requiredPayment1,
+                    RequiredTransferPayment requiredPayment2,
+                    Account receiver,
+                    DasAccount entity
+                )
+                {
+                    var expectedTotal = requiredPayment1.AmountDue + requiredPayment2.AmountDue - 1;
+                    entity.TransferBalance = expectedTotal;
+                    entity.Balance = 1000000;
+
+                    var sut = new Account(entity);
+
+                    var result1 = sut.CreateTransfer(receiver, requiredPayment1);
+                    var result2 = sut.CreateTransfer(receiver, requiredPayment2);
+                    var actualTotal = result1.Amount + result2.Amount;
+
+                    actualTotal.Should().Be(expectedTotal);
+                }
+            }
+
             public class AndTheCombinedTotalIsMoreThanTheBalance
             {
                 [Test, AutoData]

@@ -76,24 +76,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
             public class AndThereIsNotSufficientBalanceForAllPayments
             {
                 [Test, AutoData]
-                public void ThenLessThanThreePaymentSetsAreCreated(
-                        LevyTransferService sut,
-                        List<RequiredTransferPayment> requiredPayments,
-                        Account receiver
-                    )
-                {
-                    var amount = requiredPayments.Sum(x => x.AmountDue);
-
-                    var entity = new DasAccount { Balance = amount / 2, TransferBalance = 1000000, IsLevyPayer = true };
-                    var sender = new Account(entity);
-
-                    var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
-                    var actual = result.AccountTransfers.Count;
-
-                    actual.Should().BeLessThan(requiredPayments.Count);
-                }
-
-                [Test, AutoData]
                 public void ThenThePaymentAmountsAreCorrect(
                     LevyTransferService sut,
                     List<RequiredTransferPayment> requiredPayments,
@@ -138,24 +120,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             public class AndThereIsSufficientBalanceForAllPayments
             {
-                [Test, AutoData]
-                public void ThenLessThanThreePaymentSetsAreCreated(
-                        LevyTransferService sut,
-                        List<RequiredTransferPayment> requiredPayments,
-                        Account receiver
-                    )
-                {
-                    var amount = requiredPayments.Sum(x => x.AmountDue);
-
-                    var entity = new DasAccount { Balance = 1000000, TransferBalance = amount / 2, IsLevyPayer = true };
-                    var sender = new Account(entity);
-
-                    var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
-                    var actual = result.AccountTransfers.Count;
-
-                    actual.Should().BeLessThan(requiredPayments.Count);
-                }
-
                 [Test, AutoData]
                 public void ThenThePaymentAmountsAreCorrect(
                     LevyTransferService sut,
