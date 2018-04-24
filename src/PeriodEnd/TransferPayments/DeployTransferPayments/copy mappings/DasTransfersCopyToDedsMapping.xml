@@ -22,8 +22,8 @@
           <Destination>SendingAccountId</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>RecievingAccountId</Source>
-          <Destination>RecievingAccountId</Destination>
+          <Source>ReceivingAccountId</Source>
+          <Destination>ReceivingAccountId</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>RequiredPaymentId</Source>
