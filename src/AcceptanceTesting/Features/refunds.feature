@@ -350,7 +350,7 @@ Scenario:894-AC01 - DAS standard learner, original commitment is withdrawn after
         
     When an ILR file is submitted for the first time on 10/10/17 with the following data:
         | ULN       | employer   | provider   | learner type           | start date | planned end date | agreed price | completion status | programme type | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date |
-        | learner a | employer 0 | provider A | programme only non-DAS | 04/08/2017 | 20/08/2018       | 1            | continuing        | 25             | 8                      | 04/08/2017                            | 2                        | 04/08/2017                              |
+        | learner a | employer 0 | provider A | programme only non-DAS | 04/08/2017 | 20/08/2018       | 10            | continuing        | 25             | 8                      | 04/08/2017                            | 2                        | 04/08/2017                              |
 	
     Then the provider earnings and payments break down as follows:
         | Type                           | 08/17  | 09/17  | 10/17  | 11/17    | 12/17   |
