@@ -8,13 +8,13 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- vw_TransfersLearners
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_TransfersLearners' AND [schema_id] = SCHEMA_ID('TransferPayments'))
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_RequiredTransferPayment' AND [schema_id] = SCHEMA_ID('TransferPayments'))
 BEGIN
-    DROP VIEW TransferPayments.vw_TransfersLearners
+    DROP VIEW TransferPayments.vw_RequiredTransferPayment
 END
 GO
 
-CREATE VIEW TransferPayments.vw_TransfersLearners
+CREATE VIEW TransferPayments.vw_RequiredTransferPayment
 AS
 	SELECT 
 		R.Id [RequiredPaymentId],	
@@ -41,8 +41,8 @@ AS
 		R.UseLevyBalance,
 		R.LearnAimRef,
 		R.LearningStartDate,
-		--,C.TransferSendingEmployerAccountId,
-		--,C.TransferApprovedDate,
+		C.TransferSendingEmployerAccountId,
+		C.TransferApprovedDate,
 		R.CollectionPeriodName,
 		R.CollectionPeriodMonth,
 		R.CollectionPeriodYear
@@ -54,7 +54,7 @@ AS
 		C.CommitmentId = R.CommitmentId
 		AND C.CommitmentVersionId = R.CommitmentVersionId
 
-	--WHERE
-		--ISNULL(C.TransferSendingEmployerAccountId, 0) > 0
+	WHERE
+		ISNULL(C.TransferSendingEmployerAccountId, 0) > 0
 	
 GO

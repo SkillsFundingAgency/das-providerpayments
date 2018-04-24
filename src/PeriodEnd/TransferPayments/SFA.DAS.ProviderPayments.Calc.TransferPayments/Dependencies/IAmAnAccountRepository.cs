@@ -6,5 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies
     public interface IAmAnAccountRepository
     {
         IEnumerable<Account> AllAccounts();
+        Account Account(long accountId);
     }
 }

@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           "CollectionPeriodMonth, " +
                           "CollectionPeriodYear " +
                           "FROM " +
-                          "RequiredTransferPayments.vw_TransfersLearners";
+                          "RequiredTransferPayments.vw_RequiredTransferPayment";
             var results = Query<RequiredTransferPayment>(command);
             return results;
         }

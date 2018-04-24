@@ -29,10 +29,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             testAccountEntities[0].TransferBalance = 1;
 
-            var accounts = testAccountEntities.Select(x => new Account(x));
-            accountRepository.Setup(x => x.AllAccounts()).Returns(accounts);
-            sut.LoadAccounts();
-
+            var accounts = testAccountEntities.Select(x => new Account(x)).ToList();
+            accountRepository.Setup(x => x.Account(testAccountEntities[0].AccountId)).Returns(accounts[0]);
+            accountRepository.Setup(x => x.Account(testAccountEntities[1].AccountId)).Returns(accounts[1]);
+            accountRepository.Setup(x => x.Account(testAccountEntities[2].AccountId)).Returns(accounts[2]);
+            
             testRequiredPayments[0].TransferSendingEmployerAccountId = testAccountEntities[0].AccountId;
             testRequiredPayments[0].AccountId = testAccountEntities[2].AccountId;
 
@@ -62,9 +63,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             testAccountEntities[0].TransferBalance = 1;
 
-            var accounts = testAccountEntities.Select(x => new Account(x));
-            accountRepository.Setup(x => x.AllAccounts()).Returns(accounts);
-            sut.LoadAccounts();
+            var accounts = testAccountEntities.Select(x => new Account(x)).ToList();
+            accountRepository.Setup(x => x.Account(testAccountEntities[0].AccountId)).Returns(accounts[0]);
+            accountRepository.Setup(x => x.Account(testAccountEntities[1].AccountId)).Returns(accounts[1]);
+            accountRepository.Setup(x => x.Account(testAccountEntities[2].AccountId)).Returns(accounts[2]);
+
 
             testRequiredPayments[0].TransferSendingEmployerAccountId = testAccountEntities[0].AccountId;
             testRequiredPayments[0].AccountId = testAccountEntities[2].AccountId;

@@ -1,5 +1,5 @@
 ﻿using System;
-using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
 {
@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
             ReceivingAccountId = requiredPayment.AccountId;
             RequiredPaymentId = requiredPayment.RequiredPaymentId;
             CommitmentId = requiredPayment.CommitmentId;
-            FundingSource = FundingSource.Transfer;
+            TransferType = TransferType.Levy;
             CollectionPeriodMonth = requiredPayment.CollectionPeriodMonth;
             CollectionPeriodYear = requiredPayment.CollectionPeriodYear;
             CollectionPeriodName = requiredPayment.CollectionPeriodName;
@@ -23,8 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
         public Guid RequiredPaymentId { get; set; }
         public long CommitmentId { get; set; }
         public decimal Amount { get; set; }
-        public FundingSource FundingSource { get; set; }
-        public DateTime TransferedDate { get; set; }
+        public TransferType TransferType { get; set; }
         public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }

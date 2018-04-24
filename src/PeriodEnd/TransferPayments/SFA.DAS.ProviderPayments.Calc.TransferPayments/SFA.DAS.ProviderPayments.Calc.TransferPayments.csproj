@@ -70,6 +70,7 @@
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TransfersRegistry.cs" />
     <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\TransferType.cs" />
     <Compile Include="Dto\CreateTransferResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LevyTransferService.cs" />

@@ -8,15 +8,15 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Payments
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payments' AND [schema_id] = SCHEMA_ID('TransfersPayments'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payments' AND [schema_id] = SCHEMA_ID('TransferPayments'))
 BEGIN
-	DROP TABLE TransfersPayments.Payments
+	DROP TABLE TransferPayments.Payments
 END
 GO
 
-CREATE TABLE TransfersPayments.Payments
+CREATE TABLE TransferPayments.Payments
 (
-	[PaymentId] uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+	[PaymentId] uniqueidentifier DEFAULT(NEWID()),
 	[RequiredPaymentId] bigint NOT NULL,
 	[DeliveryMonth] int NOT NULL,
 	[DeliveryYear] int NOT NULL,
@@ -39,17 +39,17 @@ IF NOT EXISTS(SELECT NULL FROM
 	WHERE t.name='AccountTransfers' AND s.name='TransferPayments'
 )
 BEGIN
-	CREATE TABLE TransfersPayments.AccountTransfers
+	CREATE TABLE TransferPayments.AccountTransfers
 	(
-		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 		SendingAccountId bigint NOT NULL,
 		RecievingAccountId bigint NOT NULL,
-		RequiredPaymentId bigint NOT NULL,
+		RequiredPaymentId uniqueidentifier NOT NULL,
 		CommitmentId bigint NOT NULL,
 		Amount decimal(15,5) NOT NULL,
 		TransferType int NOT NULL,
-		TransferDate DateTime NOT NULL,
-		CollectionPeriodName varchar(8) NOT NULL
+		CollectionPeriodName varchar(8) NOT NULL,
+		CollectionPeriodMonth int NOT NULL,
+		CollectionPeriodYear int NOT NULL
 	)
 END
 GO

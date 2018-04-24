@@ -54,9 +54,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             Account receiver)
         {
             var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.FundingSource;
+            var actual = result.AccountLevyTransfer.TransferType;
 
-            actual.Should().Be(FundingSource.Transfer);
+            actual.Should().Be(TransferType.Levy);
         }
 
         [Test, AutoData]
