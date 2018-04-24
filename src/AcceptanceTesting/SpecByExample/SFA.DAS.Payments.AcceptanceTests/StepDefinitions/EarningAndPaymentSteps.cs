@@ -58,6 +58,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("OBSOLETE - the earnings and payments break down for provider (.*) is as follows:"), Obsolete]
         public void ThenProviderEarningAndPaymentsBreakDownToObsolete(string providerIdSuffix, Table earningAndPayments)
         {
+            var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
+            if (providerBreakdown == null)
+            {
+                providerBreakdown = new EarningsAndPaymentsBreakdown { ProviderId = "provider " + providerIdSuffix };
+                EarningsAndPaymentsContext.OverallEarningsAndPayments.Add(providerBreakdown);
+            }
+
+            EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
+
             foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
                 if (!submission.HaveSubmissionsBeenDone)
@@ -65,28 +74,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: providerBreakdown.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
 
-            var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
-            if (providerBreakdown == null)
-            {
-                providerBreakdown = new EarningsAndPaymentsBreakdown { ProviderId = "provider " + providerIdSuffix };
-                EarningsAndPaymentsContext.OverallEarningsAndPayments.Add(providerBreakdown);
-            }
-
-            EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
             AssertResults();
         }
 
         [Then("the earnings and payments break down for provider (.*) is as follows:")]
         public void ThenProviderEarningAndPaymentsBreakDownTo(string providerIdSuffix, Table earningAndPayments)
         {
-            PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
-                EmployerAccountContext.EmployerAccounts));
-
             var providerBreakdown = EarningsAndPaymentsContext.OverallEarningsAndPayments.SingleOrDefault(x => x.ProviderId == "provider " + providerIdSuffix);
             if (providerBreakdown == null)
             {
@@ -95,6 +93,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
 
             EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
+
+            PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
+                EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max()));
+
             AssertResults();
         }
 
@@ -107,6 +109,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Then("the transaction types for the payments for provider (.*) are:")]
         public void ThenTheTransactionTypesForNamedProviderEarningsAre(string providerIdSuffix, Table transactionTypes)
         {
+            TransactionTypeTableParser.ParseTransactionTypeTableIntoContext(EarningsAndPaymentsContext, $"provider {providerIdSuffix}", transactionTypes);
+
             foreach (var submission in MultipleSubmissionsContext.Submissions)
             {
                 if (!submission.HaveSubmissionsBeenDone)
@@ -114,12 +118,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: EarningsAndPaymentsContext.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
 
-            TransactionTypeTableParser.ParseTransactionTypeTableIntoContext(EarningsAndPaymentsContext, $"provider {providerIdSuffix}", transactionTypes);
             AssertResults();
         }
 
