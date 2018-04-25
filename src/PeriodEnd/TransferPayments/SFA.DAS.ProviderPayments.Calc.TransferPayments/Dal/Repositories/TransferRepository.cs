@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
         {
         }
 
-        public void AddTransfers(List<TransferPaymentSet> transfers)
+        public void SaveTransfers(List<TransferPaymentSet> transfers)
         {
             ExecuteBatch(transfers.SelectMany(x => x.TransferPayments).ToArray(), "RequiredTransferPayments.Payments");
             ExecuteBatch(transfers.SelectMany(x => x.AccountTransfers).ToArray(), "TransferPayments.AccountTransfers");

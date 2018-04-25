@@ -7,6 +7,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies
     public interface IAmATransferRepository
     {
         IEnumerable<RequiredTransferPayment> RequiredTransferPayments();
-        void AddTransfers(List<TransferPaymentSet> transfers);
+        void SaveTransfers(List<TransferPaymentSet> transfers);
     }
 }

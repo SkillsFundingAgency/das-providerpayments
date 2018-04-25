@@ -26,11 +26,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
             _levyTransferProcessor = levyTransferProcessor;
         }
 
-        public TransfersProcessor()
-        {
-            // So we can mock
-        }
-
         public virtual void Process()
         {
             _logger.Info("Started Transfers Processor.");
@@ -45,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
             {
                 var results = _levyTransferProcessor.ProcessSendingAccount(x.Key, x);
                 _logger.Info($"Saving transfer payment sets for sending account {x.Key}");
-                _transferRepository.AddTransfers(results);
+                _transferRepository.SaveTransfers(results);
                 _logger.Info($"Finished transfer processing for account {x.Key}");
             });
 

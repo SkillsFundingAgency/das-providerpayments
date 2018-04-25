@@ -93,7 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\WhenProcessingSendingAccounts.cs" />
     <Compile Include="ServiceTests\WhenProcessingTransfers.cs" />
-    <Compile Include="TransfersTaskTests\WhenExecutingWithValidContext.cs" />
+    <Compile Include="TransferProcessorTests\WhenProcessing.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\TransfersAutoDataAttribute.cs" />
   </ItemGroup>
