@@ -44,7 +44,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Application.AddOrUpdateCommitme
                     /* properties from price episode*/
                     AgreedCost = priceEpisode.AgreedPrice,
                     EffectiveFromDate = priceEpisode.EffectiveFromDate,
-                    EffectiveToDate = priceEpisode.EffectiveToDate
+                    EffectiveToDate = priceEpisode.EffectiveToDate,
+                    TransferSendingEmployerAccountId = message.TransferSendingEmployerAccountId,
+                    TransferApprovalDate = message.TransferApprovalDate
                 };
                 counter++;
                 commitmentsList.Add(commitment);
