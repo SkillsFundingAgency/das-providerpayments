@@ -1,12 +1,12 @@
 ﻿Feature: transfers
 
 Scenario: testing new rule in earnings and payments break down
-    Given levy balance > agreed price for all months
+    Given the employer 1 has a levy balance > agreed price for all months
     And the apprenticeship funding band maximum is 9000
 
 	And the following commitments exist:
-		| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | effective from | effective to |
-		| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active    | 01/08/2017     |              |
+		| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status | effective from | effective to | employer   |
+		| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active | 01/08/2017     |              | employer 1 |
         
     When an ILR file is submitted for period R01 with the following data:
 		| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code | contract type | contract type date from | contract type date to | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id |
@@ -27,11 +27,10 @@ Scenario: testing new rule in earnings and payments break down
         | Refund taken by SFA                     | 0      | 0      | 0      | -1278.50 |
         | Payment due from Employer               | 0      | 0      | 0      | 180      |
         | Refund due to employer                  | 0      | 0      | 0      | 0        |
-        | Levy account debited                    | 0      | 600    | 600    | 0        |
-        | employer 0 Levy account credited        | 0      | 0      | 0      | 1200     |
+        | employer 1 Levy account debited         | 0      | 600    | 600    | 0        |
+        | employer 1 Levy account credited        | 0      | 0      | 0      | 1200     |
         | SFA Levy employer budget                | 0      | 0      | 0      | 0        |
         | SFA Levy co-funding budget              | 0      | 0      | 0      | 0        |
         | SFA Levy additional payments budget     | 0      | 0      | 0      | 0        |
         | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540      |
         | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25    |
-
