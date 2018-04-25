@@ -557,9 +557,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{8E6FE549-CD8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{0D82E8AB-6FD0-4A49-A905-8E4868DAF55D}"
 	ProjectSection(SolutionItems) = preProject
-		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql
-		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql
-		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.TransferPayments.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.TransferPayments.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.views.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{1656C474-4069-4262-A37E-14E8F854519E}"
