@@ -94,13 +94,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.TransfersCalculator.DDL.tables.sql">
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.TransferPayments.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.TransferPayments.DDL.tables.sql</Link>
     </Content>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransfersCalculator.DDL.tables.sql">
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.tables.sql</Link>
     </Content>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransfersCalculator.DDL.views.sql">
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.views.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.views.sql</Link>
     </Content>
     <Content Include="..\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
