@@ -11,9 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.TransferProce
     [TestFixture]
     public class WhenProcessing
     {
-        [Test, Ignore("To keep structure in the results")]
-        public void Null() { }
-
+        [TestFixture]
         public class AndThereIsOneSendingAccount
         {
             [Test, TransfersAutoData]
@@ -59,6 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.TransferProce
             }
         }
 
+        [TestFixture]
         public class AndThereAreTwoSendingAccounts
         {
             [Test, TransfersAutoData]
@@ -108,6 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.TransferProce
             }
         }
 
+        [TestFixture]
         public class AndThereAreThreeSendingAccounts
         {
             [Test, TransfersAutoData]

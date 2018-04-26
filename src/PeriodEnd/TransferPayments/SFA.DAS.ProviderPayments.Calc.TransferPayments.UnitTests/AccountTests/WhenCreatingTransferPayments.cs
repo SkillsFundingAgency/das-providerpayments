@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    public partial class WhenCreatingTransferPayments
+    public class WhenCreatingTransferPayments
     {
         [Test, AutoData]
         public void ThenTheRequiredPaymentIdIsCorrect(

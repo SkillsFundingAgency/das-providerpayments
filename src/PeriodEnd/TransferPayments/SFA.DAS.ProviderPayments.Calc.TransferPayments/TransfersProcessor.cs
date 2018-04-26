@@ -1,27 +1,25 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NLog;
-using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
 {
-    public partial class TransfersProcessor
+    public class TransfersProcessor
     {
         private readonly ILogger _logger;
         private readonly IAmATransferRepository _transferRepository;
         private readonly IProcessLevyTransfers _levyTransferProcessor;
-        private readonly ContextWrapper _context;
 
+        [UsedImplicitly]
         public TransfersProcessor(
             ILogger logger, 
-            ContextWrapper context, 
             IAmATransferRepository transferRepository, 
             IProcessLevyTransfers levyTransferProcessor)
         {
             _logger = logger;
-            
-            _context = context;
+
             _transferRepository = transferRepository;
             _levyTransferProcessor = levyTransferProcessor;
         }

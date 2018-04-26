@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
-using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dto;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies

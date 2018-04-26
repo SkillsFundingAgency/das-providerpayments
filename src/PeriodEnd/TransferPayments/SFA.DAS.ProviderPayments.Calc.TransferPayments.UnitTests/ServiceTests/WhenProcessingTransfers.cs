@@ -12,14 +12,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
     [TestFixture]
     public class WhenProcessingTransfers
     {
-        [Test, Ignore("To keep structure in the results")]
-        public void Null() { }
-
+        [TestFixture]
         public class AndThereIsSufficientTransferBalanceForAllPayments
         {
-            [Test, Ignore("To keep structure in the results")]
-            public void Null() { }
-
+            [TestFixture]
             public class AndThereIsSufficientBalanceForAllPayments
             {
                 [Test, TransfersAutoData]
@@ -73,6 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 }
             }
 
+            [TestFixture]
             public class AndThereIsNotSufficientBalanceForAllPayments
             {
                 [Test, TransfersAutoData]
@@ -113,11 +110,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
             }
         }
 
+        [TestFixture]
         public class AndTheTransferBalanceDoesNotCoverAllPayments
         {
-            [Test, Ignore("To keep structure in the results")]
-            public void Null() { }
-
+            [TestFixture]
             public class AndThereIsSufficientBalanceForAllPayments
             {
                 [Test, TransfersAutoData]
@@ -157,11 +153,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 }
             }
 
+            [TestFixture]
             public class AndThereIsNotSufficientBalanceForAllPayments
             {
-                [Test, Ignore("To keep structure in the results")]
-                public void Null() { }
-
+                [TestFixture]
                 public class WithBalanceHigherThanTheTransferBalance
                 {
                     [Test, TransfersAutoData]
@@ -219,6 +214,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     }
                 }
 
+                [TestFixture]
                 public class WithBalanceLowerThanTheTransferBalance
                 {
                     [Test, TransfersAutoData]

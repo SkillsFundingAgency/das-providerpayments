@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dependencies;
@@ -13,6 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Services
         private readonly ILogger _logger;
         private readonly IAmAnAccountRepository _accountRepository;
 
+        [UsedImplicitly]
         public LevyTransferService(
             ILogger logger, 
             IAmAnAccountRepository accountRepository)

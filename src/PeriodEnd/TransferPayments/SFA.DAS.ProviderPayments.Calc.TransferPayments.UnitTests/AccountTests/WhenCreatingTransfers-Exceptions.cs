@@ -10,6 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
     [TestFixture]
     public partial class WhenCreatingTransfers
     {
+        [TestFixture]
         public class AndTheReceiverAccountIdDoesNotMatch
         {
             [Test, AutoData, Ignore("Do we need this?")]

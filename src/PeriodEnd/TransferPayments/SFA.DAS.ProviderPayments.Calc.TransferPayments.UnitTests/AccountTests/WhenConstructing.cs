@@ -7,7 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    class WhenConstructing
+    public class WhenConstructing
     {
         [Test]
         [InlineAutoData(0.0, 0.0, false)]
@@ -17,7 +17,8 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
         public void ThenTheHasTransferBalanceIsCorrect(
             double accountBalance, 
             double transferBalance, 
-            bool exptected, DasAccount entity)
+            bool expected, 
+            DasAccount entity)
         {
             entity.Balance = (decimal)accountBalance;
             entity.TransferBalance = (decimal)transferBalance;
@@ -25,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 
             var sut = new Account(entity);
 
-            sut.HasTransferBalance.Should().Be(exptected);
+            sut.HasTransferBalance.Should().Be(expected);
         }
     }
 }

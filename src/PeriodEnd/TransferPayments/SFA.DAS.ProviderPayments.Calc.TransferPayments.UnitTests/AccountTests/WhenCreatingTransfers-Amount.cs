@@ -9,6 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
     [TestFixture]
     public partial class WhenCreatingTransfers
     {
+        [TestFixture]
         public class AndThereIsExtraAvailableBalance
         {
             [Test, AutoData]
@@ -29,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             }
         }
 
+        [TestFixture]
         public class AndTheAvailableBalanceIsTheSameAsTheTransferAmount
         {
             [Test, AutoData]
@@ -50,6 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             }
         }
 
+        [TestFixture]
         public class AndTheAvailableBalanceIsLowerThanTheTransferAmount
         {
             [Test, AutoData]
@@ -71,6 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             }
         }
 
+        [TestFixture]
         public class AndTheAvailableBalanceIsZero
         {
             [Test, AutoData]
@@ -91,6 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             }
         }
 
+        [TestFixture]
         public class AndTheAvailableBalanceIsNegative
         {
             [Test, AutoData]
@@ -111,11 +116,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             }
         }
 
+        [TestFixture]
         public class AndThereAreMultipleTransfers
         {
-            [Test, Ignore("To keep structure in the results")]
-            public void Null() { }
-
+            [TestFixture]
             public class AndTheCombinedTotalIsLessThanTheBalance
             {
                 [Test, AutoData]
@@ -140,6 +144,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 }
             }
 
+            [TestFixture]
             public class AndTheCombinedTotalIsMoreThanTheTransferBalance
             {
                 [Test, AutoData]
@@ -164,6 +169,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 }
             }
 
+            [TestFixture]
             public class AndTheCombinedTotalIsMoreThanTheBalance
             {
                 [Test, AutoData]

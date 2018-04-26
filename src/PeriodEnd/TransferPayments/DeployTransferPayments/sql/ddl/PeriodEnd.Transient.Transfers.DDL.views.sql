@@ -56,5 +56,6 @@ AS
 
 	WHERE
 		ISNULL(C.TransferSendingEmployerAccountId, 0) > 0
+		AND R.TransactionType IN (1,2,3)
 	
 GO
