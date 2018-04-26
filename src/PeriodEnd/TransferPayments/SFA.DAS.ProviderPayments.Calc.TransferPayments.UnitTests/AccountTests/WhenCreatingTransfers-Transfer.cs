@@ -1,7 +1,6 @@
 ﻿using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
