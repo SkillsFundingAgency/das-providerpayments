@@ -8,105 +8,113 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    public class WhenCreatingTransferPayments
+    public partial class GivenAnAccount
     {
-        [Test, AutoData]
-        public void ThenTheRequiredPaymentIdIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
+        [TestFixture]
+        public class WhenCreatingTransferPayments
         {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheRequiredPaymentIdIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.RequiredPaymentId.Should().Be(requiredPayment.RequiredPaymentId);
-        }
+                actual.RequiredPaymentId.Should().Be(requiredPayment.RequiredPaymentId);
+            }
 
-        [Test, AutoData]
-        public void ThenTheDeliveryMonthIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheDeliveryMonthIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.DeliveryMonth.Should().Be(requiredPayment.DeliveryMonth);
-        }
+                actual.DeliveryMonth.Should().Be(requiredPayment.DeliveryMonth);
+            }
 
-        [Test, AutoData]
-        public void ThenTheDeliveryYearIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheDeliveryYearIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.DeliveryYear.Should().Be(requiredPayment.DeliveryYear);
-        }
+                actual.DeliveryYear.Should().Be(requiredPayment.DeliveryYear);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodNameIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodNameIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.CollectionPeriodName.Should().Be(requiredPayment.CollectionPeriodName);
-        }
+                actual.CollectionPeriodName.Should().Be(requiredPayment.CollectionPeriodName);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodMonthIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodMonthIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.CollectionPeriodMonth.Should().Be(requiredPayment.CollectionPeriodMonth);
-        }
+                actual.CollectionPeriodMonth.Should().Be(requiredPayment.CollectionPeriodMonth);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodYearIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodYearIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.CollectionPeriodYear.Should().Be(requiredPayment.CollectionPeriodYear);
-        }
+                actual.CollectionPeriodYear.Should().Be(requiredPayment.CollectionPeriodYear);
+            }
 
-        [Test, AutoData]
-        public void ThenTheFundingSourceIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheFundingSourceIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.FundingSource.Should().Be(FundingSource.Transfer);
-        }
+                actual.FundingSource.Should().Be(FundingSource.Transfer);
+            }
 
-        [Test, AutoData]
-        public void ThenTheTransactionTypeIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheTransactionTypeIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account sut,
+                Account reciever)
+            {
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
 
-            actual.TransactionType.Should().Be(requiredPayment.TransactionType);
-        }
+                actual.TransactionType.Should().Be(requiredPayment.TransactionType);
+            }
 
-        [Test, AutoData]
-        public void ThenTheAmountIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account sut,
-            decimal amount)
-        {
-            var actual = sut.CreateTransferPayment(requiredPayment, amount);
+            [Test, AutoData]
+            public void ThenTheAmountIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                DasAccount sender,
+                Account reciever)
+            {
+                sender.TransferBalance = 1000000;
+                sender.Balance = 1000000;
+                var sut = new Account(sender);
 
-            actual.Amount.Should().Be(amount);
+                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+
+                actual.Amount.Should().Be(requiredPayment.AmountDue);
+            }
         }
     }
 }

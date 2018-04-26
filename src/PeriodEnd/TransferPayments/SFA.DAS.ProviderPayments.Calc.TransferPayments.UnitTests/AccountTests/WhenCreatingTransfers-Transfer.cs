@@ -7,88 +7,92 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 {
     [TestFixture]
-    public partial class WhenCreatingTransfers
+    public partial class GivenAnAccount
     {
-        Account Sut()
+        [TestFixture]
+        public partial class WhenCreatingTransfers
         {
-            return new Account(new DasAccount { Balance = 1000000, IsLevyPayer = true, TransferBalance = 1000000 });
-        }
+            Account Sut()
+            {
+                return new Account(new DasAccount {Balance = 1000000, IsLevyPayer = true, TransferBalance = 1000000});
+            }
 
-        [Test, AutoData]
-        public void ThenTheSendingAccountIdIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.SendingAccountId;
+            [Test, AutoData]
+            public void ThenTheSendingAccountIdIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.SendingAccountId;
 
-            actual.Should().Be(requiredPayment.TransferSendingEmployerAccountId);
-        }
+                actual.Should().Be(requiredPayment.TransferSendingEmployerAccountId);
+            }
 
-        [Test, AutoData]
-        public void ThenTheReceivingAccountIdIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.ReceivingAccountId;
+            [Test, AutoData]
+            public void ThenTheReceivingAccountIdIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.ReceivingAccountId;
 
-            actual.Should().Be(requiredPayment.AccountId);
-        }
+                actual.Should().Be(requiredPayment.AccountId);
+            }
 
-        [Test, AutoData]
-        public void ThenTheRequiredPaymentIdIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.RequiredPaymentId;
+            [Test, AutoData]
+            public void ThenTheRequiredPaymentIdIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.RequiredPaymentId;
 
-            actual.Should().Be(requiredPayment.RequiredPaymentId);
-        }
+                actual.Should().Be(requiredPayment.RequiredPaymentId);
+            }
 
-        [Test, AutoData]
-        public void ThenTheFundingSourceIsTransfer(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.TransferType;
+            [Test, AutoData]
+            public void ThenTheFundingSourceIsTransfer(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.TransferType;
 
-            actual.Should().Be(TransferType.Levy);
-        }
+                actual.Should().Be(TransferType.Levy);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodNameIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.CollectionPeriodName;
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodNameIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.CollectionPeriodName;
 
-            actual.Should().Be(requiredPayment.CollectionPeriodName);
-        }
+                actual.Should().Be(requiredPayment.CollectionPeriodName);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodMonthIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.CollectionPeriodMonth;
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodMonthIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.CollectionPeriodMonth;
 
-            actual.Should().Be(requiredPayment.CollectionPeriodMonth);
-        }
+                actual.Should().Be(requiredPayment.CollectionPeriodMonth);
+            }
 
-        [Test, AutoData]
-        public void ThenTheCollectionPeriodYearIsCorrect(
-            RequiredTransferPayment requiredPayment,
-            Account receiver)
-        {
-            var result = Sut().CreateTransfer(receiver, requiredPayment);
-            var actual = result.AccountLevyTransfer.CollectionPeriodYear;
+            [Test, AutoData]
+            public void ThenTheCollectionPeriodYearIsCorrect(
+                RequiredTransferPayment requiredPayment,
+                Account receiver)
+            {
+                var result = Sut().CreateTransfer(receiver, requiredPayment);
+                var actual = result.AccountLevyTransfer.CollectionPeriodYear;
 
-            actual.Should().Be(requiredPayment.CollectionPeriodYear);
+                actual.Should().Be(requiredPayment.CollectionPeriodYear);
+            }
         }
     }
 }

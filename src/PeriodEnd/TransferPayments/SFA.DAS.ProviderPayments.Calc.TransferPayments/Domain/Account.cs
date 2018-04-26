@@ -50,8 +50,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             var amountToTransfer = Math.Min(requiredPayment.AmountDue, AvailableTransferBalance);
             
             var transfer = new AccountLevyTransfer(requiredPayment, amountToTransfer);
+            var payment = CreateTransferPayment(requiredPayment, transfer.Amount);
 
             result.AccountLevyTransfer = transfer;
+            result.TransferLevyPayment = payment;
+
             result.Amount = transfer.Amount;
 
             Balance -= transfer.Amount;
@@ -62,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             return result;
         }
 
-        public TransferLevyPayment CreateTransferPayment(RequiredTransferPayment requiredPayment, decimal amount)
+        private TransferLevyPayment CreateTransferPayment(RequiredTransferPayment requiredPayment, decimal amount)
         {
             var payment = new TransferLevyPayment(requiredPayment, amount);
 
