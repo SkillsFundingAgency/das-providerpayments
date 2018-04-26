@@ -148,6 +148,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AssertResults();
         }
 
+        [Then(@"the following transfers from employer (.*) exist")]
+        public void ThenTheFollowingTransfersFromEmployerExists(string sendingEmployerIdSuffix, Table transfers)
+        {
+            VerifyAllSubmissionsHaveBeenDone("All submissions must have been completed prior to the transfers assertion step.");
+            var breakdown = new TransfersBreakdown();
+            TransfersTableParser.ParseTransfersTableIntoContext(breakdown, transfers,int.Parse(sendingEmployerIdSuffix));
+
+        }
+
         private void AssertResults()
         {
             PaymentsAndEarningsAssertions.AssertPaymentsAndEarningsResults(EarningsAndPaymentsContext, PeriodContext, EmployerAccountContext);
@@ -331,6 +340,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
 
 
+        }
+
+        private void VerifyAllSubmissionsHaveBeenDone(string message)
+        {
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                if(!submission.HaveSubmissionsBeenDone)
+                    throw new Exception($"Not all submissions have been run. {message}");
+            }
         }
     }
 }

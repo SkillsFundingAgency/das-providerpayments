@@ -16,17 +16,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException("Earnings and payments table must have at least 1 row");
             }
 
-            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments);
+            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments, "Type");
             ParseEarningAndPaymentsRows(breakdown, earningAndPayments, periodNames);
         }
 
 
-        private static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments)
+        internal static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments, string expectedFirstColumn)
         {
             var headers = earningAndPayments.Header.ToArray();
-            if (headers[0] != "Type")
+            if (headers[0] != expectedFirstColumn)
             {
-                throw new ArgumentException("Earnings and payments table must have Type as first column");
+                throw new ArgumentException($"Earnings and payments table must have {expectedFirstColumn} as first column");
             }
 
             var periods = new string[headers.Length];
