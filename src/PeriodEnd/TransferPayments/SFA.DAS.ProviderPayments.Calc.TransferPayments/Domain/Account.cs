@@ -21,13 +21,13 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             get { return AccountId; }
         }
 
-        long AccountId { get; }
-        decimal Balance { get; set; }
-        bool IsLevyPayer { get; }
+        private long AccountId { get; }
+        private decimal Balance { get; set; }
+        private bool IsLevyPayer { get; }
         private decimal TransferBalance { get; set; }
         private decimal AvailableTransferBalance { get; set; }
 
-        void UpdateHasTransferBalance()
+        private void UpdateHasTransferBalance()
         {
             AvailableTransferBalance = Math.Min(TransferBalance, Balance);
             AvailableTransferBalance = Math.Max(AvailableTransferBalance, 0); // Set the floor to 0
@@ -56,6 +56,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
 
             Balance -= transfer.Amount;
             TransferBalance -= transfer.Amount;
+
             UpdateHasTransferBalance();
 
             return result;

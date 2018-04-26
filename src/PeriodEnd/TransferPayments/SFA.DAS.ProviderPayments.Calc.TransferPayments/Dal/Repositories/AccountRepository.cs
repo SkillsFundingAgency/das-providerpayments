@@ -8,9 +8,9 @@ using SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
 {
-    class AccountRepository : DcfsRepository, IAmAnAccountRepository
+    internal class AccountRepository : DcfsRepository, IAmAnAccountRepository
     {
-        private static ConcurrentDictionary<long, Account> _accounts;
+        private readonly ConcurrentDictionary<long, Account> _accounts;
 
         public AccountRepository(string connectionString) : base(connectionString)
         {
@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                 .Select(x => new KeyValuePair<long, Account>(x.Id, x)));
         }
 
-        public IEnumerable<Account> AllAccounts()
+        private IEnumerable<Account> AllAccounts()
         {
             var entities = AllAccountEntities();
             var accounts = entities.Select(x => new Account(x));
@@ -36,14 +36,14 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
             return account;
         }
 
-        IEnumerable<DasAccount> AllAccountEntities()
+        private IEnumerable<DasAccount> AllAccountEntities()
         {
-            var command = "SELECT AccountId, " +
-                          "Balance, " +
-                          "IsLevyPayer, " +
-                          "TransferBalance " +
-                          "FROM" +
-                          " DasAccounts";
+            const string command = @"SELECT AccountId,  
+                          Balance,  
+                          IsLevyPayer,  
+                          TransferBalance  
+                          FROM 
+                           DasAccounts;";
             return Query<DasAccount>(command);
         }
     }

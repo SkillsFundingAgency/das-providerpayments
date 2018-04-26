@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
     [UsedImplicitly]
     public class TransfersTask : DcfsTask
     {
-        private const string DatabaseSchema = "RequiredTransferPayments";
+        private const string DatabaseSchema = "TransferPayments";
 
         private readonly IDependencyResolver _dependencyResolver;
 
