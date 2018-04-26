@@ -75,3 +75,7 @@ CREATE INDEX [IDX_Commitments_AccountId] ON Reference.DasCommitments (AccountId,
 GO
 
 CREATE INDEX IX_DasCommitments_Uln ON Reference.DasCommitments (Uln)
+GO
+
+CREATE INDEX IX_DasCommitments_CommitmentId ON Reference.DasCommitments (CommitmentId, VersionId)
+GO

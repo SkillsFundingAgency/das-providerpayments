@@ -30,6 +30,9 @@ CREATE TABLE TransferPayments.Payments
 )
 GO
 
+CREATE INDEX TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments (RequiredPaymentId) INCLUDE (Amount)
+GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- AccountTransfers
 -----------------------------------------------------------------------------------------------------------------------------------------------

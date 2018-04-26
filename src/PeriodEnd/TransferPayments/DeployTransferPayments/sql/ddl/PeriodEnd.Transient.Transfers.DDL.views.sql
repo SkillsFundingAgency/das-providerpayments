@@ -52,7 +52,7 @@ AS
 		PaymentsDue.RequiredPayments R
 	ON 
 		C.CommitmentId = R.CommitmentId
-		AND C.CommitmentVersionId = R.CommitmentVersionId
+		AND C.VersionId = R.CommitmentVersionId
 
 	WHERE
 		ISNULL(C.TransferSendingEmployerAccountId, 0) > 0
