@@ -5,8 +5,8 @@ Scenario: testing new rule in earnings and payments break down
     And the apprenticeship funding band maximum is 9000
 
 	And the following commitments exist:
-		| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status | effective from | effective to | employer   |
-		| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active | 01/08/2017     |              | employer 1 |
+		| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status | effective from | effective to | employer   | employer paying for training |
+		| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active | 01/08/2017     |              | employer 1 | employer 2                   |
         
     When an ILR file is submitted for period R01 with the following data:
 		| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code | contract type | contract type date from | contract type date to | Employer Employment Status | Employer Employment Status Applies | Employer   | Employer Id |
@@ -34,3 +34,7 @@ Scenario: testing new rule in earnings and payments break down
         | SFA Levy additional payments budget     | 0      | 0      | 0      | 0        |
         | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540      |
         | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25    |
+
+	And the following transfers from employer 2 exist
+		| Recipient  | 05/18 | 06/18 | 07/18 | 08/18 |
+		| Employer 1 | 0     | 100   | 100   | 100   |

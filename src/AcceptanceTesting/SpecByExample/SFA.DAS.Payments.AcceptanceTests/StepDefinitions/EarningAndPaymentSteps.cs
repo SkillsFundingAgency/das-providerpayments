@@ -8,6 +8,7 @@ using TechTalk.SpecFlow;
 using System;
 using SFA.DAS.Payments.AcceptanceTests.Refactoring.ExecutionManagers;
 using System.Collections.Generic;
+using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
 
 namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 {
@@ -21,7 +22,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                                       LookupContext lookupContext,
                                     CommitmentsContext commitmentsContext,
                                     SubmissionContext multipleSubmissionsContext,
-                                    PeriodContext periodContext)
+                                    PeriodContext periodContext,
+                                    TransfersContext transfersContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
@@ -31,6 +33,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             CommitmentsContext = commitmentsContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
             PeriodContext = periodContext;
+            TransfersContext = transfersContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
         public DataLockContext DataLockContext { get; }
@@ -40,6 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public CommitmentsContext CommitmentsContext { get; }
         public SubmissionContext MultipleSubmissionsContext { get; set; }
         public PeriodContext PeriodContext { get; set; }
+        public TransfersContext TransfersContext { get; set; }
 
 
 
@@ -152,9 +156,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void ThenTheFollowingTransfersFromEmployerExists(string sendingEmployerIdSuffix, Table transfers)
         {
             VerifyAllSubmissionsHaveBeenDone("All submissions must have been completed prior to the transfers assertion step.");
-            var breakdown = new TransfersBreakdown();
-            TransfersTableParser.ParseTransfersTableIntoContext(breakdown, transfers,int.Parse(sendingEmployerIdSuffix));
-
+            TransfersTableParser.ParseTransfersTableIntoContext(TransfersContext.TransfersBreakdown, transfers, int.Parse(sendingEmployerIdSuffix));
+            TransfersAssertions.ValidateTransfers(TransfersContext.TransfersBreakdown);
         }
 
         private void AssertResults()
