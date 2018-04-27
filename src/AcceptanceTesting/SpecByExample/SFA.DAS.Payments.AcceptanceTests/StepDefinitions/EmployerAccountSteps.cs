@@ -73,6 +73,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AddOrUpdateEmployerAccount(id, 0m, periodBalances);
         }
 
+        [Given("the employer (*) has a transfer allowance > agreed price for all months")]
+        public void GivenNamedEmployersTransferBalanceIsMoreThanPrice(int employerId)
+        {
+            AddOrUpdateEmployerAccount()
+        }
+
         [Given(@"the employer is not a levy payer")]
         public void GivenTheEmployerIsNotALevyPayer()
         {
@@ -144,6 +150,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             EmployerAccountManager.AddOrUpdateAccount(account);
 
             return account;
+        }
+
+        private void UpdateTransferBalance(int employerId, decimal balance)
+        {
+
         }
     }
 }

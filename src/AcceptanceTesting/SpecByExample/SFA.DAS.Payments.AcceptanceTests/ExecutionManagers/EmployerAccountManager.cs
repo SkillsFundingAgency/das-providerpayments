@@ -74,5 +74,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                                    });
             }
         }
+
+        internal static void UpdateTransferBalance(int id, decimal transferBalance)
+        {
+
+        }
     }
 }
