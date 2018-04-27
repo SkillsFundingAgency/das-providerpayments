@@ -63,10 +63,6 @@ FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
 			UseLevyBalance
 		from 
 			${DAS_PeriodEnd.databasename}.PaymentsDue.RequiredPayments'
-    ) rp
-WHERE Ukprn IN (
-        SELECT DISTINCT [Ukprn]
-        FROM [Reference].[Providers]
-        )
+    )
 	
 GO
