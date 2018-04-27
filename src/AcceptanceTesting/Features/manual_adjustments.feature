@@ -1,6 +1,9 @@
 @ManualAdjustments
 Feature: Manual adjustments as a result of payment anomolies
   
+# Failing because retrospective refund is not made.
+# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
+# PaymentsDueProcessor.GetPaymentsDue method
   Scenario:893-AC01 Levy apprentice, deleted learner, transaction added for reversal
 
 		Given The learner is programme only DAS
@@ -62,7 +65,8 @@ Feature: Manual adjustments as a result of payment anomolies
             | SFA non-Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | 0     |
             | SFA non-Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | 0     |   
 
-
+# Failing because ACT type not changed from ACT2 to ACT1.
+# should in theory be rewritten to work like 965 tests OR deleted if the same
 	Scenario:893-AC02 non levy apprentice, changes to levy after payments are made in previous months, non levy will be all reversed and new paymenst will be made for levy
 
 		Given The learner is programme only DAS
