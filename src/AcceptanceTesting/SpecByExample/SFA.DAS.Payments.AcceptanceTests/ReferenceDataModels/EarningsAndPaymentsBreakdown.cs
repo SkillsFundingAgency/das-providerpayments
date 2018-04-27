@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
 {
@@ -6,6 +7,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
     {
         public EarningsAndPaymentsBreakdown()
         {
+            PeriodDates = new List<DateTime>();
             ProviderEarnedTotal = new List<PeriodValue>();
             ProviderEarnedFromSfa = new List<PeriodValue>();
             ProviderEarnedFromEmployers = new List<EmployerAccountPeriodValue>();
@@ -23,6 +25,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
             RefundDueToEmployer = new List<EmployerAccountPeriodValue>();
         }
 
+        public List<DateTime> PeriodDates { get; set; }
         public string ProviderId { get; set; }
         public List<PeriodValue> ProviderEarnedTotal { get; set; }
         public List<PeriodValue> ProviderEarnedFromSfa { get; set; }

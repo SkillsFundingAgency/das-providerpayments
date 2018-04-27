@@ -9,6 +9,6 @@
         public string VersionId { get; set; }
         public bool IsLevyPayer { get; set; }
 
-
+        public decimal? TransferAllowance { get; set; }
     }
 }

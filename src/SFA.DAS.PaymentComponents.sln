@@ -156,6 +156,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 	ProjectSection(SolutionItems) = preProject
 		Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql
+		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql
@@ -186,6 +187,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 	ProjectSection(SolutionItems) = preProject
 		Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql
+		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql = SharedPipelineComponents\Datalock\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql
@@ -344,6 +346,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{D560F146-839
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{FA54BBF3-280A-495D-BF4E-30F742309858}"
 	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\DeployPaymentsDue\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql = PeriodEnd\DeployPaymentsDue\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql
@@ -552,6 +555,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPublisher", "Reference\Commitments\EventPublisher\EventPublisher.csproj", "{D613A8AE-3F2A-472E-B39C-AA61CCFE577E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{BB0EFDE9-7087-4A99-924C-F610BD2EC20B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "MigrationScripts", "{94EA6AC9-1963-4A39-B9DD-D78F5D67C296}"
+	ProjectSection(SolutionItems) = preProject
+		Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql = Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql
+	EndProjectSection
+EndProject
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml = PeriodEnd\TransferPayments\DeployTransferPayments\copy mappings\DasTransfersCopyToDedsMapping.xml
 	EndProjectSection
@@ -885,6 +894,7 @@ Global
 		{C7AD11E0-04AF-4D3A-9166-296FF68CC416} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 		{5076BA97-2E9E-4845-9359-0E16DFF7B3A6} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 		{4C562D21-00B4-421F-9359-6C2B3675B306} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{94EA6AC9-1963-4A39-B9DD-D78F5D67C296} = {45570736-AB41-4FDD-8753-BAE2B62D1829}
 		{D613A8AE-3F2A-472E-B39C-AA61CCFE577E} = {05FDF2FF-44D2-459B-ACFF-F5B411164BD1}
 		{BB0EFDE9-7087-4A99-924C-F610BD2EC20B} = {4C562D21-00B4-421F-9359-6C2B3675B306}
 		{8E6FE549-CD8E-4B8C-80F3-504F28BDD180} = {4C562D21-00B4-421F-9359-6C2B3675B306}
