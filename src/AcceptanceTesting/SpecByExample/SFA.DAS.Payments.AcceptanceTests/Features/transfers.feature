@@ -22,18 +22,18 @@ Scenario: Levy apprentice, paid for by a different employer through a transfer
         | Type                                    | 05/18  | 06/18  | 07/18  | 08/18    |
         | Provider Earned Total                   | 139.25 | 139.25 | 139.25 | 139.25   |
         | Provider Earned from SFA                | 139.25 | 139.25 | 139.25 | 139.25   |
-        | Provider Earned from employer a         | 0      | 0      | 0      | 0        |
-		| Provider Earned from employer b         | 0      | 0      | 0      | 0        |
+        | Provider Earned from employer 1         | 0      | 0      | 0      | 0        |
+		| Provider Earned from employer 2         | 0      | 0      | 0      | 0        |
         | Provider Paid by SFA                    | 0      | 139.25 | 139.25 | 139.25   |
         | Refund taken by SFA                     | 0      | 0      | 0      | 0        |
-        | Payment due from employer a             | 0      | 0      | 0      | 0        |
-		| Payment due from employer b             | 0      | 0      | 0      | 0        |
-        | Refund due to employer a                | 0      | 0      | 0      | 0        |
-		| Refund due to employer b                | 0      | 0      | 0      | 0        |
-        | Levy account for employer a debited     | 0      | 0      | 0      | 0        |
-		| Levy account for employer b debited     | 0      | 100    | 100    | 100      |
-        | Levy account for employer a credited    | 0      | 0      | 0      | 0        |
-		| Levy account for employer b credited    | 0      | 0      | 0      | 0        |
+        | Payment due from employer 1             | 0      | 0      | 0      | 0        |
+		| Payment due from employer 2             | 0      | 0      | 0      | 0        |
+        | Refund due to employer 1                | 0      | 0      | 0      | 0        |
+		| Refund due to employer 2                | 0      | 0      | 0      | 0        |
+        | employer 1 levy account debited     | 0      | 0      | 0      | 0        |
+		| employer 2 levy account debited     | 0      | 100    | 100    | 100      |
+        | employer 1 levy account credited    | 0      | 0      | 0      | 0        |
+		| employer 2 levy account credited    | 0      | 0      | 0      | 0        |
         | SFA Levy employer budget                | 100    | 100    | 100    | 100      |
         | SFA Levy co-funding budget              | 0      | 0      | 0      | 0        |
         | SFA Levy additional payments budget     | 39.25  | 39.25  | 39.25  | 39.25    |

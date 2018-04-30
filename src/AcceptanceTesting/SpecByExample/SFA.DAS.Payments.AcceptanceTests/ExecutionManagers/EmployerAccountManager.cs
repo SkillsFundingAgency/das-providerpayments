@@ -75,9 +75,19 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
-        internal static void UpdateTransferBalance(int id, decimal transferBalance)
+        internal static void UpdateTransferBalance(int id, decimal transferAllowance)
         {
-
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                connection.Execute("UPDATE dbo.DasAccounts " +
+                                   "SET TransferAllowance = @Balance " +
+                                   "WHERE AccountId = @AccountId ",
+                    new
+                    {
+                        AccountId = id,
+                        Balance = transferAllowance
+                    });
+            }
         }
     }
 }
