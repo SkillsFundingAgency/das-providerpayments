@@ -101,5 +101,4 @@ SELECT
 FROM PaymentsDue.RequiredPayments rp
 	LEFT JOIN TransferPayments.Payments tp ON rp.Id = tp.RequiredPaymentId
 WHERE  rp.UseLevyBalance = 1 AND rp.TransactionType IN (1,2,3) 
-	AND (rp.AmountDue - COALESCE(tp.Amount, 0.00)) <> 0
 	AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
