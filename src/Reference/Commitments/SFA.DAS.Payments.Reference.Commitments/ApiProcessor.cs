@@ -38,27 +38,27 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 Events.Api.Types.ApprenticeshipEventView[] events;
                 while ((events = GetNextBatchOfCommitments()).Length > 0)
                 {
-                    foreach (var @event in events)
+                    foreach (var apprenticeshipEvent in events)
                     {
-                        currentEventId = @event.Id;
-                        var paymentStatus = GetPaymentStatusOrThrow(@event.PaymentStatus);
+                        currentEventId = apprenticeshipEvent.Id;
+                        var paymentStatus = GetPaymentStatusOrThrow(apprenticeshipEvent.PaymentStatus);
 
                         if (paymentStatus == PaymentStatus.PendingApproval || paymentStatus == PaymentStatus.Deleted)
                         {
-                            lastSeenEventId = @event.Id;
+                            lastSeenEventId = apprenticeshipEvent.Id;
                             continue;
                         }
 
-                        if (@event.PriceHistory != null && ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).Count > 0)
+                        if (apprenticeshipEvent.PriceHistory != null && ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).Count > 0)
                         {
-                            var request = ConvertEventToCommand(@event, paymentStatus);
+                            var request = ConvertEventToCommand(apprenticeshipEvent, paymentStatus);
                             _mediator.Send(request);
                         }
                         else
                         {
-                            _logger.Warn($"PriceHistory for {@event.ApprenticeshipId} is null or empty so commitment will not be created.");
+                            _logger.Warn($"PriceHistory for {apprenticeshipEvent.ApprenticeshipId} is null or empty so commitment will not be created.");
                         }
-                        lastSeenEventId = @event.Id;
+                        lastSeenEventId = apprenticeshipEvent.Id;
                     }
 
                     _mediator.Send(new SetLastSeenEventIdCommandRequest { LastSeenEventId = lastSeenEventId });
@@ -93,37 +93,39 @@ namespace SFA.DAS.Payments.Reference.Commitments
             return response.Items ?? new Events.Api.Types.ApprenticeshipEventView[0];
         }
 
-        private AddOrUpdateCommitmentCommandRequest ConvertEventToCommand(Events.Api.Types.ApprenticeshipEventView @event, PaymentStatus paymentStatus)
+        private AddOrUpdateCommitmentCommandRequest ConvertEventToCommand(Events.Api.Types.ApprenticeshipEventView apprenticeshipEvent, PaymentStatus paymentStatus)
         {
 
-            if (!@event.TrainingTotalCost.HasValue)
+            if (!apprenticeshipEvent.TrainingTotalCost.HasValue)
             {
-                _logger.Error($"TrainingTotalCost for {@event.ApprenticeshipId} is null so so default value will be used.");
+                _logger.Error($"TrainingTotalCost for {apprenticeshipEvent.ApprenticeshipId} is null so so default value will be used.");
             }
-            if (!@event.TrainingStartDate.HasValue)
+            if (!apprenticeshipEvent.TrainingStartDate.HasValue)
             {
-                _logger.Error($"TrainingStartDate for {@event.ApprenticeshipId} is null so so default value will be used.");
+                _logger.Error($"TrainingStartDate for {apprenticeshipEvent.ApprenticeshipId} is null so so default value will be used.");
             }
-            if (!@event.TrainingEndDate.HasValue)
+            if (!apprenticeshipEvent.TrainingEndDate.HasValue)
             {
-                _logger.Error($"TrainingEndDate for {@event.ApprenticeshipId} is null so default value will be used.");
+                _logger.Error($"TrainingEndDate for {apprenticeshipEvent.ApprenticeshipId} is null so default value will be used.");
             }
 
             var request = new AddOrUpdateCommitmentCommandRequest
             {
-                CommitmentId = @event.ApprenticeshipId,
-                Ukprn = long.Parse(@event.ProviderId),
-                Uln = GetUlnOrDefault(@event.LearnerId),
-                AccountId = long.Parse(@event.EmployerAccountId),
-                StartDate = @event.TrainingStartDate.HasValue ? @event.TrainingStartDate.Value : DateTime.MinValue,
-                EndDate = @event.TrainingEndDate.HasValue ? @event.TrainingEndDate.Value : DateTime.MinValue,
-                VersionId = @event.Id,
-                Priority = @event.PaymentOrder,
+                CommitmentId = apprenticeshipEvent.ApprenticeshipId,
+                Ukprn = long.Parse(apprenticeshipEvent.ProviderId),
+                Uln = GetUlnOrDefault(apprenticeshipEvent.LearnerId),
+                AccountId = long.Parse(apprenticeshipEvent.EmployerAccountId),
+                StartDate = apprenticeshipEvent.TrainingStartDate ?? DateTime.MinValue,
+                EndDate = apprenticeshipEvent.TrainingEndDate ?? DateTime.MinValue,
+                VersionId = apprenticeshipEvent.Id,
+                Priority = apprenticeshipEvent.PaymentOrder,
                 PaymentStatus = paymentStatus,
-                LegalEntityName = @event.LegalEntityName
+                LegalEntityName = apprenticeshipEvent.LegalEntityName,
+                TransferSendingEmployerAccountId = apprenticeshipEvent.TransferSenderId,
+                TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn
             };
             
-            ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).
+            ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).
                 ForEach(x =>
                 request.PriceEpisodes.Add(new PriceEpisode
                 {
@@ -134,13 +136,13 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 )
             );
 
-            if (@event.TrainingType == Events.Api.Types.TrainingTypes.Standard)
+            if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Standard)
             {
-                request.StandardCode = long.Parse(@event.TrainingId);
+                request.StandardCode = long.Parse(apprenticeshipEvent.TrainingId);
             }
-            else if (@event.TrainingType == Events.Api.Types.TrainingTypes.Framework)
+            else if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Framework)
             {
-                var parts = @event.TrainingId.Split('-');
+                var parts = apprenticeshipEvent.TrainingId.Split('-');
                 request.FrameworkCode = int.Parse(parts[0]);
                 request.ProgrammeType = int.Parse(parts[1]);
                 request.PathwayCode = int.Parse(parts[2]);
@@ -189,28 +191,28 @@ namespace SFA.DAS.Payments.Reference.Commitments
             return status;
         }
 
-        private bool IsValidCommitmentData(Events.Api.Types.ApprenticeshipEventView @event)
+        private bool IsValidCommitmentData(Events.Api.Types.ApprenticeshipEventView apprenticeshipEvent)
         {
             var result = true;
-            if (!@event.TrainingTotalCost.HasValue)
+            if (!apprenticeshipEvent.TrainingTotalCost.HasValue)
             {
-                _logger.Error($"TrainingTotalCost for {@event.ApprenticeshipId} is null so commitment will not be created.");
+                _logger.Error($"TrainingTotalCost for {apprenticeshipEvent.ApprenticeshipId} is null so commitment will not be created.");
                 result = false;
             }
-            if (!@event.TrainingStartDate.HasValue)
+            if (!apprenticeshipEvent.TrainingStartDate.HasValue)
             {
-                _logger.Error($"TrainingStartDate for {@event.ApprenticeshipId} is null so commitment will not be created.");
+                _logger.Error($"TrainingStartDate for {apprenticeshipEvent.ApprenticeshipId} is null so commitment will not be created.");
                 result = false;
             }
-            if (!@event.TrainingEndDate.HasValue)
+            if (!apprenticeshipEvent.TrainingEndDate.HasValue)
             {
-                _logger.Error($"TrainingEndDate for {@event.ApprenticeshipId} is null so commitment will not be created.");
+                _logger.Error($"TrainingEndDate for {apprenticeshipEvent.ApprenticeshipId} is null so commitment will not be created.");
                 result = false;
             }
 
-            if (@event.PriceHistory == null || ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).Count == 0)
+            if (apprenticeshipEvent.PriceHistory == null || ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).Count == 0)
             {
-                _logger.Error($"PriceHistory for {@event.ApprenticeshipId} is null or empty so commitment will not be created.");
+                _logger.Error($"PriceHistory for {apprenticeshipEvent.ApprenticeshipId} is null or empty so commitment will not be created.");
                 result = false;
             }
 

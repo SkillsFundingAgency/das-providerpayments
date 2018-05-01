@@ -26,6 +26,8 @@ CREATE TABLE [dbo].[DasCommitments] (
 	[EffectiveFromDate]  [date] NOT NULL,
 	[EffectiveToDate]  [date] NULL,
 	[LegalEntityName] [nvarchar](100) NULL,
+	[TransferSendingEmployerAccountId] bigint null,
+	[TransferApprovalDate] datetime null,
 	PRIMARY KEY CLUSTERED 
 	(
 		[CommitmentId] ASC,
