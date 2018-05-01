@@ -560,16 +560,16 @@ Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximu
 #	The English or maths aim is submitted with the same start and planned end date
       
     Then OBSOLETE - the earnings and payments break down for provider A is as follows:
-		  | Type                                    | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
-		  | Provider Earned Total                   | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 0       |
-		  | Provider Paid by SFA                    | 0       | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 |
-		  | Payment due from Employer               | 0       | 0       | 0       | 0       | 0       | 0       |
-		  | Levy account debited                    | 0       | 1000    | 1000    | 1000    | 1000    | 1000    |
-		  | SFA Levy employer budget                | 1000    | 1000    | 1000    | 1000    | 1000    | 0       |
-		  | SFA Levy co-funding budget              | 0       | 0       | 0       | 0       | 0       | 0       |
-		  | SFA non-Levy co-funding budget          | 0       | 0       | 0       | 0       | 0       | 0       |
-		  | SFA non-levy additional payments budget | 0       | 0       | 0       | 0       | 0       | 0       |
-		  | SFA levy additional payments budget     | 39.25   | 39.25   | 39.25   | 39.25   | 39.25   | 0       |
+		  | Type                                    | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   | 02/18 | ... | 08/18 |
+		  | Provider Earned Total                   | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 0       | 0     | ... | 0     |
+		  | Provider Paid by SFA                    | 0       | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 0     | ... | 0     |
+		  | Payment due from Employer               | 0       | 0       | 0       | 0       | 0       | 0       | 0     | ... | 0     |
+		  | Levy account debited                    | 0       | 1000    | 1000    | 1000    | 1000    | 1000    | 0     | ... | 0     |
+		  | SFA Levy employer budget                | 1000    | 1000    | 1000    | 1000    | 1000    | 0       | 0     | ... | 0     |
+		  | SFA Levy co-funding budget              | 0       | 0       | 0       | 0       | 0       | 0       | 0     | ... | 0     |
+		  | SFA non-Levy co-funding budget          | 0       | 0       | 0       | 0       | 0       | 0       | 0     | ... | 0     |
+		  | SFA non-levy additional payments budget | 0       | 0       | 0       | 0       | 0       | 0       | 0     | ... | 0     |
+		  | SFA levy additional payments budget     | 39.25   | 39.25   | 39.25   | 39.25   | 39.25   | 0       | 0     | ... | 0     |
 		  
     And the transaction types for the payments for provider A are:
 		  | Payment type                   | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
@@ -581,16 +581,16 @@ Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximu
 
 
     Then OBSOLETE - the earnings and payments break down for provider B is as follows:
-		  | Type                                    | 01/18   | 02/18   | 03/18   | ... | 07/18   | 08/18   |
-		  | Provider Earned Total                   | 1189.96 | 1189.96 | 1189.96 | ... | 1189.96 | 0       |
-		  | Provider Paid by SFA                    | 0       | 1189.96 | 1189.96 | ... | 1189.96 | 1189.96 |
-		  | Payment due from Employer               | 0       | 0       | 0       | ... | 0       | 0       |
-		  | Levy account debited                    | 0       | 1142.86 | 1142.86 | ... | 1142.86 | 1142.86 |
-		  | SFA Levy employer budget                | 1142.86 | 1142.86 | 1142.86 | ... | 1142.86 | 0       |
-		  | SFA Levy co-funding budget              | 0       | 0       | 0       | ... | 0       | 0       |
-		  | SFA non-Levy additional payments budget | 0       | 0       | 0       | ... | 0       | 0       |
-		  | SFA levy additional payments budget     | 47.10   | 47.10   | 47.10   | ... | 47.10   | 0       |
-		  
+		  | Type                                    | 08/17 | ... | 01/18   | 02/18   | 03/18   | ... | 07/18   | 08/18   |
+		  | Provider Earned Total                   | 0     | ... | 1189.96 | 1189.96 | 1189.96 | ... | 1189.96 | 0       |
+		  | Provider Paid by SFA                    | 0     | ... | 0       | 1189.96 | 1189.96 | ... | 1189.96 | 1189.96 |
+		  | Payment due from Employer               | 0     | ... | 0       | 0       | 0       | ... | 0       | 0       |
+		  | Levy account debited                    | 0     | ... | 0       | 1142.86 | 1142.86 | ... | 1142.86 | 1142.86 |
+		  | SFA Levy employer budget                | 0     | ... | 1142.86 | 1142.86 | 1142.86 | ... | 1142.86 | 0       |
+		  | SFA Levy co-funding budget              | 0     | ... | 0       | 0       | 0       | ... | 0       | 0       |
+		  | SFA non-Levy additional payments budget | 0     | ... | 0       | 0       | 0       | ... | 0       | 0       |
+		  | SFA levy additional payments budget     | 0     | ... | 47.10   | 47.10   | 47.10   | ... | 47.10   | 0       |
+		  										
     And the transaction types for the payments for provider B are:
 		  | Payment type                   | 02/18   | 03/18   | ... | 07/18   | 08/18   | 
 		  | On-program                     | 1142.86 | 1142.86 | ... | 1142.86 | 1142.86 | 

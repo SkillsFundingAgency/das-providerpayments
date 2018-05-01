@@ -15,6 +15,7 @@
         SubmissionEvents = 11,
         ManualAdjustments = 12,
         ProviderAdjustments = 13,
+        TransferPayments = 14,
         AllComponents = 99,
     }
 }

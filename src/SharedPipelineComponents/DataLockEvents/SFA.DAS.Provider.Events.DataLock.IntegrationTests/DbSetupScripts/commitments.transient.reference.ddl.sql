@@ -31,6 +31,8 @@ CREATE TABLE [Reference].[DasCommitments] (
     [Priority] int NOT NULL,
 	[EffectiveFrom] date NOT NULL,
 	[EffectiveTo] date NULL,
+	[TransferSendingEmployerAccountId] bigint null,
+	[TransferApprovalDate] datetime null,
     PRIMARY KEY CLUSTERED (
         CommitmentId ASC,
 		VersionId ASC

@@ -19,10 +19,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 01/08/2017 | 04/08/2018       |                 | continuing        | 12000                | 01/08/2017                          | 3000                   | 01/08/2017                            | 5000                    | 01/11/2017                             | 625                       | 01/11/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 500   | 500   |
@@ -54,10 +54,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 04/08/2017 | 04/08/2018       |                 | continuing        | 12000                | 04/08/2017                          | 3000                   | 04/08/2017                            | 5000                    | 10/11/2017                             | 625                       | 10/11/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 500   | 500   |
@@ -88,10 +88,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 04/08/2017 | 04/08/2018       |                 | continuing        | 12000                | 04/08/2017                          | 3000                   | 04/08/2017                            | 5000                    | 25/10/2017                             | 625                       | 25/10/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17 | 12/17 |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17 | 11/17 | 12/17 |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 450   | 450   | 450   |
             | Provider Earned from SFA        | 1000  | 1000  | 450   | 450   | 450   |
@@ -124,10 +124,10 @@ Feature: Provider earnings and payments where a learner changes employers
             | contract type | date from  | date to    |
             | DAS           | 03/08/2017 | 02/11/2017 |
             | Non-DAS       | 03/11/2017 | 04/08/2018 |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 450   | 450   |
@@ -161,10 +161,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 01/08/2017 | 28/08/2018       |                 | continuing        | 12000                | 01/08/2017                          | 3000                   | 01/08/2017                            | 5000                    | 15/11/2017                             | 625                       | 15/11/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 500   | 500   |
@@ -195,10 +195,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 01/08/2017 | 28/08/2018       |                 | continuing        | 12000                | 01/08/2017                          | 3000                   | 01/08/2017                            | 5000                    | 25/11/2017                             | 625                       | 25/11/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 500   | 500   |
@@ -229,10 +229,10 @@ Feature: Provider earnings and payments where a learner changes employers
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 01/08/2017 | 28/08/2018       |                 | continuing        | 12000                | 01/08/2017                          | 3000                   | 01/08/2017                            | 5000                    | 05/11/2017                             | 625                       | 05/11/2017                               |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 500   | 500   |
@@ -264,10 +264,10 @@ Feature: Provider earnings and payments where a learner changes employers
             | contract type | date from  | date to    |
             | Non-DAS       | 06/08/2017 | 31/03/2018 |
             | DAS           | 01/04/2018 | 08/08/2018 |
-        Then the data lock status will be as follows:
-            | Payment type | 08/17 | 09/17 | 10/17 | ... | 03/18 | 04/18               | 05/18               | 06/18               | 07/18               | 
-            | On-program   |       |       |       | ... |       | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | 
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17 | 09/17 | 10/17 | ... | 03/18 | 04/18               | 05/18               | 06/18               | 07/18               | 
+        #    | On-program   |       |       |       | ... |       | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | 
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | ... | 03/18 | 04/18 | 05/18 | 06/18 | 07/18 | 08/18 |
             | Provider Earned Total           | 400   | 400   | 400   | ... | 400   | 700   | 700   | 700   | 700   | 0     |
             | Provider Earned from SFA        | 360   | 360   | 360   | ... | 360   | 700   | 700   | 700   | 700   | 0     |
@@ -334,10 +334,10 @@ Feature: Provider earnings and payments where a learner changes employers
             | learner a | 01/08/2017 | 04/08/2018       | 31/10/2017      | withdrawn         | 12000                | 01/08/2017                          | 3000                   | 01/08/2017                            |                         |                                        |                           |                                          |
             | learner a | 01/01/2018 | 04/10/2018       |                 | continuing        |                      |                                     |                        |                                       | 5000                    | 01/01/2018                             | 625                       | 01/01/2018                               |
            
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18               | 02/18               | 03/18               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18               | 02/18               | 03/18               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | 03/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 0     | 0     | 500   | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 0     | 0     | 500   | 500   | 500   |
@@ -371,10 +371,10 @@ Feature: Provider earnings and payments where a learner changes employers
             | learner a | 03/08/2017 | 04/08/2018       | 18/11/2017      | withdrawn         | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            |                         |                                        |                           |                                          |
             | learner a | 11/01/2018 | 04/10/2018       |                 | continuing        |                      |                                     |                        |                                       | 5000                    | 11/01/2018                             | 625                       | 11/01/2018                               |
            
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18               | 02/18               | 03/18               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18               | 02/18               | 03/18               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | 03/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 0     | 0     | 500   | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 0     | 0     | 500   | 500   | 500   |
@@ -407,10 +407,10 @@ Scenario: Earnings and payments for a DAS learner, levy available, and they have
             | learner a | 03/08/2017 | 04/08/2018       | 18/11/2017      | withdrawn         | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            |                         |                                        |                           |                                          |
             | learner a | 21/12/2017 | 04/09/2018       |                 | continuing        |                      |                                     |                        |                                       | 5000                    | 21/12/2017                             | 625                       | 21/12/2017                               |
            
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18 | 02/18 |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |       |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17 | 01/18 | 02/18 |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |       |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 0     | 500   | 500   | 500   |
             | Provider Earned from SFA        | 1000  | 1000  | 1000  | 0     | 0     | 0     | 0     |
@@ -446,13 +446,13 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
             | Provider   | learner type             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | provider a | 16-18 programme only DAS | learner a | 06/08/2017 | 08/08/2018       |                 | continuing        | 6000                 | 06/08/2017                          | 1500                   | 06/08/2017                            | 4000                    | 15/11/2017                             | 1625                      | 15/11/2017                               |
             
-        Then the data lock status will be as follows:
-            | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-            | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
-            | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
-            | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
+        #Then the data lock status will be as follows:
+        #    | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+        #    | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 |
+        #    | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
+        #    | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
         
-        And the earnings and payments break down for provider a is as follows:
+        Then the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
             | Provider Earned Total               | 500   | 500   | 500   | 1500  | 500   | 500   |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1500  | 500   | 500   |
@@ -497,13 +497,13 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
             | Provider   | learner type             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | provider a | 16-18 programme only DAS | learner a | 06/08/2017 | 08/08/2018       |                 | continuing        | 6000                 | 06/08/2017                          | 1500                   | 06/08/2017                            | 4000                    | 15/12/2017                             | 1625                      | 15/12/2017                               |
 
-        Then the data lock status will be as follows:
-            | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-            | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |                     | commitment 2 v1-001 | commitment 2 v1-001 |
-            | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
-            | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
+        #Then the data lock status will be as follows:
+        #    | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+        #    | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |                     | commitment 2 v1-001 | commitment 2 v1-001 |
+        #    | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
+        #    | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |                     |                     |
         
-        And the earnings and payments break down for provider a is as follows:
+        Then the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17  | 01/18  |
             | Provider Earned Total               | 500   | 500   | 500   | 1500  | 562.50 | 562.50 |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 562.50 | 562.50 |
@@ -548,13 +548,13 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
             | Provider   | learner type             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | provider a | 16-18 programme only DAS | learner a | 06/08/2017 | 08/08/2018       |                 | continuing        | 6000                 | 06/08/2017                          | 1500                   | 06/08/2017                            | 4000                    | 09/11/2017                             | 1625                      | 09/11/2017                               |
     
-        Then the data lock status will be as follows:
-            | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17 | 01/18 |
-            | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |                     |       |       |
-            | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |
-            | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |
+        #Then the data lock status will be as follows:
+        #    | Payment type             | 08/17               | 09/17               | 10/17               | 11/17               | 12/17 | 01/18 |
+        #    | On-program               | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |                     |       |       |
+        #    | Employer 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |
+        #    | Provider 16-18 incentive |                     |                     |                     | commitment 1 v1-001 |       |       |
         
-        And the earnings and payments break down for provider a is as follows:
+        Then the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
             | Provider Earned Total               | 500   | 500   | 500   | 1500  | 500   | 500   |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     | 0     |
@@ -611,10 +611,10 @@ Scenario:AC1- Provider earnings and payments where learner changes employer and 
             |            | not in paid employment | 03/10/2017                |
             | employer 2 | in paid employment     | 03/11/2017                |         
      
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 1000  | 500   |
@@ -653,10 +653,10 @@ Scenario:AC2- Provider earnings and payments where learner changes employer and 
         And the employment status in the ILR is:
             | Employer   | Employment Status      | Employment Status Applies |
             | employer 1 | in paid employment     | 02/08/2017                |
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 0     | 500   |
@@ -694,10 +694,10 @@ Scenario:AC3- Provider earnings and payments where learner changes employer and 
         And the employment status in the ILR is:
             | Employer   | Employment Status      | Employment Status Applies |
             | employer 1 | in paid employment     | 02/08/2017                |
-         Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+         #Then the data lock status will be as follows:
+         #   | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
+         #   | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 900   | 500   |
@@ -737,10 +737,10 @@ Scenario: AC4-Provider earnings and payments where learner changes employer and 
             | employer 1 | in paid employment     | 02/08/2017                |
             |            | not in paid employment | 03/10/2017                |
             | employer 2 | in paid employment     | 03/11/2017                |
-         Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
-        And the provider earnings and payments break down as follows:
+         #Then the data lock status will be as follows:
+         #   | Payment type | 08/17               | 09/17               | 10/17 | 11/17               | 12/17               |
+         #   | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 0     | 500   |
@@ -783,10 +783,10 @@ Scenario:AC5-Provider earnings and payments where learner changes employer and t
             |            | not in paid employment | 09/10/2017                |
             | employer 2 | in paid employment     | 02/03/2018                |
      
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | 03/18 | 04/18 |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |       |       |       |       |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | 03/18 | 04/18 |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       |       |       |       |       |       |       |
+        Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 | 03/18 | 04/18 |
             | Provider Earned Total           | 1000  | 1000  | 1000  | 1000  | 1000  | 0     | 0     | 0     | 0     |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 1000  | 1000  | 1000  | 0     | 0     | 0     |

@@ -37,6 +37,10 @@
           <Source>IsLevyPayer</Source>
           <Destination>IsLevyPayer</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransferAllowance</Source>
+          <Destination>TransferAllowance</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

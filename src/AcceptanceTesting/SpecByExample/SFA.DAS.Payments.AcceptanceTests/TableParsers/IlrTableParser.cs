@@ -28,7 +28,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        public static void ParseIlrTableIntoSubmission(Submission submission, Table ilrDetails)
+        public static void ParseIlrTableIntoSubmission(Submission submission, Table ilrDetails, LookupContext lookupContext)
         {
             if (ilrDetails.RowCount < 1)
             {
@@ -39,8 +39,22 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             foreach (var row in ilrDetails.Rows)
             {
                 var parsedLearner = ParseCommitmentsTableRow(row, structure.IlrTableStructure);
-                if(parsedLearner != null)
+
+                if (parsedLearner != null)
+                {
+                    long uln;
+
+                    if (long.TryParse(parsedLearner.Uln, out uln))
+                    {
+                        lookupContext.AddUln(parsedLearner.LearnerReference, uln);
+                    }
+                    else
+                    {
+                        lookupContext.AddOrGetUln(parsedLearner.LearnerReference);
+                    }
+
                     submission.IlrLearnerDetails.Add(parsedLearner);
+                }
 
                 var parsedLearningSupportStatus = ParseLearningSupportTableRow(row, structure.LearningSupportTableColumnStructure);
                 if(parsedLearningSupportStatus != null)
@@ -59,7 +73,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
         private static FullIlrStructure ParseTableStructure(Table ilrDetails)
         {
-            var structure = new IlrTableStructure();
+            var tableStructure = new IlrTableStructure();
             var learningSupportTableColumnStructure = new LearningSupportTableParser.LearningSupportTableColumnStructure();
             var contractTypeTableColumnStructure = new ContractTypeTableParser.ContractTypesTableColumnStructure();
             var employmentStatusTableColumnStructure = new EmploymentStatusTableParser.EmploymentStatusTableColumnStructure();
@@ -70,138 +84,138 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 switch (header)
                 {
                     case "learner reference number":
-                        structure.LearnerReferenceIndex = c;
+                        tableStructure.LearnerReferenceIndex = c;
                         break;
                     case "uln":
-                        structure.UlnIndex = c;
+                        tableStructure.UlnIndex = c;
                         break;
                     case "agreed price":
-                        structure.AgreedPriceIndex = c;
+                        tableStructure.AgreedPriceIndex = c;
                         break;
                     case "learner type":
-                        structure.LearnerTypeIndex = c;
+                        tableStructure.LearnerTypeIndex = c;
                         break;
                     case "start date":
-                        structure.StartDateIndex = c;
+                        tableStructure.StartDateIndex = c;
                         break;
                     case "planned end date":
-                        structure.PlannedEndDateIndex = c;
+                        tableStructure.PlannedEndDateIndex = c;
                         break;
                     case "actual end date":
-                        structure.ActualEndDateIndex = c;
+                        tableStructure.ActualEndDateIndex = c;
                         break;
                     case "completion status":
-                        structure.CompletionStatusIndex = c;
+                        tableStructure.CompletionStatusIndex = c;
                         break;
                     case "provider":
-                        structure.ProviderIndex = c;
+                        tableStructure.ProviderIndex = c;
                         break;
                     case "total training price":
                     case "total training price 1": // duplicate
-                        structure.TotalTrainingPrice1Index = c;
+                        tableStructure.TotalTrainingPrice1Index = c;
                         break;
                     case "total training price effective date":
                     case "total training price 1 effective date": // duplicate
-                        structure.TotalTrainingPrice1EffectiveDateIndex = c;
+                        tableStructure.TotalTrainingPrice1EffectiveDateIndex = c;
                         break;
                     case "total assessment price":
                     case "total assessment price 1": // duplicate
-                        structure.TotalAssessmentPrice1Index = c;
+                        tableStructure.TotalAssessmentPrice1Index = c;
                         break;
                     case "total assessment price effective date":
                     case "total assessment price 1 effective date": // duplicate
-                        structure.TotalAssessmentPrice1EffectiveDateIndex = c;
+                        tableStructure.TotalAssessmentPrice1EffectiveDateIndex = c;
                         break;
                     case "total training price 2":
-                        structure.TotalTrainingPrice2Index = c;
+                        tableStructure.TotalTrainingPrice2Index = c;
                         break;
                     case "total training price 2 effective date":
-                        structure.TotalTrainingPrice2EffectiveDateIndex = c;
+                        tableStructure.TotalTrainingPrice2EffectiveDateIndex = c;
                         break;
                     case "total assessment price 2":
-                        structure.TotalAssessmentPrice2Index = c;
+                        tableStructure.TotalAssessmentPrice2Index = c;
                         break;
                     case "total assessment price 2 effective date":
-                        structure.TotalAssessmentPrice2EffectiveDateIndex = c;
+                        tableStructure.TotalAssessmentPrice2EffectiveDateIndex = c;
                         break;
                     case "residual training price":
                     case "residual training price 1":
-                        structure.ResidualTrainingPrice1Index = c;
+                        tableStructure.ResidualTrainingPrice1Index = c;
                         break;
                     case "residual training price effective date":
                     case "residual training price 1 effective date":
-                        structure.ResidualTrainingPrice1EffectiveDateIndex = c;
+                        tableStructure.ResidualTrainingPrice1EffectiveDateIndex = c;
                         break;
                     case "residual assessment price":
                     case "residual assessment price 1":
-                        structure.ResidualAssessmentPrice1Index = c;
+                        tableStructure.ResidualAssessmentPrice1Index = c;
                         break;
                     case "residual assessment price effective date":
                     case "residual assessment price 1 effective date":
-                        structure.ResidualAssessmentPrice1EffectiveDateIndex = c;
+                        tableStructure.ResidualAssessmentPrice1EffectiveDateIndex = c;
                         break;
                     case "residual training price 2":
-                        structure.ResidualTrainingPrice2Index = c;
+                        tableStructure.ResidualTrainingPrice2Index = c;
                         break;
                     case "residual training price 2 effective date":
-                        structure.ResidualTrainingPrice2EffectiveDateIndex = c;
+                        tableStructure.ResidualTrainingPrice2EffectiveDateIndex = c;
                         break;
                     case "residual assessment price 2":
-                        structure.ResidualAssessmentPrice2Index = c;
+                        tableStructure.ResidualAssessmentPrice2Index = c;
                         break;
                     case "residual assessment price 2 effective date":
-                        structure.ResidualAssessmentPrice2EffectiveDateIndex = c;
+                        tableStructure.ResidualAssessmentPrice2EffectiveDateIndex = c;
                         break;
                     case "aim type":
-                        structure.AimTypeIndex = c;
+                        tableStructure.AimTypeIndex = c;
                         break;
                     case "aim rate":
-                        structure.AimRateIndex = c;
+                        tableStructure.AimRateIndex = c;
                         break;
                     case "standard code":
-                        structure.StandardCodeIndex = c;
+                        tableStructure.StandardCodeIndex = c;
                         break;
                     case "framework code":
-                        structure.FrameworkCodeIndex = c;
+                        tableStructure.FrameworkCodeIndex = c;
                         break;
                     case "programme type":
-                        structure.ProgrammeTypeIndex = c;
+                        tableStructure.ProgrammeTypeIndex = c;
                         break;
                     case "pathway code":
-                        structure.PathwayCodeIndex = c;
+                        tableStructure.PathwayCodeIndex = c;
                         break;
                     case "home postcode deprivation":
-                        structure.HomePostcodeDeprivationIndex = c;
+                        tableStructure.HomePostcodeDeprivationIndex = c;
                         break;
                     case "employment status":
-                        structure.EmploymentStatusIndex = c;
+                        tableStructure.EmploymentStatusIndex = c;
                         break;
                     case "employment status applies":
-                        structure.EmploymentStatusAppliesIndex = c;
+                        tableStructure.EmploymentStatusAppliesIndex = c;
                         break;
                     case "employer id":
-                        structure.EmployerIdIndex = c;
+                        tableStructure.EmployerIdIndex = c;
                         break;
                     case "small employer":
-                        structure.SmallEmployerIndex = c;
+                        tableStructure.SmallEmployerIndex = c;
                         break;
                     case "learndelfam":
-                        structure.LearnDelFamIndex = c;
+                        tableStructure.LearnDelFamIndex = c;
                         break;
                     case "aim sequence number":
-                        structure.AimSequenceNumberIndex = c;
+                        tableStructure.AimSequenceNumberIndex = c;
                         break;
                     case "aim reference":
-                        structure.LearnAimRefIndex = c;
+                        tableStructure.LearnAimRefIndex = c;
                         break;
                     case "restart indicator":
-                        structure.RestartIndicatorIndex = c;
+                        tableStructure.RestartIndicatorIndex = c;
                         break;
                     case "funding adjustment for prior learning":
-                        structure.FundingAdjustmentForPriorLearningIndex = c;
+                        tableStructure.FundingAdjustmentForPriorLearningIndex = c;
                         break;
                     case "other funding adjustment":
-                        structure.OtherFundingAdjustmentIndex = c;
+                        tableStructure.OtherFundingAdjustmentIndex = c;
                         break;
                     case "learning support code":
                         learningSupportTableColumnStructure.LearningSupportCodeIndex = c;
@@ -240,7 +254,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
 
             return new FullIlrStructure
             {
-                IlrTableStructure = structure,
+                IlrTableStructure = tableStructure,
                 LearningSupportTableColumnStructure = learningSupportTableColumnStructure,
                 ContractTypesTableColumnStructure = contractTypeTableColumnStructure,
                 EmploymentStatusTableColumnStructure = employmentStatusTableColumnStructure
@@ -273,10 +287,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             };
         }
 
-        private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableParser.EmploymentStatusTableColumnStructure structure)
+        private static EmploymentStatusReferenceData ParseEmploymentStatusTableRow(TableRow row, EmploymentStatusTableParser.EmploymentStatusTableColumnStructure employmentStatusTableStructure)
         {
-            var employerReference = row.ReadRowColumnValue<string>(structure.EmployerIndex, "Employer");
-            var employmentStatus = row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "Employment Status");
+            var employerReference = row.ReadRowColumnValue<string>(employmentStatusTableStructure.EmployerIndex, "Employer");
+            var employmentStatus = row.ReadRowColumnValue<string>(employmentStatusTableStructure.EmploymentStatusIndex, "Employment Status");
 
             if (string.IsNullOrWhiteSpace(employmentStatus))
             {
@@ -300,10 +314,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             {
                 EmployerId = employerId,
                 EmploymentStatus = (EmploymentStatus)employmentStatus.ToEnumByDescription(typeof(EmploymentStatus)),
-                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(structure.EmploymentStatusAppliesIndex, "Employment Status Applies")
+                EmploymentStatusApplies = row.ReadRowColumnValue<DateTime>(employmentStatusTableStructure.EmploymentStatusAppliesIndex, "Employment Status Applies")
             };
 
-            var smallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "Small Employer");
+            var smallEmployer = row.ReadRowColumnValue<string>(employmentStatusTableStructure.SmallEmployerIndex, "Small Employer");
             if (smallEmployer?.Length > 3)
             {
                 status.MonitoringType = (EmploymentStatusMonitoringType)smallEmployer.Substring(0, 3).ToEnumByDescription(typeof(EmploymentStatusMonitoringType));
@@ -313,62 +327,61 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return status;
         }
 
-        private static IlrLearnerReferenceData ParseCommitmentsTableRow(TableRow row, IlrTableStructure structure)
+        private static IlrLearnerReferenceData ParseCommitmentsTableRow(TableRow row, IlrTableStructure ilrTableStructure)
         {
-            if (string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number"))
-                && string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN")))
+            if (string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(ilrTableStructure.LearnerReferenceIndex, "learner reference number"))
+                && string.IsNullOrWhiteSpace(row.ReadRowColumnValue<string>(ilrTableStructure.UlnIndex, "ULN")))
             {
                 return null;
             }
+
             var rowData = new IlrLearnerReferenceData
             {
-                LearnerReference = row.ReadRowColumnValue<string>(structure.LearnerReferenceIndex, "learner reference number", string.Empty),
-                Uln = row.ReadRowColumnValue<string>(structure.UlnIndex, "ULN", Defaults.LearnerId),
-                AgreedPrice = row.ReadRowColumnValue<int>(structure.AgreedPriceIndex, "agreed price"),
-                LearnerType = (LearnerType)row.ReadRowColumnValue<string>(structure.LearnerTypeIndex, "learner type", "programme only DAS").ToEnumByDescription(typeof(LearnerType)),
-                StartDate = row.ReadRowColumnValue<DateTime>(structure.StartDateIndex, "start date"),
-                PlannedEndDate = row.ReadRowColumnValue<DateTime>(structure.PlannedEndDateIndex, "planned end date"),
-                ActualEndDate = row.ReadRowColumnValue<DateTime?>(structure.ActualEndDateIndex, "actual end date"),
-                CompletionStatus = (CompletionStatus)row.ReadRowColumnValue<string>(structure.CompletionStatusIndex, "completion status").ToEnumByDescription(typeof(CompletionStatus)),
-                Provider = row.ReadRowColumnValue<string>(structure.ProviderIndex, "provider", Defaults.ProviderId),
-                TotalTrainingPrice1 = row.ReadRowColumnValue<int>(structure.TotalTrainingPrice1Index, "total training price 1"),
-                TotalTrainingPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.TotalTrainingPrice1EffectiveDateIndex, "total training price 1 effective date"),
-                TotalAssessmentPrice1 = row.ReadRowColumnValue<int>(structure.TotalAssessmentPrice1Index, "total assessment price 1"),
-                TotalAssessmentPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.TotalAssessmentPrice1EffectiveDateIndex, "total assessment price 1 effective date"),
-                TotalTrainingPrice2 = row.ReadRowColumnValue<int>(structure.TotalTrainingPrice2Index, "total training price 2"),
-                TotalTrainingPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.TotalTrainingPrice2EffectiveDateIndex, "total training price 2 effective date"),
-                TotalAssessmentPrice2 = row.ReadRowColumnValue<int>(structure.TotalAssessmentPrice2Index, "total assessment price 2"),
-                TotalAssessmentPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.TotalAssessmentPrice2EffectiveDateIndex, "total assessment price 2 effective date"),
-                ResidualTrainingPrice1 = row.ReadRowColumnValue<int>(structure.ResidualTrainingPrice1Index, "residual training price 1"),
-                ResidualTrainingPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualTrainingPrice1EffectiveDateIndex, "residual training price 1 effective date"),
-                ResidualAssessmentPrice1 = row.ReadRowColumnValue<int>(structure.ResidualAssessmentPrice1Index, "residual assessment price 1"),
-                ResidualAssessmentPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualAssessmentPrice1EffectiveDateIndex, "residual assessment price 1 effective date"),
-                ResidualTrainingPrice2 = row.ReadRowColumnValue<int>(structure.ResidualTrainingPrice2Index, "residual training price 2"),
-                ResidualTrainingPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualTrainingPrice2EffectiveDateIndex, "residual training price 2 effective date"),
-                ResidualAssessmentPrice2 = row.ReadRowColumnValue<int>(structure.ResidualAssessmentPrice2Index, "residual assessment price 2"),
-                ResidualAssessmentPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(structure.ResidualAssessmentPrice2EffectiveDateIndex, "residual assessment price 2 effective date"),
-                AimType = (AimType)row.ReadRowColumnValue<string>(structure.AimTypeIndex, "aim type", "Programme").ToEnumByDescription(typeof(AimType)),
-                AimRate = row.ReadRowColumnValue<string>(structure.AimRateIndex, "aim rate"),
-                LearnAimRef = row.ReadRowColumnValue<string>(structure.LearnAimRefIndex, "aim reference"),
-                StandardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code"),
-                FrameworkCode = row.ReadRowColumnValue<int>(structure.FrameworkCodeIndex, "framework code"),
-                ProgrammeType = row.ReadRowColumnValue<int>(structure.ProgrammeTypeIndex, "programme type"),
-                PathwayCode = row.ReadRowColumnValue<int>(structure.PathwayCodeIndex, "pathway code"),
-                HomePostcodeDeprivation = row.ReadRowColumnValue<string>(structure.HomePostcodeDeprivationIndex, "home postcode deprivation"),
-                EmploymentStatus = row.ReadRowColumnValue<string>(structure.EmploymentStatusIndex, "employment status"),
-                EmploymentStatusApplies = row.ReadRowColumnValue<string>(structure.EmploymentStatusAppliesIndex, "employment status applies"),
-                EmployerId = row.ReadRowColumnValue<string>(structure.EmployerIdIndex, "employer id"),
-                SmallEmployer = row.ReadRowColumnValue<string>(structure.SmallEmployerIndex, "small employer"),
-                LearnDelFam = row.ReadRowColumnValue<string>(structure.LearnDelFamIndex, "LearnDelFam"),
-                AimSequenceNumber = row.ReadRowColumnValue<int>(structure.AimSequenceNumberIndex, "aim sequence number")
+                LearnerReference = row.ReadRowColumnValue(ilrTableStructure.LearnerReferenceIndex, "learner reference number", string.Empty),
+                Uln = row.ReadRowColumnValue(ilrTableStructure.UlnIndex, "ULN", Defaults.LearnerId),
+                AgreedPrice = row.ReadRowColumnValue<int>(ilrTableStructure.AgreedPriceIndex, "agreed price"),
+                LearnerType = (LearnerType) row.ReadRowColumnValue(ilrTableStructure.LearnerTypeIndex, "learner type", "programme only DAS").ToEnumByDescription(typeof(LearnerType)),
+                StartDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.StartDateIndex, "start date"),
+                PlannedEndDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.PlannedEndDateIndex, "planned end date"),
+                ActualEndDate = row.ReadRowColumnValue<DateTime?>(ilrTableStructure.ActualEndDateIndex, "actual end date"),
+                CompletionStatus = (CompletionStatus) row.ReadRowColumnValue<string>(ilrTableStructure.CompletionStatusIndex, "completion status").ToEnumByDescription(typeof(CompletionStatus)),
+                Provider = row.ReadRowColumnValue(ilrTableStructure.ProviderIndex, "provider", Defaults.ProviderId),
+                TotalTrainingPrice1 = row.ReadRowColumnValue<int>(ilrTableStructure.TotalTrainingPrice1Index, "total training price 1"),
+                TotalTrainingPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.TotalTrainingPrice1EffectiveDateIndex, "total training price 1 effective date"),
+                TotalAssessmentPrice1 = row.ReadRowColumnValue<int>(ilrTableStructure.TotalAssessmentPrice1Index, "total assessment price 1"),
+                TotalAssessmentPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.TotalAssessmentPrice1EffectiveDateIndex, "total assessment price 1 effective date"),
+                TotalTrainingPrice2 = row.ReadRowColumnValue<int>(ilrTableStructure.TotalTrainingPrice2Index, "total training price 2"),
+                TotalTrainingPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.TotalTrainingPrice2EffectiveDateIndex, "total training price 2 effective date"),
+                TotalAssessmentPrice2 = row.ReadRowColumnValue<int>(ilrTableStructure.TotalAssessmentPrice2Index, "total assessment price 2"),
+                TotalAssessmentPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.TotalAssessmentPrice2EffectiveDateIndex, "total assessment price 2 effective date"),
+                ResidualTrainingPrice1 = row.ReadRowColumnValue<int>(ilrTableStructure.ResidualTrainingPrice1Index, "residual training price 1"),
+                ResidualTrainingPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.ResidualTrainingPrice1EffectiveDateIndex, "residual training price 1 effective date"),
+                ResidualAssessmentPrice1 = row.ReadRowColumnValue<int>(ilrTableStructure.ResidualAssessmentPrice1Index, "residual assessment price 1"),
+                ResidualAssessmentPrice1EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.ResidualAssessmentPrice1EffectiveDateIndex, "residual assessment price 1 effective date"),
+                ResidualTrainingPrice2 = row.ReadRowColumnValue<int>(ilrTableStructure.ResidualTrainingPrice2Index, "residual training price 2"),
+                ResidualTrainingPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.ResidualTrainingPrice2EffectiveDateIndex, "residual training price 2 effective date"),
+                ResidualAssessmentPrice2 = row.ReadRowColumnValue<int>(ilrTableStructure.ResidualAssessmentPrice2Index, "residual assessment price 2"),
+                ResidualAssessmentPrice2EffectiveDate = row.ReadRowColumnValue<DateTime>(ilrTableStructure.ResidualAssessmentPrice2EffectiveDateIndex, "residual assessment price 2 effective date"),
+                AimType = (AimType) row.ReadRowColumnValue(ilrTableStructure.AimTypeIndex, "aim type", "Programme").ToEnumByDescription(typeof(AimType)),
+                AimRate = row.ReadRowColumnValue<string>(ilrTableStructure.AimRateIndex, "aim rate"),
+                LearnAimRef = row.ReadRowColumnValue<string>(ilrTableStructure.LearnAimRefIndex, "aim reference"),
+                StandardCode = row.ReadRowColumnValue<long>(ilrTableStructure.StandardCodeIndex, "standard code"),
+                FrameworkCode = row.ReadRowColumnValue<int>(ilrTableStructure.FrameworkCodeIndex, "framework code"),
+                ProgrammeType = row.ReadRowColumnValue<int>(ilrTableStructure.ProgrammeTypeIndex, "programme type"),
+                PathwayCode = row.ReadRowColumnValue<int>(ilrTableStructure.PathwayCodeIndex, "pathway code"),
+                HomePostcodeDeprivation = row.ReadRowColumnValue<string>(ilrTableStructure.HomePostcodeDeprivationIndex, "home postcode deprivation"),
+                EmploymentStatus = row.ReadRowColumnValue<string>(ilrTableStructure.EmploymentStatusIndex, "employment status"),
+                EmploymentStatusApplies = row.ReadRowColumnValue<string>(ilrTableStructure.EmploymentStatusAppliesIndex, "employment status applies"),
+                EmployerId = row.ReadRowColumnValue<string>(ilrTableStructure.EmployerIdIndex, "employer id"),
+                SmallEmployer = row.ReadRowColumnValue<string>(ilrTableStructure.SmallEmployerIndex, "small employer"),
+                LearnDelFam = row.ReadRowColumnValue<string>(ilrTableStructure.LearnDelFamIndex, "LearnDelFam"),
+                AimSequenceNumber = row.ReadRowColumnValue<int>(ilrTableStructure.AimSequenceNumberIndex, "aim sequence number"),
+                RestartIndicator = row.ReadRowColumnValue<string>(ilrTableStructure.RestartIndicatorIndex, "restart indicator")?
+                                       .Equals("YES", StringComparison.InvariantCultureIgnoreCase) ?? false,
+                LearningAdjustmentForPriorLearning = row.ParseColumnValue(ilrTableStructure.FundingAdjustmentForPriorLearningIndex),
+                OtherFundingAdjustments = row.ParseColumnValue(ilrTableStructure.OtherFundingAdjustmentIndex)
             };
 
-            rowData.RestartIndicator =
-                row.ReadRowColumnValue<string>(structure.RestartIndicatorIndex, "restart indicator")?
-                    .Equals("YES", StringComparison.InvariantCultureIgnoreCase)??false;
-            rowData.LearningAdjustmentForPriorLearning =
-                row.ParseColumnValue(structure.FundingAdjustmentForPriorLearningIndex);
-            rowData.OtherFundingAdjustments = row.ParseColumnValue(structure.OtherFundingAdjustmentIndex);
 
             var learnRefNumber = string.Empty;
             if (string.IsNullOrEmpty(rowData.LearnerReference) && !string.IsNullOrEmpty(rowData.Uln))

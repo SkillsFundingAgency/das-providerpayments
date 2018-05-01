@@ -28,7 +28,8 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             var accountId = DateTime.Now.Ticks;
             var hashId = Guid.NewGuid().ToString();
             var name = Guid.NewGuid().ToString();
-            var balance = 123456.7878m;
+            const decimal balance = 123456.7878m;
+            const decimal transferAllowance = 98765m;
 
             StubbedApiClient.Accounts.Add(new AccountWithBalanceViewModel
             {
@@ -36,7 +37,8 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
                 AccountHashId = hashId,
                 AccountName = name,
                 Balance = balance,
-                IsLevyPayer = true
+                IsLevyPayer = true,
+                TransferAllowance = transferAllowance
             });
 
             // Act
@@ -49,7 +51,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             Assert.AreEqual(name, account.AccountName);
             Assert.AreEqual(balance, account.Balance);
             Assert.IsTrue(account.IsLevyPayer);
-
+            Assert.AreEqual(transferAllowance, account.TransferAllowance);
         }
 
 
@@ -60,7 +62,8 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             var accountId = DateTime.Now.Ticks;
             var hashId = Guid.NewGuid().ToString();
             var name = Guid.NewGuid().ToString();
-            var balance = 98765.3232m;
+            const decimal balance = 98765.3232m;
+            const decimal transferAllowance = 12345m;
 
             StubbedApiClient.Accounts.Add(new AccountWithBalanceViewModel
             {
@@ -68,9 +71,10 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
                 AccountHashId = hashId,
                 AccountName = name,
                 Balance = balance,
-                IsLevyPayer=true
+                IsLevyPayer=true,
+                TransferAllowance =  transferAllowance
             });
-            AccountDataHelper.AddAccount(accountId, "ThenItShouldUpdateAccountsTheDoExist", "ThenItShouldUpdateAccountsTheDoExist", 99999, "11112233",true);
+            AccountDataHelper.AddAccount(accountId, "ThenItShouldUpdateAccountsTheDoExist", "ThenItShouldUpdateAccountsTheDoExist", 99999, "11112233",true, transferAllowance);
 
             // Act
             _task.Execute(_context);
@@ -82,7 +86,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             Assert.AreEqual(name, account.AccountName);
             Assert.AreEqual(balance, account.Balance);
             Assert.IsTrue(account.IsLevyPayer);
-
+            Assert.AreEqual(transferAllowance, account.TransferAllowance);
         }
 
 
@@ -93,14 +97,16 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             var accountId = DateTime.Now.Ticks;
             var hashId = Guid.NewGuid().ToString();
             var name = Guid.NewGuid().ToString();
-            var balance = 98765.3232m;
+            const decimal balance = 98765.3232m;
+            const decimal transferAllowance = 12345m;
 
             StubbedApiClient.Accounts.Add(new AccountWithBalanceViewModel
             {
                 AccountId = accountId,
                 AccountHashId = hashId,
                 AccountName = name,
-                Balance = balance
+                Balance = balance,
+                TransferAllowance = transferAllowance
             });
 
             // Act

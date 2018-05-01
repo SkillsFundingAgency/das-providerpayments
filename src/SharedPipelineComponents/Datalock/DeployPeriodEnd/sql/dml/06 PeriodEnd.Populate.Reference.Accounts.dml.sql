@@ -18,7 +18,8 @@ INSERT INTO [Reference].[DasAccounts]
         [AccountName],
         [Balance],
 		[VersionId],
-		[IsLevyPayer]
+		[IsLevyPayer],
+		[TransferAllowance]
 	FROM ${DAS_Accounts.FQ}.[dbo].[DasAccounts]
 GO
 

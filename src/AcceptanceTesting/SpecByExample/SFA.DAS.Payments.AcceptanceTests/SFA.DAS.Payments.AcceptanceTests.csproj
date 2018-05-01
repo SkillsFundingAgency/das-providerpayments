@@ -212,6 +212,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>small_employers.feature</DependentUpon>
     </Compile>
+    <Compile Include="..\..\Features\temporary_uln_changes.feature.cs">
+      <Link>Features\temporary_uln_changes.feature.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>temporary_uln_changes.feature</DependentUpon>
+    </Compile>
     <Compile Include="..\..\features\two_learners_paid_in_priority.feature.cs">
       <Link>Features\two_learners_paid_in_priority.feature.cs</Link>
       <AutoGen>True</AutoGen>
@@ -245,6 +251,7 @@
     <Compile Include="Assertions\SubmissionDataLockRules\OnProgrammeDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\Provider16To18IncentiveDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\SubmissionDataLockRuleBase.cs" />
+    <Compile Include="Assertions\TransfersAssertions.cs" />
     <Compile Include="Contexts\PeriodContext.cs" />
     <Compile Include="Contexts\SubmissionContext.cs" />
     <Compile Include="Contexts\ProviderAdjustmentsContext.cs" />
@@ -253,6 +260,7 @@
     <Compile Include="DataCollectors\LevyAccountBalanceCollector.cs" />
     <Compile Include="DataCollectors\EventsDataCollector.cs" />
     <Compile Include="DataCollectors\SubmissionDataLockResultCollector.cs" />
+    <Compile Include="DataCollectors\TransfersDataCollector.cs" />
     <Compile Include="DataExtensions.cs" />
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
     <Compile Include="DummyAcceptanceTestsLogger.cs" />
@@ -355,6 +363,7 @@
     <Compile Include="ReferenceDataModels\ProviderEarnedPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\TransactionType.cs" />
     <Compile Include="ReferenceDataModels\TransactionTypesFlag.cs" />
+    <Compile Include="ReferenceDataModels\TransfersBreakdown.cs" />
     <Compile Include="ResultsDataModels\DataLockEventCommitmentVersion.cs" />
     <Compile Include="ResultsDataModels\DataLockEventError.cs" />
     <Compile Include="ResultsDataModels\DataLockEventPeriod.cs" />
@@ -365,6 +374,8 @@
     <Compile Include="ResultsDataModels\PaymentResult.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockPeriodResults.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockResult.cs" />
+    <Compile Include="ResultsDataModels\TransferPeriodValueEntity.cs" />
+    <Compile Include="ResultsDataModels\TransferResults.cs" />
     <Compile Include="SpecFlowHooks.cs" />
     <Compile Include="StepDefinitions\CommitmentSteps.cs" />
     <Compile Include="StepDefinitions\DataLockSteps.cs" />
@@ -394,6 +405,7 @@
     <Compile Include="TableParsers\SubmissionDataLockTableParser.cs" />
     <Compile Include="TableParsers\TableParser.cs" />
     <Compile Include="TableParsers\TransactionTypeTableParser.cs" />
+    <Compile Include="TableParsers\TransfersTableParser.cs" />
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="Validations.cs" />
     <Compile Include="StepDefinitions\EmployerAccountSteps.cs" />
@@ -508,6 +520,11 @@
       <Link>Features\small_employers.feature</Link>
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>small_employers.feature.cs</LastGenOutput>
+    </None>
+    <None Include="..\..\Features\temporary_uln_changes.feature">
+      <Link>Features\temporary_uln_changes.feature</Link>
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>temporary_uln_changes.feature.cs</LastGenOutput>
     </None>
     <None Include="..\..\features\two_learners_paid_in_priority.feature">
       <Link>Features\two_learners_paid_in_priority.feature</Link>

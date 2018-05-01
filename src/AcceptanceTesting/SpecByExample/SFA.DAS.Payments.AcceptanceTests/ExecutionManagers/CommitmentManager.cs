@@ -16,9 +16,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
                 connection.Execute("INSERT INTO dbo.DasCommitments " +
-                                   "(CommitmentId, VersionId, Uln, Ukprn, AccountId, StartDate, EndDate, AgreedCost, StandardCode, ProgrammeType, FrameworkCode, PathwayCode, PaymentStatus, PaymentStatusDescription, Priority, EffectiveFromDate, EffectiveToDate) " +
+                                   "(CommitmentId, VersionId, Uln, Ukprn, AccountId, StartDate, EndDate, AgreedCost, StandardCode, ProgrammeType, FrameworkCode, PathwayCode, PaymentStatus, PaymentStatusDescription, Priority, EffectiveFromDate, EffectiveToDate, TransferSendingEmployerAccountId, TransferApprovalDate) " +
                                    "VALUES" +
-                                   "(@CommitmentId, @VersionId, @Uln, @Ukprn, @AccountId, @StartDate, @EndDate, @AgreedCost, @StandardCode, @ProgrammeType, @FrameworkCode, @PathwayCode, @PaymentStatus, @PaymentStatusDescription, @Priority, @EffectiveFromDate, @EffectiveToDate)",
+                                   "(@CommitmentId, @VersionId, @Uln, @Ukprn, @AccountId, @StartDate, @EndDate, @AgreedCost, @StandardCode, @ProgrammeType, @FrameworkCode, @PathwayCode, @PaymentStatus, @PaymentStatusDescription, @Priority, @EffectiveFromDate, @EffectiveToDate, @TransferSendingEmployerAccountId, @TransferApprovalDate)",
                                    new
                                    {
                                        CommitmentId = commitment.CommitmentId,
@@ -37,7 +37,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                                        PaymentStatusDescription = commitment.Status.ToString(),
                                        Priority = commitment.Priority,
                                        EffectiveFromDate = commitment.EffectiveFrom,
-                                       EffectiveToDate = commitment.EffectiveTo
+                                       EffectiveToDate = commitment.EffectiveTo,
+                                       TransferSendingEmployerAccountId = commitment.TransferSendingEmployerAccountId,
+                                       TransferApprovalDate =  commitment.TransferApprovalDate
                                    });
             }
         }

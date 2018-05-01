@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Contexts
@@ -7,6 +8,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
     {
         public EarningsAndPaymentsContext()
         {
+            PeriodDates = new List<DateTime>();
+
             OverallEarningsAndPayments = new List<EarningsAndPaymentsBreakdown>();
             LearnerOverallEarningsAndPayments = new List<LearnerEarningsAndPaymentsBreakdown>();
 
@@ -23,6 +26,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             ProviderEarnedForFrameworkUpliftOnBalancing = new List<ProviderEarnedPeriodValue>();
             ProviderEarnedForLearningSupport = new List<ProviderEarnedPeriodValue>();
         }
+
+        public List<DateTime> PeriodDates { get; set; }
 
         public List<EarningsAndPaymentsBreakdown> OverallEarningsAndPayments { get; set; }
         public List<LearnerEarningsAndPaymentsBreakdown> LearnerOverallEarningsAndPayments { get; set; }

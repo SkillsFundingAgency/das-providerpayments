@@ -15,10 +15,10 @@ Feature: Provider earnings and payments where learner changes apprenticeship sta
             | ULN       | standard code | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
             | learner a | 51            | 03/08/2017 | 01/08/2018       | 31/10/2017      | withdrawn         | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            |
             | learner a | 52            | 03/11/2017 | 01/08/2018       |                 | continuing        | 4500                 | 03/11/2017                          | 1125                   | 03/11/2017                            |
-        Then the data lock status of the ILR in 03/12/2017 is:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
-        And the provider earnings and payments break down as follows:
+        #Then the data lock status of the ILR in 03/12/2017 is:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
+        Then the provider earnings and payments break down as follows:
             | Type                       | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total      | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Earned from SFA   | 1000  | 1000  | 1000  | 500   | 500   |
@@ -191,11 +191,11 @@ Feature: Provider earnings and payments where learner changes apprenticeship sta
             | learner a | 51            | 03/08/2017 | 04/08/2018       | 10/11/2017      | withdrawn         | 12000                  | 03/08/2017                            | 3000                     | 03/08/2017                              |
             | learner a | 52            | 11/11/2017 | 04/08/2018       |                 | continuing        | 4500                   | 11/11/2017                            | 1125                     | 11/11/2017                              | 
         
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
    
-        And the provider earnings and payments break down as follows:
+        Then the provider earnings and payments break down as follows:
             | Type                       | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total      | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA       | 0     | 1000  | 1000  | 1000  | 500   |
@@ -255,11 +255,11 @@ Scenario: Earnings and payments for a DAS learner, levy available, where the app
             | learner a | 51            | 03/08/2017 | 04/08/2018       | 18/11/2017      | withdrawn         | 12000                  | 03/08/2017                            | 3000                     | 03/08/2017                              |
             | learner a | 52            | 19/11/2017 | 04/08/2018       |                 | continuing        | 4500                   | 19/11/2017                            | 1125                     | 19/11/2017                              | 
         
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 |
    
-        And the provider earnings and payments break down as follows:         
+        Then the provider earnings and payments break down as follows:         
             | Type                       | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
             | Provider Earned Total      | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA       | 0     | 1000  | 1000  | 1000  | 500   |
@@ -277,11 +277,11 @@ Scenario: Earnings and payments for a DAS learner, levy available, where the app
             | learner a | 51            | 03/08/2017 | 04/08/2018       | 04/12/2017      | withdrawn         | 12000                  | 03/08/2017                            | 3000                     | 03/08/2017                              |
             | learner a | 52            | 05/12/2017 | 04/08/2018       |                 | continuing        | 4500                   | 05/12/2017                            | 1125                     | 05/12/2017                              | 
         
-        Then the data lock status will be as follows:
-            | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17               | 01/18               |
-            | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 1 v1-002 | commitment 1 v1-002 |
+        #Then the data lock status will be as follows:
+        #    | Payment type | 08/17               | 09/17               | 10/17               | 11/17 | 12/17               | 01/18               |
+        #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 1 v1-002 | commitment 1 v1-002 |
    
-        And the provider earnings and payments break down as follows:         
+        Then the provider earnings and payments break down as follows:         
             | Type                       | 08/17 | 09/17 | 10/17 | 11/17 | 12/17  | 01/18  |
             | Provider Earned Total      | 1000  | 1000  | 1000  | 1000  | 562.50 | 562.50 |
             | Provider Paid by SFA       | 0     | 1000  | 1000  | 1000  | 0      | 562.50 |
@@ -324,16 +324,16 @@ Scenario:630-AC01  Earnings and payments for a DAS learner, levy available, and 
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | standard code | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total assessment price 2 | Total assessment price 2 effective date |
             | learner a | 05/08/2017 | 28/08/2018       |                 | continuing        | 11            | 12000                  | 05/08/2017                            | 3500                     | 05/08/2017                              | 4000                     | 15/11/2017                              |
-		Then the data lock status will be as follows:
-			| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-			| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
-			| Completion                     |                     |                     |                     |                     |                     |                     |
-			| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider learning support      |                     |                     |                     |                     |                     |                     |
-			| English and maths on programme |                     |                     |                     |                     |                     |                     |
-			| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
-        And the provider earnings and payments break down as follows:
+		#Then the data lock status will be as follows:
+		#	| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+		#	| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
+		#	| Completion                     |                     |                     |                     |                     |                     |                     |
+		#	| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider learning support      |                     |                     |                     |                     |                     |                     |
+		#	| English and maths on programme |                     |                     |                     |                     |                     |                     |
+		#	| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
+        Then the provider earnings and payments break down as follows:
             | Type                          | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
             | Provider Earned Total         | 1033.33 | 1033.33 | 1033.33 | 1077.78 | 1077.78 | 1077.78 |
             | Provider Earned from SFA      | 1033.33 | 1033.33 | 1033.33 | 1077.78 | 1077.78 | 1077.78 |
@@ -358,16 +358,16 @@ Scenario:630-AC02  Earnings and payments for a DAS learner, levy available, and 
 			| ULN       | start date | planned end date | actual end date | completion status | standard code | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total assessment price 2 | Total assessment price 2 effective date |
 			| learner a | 05/08/2017 | 28/08/2018       |                 | continuing        | 11            | 12000                  | 05/08/2017                            | 3500                     | 05/08/2017                              | 2000                     | 15/11/2017                              |
         
-		Then the data lock status will be as follows:
-			| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-			| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
-			| Completion                     |                     |                     |                     |                     |                     |                     |
-			| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider learning support      |                     |                     |                     |                     |                     |                     |
-			| English and maths on programme |                     |                     |                     |                     |                     |                     |
-			| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
-		And the provider earnings and payments break down as follows:
+		#Then the data lock status will be as follows:
+		#	| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+		#	| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
+		#	| Completion                     |                     |                     |                     |                     |                     |                     |
+		#	| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider learning support      |                     |                     |                     |                     |                     |                     |
+		#	| English and maths on programme |                     |                     |                     |                     |                     |                     |
+		#	| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
+		Then the provider earnings and payments break down as follows:
 			| Type                          | 08/17   | 09/17   | 10/17   | 11/17   | 12/17  | 01/18  |
 			| Provider Earned Total         | 1033.33 | 1033.33 | 1033.33 | 900.00  | 900.00 | 900.00 |
 			| Provider Earned from SFA      | 1033.33 | 1033.33 | 1033.33 | 900.00  | 900.00 | 900.00 |
@@ -391,16 +391,16 @@ Scenario:630-AC03  Earnings and payments for a DAS learner, levy available, and 
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | standard code | Residual training price 1 | Residual training price 1 effective date | Residual assessment price 1 | Residual assessment price 1 effective date | Residual assessment price 2 | Residual assessment price 2 effective date |
             | learner a | 05/08/2017 | 28/08/2018       |                 | continuing        | 11            | 12000                     | 05/08/2017                               | 3500                        | 05/08/2017                                 | 4000                        | 15/11/2017                                 |
-  		Then the data lock status will be as follows:
-		   | Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-		   | On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
-		   | Completion                     |                     |                     |                     |                     |                     |                     |
-		   | Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-		   | Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-		   | Provider learning support      |                     |                     |                     |                     |                     |                     |
-		   | English and maths on programme |                     |                     |                     |                     |                     |                     |
-		   | English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
-        And the provider earnings and payments break down as follows:
+  		#Then the data lock status will be as follows:
+		  # | Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+		  # | On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
+		  # | Completion                     |                     |                     |                     |                     |                     |                     |
+		  # | Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		  # | Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		  # | Provider learning support      |                     |                     |                     |                     |                     |                     |
+		  # | English and maths on programme |                     |                     |                     |                     |                     |                     |
+		  # | English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
+        Then the provider earnings and payments break down as follows:
             | Type                          | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
             | Provider Earned Total         | 1033.33 | 1033.33 | 1033.33 | 1422.22 | 1422.22 | 1422.22 |
             | Provider Earned from SFA      | 1033.33 | 1033.33 | 1033.33 | 1422.22 | 1422.22 | 1422.22 |
@@ -423,16 +423,16 @@ Scenario:630-AC04  Earnings and payments for a DAS learner, levy available, and 
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | standard code | Residual training price 1 | Residual training price 1 effective date | Residual assessment price 1 | Residual assessment price 1 effective date | Residual assessment price 2 | Residual assessment price 2 effective date |
             | learner a | 05/08/2017 | 28/08/2018       |                 | continuing        | 11            | 12000                     | 05/08/2017                               | 3500                        | 05/08/2017                                 | 2000                        | 15/11/2017                                 |
-		Then the data lock status will be as follows:
-			| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-			| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
-			| Completion                     |                     |                     |                     |                     |                     |                     |
-			| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider learning support      |                     |                     |                     |                     |                     |                     |
-			| English and maths on programme |                     |                     |                     |                     |                     |                     |
-			| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
-	   And the provider earnings and payments break down as follows:
+		#Then the data lock status will be as follows:
+		#	| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+		#	| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
+		#	| Completion                     |                     |                     |                     |                     |                     |                     |
+		#	| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider learning support      |                     |                     |                     |                     |                     |                     |
+		#	| English and maths on programme |                     |                     |                     |                     |                     |                     |
+		#	| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
+	   Then the provider earnings and payments break down as follows:
 			| Type                          | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
 			| Provider Earned Total         | 1033.33 | 1033.33 | 1033.33 | 1244.44 | 1244.44 | 1244.44 |
 			| Provider Earned from SFA      | 1033.33 | 1033.33 | 1033.33 | 1244.44 | 1244.44 | 1244.44 |
@@ -456,16 +456,16 @@ Scenario:630-AC04  Earnings and payments for a DAS learner, levy available, and 
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | standard code | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | Total assessment price 2 | Total assessment price 2 effective date |
             | learner a | 05/08/2017 | 28/08/2018       |                 | continuing        | 11            | 15500                  | 05/08/2017                            | 0                        | 05/08/2017                              | 500                      | 15/11/2017                              |
-		Then the data lock status will be as follows:
-			| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
-			| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
-			| Completion                     |                     |                     |                     |                     |                     |                     |
-			| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
-			| Provider learning support      |                     |                     |                     |                     |                     |                     |
-			| English and maths on programme |                     |                     |                     |                     |                     |                     |
-			| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
-        And the provider earnings and payments break down as follows:
+		#Then the data lock status will be as follows:
+		#	| Payment type                   | 08/17               | 09/17               | 10/17               | 11/17               | 12/17               | 01/18               |
+		#	| On-program                     | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-002 | commitment 1 v1-002 | commitment 1 v1-002 |
+		#	| Completion                     |                     |                     |                     |                     |                     |                     |
+		#	| Employer 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider 16-18 incentive       |                     |                     |                     |                     |                     |                     |
+		#	| Provider learning support      |                     |                     |                     |                     |                     |                     |
+		#	| English and maths on programme |                     |                     |                     |                     |                     |                     |
+		#	| English and maths Balancing    |                     |                     |                     |                     |                     |                     | 
+        Then the provider earnings and payments break down as follows:
             | Type                          | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | 01/18   |
             | Provider Earned Total         | 1033.33 | 1033.33 | 1033.33 | 1077.78 | 1077.78 | 1077.78 |
             | Provider Earned from SFA      | 1033.33 | 1033.33 | 1033.33 | 1077.78 | 1077.78 | 1077.78 |

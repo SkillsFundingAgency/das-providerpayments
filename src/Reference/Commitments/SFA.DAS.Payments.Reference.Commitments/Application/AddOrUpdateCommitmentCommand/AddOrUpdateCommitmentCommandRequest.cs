@@ -25,5 +25,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.Application.AddOrUpdateCommitme
         public PaymentStatus PaymentStatus { get; set; }
         public string LegalEntityName { get; set; }
         public List<PriceEpisode> PriceEpisodes { get; set; }
+        public long? TransferSendingEmployerAccountId { get; set; }
+        public DateTime? TransferApprovalDate { get; set; }
     }
 }
