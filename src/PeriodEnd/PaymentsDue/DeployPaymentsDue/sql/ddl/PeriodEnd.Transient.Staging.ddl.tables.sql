@@ -375,3 +375,61 @@ CREATE TABLE Staging.EarningsWithoutPayments (
 	UseLevyBalance bit
 )
 GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Earnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Earnings' AND [schema_id] = SCHEMA_ID('Staging'))
+BEGIN
+	DROP TABLE Staging.Earnings
+END
+GO
+
+CREATE TABLE Staging.Earnings (
+	LearnRefNumber varchar(12) NOT NULL,
+	Ukprn bigint NOT NULL,
+	PriceEpisodeIdentifier varchar(25),
+	EpisodeStartDate date,
+	[Period] int NOT NULL,
+	TransactionType01 decimal,
+	TransactionType02 decimal,
+	TransactionType03 decimal,
+	TransactionType04 decimal,
+	TransactionType05 decimal,
+	TransactionType06 decimal,
+	TransactionType07 decimal,
+	TransactionType08 decimal,
+	TransactionType09 decimal,
+	TransactionType10 decimal,
+	TransactionType11 decimal,
+	TransactionType12 decimal,
+	TransactionType15 decimal,
+	ACT tinyint
+)
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- EarningsMathsEnglish
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='EarningsMathsEnglish' AND [schema_id] = SCHEMA_ID('Staging'))
+BEGIN
+	DROP TABLE Staging.EarningsMathsEnglish
+END
+GO
+
+CREATE TABLE Staging.EarningsMathsEnglish (
+	LearnRefNumber varchar(12) NOT NULL,
+	Ukprn bigint NOT NULL,
+	AimSeqNumber int,
+	LearnStartDate date,
+	[Period] int NOT NULL,
+	LearnAimRef varchar(8),
+	FworkCode int,
+	PwayCode int,
+	StdCode int,
+	TransactionType13 decimal,
+	TransactionType14 decimal,
+	TransactionType15 decimal,
+	ACT tinyint
+)
+GO
