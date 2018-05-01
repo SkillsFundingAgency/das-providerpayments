@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Assertions;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
@@ -86,7 +87,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 if (!submission.HaveSubmissionsBeenDone)
                 {
-                    var periodsToSubmitTo = new[]
+                    var periodsToSubmitTo = new List<string>
                     {
                         CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).ToString("MM/yy")
                     };

@@ -54,6 +54,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
             throw new NotImplementedException();
         }
 
+        public Task<ICollection<TransferConnectionViewModel>> GetTransferConnections(string accountId)
+        {
+            throw new NotImplementedException();
+        }
+
         Task<ICollection<AccountDetailViewModel>> IAccountApiClient.GetUserAccounts(string userId)
         {
             throw new NotImplementedException();

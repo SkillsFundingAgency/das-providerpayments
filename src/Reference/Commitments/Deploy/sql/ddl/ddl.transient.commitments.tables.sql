@@ -45,6 +45,8 @@ CREATE TABLE [dbo].[DasCommitments](
 	[EffectiveFromDate] [date] NOT NULL,
 	[EffectiveToDate] [date] NULL,
 	[LegalEntityName] [nvarchar](100) NULL,
+	[TransferSendingEmployerAccountId] bigint null,
+	[TransferApprovalDate] datetime null
 	PRIMARY KEY CLUSTERED 
 	(
 		[CommitmentId] ASC,
@@ -113,5 +115,7 @@ CREATE TABLE [dbo].[DasCommitmentsHistory](
 	[EffectiveFromDate] [date] NOT NULL,
 	[EffectiveToDate] [date] NULL,
 	[LegalEntityName] [nvarchar](100) NULL,
-	[EventDateTime] datetime NOT NULL default getDate()
+	[EventDateTime] datetime NOT NULL default getDate(),
+	[TransferSendingEmployerAccountId] bigint null,
+	[TransferApprovalDate] datetime null
 )

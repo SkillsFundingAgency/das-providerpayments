@@ -41,6 +41,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "employer":
                         structure.EmployerIndex = c;
                         break;
+                    case "employer of apprentice":
+                        structure.EmployerIndex = c;
+                        break;
+                    case "employer paying for training":
+                        structure.EmployerPayingForTrainingIndex = c;
+                        break;
                     case "provider":
                         structure.ProviderIndex = c;
                         break;
@@ -112,6 +118,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             if (structure.PriorityIndex > -1 && !int.TryParse(row[structure.PriorityIndex], out priority))
             {
                 throw new ArgumentException($"'{row[structure.PriorityIndex]}' is not a valid priority");
+            }
+
+            var sendingEmployerAccountId = (int?)null;
+            if (structure.EmployerPayingForTrainingIndex > -1)
+            {
+                var nonNullableSendingEmployerId = 0;
+                if (row[structure.EmployerPayingForTrainingIndex].Length < 10 || !int.TryParse(row[structure.EmployerPayingForTrainingIndex].Substring(9),
+                        out nonNullableSendingEmployerId))
+                {
+                    throw new ArgumentException($"'{row[structure.EmployerPayingForTrainingIndex]}' is not a valid employer reference");
+                }
+                sendingEmployerAccountId = nonNullableSendingEmployerId;
             }
 
             var employerAccountId = Defaults.EmployerAccountId;
@@ -206,6 +224,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 FrameworkCode = frameworkCode == 0 ? 0 : frameworkCode,
                 ProgrammeType = programmeType == 0 ? 0 : programmeType,
                 PathwayCode = pathwayCode == 0 ? 0 : pathwayCode,
+                TransferSendingEmployerAccountId = sendingEmployerAccountId,
+                TransferApprovalDate = effectiveFrom
             };
         }
 
@@ -229,6 +249,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int UlnIndex { get; set; } = -1;
             public int PriorityIndex { get; set; } = -1;
             public int EmployerIndex { get; set; } = -1;
+            public int EmployerPayingForTrainingIndex { get; set; } = -1;
             public int ProviderIndex { get; set; } = -1;
             public int PriceIndex { get; set; } = -1;
             public int StartDateIndex { get; set; } = -1;

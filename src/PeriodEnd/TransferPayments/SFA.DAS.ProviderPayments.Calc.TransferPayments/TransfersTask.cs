@@ -1,9 +1,11 @@
-﻿using SFA.DAS.Payments.DCFS;
+﻿using JetBrains.Annotations;
+using SFA.DAS.Payments.DCFS;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.ProviderPayments.Calc.TransferPayments.DependencyResolution;
 
 namespace SFA.DAS.ProviderPayments.Calc.TransferPayments
 {
+    [UsedImplicitly]
     public class TransfersTask : DcfsTask
     {
         private const string DatabaseSchema = "TransferPayments";

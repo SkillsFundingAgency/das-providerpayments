@@ -100,6 +100,11 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.StubbedInfrast
             throw new NotImplementedException();
         }
 
+        public Task CreateGenericEvent<T>(IGenericEvent<T> @event)
+        {
+            return null;
+        }
+
         public Task<List<GenericEvent>> GetGenericEventsByResourceUri(string resourceUri, DateTime? fromDate = default(DateTime?), DateTime? toDate = default(DateTime?), int pageSize = 1000, int pageNumber = 1)
         {
             throw new NotImplementedException();

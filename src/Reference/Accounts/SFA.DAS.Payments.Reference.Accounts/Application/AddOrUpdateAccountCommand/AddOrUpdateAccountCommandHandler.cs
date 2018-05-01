@@ -23,7 +23,8 @@ namespace SFA.DAS.Payments.Reference.Accounts.Application.AddOrUpdateAccountComm
                 AccountName = message.Account.AccountName,
                 Balance = message.Account.Balance,
                 VersionId = message.CorrelationDate.ToString("yyyyMMdd"),
-                IsLevyPayer = message.Account.IsLevyPayer
+                IsLevyPayer = message.Account.IsLevyPayer,
+                TransferAllowance = message.Account.TransferAllowance
             };
 
             if (exists)
