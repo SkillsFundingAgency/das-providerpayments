@@ -16,18 +16,21 @@ GO
 
 CREATE TABLE TransferPayments.Payments
 (
-	[PaymentId] uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+	[PaymentId] uniqueidentifier DEFAULT(NEWID()),
 	[RequiredPaymentId] bigint NOT NULL,
 	[DeliveryMonth] int NOT NULL,
 	[DeliveryYear] int NOT NULL,
-	[CollectionPeriodName] varchar(8) NOT NULL,
-	[CollectionPeriodMonth] int NOT NULL,
-	[CollectionPeriodYear] int NOT NULL,
+	[ColectionPeriodName] varchar(8) NOT NULL,
+	[ColectionPeriodMonth] int NOT NULL,
+	[ColectionPeriodYear] int NOT NULL,
 	[FundingSource] int NOT NULL,
 	[TransactionType] int NOT NULL,
 	[Amount] decimal(15,5) NOT NULL,
 	[FundingAccountId] bigint NOT NULL
 )
+GO
+
+CREATE INDEX TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments (RequiredPaymentId) INCLUDE (Amount)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,15 +44,15 @@ IF NOT EXISTS(SELECT NULL FROM
 BEGIN
 	CREATE TABLE TransferPayments.AccountTransfers
 	(
-		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
 		SendingAccountId bigint NOT NULL,
 		ReceivingAccountId bigint NOT NULL,
 		RequiredPaymentId uniqueidentifier NOT NULL,
 		CommitmentId bigint NOT NULL,
 		Amount decimal(15,5) NOT NULL,
 		TransferType int NOT NULL,
-		TransferDate DateTime NOT NULL,
-		CollectionPeriodName varchar(8) NOT NULL
+		CollectionPeriodName varchar(8) NOT NULL,
+		CollectionPeriodMonth int NOT NULL,
+		CollectionPeriodYear int NOT NULL
 	)
 END
 GO

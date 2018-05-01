@@ -39,6 +39,9 @@
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
     </Reference>
@@ -58,9 +61,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\DatabaseEntities\AccountLevyTransfer.cs" />
+    <Compile Include="Dal\DatabaseEntities\DasAccount.cs" />
+    <Compile Include="Dal\DatabaseEntities\RequiredTransferPayment.cs" />
+    <Compile Include="Dal\DatabaseEntities\TransferLevyPayment.cs" />
+    <Compile Include="Dal\Repositories\AccountRepository.cs" />
+    <Compile Include="Dal\Repositories\TransferRepository.cs" />
+    <Compile Include="Dependencies\IAmAnAccountRepository.cs" />
+    <Compile Include="Dependencies\IAmATransferRepository.cs" />
+    <Compile Include="Dependencies\IProcessLevyTransfers.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\TransfersRegistry.cs" />
+    <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\TransferType.cs" />
+    <Compile Include="Dto\CreateTransferResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LevyTransferService.cs" />
+    <Compile Include="Dto\TransferPaymentSet.cs" />
     <Compile Include="TransfersProcessor.cs" />
     <Compile Include="TransfersTask.cs" />
   </ItemGroup>
@@ -81,5 +98,6 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 
@@ -16,17 +17,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException("Earnings and payments table must have at least 1 row");
             }
 
-            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments);
+            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments, "Type");
             ParseEarningAndPaymentsRows(breakdown, earningAndPayments, periodNames);
         }
 
 
-        private static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments)
+        internal static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments, string expectedFirstColumn)
         {
             var headers = earningAndPayments.Header.ToArray();
-            if (headers[0] != "Type")
+            if (headers[0] != expectedFirstColumn)
             {
-                throw new ArgumentException("Earnings and payments table must have Type as first column");
+                throw new ArgumentException($"Earnings and payments table must have {expectedFirstColumn} as first column");
             }
 
             var periods = new string[headers.Length];
@@ -48,6 +49,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         }
         private static void ParseEarningAndPaymentsRows(EarningsAndPaymentsBreakdown breakdown, Table earningAndPayments, string[] periodNames)
         {
+            breakdown.PeriodDates = periodNames
+                .Skip(1)
+                .Select(name => PeriodNameHelper.GetDateFromStringDate(name).GetValueOrDefault())
+                .ToList();
+
             foreach (var row in earningAndPayments.Rows)
             {
                 Match match;
@@ -122,6 +128,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 else if (row[0].Equals("Refund due to employer", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.RefundDueToEmployer);
+                }
+                else if ((match = Regex.Match(row[0], "Refund due to employer ([0-9]{1,})", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.RefundDueToEmployer);
                 }
                 else
                 {
