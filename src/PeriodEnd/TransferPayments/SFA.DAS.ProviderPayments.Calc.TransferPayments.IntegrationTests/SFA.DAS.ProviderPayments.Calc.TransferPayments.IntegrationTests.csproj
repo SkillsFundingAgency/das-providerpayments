@@ -94,14 +94,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.Transfers.DDL.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Deds.Transfers.DDL.tables.sql</Link>
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Deds.TransferPayments.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Deds.TransferPayments.DDL.tables.sql</Link>
     </Content>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Transfers.DDL.tables.sql</Link>
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.tables.sql</Link>
     </Content>
-    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.Transfers.DDL.views.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Transfers.DDL.views.sql</Link>
+    <Content Include="..\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.views.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.views.sql</Link>
     </Content>
     <Content Include="..\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>

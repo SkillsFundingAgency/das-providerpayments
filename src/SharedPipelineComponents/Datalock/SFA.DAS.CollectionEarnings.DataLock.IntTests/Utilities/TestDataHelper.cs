@@ -127,7 +127,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         PaymentStatus,
                         PaymentStatusDescription,
                         EffectiveFromDate,
-                        EffectiveToDate
+                        EffectiveToDate,
+	                    TransferSendingEmployerAccountId,
+	                    TransferApprovalDate
                     ) VALUES (
                         @CommitmentId, 
                         @VersionId, 
@@ -145,7 +147,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         @PaymentStatus,
                         @PaymentStatusDescription,
                         @EffectiveFromDate,
-                        @EffectiveToDate
+                        @EffectiveToDate,
+	                    @TransferSendingEmployerAccountId,
+	                    @TransferApprovalDate
                     )",
                 new
                 {
@@ -165,7 +169,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                     PaymentStatusDescription = commitment.PaymentStatusDescription,
                     EffectiveFromDate = commitment.EffectiveFrom,
                     EffectiveToDate = commitment.EffectiveTo,
-                    Priority  = commitment.Priority
+                    Priority  = commitment.Priority,
+                    TransferSendingEmployerAccountId = commitment.TransferSendingEmployerAccountId,
+                    TransferApprovalDate = commitment.TransferApprovalDate
                 });
         }
 

@@ -9,8 +9,8 @@
   </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
-      <Source>[TransferPayments].[vw_RequiredPayments]</Source>
-      <Destination>[TransferPayments].[Payments]</Destination>
+      <Source>[TransferPayments].[AccountTransfers]</Source>
+      <Destination>[TransferPayments].[AccountTransfers]</Destination>
       <Ordinal>1</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
@@ -18,40 +18,51 @@
           <Destination>Id</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>SendingAccountId</Source>
+          <Destination>SendingAccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ReceivingAccountId</Source>
+          <Destination>ReceivingAccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>RequiredPaymentId</Source>
+          <Destination>RequiredPaymentId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>CommitmentId</Source>
           <Destination>CommitmentId</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>CommitmentVersionId</Source>
-          <Destination>CommitmentVersionId</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>AccountId</Source>
-          <Destination>AccountId</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>AccountVersionId</Source>
-          <Destination>AccountVersionId</Destination>
         </ColumnMapping>>
         <ColumnMapping>
-          <Source>Uln</Source>
-          <Destination>Uln</Destination>
+          <Source>Amount</Source>
+          <Destination>Amount</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>LearnRefNumber</Source>
-          <Destination>LearnRefNumber</Destination>
+          <Source>TransferType</Source>
+          <Destination>TransferType</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>AimSeqNumber</Source>
-          <Destination>AimSeqNumber</Destination>
+          <Source>TransferDate</Source>
+          <Destination>TransferDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>Ukprn</Source>
-          <Destination>Ukprn</Destination>
+          <Source>CollectionPeriodName</Source>
+          <Destination>CollectionPeriodName</Destination>
+        </ColumnMapping>
+      </ColumnMappings>
+    </TableMapping>
+    <TableMapping>
+      <Source>[TransferPayments].[Payments]</Source>
+      <Destination>[Payments].[Payments]</Destination>
+      <Ordinal>1</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>PaymentId</Source>
+          <Destination>PaymentId</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>IlrSubmissionDateTime</Source>
-          <Destination>IlrSubmissionDateTime</Destination>
+          <Source>RequiredPaymentId</Source>
+          <Destination>RequiredPaymentId</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>DeliveryMonth</Source>
@@ -64,7 +75,7 @@
         <ColumnMapping>
           <Source>CollectionPeriodName</Source>
           <Destination>CollectionPeriodName</Destination>
-        </ColumnMapping>
+        </ColumnMapping>>
         <ColumnMapping>
           <Source>CollectionPeriodMonth</Source>
           <Destination>CollectionPeriodMonth</Destination>
@@ -74,71 +85,22 @@
           <Destination>CollectionPeriodYear</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>AmountDue</Source>
-          <Destination>AmountDue</Destination>
+          <Source>FundingSource</Source>
+          <Destination>FundingSource</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>TransactionType</Source>
           <Destination>TransactionType</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>StandardCode</Source>
-          <Destination>StandardCode</Destination>
+          <Source>Amount</Source>
+          <Destination>Amount</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>ProgrammeType</Source>
-          <Destination>ProgrammeType</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>FrameworkCode</Source>
-          <Destination>FrameworkCode</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>PathwayCode</Source>
-          <Destination>PathwayCode</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>PriceEpisodeIdentifier</Source>
-          <Destination>PriceEpisodeIdentifier</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>ApprenticeshipContractType</Source>
-          <Destination>ApprenticeshipContractType</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>SfaContributionPercentage</Source>
-          <Destination>SfaContributionPercentage</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>FundingLineType</Source>
-          <Destination>FundingLineType</Destination>
-        </ColumnMapping>
-       <ColumnMapping>
-          <Source>UseLevyBalance</Source>
-          <Destination>UseLevyBalance</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>LearnAimRef</Source>
-          <Destination>LearnAimRef</Destination>
-        </ColumnMapping>
-      <ColumnMapping>
-          <Source>LearningStartDate</Source>
-          <Destination>LearningStartDate</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>IsSmallEmployer</Source>
-          <Destination>IsSmallEmployer</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>IsOnEHCPlan</Source>
-          <Destination>IsOnEHCPlan</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>IsCareLeaver</Source>
-          <Destination>IsCareLeaver</Destination>
+          <Source>FundingAccountId</Source>
+          <Destination>FundingAccountId</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
-    
   </TableMappings>
 </CopyCatConfig>
