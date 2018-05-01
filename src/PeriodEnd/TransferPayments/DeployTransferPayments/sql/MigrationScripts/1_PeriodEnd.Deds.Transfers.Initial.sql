@@ -26,6 +26,6 @@ BEGIN
 		CollectionPeriodYear int NOT NULL
 	)
 
-	CREATE INDEX TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers (RequiredPaymentId)
+	CREATE INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers (RequiredPaymentId)
 END
 

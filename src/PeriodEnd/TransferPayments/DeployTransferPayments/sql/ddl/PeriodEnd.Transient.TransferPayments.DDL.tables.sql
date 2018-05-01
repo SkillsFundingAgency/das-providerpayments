@@ -16,8 +16,8 @@ GO
 
 CREATE TABLE TransferPayments.Payments
 (
-	[PaymentId] uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
-	[RequiredPaymentId] bigint NOT NULL,
+	[PaymentId] uniqueidentifier DEFAULT(NEWID()),
+	[RequiredPaymentId] uniqueidentifier PRIMARY KEY NOT NULL,
 	[DeliveryMonth] int NOT NULL,
 	[DeliveryYear] int NOT NULL,
 	[ColectionPeriodName] varchar(8) NOT NULL,
@@ -41,15 +41,18 @@ IF NOT EXISTS(SELECT NULL FROM
 BEGIN
 	CREATE TABLE TransferPayments.AccountTransfers
 	(
-		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+		TransferId bigint PRIMARY KEY identity(1,1),
 		SendingAccountId bigint NOT NULL,
 		ReceivingAccountId bigint NOT NULL,
 		RequiredPaymentId uniqueidentifier NOT NULL,
 		CommitmentId bigint NOT NULL,
 		Amount decimal(15,5) NOT NULL,
 		TransferType int NOT NULL,
-		TransferDate DateTime NOT NULL,
-		CollectionPeriodName varchar(8) NOT NULL
+		CollectionPeriodName varchar(8) NOT NULL,
+		CollectionPeriodMonth int NOT NULL,
+		CollectionPeriodYear int NOT NULL
 	)
+
+	CREATE INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers (RequiredPaymentId)
 END
 GO

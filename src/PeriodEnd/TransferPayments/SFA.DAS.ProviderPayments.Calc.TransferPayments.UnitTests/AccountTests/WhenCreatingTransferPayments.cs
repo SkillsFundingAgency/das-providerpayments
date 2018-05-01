@@ -17,9 +17,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheRequiredPaymentIdIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.RequiredPaymentId.Should().Be(requiredPayment.RequiredPaymentId);
             }
@@ -28,9 +28,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheDeliveryMonthIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.DeliveryMonth.Should().Be(requiredPayment.DeliveryMonth);
             }
@@ -39,9 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheDeliveryYearIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.DeliveryYear.Should().Be(requiredPayment.DeliveryYear);
             }
@@ -50,9 +50,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheCollectionPeriodNameIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.CollectionPeriodName.Should().Be(requiredPayment.CollectionPeriodName);
             }
@@ -61,9 +61,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheCollectionPeriodMonthIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.CollectionPeriodMonth.Should().Be(requiredPayment.CollectionPeriodMonth);
             }
@@ -72,9 +72,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheCollectionPeriodYearIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.CollectionPeriodYear.Should().Be(requiredPayment.CollectionPeriodYear);
             }
@@ -83,9 +83,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheFundingSourceIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.FundingSource.Should().Be(FundingSource.Transfer);
             }
@@ -94,9 +94,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheTransactionTypeIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 Account sut,
-                Account reciever)
+                Account receiver)
             {
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.TransactionType.Should().Be(requiredPayment.TransactionType);
             }
@@ -105,13 +105,13 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
             public void ThenTheAmountIsCorrect(
                 RequiredTransferPayment requiredPayment,
                 DasAccount sender,
-                Account reciever)
+                Account receiver)
             {
                 sender.TransferAllowance = 1000000;
                 sender.Balance = 1000000;
                 var sut = new Account(sender);
 
-                var actual = sut.CreateTransfer(reciever, requiredPayment).TransferLevyPayment;
+                var actual = sut.CreateTransfer(receiver, requiredPayment).TransferLevyPayment;
 
                 actual.Amount.Should().Be(requiredPayment.AmountDue);
             }
