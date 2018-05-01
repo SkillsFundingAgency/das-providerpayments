@@ -176,6 +176,14 @@
           <Source>EventDateTime</Source>
           <Destination>EventDateTime</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransferSendingEmployerAccountId</Source>
+          <Destination>TransferSendingEmployerAccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransferApprovalDate</Source>
+          <Destination>TransferApprovalDate</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
