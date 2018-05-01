@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
         public long TransferSendingEmployerAccountId { get; set; }
-        public DateTime TransferApprovedDate { get; set; }
+        public DateTime TransferApprovalDate { get; set; }
         public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }

@@ -48,12 +48,12 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           LearnAimRef,  
                           LearningStartDate,  
                           TransferSendingEmployerAccountId,  
-                          TransferApprovedDate,  
+                          TransferApprovalDate,  
                           CollectionPeriodName,  
                           CollectionPeriodMonth,  
                           CollectionPeriodYear  
                           FROM  
-                          RequiredTransferPayments.vw_RequiredTransferPayment;";
+                          TransferPayments.vw_RequiredTransferPayment;";
 
             var results = Query<RequiredTransferPayment>(command);
             return results;

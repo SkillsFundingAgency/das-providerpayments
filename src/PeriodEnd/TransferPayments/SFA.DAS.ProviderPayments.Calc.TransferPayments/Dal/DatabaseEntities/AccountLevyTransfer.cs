@@ -15,6 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
             CollectionPeriodMonth = requiredPayment.CollectionPeriodMonth;
             CollectionPeriodYear = requiredPayment.CollectionPeriodYear;
             CollectionPeriodName = requiredPayment.CollectionPeriodName;
+            TransferDate = requiredPayment.TransferApprovalDate;
             Amount = amount;
         }
 
@@ -27,5 +28,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
         public string CollectionPeriodName { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
+        public DateTime TransferDate { get; set; }
     }
 }

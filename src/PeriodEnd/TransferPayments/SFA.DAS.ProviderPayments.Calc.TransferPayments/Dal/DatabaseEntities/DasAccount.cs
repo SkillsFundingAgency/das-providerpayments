@@ -5,6 +5,6 @@
         public long AccountId { get; set; }
         public decimal Balance { get; set; }
         public bool IsLevyPayer { get; set; }
-        public decimal TransferBalance { get; set; }
+        public decimal TransferAllowance { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
                 new DataLockEventsPeriodEndTask(logger),
                 new ManualAdjustmentsTask(logger),
                 new PaymentsDueTask(logger),
+                new TransferPaymentsTask(logger),
                 new LevyCalculatorTask(logger),
                 new CoInvestedPaymentsTask(logger),
                 new ProviderAdjustmentsTask(logger), 
