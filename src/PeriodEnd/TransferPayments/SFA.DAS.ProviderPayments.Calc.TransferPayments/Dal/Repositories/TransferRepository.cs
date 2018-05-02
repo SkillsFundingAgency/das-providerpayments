@@ -48,7 +48,10 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
                           LearnAimRef,  
                           LearningStartDate,  
                           TransferSendingEmployerAccountId,  
-                          TransferApprovalDate 
+                          TransferApprovalDate,  
+                          CollectionPeriodName,  
+                          CollectionPeriodMonth,  
+                          CollectionPeriodYear  
                           FROM  
                           TransferPayments.vw_RequiredTransferPayment;";
 

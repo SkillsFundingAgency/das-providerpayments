@@ -7,6 +7,7 @@
                 ComponentType.DataLockPeriodEnd,
                 ComponentType.PaymentsDue,
                 ComponentType.ManualAdjustments,
+                ComponentType.TransferPayments,
                 ComponentType.LevyCalculator,
                 ComponentType.CoInvestedPayments,
                 ComponentType.DataLockEvents,

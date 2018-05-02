@@ -42,11 +42,14 @@ AS
 		R.LearnAimRef,
 		R.LearningStartDate,
 		C.TransferSendingEmployerAccountId,
-		C.TransferApprovalDate
+		C.TransferApprovalDate,
+		R.CollectionPeriodName,
+		R.CollectionPeriodMonth,
+		R.CollectionPeriodYear
 	FROM
 		Reference.DasCommitments C
 	INNER JOIN 
-		PaymentsDue.RequiredPayments R
+		PaymentsDue.vw_RequiredPayments R
 	ON 
 		C.CommitmentId = R.CommitmentId
 		AND C.VersionId = R.CommitmentVersionId
