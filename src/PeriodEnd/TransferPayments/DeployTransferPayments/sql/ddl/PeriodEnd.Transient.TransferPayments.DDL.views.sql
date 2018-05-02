@@ -59,3 +59,21 @@ AS
 		AND R.TransactionType IN (1,2,3)
 	
 GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_TransferedAmountForAccount
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_TransferedAmountForAccount' AND [schema_id] = SCHEMA_ID('TransferPayments'))
+BEGIN
+    DROP VIEW TransferPayments.vw_TransferedAmountForAccount
+END
+GO
+
+CREATE VIEW TransferPayments.vw_TransferedAmountForAccount
+AS
+	SELECT 
+		FundingAccountId,
+		SUM(Amount) AS Amount
+	FROM TransferPayments.Payments
+	GROUP BY FundingAccountId	
+GO
