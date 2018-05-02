@@ -42,10 +42,7 @@ AS
 		R.LearnAimRef,
 		R.LearningStartDate,
 		C.TransferSendingEmployerAccountId,
-		C.TransferApprovedDate,
-		R.CollectionPeriodName,
-		R.CollectionPeriodMonth,
-		R.CollectionPeriodYear
+		C.TransferApprovalDate
 	FROM
 		Reference.DasCommitments C
 	INNER JOIN 
