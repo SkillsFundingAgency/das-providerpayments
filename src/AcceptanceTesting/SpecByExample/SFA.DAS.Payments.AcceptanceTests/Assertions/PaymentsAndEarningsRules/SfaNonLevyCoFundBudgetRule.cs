@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
@@ -10,9 +9,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
     public class SfaNonLevyCoFundBudgetRule : PaymentsRuleBase
     {
 
-        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, IEnumerable<LearnerResults> submissionResults, EmployerAccountContext employerAccountContext)
+        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, RuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
-            var payments = GetPaymentsForBreakdown(breakdown, submissionResults)
+            var payments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                 .Where(p => p.FundingSource == FundingSource.CoInvestedSfa && p.ContractType == ContractType.ContractWithEmployer)
                 .ToArray();
             foreach (var period in breakdown.SfaNonLevyCoFundBudget)

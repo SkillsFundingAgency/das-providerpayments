@@ -23,6 +23,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
             EmployersLevyAccountCredited= new List<EmployerAccountPeriodValue>();
             EmployerLevyTransactions = new List<EmployerAccountPeriodValue>();
             RefundDueToEmployer = new List<EmployerAccountPeriodValue>();
+            EmployersLevyAccountDebitedViaTransfer = new List<EmployerAccountPeriodValue>();
         }
 
         public List<DateTime> PeriodDates { get; set; }
@@ -33,6 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public List<PeriodValue> ProviderPaidBySfa { get; set; }
         public List<EmployerAccountPeriodValue> PaymentDueFromEmployers { get; set; }
         public List<EmployerAccountPeriodValue> EmployersLevyAccountDebited { get; set; }
+        public List<EmployerAccountPeriodValue> EmployersLevyAccountDebitedViaTransfer { get; set; }
         public List<PeriodValue> SfaLevyBudget { get; set; }
         public List<PeriodValue> SfaLevyCoFundBudget { get; set; }
         public List<PeriodValue> SfaNonLevyCoFundBudget { get; set; }

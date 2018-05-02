@@ -1,17 +1,15 @@
 ﻿using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
-using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
-using System;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 {
     public class EmployersLevyAccountCreditedRule : PaymentsRuleBase
     {
-        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, IEnumerable<LearnerResults> submissionResults, EmployerAccountContext employerAccountContext)
+        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, RuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
-            var payments = GetPaymentsForBreakdown(breakdown, submissionResults)
+            var payments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                 .Where(p => p.FundingSource == FundingSource.Levy && 
                 p.ContractType == ContractType.ContractWithSfa && p.Amount <= 0)
                 .ToArray();

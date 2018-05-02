@@ -20,27 +20,25 @@ Scenario: Levy apprentice, paid for by a different employer through a transfer
         
    
 	Then the provider earnings and payments break down as follows:
-        | Type                                    | 05/18  | 06/18  | 07/18  |
-        | Provider Earned Total                   | 139.25 | 139.25 | 139.25 |
-        | Provider Earned from SFA                | 139.25 | 139.25 | 139.25 |
-        | Provider Earned from employer 1         | 0      | 0      | 0      |
-        | Provider Earned from employer 2         | 0      | 0      | 0      |
-        | Provider Paid by SFA                    | 0      | 139.25 | 139.25 |
-        | Refund taken by SFA                     | 0      | 0      | 0      |
-        | Payment due from employer 1             | 0      | 0      | 0      |
-        | Payment due from employer 2             | 0      | 0      | 0      |
-        | Refund due to employer 1                | 0      | 0      | 0      |
-        | Refund due to employer 2                | 0      | 0      | 0      |
-        | employer 1 levy account debited         | 0      | 0      | 0      |
-        | employer 2 levy account debited         | 0      | 100    | 100    |
-        | employer 1 levy account credited        | 0      | 0      | 0      |
-        | employer 2 levy account credited        | 0      | 0      | 0      |
-        | SFA Levy employer budget                | 100    | 100    | 100    |
-        | SFA Levy co-funding budget              | 0      | 0      | 0      |
-        | SFA Levy additional payments budget     | 39.25  | 39.25  | 39.25  |
-        | SFA non-Levy co-funding budget          | 0      | 0      | 0      |
-        | SFA non-Levy additional payments budget | 0      | 0      | 0      |
+        | Type                                         | 05/18  | 06/18  | 07/18  |
+        | Provider Earned Total                        | 139.25 | 139.25 | 139.25 |
+        | Provider Earned from SFA                     | 139.25 | 139.25 | 139.25 |
+        | Provider Earned from employer 1              | 0      | 0      | 0      |
+        | Provider Earned from employer 2              | 0      | 0      | 0      |
+        | Provider Paid by SFA                         | 0      | 139.25 | 139.25 |
+        | Refund taken by SFA                          | 0      | 0      | 0      |
+        | Payment due from employer 1                  | 0      | 0      | 0      |
+        | Payment due from employer 2                  | 0      | 0      | 0      |
+        | Refund due to employer 1                     | 0      | 0      | 0      |
+        | Refund due to employer 2                     | 0      | 0      | 0      |
+        | employer 1 levy account debited              | 0      | 0      | 0      |
+        | employer 2 levy account debited via transfer | 0      | 100    | 100    |
+        | SFA Levy employer budget                     | 100    | 100    | 100    |
+        | SFA Levy co-funding budget                   | 0      | 0      | 0      |
+        | SFA Levy additional payments budget          | 39.25  | 39.25  | 39.25  |
+        | SFA non-Levy co-funding budget               | 0      | 0      | 0      |
+        | SFA non-Levy additional payments budget      | 0      | 0      | 0      |
 
-	And the following transfers from employer 2 exist
+	And the following transfers from employer 2 exist for the given months of earnings activity:
 		| Recipient  | 05/18 | 06/18 | 07/18 |
-		| Employer 1 | 0     | 100   | 100   |
+		| Employer 1 | 100   | 100   | 100   |

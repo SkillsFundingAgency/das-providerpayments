@@ -10,27 +10,23 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
     {
         private const string ReadTransfersFromDedsQuery =
             @"  SELECT
+                                    [SendingAccountId],
+                                    [ReceivingAccountId],
 	                                [CollectionPeriodName],
 	                                [Amount]
                                 FROM
-	                                [TransferPayments].[AccountTransfers]
-                                WHERE
-                                    [ReceivingAccountId] = @receivingEmployerAccountId";
+	                                [TransferPayments].[AccountTransfers]";
 
-        public static TransferResults CollectForEmployer(int receivingEmployerAccountId)
+        public static List<TransferResult> CollectAllTransfers()
         {
-            return new TransferResults
-            {
-                ReceivingEmployerAccountId = receivingEmployerAccountId,
-                Values = ReadTransfersFromDeds(receivingEmployerAccountId)
-            };
+            return ReadTransfersFromDeds();
         }
 
-        private static List<TransferPeriodValueEntity> ReadTransfersFromDeds(int receivingEmployerAccountId)
+        private static List<TransferResult> ReadTransfersFromDeds()
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
-                return connection.Query<TransferPeriodValueEntity>(ReadTransfersFromDedsQuery, new { receivingEmployerAccountId }).ToList();
+                return connection.Query<TransferResult>(ReadTransfersFromDedsQuery).ToList();
             }
         }
     }

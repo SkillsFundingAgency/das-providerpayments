@@ -89,11 +89,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
-                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited", RegexOptions.IgnoreCase)).Success)
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited$", RegexOptions.IgnoreCase)).Success)
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
-                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited", RegexOptions.IgnoreCase)).Success)
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited via transfer", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedViaTransfer);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited$", RegexOptions.IgnoreCase)).Success)
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountCredited);
                 }
