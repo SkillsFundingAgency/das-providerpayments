@@ -145,7 +145,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     , commitment.Uln,commitment.Ukprn,commitment.StartDate,commitment.EndDate,commitment.AgreedCost,
                     null, commitment.ProgrammeType,commitment.FrameworkCode,commitment.PathwayCode, commitment.Priority, 
                     commitment.PaymentStatus, commitment.PaymentStatusDescription, 
-                    commitment.VersionId,commitment.EffectiveFromDate,commitment.EffectiveToDate,commitment.LegalEntityName);
+                    commitment.VersionId,commitment.EffectiveFromDate,commitment.EffectiveToDate,legalEntityName: commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
             StubbedEventsApi.Events.Add(new ApprenticeshipEventView
@@ -240,7 +240,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
                     null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
                     commitment.PaymentStatus, commitment.PaymentStatusDescription,
-                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
             StubbedEventsApi.Events.Add(new ApprenticeshipEventView
@@ -305,7 +305,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
               , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
               null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
               commitment.PaymentStatus, commitment.PaymentStatusDescription,
-              commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+              commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
 
             // Assert
@@ -385,13 +385,13 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
               , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
               null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, 99,
               commitment.PaymentStatus, commitment.PaymentStatusDescription,
-             "1-001", commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+             "1-001", commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
             CommitmentDataHelper.AddCommitment(commitment.CommitmentId, commitment.AccountId
            , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
            null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, 999,
            commitment.PaymentStatus, commitment.PaymentStatusDescription,
-           "1-002", new DateTime(2019,10,1), null, commitment.LegalEntityName);
+           "1-002", new DateTime(2019,10,1), null, legalEntityName: commitment.LegalEntityName);
 
 
            
@@ -466,7 +466,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
                     null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
                     commitment.PaymentStatus, commitment.PaymentStatusDescription,
-                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
             StubbedEventsApi.Events.Add(new ApprenticeshipEventView
@@ -528,7 +528,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
                     null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
                     commitment.PaymentStatus, commitment.PaymentStatusDescription,
-                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
             StubbedEventsApi.Events.Add(new ApprenticeshipEventView
@@ -597,7 +597,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.GivenApiAvaila
                     , commitment.Uln, commitment.Ukprn, commitment.StartDate, commitment.EndDate, commitment.AgreedCost,
                     null, commitment.ProgrammeType, commitment.FrameworkCode, commitment.PathwayCode, commitment.Priority,
                     commitment.PaymentStatus, commitment.PaymentStatusDescription,
-                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.LegalEntityName);
+                    commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, legalEntityName: commitment.LegalEntityName);
 
             StubbedEventsApi.Events.Clear();
             StubbedEventsApi.Events.Add(new ApprenticeshipEventView

@@ -8,6 +8,7 @@ if not exist "Deploy\test-results" ( md "Deploy\test-results" )
 
 if exist "SFA.DAS.Payments.Reference.Commitments\bin\%BuildConfig%" (
   xcopy SFA.DAS.Payments.Reference.Commitments\bin\%BuildConfig%\*.dll Deploy\component\
+  xcopy SFA.DAS.Payments.Reference.Commitments\bin\%BuildConfig%\*.pdb Deploy\component\
 )
 
 xcopy ..\..\TestResult*.Reference.Commitments.xml Deploy\test-results\

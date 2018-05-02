@@ -47,7 +47,9 @@ INSERT INTO [Reference].[DasCommitments]
         [Priority],
         [EffectiveFromDate],
         [EffectiveToDate],
-        [LegalEntityName]
+        [LegalEntityName],
+		[TransferSendingEmployerAccountId],
+	[TransferApprovalDate]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
     GROUP BY [CommitmentId],
         [Uln],
@@ -65,7 +67,9 @@ INSERT INTO [Reference].[DasCommitments]
         [Priority],
         [EffectiveFromDate],
         [EffectiveToDate],
-        [LegalEntityName]
+        [LegalEntityName],
+		[TransferSendingEmployerAccountId],
+		[TransferApprovalDate]
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])

@@ -161,13 +161,17 @@ Then the provider earnings and payments break down as follows:
 #DPP-645 Learner taking single level 3 aim, completes to time, no funding generated     
 #Feature: Provider earnings and payments where apprenticeship requires english or maths above level 2 - completes on time.
 
+
 Scenario: DPP-645 A Payment for a non-DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time)
+# Failing because maths or english specified with non/0 aim rate but that gets pulled through at the prevailing rate of 471, which adds 39.25 to each months totals.
+# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
+# PaymentsDueProcessor.GetPaymentsDue method
 
 Given the apprenticeship funding band maximum is 15000
 When an ILR file is submitted with the following data:
-		  | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim rate |
-		  | learner a | 19-24 programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       |                 | continuing        | programme        |          |
-		  | learner a | 19-24 programme only non-DAS |              | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | maths or english | 0        |
+		  | ULN       | Employer   | Provider   | learner type                 | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim rate |
+		  | learner a | employer 0 | provider A | 19-24 programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       |                 | continuing        | programme        |          |
+		  | learner a | employer 0 | provider A | 19-24 programme only non-DAS |              | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | maths or english | 0        |
 		  
       
 Then the provider earnings and payments break down as follows:
@@ -190,12 +194,14 @@ And the transaction types for the payments are:
 		  | Completion                     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
 		  | Balancing                      | 0     | 0     | 0     | 0     | ... | 0     | 0     |
 		  | English and maths on programme | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-		  | English and maths balancing    | 0     | 0     | 0     | 0     | ... | 0     | 0     |	  
+		  | English and maths balancing    | 0     | 0     | 0     | 0     | ... | 0     | 0     |
 		  
 
 
 
-
+# Failing because maths or english specified with non/0 aim rate but that gets pulled through at the prevailing rate of 471, which adds 39.25 to each months totals.
+# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
+# PaymentsDueProcessor.GetPaymentsDue method
 Scenario: DPP-645 B Payment for a DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time)
 			  
     Given levy balance > agreed price for all months
@@ -207,7 +213,7 @@ Scenario: DPP-645 B Payment for a DAS learner, funding agreed within band maximu
     When an ILR file is submitted with the following data:
 		  | ULN       | learner type                 | agreed price | standard code | start date | planned end date | actual end date | completion status | aim type         | aim rate |
 		  | learner a | 19-24 programme only non-DAS | 15000        | 50            | 06/08/2017 | 08/08/2018       |                 | continuing        | programme        |          |
-		  | learner a | 19-24 programme only non-DAS |              |               | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | maths or english | none     |
+		  | learner a | 19-24 programme only non-DAS |              |               | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | maths or english | 0     |
 		  
     Then the provider earnings and payments break down as follows:
 		  | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 |
@@ -483,6 +489,8 @@ Scenario: DPP-656 B Payment for a DAS learner, funding agreed within band maximu
 #DPP-678 Learner taking single level 2 aim, changes provider with prior funding adjustment, completes to time
 
 #Feature: Provider earnings and payments where apprenticeship requires english or maths at level 2 with prior funding adjustment after changing provider - COMPLETES ON TIME
+
+# Fails because we can't submit an ILR with two different providers in it
 
 Scenario: DPP-678 A Payment for a non-DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time), other funding adjutsment is 75%, prior funding adjustment is 10%
 	

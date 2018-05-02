@@ -29,5 +29,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Entities
         public DateTime? EffectiveToDate { get; set; }
 
         public string LegalEntityName { get; set; }
+
+        public long? TransferSendingEmployerAccountId { get; set; }
+
+        public DateTime? TransferApprovalDate { get; set; }
     }
 }
