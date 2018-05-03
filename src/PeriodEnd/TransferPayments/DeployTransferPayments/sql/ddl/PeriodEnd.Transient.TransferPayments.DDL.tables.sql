@@ -17,7 +17,7 @@ GO
 CREATE TABLE TransferPayments.Payments
 (
 	[PaymentId] uniqueidentifier DEFAULT(NEWID()),
-	[RequiredPaymentId] uniqueidentifier PRIMARY KEY NOT NULL,
+	[RequiredPaymentId] uniqueidentifier NOT NULL,
 	[DeliveryMonth] int NOT NULL,
 	[DeliveryYear] int NOT NULL,
 	[ColectionPeriodName] varchar(8) NOT NULL,
@@ -26,7 +26,8 @@ CREATE TABLE TransferPayments.Payments
 	[FundingSource] int NOT NULL,
 	[TransactionType] int NOT NULL,
 	[Amount] decimal(15,5) NOT NULL,
-	[FundingAccountId] bigint NOT NULL
+	[FundingAccountId] bigint NOT NULL,
+	CONSTRAINT TransferPayments_Payments_PK PRIMARY KEY ([RequiredPaymentId], [FundingSource])
 )
 GO
 
