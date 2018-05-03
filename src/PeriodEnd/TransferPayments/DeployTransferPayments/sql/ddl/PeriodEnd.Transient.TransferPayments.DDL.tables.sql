@@ -27,7 +27,7 @@ CREATE TABLE TransferPayments.Payments
 	[TransactionType] int NOT NULL,
 	[Amount] decimal(15,5) NOT NULL,
 	[FundingAccountId] bigint NOT NULL,
-	CONSTRAINT TransferPayments_Payments_PK PRIMARY KEY ([RequiredPaymentId], [FundingSource])
+	CONSTRAINT PK_TransferPayments_Payments_RequiredPaymentId_FundingSource PRIMARY KEY (RequiredPaymentId, FundingSource)
 )
 GO
 
