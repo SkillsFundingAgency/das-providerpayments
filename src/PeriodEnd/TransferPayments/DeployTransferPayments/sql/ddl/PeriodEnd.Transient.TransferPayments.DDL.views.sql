@@ -72,8 +72,8 @@ GO
 CREATE VIEW TransferPayments.vw_TransferedAmountForAccount
 AS
 	SELECT 
-		FundingAccountId,
+		SendingAccountId,
 		SUM(Amount) AS Amount
-	FROM TransferPayments.Payments
-	GROUP BY FundingAccountId	
+	FROM TransferPayments.AccountTransfers
+	GROUP BY SendingAccountId	
 GO

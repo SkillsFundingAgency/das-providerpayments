@@ -23,7 +23,7 @@ FROM Reference.DasAccounts acc
 LEFT JOIN LevyPayments.AccountProcessStatus stat 
 	ON acc.AccountId = stat.AccountId
 LEFT JOIN TransferPayments.vw_TransferedAmountForAccount ta 
-	ON acc.AccountId = ta.FundingAccountId
+	ON acc.AccountId = ta.SendingAccountId
 WHERE acc.AccountId IN (SELECT AccountId FROM Reference.DasCommitments)
 AND (stat.HasBeenProcessed IS NULL OR stat.HasBeenProcessed = 0)
 GO
