@@ -376,7 +376,6 @@
     <Compile Include="ResultsDataModels\PaymentResult.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockPeriodResults.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockResult.cs" />
-    <Compile Include="ResultsDataModels\TransferPeriodValueEntity.cs" />
     <Compile Include="ResultsDataModels\TransferResults.cs" />
     <Compile Include="SpecFlowHooks.cs" />
     <Compile Include="StepDefinitions\CommitmentSteps.cs" />
