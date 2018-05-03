@@ -85,6 +85,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             UpdateTransferAllowance(employerId, int.MaxValue);
         }
 
+        [Given("the employer (.*) has a transfer allowance = 0 for all months")]
+        public void GivenNamedEmployersTransferBalanceIsZeroForAllMonths(int employerId)
+        {
+            UpdateTransferAllowance(employerId, 0m);
+        }
+
         [Given(@"the employer is not a levy payer")]
         public void GivenTheEmployerIsNotALevyPayer()
         {
