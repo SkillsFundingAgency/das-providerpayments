@@ -16,15 +16,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
                 foreach (var periodValue in line.TransferAmounts)
                 {
                     var currentResultAmount = transferResults.FirstOrDefault(
-                        x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
-                        && x.SendingAccountId == breakdown.SendingEmployerAccountId
-                        && x.ReceivingAccountId == line.ReceivingEmployerAccountId
-                    ) != null
-                    ? transferResults.FirstOrDefault(
-                            x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
-                            && x.SendingAccountId == breakdown.SendingEmployerAccountId
-                            && x.ReceivingAccountId == line.ReceivingEmployerAccountId
-                    ).Amount : 0;
+                                                  x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
+                                                       && x.SendingAccountId == breakdown.SendingEmployerAccountId
+                                                       && x.ReceivingAccountId == line.ReceivingEmployerAccountId
+                                              )?.Amount ?? 0;
                     if (currentResultAmount != periodValue.Value)
                     {
                         throw new Exception($"Expected transfer from sending employer {breakdown.SendingEmployerAccountId}" +
