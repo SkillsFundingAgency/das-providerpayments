@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
@@ -16,8 +15,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
             {
                 foreach (var periodValue in line.TransferAmounts)
                 {
-                    var currentResultAmount = transferResults.FirstOrDefault(x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName) != null
-                        ? transferResults.FirstOrDefault(x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName).Amount : 0;
+                    var currentResultAmount = transferResults.FirstOrDefault(
+                        x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
+                        && x.SendingAccountId == breakdown.SendingEmployerAccountId
+                        && x.ReceivingAccountId == line.ReceivingEmployerAccountId
+                    ) != null
+                    ? transferResults.FirstOrDefault(
+                            x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
+                            && x.SendingAccountId == breakdown.SendingEmployerAccountId
+                            && x.ReceivingAccountId == line.ReceivingEmployerAccountId
+                    ).Amount : 0;
                     if (currentResultAmount != periodValue.Value)
                     {
                         throw new Exception($"Expected transfer from sending employer {breakdown.SendingEmployerAccountId}" +
