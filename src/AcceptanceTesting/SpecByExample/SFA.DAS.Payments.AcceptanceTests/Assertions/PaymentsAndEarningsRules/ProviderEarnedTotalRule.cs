@@ -9,7 +9,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 {
     public class ProviderEarnedTotalRule : EarningsAndPaymentsRuleBase
     {
-        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, RuleResult ruleResult, EmployerAccountContext employerAccountContext)
+        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, ActualRuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
             var allEarnings = GetEarningsForBreakdown(breakdown, ruleResult.LearnerResults);
             foreach (var period in breakdown.ProviderEarnedTotal)

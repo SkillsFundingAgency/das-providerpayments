@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 {
     public class SfaLevyBudgetRule : PaymentsRuleBase
     {
-        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, RuleResult ruleResult, EmployerAccountContext employerAccountContext)
+        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, ActualRuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
             var payments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                 .Where(p => p.FundingSource == FundingSource.Levy || p.FundingSource == FundingSource.Transfer)

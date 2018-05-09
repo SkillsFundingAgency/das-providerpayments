@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 {
     public class EmployersLevyAccountDebitedViaTransferRule : EarningsAndPaymentsRuleBase
     {
-        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, RuleResult ruleResult, EmployerAccountContext employerAccountContext)
+        public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, ActualRuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
             foreach (var period in breakdown.EmployersLevyAccountDebitedViaTransfer)
             {
