@@ -224,6 +224,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>two_learners_paid_in_priority.feature</DependentUpon>
     </Compile>
+    <Compile Include="Assertions\ActualRuleResult.cs" />
     <Compile Include="Assertions\DataLockAssertions.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockCommitmentVersionRule.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockErrorsRule.cs" />
