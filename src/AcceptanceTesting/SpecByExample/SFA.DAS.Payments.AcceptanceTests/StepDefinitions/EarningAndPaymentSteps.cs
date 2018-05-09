@@ -101,6 +101,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
                 EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max()));
 
+            PeriodContext.TransferResults = MultipleSubmissionsContext.TransferResults;
+
             AssertResults();
         }
 
@@ -155,12 +157,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AssertResults();
         }
 
-        [Then(@"the following transfers from employer (.*) exist")]
+        [Then(@"the following transfers from employer (.*) exist for the given months of earnings activity:")]
         public void ThenTheFollowingTransfersFromEmployerExists(string sendingEmployerIdSuffix, Table transfers)
         {
             VerifyAllSubmissionsHaveBeenDone("All submissions must have been completed prior to the transfers assertion step.");
             TransfersTableParser.ParseTransfersTableIntoContext(TransfersContext.TransfersBreakdown, transfers, int.Parse(sendingEmployerIdSuffix));
-            TransfersAssertions.ValidateTransfers(TransfersContext.TransfersBreakdown);
+            TransfersAssertions.ValidateTransfers(TransfersContext.TransfersBreakdown, PeriodContext.TransferResults);
         }
 
         private void AssertResults()

@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
+using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Assertions
 {
     public static class TransfersAssertions
     {
-        public static void ValidateTransfers(TransfersBreakdown breakdown)
+        public static void ValidateTransfers(TransfersBreakdown breakdown, List<TransferResult> transferResults)
         {
             foreach (var line in breakdown.TransferLines)
             {
-                var results = TransfersDataCollector.CollectForEmployer(line.ReceivingEmployerAccountId);
                 foreach (var periodValue in line.TransferAmounts)
                 {
-                    var currentResultAmount = results.Values.FirstOrDefault(x => x.CollectionPeriodName == periodValue.PeriodName) != null
-                        ? results.Values.FirstOrDefault(x => x.CollectionPeriodName == periodValue.PeriodName).Amount : 0;
+                    var currentResultAmount = transferResults.FirstOrDefault(
+                                                  x => PeriodNameHelper.GetStringDateFromLongPeriod(x.CollectionPeriodName) == periodValue.PeriodName
+                                                       && x.SendingAccountId == breakdown.SendingEmployerAccountId
+                                                       && x.ReceivingAccountId == line.ReceivingEmployerAccountId
+                                              )?.Amount ?? 0;
                     if (currentResultAmount != periodValue.Value)
                     {
                         throw new Exception($"Expected transfer from sending employer {breakdown.SendingEmployerAccountId}" +

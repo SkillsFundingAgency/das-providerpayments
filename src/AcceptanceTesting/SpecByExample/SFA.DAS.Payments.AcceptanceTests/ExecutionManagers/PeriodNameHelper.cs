@@ -99,6 +99,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        public static string GetStringDateFromLongPeriod(string longPeriod)
+        {
+            return GetStringDateFromPeriod(longPeriod.Substring(5));
+        }
+
         public static int GetNumericalPeriodFromPeriod(string period)
         {
             if (string.IsNullOrEmpty(period))

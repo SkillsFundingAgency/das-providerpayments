@@ -55,6 +55,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AddOrUpdateEmployerAccount(Defaults.EmployerAccountId, 0m);
         }
 
+        [Given("the employer (.*) has a levy balance = 0 for all months")]
+        public void GivenLevyBalanceIsZeroNamedEmployer(int employerId)
+        {
+            AddOrUpdateEmployerAccount(employerId, 0m);
+        }
+
         [Given("the employer's levy balance is:")]
         public void GivenUnnamedEmployersLevyBalanceIsDifferentPerMonth(Table employerBalancesTable)
         {
@@ -154,7 +160,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
         private void UpdateTransferAllowance(int employerId, decimal transferAllowance)
         {
-
+            EmployerAccountManager.UpdateTransferBalance(employerId, transferAllowance);
         }
     }
 }

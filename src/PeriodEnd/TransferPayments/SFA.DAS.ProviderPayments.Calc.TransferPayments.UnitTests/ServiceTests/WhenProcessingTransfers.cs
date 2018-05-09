@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         Account receiver
                     )
                 {
-                    var entity = new DasAccount {Balance = 1000000, TransferBalance = 1000000, IsLevyPayer = true};
+                    var entity = new DasAccount {Balance = 1000000, TransferAllowance = 1000000, IsLevyPayer = true};
                     var sender = new Account(entity);
 
                     var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     Account receiver
                 )
                 {
-                    var entity = new DasAccount { Balance = 1000000, TransferBalance = 1000000, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = 1000000, TransferAllowance = 1000000, IsLevyPayer = true };
                     var sender = new Account(entity);
                     var expected = requiredPayments.Sum(x => x.AmountDue);
 
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     Account receiver
                 )
                 {
-                    var entity = new DasAccount { Balance = 1000000, TransferBalance = 1000000, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = 1000000, TransferAllowance = 1000000, IsLevyPayer = true };
                     var sender = new Account(entity);
                     var expected = requiredPayments.Sum(x => x.AmountDue);
 
@@ -81,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 {
                     var expected = requiredPayments.Sum(x => x.AmountDue) / 2;
 
-                    var entity = new DasAccount { Balance = expected, TransferBalance = 1000000, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = expected, TransferAllowance = 1000000, IsLevyPayer = true };
                     var sender = new Account(entity);
                     
                     var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -99,7 +99,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 {
                     var expected = requiredPayments.Sum(x => x.AmountDue) / 2;
 
-                    var entity = new DasAccount { Balance = expected, TransferBalance = 1000000, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = expected, TransferAllowance = 1000000, IsLevyPayer = true };
                     var sender = new Account(entity);
                     
                     var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -125,7 +125,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 {
                     var expected = requiredPayments.Sum(x => x.AmountDue) / 2;
 
-                    var entity = new DasAccount { Balance = 1000000, TransferBalance = expected, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = 1000000, TransferAllowance = expected, IsLevyPayer = true };
                     var sender = new Account(entity);
 
                     var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -143,7 +143,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 {
                     var expected = requiredPayments.Sum(x => x.AmountDue) / 2;
 
-                    var entity = new DasAccount { Balance = 1000000, TransferBalance = expected, IsLevyPayer = true };
+                    var entity = new DasAccount { Balance = 1000000, TransferAllowance = expected, IsLevyPayer = true };
                     var sender = new Account(entity);
 
                     var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -168,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var amount = requiredPayments.Sum(x => x.AmountDue);
 
-                        var entity = new DasAccount { Balance = amount / 2, TransferBalance = amount / 3, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = amount / 2, TransferAllowance = amount / 3, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -186,7 +186,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var expected = requiredPayments.Sum(x => x.AmountDue) / 4;
 
-                        var entity = new DasAccount { Balance = expected * 2, TransferBalance = expected, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = expected * 2, TransferAllowance = expected, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -204,7 +204,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var expected = requiredPayments.Sum(x => x.AmountDue) / 4;
 
-                        var entity = new DasAccount { Balance = expected * 2, TransferBalance = expected, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = expected * 2, TransferAllowance = expected, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -226,7 +226,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var amount = requiredPayments.Sum(x => x.AmountDue);
 
-                        var entity = new DasAccount { Balance = amount / 3, TransferBalance = amount / 2, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = amount / 3, TransferAllowance = amount / 2, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -244,7 +244,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var expected = requiredPayments.Sum(x => x.AmountDue) / 4;
 
-                        var entity = new DasAccount { Balance = expected, TransferBalance = expected * 2, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = expected, TransferAllowance = expected * 2, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);
@@ -262,7 +262,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                     {
                         var expected = requiredPayments.Sum(x => x.AmountDue) / 4;
 
-                        var entity = new DasAccount { Balance = expected, TransferBalance = expected * 2, IsLevyPayer = true };
+                        var entity = new DasAccount { Balance = expected, TransferAllowance = expected * 2, IsLevyPayer = true };
                         var sender = new Account(entity);
 
                         var result = sut.ProcessTransfers(sender, receiver, requiredPayments);

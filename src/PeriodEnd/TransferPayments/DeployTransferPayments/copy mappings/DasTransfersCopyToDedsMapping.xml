@@ -14,10 +14,6 @@
       <Ordinal>1</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
-          <Source>Id</Source>
-          <Destination>Id</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>SendingAccountId</Source>
           <Destination>SendingAccountId</Destination>
         </ColumnMapping>
@@ -42,12 +38,16 @@
           <Destination>TransferType</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>TransferDate</Source>
-          <Destination>TransferDate</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>CollectionPeriodName</Source>
           <Destination>CollectionPeriodName</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodYear</Source>
+          <Destination>CollectionPeriodYear</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodMonth</Source>
+          <Destination>CollectionPeriodMonth</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -95,10 +95,6 @@
         <ColumnMapping>
           <Source>Amount</Source>
           <Destination>Amount</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
-          <Source>FundingAccountId</Source>
-          <Destination>FundingAccountId</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

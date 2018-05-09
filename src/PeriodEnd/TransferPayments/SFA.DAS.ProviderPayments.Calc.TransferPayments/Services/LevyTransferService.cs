@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Services
             var transferListForAccount = new List<TransferPaymentSet>();
 
             var groupedPaymentsByApprovedDate = requiredPayments
-                .GroupBy(x => x.TransferApprovedDate)
+                .GroupBy(x => x.TransferApprovalDate)
                 .OrderBy(x => x.Key);
 
             foreach (var paymentList in groupedPaymentsByApprovedDate)

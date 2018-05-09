@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 DasAccount entity)
             {
                 entity.Balance = (decimal) accountBalance;
-                entity.TransferBalance = (decimal) transferBalance;
+                entity.TransferAllowance = (decimal) transferBalance;
                 entity.IsLevyPayer = true;
 
                 var sut = new Account(entity);

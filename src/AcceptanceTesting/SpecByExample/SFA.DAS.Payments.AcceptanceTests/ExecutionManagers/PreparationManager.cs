@@ -73,6 +73,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 connection.Execute("TRUNCATE TABLE AT.ReferenceData");
                 //connection.Execute("DELETE FROM Collection_Period_Mapping");
+
+                connection.Execute("TRUNCATE TABLE TransferPayments.AccountTransfers");
             }
         }
 

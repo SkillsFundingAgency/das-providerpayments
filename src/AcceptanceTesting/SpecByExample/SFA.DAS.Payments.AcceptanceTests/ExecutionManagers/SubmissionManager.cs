@@ -67,6 +67,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             DataLockEventsDataCollector.CollectDataLockEventsForAllPeriods(results, lookupContext);
             PaymentsDataCollector.CollectForPeriod(results, lookupContext);
 
+            multipleSubmissionsContext.TransferResults = TransfersDataCollector.CollectAllTransfers();
+
             return results;
         }
 
