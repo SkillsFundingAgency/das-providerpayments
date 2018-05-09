@@ -8,7 +8,7 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Payments
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF NOT EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payments' AND [schema_id] = SCHEMA_ID('TransferPayments'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payments' AND [schema_id] = SCHEMA_ID('TransferPayments'))
 BEGIN
 	DROP TABLE TransferPayments.Payments
 END
@@ -29,11 +29,11 @@ CREATE TABLE TransferPayments.Payments
 )
 GO
 
-IF NOT EXISTS(SELECT NULL FROM sys.indexes WHERE Name = 'IX_TransferPayments_AccountTransfers_RequiredPaymentId')
+IF EXISTS(SELECT NULL FROM sys.indexes WHERE Name = 'IX_TransferPayments_Payments_RequiredPaymentId')
 BEGIN
-	DROP INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId
+	DROP INDEX IX_TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments
 END
-CREATE INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers (RequiredPaymentId)
+CREATE INDEX IX_TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments (RequiredPaymentId)
 GO
 
 
@@ -64,7 +64,7 @@ CREATE TABLE TransferPayments.AccountTransfers
 
 IF EXISTS (SELECT NULL FROM sys.indexes WHERE Name = 'IX_TransferPayments_AccountTransfers_RequiredPaymentId')
 BEGIN
-	DROP INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId
+	DROP INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers
 END
 
 CREATE INDEX IX_TransferPayments_AccountTransfers_RequiredPaymentId ON TransferPayments.AccountTransfers (RequiredPaymentId)

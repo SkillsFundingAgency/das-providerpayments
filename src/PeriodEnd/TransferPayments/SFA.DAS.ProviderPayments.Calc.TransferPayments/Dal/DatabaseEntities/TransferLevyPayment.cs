@@ -15,7 +15,6 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
             CollectionPeriodMonth = requiredPayment.CollectionPeriodMonth;
             CollectionPeriodYear = requiredPayment.CollectionPeriodYear;
             TransactionType = requiredPayment.TransactionType;
-            FundingAccountId = requiredPayment.TransferSendingEmployerAccountId;
             Amount = amount;
         }
 
@@ -29,6 +28,5 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.DatabaseEntities
         public FundingSource FundingSource { get; set; } = FundingSource.Transfer;
         public TransactionType TransactionType { get; set; } 
         public decimal Amount { get; set; }
-        public long FundingAccountId { get; set; }
     }
 }

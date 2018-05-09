@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var sut = new Account(new DasAccount
                     {
                         Balance = expected * 2,
-                        TransferBalance = expected * 2,
+                        TransferAllowance = expected * 2,
                         IsLevyPayer = true
                     });
 
@@ -89,7 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var sut = new Account(new DasAccount
                     {
                         Balance = expected,
-                        TransferBalance = expected,
+                        TransferAllowance = expected,
                         IsLevyPayer = true
                     });
 
@@ -131,7 +131,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var sut = new Account(new DasAccount
                     {
                         Balance = expected,
-                        TransferBalance = expected,
+                        TransferAllowance = expected,
                         IsLevyPayer = true
                     });
 
@@ -170,7 +170,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var sut = new Account(new DasAccount
                     {
                         Balance = 0,
-                        TransferBalance = 0,
+                        TransferAllowance = 0,
                         IsLevyPayer = true
                     });
 
@@ -209,7 +209,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var sut = new Account(new DasAccount
                     {
                         Balance = -100,
-                        TransferBalance = 0,
+                        TransferAllowance = 0,
                         IsLevyPayer = true
                     });
 
