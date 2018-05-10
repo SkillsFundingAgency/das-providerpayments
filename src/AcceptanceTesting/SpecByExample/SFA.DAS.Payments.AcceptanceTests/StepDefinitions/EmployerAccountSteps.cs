@@ -80,13 +80,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         }
 
         [Given("the employer (.*) has a transfer allowance > agreed price for all months")]
-        public void GivenNamedEmployersTransferBalanceIsMoreThanPrice(int employerId)
+        public void GivenNamedEmployersTransferAllowanceIsMoreThanPrice(int employerId)
         {
             UpdateTransferAllowance(employerId, int.MaxValue);
         }
 
         [Given("the employer (.*) has a transfer allowance = 0 for all months")]
-        public void GivenNamedEmployersTransferBalanceIsZeroForAllMonths(int employerId)
+        public void GivenNamedEmployersTransferAllowanceIsZeroForAllMonths(int employerId)
         {
             UpdateTransferAllowance(employerId, 0m);
         }
