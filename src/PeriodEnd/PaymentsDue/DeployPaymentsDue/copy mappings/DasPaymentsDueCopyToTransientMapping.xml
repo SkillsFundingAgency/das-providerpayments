@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <CopyCatConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceConnectionString>DestinationConnectionString</SourceConnectionString>
-  <DestinationConnectionString>SourceConnectionString</DestinationConnectionString>
+  <SourceConnectionString>SourceConnectionString</SourceConnectionString>
+  <DestinationConnectionString>DestinationConnectionString</DestinationConnectionString>
   <SqlBulkCopySettings>
     <BatchSize>2000</BatchSize>
     <BulkCopyTimeout>7200</BulkCopyTimeout>
@@ -9,8 +9,8 @@
   </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
-      <Source>[PaymentsDue].[vw_Earnings]</Source>
-      <Destination>[Staging].[Earnings]</Destination>
+      <Source>[PaymentsDue].[vw_RawEarnings]</Source>
+      <Destination>[Staging].[RawEarnings]</Destination>
       <Ordinal>3</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
@@ -20,6 +20,10 @@
         <ColumnMapping>
           <Source>Ukprn</Source>
           <Destination>Ukprn</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeAimSeqNumber</Source>
+          <Destination>PriceEpisodeAimSeqNumber</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>PriceEpisodeIdentifier</Source>
@@ -32,6 +36,42 @@
         <ColumnMapping>
           <Source>Period</Source>
           <Destination>Period</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ULN</Source>
+          <Destination>ULN</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ProgType</Source>
+          <Destination>ProgType</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>FworkCode</Source>
+          <Destination>FworkCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PwayCode</Source>
+          <Destination>PwayCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>StdCode</Source>
+          <Destination>StdCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeSFAContribPct</Source>
+          <Destination>PriceEpisodeSFAContribPct</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeFundLineType</Source>
+          <Destination>PriceEpisodeFundLineType</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnAimRef</Source>
+          <Destination>LearnAimRef</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnStartDate</Source>
+          <Destination>LearnStartDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>TransactionType01</Source>
@@ -92,8 +132,8 @@
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
-      <Source>[PaymentsDue].[vw_EarningsMathsEnglish]</Source>
-      <Destination>[Staging].[EarningsMathsEnglish]</Destination>
+      <Source>[PaymentsDue].[vw_RawEarningsMathsEnglish]</Source>
+      <Destination>[Staging].[RawEarningsMathsEnglish]</Destination>
       <Ordinal>4</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
@@ -117,8 +157,8 @@
           <Destination>Period</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>LearnAimRef</Source>
-          <Destination>LearnAimRef</Destination>
+          <Source>ULN</Source>
+          <Destination>ULN</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>FworkCode</Source>
@@ -131,6 +171,18 @@
         <ColumnMapping>
           <Source>StdCode</Source>
           <Destination>StdCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnDelSFAContribPct</Source>
+          <Destination>LearnDelSFAContribPct</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnDelInitialFundLineType</Source>
+          <Destination>LearnDelInitialFundLineType</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnAimRef</Source>
+          <Destination>LearnAimRef</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>TransactionType13</Source>

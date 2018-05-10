@@ -5,22 +5,37 @@ END
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- vw_Earnings
+-- vw_RawEarnings
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_Earnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_RawEarnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
 BEGIN
-    DROP VIEW PaymentsDue.vw_Earnings
+    DROP VIEW PaymentsDue.vw_RawEarnings
 END
 GO
 
-CREATE VIEW PaymentsDue.vw_Earnings
+CREATE VIEW PaymentsDue.vw_RawEarnings
 AS
 select
 	APEP.LearnRefNumber,
 	APEP.Ukprn,
+	APE.PriceEpisodeAimSeqNumber,
 	APEP.PriceEpisodeIdentifier,
 	APE.EpisodeStartDate,
 	APEP.[Period],
+	L.ULN,
+	LD.ProgType,
+	LD.FworkCode,
+	LD.PwayCode,
+	LD.StdCode,
+	APEP.PriceEpisodeSFAContribPct,
+	APE.PriceEpisodeFundLineType,
+	LD.LearnAimRef,
+	LD.LearnStartDate,
+	----- from LearningDeliveryFAM:
+	--issmallemployer
+	--isonehcplan
+	--iscareleaver on earnings
+	--LDFAM.LearnDelFAMCode,
     APEP.PriceEpisodeOnProgPayment [TransactionType01],
     APEP.PriceEpisodeCompletionPayment [TransactionType02],
     APEP.PriceEpisodeBalancePayment [TransactionType03],
@@ -40,6 +55,18 @@ inner join Rulebase.AEC_ApprenticeshipPriceEpisode APE
     on APEP.UKPRN = APE.UKPRN
     and APEP.LearnRefNumber = APE.LearnRefNumber
     and APEP.PriceEpisodeIdentifier = APE.PriceEpisodeIdentifier
+join Valid.Learner L
+	on L.UKPRN = APEP.Ukprn
+	and L.LearnRefNumber = APEP.LearnRefNumber
+join Valid.LearningDelivery LD
+	on LD.UKPRN = APEP.Ukprn
+	and LD.LearnRefNumber = APEP.LearnRefNumber
+	and LD.AimSeqNumber = APE.PriceEpisodeAimSeqNumber
+/*join Valid.LearningDeliveryFAM LDFAM
+	on LDFAM.UKPRN = APEP.Ukprn
+	and LDFAM.LearnRefNumber = APEP.LearnRefNumber
+	and LDFAM.AimSeqNumber = APE.PriceEpisodeAimSeqNumber
+	and LDFAM.LearnDelFAMType = 'ACT'*/
 where APEP.[Period] <= (
 		select cast(replace(Return_Code, 'R', '') as int)
 		from Collection_Period_Mapping
@@ -48,26 +75,31 @@ where APEP.[Period] <= (
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- vw_EarningsMathsEnglish
+-- vw_RawEarningsMathsEnglish
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_EarningsMathsEnglish' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_RawEarningsMathsEnglish' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
 BEGIN
-    DROP VIEW PaymentsDue.vw_EarningsMathsEnglish
+    DROP VIEW PaymentsDue.vw_RawEarningsMathsEnglish
 END
 GO
 
-CREATE VIEW PaymentsDue.vw_EarningsMathsEnglish
+CREATE VIEW PaymentsDue.vw_RawEarningsMathsEnglish
 AS
 select 
 	LDP.LearnRefNumber,
 	LDP.Ukprn,
 	LDP.AimSeqNumber,
+	--price episode identifier ??
 	LD.LearnStartDate,
 	LDP.[Period],
-	RLD.LearnAimRef,
+	L.ULN,
+	LD.ProgType,
 	LD.FworkCode,
 	LD.PwayCode,
 	LD.StdCode,
+	LDP.[LearnDelSFAContribPct],
+	RLD.LearnDelInitialFundLineType,
+	LD.LearnAimRef,
     MathEngOnProgPayment [TransactionType13],
     MathEngBalPayment [TransactionType14],
     LearnSuppFundCash [TransactionType15],
@@ -81,6 +113,9 @@ inner join Valid.LearningDelivery LD
     on LD.UKPRN = LDP.UKPRN
     and LD.LearnRefNumber = LDP.LearnRefNumber
     and LD.AimSeqNumber = RLD.AimSeqNumber
+join Valid.Learner L
+	on L.UKPRN = LD.Ukprn
+	and L.LearnRefNumber = LD.LearnRefNumber
 where (
     MathEngOnProgPayment > 0
     or MathEngBalPayment > 0

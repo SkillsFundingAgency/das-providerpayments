@@ -377,59 +377,73 @@ CREATE TABLE Staging.EarningsWithoutPayments (
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- Earnings
+-- RawEarnings
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Earnings' AND [schema_id] = SCHEMA_ID('Staging'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='RawEarnings' AND [schema_id] = SCHEMA_ID('Staging'))
 BEGIN
-	DROP TABLE Staging.Earnings
+	DROP TABLE Staging.RawEarnings
 END
 GO
 
-CREATE TABLE Staging.Earnings (
+CREATE TABLE Staging.RawEarnings (
 	LearnRefNumber varchar(12) NOT NULL,
 	Ukprn bigint NOT NULL,
+	PriceEpisodeAimSeqNumber int not null,
 	PriceEpisodeIdentifier varchar(25),
 	EpisodeStartDate date,
 	[Period] int NOT NULL,
-	TransactionType01 decimal,
-	TransactionType02 decimal,
-	TransactionType03 decimal,
-	TransactionType04 decimal,
-	TransactionType05 decimal,
-	TransactionType06 decimal,
-	TransactionType07 decimal,
-	TransactionType08 decimal,
-	TransactionType09 decimal,
-	TransactionType10 decimal,
-	TransactionType11 decimal,
-	TransactionType12 decimal,
-	TransactionType15 decimal,
+	ULN bigint NOT NULL,
+	ProgType int,
+	FworkCode int,
+	PwayCode int,
+	StdCode int,
+	PriceEpisodeSFAContribPct decimal(15,5),
+	PriceEpisodeFundLineType varchar(100),
+	LearnAimRef varchar(8),
+	LearnStartDate date,
+	TransactionType01 decimal(15,5),
+	TransactionType02 decimal(15,5),
+	TransactionType03 decimal(15,5),
+	TransactionType04 decimal(15,5),
+	TransactionType05 decimal(15,5),
+	TransactionType06 decimal(15,5),
+	TransactionType07 decimal(15,5),
+	TransactionType08 decimal(15,5),
+	TransactionType09 decimal(15,5),
+	TransactionType10 decimal(15,5),
+	TransactionType11 decimal(15,5),
+	TransactionType12 decimal(15,5),
+	TransactionType15 decimal(15,5),
 	ACT tinyint
 )
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- EarningsMathsEnglish
+-- RawEarningsMathsEnglish
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='EarningsMathsEnglish' AND [schema_id] = SCHEMA_ID('Staging'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='RawEarningsMathsEnglish' AND [schema_id] = SCHEMA_ID('Staging'))
 BEGIN
-	DROP TABLE Staging.EarningsMathsEnglish
+	DROP TABLE Staging.RawEarningsMathsEnglish
 END
 GO
 
-CREATE TABLE Staging.EarningsMathsEnglish (
+CREATE TABLE Staging.RawEarningsMathsEnglish (
 	LearnRefNumber varchar(12) NOT NULL,
 	Ukprn bigint NOT NULL,
-	AimSeqNumber int,
-	LearnStartDate date,
+	AimSeqNumber int not null,
+	LearnStartDate date NOT NULL,
 	[Period] int NOT NULL,
-	LearnAimRef varchar(8),
+	ULN bigint NOT NULL,
+	ProgType int,
 	FworkCode int,
 	PwayCode int,
 	StdCode int,
-	TransactionType13 decimal,
-	TransactionType14 decimal,
-	TransactionType15 decimal,
+	LearnDelSFAContribPct decimal(15,5),
+	LearnDelInitialFundLineType varchar(100),
+	LearnAimRef varchar(8),
+	TransactionType13 decimal(15,5),
+	TransactionType14 decimal(15,5),
+	TransactionType15 decimal(15,5),
 	ACT tinyint
 )
 GO

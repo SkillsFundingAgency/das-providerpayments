@@ -307,6 +307,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{CCCA0E9C-1426-4E59-B673-C9FC5565D5A4}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{61493CCE-0228-4120-9BBA-5078CE8C29C0}"
