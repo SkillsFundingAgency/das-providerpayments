@@ -19,7 +19,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
-            "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql",
             "07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql",
             "08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql",
             "09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql",

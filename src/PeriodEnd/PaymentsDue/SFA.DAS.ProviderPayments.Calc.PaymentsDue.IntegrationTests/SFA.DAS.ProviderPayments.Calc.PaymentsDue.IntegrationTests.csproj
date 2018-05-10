@@ -131,10 +131,6 @@
       <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql">
       <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
