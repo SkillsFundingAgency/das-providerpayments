@@ -41,9 +41,9 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Dal.Repositories
             const string command = @"SELECT AccountId,  
                           Balance,  
                           IsLevyPayer,  
-                          TransferBalance  
+                          TransferAllowance  
                           FROM 
-                           DasAccounts;";
+                           Reference.DasAccounts;";
             return Query<DasAccount>(command);
         }
     }

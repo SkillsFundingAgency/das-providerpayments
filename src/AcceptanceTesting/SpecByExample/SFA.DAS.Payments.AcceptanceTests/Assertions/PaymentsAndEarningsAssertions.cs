@@ -13,6 +13,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
             new ProviderPaidBySfaRule(),
             new PaymentDueFromEmployersRule(),
             new EmployersLevyAccountDebitedRule(),
+            new EmployersLevyAccountDebitedViaTransferRule(),
             new SfaLevyBudgetRule(),
             new SfaLevyCoFundBudgetRule(),
             new SfaNonLevyCoFundBudgetRule(),
@@ -40,7 +41,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
             {
                 foreach (var rule in Rules)
                 {
-                    rule.AssertBreakdown(breakdown, periodContext.PeriodResults, employerAccountContext);
+                    rule.AssertBreakdown(breakdown, new ActualRuleResult{ LearnerResults = periodContext.PeriodResults, TransferResults = periodContext.TransferResults }, employerAccountContext);
                 }
             }
         }
@@ -48,12 +49,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
         {
             foreach (var breakdown in earningsAndPaymentsContext.LearnerOverallEarningsAndPayments)
             {
-                var learnerResults = periodContext.PeriodResults.Where(r => r.LearnerReferenceNumber == breakdown.LearnerReferenceNumber).ToArray();
+                var learnerResults = periodContext.PeriodResults.Where(r => r.LearnerReferenceNumber == breakdown.LearnerReferenceNumber).ToList();
                 try
                 {
                     foreach (var rule in Rules)
                     {
-                        rule.AssertBreakdown(breakdown, learnerResults, employerAccountContext);
+                        rule.AssertBreakdown(breakdown, new ActualRuleResult{ LearnerResults = learnerResults, TransferResults = periodContext.TransferResults }, employerAccountContext);
                     }
                 }
                 catch (Exception ex)

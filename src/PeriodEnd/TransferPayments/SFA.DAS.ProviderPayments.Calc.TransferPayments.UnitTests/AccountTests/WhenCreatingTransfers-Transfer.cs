@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
         {
             Account Sut()
             {
-                return new Account(new DasAccount {Balance = 1000000, IsLevyPayer = true, TransferBalance = 1000000});
+                return new Account(new DasAccount {Balance = 1000000, IsLevyPayer = true, TransferAllowance = 1000000});
             }
 
             [Test, AutoData]

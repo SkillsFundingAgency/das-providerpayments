@@ -23,11 +23,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
             List<RequiredTransferPayment> testRequiredPayments
         )
         {
-            var expectedTransferApprovedDate = testRequiredPayments.Min(x => x.TransferApprovedDate);
+            var expectedTransferApprovedDate = testRequiredPayments.Min(x => x.TransferApprovalDate);
             var expectedRequiredPaymentId = testRequiredPayments
-                .First(x => x.TransferApprovedDate == expectedTransferApprovedDate).RequiredPaymentId;
+                .First(x => x.TransferApprovalDate == expectedTransferApprovedDate).RequiredPaymentId;
 
-            testAccountEntities[0].TransferBalance = 1;
+            testAccountEntities[0].TransferAllowance = 1;
 
             var accounts = testAccountEntities.Select(x => new Account(x)).ToList();
             accountRepository.Setup(x => x.Account(testAccountEntities[0].AccountId)).Returns(accounts[0]);
@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
             var expectedUln = testRequiredPayments.Min(x => x.Uln);
             var expectedRequiredPaymentId = testRequiredPayments.First(x => x.Uln == expectedUln).RequiredPaymentId;
 
-            testAccountEntities[0].TransferBalance = 1;
+            testAccountEntities[0].TransferAllowance = 1;
 
             var accounts = testAccountEntities.Select(x => new Account(x)).ToList();
             accountRepository.Setup(x => x.Account(testAccountEntities[0].AccountId)).Returns(accounts[0]);
@@ -74,11 +74,11 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
 
             testRequiredPayments[1].TransferSendingEmployerAccountId = testAccountEntities[0].AccountId;
             testRequiredPayments[1].AccountId = testAccountEntities[2].AccountId;
-            testRequiredPayments[1].TransferApprovedDate = testRequiredPayments[0].TransferApprovedDate;
+            testRequiredPayments[1].TransferApprovalDate = testRequiredPayments[0].TransferApprovalDate;
 
             testRequiredPayments[2].TransferSendingEmployerAccountId = testAccountEntities[0].AccountId;
             testRequiredPayments[2].AccountId = testAccountEntities[2].AccountId;
-            testRequiredPayments[2].TransferApprovedDate = testRequiredPayments[0].TransferApprovedDate;
+            testRequiredPayments[2].TransferApprovalDate = testRequiredPayments[0].TransferApprovalDate;
 
             var results = sut.ProcessSendingAccount(testAccountEntities[0].AccountId, testRequiredPayments);
 

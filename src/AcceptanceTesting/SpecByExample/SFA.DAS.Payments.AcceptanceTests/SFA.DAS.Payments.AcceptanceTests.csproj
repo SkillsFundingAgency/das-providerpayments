@@ -224,6 +224,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>two_learners_paid_in_priority.feature</DependentUpon>
     </Compile>
+    <Compile Include="Assertions\ActualRuleResult.cs" />
     <Compile Include="Assertions\DataLockAssertions.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockCommitmentVersionRule.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockErrorsRule.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployerLevyTransactionsRule.cs" />
     <Compile Include="Assertions\LevyAccountBalanceAssertions.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountCreditedRule.cs" />
+    <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountDebitedViaTransferRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\RefundDueToEmployerRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\RefundTakenBySfaRule.cs" />
     <Compile Include="Assertions\ProviderPaymentsAssertions.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="Contexts\SubmissionContext.cs" />
     <Compile Include="Contexts\ProviderAdjustmentsContext.cs" />
     <Compile Include="Contexts\SubmissionDataLockContext.cs" />
+    <Compile Include="Contexts\TransfersContext.cs" />
     <Compile Include="DataCollectors\DataLockEventsDataCollector.cs" />
     <Compile Include="DataCollectors\LevyAccountBalanceCollector.cs" />
     <Compile Include="DataCollectors\EventsDataCollector.cs" />
@@ -374,7 +377,6 @@
     <Compile Include="ResultsDataModels\PaymentResult.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockPeriodResults.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockResult.cs" />
-    <Compile Include="ResultsDataModels\TransferPeriodValueEntity.cs" />
     <Compile Include="ResultsDataModels\TransferResults.cs" />
     <Compile Include="SpecFlowHooks.cs" />
     <Compile Include="StepDefinitions\CommitmentSteps.cs" />

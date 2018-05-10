@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             AccountId = persistedEntity.AccountId;
             Balance = persistedEntity.Balance;
             IsLevyPayer = persistedEntity.IsLevyPayer;
-            TransferBalance = persistedEntity.TransferBalance;
+            TransferAllowance = persistedEntity.TransferAllowance;
 
             UpdateHasTransferBalance();
         }
@@ -24,12 +24,12 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
         private long AccountId { get; }
         private decimal Balance { get; set; }
         private bool IsLevyPayer { get; }
-        private decimal TransferBalance { get; set; }
+        private decimal TransferAllowance { get; set; }
         private decimal AvailableTransferBalance { get; set; }
 
         private void UpdateHasTransferBalance()
         {
-            AvailableTransferBalance = Math.Min(TransferBalance, Balance);
+            AvailableTransferBalance = Math.Min(TransferAllowance, Balance);
             AvailableTransferBalance = Math.Max(AvailableTransferBalance, 0); // Set the floor to 0
 
             HasTransferBalance = (AvailableTransferBalance > 0) && IsLevyPayer;
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.Domain
             result.Amount = transfer.Amount;
 
             Balance -= transfer.Amount;
-            TransferBalance -= transfer.Amount;
+            TransferAllowance -= transfer.Amount;
 
             UpdateHasTransferBalance();
 

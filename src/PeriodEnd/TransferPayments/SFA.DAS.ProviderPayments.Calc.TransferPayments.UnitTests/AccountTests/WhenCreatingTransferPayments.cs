@@ -107,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                 DasAccount sender,
                 Account receiver)
             {
-                sender.TransferBalance = 1000000;
+                sender.TransferAllowance = 1000000;
                 sender.Balance = 1000000;
                 var sut = new Account(sender);
 
