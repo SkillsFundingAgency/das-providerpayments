@@ -26,18 +26,9 @@ CREATE TABLE TransferPayments.Payments
 	[FundingSource] int NOT NULL,
 	[TransactionType] int NOT NULL,
 	[Amount] decimal(15,5) NOT NULL,
-	[FundingAccountId] bigint NOT NULL,
 	CONSTRAINT PK_TransferPayments_Payments_RequiredPaymentId_FundingSource PRIMARY KEY (RequiredPaymentId, FundingSource)
 )
 GO
-
-IF EXISTS(SELECT NULL FROM sys.indexes WHERE Name = 'IX_TransferPayments_Payments_RequiredPaymentId')
-BEGIN
-	DROP INDEX IX_TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments
-END
-CREATE INDEX IX_TransferPayments_Payments_RequiredPaymentId ON TransferPayments.Payments (RequiredPaymentId)
-GO
-
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- AccountTransfers
