@@ -33,6 +33,27 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var actual = sut.CreateTransfer(receiver, requiredPayment);
                     actual.Amount.Should().Be(expected);
                 }
+
+                [Test, AutoData]
+                public void ThenTheTransferAmountIsTheSameAsThePaymentAmount(
+                    RequiredTransferPayment requiredPayment,
+                    Account receiver,
+                    decimal expected
+                )
+                {
+                    requiredPayment.AmountDue = expected;
+
+                    var sut = new Account(new DasAccount
+                    {
+                        Balance = expected * 2,
+                        TransferAllowance = expected * 2,
+                        IsLevyPayer = true
+                    });
+
+                    var actual = sut.CreateTransfer(receiver, requiredPayment);
+                    actual.TransferLevyPayment.Amount.Should().Be(expected);
+                    actual.AccountLevyTransfer.Amount.Should().Be(expected);
+                }
             }
 
             [TestFixture]
@@ -54,6 +75,27 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 
                     var actual = sut.CreateTransfer(receiver, requiredPayment);
                     actual.Amount.Should().Be(expected);
+                }
+
+                [Test, AutoData]
+                public void ThenTheTransferAmountIsTheSameAsThePaymentAmount(
+                    RequiredTransferPayment requiredPayment,
+                    Account receiver,
+                    decimal expected
+                )
+                {
+                    requiredPayment.AmountDue = expected;
+
+                    var sut = new Account(new DasAccount
+                    {
+                        Balance = expected,
+                        TransferAllowance = expected,
+                        IsLevyPayer = true
+                    });
+
+                    var actual = sut.CreateTransfer(receiver, requiredPayment);
+                    actual.TransferLevyPayment.Amount.Should().Be(expected);
+                    actual.AccountLevyTransfer.Amount.Should().Be(expected);
                 }
             }
 
@@ -77,6 +119,26 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var actual = sut.CreateTransfer(receiver, requiredPayment);
                     actual.Amount.Should().Be(expected);
                 }
+
+                [Test, AutoData]
+                public void ThenTheTransferAmountIsTheSameAsThePaymentAmount(
+                    RequiredTransferPayment requiredPayment,
+                    Account receiver,
+                    decimal expected
+                )
+                {
+                    requiredPayment.AmountDue = expected * 2;
+                    var sut = new Account(new DasAccount
+                    {
+                        Balance = expected,
+                        TransferAllowance = expected,
+                        IsLevyPayer = true
+                    });
+
+                    var actual = sut.CreateTransfer(receiver, requiredPayment);
+                    actual.TransferLevyPayment.Amount.Should().Be(expected);
+                    actual.AccountLevyTransfer.Amount.Should().Be(expected);
+                }
             }
 
             [TestFixture]
@@ -98,6 +160,24 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
                     var actual = sut.CreateTransfer(receiver, requiredPayment);
                     actual.Amount.Should().Be(0);
                 }
+
+                [Test, AutoData]
+                public void ThenTheTransferAmountIsTheSameAsThePaymentAmount(
+                    RequiredTransferPayment requiredPayment,
+                    Account receiver)
+                {
+                    requiredPayment.AmountDue = 100;
+                    var sut = new Account(new DasAccount
+                    {
+                        Balance = 0,
+                        TransferAllowance = 0,
+                        IsLevyPayer = true
+                    });
+
+                    var actual = sut.CreateTransfer(receiver, requiredPayment);
+                    actual.TransferLevyPayment.Amount.Should().Be(0);
+                    actual.AccountLevyTransfer.Amount.Should().Be(0);
+                }
             }
 
             [TestFixture]
@@ -118,6 +198,24 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.AccountTests
 
                     var actual = sut.CreateTransfer(receiver, requiredPayment);
                     actual.Amount.Should().Be(0);
+                }
+
+                [Test, AutoData]
+                public void ThenTheTransferAmountIsTheSameAsThePaymentAmount(
+                    RequiredTransferPayment requiredPayment,
+                    Account receiver)
+                {
+                    requiredPayment.AmountDue = 100;
+                    var sut = new Account(new DasAccount
+                    {
+                        Balance = -100,
+                        TransferAllowance = 0,
+                        IsLevyPayer = true
+                    });
+
+                    var actual = sut.CreateTransfer(receiver, requiredPayment);
+                    actual.TransferLevyPayment.Amount.Should().Be(0);
+                    actual.AccountLevyTransfer.Amount.Should().Be(0);
                 }
             }
 
