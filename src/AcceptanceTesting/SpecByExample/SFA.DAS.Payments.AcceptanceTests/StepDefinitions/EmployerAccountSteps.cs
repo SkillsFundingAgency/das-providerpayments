@@ -79,6 +79,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AddOrUpdateEmployerAccount(id, 0m, periodBalances);
         }
 
+        [Given("the employer (.*) has a transfer allowance of:")]
+        public void GivenNamedEmployersTransferAllowanceIsDifferentPerMonth(string employerNumber, Table employerTransfersTable)
+        {
+            int id;
+            if (!int.TryParse(employerNumber, out id))
+            {
+                throw new ArgumentException($"Employer number '{employerNumber}' is not a valid number");
+            }
+            var periodAllowances = TransferAllowanceTableParser.ParseTransferAllowanceTable(employerTransfersTable, id);
+            AddOrUpdateEmployerTransferAllowances(id, periodAllowances);
+        }
+
         [Given("the employer (.*) has a transfer allowance > agreed price for all months")]
         public void GivenNamedEmployersTransferBalanceIsMoreThanPrice(int employerId)
         {
@@ -142,7 +154,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                                                                         decimal balance, 
                                                                         List<EmployerAccountPeriodValue> periodBalances = null, 
                                                                         bool isDasEmployer = true,
-                                                                        bool isLevyPayer = true)
+                                                                        bool isLevyPayer = true,
+                                                                        List<EmployerAccountPeriodValue> transferallowances = null)
         {
             var account = EmployerAccountContext.EmployerAccounts.SingleOrDefault(a => a.Id == id);
             if (account == null)
@@ -156,6 +169,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 
             account.Balance = balance;
             account.PeriodBalances = periodBalances ?? new List<EmployerAccountPeriodValue>();
+            account.TransferAllowances = transferallowances ?? new List<EmployerAccountPeriodValue>();
             account.IsDasEmployer = isDasEmployer;
             account.IsLevyPayer = isLevyPayer;
 
@@ -167,6 +181,25 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         private void UpdateTransferAllowance(int employerId, decimal transferAllowance)
         {
             EmployerAccountManager.UpdateTransferBalance(employerId, transferAllowance);
+        }
+
+        private EmployerAccountReferenceData AddOrUpdateEmployerTransferAllowances(int id, List<EmployerAccountPeriodValue> transferallowances)
+        {
+            var account = EmployerAccountContext.EmployerAccounts.SingleOrDefault(a => a.Id == id);
+            if (account == null)
+            {
+                account = new EmployerAccountReferenceData
+                {
+                    Id = id
+                };
+                EmployerAccountContext.EmployerAccounts.Add(account);
+            }
+
+            account.TransferAllowances = transferallowances ?? new List<EmployerAccountPeriodValue>();
+
+            EmployerAccountManager.AddOrUpdateAccount(account);
+
+            return account;
         }
     }
 }

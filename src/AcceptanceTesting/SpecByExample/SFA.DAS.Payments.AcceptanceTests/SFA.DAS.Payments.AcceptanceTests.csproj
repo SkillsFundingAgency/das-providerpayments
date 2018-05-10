@@ -268,6 +268,7 @@
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
     <Compile Include="DummyAcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
+    <Compile Include="ExecutionManagers\PeriodArrearsHelper.cs" />
     <Compile Include="ExecutionManagers\PeriodNameHelper.cs" />
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="ExecutionManagers\ProviderSubmissionDetails.cs" />
@@ -404,9 +405,11 @@
     <Compile Include="TableParsers\LearningSupportTableParser.cs" />
     <Compile Include="TableParsers\LevyBalanceTableParser.cs" />
     <Compile Include="TableParsers\ProviderAdjustmentsTableParser.cs" />
+    <Compile Include="TableParsers\SimpleEmployerAccountPeriodValueTableParser.cs" />
     <Compile Include="TableParsers\SubmissionDataLockTableParser.cs" />
     <Compile Include="TableParsers\TableParser.cs" />
     <Compile Include="TableParsers\TransactionTypeTableParser.cs" />
+    <Compile Include="TableParsers\TransferAllowanceTableParser.cs" />
     <Compile Include="TableParsers\TransfersTableParser.cs" />
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="Validations.cs" />
