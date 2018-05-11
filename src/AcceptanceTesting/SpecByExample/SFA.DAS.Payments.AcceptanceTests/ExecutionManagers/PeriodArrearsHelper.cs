@@ -1,5 +1,10 @@
 ﻿namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
+    //The only reason this class exists is because it is more readable from a business perspective
+    //to have the period for payments and balances to be 1 month later than the actual period
+    //because this is when the payments are actually made. Ideally we should come to some sort of
+    //agreement about displaying periods as R01, R02 etc. and nuke this class and everywhere it is
+    //called.
     public static class PeriodArrearsHelper
     {
         public static string GetEarningsMonthForPaymentsMadeIn(string periodDate)
