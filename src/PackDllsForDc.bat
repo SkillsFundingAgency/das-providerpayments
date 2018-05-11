@@ -10,7 +10,7 @@ mkdir "DcArtifacts/bin/Commitments"
 
 xcopy "Reference\Accounts\SFA.DAS.Payments.Reference.Accounts\bin\%BuildConfig%\*.dll" "DcArtifacts/bin/Accounts/Build" /s /e /y 
 
-..\Tools\IlMerge\IlMerge /lib:DcArtifacts\bin\Accounts\Build /wildcards /closed /out:DcArtifacts\bin\Accounts\DasReference.BinaryTask.dll /targetplatform:v4 *.dll
+..\Tools\IlMerge\IlMerge /lib:DcArtifacts\bin\Accounts\Build /wildcards /closed /out:DcArtifacts\bin\Accounts\DasReference.BinaryTask.dll /targetplatform:v4.5 *.dll
 
 
 
