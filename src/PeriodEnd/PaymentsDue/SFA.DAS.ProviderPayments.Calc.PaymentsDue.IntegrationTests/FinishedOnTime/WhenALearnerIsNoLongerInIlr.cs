@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
@@ -94,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
 
             TestDataHelper.SetOpenCollection(13);
 
-            var requiredPayment = new Infrastructure.Data.Entities.RequiredPaymentEntity
+            var requiredPayment = new RequiredPaymentEntity
             {
                 CommitmentId = null,
                 CommitmentVersionId = null,
