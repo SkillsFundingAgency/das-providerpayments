@@ -89,7 +89,9 @@
     <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
+    <Compile Include="Utilities\IExpectedRawEarnings.cs" />
     <Compile Include="Utilities\RawEarningsDataHelper.cs" />
+    <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
