@@ -36,6 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
+                EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {

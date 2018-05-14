@@ -49,8 +49,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "05/18": return "R10";
                 case "06/18": return "R11";
                 case "07/18": return "R12";
-                case "09/18": return "R13";
-                case "10/18": return "R14";
+                case "08/18": return "R13";
+                case "09/18": return "R14";
                 default: return null;
             }
         }

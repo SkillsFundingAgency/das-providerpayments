@@ -49,6 +49,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 UpdateAccountBalanceForPeriod(account, period);
             }
         }
+
         internal static void UpdateAccountBalanceForPeriod(EmployerAccountReferenceData account, string period)
         {
             if (TestEnvironment.ValidateSpecsOnly)
@@ -86,6 +87,40 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                     {
                         AccountId = id,
                         Balance = transferAllowance
+                    });
+            }
+        }
+
+        internal static void UpdateTransferAllowancesForPeriod(IEnumerable<EmployerAccountReferenceData> accounts, string period)
+        {
+            foreach (var account in accounts)
+            {
+                UpdateTransferAllowanceForPeriod(account, period);
+            }
+        }
+
+        internal static void UpdateTransferAllowanceForPeriod(EmployerAccountReferenceData account, string period)
+        {
+            if (TestEnvironment.ValidateSpecsOnly)
+            {
+                return;
+            }
+
+            var periodAllowance = account.TransferAllowances?.SingleOrDefault(x => x.PeriodName.Equals(period, System.StringComparison.CurrentCultureIgnoreCase));
+            if (periodAllowance == null)
+            {
+                return;
+            }
+
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                connection.Execute("UPDATE dbo.DasAccounts " +
+                                   "SET TransferAllowance = @Balance " +
+                                   "WHERE AccountId = @AccountId ",
+                    new
+                    {
+                        AccountId = account.Id,
+                        Balance = periodAllowance.Value
                     });
             }
         }
