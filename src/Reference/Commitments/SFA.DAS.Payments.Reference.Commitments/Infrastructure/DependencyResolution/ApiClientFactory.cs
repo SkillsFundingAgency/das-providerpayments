@@ -1,4 +1,5 @@
 ﻿using CS.Common.External.Interfaces;
+using SFA.DAS.Http;
 using SFA.DAS.Payments.Reference.Commitments.Infrastructure.Configuration;
 
 namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.DependencyResolution
@@ -12,7 +13,10 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.DependencyResolu
         internal virtual Events.Api.Client.IEventsApi CreateClient(IExternalContext context)
         {
             var configuration = new EventsApiClientConfiguration(context);
-            return new Events.Api.Client.EventsApi(configuration);   
+
+            var client = new HttpClientBuilder();
+            client.WithBearerAuthorisationHeader(new BearerTokenGenerator(configuration));
+            return new Events.Api.Client.EventsApi(client, configuration);   
         }
 
         private static ApiClientFactory _instance;

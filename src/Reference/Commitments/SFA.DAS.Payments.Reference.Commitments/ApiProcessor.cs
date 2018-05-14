@@ -38,27 +38,27 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 Events.Api.Types.ApprenticeshipEventView[] events;
                 while ((events = GetNextBatchOfCommitments()).Length > 0)
                 {
-                    foreach (var @event in events)
+                    foreach (var apprenticeshipEvent in events)
                     {
-                        currentEventId = @event.Id;
-                        var paymentStatus = GetPaymentStatusOrThrow(@event.PaymentStatus);
+                        currentEventId = apprenticeshipEvent.Id;
+                        var paymentStatus = GetPaymentStatusOrThrow(apprenticeshipEvent.PaymentStatus);
 
                         if (paymentStatus == PaymentStatus.PendingApproval || paymentStatus == PaymentStatus.Deleted)
                         {
-                            lastSeenEventId = @event.Id;
+                            lastSeenEventId = apprenticeshipEvent.Id;
                             continue;
                         }
 
-                        if (@event.PriceHistory != null && ((List<Events.Api.Types.PriceHistory>)@event.PriceHistory).Count > 0)
+                        if (apprenticeshipEvent.PriceHistory != null && ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).Count > 0)
                         {
-                            var request = ConvertEventToCommand(@event, paymentStatus);
+                            var request = ConvertEventToCommand(apprenticeshipEvent, paymentStatus);
                             _mediator.Send(request);
                         }
                         else
                         {
-                            _logger.Warn($"PriceHistory for {@event.ApprenticeshipId} is null or empty so commitment will not be created.");
+                            _logger.Warn($"PriceHistory for {apprenticeshipEvent.ApprenticeshipId} is null or empty so commitment will not be created.");
                         }
-                        lastSeenEventId = @event.Id;
+                        lastSeenEventId = apprenticeshipEvent.Id;
                     }
 
                     _mediator.Send(new SetLastSeenEventIdCommandRequest { LastSeenEventId = lastSeenEventId });

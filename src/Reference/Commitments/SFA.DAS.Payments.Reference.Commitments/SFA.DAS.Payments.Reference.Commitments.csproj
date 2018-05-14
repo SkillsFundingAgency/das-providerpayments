@@ -60,8 +60,8 @@
     <Reference Include="SFA.DAS.Events.Api.Types, Version=2.1.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\SFA.DAS.Events.Api.Types.2.1.10\lib\net45\SFA.DAS.Events.Api.Types.dll</HintPath>
     </Reference>
-    <Reference Include="SFA.DAS.Http, Version=1.0.0.35471, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Http.1.0.0.35471\lib\net45\SFA.DAS.Http.dll</HintPath>
+    <Reference Include="SFA.DAS.Http, Version=1.0.0.39136, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SFA.DAS.Http.1.0.0.39136\lib\net45\SFA.DAS.Http.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.4.3.564, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\StructureMap.4.4.3\lib\net45\StructureMap.dll</HintPath>
@@ -103,6 +103,7 @@
     <Compile Include="Infrastructure\Data\IProcessErrorRepository.cs" />
     <Compile Include="Infrastructure\Data\PersistenceException.cs" />
     <Compile Include="Infrastructure\DependencyResolution\ApiClientFactory.cs" />
+    <Compile Include="Infrastructure\DependencyResolution\BearerTokenGenerator.cs" />
     <Compile Include="PassThroughProcessor.cs" />
     <Compile Include="ImportCommitmentsTask.cs" />
     <Compile Include="Infrastructure\DependencyResolution\CommitmentsRegistry.cs" />
