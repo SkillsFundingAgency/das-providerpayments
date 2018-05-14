@@ -22,5 +22,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public int? ProgrammeType { get; set; }
         public int? FrameworkCode { get; set; }
         public int? PathwayCode { get; set; }
+        public int? TransferSendingEmployerAccountId { get; set; }
+        public DateTime? TransferApprovalDate { get; set; }
     }
 }

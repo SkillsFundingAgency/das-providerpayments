@@ -11,5 +11,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         }
 
         public List<LearnerResults> PeriodResults { get; set; }
+        public List<TransferResult> TransferResults { get; set; }
     }
 }

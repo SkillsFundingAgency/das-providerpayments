@@ -8,6 +8,7 @@ using TechTalk.SpecFlow;
 using System;
 using SFA.DAS.Payments.AcceptanceTests.Refactoring.ExecutionManagers;
 using System.Collections.Generic;
+using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
 
 namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
 {
@@ -21,7 +22,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                                       LookupContext lookupContext,
                                     CommitmentsContext commitmentsContext,
                                     SubmissionContext multipleSubmissionsContext,
-                                    PeriodContext periodContext)
+                                    PeriodContext periodContext,
+                                    TransfersContext transfersContext)
         {
             EmployerAccountContext = employerAccountContext;
             EarningsAndPaymentsContext = earningsAndPaymentsContext;
@@ -31,6 +33,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             CommitmentsContext = commitmentsContext;
             MultipleSubmissionsContext = multipleSubmissionsContext;
             PeriodContext = periodContext;
+            TransfersContext = transfersContext;
         }
         public EmployerAccountContext EmployerAccountContext { get; }
         public DataLockContext DataLockContext { get; }
@@ -40,6 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public CommitmentsContext CommitmentsContext { get; }
         public SubmissionContext MultipleSubmissionsContext { get; set; }
         public PeriodContext PeriodContext { get; set; }
+        public TransfersContext TransfersContext { get; set; }
 
 
 
@@ -97,6 +101,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
                 EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max()));
 
+            PeriodContext.TransferResults = MultipleSubmissionsContext.TransferResults;
+
             AssertResults();
         }
 
@@ -149,6 +155,14 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             EarningsAndPaymentsContext.LearnerOverallEarningsAndPayments.Add(breakdown);
             EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(breakdown, earningAndPayments);
             AssertResults();
+        }
+
+        [Then(@"the following transfers from employer (.*) exist for the given months of earnings activity:")]
+        public void ThenTheFollowingTransfersFromEmployerExists(string sendingEmployerIdSuffix, Table transfers)
+        {
+            VerifyAllSubmissionsHaveBeenDone("All submissions must have been completed prior to the transfers assertion step.");
+            TransfersTableParser.ParseTransfersTableIntoContext(TransfersContext.TransfersBreakdown, transfers, int.Parse(sendingEmployerIdSuffix));
+            TransfersAssertions.ValidateTransfers(TransfersContext.TransfersBreakdown, PeriodContext.TransferResults);
         }
 
         private void AssertResults()
@@ -334,6 +348,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
 
 
+        }
+
+        private void VerifyAllSubmissionsHaveBeenDone(string message)
+        {
+            foreach (var submission in MultipleSubmissionsContext.Submissions)
+            {
+                if(!submission.HaveSubmissionsBeenDone)
+                    throw new Exception($"Not all submissions have been run. {message}");
+            }
         }
     }
 }

@@ -55,6 +55,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             AddOrUpdateEmployerAccount(Defaults.EmployerAccountId, 0m);
         }
 
+        [Given("the employer (.*) has a levy balance = 0 for all months")]
+        public void GivenLevyBalanceIsZeroNamedEmployer(int employerId)
+        {
+            AddOrUpdateEmployerAccount(employerId, 0m);
+        }
+
         [Given("the employer's levy balance is:")]
         public void GivenUnnamedEmployersLevyBalanceIsDifferentPerMonth(Table employerBalancesTable)
         {
@@ -71,6 +77,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
             var periodBalances = LevyBalanceTableParser.ParseLevyAccountBalanceTable(employerBalancesTable,id);
             AddOrUpdateEmployerAccount(id, 0m, periodBalances);
+        }
+
+        [Given("the employer (.*) has a transfer allowance > agreed price for all months")]
+        public void GivenNamedEmployersTransferAllowanceIsMoreThanPrice(int employerId)
+        {
+            UpdateTransferAllowance(employerId, int.MaxValue);
+        }
+
+        [Given("the employer (.*) has a transfer allowance = 0 for all months")]
+        public void GivenNamedEmployersTransferAllowanceIsZeroForAllMonths(int employerId)
+        {
+            UpdateTransferAllowance(employerId, 0m);
         }
 
         [Given(@"the employer is not a levy payer")]
@@ -144,6 +162,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             EmployerAccountManager.AddOrUpdateAccount(account);
 
             return account;
+        }
+
+        private void UpdateTransferAllowance(int employerId, decimal transferAllowance)
+        {
+            EmployerAccountManager.UpdateTransferBalance(employerId, transferAllowance);
         }
     }
 }
