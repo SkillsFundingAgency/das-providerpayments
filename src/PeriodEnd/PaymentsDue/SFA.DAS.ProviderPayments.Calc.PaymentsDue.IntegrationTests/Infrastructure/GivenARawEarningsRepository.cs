@@ -1,4 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using AutoFixture.NUnit3;
+using FluentAssertions;
+using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
 {
@@ -6,12 +10,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     public class GivenARawEarningsRepository
     {
         [TestFixture]
-        public class WhenCallingGetAllForPeriod //todo: check correct name for this.
+        public class WhenCallingGetAllForProvider
         {
-            [Test]
-            public void ThenItRetrievesExpectedCount()
+            [SetUp]
+            public void Setup()
             {
-                
+                RawEarningsDataHelper.CreateRawEarning(null);
+                RawEarningsDataHelper.CreateRawEarning(null);
+                RawEarningsDataHelper.CreateRawEarning(null);
+
+                //_result = SomeItemsConstraint.Stuff()
+            }
+
+            [Test, AutoData]
+            public void ThenItRetrievesExpectedCount(List<RawEarning> earnings)
+            {
+                earnings.Count.Should().Be(3);
             }
 
             [Test]

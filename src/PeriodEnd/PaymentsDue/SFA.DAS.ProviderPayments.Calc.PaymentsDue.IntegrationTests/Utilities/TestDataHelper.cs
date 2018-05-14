@@ -749,7 +749,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_Period", null, false);
         }
 
-        private static void Execute(string command, object param = null, bool inTransient = true)
+        internal static void Execute(string command, object param = null, bool inTransient = true)
         {
             var connectionString = inTransient
                 ? GlobalTestContext.Instance.TransientConnectionString
@@ -768,7 +768,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
         }
 
-        private static T[] Query<T>(string command, object param = null)
+        internal static T[] Query<T>(string command, object param = null)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
