@@ -42,12 +42,12 @@
           <Destination>CollectionPeriodName</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>CollectionPeriodMonth</Source>
-          <Destination>CollectionPeriodMonth</Destination>
-        </ColumnMapping>
-        <ColumnMapping>
           <Source>CollectionPeriodYear</Source>
           <Destination>CollectionPeriodYear</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodMonth</Source>
+          <Destination>CollectionPeriodMonth</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
