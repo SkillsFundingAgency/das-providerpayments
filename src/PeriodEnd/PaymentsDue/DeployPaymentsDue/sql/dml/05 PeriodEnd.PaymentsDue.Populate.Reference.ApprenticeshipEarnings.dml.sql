@@ -24,9 +24,6 @@ INSERT INTO [Reference].[ApprenticeshipEarnings] (
     [FrameworkCode],
     [PathwayCode],
     [ApprenticeshipContractType],
-	[ApprenticeshipContractTypeCode],
-	[ApprenticeshipContractTypeStartDate],
-	[ApprenticeshipContractTypeEndDate],
     [PriceEpisodeFundLineType],
     [PriceEpisodeSfaContribPct],
     [PriceEpisodeLevyNonPayInd],
@@ -67,9 +64,6 @@ SELECT
     pe.[FworkCode],
     pe.[PwayCode],
 	pe.[PriceEpisodeContractType],
-	pe.[LearnDelFAMCode],
-	pe.[LearnDelFAMDateFrom],
-	pe.[LearnDelFAMDateTo],
     pe.[PriceEpisodeFundLineType],
     pe.[PriceEpisodeSfaContribPct],
     pe.[PriceEpisodeLevyNonPayInd],
@@ -110,10 +104,6 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 			ld.[FworkCode],
 			ld.[PwayCode],
 			CASE pe.[PriceEpisodeContractType] WHEN ''Levy Contract'' THEN 1 ELSE 2 END PriceEpisodeContractType,
-			act.LearnDelFAMType,
-			act.LearnDelFAMCode,
-			act.LearnDelFAMDateFrom,
-			act.LearnDelFAMDateTo,
 			pe.[PriceEpisodeFundLineType],
 			pv.[PriceEpisodeSFAContribPct],
 			pv.[PriceEpisodeLevyNonPayInd],
@@ -145,11 +135,7 @@ FROM OPENQUERY(${DS_SILR1718_Collection.servername}, '
 				AND pe.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
 			INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_LearningDelivery] aecld ON pe.[Ukprn] = aecld.[Ukprn]
 				AND pe.[LearnRefNumber] = aecld.[LearnRefNumber]
-				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]
-			LEFT OUTER JOIN ${DS_SILR1718_Collection.databasename}.[Valid].[LearningDeliveryFAM] act ON pe.[Ukprn] = act.[Ukprn]
-				AND pe.[LearnRefNumber] = act.[LearnRefNumber]
-				AND pe.[PriceEpisodeAimSeqNumber] = act.[AimSeqNumber]
-				AND	act.LearnDelFAMType = ''ACT''') as pe
+				AND pe.[PriceEpisodeAimSeqNumber] = aecld.[AimSeqNumber]') as pe
 WHERE pe.[Ukprn] IN (
         SELECT DISTINCT [Ukprn]
         FROM [Reference].[Providers]
