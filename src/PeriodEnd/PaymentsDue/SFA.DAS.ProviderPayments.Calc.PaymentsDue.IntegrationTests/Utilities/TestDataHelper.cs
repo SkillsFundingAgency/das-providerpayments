@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql",
             "13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql",
             "14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql",
-            "15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql",
+            "15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql"
         };
 
         private static readonly Random Random = new Random();
@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     "(@id, 1, '123', @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, 1, 'Active', 1, @startDate)",
                     new { id, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode }, false);
 
-            var priceEpisodeIdentifier = $"99-99-99-{startDate.ToString("yyyy-MM-dd")}";
+            var priceEpisodeIdentifier = $"99-99-99-{startDate:yyyy-MM-dd}";
 
             if (addPriceEpisodeMatches)
             {
@@ -109,7 +109,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
 
                 while (censusDate <= endDate && period <= 12)
                 {
-                    
+
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypesFlag);
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
@@ -166,86 +166,111 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                                      int aimSequenceNumber = 1,
                                                      int numberOfPeriods = 12,
                                                      int currentPeriod = 1,
-                                                     bool earlyFinisher = false)
+                                                     bool earlyFinisher = false,
+                                                    int startPeriod = 1,
+                                                    int endPeriod = 12,
+                                                    DateTime? endDate = null,
+                                                    DateTime? startDate = null)
         {
-            Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode "
-                 + "([Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],"
-                  + "[PriceEpisodeAimSeqNumber],[PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],"
-                  + "[PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments]," 
-                  + "[PriceEpisodeCompletionElement],[PriceEpisodeInstalmentValue])"
-                  + "SELECT "
-                  + "Ukprn, "
-                  + "@learnerRefNumber, "
-                  + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
-                  + "StartDate, "
-                  + "StartDate, "
-                  + "@aimSequenceNumber, "
-                  + "EndDate, "
-                  + "AgreedCost, "
-                  + "'Levy Contract', "
-                  + "'Levy Funding Line', "
-                  + "AgreedCost * 0.8, "
-                  + "AgreedCost * 0.2, "
-                  + "12,"
-                  + "100, "
-                  + "100"
-                  + "FROM dbo.DasCommitments "
-                  + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods }, false);
+            var actualStartDate = startDate.HasValue ? $"'{startDate.Value:yyyy-MM-dd}'" : "StartDate";
+            var actualEndDate = endDate.HasValue ? $"'{endDate.Value:yyyy-MM-dd}'" : "null";
 
-            for (var x = 1; x <= 12; x++)
+            Execute($@" INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode
+                        (
+                            [Ukprn],[LearnRefNumber],[PriceEpisodeIdentifier],[EpisodeEffectiveTNPStartDate],[EpisodeStartDate],[PriceEpisodeActualEndDate],
+                            [PriceEpisodeAimSeqNumber], [PriceEpisodePlannedEndDate],[PriceEpisodeTotalTNPPrice],
+                            [PriceEpisodeContractType], [PriceEpisodeFundLineType],[TNP1],[TNP2],[PriceEpisodePlannedInstalments],
+                            [PriceEpisodeCompletionElement],[PriceEpisodeInstalmentValue])
+                        SELECT
+                            Ukprn,
+                            @learnerRefNumber,
+                            '99-99-99-' + CONVERT(char(10), {actualStartDate}, 126),
+                            StartDate,
+                            StartDate,
+                            {actualEndDate},
+                            @aimSequenceNumber,
+                            EndDate,
+                            AgreedCost,
+                            'Levy Contract',
+                            'Levy Funding Line',
+                            AgreedCost * 0.8,
+                            AgreedCost * 0.2,
+                            12,
+                            100,
+                            100
+                        FROM dbo.DasCommitments
+                        WHERE CommitmentId = @commitmentId",
+                new {commitmentId, learnerRefNumber, aimSequenceNumber, numberOfPeriods}, false);
+
+            for (var x = startPeriod; x <= endPeriod; x++)
             {
-                Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
-                    + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
-                    + "PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeSFAContribPct, PriceEpisodeLevyNonPayInd) "
-                    + "SELECT "
-                    + "Ukprn, "
-                    + "@learnerRefNumber, "
-                    + "'99-99-99-' + CONVERT(char(10), StartDate, 126), "
-                    + "@period, "
-                    + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= @period) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END, "
-                    + "CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = @period) THEN AgreedCost * 0.2 ELSE 0 END, "
-                    + "CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = @period THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - @period) ELSE 0 END, "
-                    + "0, "
-                    + "0, "
-                    + "0, "
-                    + "0, "
-                    + "0.9, "
-                    + "1 "
-                    + "FROM dbo.DasCommitments "
-                    + "WHERE CommitmentId = @commitmentId",
+                Execute($@"  INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period 
+                            (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment,
+                            PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay,
+                            PriceEpisodeSecondEmp1618Pay, PriceEpisodeSecondProv1618Pay, PriceEpisodeSFAContribPct, PriceEpisodeLevyNonPayInd)
+                            SELECT
+                                Ukprn,
+                                @learnerRefNumber,
+                                '99-99-99-' + CONVERT(char(10), {actualStartDate}, 126),
+                                @period,
+                                CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod >= @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods >= @period) THEN (AgreedCost * 0.8) / @numberOfPeriods ELSE 0 END,
+                                CASE WHEN (@earlyFinisher = 'TRUE' AND @currentPeriod = @period) OR (@earlyFinisher = 'FALSE' AND @numberOfPeriods = @period) THEN AgreedCost * 0.2 ELSE 0 END,
+                                CASE WHEN @earlyFinisher = 'TRUE' AND @currentPeriod = @period THEN ((AgreedCost * 0.8) / @numberOfPeriods) * (@numberOfPeriods - @period) ELSE 0 END,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0.9,
+                                1
+                            FROM dbo.DasCommitments
+                            WHERE CommitmentId = @commitmentId",
                     new { learnerRefNumber, period = x, earlyFinisher, currentPeriod, numberOfPeriods, commitmentId }, false);
             }
 
-            Execute("INSERT INTO Valid.Learner "
-                    + "(UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb) "
-                    + "SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments "
-                    + "WHERE CommitmentId = @commitmentId",
+            Execute(@"  IF NOT EXISTS (SELECT NULL FROM Valid.Learner l 
+                        INNER JOIN dbo.DasCommitments c ON c.Ukprn = l.Ukprn
+                        WHERE CommitmentId = @commitmentId ) 
+                        INSERT INTO Valid.Learner
+                        (UKPRN,LearnRefNumber,ULN,Ethnicity,Sex,LLDDHealthProb)
+                        SELECT Ukprn, @learnerRefNumber,Uln,0,0,0 FROM dbo.DasCommitments
+                        WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber }, false);
 
-            Execute("INSERT INTO Valid.LearningDelivery "
-                    + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode) "
-                    + "SELECT Ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, StartDate, EndDate, 36, StandardCode, ProgrammeType, FrameworkCode, PathwayCode FROM dbo.DasCommitments "
-                    + "WHERE CommitmentId = @commitmentId",
+            Execute(@"  IF NOT EXISTS (SELECT NULL FROM Valid.LearningDelivery ld
+                        INNER JOIN dbo.DasCommitments c on c.Ukprn = ld.Ukprn
+                        WHERE c.CommitmentId = @commitmentId 
+                        AND ld.LearnRefNumber = @learnerRefNumber
+                        AND ld.LearnAimRef = 'ZPROG001'
+                        AND ld.AimType = 1
+                        AND ld.AimSeqNumber = @aimSequenceNumber)
+                        INSERT INTO Valid.LearningDelivery 
+                        (UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate, 
+                        FundModel, StdCode, ProgType, FworkCode, PwayCode) 
+                        SELECT Ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, StartDate, EndDate, 36, StandardCode, ProgrammeType, FrameworkCode, PathwayCode FROM dbo.DasCommitments 
+                        WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
 
-            Execute("INSERT INTO Valid.LearningDeliveryFAM "
-                    + "(UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) "
-                    + "SELECT Ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '1', StartDate, EndDate FROM dbo.DasCommitments "
-                    + "WHERE CommitmentId = @commitmentId",
+            Execute(@"  INSERT INTO Valid.LearningDeliveryFAM 
+                        (UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo)
+                        SELECT Ukprn, @learnerRefNumber, @aimSequenceNumber, 'ACT', '1', StartDate, EndDate 
+                        FROM dbo.DasCommitments
+                        WHERE CommitmentId = @commitmentId",
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
 
 
-            Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
-                + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
-                 + "SELECT "
-                 + "Ukprn, "
-                 + "@learnerRefNumber, "
-                 + "@aimSequenceNumber, "
-                 + "'ZPROG001', "
-                 + "12 "
-                 + "FROM dbo.DasCommitments "
-                 + "WHERE CommitmentId = @commitmentId",
+            Execute(@"  IF NOT EXISTS (SELECT null FROM Rulebase.AEC_LearningDelivery ld
+                            INNER JOIN dbo.DasCommitments c on c.Ukprn = ld.Ukprn
+                            WHERE c.CommitmentId = @commitmentId) 
+                        INSERT INTO Rulebase.AEC_LearningDelivery
+                        ([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)
+                        SELECT
+                        Ukprn, 
+                        @learnerRefNumber, 
+                        @aimSequenceNumber,
+                        'ZPROG001',
+                        12
+                        FROM dbo.DasCommitments
+                        WHERE CommitmentId = @commitmentId",
                new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
@@ -266,7 +291,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                                         int? pathwayCode = null,
                                         int? completionStatus = 1,
                                         DateTime? actualEndDate = null,
-                                        string opaOrgId = null)
+                                        string opaOrgId = null,
+                                        int startPeriod = 1,
+                                        int endPeriod = 12)
         {
             var tnp1 = agreedCost * 0.8m;
             var tnp2 = agreedCost * 0.2m;
@@ -304,7 +331,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@tnp1 / @numberOfPeriods ",
                 new { ukprn, learnerRefNumber, startDate, aimSequenceNumber, endDate, agreedCost, tnp1, tnp2, earlyFinisher, numberOfPeriods }, false);
 
-            for (var x = 1; x <= 12; x++)
+            for (var x = startPeriod; x <= endPeriod; x++)
             {
                 Execute("INSERT INTO Rulebase.AEC_ApprenticeshipPriceEpisode_Period (Ukprn, LearnRefNumber, PriceEpisodeIdentifier, Period, PriceEpisodeOnProgPayment, "
                     + "PriceEpisodeCompletionPayment, PriceEpisodeBalancePayment, PriceEpisodeFirstEmp1618Pay, PriceEpisodeFirstProv1618Pay, "
@@ -326,12 +353,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     new { ukprn, learnerRefNumber, startDate, period = x, earlyFinisher, currentPeriod, numberOfPeriods, agreedCost, tnp1, tnp2 }, false);
             }
 
-            Execute("INSERT INTO Valid.Learner "
-                    + "(UKPRN, LearnRefNumber, ULN, Ethnicity, Sex, LLDDHealthProb) "
-                    + "VALUES (@Ukprn, @learnerRefNumber,@Uln,0,0,0)",
-                new { ukprn, learnerRefNumber, uln }, false);
+            CreateValidLearnerRecord(ukprn, learnerRefNumber, uln);
 
-            Execute("INSERT INTO Valid.LearningDelivery "
+            Execute("IF NOT EXISTS (SELECT null FROM Valid.LearningDelivery WHERE UkPrn = @ukprn AND LearnRefNumber = @learnerRefNumber AND AimSeqNumber = @aimSequenceNumber) INSERT INTO Valid.LearningDelivery "
                     + "(UKPRN, LearnRefNumber, LearnAimRef, AimType, AimSeqNumber, LearnStartDate, LearnPlanEndDate,LearnActEndDate, FundModel, StdCode, ProgType, FworkCode, PwayCode, CompStatus,EPAOrgId) "
                     + "VALUES (@ukprn, @learnerRefNumber, 'ZPROG001', 1, @aimSequenceNumber, @startDate, @endDate,@actualEndDate, 36, @standardCode, @programmeType, @frameworkCode, @pathwayCode,@completionStatus,@opaOrgId )",
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate, actualEndDate, standardCode, programmeType, frameworkCode, pathwayCode, completionStatus, opaOrgId }, false);
@@ -342,7 +366,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber, startDate, endDate }, false);
 
 
-            Execute("INSERT INTO Rulebase.AEC_LearningDelivery "
+            Execute("IF NOT EXISTS (SELECT null FROM Rulebase.AEC_LearningDelivery WHERE UkPrn = @ukprn AND LearnRefNumber = @learnerRefNumber AND AimSeqNumber = @aimSequenceNumber) INSERT INTO Rulebase.AEC_LearningDelivery "
                  + "([Ukprn],[LearnRefNumber],[AimSeqNumber],[LearnAimRef],PlannedNumOnProgInstalm)"
                   + "VALUES ( "
                   + "@Ukprn, "
@@ -353,6 +377,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { ukprn, learnerRefNumber, aimSequenceNumber }, false);
         }
 
+        private static void CreateValidLearnerRecord(long ukprn, string learnerRefNumber, long uln)
+        {
+            Execute("IF NOT EXISTS (SELECT null FROM Valid.Learner WHERE UkPrn = @ukprn AND LearnRefNumber = @learnerRefNumber) INSERT INTO Valid.Learner "
+                    + "(UKPRN, LearnRefNumber, ULN, Ethnicity, Sex, LLDDHealthProb) "
+                    + "VALUES (@Ukprn, @learnerRefNumber,@Uln,0,0,0)",
+                new {ukprn, learnerRefNumber, uln}, false);
+        }
 
 
         internal static void RemoveApprenticeEarning(long ukprn,
@@ -362,10 +393,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         {
             Execute("DELETE FROM Rulebase.AEC_ApprenticeshipPriceEpisode_Period "
                   + "WHERE UKPRN = @Ukprn AND Learnrefnumber = @learnerRefNumber"
-                  ,new { ukprn, learnerRefNumber, onProgPayment }, false);
+                  , new { ukprn, learnerRefNumber, onProgPayment }, false);
         }
 
-      
+
 
         internal static void AddApprenticeEarning(long ukprn,
                                         DateTime startDate,
@@ -443,6 +474,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 new { commitmentId, learnerRefNumber, aimSequenceNumber }, false);
         }
 
+        public static void AddPaymentHistory()
+        {
+            Execute(@"INSERT INTO Payments.Payments (
+                        PaymentId, RequiredPaymentId, DeliveryMonth, DeliveryYear,
+                        CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear,
+                        FundingSource, TransactionType, Amount)
+                      SELECT NEWID(), Id, DeliveryMonth, DeliveryYear,
+                        CollectionPeriodName, CollectionPeriodMonth, CollectionPeriodYear,
+                        CASE WHEN UseLevyBalance = 1 THEN 1 ELSE 4 END, 
+                        TransactionType, AmountDue
+                      FROM PaymentsDue.RequiredPayments",
+                null, false);
+        }
+
+        public static void DeleteLearningDeliveryFAM(int ukprn, string learnRefNumber, string aimSeqNumber, string type)
+        {
+            Execute($@"DELETE FROM Valid.LearningDeliveryFAM WHERE UKPRN = {ukprn} AND LearnRefNumber = '{learnRefNumber}' 
+                        AND AimSeqNumber = {aimSeqNumber} AND LearnDelFAMType = '{type}'", null, false);
+        }
+
+        public static void AddLearningDeliveryFam(int ukprn, string learnReferenceNumber, string aimSeqNumber, string famType, int famCode, DateTime from, DateTime? to)
+        {
+            var toDate = to.HasValue ? $"'{to.Value:yyyy-MM-dd}'" : "null";
+            Execute($@"INSERT INTO Valid.LearningDeliveryFAM(
+                            UKPRN, LearnRefNumber, AimSeqNumber, LearnDelFAMType, 
+                            LearnDelFAMCode, LearnDelFAMDateFrom, LearnDelFAMDateTo) 
+                        VALUES (
+                            {ukprn}, '{learnReferenceNumber}', {aimSeqNumber}, '{famType}', 
+                            '{famCode}', '{from:yyyy-MM-dd}', {toDate})", null, false);
+        }
+
         internal static void EditStartDateForACommitment(long commitmentId, DateTime learningStartDate)
         {
             Execute("UPDATE dbo.DasCommitments SET StartDate = @learningStartDate WHERE CommitmentId = @commitmentId",
@@ -512,7 +574,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         internal static void AddPaymentForCommitment(long commitmentId, int month,
             int year, int transactionType, decimal amount, string learnRefNumber = "1",
             int aimSequenceNumber = 1, string learnAimRef = "ZPROG001", int? frameworkCode = null,
-            int? collectionperiodMonth = null, int? collectionPeriodYear = null, DateTime? startDate = null)
+            int? collectionperiodMonth = null, int? collectionPeriodYear = null, DateTime? startDate = null,
+            int apprenticeshipContractType = 1, int collectionPeriod = 1, bool useLevy = true)
         {
             var academicYear = year - 2000;
             if (month < 8)
@@ -521,13 +584,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
             academicYear = (academicYear * 100) + (academicYear + 1);
             var submissionDateTime = DateTime.Now;
-            
+
+            var collectionPeriodName = collectionPeriod < 10 ? $"{academicYear:0000}-R0{collectionPeriod}"
+                : $"{academicYear:0000}-R{collectionPeriod}";
+
+            var useLevyBalance = useLevy ? 1 : 0;
+
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                     + "SELECT "
                     + "NEWID(), " // Id
-                    + "CommitmentId, " // CommitmentId
-                    + "VersionId, " // CommitmentVersionId
-                    + "AccountId, " // AccountId
+                    + (apprenticeshipContractType == 1 ? "CommitmentId, " : "null, ") // CommitmentId
+                    + (apprenticeshipContractType == 1 ? "VersionId, ": "null, ") // CommitmentVersionId
+                    + (apprenticeshipContractType == 1 ? "AccountId, " : "null, ") // AccountId
                     + "'NA', " // AccountVersionId
                     + "Uln, " // Uln
                     + "@learnRefNumber, " // LearnRefNumber
@@ -539,17 +607,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     + "ProgrammeType, " // ProgrammeType
                     + (frameworkCode?.ToString() ?? "FrameworkCode") + "," // FrameworkCode
                     + "PathwayCode, " // PathwayCode
-                    + "'1', " // ApprenticeshipContractType
+                    + "@apprenticeshipContractType, " // ApprenticeshipContractType
                     + "@month, " // DeliveryMonth
                     + "@year, " // DeliveryYear
-                    + "cast(@academicYear as char(4)) + '-R01', " // CollectionPeriodName
+                    + "@CollectionPeriodName, " // CollectionPeriodName
                     + "@CollectionPeriodMonth, " // CollectionPeriodMonth
                     + "@CollectionPeriodYear, " // CollectionPeriodYear
                     + "@transactionType, " // TransactionType
                     + "@amount, " // AmountDue
                     + "0.9, " // SfaContributionPercentage
                     + "'Non-Levy Funding Line', " // FundingLineType
-                    + "1, " // UseLevyBalane
+                    + "@useLevyBalance, " // UseLevyBalane
                     + "@learnAimref,"
                     + (startDate.HasValue ? "@startDate " : "startDate ")
                     + "FROM dbo.DasCommitments "
@@ -568,7 +636,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     academicYear,
                     CollectionPeriodYear = collectionPeriodYear ?? year,
                     CollectionPeriodMonth = collectionperiodMonth ?? month,
-                    startDate
+                    CollectionPeriodName = collectionPeriodName,
+                    startDate,
+                    apprenticeshipContractType,
+                    useLevyBalance
                 }, false);
         }
 
@@ -607,21 +678,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "@learningStartDate)",
                   requiredPayment, false);
         }
-        
-        internal static void AddPaymentForNonDas(long ukprn, 
-                                                    long uln, 
-                                                    int month, 
-                                                    int year, 
-                                                    int transactionType, 
+
+        internal static void AddPaymentForNonDas(long ukprn,
+                                                    long uln,
+                                                    int month,
+                                                    int year,
+                                                    int transactionType,
                                                     decimal amount,
                                                     long? standardCode = null,
                                                     int? programmeType = null,
                                                     int? frameworkCode = null,
                                                     int? pathwayCode = null,
-                                                    int? aimSequenceNumber =1,
+                                                    int? aimSequenceNumber = 1,
                                                     string learnRefNumber = "1",
                                                     DateTime? learningStartDate = null,
-                                                    string learnAimRef="ZPROG001"
+                                                    string learnAimRef = "ZPROG001"
                                                     )
         {
             if (standardCode == null && programmeType == null && frameworkCode == null && pathwayCode == null)
@@ -629,7 +700,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 standardCode = 25;
             }
 
-            learningStartDate = learningStartDate ?? new DateTime(2016,10,10); 
+            learningStartDate = learningStartDate ?? new DateTime(2016, 10, 10);
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
                   + "VALUES ("
@@ -661,23 +732,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                   + "1," //UseLevyBalance
                   + "@LearnAimRef,"
                   + "@learningStartDate)",
-                  new { uln, ukprn,learnRefNumber, aimSequenceNumber, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode, learnAimRef, learningStartDate }, false);
+                  new { uln, ukprn, learnRefNumber, aimSequenceNumber, month, year, transactionType, amount, standardCode, programmeType, frameworkCode, pathwayCode, learnAimRef, learningStartDate }, false);
         }
 
-        internal static void SetOpenCollection(int periodNumber)
+        internal static void SetOpenCollection(int periodNumber, string year = "1617")
         {
             Execute("UPDATE Collection_Period_Mapping "
                     + "SET Collection_Open = 0", null, false);
 
-            Execute("UPDATE Collection_Period_Mapping "
-                    + "SET Collection_Open = 1 "
-                    + $"WHERE [Return_Code] = 'R{periodNumber:00}'", null, false);
+            Execute($@" UPDATE Collection_Period_Mapping
+                        SET Collection_Open = 1
+                        WHERE [Return_Code] = 'R{periodNumber:00}'
+                        AND Collection_Year = {year}", null, false);
         }
 
 
-        internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn)
+        internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn, bool inTransient = true)
         {
-            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
+            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn }, inTransient);
         }
 
 
@@ -711,7 +783,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                         FROM sys.objects o WITH (NOWAIT)
                         JOIN sys.schemas s WITH (NOWAIT) ON o.[schema_id] = s.[schema_id]
                         WHERE o.[type] = 'U'
-                            AND s.name IN ('dbo', 'Valid', 'Rulebase', 'PaymentsDue')
+                            AND s.name IN ('dbo', 'Valid', 'Rulebase', 'PaymentsDue', 'Payments')
                             AND o.name NOT IN ('Collection_Period_Mapping', 'DasAccounts')
                         FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)')
 
@@ -719,13 +791,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 ", null, false);
         }
 
-        internal static void CopyReferenceData()
+        internal static void CopyReferenceData(string yearOfCollection = "1617")
         {
             foreach (var script in PeriodEndCopyReferenceDataScripts)
             {
                 var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\{script}");
 
-                var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+                var commands = ReplaceSqlTokens(sql, yearOfCollection).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var command in commands)
                 {
@@ -769,9 +841,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
         }
 
-        private static T[] Query<T>(string command, object param = null)
+        private static T[] Query<T>(string command, object param = null, bool inTransient = true)
         {
-            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
+            var connectionString = inTransient
+                ? GlobalTestContext.Instance.TransientConnectionString
+                : GlobalTestContext.Instance.DedsConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 try
@@ -785,7 +861,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
         }
 
-        private static string ReplaceSqlTokens(string sql)
+        private static string ReplaceSqlTokens(string sql, string yearOfCollection)
         {
             return sql.Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DS_SILR1718_Collection.servername}", GlobalTestContext.Instance.LinkedServerName)
@@ -796,7 +872,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.servername}", GlobalTestContext.Instance.LinkedServerName)
                       .Replace("${DAS_PeriodEnd.databasename}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${YearOfCollection}", "1617");
+                      .Replace("${YearOfCollection}", yearOfCollection);
         }
     }
 }

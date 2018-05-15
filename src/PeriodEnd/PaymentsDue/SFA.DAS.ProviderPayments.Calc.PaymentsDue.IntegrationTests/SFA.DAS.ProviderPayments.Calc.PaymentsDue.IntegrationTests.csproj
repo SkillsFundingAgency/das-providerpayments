@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\EarningsToPaymentEntity.cs" />
+    <Compile Include="FinishedOnTime\WhenALearnerHasBeenIncorrectlyPaidAfterAContractTypeChange.cs" />
     <Compile Include="FinishedOnTime\WhenPriceDecreasedWithNewCommitment.cs" />
     <Compile Include="FinishedOnTime\WhenALearnerMovesStartDateForward.cs" />
     <Compile Include="FinishedOnTime\WhenALearnerChangesCourseOrAimRef.cs" />

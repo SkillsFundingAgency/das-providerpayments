@@ -201,6 +201,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var currentMonth = GetMonthStart(currentPeriod.Year, currentPeriod.Month);
                 var priceEpisodeEndDate = GetMonthStart(earning.PriceEpisodeEndDate);
+                var earningDeliveryDate = GetMonthStart(earning.CalendarYear, earning.CalendarMonth);
 
                 if (earning.ApprenticeshipContractTypeEndDate.HasValue &&
                     GetMonthStart(earning.ApprenticeshipContractTypeEndDate.Value) < priceEpisodeEndDate)
@@ -208,18 +209,38 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                     continue;
                 }
 
-                if (earning.ApprenticeshipContractTypeStartDate.HasValue &&
-                    GetMonthStart(earning.ApprenticeshipContractTypeStartDate.Value) > currentMonth)
+                if (earning.ApprenticeshipContractTypeStartDate.HasValue)
                 {
-                    continue;
-                }
+                    var contractTypeStartDate = GetMonthStart(earning.ApprenticeshipContractTypeStartDate.Value);
 
-                if (earning.ApprenticeshipContractTypeStartDate.HasValue && earning.ApprenticeshipContractTypeEndDate.HasValue &&
-                    earning.ApprenticeshipContractTypeCode.HasValue &&
-                    earning.ApprenticeshipContractType != earning.ApprenticeshipContractTypeCode.Value &&
-                    GetMonthStart(earning.ApprenticeshipContractTypeStartDate.Value) > currentMonth)
-                {
-                    continue;
+                    if (contractTypeStartDate > currentMonth)
+                    {
+                        continue;
+                    }
+
+                    if (earning.ApprenticeshipContractTypeEndDate.HasValue &&
+                        earning.ApprenticeshipContractTypeCode.HasValue &&
+                        earning.ApprenticeshipContractType != earning.ApprenticeshipContractTypeCode.Value &&
+                        contractTypeStartDate > currentMonth)
+                    {
+                        continue;
+                    }
+
+                    if (!earning.ApprenticeshipContractTypeEndDate.HasValue &&
+                        earning.ApprenticeshipContractTypeCode.HasValue &&
+                        earning.ApprenticeshipContractType == earning.ApprenticeshipContractTypeCode.Value &&
+                        earningDeliveryDate < contractTypeStartDate)
+                    {
+                        continue;
+                    }
+
+                    if (!earning.ApprenticeshipContractTypeEndDate.HasValue &&
+                        earning.ApprenticeshipContractTypeCode.HasValue &&
+                        earning.ApprenticeshipContractType != earning.ApprenticeshipContractTypeCode.Value &&
+                        contractTypeStartDate == earningDeliveryDate)
+                    {
+                        continue;
+                    }
                 }
 
                 var historicalAllPayments = paymentHistory
