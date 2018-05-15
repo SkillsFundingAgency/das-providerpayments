@@ -106,10 +106,26 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 deliveryYear = Query<int>("SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
             }
 
-            Execute("INSERT INTO PaymentsDue.RequiredPayments "
+            // TODO Review this. I added field names and guessed the values based on the column order. However I had to comment out 3 fields and
+            // not use 2 fields in table. Tests pass, but I'm not sure if this is correct?
+            Execute("INSERT INTO PaymentsDue.RequiredPayments ("
+                    + "Id,"
+                    + "CommitmentId,"
+                    + "CommitmentVersionId, AccountId, AccountVersionId, Uln, "
+                    + "LearnRefNumber,"
+                    + "AimSeqNumber,"
+                    + "Ukprn,"
+                    + "IlrSubmissionDateTime, PriceEpisodeIdentifier, StandardCode, ProgrammeType, FrameworkCode, PathwayCode, ApprenticeshipContractType,"
+                    + "DeliveryMonth,"
+                    + "DeliveryYear,"
+                    + "TransactionType,"
+                    + "AmountDue,"
+                    + "SfaContributionPercentage, FundingLineType, UseLevyBalance)"
+                    //LearnAimRef,
+                    //LearningStartDate"
                   + "SELECT "
                   + "NEWID(), "
-                  + "CommitmentId, "
+                  + "CommitmentId,"
                   + "'a', 456, 'c', 123, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
@@ -117,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "getdate(), 'd', 1, 2, 3, 4, 5, "
                   + "@deliveryMonth, "
                   + "@deliveryYear, "
-                  + "'e', 6, 7, "
+                  //+ "'e', 6, 7, "
                   + "@transactionType, "
                   + "@amountDue, "
                 + "  8, 'f', 1 "
