@@ -9,10 +9,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     public class GivenARawEarningsRepository
     {
         [TestFixture, SetupRawEarnings]
-        public class WhenCallingGetAllForProvider : IExpectedRawEarnings
+        public class WhenCallingGetAllForProvider 
         {
-            public List<RawEarning> RawEarnings { get; set; }
-
             [SetUp]
             public void Setup()
             {
@@ -22,7 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [Test]
             public void ThenItRetrievesExpectedCount()
             {
-                RawEarnings.Count.Should().Be(3);
+                PaymentsDueTestContext.RawEarnings.Count.Should().Be(3);
             }
 
             [Test]

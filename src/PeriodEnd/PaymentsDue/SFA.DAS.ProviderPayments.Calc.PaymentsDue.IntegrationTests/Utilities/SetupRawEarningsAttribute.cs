@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -22,16 +21,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 RawEarningsDataHelper.CreateRawEarning(rawEarning);
             }
 
-            var expectedRawEarnings = test.Fixture as IExpectedRawEarnings;
-            if (expectedRawEarnings != null)
-            {
-                expectedRawEarnings.RawEarnings = earnings;
-            }
-            else
-            {
-                throw new InvalidOperationException($"{nameof(SetupRawEarningsAttribute)} can only decorate types of {nameof(IExpectedRawEarnings)}.");
-            }
-
+            PaymentsDueTestContext.RawEarnings = earnings;
+            
             base.BeforeTest(test);
         }
 
