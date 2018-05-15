@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -11,7 +13,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
         public override void BeforeTest(ITest test)
         {
+            RawEarningsDataHelper.Truncate();
+
             var fixture = new Fixture();
+
+            fixture.Build<decimal>();
             var earnings = fixture.Build<RawEarning>()
                 .CreateMany(3)
                 .ToList();
@@ -24,12 +30,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
             PaymentsDueTestContext.RawEarnings = earnings;
             
             base.BeforeTest(test);
-        }
-
-        public override void AfterTest(ITest test)
-        {
-            RawEarningsDataHelper.Truncate();
-            base.AfterTest(test);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
+using System.ComponentModel.DataAnnotations;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
@@ -73,37 +71,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 @ACT
             );";
 
-            TestDataHelper.Execute(sql, rawEarning.ToDynamic());
+            TestDataHelper.Execute(sql, rawEarning);
         }
 
         internal static void Truncate()
         {
-            throw new NotImplementedException();
+            const string sql = "TRUNCATE TABLE Staging.RawEarnings";
+            TestDataHelper.Execute(sql);
         }
     }
-
-    internal static class ObjectExtensions
-    {
-        internal static dynamic ToDynamic(this object value)
-        {
-            IDictionary<string, object> expando = new ExpandoObject();
-
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(value.GetType()))
-            {
-                expando.Add(property.Name, property.GetValue(value));
-            }
-
-            return (ExpandoObject) expando;
-        }
-    }
-    
 
     public class RawEarning
     {
+        [StringLength(12)]
         public string LearnRefNumber { get; set; }
         public long Ukprn { get; set; }
         public int PriceEpisodeAimSeqNumber { get; set; }
+        [StringLength(25)]
         public string PriceEpisodeIdentifier { get; set; }
+        [DataType(DataType.Date)]
         public DateTime EpisodeStartDate { get; set; }
         public int Period { get; set; }
         public long Uln { get; set; }
@@ -112,8 +98,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         public int PwayCode { get; set; }
         public int StdCode { get; set; }
         public decimal PriceEpisodeSfaContribPct { get; set; }
+        [StringLength(100)]
         public string PriceEpisodeFundLineType { get; set; }
+        [StringLength(8)]
         public string LearnAimRef { get; set; }
+        [DataType(DataType.Date)]
         public DateTime LearnStartDate { get; set; }
         public decimal TransactionType01 { get; set; }
         public decimal TransactionType02 { get; set; }
@@ -128,6 +117,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         public decimal TransactionType11 { get; set; }
         public decimal TransactionType12 { get; set; }
         public decimal TransactionType15 { get; set; }
-        public int Act { get; set; }
+        public short Act { get; set; }
     }
 }
