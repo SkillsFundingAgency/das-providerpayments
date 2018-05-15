@@ -6,6 +6,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
+    [TestFixture, Ignore("Imminent removal")]
     public class WhenPriceDecreasedWithNewCommitment
     {
 

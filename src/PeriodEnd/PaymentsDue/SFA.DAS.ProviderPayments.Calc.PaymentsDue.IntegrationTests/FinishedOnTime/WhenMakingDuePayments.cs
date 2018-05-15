@@ -8,6 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnTime
 {
+    [TestFixture, Ignore("Imminent removal")]
     public class WhenMakingDuePayments
     {
         [SetUp]
