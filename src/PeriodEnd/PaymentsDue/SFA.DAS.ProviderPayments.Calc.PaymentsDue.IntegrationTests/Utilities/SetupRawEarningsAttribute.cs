@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -38,20 +37,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             PaymentsDueTestContext.RawEarnings = earnings;
             
-            base.BeforeTest(test);
-        }
-    }
-
-    public class SetupNoRawEarningsAttribute : TestActionAttribute
-    {
-        public override ActionTargets Targets { get; } = ActionTargets.Suite;
-
-        public override void BeforeTest(ITest test)
-        {
-            RawEarningsDataHelper.Truncate();
-
-            PaymentsDueTestContext.RawEarnings = new List<RawEarningEntity>();
-
             base.BeforeTest(test);
         }
     }
