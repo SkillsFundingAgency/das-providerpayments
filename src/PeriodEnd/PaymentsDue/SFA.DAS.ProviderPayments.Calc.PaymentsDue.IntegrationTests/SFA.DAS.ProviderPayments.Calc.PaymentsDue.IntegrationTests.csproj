@@ -92,6 +92,7 @@
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
     <Compile Include="Utilities\RawEarningsDataHelper.cs" />
     <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
+    <Compile Include="Utilities\SetupUkprnAttribute.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>

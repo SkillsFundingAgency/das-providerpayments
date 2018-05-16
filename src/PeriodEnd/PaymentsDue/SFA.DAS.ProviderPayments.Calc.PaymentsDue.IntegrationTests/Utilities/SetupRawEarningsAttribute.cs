@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -17,10 +16,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             var fixture = new Fixture();
 
-            fixture.Build<decimal>();
             var earnings = fixture.Build<RawEarning>()
+                .With(earning => earning.Ukprn, 
+                    fixture.Create<Generator<long>>()
+                        .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
+
+            var earningsMatchingUkprn = fixture.Build<RawEarning>()
+                .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
+                .CreateMany(3)
+                .ToList();
+
+            earnings.AddRange(earningsMatchingUkprn);
 
             foreach (var rawEarning in earnings)
             {
@@ -29,6 +37,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             PaymentsDueTestContext.RawEarnings = earnings;
             
+            base.BeforeTest(test);
+        }
+    }
+
+    public class SetupNoRawEarningsAttribute : TestActionAttribute
+    {
+        public override ActionTargets Targets { get; } = ActionTargets.Suite;
+
+        public override void BeforeTest(ITest test)
+        {
+            RawEarningsDataHelper.Truncate();
+
+            PaymentsDueTestContext.RawEarnings = new List<RawEarning>();
+
             base.BeforeTest(test);
         }
     }
