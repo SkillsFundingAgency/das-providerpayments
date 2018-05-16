@@ -63,18 +63,121 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 }
 
                 [Test]
-                public void ThenLearnRefNumberIsSetCorrectly()
-                {
+                public void ThenLearnRefNumberIsSetCorrectly() =>
                     _actualRawEarnings[0].LearnRefNumber.Should().Be(_expectedRawEarnings[0].LearnRefNumber);
-                }
+                
 
                 [Test]
-                public void ThenUkprnIsSetCorrectly()
-                {
+                public void ThenUkprnIsSetCorrectly() => 
                     _actualRawEarnings[0].Ukprn.Should().Be(_expectedRawEarnings[0].Ukprn);
-                }
 
-                // etc
+                [Test]
+                public void ThenPriceEpisodeAimSeqNumberIsSetCorrectly() =>
+                    _actualRawEarnings[0].PriceEpisodeAimSeqNumber.Should().Be(_expectedRawEarnings[0].PriceEpisodeAimSeqNumber);
+
+                [Test]
+                public void ThenPriceEpisodeIdentifierIsSetCorrectly() =>
+                    _actualRawEarnings[0].PriceEpisodeIdentifier.Should().Be(_expectedRawEarnings[0].PriceEpisodeIdentifier);
+
+                [Test]
+                public void ThenEpisodeStartDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].EpisodeStartDate.Should().Be(_expectedRawEarnings[0].EpisodeStartDate.Date);
+
+                [Test]
+                public void ThenPeriodIsSetCorrectly() =>
+                    _actualRawEarnings[0].Period.Should().Be(_expectedRawEarnings[0].Period);
+
+                [Test]
+                public void ThenUlnIsSetCorrectly() =>
+                    _actualRawEarnings[0].Uln.Should().Be(_expectedRawEarnings[0].Uln);
+
+                [Test]
+                public void ThenProgTypeIsSetCorrectly() =>
+                    _actualRawEarnings[0].ProgType.Should().Be(_expectedRawEarnings[0].ProgType);
+
+                [Test]
+                public void ThenFworkCodeIsSetCorrectly() =>
+                    _actualRawEarnings[0].FworkCode.Should().Be(_expectedRawEarnings[0].FworkCode);
+
+                [Test]
+                public void ThenPwayCodeIsSetCorrectly() =>
+                    _actualRawEarnings[0].PwayCode.Should().Be(_expectedRawEarnings[0].PwayCode);
+
+                [Test]
+                public void ThenStdCodeIsSetCorrectly() =>
+                    _actualRawEarnings[0].StdCode.Should().Be(_expectedRawEarnings[0].StdCode);
+
+                [Test]
+                public void ThenPriceEpisodeSfaContribPctIsSetCorrectly() =>
+                    _actualRawEarnings[0].PriceEpisodeSfaContribPct.Should().Be(_expectedRawEarnings[0].PriceEpisodeSfaContribPct);
+
+                [Test]
+                public void ThenPriceEpisodeFundLineTypeIsSetCorrectly() =>
+                    _actualRawEarnings[0].PriceEpisodeFundLineType.Should().Be(_expectedRawEarnings[0].PriceEpisodeFundLineType);
+
+                [Test]
+                public void ThenLearnAimRefIsSetCorrectly() =>
+                    _actualRawEarnings[0].LearnAimRef.Should().Be(_expectedRawEarnings[0].LearnAimRef);
+
+                [Test]
+                public void ThenLearnStartDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate.Date);
+
+                [Test]
+                public void ThenTransactionType01IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType01.Should().Be(_expectedRawEarnings[0].TransactionType01);
+
+                [Test]
+                public void ThenTransactionType02IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType02.Should().Be(_expectedRawEarnings[0].TransactionType02);
+
+                [Test]
+                public void ThenTransactionType03IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType03.Should().Be(_expectedRawEarnings[0].TransactionType03);
+
+                [Test]
+                public void ThenTransactionType04IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType04.Should().Be(_expectedRawEarnings[0].TransactionType04);
+
+                [Test]
+                public void ThenTransactionType05IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType05.Should().Be(_expectedRawEarnings[0].TransactionType05);
+
+                [Test]
+                public void ThenTransactionType06IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType06.Should().Be(_expectedRawEarnings[0].TransactionType06);
+
+                [Test]
+                public void ThenTransactionType07IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType07.Should().Be(_expectedRawEarnings[0].TransactionType07);
+
+                [Test]
+                public void ThenTransactionType08IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType08.Should().Be(_expectedRawEarnings[0].TransactionType08);
+
+                [Test]
+                public void ThenTransactionType09IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType09.Should().Be(_expectedRawEarnings[0].TransactionType09);
+
+                [Test]
+                public void ThenTransactionType10IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType10.Should().Be(_expectedRawEarnings[0].TransactionType10);
+
+                [Test]
+                public void ThenTransactionType11IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType11.Should().Be(_expectedRawEarnings[0].TransactionType11);
+
+                [Test]
+                public void ThenTransactionType12IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType12.Should().Be(_expectedRawEarnings[0].TransactionType12);
+
+                [Test]
+                public void ThenTransactionType15IsSetCorrectly() => 
+                    _actualRawEarnings[0].TransactionType15.Should().Be(_expectedRawEarnings[0].TransactionType15);
+
+                [Test]
+                public void ThenActIsSetCorrectly() =>
+                    _actualRawEarnings[0].Act.Should().Be(_expectedRawEarnings[0].Act);
             }
         }
     }
