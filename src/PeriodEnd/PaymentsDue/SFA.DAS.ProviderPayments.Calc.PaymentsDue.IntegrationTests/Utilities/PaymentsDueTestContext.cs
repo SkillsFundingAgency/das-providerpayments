@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -15,6 +17,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         /// <summary>
         /// Populated by applying the <see cref="SetupRawEarningsAttribute"/> to the test
         /// </summary>
-        public static List<RawEarning> RawEarnings { get; set; }
+        public static List<RawEarningEntity> RawEarnings { get; set; }
     }
 }

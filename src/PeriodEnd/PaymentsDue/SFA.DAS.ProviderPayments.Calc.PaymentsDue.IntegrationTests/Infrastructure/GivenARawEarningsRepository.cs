@@ -3,6 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
@@ -40,8 +42,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingGetAllForProvider : AndThereAreSomeRawEarningsForProvider
             {
-                private List<RawEarning> _actualRawEarnings;
-                private List<RawEarning> _expectedRawEarnings;
+                private List<RawEarningEntity> _actualRawEarnings;
+                private List<RawEarningEntity> _expectedRawEarnings;
 
                 [SetUp]
                 public new void Setup()
@@ -188,14 +190,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
         {
         }
 
-        public List<RawEarning> GetAllForProvider(long ukprn)
+        public List<RawEarningEntity> GetAllForProvider(long ukprn)
         {
             const string sql = @"
             SELECT *
             FROM Staging.RawEarnings
             WHERE Ukprn = @ukprn";
 
-            var result = Query<RawEarning>(sql, new {ukprn})
+            var result = Query<RawEarningEntity>(sql, new {ukprn})
                 .ToList();
 
             return result;

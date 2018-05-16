@@ -3,6 +3,8 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -16,14 +18,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             var fixture = new Fixture();
 
-            var earnings = fixture.Build<RawEarning>()
+            var earnings = fixture.Build<RawEarningEntity>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
 
-            var earningsMatchingUkprn = fixture.Build<RawEarning>()
+            var earningsMatchingUkprn = fixture.Build<RawEarningEntity>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
                 .CreateMany(3)
                 .ToList();
@@ -49,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             RawEarningsDataHelper.Truncate();
 
-            PaymentsDueTestContext.RawEarnings = new List<RawEarning>();
+            PaymentsDueTestContext.RawEarnings = new List<RawEarningEntity>();
 
             base.BeforeTest(test);
         }
