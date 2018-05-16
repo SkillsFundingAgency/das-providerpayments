@@ -2,9 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
@@ -181,26 +180,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenActIsSetCorrectly() =>
                     _actualRawEarnings[0].Act.Should().Be(_expectedRawEarnings[0].Act);
             }
-        }
-    }
-
-    public class RawEarningsRepository : DcfsRepository
-    {
-        public RawEarningsRepository(string connectionString) : base(connectionString)
-        {
-        }
-
-        public List<RawEarningEntity> GetAllForProvider(long ukprn)
-        {
-            const string sql = @"
-            SELECT *
-            FROM Staging.RawEarnings
-            WHERE Ukprn = @ukprn";
-
-            var result = Query<RawEarningEntity>(sql, new {ukprn})
-                .ToList();
-
-            return result;
         }
     }
 }
