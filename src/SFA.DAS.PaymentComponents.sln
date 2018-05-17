@@ -578,6 +578,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{1656C474-4069-4262-A37E-14E8F854519E}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\PeriodEnd.TransferPayments.Cleanup.Deds.DML.sql = PeriodEnd\TransferPayments\DeployTransferPayments\sql\dml\PeriodEnd.TransferPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{B10B28CE-C6DF-4F22-93AF-54E3FFBDEDE2}"
