@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
     static class PaymentsDueTestContext
     {
         /// <summary>
-        /// Ukprn used to search for provider
+        /// Populated by applying the <see cref="SetupUkprnAttribute"/> to the test
         /// </summary>
         public static long Ukprn { get; set; }
 
@@ -18,5 +18,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         /// Populated by applying the <see cref="SetupRawEarningsAttribute"/> to the test
         /// </summary>
         public static List<RawEarningEntity> RawEarnings { get; set; }
+
+        /// <summary>
+        /// Populated by applying the <see cref="SetupRawEarningsMathsEnglishAttribute"/> to the test
+        /// </summary>
+        public static List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; }
     }
 }

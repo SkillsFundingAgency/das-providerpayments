@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int FworkCode { get; set; }
         public int PwayCode { get; set; }
         public int StdCode { get; set; }
-        public decimal LearnDelsfaContribPct { get; set; }
+        public decimal LearnDelSfaContribPct { get; set; }
         [StringLength(100)]
         public string LearnDelInitialFundLineType { get; set; }
         [StringLength(8)]

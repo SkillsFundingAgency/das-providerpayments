@@ -86,13 +86,16 @@
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="FinishedOnTime\WhenMakingDuePayments.cs" />
+    <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
     <Compile Include="Utilities\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Utilities\RawEarningsDataHelper.cs" />
+    <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
+    <Compile Include="Utilities\SetupRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupUkprnAttribute.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
