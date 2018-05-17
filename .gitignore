@@ -275,6 +275,12 @@ paket-files/
 /src/PeriodEnd/Deployprovideradjustments
 /src/PeriodEnd/DeployTransferPayments
 
+/src/SharedPipelineComponents/Datalock/Deploy/Component
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/Component
+/src/SharedPipelineComponents/Datalock/Deploy/test-results
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/test-results
+
+
 /src/AcceptanceTesting/**/*.feature.cs
 
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
@@ -285,8 +291,6 @@ paket-files/
 /src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Rulebase.ddl.sprocs.sql
 /src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Transient.Reference.ddl.tables.sql
 /src/OpaEarning/Build/Deploy/1718/sql/ddl/OPA.Deds.Rulebase.ddl.tables.sql
-/src/SharedPipelineComponents/Datalock/Deploy
-/src/SharedPipelineComponents/Datalock/DeployPeriodEnd
 
 /src/OpaEarning/Build/Deploy/1718/sql/dml/Ilr.Earnings.Cleanup.Deds.DML.sql
 /src/OpaEarning/Build/Deploy/1617/sql/dml/Ilr.Earnings.Cleanup.Deds.DML.sql
