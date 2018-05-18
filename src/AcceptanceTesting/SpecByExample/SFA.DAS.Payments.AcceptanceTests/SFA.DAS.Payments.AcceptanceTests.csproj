@@ -283,6 +283,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>transfers.feature</DependentUpon>
     </Compile>
+    <Compile Include="ParallelFramework\ParallelisationHooks.cs" />
+    <Compile Include="ParallelFramework\ReferenceDataScenarioScopeHelper.cs" />
+    <Compile Include="ParallelFramework\Scenario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

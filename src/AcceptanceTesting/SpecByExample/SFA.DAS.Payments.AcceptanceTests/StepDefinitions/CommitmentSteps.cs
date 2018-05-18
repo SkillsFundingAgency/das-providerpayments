@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
+using SFA.DAS.Payments.AcceptanceTests.ParallelFramework;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
 using TechTalk.SpecFlow;
 
@@ -8,13 +9,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
     [Binding]
     public class CommitmentSteps
     {
-        public CommitmentSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext)
+        public CommitmentSteps(CommitmentsContext commitmentsContext, LookupContext lookupContext, ParallelContext parallelContext)
         {
             CommitmentsContext = commitmentsContext;
             LookupContext = lookupContext;
+            ParallelContext = parallelContext;
         }
         public CommitmentsContext CommitmentsContext { get; }
         public LookupContext LookupContext { get; }
+        public ParallelContext ParallelContext { get; }
 
         [Given("the following commitments exist:")]
         public void GivenCommitmentsExistForLearners(Table commitments)
