@@ -42,10 +42,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
-        public int? ApprenticeshipContractTypeCode { get; set; }
-        public DateTime? ApprenticeshipContractTypeStartDate { get; set; }
-        public DateTime? ApprenticeshipContractTypeEndDate { get; set; }
-
-        public DateTime PriceEpisodeEndDate { get; set; }
     }
 }
