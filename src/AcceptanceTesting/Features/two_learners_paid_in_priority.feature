@@ -7,7 +7,7 @@ Feature: 2 learners, paid in priority order
 
     Scenario: Earnings and payments for two DAS learners, levy is spent in priority order and available for both learners
         Given the employer's levy balance is:
-                | 08/17 | 09/17 | 10/17 | 11/17 | ...  | 08/18 | 09/18 |
+                | 09/17 | 10/17 | 11/17 | 12/17 | ...  | 09/18 | 10/18 |
                 | 2000  | 2000  | 2000  | 2000  | 2000 | 2000  | 2000  |
         And the following commitments exist on 03/12/2017:
                 | priority | ULN | start date | end date   | agreed price |
@@ -54,7 +54,7 @@ Feature: 2 learners, paid in priority order
 	@_Minimum_Acceptance_
     Scenario: Earnings and payments for two DAS learners, levy is spent in priority order and is available for one learner only
         Given the employer's levy balance is:
-                | 08/17 | 09/17 | 10/17 | 11/17 | ...  | 08/18 | 09/18 |
+                | 09/17 | 10/17 | 11/17 | 12/17 | ...  | 09/18 | 10/18 |
                 | 1000  | 1000  | 1000  | 1000  | 1000 | 1000  | 1000  |
         And the following commitments exist on 03/12/2017:
                 | priority | ULN | start date | end date   | agreed price |
@@ -101,7 +101,7 @@ Feature: 2 learners, paid in priority order
 
     Scenario:  Earnings and payments for two DAS learners, levy is spent in priority order and there is enough levy to fund one and a half learners
         Given the employer's levy balance is:
-                | 08/17 | 09/17 | 10/17 | 11/17 | ...  | 08/18 | 09/18 |
+                | 09/17 | 10/17 | 11/17 | 12/17 | ...  | 09/18 | 10/18 |
                 | 1500  | 1500  | 1500  | 1500  | 1500 | 1500  | 1500  |
         And the following commitments exist on 03/12/2017:
                 | priority | ULN | start date | end date   | agreed price |
