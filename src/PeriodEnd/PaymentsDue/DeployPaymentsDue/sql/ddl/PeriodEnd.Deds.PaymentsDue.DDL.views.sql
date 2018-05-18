@@ -21,6 +21,7 @@ select
 	APE.PriceEpisodeAimSeqNumber,
 	APEP.PriceEpisodeIdentifier,
 	APE.EpisodeStartDate,
+	APE.EpisodeEffectiveTNPStartDate,
 	APEP.[Period],
 	L.ULN,
 	LD.ProgType,
@@ -31,11 +32,6 @@ select
 	APE.PriceEpisodeFundLineType,
 	LD.LearnAimRef,
 	LD.LearnStartDate,
-	----- from LearningDeliveryFAM:
-	--issmallemployer
-	--isonehcplan
-	--iscareleaver on earnings
-	--LDFAM.LearnDelFAMCode,
     APEP.PriceEpisodeOnProgPayment [TransactionType01],
     APEP.PriceEpisodeCompletionPayment [TransactionType02],
     APEP.PriceEpisodeBalancePayment [TransactionType03],
@@ -62,12 +58,22 @@ join Valid.LearningDelivery LD
 	on LD.UKPRN = APEP.Ukprn
 	and LD.LearnRefNumber = APEP.LearnRefNumber
 	and LD.AimSeqNumber = APE.PriceEpisodeAimSeqNumber
-/*join Valid.LearningDeliveryFAM LDFAM
-	on LDFAM.UKPRN = APEP.Ukprn
-	and LDFAM.LearnRefNumber = APEP.LearnRefNumber
-	and LDFAM.AimSeqNumber = APE.PriceEpisodeAimSeqNumber
-	and LDFAM.LearnDelFAMType = 'ACT'*/
-where APEP.[Period] <= (
+where (
+    APEP.PriceEpisodeOnProgPayment != 0
+    or APEP.PriceEpisodeCompletionPayment != 0
+    or APEP.PriceEpisodeBalancePayment != 0
+	or APEP.PriceEpisodeFirstEmp1618Pay != 0
+	or APEP.PriceEpisodeFirstProv1618Pay != 0
+	or APEP.PriceEpisodeSecondEmp1618Pay != 0
+	or APEP.PriceEpisodeSecondProv1618Pay != 0
+	or APEP.PriceEpisodeApplic1618FrameworkUpliftOnProgPayment != 0
+	or APEP.PriceEpisodeApplic1618FrameworkUpliftCompletionPayment != 0
+	or APEP.PriceEpisodeApplic1618FrameworkUpliftBalancing != 0
+	or APEP.PriceEpisodeFirstDisadvantagePayment != 0
+	or APEP.PriceEpisodeSecondDisadvantagePayment != 0
+	or APEP.PriceEpisodeLSFCash != 0
+    )
+	and APEP.[Period] <= (
 		select cast(replace(Return_Code, 'R', '') as int)
 		from Collection_Period_Mapping
 		where Collection_Open = 1
@@ -89,7 +95,6 @@ select
 	LDP.LearnRefNumber,
 	LDP.Ukprn,
 	LDP.AimSeqNumber,
-	--price episode identifier ??
 	LD.LearnStartDate,
 	LDP.[Period],
 	L.ULN,
@@ -98,28 +103,24 @@ select
 	LD.PwayCode,
 	LD.StdCode,
 	LDP.[LearnDelSFAContribPct],
-	RLD.LearnDelInitialFundLineType,
+	LDP.FundLineType,
 	LD.LearnAimRef,
     MathEngOnProgPayment [TransactionType13],
     MathEngBalPayment [TransactionType14],
     LearnSuppFundCash [TransactionType15],
     CASE WHEN LDP.LearnDelContType = 'Levy Contract' THEN 1 ELSE 2 END [ACT]
 from Rulebase.AEC_LearningDelivery_Period LDP
-inner join Rulebase.AEC_LearningDelivery RLD
-    on LDP.UKPRN = RLD.UKPRN
-    and LDP.LearnRefNumber = RLD.LearnRefNumber
-    and LDP.AimSeqNumber = RLD.AimSeqNumber
 inner join Valid.LearningDelivery LD
     on LD.UKPRN = LDP.UKPRN
     and LD.LearnRefNumber = LDP.LearnRefNumber
-    and LD.AimSeqNumber = RLD.AimSeqNumber
+    and LD.AimSeqNumber = LDP.AimSeqNumber
 join Valid.Learner L
 	on L.UKPRN = LD.Ukprn
 	and L.LearnRefNumber = LD.LearnRefNumber
 where (
-    MathEngOnProgPayment > 0
-    or MathEngBalPayment > 0
-    or LearnSuppFundCash > 0
+    MathEngOnProgPayment != 0
+    or MathEngBalPayment != 0
+    or LearnSuppFundCash != 0
     )
     and LDP.[Period] <= (
 		select cast(replace(Return_Code, 'R', '') as int)
