@@ -73,6 +73,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 connection.Execute("TRUNCATE TABLE AT.ReferenceData");
                 //connection.Execute("DELETE FROM Collection_Period_Mapping");
+
+                connection.Execute("TRUNCATE TABLE TransferPayments.AccountTransfers");
             }
         }
 
@@ -101,6 +103,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.SubmissionEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ManualAdjustments, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ProviderAdjustments, TestEnvironment.Variables, watcher);
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.TransferPayments, TestEnvironment.Variables, watcher);
 
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {

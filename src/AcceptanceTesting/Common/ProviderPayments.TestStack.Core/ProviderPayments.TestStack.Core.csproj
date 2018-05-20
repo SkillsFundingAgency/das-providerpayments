@@ -131,6 +131,7 @@
     <Compile Include="Workflow\Summarisation\Tasks\PaymentsDueTask.cs" />
     <Compile Include="Workflow\Common\SetCollectionPeriodTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\ProviderAdjustmentsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\TransferPaymentsTask.cs" />
     <Compile Include="Workflow\Workflow.cs" />
     <Compile Include="Workflow\WorkflowTask.cs" />
   </ItemGroup>

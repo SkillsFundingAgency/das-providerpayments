@@ -171,6 +171,9 @@
       <Link>Utilities\Sql\Copy Reference Data\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql">
+      <Link>DbSetupScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql</Link>
+    </Content>
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql">
       <Link>DbSetupScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -17,17 +17,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException("Earnings and payments table must have at least 1 row");
             }
 
-            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments);
+            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments, "Type");
             ParseEarningAndPaymentsRows(breakdown, earningAndPayments, periodNames);
         }
 
 
-        private static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments)
+        internal static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments, string expectedFirstColumn)
         {
             var headers = earningAndPayments.Header.ToArray();
-            if (headers[0] != "Type")
+            if (headers[0] != expectedFirstColumn)
             {
-                throw new ArgumentException("Earnings and payments table must have Type as first column");
+                throw new ArgumentException($"Earnings and payments table must have {expectedFirstColumn} as first column");
             }
 
             var periods = new string[headers.Length];
@@ -89,9 +89,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
-                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited", RegexOptions.IgnoreCase)).Success)
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited$", RegexOptions.IgnoreCase)).Success)
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebited);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited via transfer", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedViaTransfer);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountCredited);
                 }
                 else if (row[0].Equals("SFA Levy employer budget", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -124,6 +132,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 else if (row[0].Equals("Refund due to employer", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.RefundDueToEmployer);
+                }
+                else if ((match = Regex.Match(row[0], "Refund due to employer ([0-9]{1,})", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.RefundDueToEmployer);
                 }
                 else
                 {

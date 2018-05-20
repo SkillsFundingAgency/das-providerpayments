@@ -36,6 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
+                EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
@@ -66,6 +67,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
             DataLockEventsDataCollector.CollectDataLockEventsForAllPeriods(results, lookupContext);
             PaymentsDataCollector.CollectForPeriod(results, lookupContext);
+
+            multipleSubmissionsContext.TransferResults = TransfersDataCollector.CollectAllTransfers();
 
             return results;
         }

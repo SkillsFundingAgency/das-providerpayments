@@ -39,4 +39,5 @@ CALL RunPackComponent.bat %1 PaymentsDue
 CALL RunPackComponent.bat %1 CoInvestedPayments
 CALL RunPackComponent.bat %1 ProviderAdjustments
 CALL RunPackComponent.bat %1 ManualAdjustments
+CALL RunPackComponent.bat %1 TransferPayments
 CD ..

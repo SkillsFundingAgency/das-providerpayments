@@ -49,8 +49,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "05/18": return "R10";
                 case "06/18": return "R11";
                 case "07/18": return "R12";
-                case "09/18": return "R13";
-                case "10/18": return "R14";
+                case "08/18": return "R13";
+                case "09/18": return "R14";
                 default: return null;
             }
         }
@@ -97,6 +97,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "R14": return "10/18";
                 default: return null;
             }
+        }
+
+        public static string GetStringDateFromLongPeriod(string longPeriod)
+        {
+            return GetStringDateFromPeriod(longPeriod.Substring(5));
         }
 
         public static int GetNumericalPeriodFromPeriod(string period)

@@ -224,6 +224,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>two_learners_paid_in_priority.feature</DependentUpon>
     </Compile>
+    <Compile Include="Assertions\ActualRuleResult.cs" />
     <Compile Include="Assertions\DataLockAssertions.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockCommitmentVersionRule.cs" />
     <Compile Include="Assertions\DataLockRules\DataLockErrorsRule.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployerLevyTransactionsRule.cs" />
     <Compile Include="Assertions\LevyAccountBalanceAssertions.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountCreditedRule.cs" />
+    <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountDebitedViaTransferRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\RefundDueToEmployerRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\RefundTakenBySfaRule.cs" />
     <Compile Include="Assertions\ProviderPaymentsAssertions.cs" />
@@ -251,18 +253,22 @@
     <Compile Include="Assertions\SubmissionDataLockRules\OnProgrammeDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\Provider16To18IncentiveDataLockRule.cs" />
     <Compile Include="Assertions\SubmissionDataLockRules\SubmissionDataLockRuleBase.cs" />
+    <Compile Include="Assertions\TransfersAssertions.cs" />
     <Compile Include="Contexts\PeriodContext.cs" />
     <Compile Include="Contexts\SubmissionContext.cs" />
     <Compile Include="Contexts\ProviderAdjustmentsContext.cs" />
     <Compile Include="Contexts\SubmissionDataLockContext.cs" />
+    <Compile Include="Contexts\TransfersContext.cs" />
     <Compile Include="DataCollectors\DataLockEventsDataCollector.cs" />
     <Compile Include="DataCollectors\LevyAccountBalanceCollector.cs" />
     <Compile Include="DataCollectors\EventsDataCollector.cs" />
     <Compile Include="DataCollectors\SubmissionDataLockResultCollector.cs" />
+    <Compile Include="DataCollectors\TransfersDataCollector.cs" />
     <Compile Include="DataExtensions.cs" />
     <Compile Include="DataHelpers\IdentifierGenerator.cs" />
     <Compile Include="DummyAcceptanceTestsLogger.cs" />
     <Compile Include="ExecutionManagers\PaymentsManager.cs" />
+    <Compile Include="ExecutionManagers\PeriodArrearsHelper.cs" />
     <Compile Include="ExecutionManagers\PeriodNameHelper.cs" />
     <Compile Include="ExecutionManagers\ProviderAdjustmentsRepository.cs" />
     <Compile Include="ExecutionManagers\ProviderSubmissionDetails.cs" />
@@ -271,6 +277,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>learner_changes_contract_type.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\transfers.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>transfers.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -356,6 +367,7 @@
     <Compile Include="ReferenceDataModels\ProviderEarnedPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\TransactionType.cs" />
     <Compile Include="ReferenceDataModels\TransactionTypesFlag.cs" />
+    <Compile Include="ReferenceDataModels\TransfersBreakdown.cs" />
     <Compile Include="ResultsDataModels\DataLockEventCommitmentVersion.cs" />
     <Compile Include="ResultsDataModels\DataLockEventError.cs" />
     <Compile Include="ResultsDataModels\DataLockEventPeriod.cs" />
@@ -366,6 +378,7 @@
     <Compile Include="ResultsDataModels\PaymentResult.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockPeriodResults.cs" />
     <Compile Include="ResultsDataModels\SubmissionDataLockResult.cs" />
+    <Compile Include="ResultsDataModels\TransferResults.cs" />
     <Compile Include="SpecFlowHooks.cs" />
     <Compile Include="StepDefinitions\CommitmentSteps.cs" />
     <Compile Include="StepDefinitions\DataLockSteps.cs" />
@@ -392,9 +405,12 @@
     <Compile Include="TableParsers\LearningSupportTableParser.cs" />
     <Compile Include="TableParsers\LevyBalanceTableParser.cs" />
     <Compile Include="TableParsers\ProviderAdjustmentsTableParser.cs" />
+    <Compile Include="TableParsers\SimpleEmployerAccountPeriodValueTableParser.cs" />
     <Compile Include="TableParsers\SubmissionDataLockTableParser.cs" />
     <Compile Include="TableParsers\TableParser.cs" />
     <Compile Include="TableParsers\TransactionTypeTableParser.cs" />
+    <Compile Include="TableParsers\TransferAllowanceTableParser.cs" />
+    <Compile Include="TableParsers\TransfersTableParser.cs" />
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="Validations.cs" />
     <Compile Include="StepDefinitions\EmployerAccountSteps.cs" />
@@ -542,6 +558,10 @@
     <None Include="Features\Ilr Changes\learner_changes_contract_type.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>learner_changes_contract_type.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\transfers.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>transfers.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
