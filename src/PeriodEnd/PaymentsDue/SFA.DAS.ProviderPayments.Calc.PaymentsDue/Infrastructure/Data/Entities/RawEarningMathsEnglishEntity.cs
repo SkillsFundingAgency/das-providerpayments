@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int StdCode { get; set; }
         public decimal LearnDelSfaContribPct { get; set; }
         [StringLength(100)]
-        public string LearnDelInitialFundLineType { get; set; }
+        public string FundLineType { get; set; }
         [StringLength(8)]
         public string LearnAimRef { get; set; }
         public decimal TransactionType13 { get; set; }

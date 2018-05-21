@@ -13,6 +13,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public string PriceEpisodeIdentifier { get; set; }
         [DataType(DataType.Date)]
         public DateTime EpisodeStartDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime EpisodeEffectiveTnpStartDate { get; set; }
         public int Period { get; set; }
         public long Uln { get; set; }
         public int ProgType { get; set; }

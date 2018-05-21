@@ -85,6 +85,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                     _actualRawEarnings[0].EpisodeStartDate.Should().Be(_expectedRawEarnings[0].EpisodeStartDate.Date);
 
                 [Test]
+                public void ThenEpisodeEffectiveTnpStartDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].EpisodeEffectiveTnpStartDate.Should().Be(_expectedRawEarnings[0].EpisodeEffectiveTnpStartDate.Date);
+
+                [Test]
                 public void ThenPeriodIsSetCorrectly() =>
                     _actualRawEarnings[0].Period.Should().Be(_expectedRawEarnings[0].Period);
 

@@ -108,8 +108,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                     _actualRawEarningsMathsEnglish[0].LearnDelSfaContribPct.Should().Be(_expectedRawEarningsMathsEnglish[0].LearnDelSfaContribPct);
 
                 [Test]
-                public void ThenLearnDelInitialFundLineTypeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].LearnDelInitialFundLineType.Should().Be(_expectedRawEarningsMathsEnglish[0].LearnDelInitialFundLineType);
+                public void ThenFundLineTypeIsSetCorrectly() =>
+                    _actualRawEarningsMathsEnglish[0].FundLineType.Should().Be(_expectedRawEarningsMathsEnglish[0].FundLineType);
 
                 [Test]
                 public void ThenLearnAimRefIsSetCorrectly() =>

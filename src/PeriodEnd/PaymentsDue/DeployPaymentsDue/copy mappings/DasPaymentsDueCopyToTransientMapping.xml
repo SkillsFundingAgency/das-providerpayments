@@ -34,6 +34,10 @@
           <Destination>EpisodeStartDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>EpisodeEffectiveTNPStartDate</Source>
+          <Destination>EpisodeEffectiveTNPStartDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>Period</Source>
           <Destination>Period</Destination>
         </ColumnMapping>
@@ -177,8 +181,8 @@
           <Destination>LearnDelSFAContribPct</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>LearnDelInitialFundLineType</Source>
-          <Destination>LearnDelInitialFundLineType</Destination>
+          <Source>FundLineType</Source>
+          <Destination>FundLineType</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>LearnAimRef</Source>
