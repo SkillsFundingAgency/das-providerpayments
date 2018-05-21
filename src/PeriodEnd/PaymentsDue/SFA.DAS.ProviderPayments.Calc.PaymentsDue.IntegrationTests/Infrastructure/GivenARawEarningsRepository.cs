@@ -82,11 +82,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenEpisodeStartDateIsSetCorrectly() =>
-                    _actualRawEarnings[0].EpisodeStartDate.Should().Be(_expectedRawEarnings[0].EpisodeStartDate.Date);
+                    _actualRawEarnings[0].EpisodeStartDate.Should().Be(_expectedRawEarnings[0].EpisodeStartDate?.Date);
 
                 [Test]
                 public void ThenEpisodeEffectiveTnpStartDateIsSetCorrectly() =>
-                    _actualRawEarnings[0].EpisodeEffectiveTnpStartDate.Should().Be(_expectedRawEarnings[0].EpisodeEffectiveTnpStartDate.Date);
+                    _actualRawEarnings[0].EpisodeEffectiveTnpStartDate.Should().Be(_expectedRawEarnings[0].EpisodeEffectiveTnpStartDate?.Date);
 
                 [Test]
                 public void ThenPeriodIsSetCorrectly() =>
@@ -126,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearnStartDateIsSetCorrectly() =>
-                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate.Date);
+                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate?.Date);
 
                 [Test]
                 public void ThenTransactionType01IsSetCorrectly() => 
