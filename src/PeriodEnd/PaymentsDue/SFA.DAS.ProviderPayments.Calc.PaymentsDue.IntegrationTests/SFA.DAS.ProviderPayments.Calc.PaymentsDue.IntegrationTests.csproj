@@ -93,6 +93,7 @@
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
     <Compile Include="Utilities\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Utilities\RawEarningsDataHelper.cs" />
+    <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupRawEarningsMathsEnglishAttribute.cs" />
