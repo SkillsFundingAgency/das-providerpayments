@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
@@ -23,5 +22,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         /// Populated by applying the <see cref="SetupRawEarningsMathsEnglishAttribute"/> to the test
         /// </summary>
         public static List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; }
+
+        /// <summary>
+        /// Populated by applying the <see cref="SetupRequiredPaymentsHistoryAttribute"/> to the test
+        /// </summary>
+        public static List<RequiredPaymentsHistoryEntity> RequiredPaymentsHistory { get; set; }
     }
 }

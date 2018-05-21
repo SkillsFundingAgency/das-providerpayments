@@ -96,6 +96,8 @@
     <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
+    <Compile Include="Utilities\SetupRequiredPaymentsHistoryAttribute.cs" />
+    <Compile Include="Utilities\SetupNoRequiredPaymentsHistoryAttribute.cs" />
     <Compile Include="Utilities\SetupRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupUkprnAttribute.cs" />
