@@ -126,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearnStartDateIsSetCorrectly() =>
-                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate?.Date);
+                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate.Date);
 
                 [Test]
                 public void ThenTransactionType01IsSetCorrectly() => 

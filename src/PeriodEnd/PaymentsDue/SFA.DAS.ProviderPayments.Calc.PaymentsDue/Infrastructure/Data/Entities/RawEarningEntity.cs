@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         [StringLength(8)]
         public string LearnAimRef { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? LearnStartDate { get; set; }
+        public DateTime LearnStartDate { get; set; }
         public decimal? TransactionType01 { get; set; }
         public decimal? TransactionType02 { get; set; }
         public decimal? TransactionType03 { get; set; }

@@ -401,7 +401,7 @@ CREATE TABLE Staging.RawEarnings (
 	PriceEpisodeSFAContribPct decimal(15,5),
 	PriceEpisodeFundLineType varchar(100),
 	LearnAimRef varchar(8),
-	LearnStartDate date,
+	LearnStartDate date not null,
 	TransactionType01 decimal(15,5),
 	TransactionType02 decimal(15,5),
 	TransactionType03 decimal(15,5),
