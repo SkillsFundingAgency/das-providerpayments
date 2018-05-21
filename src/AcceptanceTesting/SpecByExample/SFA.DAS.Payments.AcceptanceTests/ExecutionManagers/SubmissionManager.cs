@@ -35,6 +35,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             foreach (var period in periods)
             {
                 SetEnvironmentToPeriod(period);
+                //these should at this point be on invidually keyed employers per scenario
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
                 EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
 

@@ -23,6 +23,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void GivenCommitmentsExistForLearners(Table commitments)
         {
             CommitmentsTableParser.ParseCommitmentsIntoContext(CommitmentsContext, commitments, LookupContext);
+            CommitmentsContext.Commitments = ReferenceDataScenarioScopeHelper.ScopeToScenario(CommitmentsContext.Commitments,ParallelContext.GetCurrentScenario().Id);
             foreach (var commitment in CommitmentsContext.Commitments)
             {
                 CommitmentManager.AddCommitment(commitment);

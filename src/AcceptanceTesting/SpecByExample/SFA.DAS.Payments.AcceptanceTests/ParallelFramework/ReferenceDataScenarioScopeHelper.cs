@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
@@ -11,7 +12,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
     {
         public static List<CommitmentReferenceData> ScopeToScenario(List<CommitmentReferenceData> data, int scenarioId)
         {
-
+            return data.Select(x => ScopeToScenario(x, scenarioId)).ToList();
         }
 
         public static CommitmentReferenceData ScopeToScenario(CommitmentReferenceData data, int scenarioId)
@@ -25,6 +26,22 @@ namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
             data.Ukprn = PrefixLong(scenarioId, data.Ukprn);
             data.Uln = PrefixLong(scenarioId, data.Uln);
             return data;
+        }
+
+        public static Submission ScopeToScenario(Submission submission, int scenarioId)
+        {
+            for (int i = 0; i < submission.EmploymentStatus.Count; i++)
+            {
+                if(submission.EmploymentStatus[i].EmployerId.HasValue)
+                    submission.EmploymentStatus[i].EmployerId = PrefixId(scenarioId, submission.EmploymentStatus[i].EmployerId.Value);
+            }
+
+            for (int i = 0; i < submission.IlrLearnerDetails.Count; i++)
+            {
+                submission.IlrLearnerDetails[i].
+            }
+
+            return submission;
         }
 
         private static long PrefixLong(int scenarioId, long referenceDataLong)

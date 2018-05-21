@@ -283,6 +283,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>transfers.feature</DependentUpon>
     </Compile>
+    <Compile Include="Contexts\ParallelContext.cs" />
     <Compile Include="ParallelFramework\ParallelisationHooks.cs" />
     <Compile Include="ParallelFramework\ReferenceDataScenarioScopeHelper.cs" />
     <Compile Include="ParallelFramework\Scenario.cs" />

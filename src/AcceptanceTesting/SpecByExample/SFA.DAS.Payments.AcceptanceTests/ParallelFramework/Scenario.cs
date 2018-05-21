@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +12,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
             Expectations = new List<IExpectation>();
         }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<IExpectation> Expectations { get; set; }
     }
@@ -22,24 +21,4 @@ namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
     {
         List<string> AssertAndGetFailures();
     }
-
-    public class ParallelContext
-    {
-        public ParallelContext()
-        {
-            _currentScenarioId = 1000;
-        }
-
-        public List<Scenario> Scenarios { get; set; }
-
-        private long _currentScenarioId;
-
-        public long GetNextScenarioId()
-        {
-            _currentScenarioId++;
-            return _currentScenarioId;
-        }
-    }
-
-
 }
