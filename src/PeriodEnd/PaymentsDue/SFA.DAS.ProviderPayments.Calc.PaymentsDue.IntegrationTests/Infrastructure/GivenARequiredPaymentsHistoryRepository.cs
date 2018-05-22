@@ -153,11 +153,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearningStartDateIsSetCorrectly() =>
-                    _actualHistoricalPayments[0].LearningStartDate.Should().Be(_expectedHistoricalPayments[0].LearningStartDate);
+                    _actualHistoricalPayments[0].LearningStartDate.Should().BeCloseTo(_expectedHistoricalPayments[0].LearningStartDate);
 
                 [Test]
                 public void ThenIlrSubmissionDateTimeIsSetCorrectly() =>
-                    _actualHistoricalPayments[0].IlrSubmissionDateTime.Should().Be(_expectedHistoricalPayments[0].IlrSubmissionDateTime);
+                    _actualHistoricalPayments[0].IlrSubmissionDateTime.Should().BeCloseTo(_expectedHistoricalPayments[0].IlrSubmissionDateTime);
 
                 [Test]
                 public void ThenApprenticeshipContractTypeIsSetCorrectly() =>
