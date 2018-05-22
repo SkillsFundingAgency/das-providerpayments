@@ -103,6 +103,7 @@
     <Compile Include="Infrastructure\Data\Entities\RawEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />

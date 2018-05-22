@@ -88,6 +88,7 @@
     <Compile Include="FinishedOnTime\WhenMakingDuePayments.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
+    <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
