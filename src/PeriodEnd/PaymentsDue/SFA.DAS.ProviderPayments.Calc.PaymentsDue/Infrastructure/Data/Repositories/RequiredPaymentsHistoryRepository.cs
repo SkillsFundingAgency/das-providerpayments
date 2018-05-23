@@ -5,7 +5,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
-    public class RequiredPaymentsHistoryRepository : DcfsRepository
+    public interface IRequiredPaymentsHistoryRepository
+    {
+        List<RequiredPaymentsHistoryEntity> GetAllForProvider(long ukprn);
+    }
+
+    public class RequiredPaymentsHistoryRepository : DcfsRepository, IRequiredPaymentsHistoryRepository
     {
         public RequiredPaymentsHistoryRepository(string connectionString) : base(connectionString)
         {

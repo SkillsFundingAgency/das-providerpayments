@@ -5,7 +5,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
-    public class RawEarningsRepository : DcfsRepository
+    public interface IRawEarningsRepository
+    {
+        List<RawEarningEntity> GetAllForProvider(long ukprn);
+    }
+
+    public class RawEarningsRepository : DcfsRepository, IRawEarningsRepository
     {
         public RawEarningsRepository(string connectionString) : base(connectionString)
         {
