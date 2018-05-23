@@ -86,6 +86,7 @@
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="FinishedOnTime\WhenMakingDuePayments.cs" />
+    <Compile Include="Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
