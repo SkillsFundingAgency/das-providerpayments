@@ -176,6 +176,7 @@
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql</Link>
