@@ -77,6 +77,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseNonEmployerRow(row, periodNames, breakdown.ProviderPaidBySfa);
                 }
+                else if ((match = Regex.Match(row[0], "Provider Paid by SFA for ULN ([0-9]{5,}$)", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseUlnRow(match.Groups[1].Value, row, periodNames, breakdown.ProviderPaidBySfaForUln);
+                }
                 else if (row[0].Equals("Payment due from Employer", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.PaymentDueFromEmployers);
@@ -159,7 +163,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"Employer id '{rowAccountId}' is not valid (Parsing row {row[0]})");
             }
 
-
             ParseRowValues(row, periodNames, contextList, (periodName, value) => new EmployerAccountPeriodValue
             {
                 EmployerAccountId = employerAccountId,
@@ -167,6 +170,23 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 Value = value
             });
         }
+
+        private static void ParseUlnRow(string rowUlnId, TableRow row, string[] periodNames, List<UlnPeriodValue> contextList)
+        {
+            int uln;
+            if (!int.TryParse(rowUlnId, out uln))
+            {
+                throw new ArgumentException($"Uln '{rowUlnId}' is not valid (Parsing row {row[0]})");
+            }
+
+            ParseRowValues(row, periodNames, contextList, (periodName, value) => new UlnPeriodValue
+            {
+                Uln = uln,
+                PeriodName = periodName,
+                Value = value
+            });
+        }
+
         private static void ParseRowValues<T>(TableRow row, string[] periodNames, List<T> contextList, Func<string, decimal, T> valueCreator)
         {
             for (var i = 1; i < periodNames.Length; i++)

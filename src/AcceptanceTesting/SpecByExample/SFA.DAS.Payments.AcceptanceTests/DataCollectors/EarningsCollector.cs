@@ -16,7 +16,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
             var periodisedValues = ReadEarningsFromDeds();
             foreach (var periodisedValue in periodisedValues)
             {
-                var learner = GetOrCreateLearner(periodisedValue.Ukprn, periodisedValue.LearnRefNumber, results, lookupContext);
+                var learner = GetOrCreateLearner(periodisedValue.Ukprn, periodisedValue.LearnRefNumber, periodisedValue.Uln, results, lookupContext);
                 learner.Earnings.Add(CreateEarningResultForPeriod(1, periodisedValue.Period1, period));
                 learner.Earnings.Add(CreateEarningResultForPeriod(2, periodisedValue.Period2, period));
                 learner.Earnings.Add(CreateEarningResultForPeriod(3, periodisedValue.Period3, period));
@@ -38,7 +38,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
             {
                 var command = "SELECT "
                             + "    ldpv.Ukprn, "
-                            + "  ldpv.LearnRefNumber,"
+                            + "    ldpv.LearnRefNumber,"
+                            + "    l.ULN,"
                             + "    SUM(Period_1) AS Period1, "
                             + "    SUM(Period_2)AS Period2, "
                             + "    SUM(Period_3) AS Period3, "
@@ -60,11 +61,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                             + "        ON ld.Ukprn = l.UKPRN "
                             + "        AND ld.LearnRefNumber = l.LearnRefNumber "
                             + "WHERE ldpv.AttributeName IN('DisadvFirstPayment', 'DisadvSecondPayment', 'LDApplic1618FrameworkUpliftBalancingPayment', 'LDApplic1618FrameworkUpliftCompletionPayment', 'LDApplic1618FrameworkUpliftOnProgPayment', 'LearnDelFirstEmp1618Pay', 'LearnDelFirstProv1618Pay', 'LearnDelSecondEmp1618Pay', 'LearnDelSecondProv1618Pay', 'LearnSuppFundCash', 'MathEngBalPayment', 'MathEngOnProgPayment', 'ProgrammeAimBalPayment', 'ProgrammeAimCompletionPayment', 'ProgrammeAimOnProgPayment') "
-                            + "GROUP BY ldpv.UKPRN, ldpv.LearnRefNumber";
+                            + "GROUP BY ldpv.UKPRN, ldpv.LearnRefNumber, l.ULN";
                 return connection.Query<PeriodisedValuesEntity>(command).ToArray();
             }
         }
-        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, List<LearnerResults> results, LookupContext lookupContext)
+        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, long uln, List<LearnerResults> results, LookupContext lookupContext)
         {
             var providerId = lookupContext.GetProviderId(ukprn);
             
@@ -74,7 +75,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner = new LearnerResults
                 {
                     ProviderId = providerId,
-                    LearnerReferenceNumber = learnerReferenceNumber
+                    LearnerReferenceNumber = learnerReferenceNumber,
+                    Uln = uln
                 };
                 results.Add(learner);
             }

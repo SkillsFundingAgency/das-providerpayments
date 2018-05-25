@@ -332,7 +332,7 @@ namespace IlrGenerator
                     }
                     else
                     {
-                        FindElement(newDasFam, "LearnDelFAMDateTo").Remove();
+                        FindElement(newDasFam, "LearnDelFAMDateTo")?.Remove();
                     }
                         
 

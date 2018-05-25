@@ -18,7 +18,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
 
             foreach (var dataLockEntity in dataLockPeriodResults)
             {
-                var learner = GetOrCreateLearner(dataLockEntity.Ukprn, dataLockEntity.LearnRefNumber, results, lookupContext);
+                var learner = GetOrCreateLearner(dataLockEntity.Ukprn, dataLockEntity.LearnRefNumber, dataLockEntity.Uln, results, lookupContext);
 
                 CreateOrUpdateDataLockPeriodResults(learner.SubmissionDataLockResults, dataLockEntity, period);
             }
@@ -31,6 +31,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 var query = "SELECT "
                             + " Ukprn, "
                             + " LearnRefNumber, "
+                            + " Uln, "
                             + " CollectionPeriodMonth,"
                             + " CollectionPeriodYear,"
                             + " CommitmentId, "
@@ -41,7 +42,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
             }
         }
 
-        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, List<LearnerResults> results, LookupContext lookupContext)
+        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, long uln, List<LearnerResults> results, LookupContext lookupContext)
         {
             var providerId = lookupContext.GetProviderId(ukprn);
             var learner = results.SingleOrDefault(l => l.ProviderId == providerId && l.LearnerReferenceNumber == learnerReferenceNumber);
@@ -50,7 +51,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner = new LearnerResults
                 {
                     ProviderId = providerId,
-                    LearnerReferenceNumber = learnerReferenceNumber
+                    LearnerReferenceNumber = learnerReferenceNumber,
+                    Uln = uln
                 };
                 results.Add(learner);
             }

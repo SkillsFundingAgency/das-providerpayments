@@ -16,7 +16,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
             var paymentsData = ReadPaymentsFromDeds();
             foreach (var data in paymentsData)
             {
-                var learner = GetOrCreateLearner(data.Ukprn, data.LearnRefNumber, results, lookupContext);
+                var learner = GetOrCreateLearner(data.Ukprn, data.LearnRefNumber, data.Uln, results, lookupContext);
 
                 learner.Payments.Add(new PaymentResult
                 {
@@ -48,7 +48,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
 
         }
 
-        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, List<LearnerResults> results, LookupContext lookupContext)
+        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, long uln, List<LearnerResults> results, LookupContext lookupContext)
         {
             var providerId = lookupContext.GetProviderId(ukprn);
             
@@ -58,7 +58,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner = new LearnerResults
                 {
                     ProviderId = providerId,
-                    LearnerReferenceNumber = learnerReferenceNumber
+                    LearnerReferenceNumber = learnerReferenceNumber,
+                    Uln = uln
                 };
                 results.Add(learner);
             }

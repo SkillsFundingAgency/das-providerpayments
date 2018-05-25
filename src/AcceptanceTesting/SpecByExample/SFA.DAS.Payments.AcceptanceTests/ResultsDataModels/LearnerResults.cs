@@ -15,6 +15,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ResultsDataModels
         }
         public string ProviderId { get; set; }
         public string LearnerReferenceNumber { get; set; }
+        public long Uln { get; set; }
         public List<EarningsResult> Earnings { get; set; }
         public List<PaymentResult> Payments { get; set; }
         public List<LevyAccountBalanceResult> LevyAccountBalanceResults { get; set; }

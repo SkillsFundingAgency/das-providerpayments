@@ -12,6 +12,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
             ProviderEarnedFromSfa = new List<PeriodValue>();
             ProviderEarnedFromEmployers = new List<EmployerAccountPeriodValue>();
             ProviderPaidBySfa = new List<PeriodValue>();
+            ProviderPaidBySfaForUln = new List<UlnPeriodValue>();
             PaymentDueFromEmployers = new List<EmployerAccountPeriodValue>();
             EmployersLevyAccountDebited = new List<EmployerAccountPeriodValue>();
             SfaLevyBudget = new List<PeriodValue>();
@@ -32,6 +33,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public List<PeriodValue> ProviderEarnedFromSfa { get; set; }
         public List<EmployerAccountPeriodValue> ProviderEarnedFromEmployers { get; set; }
         public List<PeriodValue> ProviderPaidBySfa { get; set; }
+        public List<UlnPeriodValue> ProviderPaidBySfaForUln { get; set; }
         public List<EmployerAccountPeriodValue> PaymentDueFromEmployers { get; set; }
         public List<EmployerAccountPeriodValue> EmployersLevyAccountDebited { get; set; }
         public List<EmployerAccountPeriodValue> EmployersLevyAccountDebitedViaTransfer { get; set; }
@@ -45,5 +47,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public List<EmployerAccountPeriodValue> EmployersLevyAccountCredited { get; set; }
         public List<EmployerAccountPeriodValue> EmployerLevyTransactions { get; set; }
         public List<EmployerAccountPeriodValue> RefundDueToEmployer { get; set; }
+
     }
 }
