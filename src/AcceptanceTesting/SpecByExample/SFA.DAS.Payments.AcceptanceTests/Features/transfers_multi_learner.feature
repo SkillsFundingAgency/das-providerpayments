@@ -30,26 +30,26 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
 		
    
 	Then the provider earnings and payments break down as follows:
-        | Type                                                  | 05/18  | 06/18  | 07/18  |
-        | Provider Earned Total                                 | 200    | 200    | 200    |
-        | Provider Earned from SFA                              | 200    | 200    | 200    |
-		| Provider Earned from employer 1                       | 0      | 0      | 0      |
-		| Provider Earned from employer 2                       | 0      | 0      | 0      |
-        | Provider Paid by SFA		                            | 0      | 200    | 200    |
-		| Provider Paid by SFA for ULN 11111                    | 0      | 100    | 100    |
-		| Provider Paid by SFA for ULN 22222                    | 0      | 100    | 100    |
-        | Refund taken by SFA                                   | 0      | 0      | 0      |
-        | Payment due from employer 1                           | 0      | 0      | 0      |
-		| Payment due from employer 2                           | 0      | 0      | 0      |
-        | Refund due to employer 1                              | 0      | 0      | 0      |
-		| Refund due to employer 2                              | 0      | 0      | 0      |
-        ##| Levy account for employer 1 debited for ULN 22222     | 0      | 100    | 100    |
-		##| Levy account for employer 2 debited for ULN 11111     | 0      | 100    | 100    |
-        | SFA Levy employer budget                              | 200    | 200    | 200    |
-        | SFA Levy co-funding budget                            | 0      | 0      | 0      |
-        | SFA Levy additional payments budget                   | 0      | 0      | 0      |
-        | SFA non-Levy co-funding budget                        | 0      | 0      | 0      |
-        | SFA non-Levy additional payments budget               | 0      | 0      | 0      |
+        | Type                                                       | 05/18 | 06/18 | 07/18 |
+        | Provider Earned Total                                      | 200   | 200   | 200   |
+        | Provider Earned from SFA                                   | 200   | 200   | 200   |
+        | Provider Earned from employer 1                            | 0     | 0     | 0     |
+        | Provider Earned from employer 2                            | 0     | 0     | 0     |
+        | Provider Paid by SFA                                       | 0     | 200   | 200   |
+        | Provider Paid by SFA for ULN 11111                         | 0     | 100   | 100   |
+        | Provider Paid by SFA for ULN 22222			             | 0     | 100   | 100   |
+        | Refund taken by SFA                                        | 0     | 0     | 0     |
+        | Payment due from employer 1                                | 0     | 0     | 0     |
+        | Payment due from employer 2                                | 0     | 0     | 0     |
+        | Refund due to employer 1                                   | 0     | 0     | 0     |
+        | Refund due to employer 2                                   | 0     | 0     | 0     |
+        | Employer 1 Levy account debited for ULN 22222              | 0     | 100   | 100   |
+        | Employer 2 Levy account debited for ULN 11111 via transfer | 0     | 100   | 100   |
+        | SFA Levy employer budget                                   | 200   | 200   | 200   |
+        | SFA Levy co-funding budget                                 | 0     | 0     | 0     |
+        | SFA Levy additional payments budget                        | 0     | 0     | 0     |
+        | SFA non-Levy co-funding budget                             | 0     | 0     | 0     |
+        | SFA non-Levy additional payments budget                    | 0     | 0     | 0     |
 		
    
     And the following transfers from employer 2 exist for the given months of earnings activity:

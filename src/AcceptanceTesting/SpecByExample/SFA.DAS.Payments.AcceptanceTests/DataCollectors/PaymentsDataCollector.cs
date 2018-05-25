@@ -21,6 +21,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner.Payments.Add(new PaymentResult
                 {
                     EmployerAccountId = data.AccountId == null ? 0 : int.Parse(data.AccountId),
+                    Uln = data.Uln,
                     Amount = data.Amount,
                     CalculationPeriod = $"{data.CollectionPeriodMonth:00}/{(data.CollectionPeriodYear - 2000):00}",
                     DeliveryPeriod = $"{data.DeliveryMonth:00}/{(data.DeliveryYear - 2000):00}",

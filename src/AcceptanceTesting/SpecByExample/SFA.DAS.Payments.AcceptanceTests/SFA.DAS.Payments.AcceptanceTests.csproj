@@ -234,6 +234,8 @@
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployerLevyTransactionsRule.cs" />
     <Compile Include="Assertions\LevyAccountBalanceAssertions.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountCreditedRule.cs" />
+    <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountDebitedRuleForUln.cs" />
+    <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountDebitedForUlnViaTransferRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\EmployersLevyAccountDebitedViaTransferRule.cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\ProviderPaidBySfaForUlnRule .cs" />
     <Compile Include="Assertions\PaymentsAndEarningsRules\RefundDueToEmployerRule.cs" />
@@ -349,6 +351,7 @@
     <Compile Include="ReferenceDataModels\DataLockEventErrorReferenceData.cs" />
     <Compile Include="ReferenceDataModels\DataLockEventPeriodReferenceData.cs" />
     <Compile Include="ReferenceDataModels\DataLockEventReferenceData.cs" />
+    <Compile Include="ReferenceDataModels\EmployerAccountUlnPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\UlnPeriodValue.cs" />
     <Compile Include="ReferenceDataModels\ProviderAdjustments\CollectionPeriodMapping.cs" />
     <Compile Include="ReferenceDataModels\ProviderAdjustments\EasPayment.cs" />

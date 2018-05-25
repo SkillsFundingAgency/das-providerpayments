@@ -1,24 +1,27 @@
+﻿using System;
 using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 {
-    public class ProviderPaidBySfaForUlnRule : PaymentsRuleBase
+    public class EmployersLevyAccountDebitedForUlnViaTransferRule : PaymentsRuleBase
     {
         public override void AssertBreakdown(EarningsAndPaymentsBreakdown breakdown, ActualRuleResult ruleResult, EmployerAccountContext employerAccountContext)
         {
-            foreach (var period in breakdown.ProviderPaidBySfaForUln)
+            foreach (var period in breakdown.EmployersLevyAccountDebitedForUlnViaTransfer)
             {
-                var prevPeriod = new UlnPeriodValue
+                var prevPeriod = new EmployerAccountUlnPeriodValue
                 {
+                    EmployerAccountId = period.EmployerAccountId,
                     Uln = period.Uln,
                     PeriodName = period.PeriodName.ToPeriodDateTime().AddMonths(-1).ToPeriodName(),
                     Value = period.Value
                 };
 
                 var allPayments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
-                    .Where(p => p.FundingSource != FundingSource.CoInvestedEmployer && p.Uln == period.Uln && p.Amount > 0)
+                    .Where(p => p.FundingSource == FundingSource.Transfer && p.Uln == period.Uln && p.Amount > 0)
                     .ToArray();
 
                 AssertResultsForPeriod(prevPeriod, allPayments);
@@ -27,9 +30,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
 
         protected override string FormatAssertionFailureMessage(PeriodValue period, decimal actualPaymentInPeriod)
         {
+            var employerUlnPeriod = (EmployerAccountUlnPeriodValue) period;
             var specPeriod = period.PeriodName.ToPeriodDateTime().AddMonths(1).ToPeriodName();
 
-            return $"Expected provider to be paid {period.Value} by SFA in {specPeriod} but actually paid {actualPaymentInPeriod}";
+            return $"Expected Employer {employerUlnPeriod.EmployerAccountId} levy budget to be debited {employerUlnPeriod.Value} via transfer in {period} but was actually debited {actualPaymentInPeriod}";
         }
     }
 }
