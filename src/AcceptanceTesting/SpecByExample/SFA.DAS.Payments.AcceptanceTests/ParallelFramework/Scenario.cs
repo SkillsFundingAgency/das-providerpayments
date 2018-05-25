@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using IlrGenerator;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
 {
@@ -15,10 +16,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ParallelFramework
         public int Id { get; set; }
         public string Name { get; set; }
         public List<IExpectation> Expectations { get; set; }
+        public List<IlrSubmission> IlrSubmissions { get; set; }
     }
 
     public interface IExpectation
     {
-        List<string> AssertAndGetFailures();
+        List<string> AssertAndGetFailures(int scenarioId);
     }
 }

@@ -10,6 +10,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
         {
             var allPayments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                 .Where(p => p.FundingSource != FundingSource.CoInvestedEmployer && p.Amount>0)
+                //.Where(//id starts with scenario prefix)
                 .ToArray();
             foreach (var period in breakdown.ProviderPaidBySfa)
             {
