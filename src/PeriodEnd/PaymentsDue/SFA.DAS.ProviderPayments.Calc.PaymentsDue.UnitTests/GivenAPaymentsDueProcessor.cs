@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
@@ -23,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         }
 
         [Test, PaymentsDueAutoData]
-        public void ThenItCallsPayableEarningsCalculatorForEachProvider(
+        public void ThenItGetsPayableEarningsForEachProvider(
             List<ProviderEntity> providers,
             [Frozen] Mock<IProviderRepository> mockProviderRepository,
             [Frozen] Mock<IPayableEarningsCalculator> mockPayableEarningsCalculator,
@@ -38,6 +39,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockPayableEarningsCalculator
                 .Verify(calculator => calculator.Calculate(It.IsIn(providers.Select(entity => entity.Ukprn))),
                 Times.Exactly(providers.Count));
+        }
+
+        [Test, PaymentsDueAutoData]
+        public void ThenItGetsHistoricalPaymentsForEachProvider(
+            List<ProviderEntity> providers,
+            [Frozen] Mock<IProviderRepository> mockProviderRepository,
+            [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
+            PaymentsDueProcessorV2 sut)
+        {
+            mockProviderRepository
+                .Setup(repository => repository.GetAllProviders())
+                .Returns(providers.ToArray());
+
+            sut.Process();
+
+            mockHistoricalPaymentsRepository
+                .Verify(repository => repository.GetAllForProvider(It.IsIn(providers.Select(entity => entity.Ukprn))),
+                    Times.Exactly(providers.Count));
         }
     }
 }

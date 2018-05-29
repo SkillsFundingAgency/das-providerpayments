@@ -10,16 +10,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
     public class PaymentsDueProcessorV2
     {
-        
-        private IRequiredPaymentsHistoryRepository _paymentsHistoryRepository;
-        private readonly IPayableEarningsCalculator _payableEarningsCalculator;
         private readonly IProviderRepository _providerRepository;
+        private readonly IPayableEarningsCalculator _payableEarningsCalculator;
+        private readonly IRequiredPaymentsHistoryRepository _paymentsHistoryRepository;
         private IRequiredPaymentRepository _requiredPaymentRepository;
 
-        public PaymentsDueProcessorV2(IProviderRepository providerRepository, IPayableEarningsCalculator payableEarningsCalculator)
+        public PaymentsDueProcessorV2(IProviderRepository providerRepository, IPayableEarningsCalculator payableEarningsCalculator, IRequiredPaymentsHistoryRepository paymentsHistoryRepository)
         {
             _providerRepository = providerRepository;
             _payableEarningsCalculator = payableEarningsCalculator;
+            _paymentsHistoryRepository = paymentsHistoryRepository;
         }
 
         public virtual void Process()
@@ -34,10 +34,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var payableEarnings = _payableEarningsCalculator.Calculate(provider.Ukprn)
                     .Select(earning => new Tuple<long, string>(earning.Uln, earning.PriceEpisodeIdentifier));
-                /*var historicPayments = _paymentsHistoryRepository.GetAllForProvider(provider.Ukprn)
+                var historicPayments = _paymentsHistoryRepository.GetAllForProvider(provider.Ukprn)
                     .Select(earning => new Tuple<long, string>(earning.Uln, earning.PriceEpisodeIdentifier));
 
-                var intersection = new HashSet<Tuple<long, string>>(payableEarnings);//todo: some common type between rawearning and historical payment (just the keys required)
+                /*var intersection = new HashSet<Tuple<long, string>>(payableEarnings);//todo: some common type between rawearning and historical payment (just the keys required)
                 intersection.IntersectWith(historicPayments);
 
                 var payments = payableEarnings.Except(intersection);
