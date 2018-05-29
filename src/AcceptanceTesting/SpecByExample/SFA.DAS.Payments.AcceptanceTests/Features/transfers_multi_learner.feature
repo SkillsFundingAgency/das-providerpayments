@@ -104,8 +104,6 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
         | Refund due to employer 2                      | 0     | 0     | 0     |
         | Employer 1 Levy account debited               | 0     | 0     | 0     |
         | Employer 2 Levy account debited via transfer  | 0     | 100   | 100   |
-        | Employer 1 Levy account credited              | 0     | 0     | 0     |
-        | Employer 2 Levy account credited via transfer | 0     | 0     | 0     |
         | SFA Levy employer budget                      | 100   | 100   | 100   |
         | SFA Levy co-funding budget                    | 90    | 90    | 90    |
         | SFA Levy additional payments budget           | 0     | 0     | 0     |
