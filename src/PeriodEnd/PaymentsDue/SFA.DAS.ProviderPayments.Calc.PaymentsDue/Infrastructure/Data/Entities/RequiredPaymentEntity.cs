@@ -2,7 +2,6 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    [Obsolete]
     public class RequiredPaymentEntity
     {
         public long? CommitmentId { get; set; }
