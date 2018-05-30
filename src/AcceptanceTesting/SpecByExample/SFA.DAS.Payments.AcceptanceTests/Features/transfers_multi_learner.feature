@@ -134,13 +134,13 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
 
 	And the following commitments exist:
 		| employer of apprentice | employer paying for training | priority | transfer approval date | commitment Id | version Id | ULN    | start date | end date   | standard code | agreed price | status | effective from | effective to |
-		| employer 1             | employer 2                   | 1        | 18/05/2018             | 1             | 1          | 111111 | 01/05/2018 | 01/05/2019 | 50            | 1500         | Active | 01/05/2018     |              |
-		| employer 1             | employer 2                   | 2        | 18/05/2018             | 2             | 1          | 222222 | 01/05/2018 | 01/05/2019 | 50            | 1500         | Active | 01/05/2018     |              |
+		| employer 1             | employer 2                   | 1        | 18/05/2018             | 1             | 1          | 11111  | 01/05/2018 | 01/05/2019 | 50            | 1500         | Active | 01/05/2018     |              |
+		| employer 1             | employer 2                   | 2        | 18/05/2018             | 2             | 1          | 22222  | 01/05/2018 | 01/05/2019 | 50            | 1500         | Active | 01/05/2018     |              |
         
 	When an ILR file is submitted for period R10 with the following data:
         | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | standard code | contract type | contract type date from |
-        | 11111     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 2                   |          | 50            | DAS           | 06/05/2018              |
-        | 22222     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 2                   |          | 50            | DAS           | 06/05/2018              |
+        | 11111     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 1                   |          | 50            | DAS           | 06/05/2018              |
+        | 22222     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 1                   |          | 50            | DAS           | 06/05/2018              |
 		
 	Then the provider earnings and payments break down as follows:
 		| Type                                         | 05/18 | 06/18 | 07/18 |
@@ -151,11 +151,8 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
 		| Provider Paid by SFA		                   | 0     | 192   | 192   |
 		| Provider Paid by SFA for ULN 11111           | 0     | 100   | 100   |
 		| Provider Paid by SFA for ULN 22222           | 0     | 92    | 92    |
-		| Refund taken by SFA                          | 0     | 0     | 0     |
 		| Payment due from employer 1                  | 0     | 8     | 8     |
 		| Payment due from employer 2                  | 0     | 0     | 0     |
-		| Refund due to employer 1                     | 0     | 0     | 0     |
-		| Refund due to employer 2                     | 0     | 0     | 0     |
 		| Employer 1 Levy account debited              | 0     | 40    | 40    |
 		| Employer 2 Levy account debited via transfer | 0     | 80    | 80    |
 		| SFA Levy employer budget                     | 120   | 120   | 120   |
@@ -166,6 +163,6 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
 
     And the following transfers from employer 2 exist for the given months of earnings activity:
         | Recipient    | 06/18  | 07/18 | 
-        | Employer 2   | 80     | 80    | 	
+        | Employer 1   | 80     | 80    | 	
 		
 
