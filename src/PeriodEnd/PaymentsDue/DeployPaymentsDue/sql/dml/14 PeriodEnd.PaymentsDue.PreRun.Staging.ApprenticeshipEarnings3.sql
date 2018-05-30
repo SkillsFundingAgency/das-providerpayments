@@ -74,9 +74,16 @@ INSERT INTO Staging.ApprenticeshipEarnings3
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
        WHERE 
 	  
-			(Select Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
+			 ae.EpisodeStartDate >= (
+    Select
+    Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 
         ELSE CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear -1  as varchar) , 101) END
-        From  Reference.CollectionPeriods Where [Open] = 1) > ae.PriceEpisodeEndDate 
+        From  Reference.CollectionPeriods Where [Open] = 1)
+    AND
+        ae.EpisodeStartDate <= ( Select 
+        Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear +1 as varchar) , 101) 
+        ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
+        From  Reference.CollectionPeriods Where [Open] = 1)
 
   		And   (
 				(COALESCE(pepm.TransactionTypesFlag, 1) = 1  And ndtt.TransactionType = 13  AND ade.MathEngOnProgPayment <> 0 ) OR
