@@ -3,6 +3,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
@@ -12,50 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenAProviderLearnersBuilder
     {
-        [Test, PaymentsDueAutoData]
-        public void ThenItGetsRawEarningsFromRepository(
-            long ukprn,
-            [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-            ProviderLearnersBuilder sut)
-        {
-            sut.Build(ukprn);
-
-            mockRawEarningsRepository.Verify(repository => repository.GetAllForProvider(ukprn), Times.Once);
-        }
-
-        [Test, PaymentsDueAutoData]
-        public void ThenItGetsRawEarningsMathsEnglishFromRepository(
-            long ukprn,
-            [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            ProviderLearnersBuilder sut)
-        {
-            sut.Build(ukprn);
-
-            mockRawEarningsMathsEnglishRepository.Verify(repository => repository.GetAllForProvider(ukprn), Times.Once);
-        }
-
-        [Test, PaymentsDueAutoData]
-        public void ThenItGetsHistoricalPaymentsFromRepository(
-            long ukprn,
-            [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            ProviderLearnersBuilder sut)
-        {
-            sut.Build(ukprn);
-
-            mockHistoricalPaymentsRepository.Verify(repository => repository.GetAllForProvider(ukprn), Times.Once);
-        }
-
-        [Test, PaymentsDueAutoData]
-        public void ThenItGetsDataLocksFromRepository(
-            long ukprn,
-            [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
-            ProviderLearnersBuilder sut)
-        {
-            sut.Build(ukprn);
-
-            mockDataLockRepository.Verify(repository => repository.GetAllForProvider(ukprn), Times.Once);
-        }
-
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesASingleNewLearnerForAllRawEarningsIfLearnerNotAlreadyExists(
             long ukprn,
@@ -72,50 +29,68 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].RawEarningEntities.Count
-                .Should().Be(rawEarnings.Count);
-        }
-    }
-
-    public class ProviderLearnersBuilder
-    {
-        private readonly IRawEarningsRepository _rawEarningsRepository;
-        private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
-        private readonly IRequiredPaymentsHistoryRepository _requiredPaymentsHistoryRepository;
-        private readonly IDataLockPriceEpisodePeriodMatchesRepository _dataLockPriceEpisodePeriodMatchesRepository;
-
-        public ProviderLearnersBuilder(
-            IRawEarningsRepository rawEarningsRepository, 
-            IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository, 
-            IRequiredPaymentsHistoryRepository requiredPaymentsHistoryRepository, 
-            IDataLockPriceEpisodePeriodMatchesRepository dataLockPriceEpisodePeriodMatchesRepository)
-        {
-            _rawEarningsRepository = rawEarningsRepository;
-            _rawEarningsMathsEnglishRepository = rawEarningsMathsEnglishRepository;
-            _requiredPaymentsHistoryRepository = requiredPaymentsHistoryRepository;
-            _dataLockPriceEpisodePeriodMatchesRepository = dataLockPriceEpisodePeriodMatchesRepository;
+            learners[learnRefNumber].RawEarnings
+                .ShouldAllBeEquivalentTo(rawEarnings);
         }
 
-        public Dictionary<string, Learner> Build(long ukprn)
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesASingleNewLearnerForAllRawEarningsMathsEnglishIfLearnerNotAlreadyExists(
+            long ukprn,
+            string learnRefNumber,
+            List<RawEarningMathsEnglishEntity> rawEarningsMathsEnglish,
+            [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
+            ProviderLearnersBuilder sut)
         {
-            var learners = new Dictionary<string, Learner>();
+            rawEarningsMathsEnglish.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
-            _rawEarningsMathsEnglishRepository.GetAllForProvider(ukprn);
-            _requiredPaymentsHistoryRepository.GetAllForProvider(ukprn);
-            _dataLockPriceEpisodePeriodMatchesRepository.GetAllForProvider(ukprn);
+            mockRawEarningsMathsEnglishRepository
+                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Returns(rawEarningsMathsEnglish);
 
-            foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
-            {
-                if (!learners.ContainsKey(rawEarning.LearnRefNumber))
-                {
-                    var learner = new Learner();
-                    learners.Add(rawEarning.LearnRefNumber, learner);
-                }
+            var learners = sut.Build(ukprn);
 
-                learners[rawEarning.LearnRefNumber].RawEarningEntities.Add(rawEarning);
-            }
+            learners[learnRefNumber].RawEarningsMathsEnglish
+                .ShouldAllBeEquivalentTo(rawEarningsMathsEnglish);
+        }
 
-            return learners;
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesASingleNewLearnerForAllHistoricalPaymentsIfLearnerNotAlreadyExists(
+            long ukprn,
+            string learnRefNumber,
+            List<RequiredPaymentsHistoryEntity> historicalPayments,
+            [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
+            ProviderLearnersBuilder sut)
+        {
+            historicalPayments.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
+
+            mockHistoricalPaymentsRepository
+                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Returns(historicalPayments);
+
+            var learners = sut.Build(ukprn);
+
+            learners[learnRefNumber].HistoricalPayments
+                .ShouldAllBeEquivalentTo(historicalPayments);
+        }
+
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesASingleNewLearnerForAllDataLocksIfLearnerNotAlreadyExists(
+            long ukprn,
+            string learnRefNumber,
+            List<DataLockPriceEpisodePeriodMatchEntity> dataLocks,
+            [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
+            ProviderLearnersBuilder sut)
+        {
+            dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
+
+            mockDataLockRepository
+                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Returns(dataLocks);
+
+            var learners = sut.Build(ukprn);
+
+            learners[learnRefNumber].DataLocks
+                .ShouldAllBeEquivalentTo(dataLocks);
         }
     }
 }
