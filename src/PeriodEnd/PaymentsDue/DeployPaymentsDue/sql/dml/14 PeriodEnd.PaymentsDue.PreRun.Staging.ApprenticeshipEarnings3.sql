@@ -73,7 +73,8 @@ INSERT INTO Staging.ApprenticeshipEarnings3
                 AND c.VersionId = pepm.VersionId
             LEFT JOIN Reference.DasAccounts a ON c.AccountId = a.AccountId
        WHERE 
-	  
+	
+	-- This ensures that episodes that start within the current academic year only are picked up.
 			 ae.EpisodeStartDate >= (
     Select
     Case WHEN  [Name] = 'R01' OR [Name] = 'R02' OR [Name] = 'R03' OR [Name] = 'R04' OR [Name] = 'R05'  THEN CONVERT(VARCHAR(10), '08/01/' +  Cast(CalendarYear as varchar) , 101) 

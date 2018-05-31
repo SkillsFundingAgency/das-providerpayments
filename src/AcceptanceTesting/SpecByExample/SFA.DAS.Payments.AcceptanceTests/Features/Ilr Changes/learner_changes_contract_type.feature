@@ -209,7 +209,7 @@ Scenario: DPP_1283_01 - Levy apprentice, provider submits first ILR in R08 showi
 	Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  | 12/17  | 01/18  | 02/18  | 03/18  | 04/18   | 05/18  |
         | Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
-        | Provider Earned from SFA                | 0      | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
+        | Provider Earned from SFA                | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
         | Provider Earned from Employer           | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0      |
         | Provider Paid by SFA                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 4634.00 | 639.25 |
         | Refund taken by SFA                     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0      |
@@ -244,7 +244,7 @@ Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showi
 	Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  | 12/17  | 01/18  | 02/18  | 03/18  | 04/18   | 05/18  |
         | Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
-        | Provider Earned from SFA                | 0      | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
+        | Provider Earned from SFA                | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25 |
         | Provider Earned from Employer           | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0      |
         | Provider Paid by SFA                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 5114.00 | 579.25 |
         | Refund taken by SFA                     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0      |
