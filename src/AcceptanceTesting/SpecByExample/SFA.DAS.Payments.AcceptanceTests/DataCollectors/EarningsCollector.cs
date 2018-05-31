@@ -36,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
-                var command = "SELECT "
+                const string command = "SELECT "
                             + "    ldpv.Ukprn, "
                             + "    ldpv.LearnRefNumber,"
                             + "    l.ULN,"

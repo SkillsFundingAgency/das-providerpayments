@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
-using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
@@ -31,7 +29,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
         protected override string FormatAssertionFailureMessage(PeriodValue period, decimal actualPaymentInPeriod)
         {
             var employerUlnPeriod = (EmployerAccountUlnPeriodValue) period;
-            var specPeriod = period.PeriodName.ToPeriodDateTime().AddMonths(1).ToPeriodName();
 
             return $"Expected Employer {employerUlnPeriod.EmployerAccountId} levy budget to be debited {employerUlnPeriod.Value} via transfer in {period} but was actually debited {actualPaymentInPeriod}";
         }

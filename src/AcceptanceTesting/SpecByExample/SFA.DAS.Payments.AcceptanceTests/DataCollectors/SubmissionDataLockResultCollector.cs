@@ -28,7 +28,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
-                var query = "SELECT "
+                const string query = "SELECT "
                             + " Ukprn, "
                             + " LearnRefNumber, "
                             + " Uln, "
