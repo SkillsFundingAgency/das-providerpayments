@@ -67,7 +67,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenLearnRefNumberIsSetCorrectly() =>
                     _actualRawEarnings[0].LearnRefNumber.Should().Be(_expectedRawEarnings[0].LearnRefNumber);
                 
-
                 [Test]
                 public void ThenUkprnIsSetCorrectly() => 
                     _actualRawEarnings[0].Ukprn.Should().Be(_expectedRawEarnings[0].Ukprn);

@@ -14,6 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private readonly IPayableEarningsCalculator _payableEarningsCalculator;
         private readonly IRequiredPaymentsHistoryRepository _paymentsHistoryRepository;
         private IRequiredPaymentRepository _requiredPaymentRepository;
+        private IProviderLearnersBuilder _providerLearnersBuilder;
 
         public PaymentsDueProcessorV2(IProviderRepository providerRepository, IPayableEarningsCalculator payableEarningsCalculator, IRequiredPaymentsHistoryRepository paymentsHistoryRepository)
         {
@@ -32,10 +33,30 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var provider in providers)
             {
-                var payableEarnings = _payableEarningsCalculator.Calculate(provider.Ukprn)
-                    .Select(earning => new Tuple<long, string>(earning.Uln, earning.PriceEpisodeIdentifier));
-                var historicPayments = _paymentsHistoryRepository.GetAllForProvider(provider.Ukprn)
-                    .Select(earning => new Tuple<long, string>(earning.Uln, earning.PriceEpisodeIdentifier));
+                var historicalPayments = _paymentsHistoryRepository.GetAllForProvider(provider.Ukprn);
+
+                var providerLearners = _providerLearnersBuilder.Build(provider.Ukprn);
+                foreach (var historicalPayment in historicalPayments)
+                {
+                    if (!providerLearners.ContainsKey(historicalPayment.LearnRefNumber))
+                    {
+                        var learner = new Learner();
+                        providerLearners.Add(historicalPayment.LearnRefNumber, learner);
+                    }
+
+                    providerLearners[historicalPayment.LearnRefNumber].RequiredPaymentsHistoryEntities.Add(historicalPayment);
+                }
+
+                foreach (var learner in providerLearners)
+                {
+                    
+                }
+
+
+                var comparablePayableEarnings = _payableEarningsCalculator.Calculate(provider.Ukprn)
+                    .Select(earning => new ComparableEarning() { Ukprn = earning.Ukprn, PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier, LearnRefNumber = earning.LearnRefNumber});
+                var comparableHistoricalEarnings = historicalPayments
+                    .Select(earning => new ComparableEarning() { Ukprn = earning.Ukprn, PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier });
 
                 /*var intersection = new HashSet<Tuple<long, string>>(payableEarnings);//todo: some common type between rawearning and historical payment (just the keys required)
                 intersection.IntersectWith(historicPayments);
@@ -45,8 +66,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 //todo: save payments and refunds somewhere.
                 _requiredPaymentRepository.AddRequiredPayments(new RequiredPaymentEntity[]{});*/
+
+                // eaernings for txn1 minus past pmts for txn1 = amt due for txn1... etc per learner per aim (and other things)
             }
         }
+    }
+
+    public interface IProviderLearnersBuilder
+    {
+        Dictionary<string, Learner> Build(long ukprn);
     }
 
     public class Learner
@@ -54,6 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         public List<RawEarningEntity> RawEarningEntities { get; set; }
         public List<RawEarningMathsEnglishEntity> RawEarningMathsEnglishEntities { get; set; }
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLockPriceEpisodePeriodMatchEntities { get; set; }
+        public List<RequiredPaymentsHistoryEntity> RequiredPaymentsHistoryEntities { get; set; }
 
         public void CalculateFundingDue()
         {
@@ -91,6 +120,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         public string LearnAimRef { get; set; }
         [DataType(DataType.Date)]
         public DateTime LearnStartDate { get; set; }
+    }
+
+    public class ComparableEarning
+    {
+        public string LearnRefNumber { get; set; }
+        public long Ukprn { get; set; }
+        public int PriceEpisodeAimSeqNumber { get; set; }
+        public string PriceEpisodeIdentifier { get; set; }
+        public long Uln { get; set; }
     }
 
 /*    public class PayableEarningsCalculator : IPayableEarningsCalculator
