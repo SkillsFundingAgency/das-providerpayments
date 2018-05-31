@@ -33,19 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var provider in providers)
             {
-                var historicalPayments = _paymentsHistoryRepository.GetAllForProvider(provider.Ukprn);
-
                 var providerLearners = _providerLearnersBuilder.Build(provider.Ukprn);
-                foreach (var historicalPayment in historicalPayments)
-                {
-                    if (!providerLearners.ContainsKey(historicalPayment.LearnRefNumber))
-                    {
-                        var learner = new Learner();
-                        providerLearners.Add(historicalPayment.LearnRefNumber, learner);
-                    }
-
-                    providerLearners[historicalPayment.LearnRefNumber].RequiredPaymentsHistoryEntities.Add(historicalPayment);
-                }
 
                 foreach (var learner in providerLearners)
                 {
@@ -55,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
                 var comparablePayableEarnings = _payableEarningsCalculator.Calculate(provider.Ukprn)
                     .Select(earning => new ComparableEarning() { Ukprn = earning.Ukprn, PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier, LearnRefNumber = earning.LearnRefNumber});
-                var comparableHistoricalEarnings = historicalPayments
+                var comparableHistoricalEarnings = new List<RequiredPaymentsHistoryEntity>()
                     .Select(earning => new ComparableEarning() { Ukprn = earning.Ukprn, PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier });
 
                 /*var intersection = new HashSet<Tuple<long, string>>(payableEarnings);//todo: some common type between rawearning and historical payment (just the keys required)
@@ -79,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
     public class Learner
     {
-        public List<RawEarningEntity> RawEarningEntities { get; set; }
+        public List<RawEarningEntity> RawEarningEntities { get; set; } = new List<RawEarningEntity>();
         public List<RawEarningMathsEnglishEntity> RawEarningMathsEnglishEntities { get; set; }
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLockPriceEpisodePeriodMatchEntities { get; set; }
         public List<RequiredPaymentsHistoryEntity> RequiredPaymentsHistoryEntities { get; set; }
