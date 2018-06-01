@@ -187,7 +187,7 @@ Scenario: DPP_965_05 - Non-Levy apprentice, provider edits contract type (ACT) i
         | SFA non-Levy co-funding budget          | 0      | 540    | 540    | 540    |
         | SFA non-Levy additional payments budget | 0      | 39.25  | 39.25  | 39.25  |
 
-
+@MathsAndEnglish
 Scenario: DPP_1283_01 - Levy apprentice, provider submits first ILR in R08 showing ACT2 from the start of learning and then a second ILR in R09 showing ACT1 from the beginning. Correct Maths or English refunds are processed
     Given levy balance > agreed price for all months
 	And the apprenticeship funding band maximum is 9000
@@ -223,6 +223,7 @@ Scenario: DPP_1283_01 - Levy apprentice, provider submits first ILR in R08 showi
         | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 0       | 0      |
         | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 0       | 0      |
 
+@MathsAndEnglish
 Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showing ACT1 from the start of learning and then a second ILR in R09 showing ACT2 from the beginning. Correct Maths or English refunds are processed
     Given levy balance > agreed price for all months
 	And the apprenticeship funding band maximum is 9000
