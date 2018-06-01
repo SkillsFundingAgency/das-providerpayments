@@ -91,6 +91,7 @@
     <Compile Include="ContextMother.cs" />
     <Compile Include="GivenAProviderLearnersBuilder.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
+    <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />
     <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />
