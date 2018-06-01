@@ -31,20 +31,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IProviderProcessor> mockProviderProcessor,
             PaymentsDueProcessorV2 sut)
         {
-            var actualProcessedProviders = new List<ProviderEntity>();
-
             mockProviderRepository
                 .Setup(repository => repository.GetAllProviders())
                 .Returns(providers.ToArray());
 
-            mockProviderProcessor
-                .Setup(processor => processor.Process(It.IsAny<ProviderEntity>()))
-                .Callback<ProviderEntity>(entity => actualProcessedProviders.Add(entity));
-
             sut.Process();
-            
-            actualProcessedProviders
-                .ShouldAllBeEquivalentTo(providers);
+
+            providers.ForEach(provider =>
+                mockProviderProcessor.Verify(processor =>
+                    processor.Process(provider), Times.Once));
         }
 
         [Test, PaymentsDueAutoData, Ignore("for now")]
