@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
@@ -25,22 +24,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockProviderRepository.Verify(repository => repository.GetAllProviders(), Times.Once);
         }
 
-        [Test, PaymentsDueAutoData, Ignore("for now")]
-        public void ThenItGetsPayableEarningsForEachProvider(
+        [Test, PaymentsDueAutoData]
+        public void ThenItCallsProviderProcessorForEachProvider(
             List<ProviderEntity> providers,
             [Frozen] Mock<IProviderRepository> mockProviderRepository,
-            [Frozen] Mock<IPayableEarningsCalculator> mockPayableEarningsCalculator,
+            [Frozen] Mock<IProviderProcessor> mockProviderProcessor,
             PaymentsDueProcessorV2 sut)
         {
+            var actualProcessedProviders = new List<ProviderEntity>();
+
             mockProviderRepository
                 .Setup(repository => repository.GetAllProviders())
                 .Returns(providers.ToArray());
 
-            sut.Process();
+            mockProviderProcessor
+                .Setup(processor => processor.Process(It.IsAny<ProviderEntity>()))
+                .Callback<ProviderEntity>(entity => actualProcessedProviders.Add(entity));
 
-            mockPayableEarningsCalculator
-                .Verify(calculator => calculator.Calculate(It.IsIn(providers.Select(entity => entity.Ukprn))),
-                Times.Exactly(providers.Count));
+            sut.Process();
+            
+            actualProcessedProviders
+                .ShouldAllBeEquivalentTo(providers);
         }
 
         [Test, PaymentsDueAutoData, Ignore("for now")]

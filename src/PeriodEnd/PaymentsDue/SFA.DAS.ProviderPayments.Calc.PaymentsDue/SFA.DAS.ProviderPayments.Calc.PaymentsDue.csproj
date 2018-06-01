@@ -112,12 +112,14 @@
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
+    <Compile Include="IProviderProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueProcessorV2.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
