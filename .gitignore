@@ -272,6 +272,7 @@ paket-files/
 /src/PeriodEnd/Deploymanualadjustments
 /src/PeriodEnd/Deploypaymentsdue
 /src/PeriodEnd/Deployprovideradjustments
+/src/PeriodEnd/DeployTransferPayments
 
 
 /src/AcceptanceTesting/**/*.feature.cs
