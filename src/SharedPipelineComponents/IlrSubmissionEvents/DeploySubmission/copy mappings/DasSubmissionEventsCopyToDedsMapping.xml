@@ -110,8 +110,8 @@
           <Destination>GivenNames</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>FirstName</Source>
-          <Destination>FirstName</Destination>
+          <Source>FamilyName</Source>
+          <Destination>FamilyName</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -217,8 +217,8 @@
           <Destination>GivenNames</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>FirstName</Source>
-          <Destination>FirstName</Destination>
+          <Source>FamilyName</Source>
+          <Destination>FamilyName</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
