@@ -92,6 +92,7 @@
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DataLockPriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningMathsEnglishEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentsHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DataLockPriceEpisodePeriodMatchesRepository.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningEntity.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\NonPayableEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
