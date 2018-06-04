@@ -6,10 +6,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
     public class ProviderProcessor : IProviderProcessor
     {
         private readonly IProviderLearnersBuilder _providerLearnersBuilder;
+        private readonly ILearnerEarningDataLockMatcher _earningDataLockMatcher;
 
-        public ProviderProcessor(IProviderLearnersBuilder providerLearnersBuilder)
+        public ProviderProcessor(IProviderLearnersBuilder providerLearnersBuilder,
+            ILearnerEarningDataLockMatcher earningDataLockMatcher)
         {
             _providerLearnersBuilder = providerLearnersBuilder;
+            _earningDataLockMatcher = earningDataLockMatcher;
         }
 
         public void Process(ProviderEntity provider)
@@ -18,16 +21,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var learner in providerLearners)
             {
-                // check for datalocks and if present filter out non-payable earnings, including why
-                // payable earnings:
-                // group by course, sfa contrib, etc (todo: what is etc)
-                // get past payments grouped by same
-                // compare totals for matching groups:
-                // +ve: create payment
-                // -ve: create refund
-                // if refund then refund the most recent period or amount until 0 left to refund
+                _earningDataLockMatcher.Match(learner.Value);
+                /*learner.Value.MatchEarningsAndDataLocks();//todo: will save to payable and nonpayable lists on the learner
+                learner.Value.MatchMathsEnglishEarningsAndDataLocks();//todo: will save to payable and nonpayable lists on the learner
 
-                // eaernings for txn1 minus past pmts for txn1 = amt due for txn1... etc per learner per aim (and other things)
+                learner.Value.IssuePayments();//todo: will group by course, sum the group and record in required pmts table*/
             }
         }
     }

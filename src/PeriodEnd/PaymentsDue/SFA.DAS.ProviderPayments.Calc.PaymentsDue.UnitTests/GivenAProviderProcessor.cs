@@ -23,10 +23,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         }
 
         [Test, PaymentsDueAutoData]
-        public void ThenItDoesSomethingForEachLearner(//todo:name
+        public void ThenItMatchesEarningsAndDataLocksForEachLearner(
             ProviderEntity provider,
             Dictionary<string, Learner> learners,
             [Frozen] Mock<IProviderLearnersBuilder> mockLearnersBuilder,
+            [Frozen] Mock<ILearnerEarningDataLockMatcher> mockLearnerEarningDataLockMatcher,
             ProviderProcessor sut)
         {
             mockLearnersBuilder
@@ -37,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             foreach (var learner in learners)
             {
-                // todo: assert something is done
+                mockLearnerEarningDataLockMatcher.Verify(matcher => matcher.Match(learner.Value), Times.Once);
             }
         }
     }

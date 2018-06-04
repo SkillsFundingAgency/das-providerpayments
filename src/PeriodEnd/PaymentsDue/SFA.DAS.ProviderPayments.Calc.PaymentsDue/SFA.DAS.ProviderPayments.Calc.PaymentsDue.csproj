@@ -70,6 +70,7 @@
     <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
     <Compile Include="Application\Earnings\InvalidEarningTypeException.cs" />
     <Compile Include="Application\Earnings\PeriodEarning.cs" />
+    <Compile Include="Application\ILearnerEarningDataLockMatcher.cs" />
     <Compile Include="Application\IPayableEarningsCalculator.cs" />
     <Compile Include="Application\IProviderLearnersBuilder.cs" />
     <Compile Include="Application\Learner.cs" />
