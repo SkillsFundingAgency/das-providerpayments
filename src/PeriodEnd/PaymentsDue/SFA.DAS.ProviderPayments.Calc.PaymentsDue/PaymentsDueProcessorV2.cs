@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System;
+using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
@@ -23,11 +24,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         {
             _logger.Info("Started Payments Due Processor.");
 
-            var providers = _providerRepository.GetAllProviders();
-
-            foreach (var provider in providers)
+            try
             {
-                _providerProcessor.Process(provider);
+                var providers = _providerRepository.GetAllProviders();
+
+                foreach (var provider in providers)
+                {
+                    _providerProcessor.Process(provider);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
             }
 
             _logger.Info("Finished Payments Due Processor.");
