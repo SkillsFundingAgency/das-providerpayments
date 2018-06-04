@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
@@ -17,12 +18,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.Act == 1);
         private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.Act == 2);
 
-        public List<RawEarningEntity> PayableEarnings { get; set; }
-        public List<RawEarningEntity> NonPayableEarnings { get; set; }
+        public List<FundingDueEntry> PayableEarnings { get; set; }
+        public List<NonPayableFundingDue> NonPayableEarnings { get; set; }
 
         public void ValidateDatalocks()
         {
+            var act1 = Act1RawEarnings.ToList();
+            // if there are *no* ACT1 earnings, then everything is ACT2 and payable
+            if (act1.Count == 0)
+            {
+                PayableEarnings.AddRange(RawEarnings.SelectMany(x => new FundingDue(x).FundingDueLines));
+                PayableEarnings.AddRange(RawEarningsMathsEnglish.SelectMany(x => new FundingDue(x).FundingDueLines));
+                return;
+            }
 
+            var act2 = Act2RawEarnings.ToList();
+        }
+
+        public void CalculateFundingDue()
+        {
+            
         }
     }
 }
