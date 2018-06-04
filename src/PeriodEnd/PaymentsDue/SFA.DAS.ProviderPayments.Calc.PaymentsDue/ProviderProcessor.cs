@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
@@ -6,13 +7,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
     public class ProviderProcessor : IProviderProcessor
     {
         private readonly IProviderLearnersBuilder _providerLearnersBuilder;
-        private readonly ILearnerEarningDataLockMatcher _earningDataLockMatcher;
+        private readonly IRequiredPaymentRepository _requiredPaymentRepository;
 
         public ProviderProcessor(IProviderLearnersBuilder providerLearnersBuilder,
-            ILearnerEarningDataLockMatcher earningDataLockMatcher)
+            IRequiredPaymentRepository requiredPaymentRepository)
         {
             _providerLearnersBuilder = providerLearnersBuilder;
-            _earningDataLockMatcher = earningDataLockMatcher;
+            _requiredPaymentRepository = requiredPaymentRepository;
         }
 
         public void Process(ProviderEntity provider)
@@ -21,11 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var learner in providerLearners)
             {
-                _earningDataLockMatcher.Match(learner.Value);
-                /*learner.Value.MatchEarningsAndDataLocks();//todo: will save to payable and nonpayable lists on the learner
-                learner.Value.MatchMathsEnglishEarningsAndDataLocks();//todo: will save to payable and nonpayable lists on the learner
-
-                learner.Value.IssuePayments();//todo: will group by course, sum the group and record in required pmts table*/
+                _requiredPaymentRepository.AddRequiredPayments(learner.Value.RequiredPayments.ToArray());
             }
         }
     }

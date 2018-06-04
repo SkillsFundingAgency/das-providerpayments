@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using AutoFixture.NUnit3;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
@@ -23,22 +25,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         }
 
         [Test, PaymentsDueAutoData]
-        public void ThenItMatchesEarningsAndDataLocksForEachLearner(
+        public void ThenItSavesPaymentsForEachLearner(
             ProviderEntity provider,
             Dictionary<string, Learner> learners,
             [Frozen] Mock<IProviderLearnersBuilder> mockLearnersBuilder,
-            [Frozen] Mock<ILearnerEarningDataLockMatcher> mockLearnerEarningDataLockMatcher,
+            [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
             ProviderProcessor sut)
         {
+            var actualPayments = new List<RequiredPaymentEntity[]>();
+
             mockLearnersBuilder
                 .Setup(builder => builder.Build(It.IsAny<long>()))
                 .Returns(learners);
 
+            mockRequiredPaymentsRepository
+                .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
+                .Callback<RequiredPaymentEntity[]>(entities => actualPayments.Add(entities));
+
             sut.Process(provider);
 
-            foreach (var learner in learners)
+            using (var e = learners.GetEnumerator())
             {
-                mockLearnerEarningDataLockMatcher.Verify(matcher => matcher.Match(learner.Value), Times.Once);
+                for (var i = 0; i < learners.Count; i++)
+                {
+                    e.MoveNext();
+                    e.Current.Value.RequiredPayments.ShouldAllBeEquivalentTo(actualPayments[i]);
+                }
             }
         }
     }
