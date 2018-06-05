@@ -67,3 +67,47 @@ CREATE TABLE PaymentsDue.Earnings
 	EndpointAssessorId varchar(7) NULL
 )
 END
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- NonPayableEarnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+IF NOT EXISTS(SELECT NULL FROM 
+	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+	WHERE t.name='NonPayableEarnings' AND s.name='PaymentsDue'
+)
+BEGIN
+	CREATE TABLE PaymentsDue.NonPayableEarnings
+	(
+		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+		CommitmentId bigint,
+		CommitmentVersionId varchar(50),
+		AccountId varchar(50),
+		AccountVersionId varchar(50),
+		Uln bigint,
+		LearnRefNumber varchar(12),
+		AimSeqNumber int,
+		Ukprn bigint,
+		IlrSubmissionDateTime datetime,
+		PriceEpisodeIdentifier varchar(25),
+		StandardCode bigint,
+		ProgrammeType int,
+		FrameworkCode int,
+		PathwayCode int,
+		ApprenticeshipContractType int,
+		DeliveryMonth int,
+		DeliveryYear int,
+		CollectionPeriodName varchar(8) NOT NULL,
+		CollectionPeriodMonth int NOT NULL,
+		CollectionPeriodYear int NOT NULL,
+		TransactionType int,
+		AmountDue decimal(15,5),
+		SfaContributionPercentage decimal(15,5),
+		FundingLineType varchar(60),
+		UseLevyBalance bit,
+		Reason varchar(1000)
+	)
+END
+GO
+
