@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class DataLockPriceEpisodePeriodMatchEntity
+    public class DataLockPriceEpisodePeriodMatchEntity 
     {
         public long Ukprn { get; set; }
         [StringLength(25)]

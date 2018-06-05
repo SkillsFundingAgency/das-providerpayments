@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
         public int DeliveryYear { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal AmountDue { get; set; }
-        public string AccountId { get; set; }
+        public long? AccountId { get; set; }
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }
         public DateTime IlrSubmissionDateTime { get; set; }

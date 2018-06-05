@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public long? CommitmentId { get; set; }
         [StringLength(25)]
         public string CommitmentVersionId { get; set; }
-        public long AccountId { get; set; }
+        public long? AccountId { get; set; }
         [StringLength(50)]
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }

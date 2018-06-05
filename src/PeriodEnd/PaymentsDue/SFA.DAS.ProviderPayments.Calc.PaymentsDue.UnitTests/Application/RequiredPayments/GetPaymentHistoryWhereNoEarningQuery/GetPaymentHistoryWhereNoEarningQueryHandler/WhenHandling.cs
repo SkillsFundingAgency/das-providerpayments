@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
             {
                 new RequiredPaymentEntity
                 {
-                    AccountId = "1",
+                    AccountId = 1,
                     AccountVersionId = "20170717",
                     AimSeqNumber = 3,
                     AmountDue = 1234.5678m,

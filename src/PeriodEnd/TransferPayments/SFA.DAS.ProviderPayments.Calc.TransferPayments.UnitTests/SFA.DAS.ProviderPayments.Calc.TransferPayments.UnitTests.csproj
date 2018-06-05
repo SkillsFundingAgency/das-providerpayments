@@ -112,7 +112,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.csproj">
       <Project>{861c358b-6086-4ef8-9a72-b2a3f5d4f7c1}</Project>
-      <Name>SFA.DAS.ProviderPayments.Calc.Transfers</Name>
+      <Name>SFA.DAS.ProviderPayments.Calc.TransferPayments</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
