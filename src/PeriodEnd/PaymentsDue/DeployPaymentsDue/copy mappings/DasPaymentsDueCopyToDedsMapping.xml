@@ -290,7 +290,7 @@
         <ColumnMapping>
           <Source>Reason</Source>
           <Destination>Reason</Destination>
-        </ColumnMapping>`
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>
