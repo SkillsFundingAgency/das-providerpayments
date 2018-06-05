@@ -30,18 +30,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public DateTime LearningStartDate { get; set; }
         public short Act { get; set; }
 
-        public decimal? TransactionType01 { get; set; }
-        public decimal? TransactionType02 { get; set; }
-        public decimal? TransactionType03 { get; set; }
-        public decimal? TransactionType04 { get; set; }
-        public decimal? TransactionType05 { get; set; }
-        public decimal? TransactionType06 { get; set; }
-        public decimal? TransactionType07 { get; set; }
-        public decimal? TransactionType08 { get; set; }
-        public decimal? TransactionType09 { get; set; }
-        public decimal? TransactionType10 { get; set; }
-        public decimal? TransactionType11 { get; set; }
-        public decimal? TransactionType12 { get; set; }
-        public decimal? TransactionType15 { get; set; }
+        public decimal TransactionType01 { get; set; }
+        public decimal TransactionType02 { get; set; }
+        public decimal TransactionType03 { get; set; }
+        public decimal TransactionType04 { get; set; }
+        public decimal TransactionType05 { get; set; }
+        public decimal TransactionType06 { get; set; }
+        public decimal TransactionType07 { get; set; }
+        public decimal TransactionType08 { get; set; }
+        public decimal TransactionType09 { get; set; }
+        public decimal TransactionType10 { get; set; }
+        public decimal TransactionType11 { get; set; }
+        public decimal TransactionType12 { get; set; }
+        public decimal TransactionType15 { get; set; }
     }
 }
