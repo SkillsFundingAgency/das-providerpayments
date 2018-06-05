@@ -5,6 +5,38 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     public class FundingDue : RequiredPaymentEntity, IFundingDue, IHoldCommitmentInformation
     {
+        public FundingDue()
+        {
+        }
+
+        public FundingDue(RequiredPaymentsHistoryEntity requiredPaymentsHistoryEntity)
+        {
+            CommitmentId = requiredPaymentsHistoryEntity.CommitmentId;
+            CommitmentVersionId = requiredPaymentsHistoryEntity.CommitmentVersionId;
+            AccountId = requiredPaymentsHistoryEntity.AccountId;
+            AccountVersionId = requiredPaymentsHistoryEntity.AccountVersionId;
+            Uln = requiredPaymentsHistoryEntity.Uln;
+            LearnRefNumber = requiredPaymentsHistoryEntity.LearnRefNumber;
+            AimSeqNumber = requiredPaymentsHistoryEntity.AimSeqNumber;
+            Ukprn = requiredPaymentsHistoryEntity.Ukprn;
+            IlrSubmissionDateTime = requiredPaymentsHistoryEntity.IlrSubmissionDateTime;
+            DeliveryMonth = requiredPaymentsHistoryEntity.DeliveryMonth;
+            DeliveryYear = requiredPaymentsHistoryEntity.DeliveryYear;
+            TransactionType = requiredPaymentsHistoryEntity.TransactionType;
+            AmountDue = requiredPaymentsHistoryEntity.AmountDue;
+            StandardCode = requiredPaymentsHistoryEntity.StandardCode;
+            ProgrammeType = requiredPaymentsHistoryEntity.ProgrammeType;
+            FrameworkCode = requiredPaymentsHistoryEntity.FrameworkCode;
+            PathwayCode = requiredPaymentsHistoryEntity.PathwayCode;
+            ApprenticeshipContractType = requiredPaymentsHistoryEntity.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = requiredPaymentsHistoryEntity.PriceEpisodeIdentifier;
+            SfaContributionPercentage = requiredPaymentsHistoryEntity.SfaContributionPercentage;
+            FundingLineType = requiredPaymentsHistoryEntity.FundingLineType;
+            UseLevyBalance = requiredPaymentsHistoryEntity.UseLevyBalance;
+            LearnAimRef = requiredPaymentsHistoryEntity.LearnAimRef;
+            LearningStartDate = requiredPaymentsHistoryEntity.LearningStartDate;
+        }
+
         public int Period { get; set; }
     }
 
