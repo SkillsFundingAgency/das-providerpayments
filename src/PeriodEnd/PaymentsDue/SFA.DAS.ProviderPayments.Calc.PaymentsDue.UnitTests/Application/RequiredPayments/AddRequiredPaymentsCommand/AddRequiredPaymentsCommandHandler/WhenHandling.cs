@@ -241,7 +241,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         {
             return entity.CommitmentId == payment.CommitmentId
                    && entity.CommitmentVersionId == payment.CommitmentVersionId
-                   && entity.AccountId == payment.AccountVersionId
+                   && entity.AccountId == payment.AccountId
                    && entity.AccountVersionId == payment.AccountVersionId
                    && entity.Uln == payment.Uln
                    && entity.LearnRefNumber == payment.LearnerRefNumber

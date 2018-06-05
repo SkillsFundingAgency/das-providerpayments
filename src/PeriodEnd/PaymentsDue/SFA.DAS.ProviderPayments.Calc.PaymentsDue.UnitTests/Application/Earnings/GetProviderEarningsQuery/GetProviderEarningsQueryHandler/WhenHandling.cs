@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -108,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -123,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -138,7 +138,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -153,7 +153,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -168,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -183,7 +183,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1-001",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Uln = 1,
                 LearnerRefNumber = "Lrn-001",
@@ -198,7 +198,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -215,7 +215,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -232,7 +232,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -249,7 +249,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -266,7 +266,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -283,7 +283,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -300,7 +300,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -317,7 +317,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -334,7 +334,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
             {
                 CommitmentId = 2,
                 CommitmentVersionId = "C2",
-                AccountId = "2",
+                AccountId = 2,
                 AccountVersionId = "A2",
                 Uln = 2,
                 LearnerRefNumber = "Lrn-002",
@@ -433,7 +433,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     {
                         CommitmentId = 1,
                         CommitmentVersionId = "1-001",
-                        AccountId = "1",
+                        AccountId = 1,
                         AccountVersionId = "A1",
                         Uln = 1,
                         LearnerRefNumber = "Lrn-001",
@@ -523,7 +523,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [Test]
         [TestCase(null, null, null, null, 2)]
         [TestCase(1L, "1-001", "1", "A1", 1)]
-        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, string accountId, string accountVersionId, int apprenticeshipContractType)
+        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, long accountId, string accountVersionId, int apprenticeshipContractType)
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
@@ -572,7 +572,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     {
                         CommitmentId = 1,
                         CommitmentVersionId = "1",
-                        AccountId = "1",
+                        AccountId = 1,
                         AccountVersionId = "A1",
                         Uln = 1,
                         LearnerRefNumber = "Lrn-001",
@@ -605,7 +605,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                     {
                         CommitmentId = 1,
                         CommitmentVersionId = "1",
-                        AccountId = "1",
+                        AccountId = 1,
                         AccountVersionId = "A1",
                         Uln = 1,
                         LearnerRefNumber = "Lrn-001",

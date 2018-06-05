@@ -297,7 +297,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
             {
                 CommitmentId = 1,
                 CommitmentVersionId = "1",
-                AccountId = "1",
+                AccountId = 1,
                 AccountVersionId = "A1",
                 Ukprn = 1,
                 Uln = 123456,
@@ -359,7 +359,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueProcess
                         {
                             CommitmentId = 2,
                             CommitmentVersionId = "2",
-                            AccountId = "2",
+                            AccountId = 2,
                             AccountVersionId = "B2",
                             Ukprn = 2,
                             Uln = 987654321,

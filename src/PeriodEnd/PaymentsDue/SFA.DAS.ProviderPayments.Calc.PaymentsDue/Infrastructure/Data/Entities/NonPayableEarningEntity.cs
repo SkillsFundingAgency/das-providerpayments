@@ -1,13 +1,15 @@
 ﻿using System;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class NonPayableEarningEntity
+    public class NonPayableEarningEntity : IFundingDue, IHoldCommitmentInformation
     {
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
-        public string AccountId { get; set; }
+        public long? AccountId { get; set; }
         public string AccountVersionId { get; set; }
+        public int Period { get; set; }
         public long Uln { get; set; }
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
@@ -18,10 +20,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int TransactionType { get; set; }
         public decimal AmountDue { get; set; }
 
-        public long? StandardCode { get; set; }
-        public int? ProgrammeType { get; set; }
-        public int? FrameworkCode { get; set; }
-        public int? PathwayCode { get; set; }
+        public int StandardCode { get; set; }
+        public int ProgrammeType { get; set; }
+        public int FrameworkCode { get; set; }
+        public int PathwayCode { get; set; }
 
         public int ApprenticeshipContractType { get; set; }
         public string PriceEpisodeIdentifier { get; set; }

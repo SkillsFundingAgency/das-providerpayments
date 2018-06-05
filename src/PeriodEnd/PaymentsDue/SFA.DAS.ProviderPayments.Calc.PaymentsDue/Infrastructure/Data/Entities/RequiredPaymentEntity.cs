@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
     {
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
-        public string AccountId { get; set; }
+        public long? AccountId { get; set; }
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }
         public string LearnRefNumber { get; set; }

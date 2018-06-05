@@ -90,11 +90,14 @@
     <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryResponse.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Domain\FundingDue.cs" />
+    <Compile Include="Domain\IHoldCommitmentInformation.cs" />
+    <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DataLockPriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningMathsEnglishEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentsHistoryEntity.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
