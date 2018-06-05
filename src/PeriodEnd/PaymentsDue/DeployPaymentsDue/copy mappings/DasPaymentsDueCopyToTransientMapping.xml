@@ -62,8 +62,8 @@
           <Destination>StandardCode</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>SFAContributionPct</Source>
-          <Destination>SFAContributionPct</Destination>
+          <Source>SfaContributionPercentage</Source>
+          <Destination>SfaContributionPercentage</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>FundingLineType</Source>
@@ -130,8 +130,8 @@
           <Destination>TransactionType15</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>ACT</Source>
-          <Destination>ACT</Destination>
+          <Source>ApprenticeshipContractType</Source>
+          <Destination>ApprenticeshipContractType</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -181,8 +181,8 @@
           <Destination>StandardCode</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>SfaContributionPct</Source>
-          <Destination>SfaContributionPct</Destination>
+          <Source>SfaContributionPercentage</Source>
+          <Destination>SfaContributionPercentage</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>FundingLineType</Source>
@@ -205,8 +205,8 @@
           <Destination>TransactionType15</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>ACT</Source>
-          <Destination>ACT</Destination>
+          <Source>ApprenticeshipContractType</Source>
+          <Destination>ApprenticeshipContractType</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

@@ -15,8 +15,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
         public List<string> DatalockErrors { get; private set; } = new List<string>();
 
-        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.Act == 1);
-        private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.Act == 2);
+        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
+        private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 2);
 
         public List<FundingDue> PayableEarnings { get; set; }
         //public List<NonPayableFundingDue> NonPayableEarnings { get; set; }

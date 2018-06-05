@@ -105,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearnDelSfaContribPctIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].SfaContributionPct.Should().Be(_expectedRawEarningsMathsEnglish[0].SfaContributionPct);
+                    _actualRawEarningsMathsEnglish[0].SfaContributionPercentage.Should().Be(_expectedRawEarningsMathsEnglish[0].SfaContributionPercentage);
 
                 [Test]
                 public void ThenFundLineTypeIsSetCorrectly() =>
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenActIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].Act.Should().Be(_expectedRawEarningsMathsEnglish[0].Act);
+                    _actualRawEarningsMathsEnglish[0].ApprenticeshipContractType.Should().Be(_expectedRawEarningsMathsEnglish[0].ApprenticeshipContractType);
             }
         }
     }

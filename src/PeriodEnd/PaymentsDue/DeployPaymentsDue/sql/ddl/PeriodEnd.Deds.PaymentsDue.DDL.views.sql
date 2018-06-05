@@ -28,7 +28,7 @@ select
 	COALESCE(LD.FworkCode, 0) [FrameworkCode],
 	COALESCE(LD.PwayCode, 0) [PathwayCode],
 	COALESCE(LD.StdCode, 0) [StandardCode],
-	APEP.PriceEpisodeSFAContribPct [SFAContributionPct],
+	COALESCE(APEP.PriceEpisodeSFAContribPct, 0) [SfaContributionPercentage],
 	APE.PriceEpisodeFundLineType [FundingLineType],
 	LD.LearnAimRef,
 	LD.LearnStartDate [LearningStartDate],
@@ -45,7 +45,7 @@ select
     COALESCE(APEP.PriceEpisodeFirstDisadvantagePayment, 0) [TransactionType11],
     COALESCE(APEP.PriceEpisodeSecondDisadvantagePayment, 0) [TransactionType12],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
-    CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ACT]
+    CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 from Rulebase.AEC_ApprenticeshipPriceEpisode_Period APEP
 inner join Rulebase.AEC_ApprenticeshipPriceEpisode APE
     on APEP.UKPRN = APE.UKPRN
@@ -102,13 +102,13 @@ select
 	COALESCE(LD.FworkCode, 0) [FrameworkCode],
 	COALESCE(LD.PwayCode, 0) [PathwayCode],
 	COALESCE(LD.StdCode, 0) [StandardCode],
-	COALESCE(LDP.[LearnDelSFAContribPct], 0) [SfaContributionPct],
+	COALESCE(LDP.[LearnDelSFAContribPct], 0) [SfaContributionPercentage],
 	LDP.FundLineType [FundingLineType],
 	LD.LearnAimRef,
     COALESCE(MathEngOnProgPayment, 0) [TransactionType13],
     COALESCE(MathEngBalPayment, 0) [TransactionType14],
     COALESCE(LearnSuppFundCash, 0) [TransactionType15],
-    CASE WHEN LDP.LearnDelContType = 'Levy Contract' THEN 1 ELSE 2 END [ACT]
+    CASE WHEN LDP.LearnDelContType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 from Rulebase.AEC_LearningDelivery_Period LDP
 inner join Valid.LearningDelivery LD
     on LD.UKPRN = LDP.UKPRN

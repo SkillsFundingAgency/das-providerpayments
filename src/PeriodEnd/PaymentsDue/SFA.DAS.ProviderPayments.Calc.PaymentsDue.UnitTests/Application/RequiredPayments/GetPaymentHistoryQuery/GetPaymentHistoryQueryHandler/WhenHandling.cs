@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
         private const int DeliveryMonth = 8;
         private const int DeliveryYear = 2017;
         private const decimal AmountDue = 123.45m;
-        private const long StandardCode = 98888;
+        private const int StandardCode = 98888;
         private const long Uln = 999999;
 
         private GetPaymentHistoryQueryRequest _request;

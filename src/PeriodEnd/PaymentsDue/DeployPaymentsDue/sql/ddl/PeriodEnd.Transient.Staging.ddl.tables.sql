@@ -398,7 +398,7 @@ CREATE TABLE Staging.RawEarnings (
 	FrameworkCode int,
 	PathwayCode int,
 	StandardCode int,
-	SfaContributionPct decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(100),
 	LearnAimRef varchar(8),
 	LearningStartDate date not null,
@@ -415,7 +415,7 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType11 decimal(15,5),
 	TransactionType12 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ACT tinyint
+	ApprenticeshipContractType int
 )
 GO
 
@@ -439,12 +439,12 @@ CREATE TABLE Staging.RawEarningsMathsEnglish (
 	FrameworkCode int,
 	PathwayCode int,
 	StandardCode int,
-	SfaContributionPct decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(100),
 	LearnAimRef varchar(8),
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ACT tinyint
+	ApprenticeshipContractType tinyint
 )
 GO

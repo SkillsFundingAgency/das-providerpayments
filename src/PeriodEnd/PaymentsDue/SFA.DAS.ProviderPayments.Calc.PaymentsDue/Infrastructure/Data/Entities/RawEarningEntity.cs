@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RawEarningEntity
+    public class RawEarningEntity : IFundingDue
     {
         public long Ukprn { get; set; }
         [StringLength(12)]
@@ -23,12 +24,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int FrameworkCode { get; set; }
         public int PathwayCode { get; set; }
         public int StandardCode { get; set; }
-        public decimal? SfaContributionPct { get; set; }
+        public decimal SfaContributionPercentage { get; set; }
         [StringLength(100)]
         public string FundingLineType { get; set; }
         [DataType(DataType.Date)]
         public DateTime LearningStartDate { get; set; }
-        public short Act { get; set; }
+        public int ApprenticeshipContractType { get; set; }
 
         public decimal TransactionType01 { get; set; }
         public decimal TransactionType02 { get; set; }

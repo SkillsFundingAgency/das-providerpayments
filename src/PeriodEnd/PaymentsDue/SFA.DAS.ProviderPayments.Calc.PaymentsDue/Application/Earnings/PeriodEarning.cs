@@ -15,10 +15,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
         public string LearnerReferenceNumber { get; set; }
         public int AimSequenceNumber { get; set; }
 
-        public long? StandardCode { get; set; }
-        public int? ProgrammeType { get; set; }
-        public int? FrameworkCode { get; set; }
-        public int? PathwayCode { get; set; }
+        public int StandardCode { get; set; }
+        public int ProgrammeType { get; set; }
+        public int FrameworkCode { get; set; }
+        public int PathwayCode { get; set; }
 
         public int CollectionPeriodNumber { get; set; }
         public string CollectionAcademicYear { get; set; }

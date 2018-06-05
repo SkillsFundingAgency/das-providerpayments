@@ -15,10 +15,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 
         public int Period { get; set; }
 
-        public long? StandardCode { get; set; }
-        public int? ProgrammeType { get; set; }
-        public int? FrameworkCode { get; set; }
-        public int? PathwayCode { get; set; }
+        public int StandardCode { get; set; }
+        public int ProgrammeType { get; set; }
+        public int FrameworkCode { get; set; }
+        public int PathwayCode { get; set; }
 
         public int ApprenticeshipContractType { get; set; }
 

@@ -3,8 +3,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class FundingDue : RequiredPaymentEntity
+    public class FundingDue : RequiredPaymentEntity, IFundingDue
     {
+        public int Period { get; set; }
     }
 
     public interface IFundingDue
@@ -12,16 +13,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         string LearnRefNumber { get; set; }
         long Ukprn { get; set; }
         int AimSeqNumber { get; set; }
-        DateTime LearnStartDate { get; set; }
+        DateTime LearningStartDate { get; set; }
         int Period { get; set; }
         long Uln { get; set; }
-        int? ProgType { get; set; }
-        int? FworkCode { get; set; }
-        int? PwayCode { get; set; }
-        int? StdCode { get; set; }
-        decimal? LearnDelSfaContribPct { get; set; }
-        string FundLineType { get; set; }
+        int ProgrammeType { get; set; }
+        int FrameworkCode { get; set; }
+        int PathwayCode { get; set; }
+        int StandardCode { get; set; }
+        decimal SfaContributionPercentage { get; set; }
+        string FundingLineType { get; set; }
         string LearnAimRef { get; set; }
-        short Act { get; set; }
+        int ApprenticeshipContractType { get; set; }
     }
 }

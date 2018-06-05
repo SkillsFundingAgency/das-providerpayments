@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 FrameworkCode,
                 PathwayCode,
                 StandardCode,
-                SfaContributionPct,
+                SfaContributionPercentage,
                 FundingLineType,
                 LearnAimRef,
                 LearningStartDate,
@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 TransactionType11,
                 TransactionType12,
                 TransactionType15,
-                ACT
+                ApprenticeshipContractType
             ) VALUES (
                 @LearnRefNumber,
                 @Ukprn,
@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 @FrameworkCode,
                 @PathwayCode,
                 @StandardCode,
-                @SfaContributionPct,
+                @SfaContributionPercentage,
                 @FundingLineType,
                 @LearnAimRef,
                 @LearningStartDate,
@@ -69,7 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 @TransactionType11,
                 @TransactionType12,
                 @TransactionType15,
-                @ACT
+                @ApprenticeshipContractType
             );";
 
             TestDataHelper.Execute(sql, rawEarning);
