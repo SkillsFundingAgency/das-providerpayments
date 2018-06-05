@@ -22,9 +22,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public string FundLineType { get; set; }
         [StringLength(8)]
         public string LearnAimRef { get; set; }
+        public short Act { get; set; }
         public decimal? TransactionType13 { get; set; }
         public decimal? TransactionType14 { get; set; }
         public decimal? TransactionType15 { get; set; }
-        public short Act { get; set; }
     }
 }

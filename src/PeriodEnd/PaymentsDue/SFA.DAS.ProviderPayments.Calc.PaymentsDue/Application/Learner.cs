@@ -18,26 +18,72 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.Act == 1);
         private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.Act == 2);
 
-        public List<FundingDueEntry> PayableEarnings { get; set; }
-        public List<NonPayableFundingDue> NonPayableEarnings { get; set; }
+        public List<FundingDue> PayableEarnings { get; set; }
+        //public List<NonPayableFundingDue> NonPayableEarnings { get; set; }
 
+        
         public void ValidateDatalocks()
         {
             var act1 = Act1RawEarnings.ToList();
             // if there are *no* ACT1 earnings, then everything is ACT2 and payable
             if (act1.Count == 0)
             {
-                PayableEarnings.AddRange(RawEarnings.SelectMany(x => new FundingDue(x).FundingDueLines));
-                PayableEarnings.AddRange(RawEarningsMathsEnglish.SelectMany(x => new FundingDue(x).FundingDueLines));
+                foreach (var rawEarningEntity in RawEarnings)
+                {
+                    AddFundingDue(rawEarningEntity);
+                }
+
+                foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
+                {
+                    AddFundingDue(rawEarningMathsEnglishEntity);
+                }
+
                 return;
             }
+            
+            // If there is a datalock, then ignore the price episode
+        }
 
-            var act2 = Act2RawEarnings.ToList();
+        private void CreatePriceEpisodes()
+        {
+
         }
 
         public void CalculateFundingDue()
         {
             
+        }
+
+        private static readonly int[] RawEarningsTransactionTypes = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 };
+
+        private void AddFundingDue(RawEarningEntity rawEarnings)
+        {
+
+        }
+        
+        private static readonly int[] RawMathsAndEnglishTransactionTypes = { 13, 14, 15 };
+
+        private void AddFundingDue(RawEarningMathsEnglishEntity mathsAndEnglish)
+        {
+            foreach (var transactionType in RawEarningsTransactionTypes)
+            {
+
+            }
+        }
+
+        private FundingDue CreateFundingDue(RawEarningEntity rawEarnings, int transactionType)
+        {
+            return new FundingDue();
+        }
+
+        private FundingDue CreateFundingDue(RawEarningMathsEnglishEntity rawMathsAndEnglishEarnings, int transactionType)
+        {
+            return new FundingDue();
+        }
+
+        private FundingDue CreateBasicFundingDue(IFundingDue fundingDue)
+        {
+            return new FundingDue();
         }
     }
 }
