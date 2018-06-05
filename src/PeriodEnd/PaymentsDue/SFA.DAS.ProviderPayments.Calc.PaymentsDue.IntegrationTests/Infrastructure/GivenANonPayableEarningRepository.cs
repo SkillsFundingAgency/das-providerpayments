@@ -92,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 [Test]
                 public void ThenItSetsIlrSubmissionDateTime() =>
                     _actualEntities[0].IlrSubmissionDateTime
-                        .Should().Be(_expectedEntities[0].IlrSubmissionDateTime);
+                        .Should().BeSameDateAs(_expectedEntities[0].IlrSubmissionDateTime);
 
                 [Test]
                 public void ThenItSetsPriceEpisodeIdentifier() =>
@@ -167,7 +167,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 [Test]
                 public void ThenItSetsLearningStartDate() =>
                     _actualEntities[0].LearningStartDate
-                        .Should().Be(_expectedEntities[0].LearningStartDate);
+                        .Should().BeSameDateAs(_expectedEntities[0].LearningStartDate);
 
                 [Test]
                 public void ThenItSetsReason() =>
