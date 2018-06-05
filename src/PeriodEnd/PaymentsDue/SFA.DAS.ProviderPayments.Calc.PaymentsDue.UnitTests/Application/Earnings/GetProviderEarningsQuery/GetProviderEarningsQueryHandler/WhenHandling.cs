@@ -505,15 +505,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
                 response.Items.Count(
                     e =>
                         e.StandardCode == 25 &&
-                        e.FrameworkCode == null &&
-                        e.ProgrammeType == null &&
-                        e.PathwayCode == null &&
                         e.CommitmentId == 1));
 
             Assert.AreEqual(9,
                 response.Items.Count(
                     e =>
-                        e.StandardCode == null &&
                         e.FrameworkCode == 550 &&
                         e.ProgrammeType == 20 &&
                         e.PathwayCode == 6 &&
