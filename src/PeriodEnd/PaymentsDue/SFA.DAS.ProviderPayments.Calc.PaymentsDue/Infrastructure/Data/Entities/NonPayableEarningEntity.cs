@@ -1,14 +1,18 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class NonPayableEarningEntity
     {
         public long? CommitmentId { get; set; }
+        [StringLength(25)]
         public string CommitmentVersionId { get; set; }
-        public string AccountId { get; set; }
+        public long AccountId { get; set; }
+        [StringLength(50)]
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }
+        [StringLength(12)]
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }
@@ -24,13 +28,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int? PathwayCode { get; set; }
 
         public int ApprenticeshipContractType { get; set; }
+        [StringLength(25)]
         public string PriceEpisodeIdentifier { get; set; }
 
         public decimal SfaContributionPercentage { get; set; }
+        [StringLength(100)]
         public string FundingLineType { get; set; }
         public bool UseLevyBalance { get; set; }
+        [StringLength(8)]
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
+        [StringLength(1000)]
         public string Reason { get; set; }
     }
 }

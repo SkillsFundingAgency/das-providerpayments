@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using AutoFixture.NUnit3;
+using System.Linq;
+using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -12,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     public class GivenANonPayableEarningRepository
     {
         private NonPayableEarningRepository _sut;
-
+        
         [OneTimeSetUp]
         public void Setup()
         {
@@ -25,15 +26,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingAddMany : AndThereAreNoNonPayableEarnings
             {
-                [Test, AutoData, Ignore("for now")]
-                public void ThenItReturnsAnEmptyList(List<NonPayableEarningEntity> nonPayableEarnings)
+                private List<NonPayableEarningEntity> _expectedEntities;
+                private List<NonPayableEarningEntity> _actualEntities;
+
+                [OneTimeSetUp]
+                public new void Setup()
                 {
-                    Setup();
+                    base.Setup();
 
-                    _sut.AddMany(nonPayableEarnings);
+                    _expectedEntities = new Fixture()
+                        .Build<NonPayableEarningEntity>()
+                        .CreateMany()
+                        .ToList();
 
-                    NonPayableEarningsDataHelper.GetAll().Count.Should().Be(nonPayableEarnings.Count);
+                    _sut.AddMany(_expectedEntities);
+
+                    _actualEntities = NonPayableEarningsDataHelper.GetAll();
                 }
+
+                [Test]
+                public void ThenItSavesTheExpectedNumberOfEntities() =>
+                    _actualEntities.Count
+                        .Should().Be(_expectedEntities.Count);
+
+                [Test]
+                public void ThenItSetsCommitmentId() =>
+                    _actualEntities[0].CommitmentId
+                        .Should().Be(_expectedEntities[0].CommitmentId);
             }
         }
     }
