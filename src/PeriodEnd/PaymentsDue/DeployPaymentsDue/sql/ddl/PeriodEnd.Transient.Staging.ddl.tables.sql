@@ -388,20 +388,20 @@ GO
 CREATE TABLE Staging.RawEarnings (
 	LearnRefNumber varchar(12) NOT NULL,
 	Ukprn bigint NOT NULL,
-	PriceEpisodeAimSeqNumber int not null,
+	AimSeqNumber int not null,
 	PriceEpisodeIdentifier varchar(25),
 	EpisodeStartDate date,
 	EpisodeEffectiveTNPStartDate date,
 	[Period] int NOT NULL,
 	ULN bigint NOT NULL,
-	ProgType int,
-	FworkCode int,
-	PwayCode int,
-	StdCode int,
-	PriceEpisodeSFAContribPct decimal(15,5),
-	PriceEpisodeFundLineType varchar(100),
+	ProgrammeType int,
+	FrameworkCode int,
+	PathwayCode int,
+	StandardCode int,
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(100),
 	LearnAimRef varchar(8),
-	LearnStartDate date not null,
+	LearningStartDate date not null,
 	TransactionType01 decimal(15,5),
 	TransactionType02 decimal(15,5),
 	TransactionType03 decimal(15,5),
@@ -415,7 +415,7 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType11 decimal(15,5),
 	TransactionType12 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ACT tinyint
+	ApprenticeshipContractType int
 )
 GO
 
@@ -432,19 +432,19 @@ CREATE TABLE Staging.RawEarningsMathsEnglish (
 	LearnRefNumber varchar(12) NOT NULL,
 	Ukprn bigint NOT NULL,
 	AimSeqNumber int not null,
-	LearnStartDate date NOT NULL,
+	LearningStartDate date NOT NULL,
 	[Period] int NOT NULL,
 	ULN bigint NOT NULL,
-	ProgType int,
-	FworkCode int,
-	PwayCode int,
-	StdCode int,
-	LearnDelSFAContribPct decimal(15,5),
-	FundLineType varchar(100),
+	ProgrammeType int,
+	FrameworkCode int,
+	PathwayCode int,
+	StandardCode int,
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(100),
 	LearnAimRef varchar(8),
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ACT tinyint
+	ApprenticeshipContractType tinyint
 )
 GO

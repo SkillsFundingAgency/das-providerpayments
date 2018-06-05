@@ -107,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.FinishedOnT
                 TransactionType = (int)TransactionType.Learning,
                 AmountDue = 1000,
                 IlrSubmissionDateTime = DateTime.Now,
-                StandardCode = null,
+                StandardCode = 0,
                 FrameworkCode = 3,
                 ProgrammeType = 490,
                 PathwayCode = 1,

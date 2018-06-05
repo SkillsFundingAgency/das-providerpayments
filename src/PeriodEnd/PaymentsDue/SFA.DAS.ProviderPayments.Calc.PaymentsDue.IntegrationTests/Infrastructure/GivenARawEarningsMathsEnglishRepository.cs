@@ -77,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearnStartDateIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].LearnStartDate.Should().Be(_expectedRawEarningsMathsEnglish[0].LearnStartDate.Date);
+                    _actualRawEarningsMathsEnglish[0].LearningStartDate.Should().Be(_expectedRawEarningsMathsEnglish[0].LearningStartDate.Date);
 
                 [Test]
                 public void ThenPeriodIsSetCorrectly() =>
@@ -89,27 +89,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenProgTypeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].ProgType.Should().Be(_expectedRawEarningsMathsEnglish[0].ProgType);
+                    _actualRawEarningsMathsEnglish[0].ProgrammeType.Should().Be(_expectedRawEarningsMathsEnglish[0].ProgrammeType);
 
                 [Test]
                 public void ThenFworkCodeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].FworkCode.Should().Be(_expectedRawEarningsMathsEnglish[0].FworkCode);
+                    _actualRawEarningsMathsEnglish[0].FrameworkCode.Should().Be(_expectedRawEarningsMathsEnglish[0].FrameworkCode);
 
                 [Test]
                 public void ThenPwayCodeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].PwayCode.Should().Be(_expectedRawEarningsMathsEnglish[0].PwayCode);
+                    _actualRawEarningsMathsEnglish[0].PathwayCode.Should().Be(_expectedRawEarningsMathsEnglish[0].PathwayCode);
 
                 [Test]
                 public void ThenStdCodeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].StdCode.Should().Be(_expectedRawEarningsMathsEnglish[0].StdCode);
+                    _actualRawEarningsMathsEnglish[0].StandardCode.Should().Be(_expectedRawEarningsMathsEnglish[0].StandardCode);
 
                 [Test]
                 public void ThenLearnDelSfaContribPctIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].LearnDelSfaContribPct.Should().Be(_expectedRawEarningsMathsEnglish[0].LearnDelSfaContribPct);
+                    _actualRawEarningsMathsEnglish[0].SfaContributionPercentage.Should().Be(_expectedRawEarningsMathsEnglish[0].SfaContributionPercentage);
 
                 [Test]
                 public void ThenFundLineTypeIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].FundLineType.Should().Be(_expectedRawEarningsMathsEnglish[0].FundLineType);
+                    _actualRawEarningsMathsEnglish[0].FundingLineType.Should().Be(_expectedRawEarningsMathsEnglish[0].FundingLineType);
 
                 [Test]
                 public void ThenLearnAimRefIsSetCorrectly() =>
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenActIsSetCorrectly() =>
-                    _actualRawEarningsMathsEnglish[0].Act.Should().Be(_expectedRawEarningsMathsEnglish[0].Act);
+                    _actualRawEarningsMathsEnglish[0].ApprenticeshipContractType.Should().Be(_expectedRawEarningsMathsEnglish[0].ApprenticeshipContractType);
             }
         }
     }
