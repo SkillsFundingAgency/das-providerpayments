@@ -20,9 +20,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 2);
 
         public List<FundingDue> PayableEarnings { get; set; }
-        //public List<NonPayableFundingDue> NonPayableEarnings { get; set; }
+        public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
-        
+
         public void ValidateDatalocks()
         {
             var act1 = Act1RawEarnings.ToList();
