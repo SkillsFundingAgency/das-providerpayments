@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
@@ -12,6 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public long? AccountId { get; set; }
         [StringLength(50)]
         public string AccountVersionId { get; set; }
+        [NotMapped]
         public int Period { get; set; }
         public long Uln { get; set; }
         [StringLength(12)]
