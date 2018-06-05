@@ -99,7 +99,7 @@
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentsHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DataLockPriceEpisodePeriodMatchesRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\CollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsRequiredPaymentRepository.cs" />

@@ -19,7 +19,35 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public List<RequiredPaymentsHistoryEntity> GetAllForProvider(long ukprn)
         {
             const string sql = @"
-            SELECT *
+            SELECT 
+                [Id]
+              ,[CommitmentId]
+              ,[CommitmentVersionId]
+              ,[AccountId]
+              ,[AccountVersionId]
+              ,[Uln]
+              ,[LearnRefNumber]
+              ,[AimSeqNumber]
+              ,[Ukprn]
+              ,[IlrSubmissionDateTime]
+              ,[PriceEpisodeIdentifier]
+              ,COALESCE([StandardCode], 0) [StandardCode]
+              ,COALESCE([ProgrammeType], 0) [ProgrammeType]
+              ,COALESCE([FrameworkCode], 0) [FrameworkCode]
+              ,COALESCE([PathwayCode], 0) [PathwayCode]
+              ,[ApprenticeshipContractType]
+              ,[DeliveryMonth]
+              ,[DeliveryYear]
+              ,[CollectionPeriodName]
+              ,[CollectionPeriodMonth]
+              ,[CollectionPeriodYear]
+              ,[TransactionType]
+              ,[AmountDue]
+              ,[SfaContributionPercentage]
+              ,[FundingLineType]
+              ,[UseLevyBalance]
+              ,[LearnAimRef]
+              ,[LearningStartDate]
             FROM Reference.RequiredPaymentsHistory
             WHERE Ukprn = @ukprn";
 

@@ -11,10 +11,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Collec
     {
         private static readonly CollectionPeriodEntity PeriodEntity = new CollectionPeriodEntity
         {
-            PeriodId = 1,
+            Id = 1,
             Month = 8,
             Year = 2016,
-            PeriodName = "R01"
+            Name = "R01"
         };
 
         private static readonly object[] RepositoryResponses =
@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Collec
 
             // Assert
             Assert.IsNotNull(response?.Period);
-            Assert.AreEqual(PeriodEntity.PeriodId, response.Period.PeriodId);
+            Assert.AreEqual(PeriodEntity.Id, response.Period.PeriodId);
             Assert.AreEqual(PeriodEntity.Month, response.Period.Month);
             Assert.AreEqual(PeriodEntity.Year, response.Period.Year);
             Assert.AreEqual(1, response.Period.PeriodNumber);

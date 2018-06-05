@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public long? CommitmentId { get; set; }
         [StringLength(25)]
         public string CommitmentVersionId { get; set; }
-        public long AccountId { get; set; }
+        public long? AccountId { get; set; }
         [StringLength(50)]
         public string AccountVersionId { get; set; }
         [StringLength(12)]
@@ -25,10 +25,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int CollectionPeriodYear { get; set; }
         public int TransactionType { get; set; }
         public decimal AmountDue { get; set; }
-        public long? StandardCode { get; set; }
-        public int? ProgrammeType { get; set; }
-        public int? FrameworkCode { get; set; }
-        public int? PathwayCode { get; set; }
+        public int StandardCode { get; set; }
+        public int ProgrammeType { get; set; }
+        public int FrameworkCode { get; set; }
+        public int PathwayCode { get; set; }
         [StringLength(25)]
         public string PriceEpisodeIdentifier { get; set; }
         [StringLength(8)]

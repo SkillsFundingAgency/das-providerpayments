@@ -26,10 +26,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.CollectionPeriod
                         ? null
                         : new CollectionPeriod
                         {
-                            PeriodId = periodEntity.PeriodId,
+                            PeriodId = periodEntity.Id,
                             Month = periodEntity.Month,
                             Year = periodEntity.Year,
-                            PeriodNumber = int.Parse(periodEntity.PeriodName.Substring(1))
+                            PeriodNumber = int.Parse(periodEntity.Name.Substring(1))
                         }
                 };
 

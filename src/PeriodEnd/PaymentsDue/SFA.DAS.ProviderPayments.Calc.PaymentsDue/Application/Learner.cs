@@ -8,25 +8,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 {
     public class Learner
     {
+        private List<CollectionPeriodEntity> CollectionPeriods { get; set; }
+
+        public Learner(List<CollectionPeriodEntity> collectionPeriods)
+        {
+            CollectionPeriods = collectionPeriods;
+        }
+
+        // Input
         public List<RawEarningEntity> RawEarnings { get; set; } = new List<RawEarningEntity>();
         public List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; } = new List<RawEarningMathsEnglishEntity>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
         public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
         public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
-
-        public List<string> DatalockErrors { get; private set; } = new List<string>();
-
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
 
-        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
-        private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 2);
+        // To go??
+        public List<string> DatalockErrors { get; private set; } = new List<string>();
 
+
+        // Output
         public List<FundingDue> PayableEarnings { get; set; }
+        public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
+
+        // Internal
+        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
         public bool IgnoreForPayments { get; set; }
 
-        public void ValidateDatalocks()
+        public void ValidateEarnings()
         {
             var act1 = Act1RawEarnings.ToList();
             // if there are *no* ACT1 earnings, then everything is ACT2 and payable
@@ -73,9 +84,100 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             }
         }
 
+        private class MatchSetForPayments
+        {
+            public int StandardCode { get; set; }
+            public int FrameworkCode { get; set; }
+            public int ProgrammeType { get; set; }
+            public int PathwayCode { get; set; }
+            public int ApprenticeshipContractType { get; set; }
+            public int TransactionType { get; set; }
+            public decimal SfaContributionPercentage { get; set; }
+            public string LearnAimRef { get; set; }
+            public string FundingLineType { get; set; }
+            public int DeliveryYear { get; set; }
+            public int DeliveryMonth { get; set; }
+            public long? AccountId { get; set; }
+            public long? CommitmentId { get; set; }
+        }
+
         public void CalculateFundingDue()
         {
-            
+            var processedGroups = new HashSet<MatchSetForPayments>();
+
+            var groupedEarnings = PayableEarnings.GroupBy(x => new MatchSetForPayments
+            {
+                StandardCode = x.StandardCode,
+                FrameworkCode = x.FrameworkCode,
+                ProgrammeType = x.ProgrammeType,
+                PathwayCode = x.PathwayCode,
+                ApprenticeshipContractType = x.ApprenticeshipContractType,
+                TransactionType = x.TransactionType,
+                SfaContributionPercentage = x.SfaContributionPercentage,
+                LearnAimRef = x.LearnAimRef,
+                FundingLineType = x.FundingLineType,
+                DeliveryYear = x.DeliveryYear,
+                DeliveryMonth = x.DeliveryMonth,
+                AccountId = x.AccountId,
+                CommitmentId = x.CommitmentId,
+            }).ToDictionary(x => x.Key, x => x.ToList());
+
+            var groupedPastPayments = HistoricalPayments.GroupBy(x => new MatchSetForPayments
+            {
+                StandardCode = x.StandardCode,
+                FrameworkCode = x.FrameworkCode,
+                ProgrammeType = x.ProgrammeType,
+                PathwayCode = x.PathwayCode,
+                ApprenticeshipContractType = x.ApprenticeshipContractType,
+                TransactionType = x.TransactionType,
+                SfaContributionPercentage = x.SfaContributionPercentage,
+                LearnAimRef = x.LearnAimRef,
+                FundingLineType = x.FundingLineType,
+                DeliveryYear = x.DeliveryYear,
+                DeliveryMonth = x.DeliveryMonth,
+                AccountId = x.AccountId,
+                CommitmentId = x.CommitmentId,
+            }).ToDictionary(x => x.Key, x => x.ToList()); ;
+
+            // Payments for earnings
+            foreach (var key in groupedEarnings.Keys)
+            {
+                processedGroups.Add(key);
+                var earnings = groupedEarnings[key];
+                var pastPayments = new List<RequiredPaymentsHistoryEntity>();
+                if (groupedPastPayments.ContainsKey(key))
+                {
+                    pastPayments = groupedPastPayments[key];
+                }
+
+                var payment = earnings.Sum(x => x.AmountDue) - pastPayments.Sum(x => x.AmountDue);
+                if (payment != 0)
+                {
+                    AddPayment(earnings.First(), payment);
+                }
+            }
+
+            // Refunds for past payments that don't have corresponding earnings
+            foreach (var key in groupedPastPayments.Keys)
+            {
+                if (processedGroups.Contains(key))
+                {
+                    continue;
+                }
+
+                var payments = groupedPastPayments[key];
+                var payment = -(payments.Sum(x => x.AmountDue));
+                if (payment != 0)
+                {
+                    AddPayment(new FundingDue(payments.First()), payment);
+                }
+            }
+        }
+
+        private void AddPayment(FundingDue fundingDue, decimal amount)
+        {
+            fundingDue.AmountDue = amount;
+            FundingDue.Add(fundingDue);
         }
 
         private void MarkAllEarningsAsNonPayable()
@@ -88,7 +190,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
             if (datalock == null)
             {
-                reason = "Could not find a matching datalock for ATC 1 learner";
+                reason = "Could not find a matching datalock for ACT 1 learner";
             }
             else
             {
@@ -207,6 +309,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 SfaContributionPercentage = fundingDue.SfaContributionPercentage,
                 Ukprn = fundingDue.Ukprn,
                 Uln = fundingDue.Uln,
+                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
+                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
             };
         }
 
@@ -228,7 +332,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 SfaContributionPercentage = fundingDue.SfaContributionPercentage,
                 Ukprn = fundingDue.Ukprn,
                 Uln = fundingDue.Uln,
+                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
+                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
             };
+        }
+
+        private int CalculateDeliveryMonth(int period)
+        {
+            return CollectionPeriods.First(x => x.Id == period).Month;
+        }
+
+        private int CalculateDeliveryYear(int period)
+        {
+            return CollectionPeriods.First(x => x.Id == period).Year;
         }
     }
 }

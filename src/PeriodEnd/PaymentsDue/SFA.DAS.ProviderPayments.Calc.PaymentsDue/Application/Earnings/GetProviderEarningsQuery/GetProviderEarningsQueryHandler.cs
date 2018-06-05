@@ -69,7 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
         {
             var periodEarnings = new List<PeriodEarning>();
 
-            var collectionPeriod = collectionPeriods.Single(x => x.PeriodId == entity.Period);
+            var collectionPeriod = collectionPeriods.Single(x => x.Id == entity.Period);
 
             var year = collectionPeriod.Year;
             var month = collectionPeriod.Month;

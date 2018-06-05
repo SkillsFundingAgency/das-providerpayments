@@ -16,74 +16,74 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         private static readonly CollectionPeriodEntity[] CollectionPeriods =  {
             new CollectionPeriodEntity {
                 Month=8,
-                PeriodId=1,
-                PeriodName="1718-R01",
+                Id=1,
+                Name="R01",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=9,
-                PeriodId=2,
-                PeriodName="1718-R02",
+                Id=2,
+                Name="R02",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=10,
-                PeriodId=3,
-                PeriodName="1718-R03",
+                Id=3,
+                Name="R03",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=11,
-                PeriodId=4,
-                PeriodName="1718-R04",
+                Id=4,
+                Name="R04",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=12,
-                PeriodId=5,
-                PeriodName="1718-R05",
+                Id=5,
+                Name="R05",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=1,
-                PeriodId=6,
-                PeriodName="1718-R06",
+                Id=6,
+                Name="R06",
                 Year=2018
             },
             new CollectionPeriodEntity {
                 Month=2,
-                PeriodId=7,
-                PeriodName="1718-R07",
+                Id=7,
+                Name="R07",
                 Year=2018
             },
             new CollectionPeriodEntity {
                 Month=3,
-                PeriodId=8,
-                PeriodName="1718-R08",
+                Id=8,
+                Name="R08",
                 Year=2018
             },
             new CollectionPeriodEntity {
                 Month=4,
-                PeriodId=9,
-                PeriodName="1718-R09",
+                Id=9,
+                Name="R09",
                 Year=2018
             },
             new CollectionPeriodEntity {
                 Month=5,
-                PeriodId=10,
-                PeriodName="1718-R10",
+                Id=10,
+                Name="R10",
                 Year=2017
             },
             new CollectionPeriodEntity {
                 Month=6,
-                PeriodId=11,
-                PeriodName="1718-R11",
+                Id=11,
+                Name="R11",
                 Year=2018
             },
             new CollectionPeriodEntity {
                 Month=7,
-                PeriodId=12,
-                PeriodName="1718-R12",
+                Id=12,
+                Name="R12",
                 Year=2018
             }
             };
@@ -519,7 +519,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Earnin
         [Test]
         [TestCase(null, null, null, null, 2)]
         [TestCase(1L, "1-001", 1, "A1", 1)]
-        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, long accountId, string accountVersionId, int apprenticeshipContractType)
+        public void ThenItShouldReturnTheCorrectCommitmentAccountAndContractTypeInformation(long? commitmentId, string commitmentVersionId, long? accountId, string accountVersionId, int apprenticeshipContractType)
         {
             // Arrange
             _repository.Setup(r => r.GetProviderEarnings(Ukprn))
