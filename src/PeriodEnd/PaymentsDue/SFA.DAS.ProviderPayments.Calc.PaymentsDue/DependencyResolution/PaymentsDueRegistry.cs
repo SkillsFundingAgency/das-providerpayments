@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<ContextWrapper>().Use(contextWrapper);
 
             // TODO: Fix so can be registered with convention
-            For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
+            For<ICollectionPeriodRepository>().Use<CollectionPeriodRepository>();
             For<IProviderRepository>().Use<DcfsProviderRepository>();
             For<IEarningRepository>().Use<DcfsEarningRepository>();
             For<IRequiredPaymentRepository>().Use<DcfsRequiredPaymentRepository>();

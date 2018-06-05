@@ -8,6 +8,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 {
     public class Learner
     {
+        private List<CollectionPeriodEntity> CollectionPeriods { get; set; }
+
+        public Learner(List<CollectionPeriodEntity> collectionPeriods)
+        {
+            CollectionPeriods = collectionPeriods;
+        }
+
         public List<RawEarningEntity> RawEarnings { get; set; } = new List<RawEarningEntity>();
         public List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; } = new List<RawEarningMathsEnglishEntity>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
@@ -22,11 +29,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private IEnumerable<RawEarningEntity> Act2RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 2);
 
         public List<FundingDue> PayableEarnings { get; set; }
+        public List<FundingDue> FundingDue { get; private set; } = new List<FundingDue>();
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
         public bool IgnoreForPayments { get; set; }
 
-        public void ValidateDatalocks()
+        public void ValidateEarnings()
         {
             var act1 = Act1RawEarnings.ToList();
             // if there are *no* ACT1 earnings, then everything is ACT2 and payable
@@ -75,7 +83,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
         public void CalculateFundingDue()
         {
-            
+            var groupedEarnings = PayableEarnings.GroupBy(x => new
+            {
+                x.StandardCode,
+                x.FrameworkCode,
+                x.ProgrammeType,
+                x.PathwayCode,
+                x.ApprenticeshipContractType,
+                x.TransactionType,
+                x.SfaContributionPercentage,
+                x.LearnAimRef,
+                x.FundingLineType,
+                x.DeliveryYear,
+                x.DeliveryMonth,
+                x.AccountId
+            });
+
+            var groupedPastPayments = HistoricalPayments.GroupBy(x => new
+            {
+                x.StandardCode,
+                x.FrameworkCode,
+                x.ProgrammeType,
+                x.PathwayCode,
+                x.ApprenticeshipContractType,
+                x.TransactionType,
+                x.SfaContributionPercentage,
+                x.LearnAimRef,
+                x.FundingLineType,
+                x.DeliveryYear,
+                x.DeliveryMonth,
+                x.AccountId
+            });
         }
 
         private void MarkAllEarningsAsNonPayable()
@@ -88,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
             if (datalock == null)
             {
-                reason = "Could not find a matching datalock for ATC 1 learner";
+                reason = "Could not find a matching datalock for ACT 1 learner";
             }
             else
             {
@@ -207,6 +245,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 SfaContributionPercentage = fundingDue.SfaContributionPercentage,
                 Ukprn = fundingDue.Ukprn,
                 Uln = fundingDue.Uln,
+                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
+                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
             };
         }
 
@@ -228,7 +268,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 SfaContributionPercentage = fundingDue.SfaContributionPercentage,
                 Ukprn = fundingDue.Ukprn,
                 Uln = fundingDue.Uln,
+                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
+                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
             };
+        }
+
+        private int CalculateDeliveryMonth(int period)
+        {
+            return CollectionPeriods.First(x => x.Id == period).Month;
+        }
+
+        private int CalculateDeliveryYear(int period)
+        {
+            return CollectionPeriods.First(x => x.Id == period).Year;
         }
     }
 }

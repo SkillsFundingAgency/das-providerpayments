@@ -3,7 +3,7 @@ using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.RequiredPayments
 {
-    public class RequiredPayment
+    public class RequiredPayment 
     {
         public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
@@ -9,17 +10,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
         private readonly IRequiredPaymentsHistoryRepository _historicalPaymentsRepository;
         private readonly IDataLockPriceEpisodePeriodMatchesRepository _dataLockRepository;
+        private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
         public ProviderLearnersBuilder(
             IRawEarningsRepository rawEarningsRepository, 
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository, 
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository, 
-            IDataLockPriceEpisodePeriodMatchesRepository dataLockRepository)
+            IDataLockPriceEpisodePeriodMatchesRepository dataLockRepository, 
+            ICollectionPeriodRepository collectionPeriodRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
             _rawEarningsMathsEnglishRepository = rawEarningsMathsEnglishRepository;
             _historicalPaymentsRepository = historicalPaymentsRepository;
             _dataLockRepository = dataLockRepository;
+            _collectionPeriodRepository = collectionPeriodRepository;
         }
 
         public Dictionary<string, Learner> Build(long ukprn)
@@ -30,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(rawEarning.LearnRefNumber))
                 {
-                    learners.Add(rawEarning.LearnRefNumber, new Learner());
+                    learners.Add(rawEarning.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
                 }
 
                 learners[rawEarning.LearnRefNumber].RawEarnings.Add(rawEarning);
@@ -40,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(rawEarningMathsEnglish.LearnRefNumber))
                 {
-                    learners.Add(rawEarningMathsEnglish.LearnRefNumber, new Learner());
+                    learners.Add(rawEarningMathsEnglish.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
                 }
 
                 learners[rawEarningMathsEnglish.LearnRefNumber].RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
@@ -50,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(historicalPayment.LearnRefNumber))
                 {
-                    learners.Add(historicalPayment.LearnRefNumber, new Learner());
+                    learners.Add(historicalPayment.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
                 }
 
                 learners[historicalPayment.LearnRefNumber].HistoricalPayments.Add(historicalPayment);
@@ -60,7 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(dataLock.LearnRefNumber))
                 {
-                    learners.Add(dataLock.LearnRefNumber, new Learner());
+                    learners.Add(dataLock.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
                 }
 
                 learners[dataLock.LearnRefNumber].DataLocks.Add(dataLock);

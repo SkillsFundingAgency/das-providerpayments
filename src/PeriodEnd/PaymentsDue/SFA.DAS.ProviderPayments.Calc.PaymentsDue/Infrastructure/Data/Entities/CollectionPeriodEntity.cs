@@ -2,9 +2,12 @@
 {
     public class CollectionPeriodEntity
     {
-        public int PeriodId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string AcademicYear { get; set; }
+        public string CollectionPeriodName => $"{AcademicYear}-{Name}";
         public int Month { get; set; }
         public int Year { get; set; }
-        public string PeriodName { get; set; }
+        public bool Open { get; set; }
     }
 }
