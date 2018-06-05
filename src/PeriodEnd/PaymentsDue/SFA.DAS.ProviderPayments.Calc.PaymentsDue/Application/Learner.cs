@@ -15,22 +15,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             CollectionPeriods = collectionPeriods;
         }
 
+        // Input
         public List<RawEarningEntity> RawEarnings { get; set; } = new List<RawEarningEntity>();
         public List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; } = new List<RawEarningMathsEnglishEntity>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
         public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
         public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
-
-        public List<string> DatalockErrors { get; private set; } = new List<string>();
-
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
 
-        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
-        
+        // To go??
+        public List<string> DatalockErrors { get; private set; } = new List<string>();
+
+
+        // Output
         public List<FundingDue> PayableEarnings { get; set; }
         public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
+
+        // Internal
+        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
         public bool IgnoreForPayments { get; set; }
 
         public void ValidateEarnings()
@@ -163,7 +167,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
                 var payments = groupedPastPayments[key];
                 var payment = -(payments.Sum(x => x.AmountDue));
-                AddPayment(new FundingDue(payments.First()), payment);
+                if (payment != 0)
+                {
+                    AddPayment(new FundingDue(payments.First()), payment);
+                }
             }
         }
 
