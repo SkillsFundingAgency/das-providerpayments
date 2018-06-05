@@ -71,3 +71,50 @@ ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[Transactio
 GO
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- NonPayableEarnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='NonPayableEarnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP TABLE PaymentsDue.NonPayableEarnings
+END
+GO
+
+CREATE TABLE PaymentsDue.NonPayableEarnings
+(
+	Id uniqueidentifier DEFAULT(NEWID()),
+	CommitmentId bigint,
+	CommitmentVersionId varchar(25),
+	AccountId bigint,
+	AccountVersionId varchar(50),
+	Uln bigint,
+	LearnRefNumber varchar(12),
+	AimSeqNumber int,
+	Ukprn bigint,
+	IlrSubmissionDateTime datetime,
+	PriceEpisodeIdentifier varchar(25),
+	StandardCode bigint,
+	ProgrammeType int,
+	FrameworkCode int,
+	PathwayCode int,
+	ApprenticeshipContractType int,
+	DeliveryMonth int,
+	DeliveryYear int,
+	TransactionType int,
+	AmountDue decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(100),
+	UseLevyBalance bit ,
+	LearnAimRef varchar(8),
+	LearningStartDate datetime,
+	Reason varchar(1000)
+)
+GO
+
+CREATE INDEX IX_PaymentsDueNonPayableEarnings_Vw_PaymentsDue ON PaymentsDue.NonPayableEarnings (Id, UseLevyBalance, TransactionType, AccountId)
+
+
+CREATE NONCLUSTERED INDEX [IX_PaymentsDue_NonPayableEarnings_TransactionType_UseLevy_Commitment_Query]
+ON [PaymentsDue].[NonPayableEarnings] ([CommitmentId],[UseLevyBalance],[TransactionType])
+GO
+

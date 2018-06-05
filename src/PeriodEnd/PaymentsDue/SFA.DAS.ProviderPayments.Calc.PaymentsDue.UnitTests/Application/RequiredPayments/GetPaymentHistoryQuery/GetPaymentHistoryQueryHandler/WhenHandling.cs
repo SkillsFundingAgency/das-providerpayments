@@ -81,11 +81,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Application.Requir
 
             Assert.AreEqual(Uln, actual.Items[0].Uln);
             Assert.AreEqual(StandardCode, actual.Items[0].StandardCode);
-
-            Assert.IsNull(actual.Items[0].FrameworkCode);
-            Assert.IsNull(actual.Items[0].PathwayCode);
-            Assert.IsNull(actual.Items[0].ProgrammeType);
-
         }
 
         [Test]

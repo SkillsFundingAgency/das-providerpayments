@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 {
     public interface INonPayableEarningRepository
     {
-        void AddMany(List<NonPayableEarningEntity> entities);
+        void AddMany(List<NonPayableEarningEntity> nonPayableEarnings);
     }
 
     public class NonPayableEarningRepository : DcfsRepository, INonPayableEarningRepository
@@ -15,9 +15,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public void AddMany(List<NonPayableEarningEntity> entities)
+        public void AddMany(List<NonPayableEarningEntity> nonPayableEarnings)
         {
-            throw new System.NotImplementedException();
+            ExecuteBatch(nonPayableEarnings.ToArray(), "PaymentsDue.NonPayableEarnings");
         }
     }
 }

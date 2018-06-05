@@ -87,6 +87,7 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="FinishedOnTime\WhenMakingDuePayments.cs" />
     <Compile Include="Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
+    <Compile Include="Infrastructure\GivenANonPayableEarningRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
@@ -94,9 +95,11 @@
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
     <Compile Include="Utilities\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
+    <Compile Include="Utilities\NonPayableEarningsDataHelper.cs" />
     <Compile Include="Utilities\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Utilities\RawEarningsDataHelper.cs" />
     <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
+    <Compile Include="Utilities\SetupNoNonPayableEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
