@@ -22,8 +22,8 @@
           <Destination>Ukprn</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PriceEpisodeAimSeqNumber</Source>
-          <Destination>PriceEpisodeAimSeqNumber</Destination>
+          <Source>AimSeqNumber</Source>
+          <Destination>AimSeqNumber</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>PriceEpisodeIdentifier</Source>
@@ -46,36 +46,36 @@
           <Destination>ULN</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>ProgType</Source>
-          <Destination>ProgType</Destination>
+          <Source>ProgrammeType</Source>
+          <Destination>ProgrammeType</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>FworkCode</Source>
-          <Destination>FworkCode</Destination>
+          <Source>FrameworkCode</Source>
+          <Destination>FrameworkCode</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PwayCode</Source>
-          <Destination>PwayCode</Destination>
+          <Source>PathwayCode</Source>
+          <Destination>PathwayCode</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>StdCode</Source>
-          <Destination>StdCode</Destination>
+          <Source>StandardCode</Source>
+          <Destination>StandardCode</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PriceEpisodeSFAContribPct</Source>
-          <Destination>PriceEpisodeSFAContribPct</Destination>
+          <Source>SFAContributionPct</Source>
+          <Destination>SFAContributionPct</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PriceEpisodeFundLineType</Source>
-          <Destination>PriceEpisodeFundLineType</Destination>
+          <Source>FundingLineType</Source>
+          <Destination>FundingLineType</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>LearnAimRef</Source>
           <Destination>LearnAimRef</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>LearnStartDate</Source>
-          <Destination>LearnStartDate</Destination>
+          <Source>LearningStartDate</Source>
+          <Destination>LearningStartDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>TransactionType01</Source>

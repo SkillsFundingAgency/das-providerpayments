@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenPriceEpisodeAimSeqNumberIsSetCorrectly() =>
-                    _actualRawEarnings[0].PriceEpisodeAimSeqNumber.Should().Be(_expectedRawEarnings[0].PriceEpisodeAimSeqNumber);
+                    _actualRawEarnings[0].AimSeqNumber.Should().Be(_expectedRawEarnings[0].AimSeqNumber);
 
                 [Test]
                 public void ThenPriceEpisodeIdentifierIsSetCorrectly() =>
@@ -97,27 +97,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenProgTypeIsSetCorrectly() =>
-                    _actualRawEarnings[0].ProgType.Should().Be(_expectedRawEarnings[0].ProgType);
+                    _actualRawEarnings[0].ProgrammeType.Should().Be(_expectedRawEarnings[0].ProgrammeType);
 
                 [Test]
                 public void ThenFworkCodeIsSetCorrectly() =>
-                    _actualRawEarnings[0].FworkCode.Should().Be(_expectedRawEarnings[0].FworkCode);
+                    _actualRawEarnings[0].FrameworkCode.Should().Be(_expectedRawEarnings[0].FrameworkCode);
 
                 [Test]
                 public void ThenPwayCodeIsSetCorrectly() =>
-                    _actualRawEarnings[0].PwayCode.Should().Be(_expectedRawEarnings[0].PwayCode);
+                    _actualRawEarnings[0].PathwayCode.Should().Be(_expectedRawEarnings[0].PathwayCode);
 
                 [Test]
                 public void ThenStdCodeIsSetCorrectly() =>
-                    _actualRawEarnings[0].StdCode.Should().Be(_expectedRawEarnings[0].StdCode);
+                    _actualRawEarnings[0].StandardCode.Should().Be(_expectedRawEarnings[0].StandardCode);
 
                 [Test]
                 public void ThenPriceEpisodeSfaContribPctIsSetCorrectly() =>
-                    _actualRawEarnings[0].PriceEpisodeSfaContribPct.Should().Be(_expectedRawEarnings[0].PriceEpisodeSfaContribPct);
+                    _actualRawEarnings[0].SfaContributionPct.Should().Be(_expectedRawEarnings[0].SfaContributionPct);
 
                 [Test]
                 public void ThenPriceEpisodeFundLineTypeIsSetCorrectly() =>
-                    _actualRawEarnings[0].PriceEpisodeFundLineType.Should().Be(_expectedRawEarnings[0].PriceEpisodeFundLineType);
+                    _actualRawEarnings[0].FundingLineType.Should().Be(_expectedRawEarnings[0].FundingLineType);
 
                 [Test]
                 public void ThenLearnAimRefIsSetCorrectly() =>
@@ -125,7 +125,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenLearnStartDateIsSetCorrectly() =>
-                    _actualRawEarnings[0].LearnStartDate.Should().Be(_expectedRawEarnings[0].LearnStartDate.Date);
+                    _actualRawEarnings[0].LearningStartDate.Should().Be(_expectedRawEarnings[0].LearningStartDate.Date);
 
                 [Test]
                 public void ThenTransactionType01IsSetCorrectly() => 
