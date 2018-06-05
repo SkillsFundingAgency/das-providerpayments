@@ -44,37 +44,67 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
                 return;
             }
-            
+
+            // TODO: Treat each price episode seperately??
             // If there is a datalock then ignore this learner
-            foreach (var rawEarningEntity in act1.Where(x => x.TransactionType01 != 0))
+            if (DataLocks.Any(x => x.Payable == false))
             {
-                // Find a matching datalock
-                var datalock = DataLocks.FirstOrDefault(x =>
-                    x.PriceEpisodeIdentifier == rawEarningEntity.PriceEpisodeIdentifier &&
-                    x.Period == rawEarningEntity.Period);
+                IgnoreForPayments = true;
+                MarkAllEarningsAsNonPayable();
+                return;
+            }
+            
+            // Mark all earnings as payable
+            var datalock = DataLocks.FirstOrDefault();
+            Commitment commitment = null;
+            if (datalock != null)
+            {
+                commitment = Commitments.FirstOrDefault(x => x.CommitmentId == datalock.CommitmentId);
+            }
 
-                if (datalock == null)
-                {
-                    IgnoreForPayments = true;
-                    AddNonpayableFundingDue(rawEarningEntity, "No datalock found for ACT1 earning");
-                    continue;
-                }
-
-                var commitment = Commitments.First(x => x.CommitmentId == datalock.CommitmentId);
-
-                if (datalock.Payable == false)
-                {
-                    IgnoreForPayments = true;
-                    AddNonpayableFundingDue(rawEarningEntity, "No datalock found for ACT1 earning", commitment);
-                    continue;
-                }
+            foreach (var rawEarningEntity in RawEarnings)
+            {
                 AddFundingDue(rawEarningEntity, commitment);
+            }
+
+            foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
+            {
+                AddFundingDue(rawEarningMathsEnglishEntity, commitment);
             }
         }
 
         public void CalculateFundingDue()
         {
             
+        }
+
+        private void MarkAllEarningsAsNonPayable()
+        {
+            // Get the commitment information
+            var datalock = DataLocks.FirstOrDefault();
+
+            string reason;
+            Commitment commitment = null;
+
+            if (datalock == null)
+            {
+                reason = "Could not find a matching datalock for ATC 1 learner";
+            }
+            else
+            {
+                reason = "Datalock failed for ACT 1 learner";
+                commitment = Commitments.First(x => x.CommitmentId == datalock.CommitmentId);
+            }
+            
+            foreach (var rawEarningEntity in RawEarnings)
+            {
+                AddNonpayableFundingDue(rawEarningEntity, reason, commitment);
+            }
+
+            foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
+            {
+                AddNonpayableFundingDue(rawEarningMathsEnglishEntity, reason, commitment);
+            }
         }
 
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(FundingDue));
@@ -97,7 +127,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             }
         }
         
-        private void AddFundingDue(RawEarningMathsEnglishEntity mathsAndEnglish)
+        private void AddFundingDue(RawEarningMathsEnglishEntity mathsAndEnglish, IHoldCommitmentInformation commitmentInformation = null)
         {
             foreach (var transactionType in RawMathsAndEnglishTransactionTypes)
             {
@@ -105,6 +135,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 fundingDue.TransactionType = transactionType;
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = (decimal) FundingDueAccessor[mathsAndEnglish, $"TransactionType{transactionType:D2}"];
+                if (commitmentInformation != null)
+                {
+                    AddCommitmentInformation(fundingDue, commitmentInformation);
+                }
                 PayableEarnings.Add(fundingDue);
             }
         }
@@ -112,6 +146,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private void AddNonpayableFundingDue(RawEarningEntity rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
         {
             foreach (var transactionType in RawEarningsTransactionTypes)
+            {
+                var nonPayableEarning = CreateBasicNonPayableEarningEntity(rawEarnings);
+                nonPayableEarning.TransactionType = transactionType;
+                // Doing this to prevent a huge switch statement
+                nonPayableEarning.AmountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
+                if (commitmentInformation != null)
+                {
+                    AddCommitmentInformation(nonPayableEarning, commitmentInformation);
+                }
+
+                nonPayableEarning.Reason = reason;
+                NonPayableEarnings.Add(nonPayableEarning);
+            }
+        }
+
+        private void AddNonpayableFundingDue(RawEarningMathsEnglishEntity rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
+        {
+            foreach (var transactionType in RawMathsAndEnglishTransactionTypes)
             {
                 var nonPayableEarning = CreateBasicNonPayableEarningEntity(rawEarnings);
                 nonPayableEarning.TransactionType = transactionType;
