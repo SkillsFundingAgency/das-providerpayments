@@ -72,6 +72,7 @@
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\PriceEpisode.cs" />
+    <Compile Include="ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DataLockPriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />

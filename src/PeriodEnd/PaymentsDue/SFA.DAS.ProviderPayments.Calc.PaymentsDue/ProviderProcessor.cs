@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System.Collections.Generic;
+using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -9,43 +10,55 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
     public class ProviderProcessor : IProviderProcessor
     {
         private readonly ILogger _logger;
-        private readonly IProviderLearnersBuilder _providerLearnersBuilder;
+        private readonly ILearnerProcessParametersBuilder _parametersBuilder;
+        private readonly ILearnerProcessor _learnerProcessor;
         private readonly INonPayableEarningRepository _nonPayableEarningRepository;
         private readonly IRequiredPaymentRepository _requiredPaymentRepository;
 
         public ProviderProcessor(
             ILogger logger,
-            IProviderLearnersBuilder providerLearnersBuilder,
+            ILearnerProcessParametersBuilder parametersBuilder,
+            ILearnerProcessor learnerProcessor,
             INonPayableEarningRepository nonPayableEarningRepository,
             IRequiredPaymentRepository requiredPaymentRepository)
         {
             _logger = logger;
-            _providerLearnersBuilder = providerLearnersBuilder;
+            _parametersBuilder = parametersBuilder;
+            _learnerProcessor = learnerProcessor;
             _nonPayableEarningRepository = nonPayableEarningRepository;
             _requiredPaymentRepository = requiredPaymentRepository;
+            
         }
 
         public void Process(ProviderEntity provider)
         {
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
-            var providerLearners = _providerLearnersBuilder.Build(provider.Ukprn);
+            var learnersParams = _parametersBuilder.Build(provider.Ukprn);
 
-            foreach (var learner in providerLearners)
+            var allNonPayablesForProvider = new List<NonPayableEarningEntity>();
+            var allPayablesForProvider = new List<RequiredPaymentEntity>();
+
+            foreach (var parameters in learnersParams)
             {
-                _logger.Info($"Processing started for Learner LearnRefNumber: [{learner.Key}].");
+                _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");//todo:move to learner processor
 
-                // todo: learner data lock calcs
-                // todo: learner aggregate payment calcs
+                var learnerResult = _learnerProcessor.Process(parameters);
 
-                _logger.Info($"There are [{learner.Value.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{learner.Key}].");
-                _nonPayableEarningRepository.AddMany(learner.Value.NonPayableEarnings);
+                _logger.Info($"There are [{learnerResult.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
+                allNonPayablesForProvider.AddRange(learnerResult.NonPayableEarnings);
 
-                _logger.Info($"There are [{learner.Value.RequiredPayments.Count}] payable earnings for Learner LearnRefNumber: [{learner.Key}].");
-                _requiredPaymentRepository.AddRequiredPayments(learner.Value.RequiredPayments.ToArray());
+                _logger.Info($"There are [{learnerResult.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
+                allPayablesForProvider.AddRange(learnerResult.PayableEarnings);
 
-                _logger.Info($"Processing finished for Learner LearnRefNumber: [{learner.Key}].");
+                _logger.Info($"Processing finished for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
             }
+
+            _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
+            _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
+
+            _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
+            _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
 
             _logger.Info($"Processing finished for Provider UKPRN: [{provider.Ukprn}].");
         }

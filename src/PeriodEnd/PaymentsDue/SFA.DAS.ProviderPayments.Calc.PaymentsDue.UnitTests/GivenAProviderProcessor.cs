@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using AutoFixture.NUnit3;
-using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
@@ -15,75 +14,94 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenAProviderProcessor
     {
-        [Test, PaymentsDueAutoData]
-        public void WhenCallingProcess_ThenItGetsLearnersForTheProvider(
-            ProviderEntity provider,
-            [Frozen] Mock<IProviderLearnersBuilder> mockLearnersBuilder,
-            ProviderProcessor sut)
+        [TestFixture]
+        public class WhenCallingProcess
         {
-            sut.Process(provider);
-
-            mockLearnersBuilder.Verify(builder => builder.Build(provider.Ukprn), Times.Once);
-        }
-
-        [Test, PaymentsDueAutoData]
-        public void WhenCallingProcess_ThenItSavesNonPayableEarningsForEachLearner(
+            [Test, PaymentsDueAutoData]
+            public void ThenItGetsLearnerParametersForTheProvider(
             ProviderEntity provider,
-            Dictionary<string, Learner> learners,
-            [Frozen] Mock<IProviderLearnersBuilder> mockLearnersBuilder,
-            [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
+            [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
             ProviderProcessor sut)
-        {
-            var nonPayableEarnings = new List<List<NonPayableEarningEntity>>();
-
-            mockLearnersBuilder
-                .Setup(builder => builder.Build(It.IsAny<long>()))
-                .Returns(learners);
-
-            mockNonPayableEarningsRepository
-                .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarningEntity>>()))
-                .Callback<List<NonPayableEarningEntity>>(entities => nonPayableEarnings.Add(entities));
-
-            sut.Process(provider);
-
-            using (var e = learners.GetEnumerator())
             {
-                for (var i = 0; i < learners.Count; i++)
+                sut.Process(provider);
+
+                mockParametersBuilder.Verify(builder => builder.Build(provider.Ukprn), Times.Once);
+            }
+
+            [Test, PaymentsDueAutoData]
+            public void ThenItProcessesEachLearner(
+                ProviderEntity provider,
+                HashSet<LearnerProcessParameters> learnerParameters,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                ProviderProcessor sut)
+            {
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                sut.Process(provider);
+
+                foreach (var parameter in learnerParameters)
                 {
-                    e.MoveNext();
-                    e.Current.Value.NonPayableEarnings.ShouldAllBeEquivalentTo(nonPayableEarnings[i]);
+                    mockLearnerProcessor.Verify(builder => builder.Process(parameter), Times.Once);
                 }
             }
-        }
 
-        [Test, PaymentsDueAutoData]
-        public void WhenCallingProcess_ThenItSavesPaymentsForEachLearner(
-            ProviderEntity provider,
-            Dictionary<string, Learner> learners,
-            [Frozen] Mock<IProviderLearnersBuilder> mockLearnersBuilder,
-            [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
-            ProviderProcessor sut)
-        {
-            var actualPayments = new List<RequiredPaymentEntity[]>();
-
-            mockLearnersBuilder
-                .Setup(builder => builder.Build(It.IsAny<long>()))
-                .Returns(learners);
-
-            mockRequiredPaymentsRepository
-                .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
-                .Callback<RequiredPaymentEntity[]>(entities => actualPayments.Add(entities));
-
-            sut.Process(provider);
-
-            using (var e = learners.GetEnumerator())
+            [Test, PaymentsDueAutoData]
+            public void ThenItSavesAllNonPayableEarningsForProvider(
+                ProviderEntity provider,
+                HashSet<LearnerProcessParameters> learnerParameters,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
+                ProviderProcessor sut)
             {
-                for (var i = 0; i < learners.Count; i++)
-                {
-                    e.MoveNext();
-                    e.Current.Value.RequiredPayments.ShouldAllBeEquivalentTo(actualPayments[i]);
-                }
+                var expectedNonPayableEarnings = new List<NonPayableEarningEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult)
+                    .Callback(() => expectedNonPayableEarnings.AddRange(learnerResult.NonPayableEarnings));
+
+                sut.Process(provider);
+
+                mockNonPayableEarningsRepository
+                    .Verify(repository => repository.AddMany(expectedNonPayableEarnings));
             }
-        }
+
+            [Test, PaymentsDueAutoData]
+            public void ThenItSavesAllPaymentsForProvider(
+                ProviderEntity provider,
+                HashSet<LearnerProcessParameters> learnerParameters,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
+                ProviderProcessor sut)
+            {
+                var expectedPayableEarnings = new List<RequiredPaymentEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult)
+                    .Callback(() => expectedPayableEarnings.AddRange(learnerResult.PayableEarnings));
+
+                sut.Process(provider);
+
+                var expectedEarningsArray = expectedPayableEarnings.ToArray();
+                mockRequiredPaymentsRepository
+                    .Verify(repository => repository.AddRequiredPayments(expectedEarningsArray));
+            }
+        } 
     }
 }
