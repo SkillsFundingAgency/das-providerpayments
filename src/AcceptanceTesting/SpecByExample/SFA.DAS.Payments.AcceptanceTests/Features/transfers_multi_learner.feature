@@ -5,16 +5,16 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
     Given Two learners are programme only DAS
 	#Note: a transfer agreement has been set up between employer 1 and employer 2 
 	And the employer 1 has a levy balance of:
-        | 06/18 | 07/18 | 08/18 |
-        | 100   | 100   | 100   |
+        | 06/18 | 07/18 |
+        | 100   | 100   |
 	
 	And the employer 2 has a levy balance of:
-        | 06/18 | 07/18 | 08/18 |
-        | 100   | 100   | 100   |
+        | 06/18 | 07/18 |
+        | 100   | 100   |
 
     And the employer 2 has a transfer allowance of:
-        | 06/18 | 07/18 | 08/18 |
-        | 2500  | 2400  | 2300  |
+        | 06/18 | 07/18 |
+        | 2500  | 2400  |
    
 	And the apprenticeship funding band maximum is 9000
 
@@ -44,6 +44,8 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
         | Refund due to employer 1                                   | 0     | 0     | 0     |
         | Refund due to employer 2                                   | 0     | 0     | 0     |
         | Employer 2 Levy account debited for ULN 11111 via transfer | 0     | 100   | 100   |
+        | Employer 2 Levy account debited for ULN 22222 via transfer | 0     | 0     | 0     |
+        | Employer 1 Levy account debited for ULN 11111              | 0     | 0     | 0     |
         | Employer 1 Levy account debited for ULN 22222              | 0     | 100   | 100   |
         | SFA Levy employer budget                                   | 200   | 200   | 200   |
         | SFA Levy co-funding budget                                 | 0     | 0     | 0     |
