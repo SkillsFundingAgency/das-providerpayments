@@ -23,10 +23,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
 
-        // To go??
-        public List<string> DatalockErrors { get; private set; } = new List<string>();
-
-
         // Output
         public List<FundingDue> PayableEarnings { get; set; }
         public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
@@ -56,8 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 return;
             }
 
-            // TODO: Treat each price episode seperately??
-            // If there is a datalock then ignore this learner
+            // If there are only datalock failures then ignore this learner
             if (DataLocks.All(x => x.Payable == false))
             {
                 IgnoreForPayments = true;
@@ -65,6 +60,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 return;
             }
             
+            // Process each price episode seperately
+            var priceEpisodes = RawEarnings.Select(x => x.PriceEpisodeIdentifier).Distinct();
+
+            foreach (var priceEpisode in priceEpisodes)
+            {
+                ProcessPriceEpisode(priceEpisode);
+            }
+        }
+
+        private void ProcessPriceEpisode(string priceEpisodeIdentifier)
+        {
+            var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+            var pastPayments = HistoricalPayments.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+            var datalocks = DataLocks.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+
+            // If there are ACT2 past payments then it means that they have swapped
+            // and need to not have a datalock for them
+            if (HistoricalPayments.Any(x => x.ApprenticeshipContractType == 2))
+            {
+
+            }
+
             // Mark all earnings as payable
             var datalock = DataLocks.FirstOrDefault();
             Commitment commitment = null;
