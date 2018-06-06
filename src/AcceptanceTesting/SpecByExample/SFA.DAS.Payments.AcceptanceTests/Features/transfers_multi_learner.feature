@@ -43,10 +43,8 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
         | Payment due from employer 2                                | 0     | 0     | 0     |
         | Refund due to employer 1                                   | 0     | 0     | 0     |
         | Refund due to employer 2                                   | 0     | 0     | 0     |
-        | Employer 1 Levy account debited for ULN 22222              | 0     | 100   | 100   |
-        | Employer 2 Levy account debited for ULN 11111              | 0     | 0     | 0     |
-        | Employer 1 Levy account debited for ULN 22222 via transfer | 0     | 0     | 0     |
         | Employer 2 Levy account debited for ULN 11111 via transfer | 0     | 100   | 100   |
+        | Employer 1 Levy account debited for ULN 22222              | 0     | 100   | 100   |
         | SFA Levy employer budget                                   | 200   | 200   | 200   |
         | SFA Levy co-funding budget                                 | 0     | 0     | 0     |
         | SFA Levy additional payments budget                        | 0     | 0     | 0     |
@@ -101,8 +99,8 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
         | Payment due from employer 2                   | 0     | 0     | 0     |
         | Refund due to employer 1                      | 0     | 0     | 0     |
         | Refund due to employer 2                      | 0     | 0     | 0     |
-        | Employer 1 Levy account debited               | 0     | 0     | 0     |
         | Employer 2 Levy account debited via transfer  | 0     | 100   | 100   |
+        | Employer 1 Levy account debited               | 0     | 0     | 0     |
         | SFA Levy employer budget                      | 100   | 100   | 100   |
         | SFA Levy co-funding budget                    | 90    | 90    | 90    |
         | SFA Levy additional payments budget           | 0     | 0     | 0     |
@@ -153,8 +151,8 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
 		| Provider Paid by SFA for ULN 22222           | 0     | 92    | 92    |
 		| Payment due from employer 1                  | 0     | 8     | 8     |
 		| Payment due from employer 2                  | 0     | 0     | 0     |
-		| Employer 1 Levy account debited              | 0     | 40    | 40    |
 		| Employer 2 Levy account debited via transfer | 0     | 80    | 80    |
+		| Employer 1 Levy account debited              | 0     | 40    | 40    |
 		| SFA Levy employer budget                     | 120   | 120   | 120   |
 		| SFA Levy co-funding budget                   | 72    | 72    | 72    |
 		| SFA Levy additional payments budget          | 0     | 0     | 0     |
