@@ -82,25 +82,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
     <Compile Include="GivenAProviderLearnersBuilder.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenarioBase.cs" />
     <Compile Include="PaymentsDueTask\WhenExecutingWithInvalidContext.cs" />
-    <Compile Include="PaymentsDueTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingLearningStateDateChange.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +112,9 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Application\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

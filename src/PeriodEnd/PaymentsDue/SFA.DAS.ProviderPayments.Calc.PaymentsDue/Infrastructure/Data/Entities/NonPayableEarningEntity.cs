@@ -7,6 +7,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class NonPayableEarningEntity : IFundingDue, IHoldCommitmentInformation
     {
+        public NonPayableEarningEntity()
+        {}
+
+        public NonPayableEarningEntity(RawEarning rawEarning)
+        {
+            Uln = rawEarning.Uln;
+            LearnRefNumber = rawEarning.LearnRefNumber;
+            AimSeqNumber = rawEarning.AimSeqNumber;
+            Ukprn = rawEarning.Ukprn;
+            StandardCode = rawEarning.StandardCode;
+            ProgrammeType = rawEarning.ProgrammeType;
+            FrameworkCode = rawEarning.FrameworkCode;
+            PathwayCode = rawEarning.PathwayCode;
+            ApprenticeshipContractType = rawEarning.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier;
+            SfaContributionPercentage = rawEarning.SfaContributionPercentage;
+            FundingLineType = rawEarning.FundingLineType;
+            LearnAimRef = rawEarning.LearnAimRef;
+            LearningStartDate = rawEarning.LearningStartDate;
+        }
+
         public long? CommitmentId { get; set; }
         [StringLength(25)]
         public string CommitmentVersionId { get; set; }

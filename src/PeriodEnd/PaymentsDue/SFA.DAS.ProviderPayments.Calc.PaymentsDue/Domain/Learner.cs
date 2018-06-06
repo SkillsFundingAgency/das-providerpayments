@@ -1,31 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FastMember;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     public class Learner
     {
-        private List<CollectionPeriodEntity> CollectionPeriods { get; set; }
-
         public Learner(List<CollectionPeriodEntity> collectionPeriods)
         {
             CollectionPeriods = collectionPeriods;
         }
 
         // Input
-        public List<RawEarningEntity> RawEarnings { get; set; } = new List<RawEarningEntity>();
-        public List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; } = new List<RawEarningMathsEnglishEntity>();
+        public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
+        public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
         public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
         public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
-
-        // To go??
-        public List<string> DatalockErrors { get; private set; } = new List<string>();
-
 
         // Output
         public List<FundingDue> PayableEarnings { get; set; }
@@ -34,7 +27,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
 
         // Internal
-        private IEnumerable<RawEarningEntity> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
+        private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
+        private List<CollectionPeriodEntity> CollectionPeriods { get; }
+
+
         public bool IgnoreForPayments { get; set; }
 
         public void ValidateEarnings()
@@ -56,15 +52,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 return;
             }
 
-            // TODO: Treat each price episode seperately??
-            // If there is a datalock then ignore this learner
-            if (DataLocks.Any(x => x.Payable == false))
+            // If there are only datalock failures then ignore this learner
+            if (DataLocks.All(x => x.Payable == false))
             {
                 IgnoreForPayments = true;
                 MarkAllEarningsAsNonPayable();
                 return;
             }
             
+            // Process each price episode seperately
+            var priceEpisodes = RawEarnings.Select(x => x.PriceEpisodeIdentifier).Distinct();
+
+            foreach (var priceEpisode in priceEpisodes)
+            {
+                ProcessPriceEpisode(priceEpisode);
+            }
+        }
+
+        private void ProcessPriceEpisode(string priceEpisodeIdentifier)
+        {
+            var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+            var pastPayments = HistoricalPayments.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+            var datalocks = DataLocks.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
+
+            // If there are ACT2 past payments then it means that they have swapped
+            // and need to not have a datalock for them
+            if (HistoricalPayments.Any(x => x.ApprenticeshipContractType == 2))
+            {
+
+            }
+
             // Mark all earnings as payable
             var datalock = DataLocks.FirstOrDefault();
             Commitment commitment = null;
@@ -210,33 +227,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         }
 
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(FundingDue));
-        private static readonly int[] RawEarningsTransactionTypes = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 };
-        private static readonly int[] RawMathsAndEnglishTransactionTypes = { 13, 14, 15 };
-
-        private void AddFundingDue(RawEarningEntity rawEarnings, IHoldCommitmentInformation commitmentInformation = null)
-        {
-            foreach (var transactionType in RawEarningsTransactionTypes)
-            {
-                var fundingDue = CreateBasicFundingDue(rawEarnings);
-                fundingDue.TransactionType = transactionType;
-                // Doing this to prevent a huge switch statement
-                fundingDue.AmountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
-                if (commitmentInformation != null)
-                {
-                    AddCommitmentInformation(fundingDue, commitmentInformation);
-                }
-                PayableEarnings.Add(fundingDue);
-            }
-        }
         
-        private void AddFundingDue(RawEarningMathsEnglishEntity mathsAndEnglish, IHoldCommitmentInformation commitmentInformation = null)
+        private void AddFundingDue(RawEarning rawEarnings, IHoldCommitmentInformation commitmentInformation = null)
         {
-            foreach (var transactionType in RawMathsAndEnglishTransactionTypes)
+            for (var i = 1; i <= 15; i++)
             {
-                var fundingDue = CreateBasicFundingDue(mathsAndEnglish);
-                fundingDue.TransactionType = transactionType;
+                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{i:D2}"];
+                if (amountDue == 0)
+                {
+                    continue;
+                }
+                var fundingDue = new FundingDue(rawEarnings);
+                fundingDue.TransactionType = i;
+                fundingDue.DeliveryMonth = CalculateDeliveryMonth(rawEarnings.Period);
+                fundingDue.DeliveryYear = CalculateDeliveryYear(rawEarnings.Period);
                 // Doing this to prevent a huge switch statement
-                fundingDue.AmountDue = (decimal) FundingDueAccessor[mathsAndEnglish, $"TransactionType{transactionType:D2}"];
+                fundingDue.AmountDue = amountDue;
                 if (commitmentInformation != null)
                 {
                     AddCommitmentInformation(fundingDue, commitmentInformation);
@@ -245,32 +251,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             }
         }
 
-        private void AddNonpayableFundingDue(RawEarningEntity rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
+        private void AddNonpayableFundingDue(RawEarning rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
         {
-            foreach (var transactionType in RawEarningsTransactionTypes)
+            for (var i = 1; i <= 15; i++)
             {
-                var nonPayableEarning = CreateBasicNonPayableEarningEntity(rawEarnings);
-                nonPayableEarning.TransactionType = transactionType;
-                // Doing this to prevent a huge switch statement
-                nonPayableEarning.AmountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
-                if (commitmentInformation != null)
+                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{i:D2}"];
+                if (amountDue == 0)
                 {
-                    AddCommitmentInformation(nonPayableEarning, commitmentInformation);
+                    continue;
                 }
 
-                nonPayableEarning.Reason = reason;
-                NonPayableEarnings.Add(nonPayableEarning);
-            }
-        }
+                var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
+                nonPayableEarning.TransactionType = i;
+                nonPayableEarning.DeliveryMonth = CalculateDeliveryMonth(rawEarnings.Period);
+                nonPayableEarning.DeliveryYear = CalculateDeliveryYear(rawEarnings.Period);
 
-        private void AddNonpayableFundingDue(RawEarningMathsEnglishEntity rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
-        {
-            foreach (var transactionType in RawMathsAndEnglishTransactionTypes)
-            {
-                var nonPayableEarning = CreateBasicNonPayableEarningEntity(rawEarnings);
-                nonPayableEarning.TransactionType = transactionType;
                 // Doing this to prevent a huge switch statement
-                nonPayableEarning.AmountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
+                nonPayableEarning.AmountDue = amountDue;
                 if (commitmentInformation != null)
                 {
                     AddCommitmentInformation(nonPayableEarning, commitmentInformation);
@@ -289,54 +286,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             input.CommitmentVersionId = commitmentInformation.CommitmentVersionId;
             return input;
         }
-
         
-        private FundingDue CreateBasicFundingDue(IFundingDue fundingDue)
-        {
-            return new FundingDue
-            {
-                AimSeqNumber = fundingDue.AimSeqNumber,
-                ApprenticeshipContractType = fundingDue.ApprenticeshipContractType,
-                FrameworkCode = fundingDue.FrameworkCode,
-                PathwayCode = fundingDue.PathwayCode,
-                FundingLineType = fundingDue.FundingLineType,
-                LearnAimRef = fundingDue.LearnAimRef,
-                LearnRefNumber = fundingDue.LearnRefNumber,
-                LearningStartDate = fundingDue.LearningStartDate,
-                Period = fundingDue.Period,
-                ProgrammeType = fundingDue.ProgrammeType,
-                StandardCode = fundingDue.StandardCode,
-                SfaContributionPercentage = fundingDue.SfaContributionPercentage,
-                Ukprn = fundingDue.Ukprn,
-                Uln = fundingDue.Uln,
-                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
-                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
-            };
-        }
-
-        private NonPayableEarningEntity CreateBasicNonPayableEarningEntity(IFundingDue fundingDue)
-        {
-            return new NonPayableEarningEntity
-            {
-                AimSeqNumber = fundingDue.AimSeqNumber,
-                ApprenticeshipContractType = fundingDue.ApprenticeshipContractType,
-                FrameworkCode = fundingDue.FrameworkCode,
-                PathwayCode = fundingDue.PathwayCode,
-                FundingLineType = fundingDue.FundingLineType,
-                LearnAimRef = fundingDue.LearnAimRef,
-                LearnRefNumber = fundingDue.LearnRefNumber,
-                LearningStartDate = fundingDue.LearningStartDate,
-                Period = fundingDue.Period,
-                ProgrammeType = fundingDue.ProgrammeType,
-                StandardCode = fundingDue.StandardCode,
-                SfaContributionPercentage = fundingDue.SfaContributionPercentage,
-                Ukprn = fundingDue.Ukprn,
-                Uln = fundingDue.Uln,
-                DeliveryMonth = CalculateDeliveryMonth(fundingDue.Period),
-                DeliveryYear = CalculateDeliveryYear(fundingDue.Period),
-            };
-        }
-
         private int CalculateDeliveryMonth(int period)
         {
             return CollectionPeriods.First(x => x.Id == period).Month;

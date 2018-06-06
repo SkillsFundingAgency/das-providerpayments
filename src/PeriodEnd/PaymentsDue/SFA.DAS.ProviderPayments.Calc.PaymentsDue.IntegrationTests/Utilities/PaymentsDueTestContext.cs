@@ -16,12 +16,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         /// <summary>
         /// Populated by applying the <see cref="SetupRawEarningsAttribute"/> to the test
         /// </summary>
-        public static List<RawEarningEntity> RawEarnings { get; set; }
+        public static List<RawEarning> RawEarnings { get; set; }
 
         /// <summary>
         /// Populated by applying the <see cref="SetupRawEarningsMathsEnglishAttribute"/> to the test
         /// </summary>
-        public static List<RawEarningMathsEnglishEntity> RawEarningsMathsEnglish { get; set; }
+        public static List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; }
 
         /// <summary>
         /// Populated by applying the <see cref="SetupRequiredPaymentsHistoryAttribute"/> to the test

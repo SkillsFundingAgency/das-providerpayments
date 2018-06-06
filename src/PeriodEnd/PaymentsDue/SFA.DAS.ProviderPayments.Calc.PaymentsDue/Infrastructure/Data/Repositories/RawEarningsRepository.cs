@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 {
     public interface IRawEarningsRepository
     {
-        List<RawEarningEntity> GetAllForProvider(long ukprn);
+        List<RawEarning> GetAllForProvider(long ukprn);
     }
 
     public class RawEarningsRepository : DcfsRepository, IRawEarningsRepository
@@ -16,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public List<RawEarningEntity> GetAllForProvider(long ukprn)
+        public List<RawEarning> GetAllForProvider(long ukprn)
         {
             const string sql = @"
             SELECT *
             FROM Staging.RawEarnings
             WHERE Ukprn = @ukprn";
 
-            var result = Query<RawEarningEntity>(sql, new {ukprn})
+            var result = Query<RawEarning>(sql, new {ukprn})
                 .ToList();
 
             return result;

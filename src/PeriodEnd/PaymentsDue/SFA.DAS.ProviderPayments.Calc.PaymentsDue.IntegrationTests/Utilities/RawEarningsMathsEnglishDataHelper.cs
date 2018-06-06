@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class RawEarningsMathsEnglishDataHelper
     {
-        internal static void CreateRawEarningMathsEnglish(RawEarningMathsEnglishEntity rawEarningMathsEnglish)
+        internal static void CreateRawEarningMathsEnglish(RawEarningForMathsOrEnglish rawEarningForMathsOrEnglish)
         {
             const string sql = @"
             INSERT INTO Staging.RawEarningsMathsEnglish (
@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 @ApprenticeshipContractType
             );";
 
-            TestDataHelper.Execute(sql, rawEarningMathsEnglish);
+            TestDataHelper.Execute(sql, rawEarningForMathsOrEnglish);
         }
 
         internal static void Truncate()

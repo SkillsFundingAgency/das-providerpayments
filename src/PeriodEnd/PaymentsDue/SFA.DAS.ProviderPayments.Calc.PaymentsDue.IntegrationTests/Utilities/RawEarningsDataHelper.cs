@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class RawEarningsDataHelper
     {
-        internal static void CreateRawEarning(RawEarningEntity rawEarning)
+        internal static void CreateRawEarning(RawEarning rawEarning)
         {
             const string sql = @"
             INSERT INTO Staging.RawEarnings (
