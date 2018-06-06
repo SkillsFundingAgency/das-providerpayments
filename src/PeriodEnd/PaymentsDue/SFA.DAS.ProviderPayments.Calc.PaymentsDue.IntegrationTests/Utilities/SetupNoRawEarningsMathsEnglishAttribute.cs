@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             RawEarningsMathsEnglishDataHelper.Truncate();
 
-            PaymentsDueTestContext.RawEarningsMathsEnglish = new List<RawEarningMathsEnglishEntity>();
+            PaymentsDueTestContext.RawEarningsMathsEnglish = new List<RawEarningForMathsOrEnglish>();
 
             base.BeforeTest(test);
         }

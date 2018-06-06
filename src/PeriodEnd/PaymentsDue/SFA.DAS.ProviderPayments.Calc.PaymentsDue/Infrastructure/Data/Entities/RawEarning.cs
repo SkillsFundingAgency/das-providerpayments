@@ -4,7 +4,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RawEarningEntity : IFundingDue
+    public class RawEarning : IFundingDue
     {
         public long Ukprn { get; set; }
         [StringLength(12)]
@@ -43,6 +43,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public decimal TransactionType10 { get; set; }
         public decimal TransactionType11 { get; set; }
         public decimal TransactionType12 { get; set; }
+        public decimal TransactionType13 { get; set; }
+        public decimal TransactionType14 { get; set; }
+
         public decimal TransactionType15 { get; set; }
     }
 }

@@ -41,8 +41,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingGetAllForProvider : AndThereAreSomeRawEarningsForProvider
             {
-                private List<RawEarningMathsEnglishEntity> _actualRawEarningsMathsEnglish;
-                private List<RawEarningMathsEnglishEntity> _expectedRawEarningsMathsEnglish;
+                private List<RawEarningForMathsOrEnglish> _actualRawEarningsMathsEnglish;
+                private List<RawEarningForMathsOrEnglish> _expectedRawEarningsMathsEnglish;
 
                 [SetUp]
                 public new void Setup()

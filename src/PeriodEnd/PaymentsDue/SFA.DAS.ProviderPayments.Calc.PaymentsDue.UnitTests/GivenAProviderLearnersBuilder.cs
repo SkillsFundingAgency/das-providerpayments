@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllRawEarningsIfLearnerNotAlreadyExists(
             long ukprn,
             string learnRefNumber,
-            List<RawEarningEntity> rawEarnings,
+            List<RawEarning> rawEarnings,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             ProviderLearnersBuilder sut)
         {
@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllRawEarningsMathsEnglishIfLearnerNotAlreadyExists(
             long ukprn,
             string learnRefNumber,
-            List<RawEarningMathsEnglishEntity> rawEarningsMathsEnglish,
+            List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
             ProviderLearnersBuilder sut)
         {

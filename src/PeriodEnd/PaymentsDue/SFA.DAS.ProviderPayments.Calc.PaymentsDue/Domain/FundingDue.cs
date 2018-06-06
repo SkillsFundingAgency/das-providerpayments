@@ -9,6 +9,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
         }
 
+        public FundingDue(RawEarning rawEarning)
+        {
+            Uln = rawEarning.Uln;
+            LearnRefNumber = rawEarning.LearnRefNumber;
+            AimSeqNumber = rawEarning.AimSeqNumber;
+            Ukprn = rawEarning.Ukprn;
+            StandardCode = rawEarning.StandardCode;
+            ProgrammeType = rawEarning.ProgrammeType;
+            FrameworkCode = rawEarning.FrameworkCode;
+            PathwayCode = rawEarning.PathwayCode;
+            ApprenticeshipContractType = rawEarning.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier;
+            SfaContributionPercentage = rawEarning.SfaContributionPercentage;
+            FundingLineType = rawEarning.FundingLineType;
+            LearnAimRef = rawEarning.LearnAimRef;
+            LearningStartDate = rawEarning.LearningStartDate;
+        }
+
         public FundingDue(RequiredPaymentsHistoryEntity requiredPaymentsHistoryEntity)
         {
             CommitmentId = requiredPaymentsHistoryEntity.CommitmentId;

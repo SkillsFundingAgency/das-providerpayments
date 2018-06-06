@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             NonPayableEarningsDataHelper.Truncate();
 
-            PaymentsDueTestContext.RawEarnings = new List<RawEarningEntity>();
+            PaymentsDueTestContext.RawEarnings = new List<RawEarning>();
 
             base.BeforeTest(test);
         }
