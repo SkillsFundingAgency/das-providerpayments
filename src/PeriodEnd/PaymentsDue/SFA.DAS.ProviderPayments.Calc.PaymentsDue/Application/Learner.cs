@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
             // TODO: Treat each price episode seperately??
             // If there is a datalock then ignore this learner
-            if (DataLocks.Any(x => x.Payable == false))
+            if (DataLocks.All(x => x.Payable == false))
             {
                 IgnoreForPayments = true;
                 MarkAllEarningsAsNonPayable();
