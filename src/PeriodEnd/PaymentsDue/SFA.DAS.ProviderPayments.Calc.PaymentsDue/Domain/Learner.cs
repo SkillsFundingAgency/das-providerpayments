@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FastMember;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     public class Learner
     {

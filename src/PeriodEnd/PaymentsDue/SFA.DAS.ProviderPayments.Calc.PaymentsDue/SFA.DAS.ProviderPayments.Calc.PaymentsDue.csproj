@@ -63,7 +63,7 @@
     <Compile Include="Application\Earnings\PeriodEarning.cs" />
     <Compile Include="Application\IPayableEarningsCalculator.cs" />
     <Compile Include="Application\IProviderLearnersBuilder.cs" />
-    <Compile Include="Application\Learner.cs" />
+    <Compile Include="Domain\Learner.cs" />
     <Compile Include="Application\PayableEarning.cs" />
     <Compile Include="Application\ProviderLearnersBuilder.cs" />
     <Compile Include="Application\Providers\Provider.cs" />
