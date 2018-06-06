@@ -27,7 +27,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _learnerProcessor = learnerProcessor;
             _nonPayableEarningRepository = nonPayableEarningRepository;
             _requiredPaymentRepository = requiredPaymentRepository;
-            
         }
 
         public void Process(ProviderEntity provider)
@@ -41,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var parameters in learnersParams)
             {
-                _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");//todo:move to learner processor
+                _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");//todo:move to learner processor, and other appropriate logs
 
                 var learnerResult = _learnerProcessor.Process(parameters);
 
