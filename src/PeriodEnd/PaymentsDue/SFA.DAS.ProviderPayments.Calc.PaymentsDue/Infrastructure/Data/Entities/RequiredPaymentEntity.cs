@@ -38,5 +38,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         [StringLength(8)]
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
+        public string CollectionPeriodName { get; set; }
+        public int CollectionPeriodMonth { get; set; }
+        public int CollectionPeriodYear { get; set; }
     }
 }

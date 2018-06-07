@@ -69,7 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].HistoricalPayments
+            learners[learnRefNumber].PastPayments
                 .ShouldAllBeEquivalentTo(historicalPayments);
         }
 

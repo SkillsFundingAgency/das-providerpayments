@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                     learners.Add(rawEarning.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
-                learners[rawEarning.LearnRefNumber].RawEarnings.Add(rawEarning);
+                //learners[rawEarning.LearnRefNumber].RawEarnings.Add(rawEarning);
             }
 
             foreach (var rawEarningMathsEnglish in _rawEarningsMathsEnglishRepository.GetAllForProvider(ukprn))
@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                     learners.Add(rawEarningMathsEnglish.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
-                learners[rawEarningMathsEnglish.LearnRefNumber].RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
+                //learners[rawEarningMathsEnglish.LearnRefNumber].RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                     learners.Add(historicalPayment.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
-                learners[historicalPayment.LearnRefNumber].HistoricalPayments.Add(historicalPayment);
+                //learners[historicalPayment.LearnRefNumber].PastPayments.Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetAllForProvider(ukprn))
@@ -68,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                     learners.Add(dataLock.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
-                learners[dataLock.LearnRefNumber].DataLocks.Add(dataLock);
+                //learners[dataLock.LearnRefNumber].DataLocks.Add(dataLock);
             }
 
             return learners;

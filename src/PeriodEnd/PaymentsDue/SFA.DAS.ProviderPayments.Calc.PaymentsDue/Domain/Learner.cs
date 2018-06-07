@@ -2,6 +2,7 @@
 using System.Linq;
 using FastMember;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
@@ -10,101 +11,151 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public Learner(IEnumerable<RawEarning> rawEarnings, IEnumerable<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
             IEnumerable<PriceEpisode> priceEpisodes, IEnumerable<RequiredPaymentEntity> pastPayments)
         {
-            
+            RawEarnings = rawEarnings.ToList();
+            RawEarningsMathsEnglish = mathsAndEnglishEarnings.ToList();
+            PriceEpisodes = priceEpisodes.ToList();
+            PastPayments = pastPayments.ToList();
         }
 
         // Input
-        public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
-        public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
-        public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
-        public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
-        public List<Commitment> Commitments { get; set; } = new List<Commitment>();
-
+        private List<RawEarning> RawEarnings { get; }
+        private IReadOnlyList<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; }
+        public IReadOnlyList<PriceEpisode> PriceEpisodes { get; }
+        public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
+        
         // Output
-        public List<FundingDue> PayableEarnings { get; set; }
-        public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
-
         public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
-
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
 
         // Internal
+        private List<FundingDue> PayableEarnings { get; set; } = new List<FundingDue>();
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
+        private bool _ignoreLearner;                // Used for special case ACT2 -> ACT1 with datalock
         
-
-        public bool IgnoreForPayments { get; set; }
-
-        public void ValidateEarnings()
+        private void MatchMathsAndEnglishToOnProg()
         {
+            var payableEarnings = new List<RawEarning>();
+            var nonPayableEarnings = new List<RawEarning>();
+
+            // Find a matching raw earning with the same course information
+            foreach (var mathsOrEnglishEarning in RawEarningsMathsEnglish)
+            {
+                var matchingOnProg = RawEarnings.FirstOrDefault(x => x.FrameworkCode == mathsOrEnglishEarning.FrameworkCode &&
+                                                            x.StandardCode == mathsOrEnglishEarning.StandardCode &&
+                                                            x.PathwayCode == mathsOrEnglishEarning.PathwayCode &&
+                                                            x.ProgrammeType == mathsOrEnglishEarning.ProgrammeType);
+                if (matchingOnProg != null)
+                {
+                    mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
+                    payableEarnings.Add(mathsOrEnglishEarning);
+                }
+                else
+                {
+                    nonPayableEarnings.Add(mathsOrEnglishEarning);
+                }
+            }
+            
+            RawEarnings.AddRange(payableEarnings);
+            MarkAsNonPayable(nonPayableEarnings, "Maths or english aim with no matching on-prog aim");
+        }
+
+        private void ValidateEarningsAgainstDatalocks()
+        {
+            // The reason for this method is to put each raw earning into a payable or non-payable pot
+
+            // BUSINESS RULES:
+            //  If a learner has any passed datalocks, then pay all M/E
+            //  If a learner is ACT2 only, pay everything
+            //  If a learner moves from ACT2 to ACT1 and has a 'bad' datalock, then ignore them
+            //  If a learner has a 'bad' datalock, ignore them for payments and refunds (includes the above)
+            
             var act1 = Act1RawEarnings.ToList();
             // if there are *no* ACT1 earnings, then everything is ACT2 and payable
             if (act1.Count == 0)
             {
-                foreach (var rawEarningEntity in RawEarnings)
-                {
-                    AddFundingDue(rawEarningEntity);
-                }
-
-                foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
-                {
-                    AddFundingDue(rawEarningMathsEnglishEntity);
-                }
-
+                MarkAsPayable(RawEarnings);
+                
                 return;
             }
 
-            // If there are only datalock failures then ignore this learner
-            if (DataLocks.All(x => x.Payable == false))
-            {
-                IgnoreForPayments = true;
-                MarkAllEarningsAsNonPayable();
-                return;
-            }
-            
+            // THERE ARE ACT1 EARNINGS AT THIS POINT
+
             // Process each price episode seperately
-            var priceEpisodes = RawEarnings.Select(x => x.PriceEpisodeIdentifier).Distinct();
+            var priceEpisodes = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
 
-            foreach (var priceEpisode in priceEpisodes)
+            foreach (var earningsForEpisode in priceEpisodes)
             {
-                ProcessPriceEpisode(priceEpisode);
+                string reason;
+                var priceEpisode = PriceEpisodes.SingleOrDefault(x => x.PriceEpisodeIdentifier == earningsForEpisode.Key);
+
+                if (ShouldPayPriceEpisode(earningsForEpisode.Key, priceEpisode, out reason))
+                {
+                    MarkAsPayable(earningsForEpisode, priceEpisode);
+                }
+                else
+                {
+                    MarkAsNonPayable(earningsForEpisode, reason, priceEpisode);
+                }
             }
         }
 
-        private void ProcessPriceEpisode(string priceEpisodeIdentifier)
+        private bool ShouldPayPriceEpisode(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason)
         {
-            var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
-            var pastPayments = HistoricalPayments.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
-            var datalocks = DataLocks.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier);
-
-            // If there are ACT2 past payments then it means that they have swapped
-            // and need to not have a datalock for them
-            if (HistoricalPayments.Any(x => x.ApprenticeshipContractType == 2))
+            reason = string.Empty;
+            var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
+            
+            // If only act2 earnings
+            if (earnings.All(x => x.ApprenticeshipContractType == 2))
             {
-
+                // Pay the price episode
+                return true;
             }
 
-            // Mark all earnings as payable
-            var datalock = DataLocks.FirstOrDefault();
-            Commitment commitment = null;
-            if (datalock != null)
+            // If no 'bad' datalock, then pay for the price episode
+            if (priceEpisode?.Payable ?? false)
             {
-                commitment = Commitments.FirstOrDefault(x => x.CommitmentId == datalock.CommitmentId);
+                return true;
             }
 
-            foreach (var rawEarningEntity in RawEarnings)
+            // Check to see if we should be ignoring the learner
+            var pastAct2Payments = PastPayments.Any(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier &&
+                                                           x.ApprenticeshipContractType == 2);
+            if (pastAct2Payments)
             {
-                AddFundingDue(rawEarningEntity, commitment);
+                // Past payments for an ACT1 episode that were ACT2
+                //  and a 'bad' datalock
+                _ignoreLearner = true;
+                reason = "ACT2 -> ACT1 learner with a failing datalock";
+                return false;
             }
 
-            foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
+            if (priceEpisode == null)
             {
-                AddFundingDue(rawEarningMathsEnglishEntity, commitment);
+                reason = $"No datalock present for price episode {priceEpisodeIdentifier}";
             }
+            else
+            {
+                reason = $"Datalock failure for price episode {priceEpisodeIdentifier}";
+            }
+
+            return false;
         }
 
-        public void CalculatePaymentsDue()
+        public LearnerProcessResults CalculatePaymentsDue()
         {
+            MatchMathsAndEnglishToOnProg();
+            ValidateEarningsAgainstDatalocks();
+
+            if (_ignoreLearner)
+            {
+                return new LearnerProcessResults
+                {
+                    NonPayableEarnings = NonPayableEarnings,
+                    PayableEarnings = new List<RequiredPaymentEntity>(),
+                };
+            }
+
             var processedGroups = new HashSet<MatchSetForPayments>();
 
             var groupedEarnings = PayableEarnings.GroupBy(x => new MatchSetForPayments
@@ -124,7 +175,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 CommitmentId = x.CommitmentId,
             }).ToDictionary(x => x.Key, x => x.ToList());
 
-            var groupedPastPayments = HistoricalPayments.GroupBy(x => new MatchSetForPayments
+            var groupedPastPayments = PastPayments.GroupBy(x => new MatchSetForPayments
             {
                 StandardCode = x.StandardCode,
                 FrameworkCode = x.FrameworkCode,
@@ -146,7 +197,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             {
                 processedGroups.Add(key);
                 var earnings = groupedEarnings[key];
-                var pastPayments = new List<RequiredPaymentsHistoryEntity>();
+                var pastPayments = new List<RequiredPaymentEntity>();
                 if (groupedPastPayments.ContainsKey(key))
                 {
                     pastPayments = groupedPastPayments[key];
@@ -155,7 +206,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 var payment = earnings.Sum(x => x.AmountDue) - pastPayments.Sum(x => x.AmountDue);
                 if (payment != 0)
                 {
-                    AddPayment(earnings.First(), payment);
+                    AddRequiredPayment(earnings.First(), payment);
                 }
             }
 
@@ -164,6 +215,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             {
                 if (processedGroups.Contains(key))
                 {
+                    // Already processed
                     continue;
                 }
 
@@ -171,48 +223,40 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 var payment = -(payments.Sum(x => x.AmountDue));
                 if (payment != 0)
                 {
-                    AddPayment(new FundingDue(payments.First()), payment);
+                    AddRequiredPayment(payments.First(), payment);
                 }
             }
+
+            return new LearnerProcessResults
+            {
+                NonPayableEarnings = NonPayableEarnings,
+                PayableEarnings = RequiredPayments,
+            };
         }
 
-        private void AddPayment(FundingDue fundingDue, decimal amount)
+        private void AddRequiredPayment(RequiredPaymentEntity requiredPayment, decimal amount)
         {
-            fundingDue.AmountDue = amount;
-            FundingDue.Add(fundingDue);
+            requiredPayment.AmountDue = amount;
+            RequiredPayments.Add(requiredPayment);
         }
 
-        private void MarkAllEarningsAsNonPayable()
+        private void MarkAsPayable(IEnumerable<RawEarning> earnings, IHoldCommitmentInformation commitment = null)
         {
-            // Get the commitment information
-            var datalock = DataLocks.FirstOrDefault();
-
-            string reason;
-            Commitment commitment = null;
-
-            if (datalock == null)
+            foreach (var rawEarning in earnings)
             {
-                reason = "Could not find a matching datalock for ACT 1 learner";
+                AddFundingDue(rawEarning, commitment);
             }
-            else
-            {
-                reason = "Datalock failed for ACT 1 learner";
-                commitment = Commitments.First(x => x.CommitmentId == datalock.CommitmentId);
-            }
-            
-            foreach (var rawEarningEntity in RawEarnings)
-            {
-                AddNonpayableFundingDue(rawEarningEntity, reason, commitment);
-            }
+        }
 
-            foreach (var rawEarningMathsEnglishEntity in RawEarningsMathsEnglish)
+        private void MarkAsNonPayable(IEnumerable<RawEarning> earnings, string reason, IHoldCommitmentInformation commitment = null)
+        {
+            foreach (var rawEarning in earnings)
             {
-                AddNonpayableFundingDue(rawEarningMathsEnglishEntity, reason, commitment);
+                AddNonpayableFundingDue(rawEarning, reason, commitment);
             }
         }
 
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(FundingDue));
-        
         private void AddFundingDue(RawEarning rawEarnings, IHoldCommitmentInformation commitmentInformation = null)
         {
             for (var i = 1; i <= 15; i++)
@@ -224,8 +268,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 }
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = i;
-                fundingDue.DeliveryMonth = CalculateDeliveryMonth(rawEarnings.Period);
-                fundingDue.DeliveryYear = CalculateDeliveryYear(rawEarnings.Period);
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
                 if (commitmentInformation != null)
@@ -248,9 +290,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                 var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
                 nonPayableEarning.TransactionType = i;
-                nonPayableEarning.DeliveryMonth = CalculateDeliveryMonth(rawEarnings.Period);
-                nonPayableEarning.DeliveryYear = CalculateDeliveryYear(rawEarnings.Period);
-
+                
                 // Doing this to prevent a huge switch statement
                 nonPayableEarning.AmountDue = amountDue;
                 if (commitmentInformation != null)
