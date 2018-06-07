@@ -75,6 +75,30 @@
       <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.views.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.views.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
