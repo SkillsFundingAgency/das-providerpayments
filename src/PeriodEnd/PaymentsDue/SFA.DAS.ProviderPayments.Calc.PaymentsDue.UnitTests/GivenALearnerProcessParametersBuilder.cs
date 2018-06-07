@@ -11,15 +11,15 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 {
     [TestFixture]
-    public class GivenAProviderLearnersBuilder
+    public class GivenALearnerProcessParametersBuilder
     {
         [Test, PaymentsDueAutoData]
-        public void ThenItCreatesASingleNewLearnerForAllRawEarningsIfLearnerNotAlreadyExists(
+        public void ThenItCreatesASingleNewLearnerProcessParametersInstanceForAllRawEarningsIfLearnerNotAlreadyExists(
             long ukprn,
             string learnRefNumber,
             List<RawEarning> rawEarnings,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-            ProviderLearnersBuilder sut)
+            LearnerProcessParametersBuilder sut)
         {
             rawEarnings.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
@@ -29,9 +29,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].RawEarnings
-                .ShouldAllBeEquivalentTo(rawEarnings);
+            learners.Count.Should().Be(1);
+            learners[0].RawEarnings.ShouldAllBeEquivalentTo(rawEarnings);
         }
+
 
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesASingleNewLearnerForAllRawEarningsMathsEnglishIfLearnerNotAlreadyExists(
@@ -39,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             string learnRefNumber,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            ProviderLearnersBuilder sut)
+            LearnerProcessParametersBuilder sut)
         {
             rawEarningsMathsEnglish.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
@@ -49,8 +50,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].RawEarningsMathsEnglish
-                .ShouldAllBeEquivalentTo(rawEarningsMathsEnglish);
+            learners.Count.Should().Be(1);
+            learners[0].RawEarningsMathsEnglish.ShouldAllBeEquivalentTo(rawEarningsMathsEnglish);
         }
 
         [Test, PaymentsDueAutoData]
@@ -59,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             string learnRefNumber,
             List<RequiredPaymentsHistoryEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            ProviderLearnersBuilder sut)
+            LearnerProcessParametersBuilder sut)
         {
             historicalPayments.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
@@ -69,8 +70,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].HistoricalPayments
-                .ShouldAllBeEquivalentTo(historicalPayments);
+            learners.Count.Should().Be(1);
+            learners[0].HistoricalPayments.ShouldAllBeEquivalentTo(historicalPayments);
         }
 
         [Test, PaymentsDueAutoData]
@@ -79,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             string learnRefNumber,
             List<DataLockPriceEpisodePeriodMatchEntity> dataLocks,
             [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
-            ProviderLearnersBuilder sut)
+            LearnerProcessParametersBuilder sut)
         {
             dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
@@ -89,8 +90,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             var learners = sut.Build(ukprn);
 
-            learners[learnRefNumber].DataLocks
-                .ShouldAllBeEquivalentTo(dataLocks);
+            learners.Count.Should().Be(1);
+            learners[0].DataLocks.ShouldAllBeEquivalentTo(dataLocks);
         }
     }
 }
