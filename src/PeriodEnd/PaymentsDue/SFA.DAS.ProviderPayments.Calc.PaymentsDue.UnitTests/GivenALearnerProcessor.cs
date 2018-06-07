@@ -64,10 +64,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     Times.Once);
             }
 
-            [Test, PaymentsDueAutoData, Ignore("till implemented todos")]
+            [Test, PaymentsDueAutoData]
             public void ThenItReturnsTheCalculationResult(
                 LearnerProcessParameters parameters,
                 List<PriceEpisode> priceEpisodes,
+                LearnerProcessResults processResults,
                 [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
                 [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
                 [Frozen] Mock<ILearner> mockLearner,
@@ -82,12 +83,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Setup(factory => factory.CreateLearner())
                     .Returns(mockLearner.Object);
 
-                // todo: mockLearner.Result 
+                mockLearner
+                    .Setup(learner => learner.CalculatePaymentsDue())
+                    .Returns(processResults);
 
-                var result = sut.Process(parameters);
+                var actualResults = sut.Process(parameters);
 
-                // todo: result.PayableEarnings.ShouldAllBeEquivalentTo(mockLearner.PayableEarnings);
-                // todo: result.NonPayableEarnings.ShouldAllBeEquivalentTo(mockLearner.NonPayableEarnings);
+                actualResults.PayableEarnings.ShouldAllBeEquivalentTo(processResults.PayableEarnings);
+                actualResults.NonPayableEarnings.ShouldAllBeEquivalentTo(processResults.NonPayableEarnings);
             }
         }
     }

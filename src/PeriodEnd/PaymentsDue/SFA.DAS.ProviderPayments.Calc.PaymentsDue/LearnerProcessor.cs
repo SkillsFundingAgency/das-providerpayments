@@ -26,9 +26,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks);
 
-            learner.CalculatePaymentsDue();
+            //todo: get data to learner
 
-            var results = new LearnerProcessResults();
+            var results = learner.CalculatePaymentsDue();
 
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
             _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
