@@ -48,19 +48,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Setup(factory => factory.CreateDataLockComponent())
                     .Returns(mockDataLockComponent.Object);
 
-                mockLearnerFactory
-                    .Setup(factory => factory.CreateLearner())
-                    .Returns(mockLearner.Object);
-
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
                         It.IsAny<List<DataLockPriceEpisodePeriodMatchEntity>>()))
                     .Returns(priceEpisodes);
 
+                mockLearnerFactory
+                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, It.IsAny<IEnumerable<RequiredPaymentEntity>>()))
+                    .Returns(mockLearner.Object);
+
                 sut.Process(parameters);
 
                 mockLearner
-                    .Verify(learner => learner.CalculatePaymentsDue(), //todo: refactor to take params, inc priceEpisode from datalock components
+                    .Verify(learner => learner.CalculatePaymentsDue(),
                     Times.Once);
             }
 
@@ -79,8 +79,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Setup(factory => factory.CreateDataLockComponent())
                     .Returns(mockDataLockComponent.Object);
 
+                mockDataLockComponent
+                    .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
+                        It.IsAny<List<DataLockPriceEpisodePeriodMatchEntity>>()))
+                    .Returns(priceEpisodes);
+
                 mockLearnerFactory
-                    .Setup(factory => factory.CreateLearner())
+                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, It.IsAny<IEnumerable<RequiredPaymentEntity>>()))
                     .Returns(mockLearner.Object);
 
                 mockLearner

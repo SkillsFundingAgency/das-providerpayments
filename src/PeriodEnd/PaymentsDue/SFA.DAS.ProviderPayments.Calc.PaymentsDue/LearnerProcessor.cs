@@ -22,12 +22,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
 
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
-            var learner = _learnerFactory.CreateLearner();
+            
+            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks);
 
-            dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks);
-
-            //todo: get data to learner
-
+            var learner = _learnerFactory.CreateLearner(
+                parameters.RawEarnings, 
+                parameters.RawEarningsMathsEnglish, 
+                priceEpisodes, 
+                parameters.RequiredPayments);//todo: last param is wrong
+            
             var results = learner.CalculatePaymentsDue();
 
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
