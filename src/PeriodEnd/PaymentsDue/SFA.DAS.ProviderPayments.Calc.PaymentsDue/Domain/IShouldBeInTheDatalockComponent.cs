@@ -5,7 +5,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     // ReSharper disable once InconsistentNaming
-    public class IShouldBeInTheDatalockComponent
+    public class IShouldBeInTheDatalockComponent : IIShouldBeInTheDatalockComponent
     {
         public IShouldBeInTheDatalockComponent(
             List<Commitment> commitments,

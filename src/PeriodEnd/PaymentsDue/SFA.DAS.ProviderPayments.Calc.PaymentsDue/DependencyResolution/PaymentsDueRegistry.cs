@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using StructureMap;
+using StructureMap.AutoFactory;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {
@@ -33,6 +35,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => GetInstance(ctx, t));
             For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => GetAllInstances(ctx, t));
             For<IMediator>().Use<Mediator>();
+
+            // todo: For<ILearner>().Use<Learner>();
+            For<IIShouldBeInTheDatalockComponent>().Use<IShouldBeInTheDatalockComponent>();
+            For<ILearnerFactory>().CreateFactory();
+            For<IDataLockComponentFactory>().CreateFactory();
+
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

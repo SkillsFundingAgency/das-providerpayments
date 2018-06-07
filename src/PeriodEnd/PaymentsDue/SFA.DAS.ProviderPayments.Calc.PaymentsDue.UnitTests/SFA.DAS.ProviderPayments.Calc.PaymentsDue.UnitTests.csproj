@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAProviderLearnersBuilder.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
