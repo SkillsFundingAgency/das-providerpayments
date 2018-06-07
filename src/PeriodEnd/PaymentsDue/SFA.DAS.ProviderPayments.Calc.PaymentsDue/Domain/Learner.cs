@@ -17,12 +17,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
         public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
-        public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
 
         // Output
         public List<FundingDue> PayableEarnings { get; set; }
         public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
+        public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
+
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
 
@@ -99,23 +100,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             {
                 AddFundingDue(rawEarningMathsEnglishEntity, commitment);
             }
-        }
-
-        private class MatchSetForPayments
-        {
-            public int StandardCode { get; set; }
-            public int FrameworkCode { get; set; }
-            public int ProgrammeType { get; set; }
-            public int PathwayCode { get; set; }
-            public int ApprenticeshipContractType { get; set; }
-            public int TransactionType { get; set; }
-            public decimal SfaContributionPercentage { get; set; }
-            public string LearnAimRef { get; set; }
-            public string FundingLineType { get; set; }
-            public int DeliveryYear { get; set; }
-            public int DeliveryMonth { get; set; }
-            public long? AccountId { get; set; }
-            public long? CommitmentId { get; set; }
         }
 
         public void CalculateFundingDue()
