@@ -7,9 +7,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     public class Learner
     {
-        public Learner(List<CollectionPeriodEntity> collectionPeriods)
+        public Learner(IEnumerable<RawEarning> rawEarnings, IEnumerable<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            IEnumerable<PriceEpisode> priceEpisodes, IEnumerable<RequiredPaymentEntity> pastPayments)
         {
-            CollectionPeriods = collectionPeriods;
+            
         }
 
         // Input
@@ -17,19 +18,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; set; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
         public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; set; } = new List<RequiredPaymentsHistoryEntity>();
-        public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
 
         // Output
         public List<FundingDue> PayableEarnings { get; set; }
         public List<FundingDue> FundingDue { get; } = new List<FundingDue>();
+
+        public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
+
         public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
 
 
         // Internal
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
-        private List<CollectionPeriodEntity> CollectionPeriods { get; }
-
+        
 
         public bool IgnoreForPayments { get; set; }
 
@@ -101,24 +103,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        private class MatchSetForPayments
-        {
-            public int StandardCode { get; set; }
-            public int FrameworkCode { get; set; }
-            public int ProgrammeType { get; set; }
-            public int PathwayCode { get; set; }
-            public int ApprenticeshipContractType { get; set; }
-            public int TransactionType { get; set; }
-            public decimal SfaContributionPercentage { get; set; }
-            public string LearnAimRef { get; set; }
-            public string FundingLineType { get; set; }
-            public int DeliveryYear { get; set; }
-            public int DeliveryMonth { get; set; }
-            public long? AccountId { get; set; }
-            public long? CommitmentId { get; set; }
-        }
-
-        public void CalculateFundingDue()
+        public void CalculatePaymentsDue()
         {
             var processedGroups = new HashSet<MatchSetForPayments>();
 
@@ -289,12 +274,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         
         private int CalculateDeliveryMonth(int period)
         {
-            return CollectionPeriods.First(x => x.Id == period).Month;
+            //return CollectionPeriods.First(x => x.Id == period).Month;
+            return 0;
         }
 
         private int CalculateDeliveryYear(int period)
         {
-            return CollectionPeriods.First(x => x.Id == period).Year;
+            //return CollectionPeriods.First(x => x.Id == period).Year;
+            return 0;
         }
     }
 }

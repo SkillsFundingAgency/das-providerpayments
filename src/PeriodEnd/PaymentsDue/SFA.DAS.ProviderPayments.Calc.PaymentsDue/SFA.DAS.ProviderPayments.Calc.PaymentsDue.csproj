@@ -59,11 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\ComparableEarning.cs" />
     <Compile Include="Application\Earnings\PeriodEarning.cs" />
     <Compile Include="Application\ILearnerProcessParametersBuilder.cs" />
     <Compile Include="Application\IPayableEarningsCalculator.cs" />
     <Compile Include="Application\IProviderLearnersBuilder.cs" />
+    <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
     <Compile Include="Application\PayableEarning.cs" />
     <Compile Include="Application\ProviderLearnersBuilder.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
+    <Compile Include="Domain\MatchSetForPayments.cs" />
     <Compile Include="Domain\PriceEpisode.cs" />
     <Compile Include="ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />

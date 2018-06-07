@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(rawEarning.LearnRefNumber))
                 {
-                    learners.Add(rawEarning.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
+                    learners.Add(rawEarning.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
                 learners[rawEarning.LearnRefNumber].RawEarnings.Add(rawEarning);
@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(rawEarningMathsEnglish.LearnRefNumber))
                 {
-                    learners.Add(rawEarningMathsEnglish.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
+                    learners.Add(rawEarningMathsEnglish.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
                 learners[rawEarningMathsEnglish.LearnRefNumber].RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
@@ -55,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(historicalPayment.LearnRefNumber))
                 {
-                    learners.Add(historicalPayment.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
+                    learners.Add(historicalPayment.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
                 learners[historicalPayment.LearnRefNumber].HistoricalPayments.Add(historicalPayment);
@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 if (!learners.ContainsKey(dataLock.LearnRefNumber))
                 {
-                    learners.Add(dataLock.LearnRefNumber, new Learner(_collectionPeriodRepository.GetAllCollectionPeriods()));
+                    learners.Add(dataLock.LearnRefNumber, new Learner(null, null, null, null));
                 }
 
                 learners[dataLock.LearnRefNumber].DataLocks.Add(dataLock);
