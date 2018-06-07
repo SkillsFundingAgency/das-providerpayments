@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IMediator>().Use<Mediator>();
 
             // todo: For<ILearner>().Use<Learner>();
-            For<IIShouldBeInTheDatalockComponent>().Use<IShouldBeInTheDatalockComponent>();
+            For<IIShouldBeInTheDataLockComponent>().Use<IShouldBeInTheDatalockComponent>();
             For<ILearnerFactory>().CreateFactory();
             For<IDataLockComponentFactory>().CreateFactory();
 

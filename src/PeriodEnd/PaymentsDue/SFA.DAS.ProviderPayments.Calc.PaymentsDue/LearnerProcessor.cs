@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
             var learner = _learnerFactory.CreateLearner();
 
-            dataLock.ValidatePriceEpisodes();
+            dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks);
 
             learner.CalculatePaymentsDue();
 

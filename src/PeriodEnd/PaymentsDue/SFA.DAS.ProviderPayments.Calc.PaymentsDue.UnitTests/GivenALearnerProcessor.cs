@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItGetsPriceEpisodesFromDataLockValidation(
                 LearnerProcessParameters parameters,
-                [Frozen] Mock<IIShouldBeInTheDatalockComponent> mockDataLockComponent,
+                [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
                 [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
                 LearnerProcessor sut)
             {
@@ -26,13 +26,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 
                 sut.Process(parameters);
 
-                mockDataLockComponent.Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(), Times.Once);
+                mockDataLockComponent
+                    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks), 
+                    Times.Once);
             }
 
             [Test, PaymentsDueAutoData]
             public void ThenItCalculatesPaymentsFromLearner(
                 LearnerProcessParameters parameters,
-                [Frozen] Mock<IIShouldBeInTheDatalockComponent> mockDataLockComponent,
+                [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
                 [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
                 [Frozen] Mock<ILearner> mockLearner,
                 [Frozen] Mock<ILearnerFactory> mockLearnerFactory,
@@ -48,7 +50,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 sut.Process(parameters);
 
-                mockLearner.Verify(learner => learner.CalculatePaymentsDue(), Times.Once);
+                mockLearner
+                    .Verify(learner => learner.CalculatePaymentsDue(), 
+                    Times.Once);
             }
         }
     }
