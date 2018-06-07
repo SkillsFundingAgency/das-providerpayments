@@ -40,25 +40,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
             foreach (var parameters in learnersParams)
             {
-                _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");//todo:move to learner processor, and other appropriate logs
-
                 var learnerResult = _learnerProcessor.Process(parameters);
 
-                _logger.Info($"There are [{learnerResult.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
                 allNonPayablesForProvider.AddRange(learnerResult.NonPayableEarnings);
-
-                _logger.Info($"There are [{learnerResult.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
                 allPayablesForProvider.AddRange(learnerResult.PayableEarnings);
-
-                _logger.Info($"Processing finished for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
             }
-
-            _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
+            
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
-
-            _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
             _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
 
+            _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
+            _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
             _logger.Info($"Processing finished for Provider UKPRN: [{provider.Ukprn}].");
         }
     }
