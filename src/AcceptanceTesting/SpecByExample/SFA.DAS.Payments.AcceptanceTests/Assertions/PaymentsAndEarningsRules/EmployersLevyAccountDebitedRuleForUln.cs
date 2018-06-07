@@ -12,9 +12,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
             var payments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                 .Where(p => p.FundingSource == FundingSource.Levy && p.ContractType == ContractType.ContractWithSfa && p.Amount >= 0)
                 .ToArray();
+
             foreach (var period in breakdown.EmployersLevyAccountDebitedForUln)
             {
-                var employerPayments = payments.Where(p => p.EmployerAccountId == period.EmployerAccountId).ToArray();
+                var employerUlnPayments = payments.Where(p => p.EmployerAccountId == period.EmployerAccountId && p.Uln == period.Uln).ToArray();
                 var prevPeriod = new EmployerAccountUlnPeriodValue
                 {
                     EmployerAccountId = period.EmployerAccountId,
@@ -23,7 +24,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
                     Value = period.Value
                 };
 
-                AssertResultsForPeriod(prevPeriod, employerPayments);
+                AssertResultsForPeriod(prevPeriod, employerUlnPayments);
             }
         }
 

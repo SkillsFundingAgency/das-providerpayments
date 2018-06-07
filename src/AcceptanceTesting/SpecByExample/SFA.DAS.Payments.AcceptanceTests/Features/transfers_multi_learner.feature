@@ -88,26 +88,28 @@ Scenario: 2 learners, only enough transfer levy to cover 1 learner - 1 learner p
         | 22222     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 1                   |          | 50            | DAS           | 06/05/2018              |
    
 	Then the provider earnings and payments break down as follows:
-        | Type                                          | 05/18 | 06/18 | 07/18 |
-        | Provider Earned Total                         | 200   | 200   | 200   |
-        | Provider Earned from SFA                      | 190   | 190   | 190   |
-        | Provider Earned from employer 1               | 10    | 10    | 10    |
-        | Provider Earned from employer 2               | 0     | 0     | 0     |
-        | Provider Paid by SFA                          | 0     | 190   | 190   |
-        | Provider Paid by SFA for ULN 11111            | 0     | 100   | 100   |
-        | Provider Paid by SFA for ULN 22222            | 0     | 90    | 90    |
-        | Refund taken by SFA                           | 0     | 0     | 0     |
-        | Payment due from employer 1                   | 0     | 10    | 10    |
-        | Payment due from employer 2                   | 0     | 0     | 0     |
-        | Refund due to employer 1                      | 0     | 0     | 0     |
-        | Refund due to employer 2                      | 0     | 0     | 0     |
-        | Employer 2 Levy account debited via transfer  | 0     | 100   | 100   |
-        | Employer 1 Levy account debited               | 0     | 0     | 0     |
-        | SFA Levy employer budget                      | 100   | 100   | 100   |
-        | SFA Levy co-funding budget                    | 90    | 90    | 90    |
-        | SFA Levy additional payments budget           | 0     | 0     | 0     |
-        | SFA non-Levy co-funding budget                | 0     | 0     | 0     |
-        | SFA non-Levy additional payments budget       | 0     | 0     | 0     |
+        | Type                                                       | 05/18 | 06/18 | 07/18 |
+        | Provider Earned Total                                      | 200   | 200   | 200   |
+        | Provider Earned from SFA                                   | 190   | 190   | 190   |
+        | Provider Earned from employer 1                            | 10    | 10    | 10    |
+        | Provider Earned from employer 2                            | 0     | 0     | 0     |
+        | Provider Paid by SFA                                       | 0     | 190   | 190   |
+        | Provider Paid by SFA for ULN 11111                         | 0     | 100   | 100   |
+        | Provider Paid by SFA for ULN 22222                         | 0     | 90    | 90    |
+        | Refund taken by SFA                                        | 0     | 0     | 0     |
+        | Payment due from employer 1                                | 0     | 10    | 10    |
+        | Payment due from employer 2                                | 0     | 0     | 0     |
+        | Refund due to employer 1                                   | 0     | 0     | 0     |
+        | Refund due to employer 2                                   | 0     | 0     | 0     |
+        | Employer 2 Levy account debited for ULN 11111 via transfer | 0     | 100   | 100   |
+        | Employer 2 Levy account debited for ULN 22222 via transfer | 0     | 0     | 0     |
+        | Employer 1 Levy account debited for ULN 11111              | 0     | 0     | 0     |
+        | Employer 1 Levy account debited for ULN 22222              | 0     | 0     | 0     |
+        | SFA Levy employer budget                                   | 100   | 100   | 100   |
+        | SFA Levy co-funding budget                                 | 90    | 90    | 90    |
+        | SFA Levy additional payments budget                        | 0     | 0     | 0     |
+        | SFA non-Levy co-funding budget                             | 0     | 0     | 0     |
+        | SFA non-Levy additional payments budget                    | 0     | 0     | 0     |
 
     And the following transfers from employer 2 exist for the given months of earnings activity:
         | Recipient    | 05/18  | 06/18  | 07/18 |
@@ -123,12 +125,12 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
         | 40    | 40    |
 	
 	And the employer 2 has a levy balance of:
-        | 06/18 | 07/18 | 08/18 |
-        | 80    | 80    | 80    |
+        | 06/18 | 07/18 | 
+        | 80    | 80    | 
 
     And the employer 2 has a transfer allowance of:
-        | 06/18 | 07/18 | 08/18 |
-        | 2500  | 2420  | 2340  |
+        | 06/18 | 07/18 | 
+        | 2500  | 2420  | 
    
 	And the apprenticeship funding band maximum is 9000
 

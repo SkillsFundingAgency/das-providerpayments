@@ -17,7 +17,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions.PaymentsAndEarningsRules
                     PeriodName = period.PeriodName.ToPeriodDateTime().AddMonths(-1).ToPeriodName(),
                     Value = period.Value
                 };
-
+                // TODO: This assertion doesn't filter on employerId, as the transfer is sent to the recieving employer and then spent. But we should extend this function to pick up the transfer sender id from the commitment 
                 var allPayments = GetPaymentsForBreakdown(breakdown, ruleResult.LearnerResults)
                     .Where(p => p.FundingSource == FundingSource.Transfer && p.Uln == period.Uln && p.Amount > 0)
                     .ToArray();
