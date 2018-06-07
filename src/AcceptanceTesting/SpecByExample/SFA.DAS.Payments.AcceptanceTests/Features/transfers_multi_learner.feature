@@ -145,18 +145,21 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
         | 22222     | programme only DAS     | 1500         | 06/05/2018 | 20/05/2019       |                 | continuing        | programme        | 1                   |          | 50            | DAS           | 06/05/2018              |
 		
 	Then the provider earnings and payments break down as follows:
-		| Type                                         | 05/18 | 06/18 | 07/18 |
-		| Provider Earned Total                        | 200   | 200   | 200   |
-		| Provider Earned from SFA                     | 192   | 192   | 192   |
-		| Provider Earned from employer 1              | 8     | 8     | 8     |
-		| Provider Earned from employer 2              | 0     | 0     | 0     |
-		| Provider Paid by SFA		                   | 0     | 192   | 192   |
-		| Provider Paid by SFA for ULN 11111           | 0     | 100   | 100   |
-		| Provider Paid by SFA for ULN 22222           | 0     | 92    | 92    |
-		| Payment due from employer 1                  | 0     | 8     | 8     |
-		| Payment due from employer 2                  | 0     | 0     | 0     |
-		| Employer 2 Levy account debited via transfer | 0     | 80    | 80    |
-		| Employer 1 Levy account debited              | 0     | 40    | 40    |
+		| Type                                                       | 05/18 | 06/18 | 07/18 |
+		| Provider Earned Total                                      | 200   | 200   | 200   |
+		| Provider Earned from SFA                                   | 192   | 192   | 192   |
+		| Provider Earned from employer 1                            | 8     | 8     | 8     |
+		| Provider Earned from employer 2                            | 0     | 0     | 0     |
+		| Provider Paid by SFA                                       | 0     | 192   | 192   |
+		| Provider Paid by SFA for ULN 11111                         | 0     | 100   | 100   |
+		| Provider Paid by SFA for ULN 22222                         | 0     | 92    | 92    |
+		| Payment due from employer 1                                | 0     | 8     | 8     |
+		| Payment due from employer 2                                | 0     | 0     | 0     |
+		| Employer 2 Levy account debited for ULN 11111 via transfer | 0     | 80    | 80    |
+		| Employer 2 Levy account debited for ULN 22222 via transfer | 0     | 0     | 0     |
+		| Employer 1 Levy account debited for ULN 11111              | 0     | 20    | 20    |
+		| Employer 1 Levy account debited for ULN 22222              | 0     | 20    | 20    |
+
 		| SFA Levy employer budget                     | 120   | 120   | 120   |
 		| SFA Levy co-funding budget                   | 72    | 72    | 72    |
 		| SFA Levy additional payments budget          | 0     | 0     | 0     |
@@ -164,7 +167,7 @@ Scenario: 2 learners, only enough transfer levy to cover some of the first learn
 		| SFA non-Levy additional payments budget      | 0     | 0     | 0     |
 
     And the following transfers from employer 2 exist for the given months of earnings activity:
-        | Recipient    | 06/18  | 07/18 | 
-        | Employer 1   | 80     | 80    | 	
+        | Recipient  | 06/18 | 07/18 |
+        | Employer 1 | 80    | 80    | 	
 		
 
