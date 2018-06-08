@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue-Refunds.cs" />
     <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAProviderLearnersBuilder.cs" />

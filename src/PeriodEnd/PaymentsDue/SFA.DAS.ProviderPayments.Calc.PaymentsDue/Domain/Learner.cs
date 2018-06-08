@@ -220,7 +220,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 }
 
                 var payments = groupedPastPayments[key];
-                var payment = -(payments.Sum(x => x.AmountDue));
+                var payment = -payments.Sum(x => x.AmountDue);
                 if (payment != 0)
                 {
                     AddRequiredPayment(payments.First(), payment);
@@ -236,8 +236,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
         private void AddRequiredPayment(RequiredPaymentEntity requiredPayment, decimal amount)
         {
-            requiredPayment.AmountDue = amount;
-            RequiredPayments.Add(requiredPayment);
+            var payment = new RequiredPaymentEntity(requiredPayment);
+            payment.AmountDue = amount;
+            RequiredPayments.Add(payment);
         }
 
         private void MarkAsPayable(IEnumerable<RawEarning> earnings, IHoldCommitmentInformation commitment = null)

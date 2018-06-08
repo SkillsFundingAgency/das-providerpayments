@@ -10,9 +10,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.LearnerTests
 {
     [TestFixture]
-    public class WhenCalculatingPaymentsDue
+    public partial class WhenCalculatingPaymentsDue
     {
         private static readonly IFixture Fixture = new Fixture();
+
+
+
 
         [Test]
         public void ThenThereAreNoNonPaymentsForASimpleAct1Learner()

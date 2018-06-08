@@ -5,6 +5,41 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class RequiredPaymentEntity
     {
+        public RequiredPaymentEntity()
+        {}
+
+        public RequiredPaymentEntity(RequiredPaymentEntity copy)
+        {
+            Id = copy.Id;
+            CommitmentId = copy.CommitmentId;
+            CommitmentVersionId = copy.CommitmentVersionId;
+            AccountId = copy.AccountId;
+            AccountVersionId = copy.AccountVersionId;
+            Uln = copy.Uln;
+            LearnAimRef = copy.LearnAimRef;
+            LearnRefNumber = copy.LearnRefNumber;
+            AimSeqNumber = copy.AimSeqNumber;
+            Ukprn = copy.Ukprn;
+            IlrSubmissionDateTime = copy.IlrSubmissionDateTime;
+            DeliveryMonth = copy.DeliveryMonth;
+            DeliveryYear = copy.DeliveryYear;
+            TransactionType = copy.TransactionType;
+            AmountDue = copy.AmountDue;
+            CollectionPeriodYear = copy.CollectionPeriodYear;
+            CollectionPeriodMonth = copy.CollectionPeriodMonth;
+            CollectionPeriodName = copy.CollectionPeriodName;
+            StandardCode = copy.StandardCode;
+            ProgrammeType = copy.ProgrammeType;
+            FrameworkCode = copy.FrameworkCode;
+            PathwayCode = copy.PathwayCode;
+            ApprenticeshipContractType = copy.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = copy.PriceEpisodeIdentifier;
+            SfaContributionPercentage = copy.SfaContributionPercentage;
+            FundingLineType = copy.FundingLineType;
+            UseLevyBalance = copy.UseLevyBalance;
+            LearningStartDate = copy.LearningStartDate;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public long? CommitmentId { get; set; }
         [StringLength(25)]
