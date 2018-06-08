@@ -137,6 +137,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             }
 
             [Test, PaymentsDueAutoData]
+            public void ThenCollectionMonthIsSetOnNonPayableEarnings(
+                ProviderEntity provider,
+                List<LearnerProcessParameters> learnerParameters,
+                CollectionPeriodEntity collectionPeriod,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
+                ProviderProcessor sut)
+            {
+                var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockCollectionPeriodRepository
+                    .Setup(repository => repository.GetCurrentCollectionPeriod())
+                    .Returns(collectionPeriod);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult);
+
+                mockNonPayableEarningsRepository
+                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarningEntity>>()))
+                    .Callback<List<NonPayableEarningEntity>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
+
+                sut.Process(provider);
+
+                actualNonPayableEarnings.ForEach(entity =>
+                    entity.DeliveryMonth.Should().Be(collectionPeriod.Month));
+            }
+
+            [Test, PaymentsDueAutoData]
             public void ThenIlrSubmissionDateIsSetOnPayableEarnings(
                 ProviderEntity provider,
                 List<LearnerProcessParameters> learnerParameters,
@@ -164,6 +200,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 actualPayableEarnings.ForEach(entity =>
                     entity.IlrSubmissionDateTime.Should().Be(provider.IlrSubmissionDateTime));
+            }
+
+            [Test, PaymentsDueAutoData]
+            public void ThenCollectionMonthIsSetOnPayableEarnings(
+                ProviderEntity provider,
+                List<LearnerProcessParameters> learnerParameters,
+                CollectionPeriodEntity collectionPeriod,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
+                ProviderProcessor sut)
+            {
+                var actualPayableEarnings = new List<RequiredPaymentEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockCollectionPeriodRepository
+                    .Setup(repository => repository.GetCurrentCollectionPeriod())
+                    .Returns(collectionPeriod);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult);
+
+                mockRequiredPaymentsRepository
+                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
+                    .Callback<RequiredPaymentEntity[]>(payableEarnings => actualPayableEarnings = payableEarnings.ToList());
+
+                sut.Process(provider);
+
+                actualPayableEarnings.ForEach(entity =>
+                    entity.DeliveryMonth.Should().Be(collectionPeriod.Month));
             }
         } 
     }
