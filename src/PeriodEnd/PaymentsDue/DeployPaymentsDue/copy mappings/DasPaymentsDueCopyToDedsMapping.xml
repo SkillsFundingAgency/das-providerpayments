@@ -9,7 +9,7 @@
   </SqlBulkCopySettings>
   <TableMappings>
     <TableMapping>
-      <Source>[PaymentsDue].[vw_RequiredPayments]</Source>
+      <Source>[PaymentsDue].[RequiredPayments]</Source>
       <Destination>[PaymentsDue].[RequiredPayments]</Destination>
       <Ordinal>1</Ordinal>
       <ColumnMappings>
