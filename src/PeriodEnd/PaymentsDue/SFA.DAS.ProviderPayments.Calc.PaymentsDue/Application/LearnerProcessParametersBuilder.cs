@@ -14,7 +14,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private readonly ICommitmentRepository _commitmentsRepository;
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
-        private Dictionary<string, long> _learnerRefNumberToUln;
 
         public LearnerProcessParametersBuilder(
             IRawEarningsRepository rawEarningsRepository, 
@@ -46,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber).HistoricalPayments.Add(historicalPayment);
+                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetAllForProvider(ukprn))
@@ -56,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
             foreach (var commitment in _commitmentsRepository.GetProviderCommitments(ukprn))
             {
-                //GetLearnerProcessParametersInstanceForLearner(learners, _c.LearnRefNumber).DataLocks.Add(dataLock);
+                GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
             }
 
             return _learnerProcessParameters.Values.ToList();
@@ -66,7 +65,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         {
             _learnerProcessParameters = new Dictionary<string, LearnerProcessParameters>();
             _ulnToLearnerRefNumber = new Dictionary<long, string>();
-            _learnerRefNumberToUln = new Dictionary<string, long>();
         }
 
         private LearnerProcessParameters GetLearnerProcessParametersInstanceForLearner(long uln)
@@ -82,11 +80,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         
         private LearnerProcessParameters GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber, long? uln = null)
         {
-            if (uln == null)
-            {
-                uln = LookupUln(learnerRefNumber);
-            }
-
             LearnerProcessParameters instance; 
             if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
             {
@@ -98,22 +91,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 instance = _learnerProcessParameters[learnerRefNumber];
             }
 
+            // Add Uln to mapping dictionaries if a Uln exists
             if (uln != null)
             {
                 AddToMappingUlnToLearnerRefNumber(uln.Value, learnerRefNumber);
             }
 
-            AddToMappingLearnerRefNumberToUln(uln, learnerRefNumber);
-
             return instance;
-        }
-
-        private void AddToMappingLearnerRefNumberToUln(string learnerRefNumber, long uln)
-        {
-            if (!_learnerRefNumberToUln.ContainsKey(learnerRefNumber))
-            {
-                _learnerRefNumberToUln.Add(learnerRefNumber, uln);
-            }
         }
 
         private void AddToMappingUlnToLearnerRefNumber(long uln, string learnerRefNumber)
@@ -125,14 +109,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             }
         }
 
-        private string LookupLearnerRefNumber(long? uln)
+        private string LookupLearnerRefNumber(long uln)
         {
-            throw new System.NotImplementedException();
-        }
+            if (_ulnToLearnerRefNumber.ContainsKey(uln))
+            {
+                return _ulnToLearnerRefNumber[uln];
+            }
 
-        private long? LookupUln(string learnerRefNumber)
-        {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }
