@@ -1,5 +1,6 @@
 ﻿using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue

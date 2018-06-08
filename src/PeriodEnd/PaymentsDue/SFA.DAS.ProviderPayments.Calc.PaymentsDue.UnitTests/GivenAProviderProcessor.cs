@@ -4,6 +4,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -32,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItProcessesEachLearner(
                 ProviderEntity provider,
-                HashSet<LearnerProcessParameters> learnerParameters,
+                List<LearnerProcessParameters> learnerParameters,
                 [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 ProviderProcessor sut)
@@ -52,7 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItSavesAllNonPayableEarningsForProvider(
                 ProviderEntity provider,
-                HashSet<LearnerProcessParameters> learnerParameters,
+                List<LearnerProcessParameters> learnerParameters,
                 LearnerProcessResults learnerResult,
                 [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
@@ -79,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItSavesAllPayableEarningsForProvider(
                 ProviderEntity provider,
-                HashSet<LearnerProcessParameters> learnerParameters,
+                List<LearnerProcessParameters> learnerParameters,
                 LearnerProcessResults learnerResult,
                 [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
