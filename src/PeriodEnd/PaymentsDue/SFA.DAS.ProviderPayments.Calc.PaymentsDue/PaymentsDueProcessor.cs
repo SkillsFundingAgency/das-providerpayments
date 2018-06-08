@@ -4,13 +4,13 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {
-    public class PaymentsDueProcessorV2
+    public class PaymentsDueProcessor
     {
         private readonly ILogger _logger;
         private readonly IProviderRepository _providerRepository;
         private readonly IProviderProcessor _providerProcessor;
 
-        public PaymentsDueProcessorV2(
+        public PaymentsDueProcessor(
             ILogger logger,
             IProviderRepository providerRepository, 
             IProviderProcessor providerProcessor)
