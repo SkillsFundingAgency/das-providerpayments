@@ -1,7 +1,7 @@
 TRUNCATE TABLE [Reference].[CollectionPeriods]
 GO
 
-INSERT INTO [Reference].[CollectionPeriods]
+INSERT INTO [Reference].[CollectionPeriods] ([Id], [Name], [CalendarMonth], [CalendarYear], [Open])
  SELECT
         [Period_ID] AS [Id],
         [Return_Code] AS [Name],
