@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             LearningStartDate = rawEarning.LearningStartDate;
         }
 
-        public FundingDue(RequiredPaymentsHistoryEntity requiredPaymentsHistoryEntity)
+        public FundingDue(RequiredPaymentEntity requiredPaymentsHistoryEntity)
         {
             CommitmentId = requiredPaymentsHistoryEntity.CommitmentId;
             CommitmentVersionId = requiredPaymentsHistoryEntity.CommitmentVersionId;

@@ -5,6 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class RequiredPaymentEntity
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public long? CommitmentId { get; set; }
         [StringLength(25)]
         public string CommitmentVersionId { get; set; }
@@ -38,5 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         [StringLength(8)]
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
+        [StringLength(8)]
+        public string CollectionPeriodName { get; set; }
+        public int CollectionPeriodMonth { get; set; }
+        public int CollectionPeriodYear { get; set; }
     }
 }

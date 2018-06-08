@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class RequiredPaymentsHistoryDataHelper
     {
-        internal static void CreateEntity(RequiredPaymentsHistoryEntity entity)
+        internal static void CreateEntity(RequiredPaymentEntity entity)
         {
             const string sql = @"
             INSERT INTO Reference.RequiredPaymentsHistory (

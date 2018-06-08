@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             RequiredPaymentsHistoryDataHelper.Truncate();
 
-            PaymentsDueTestContext.RequiredPaymentsHistory = new List<RequiredPaymentsHistoryEntity>();
+            PaymentsDueTestContext.RequiredPaymentsHistory = new List<RequiredPaymentEntity>();
 
             base.BeforeTest(test);
         }
