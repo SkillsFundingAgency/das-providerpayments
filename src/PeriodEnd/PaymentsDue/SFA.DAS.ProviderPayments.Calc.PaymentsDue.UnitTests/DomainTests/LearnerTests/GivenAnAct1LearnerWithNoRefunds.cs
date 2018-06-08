@@ -70,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
 
                 [Test]
-                public void ThenThereAreNoPaymentsForASimpleAct1Learner()
+                public void ThenThereAreNoPayments()
                 {
                     // 1 Price Episode (non payable)
                     // No Maths or English
@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
                 }
 
                 [Test]
-                public void ThenThereAreTheCorrectNumberOfNonPaymentsForASimpleAct1Learner()
+                public void ThenThereAreTheCorrectNumberOfNonPayments()
                 {
                     // 1 Price Episode (non payable)
                     // No Maths or English

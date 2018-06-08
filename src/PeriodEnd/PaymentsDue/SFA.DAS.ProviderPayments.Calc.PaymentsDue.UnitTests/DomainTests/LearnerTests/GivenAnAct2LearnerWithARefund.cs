@@ -9,7 +9,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.LearnerTests
 {
     [TestFixture]
-    public class GivenASimpleCaseRefund
+    public class GivenAnAct2LearnerWithARefund
     {
         private static readonly IFixture Fixture = new Fixture();
 
@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
                 .ToList();
 
         [Test]
-        public void ThenThereAreNoNonPaymentsForASimpleAct1Learner()
+        public void ThenThereAreNoNonPayments()
         {
             // 1 Price Episode 
             // No Maths or English
@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         }
 
         [Test]
-        public void ThenThePaymentsAreANegativeOfTheEarningsForASimpleAct1Learner()
+        public void ThenThePaymentsAreANegativeOfTheEarnings()
         {
             // 1 Price Episode 
             // No Maths or English
