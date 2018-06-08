@@ -89,9 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
-    <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue-Refunds.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithRefunds.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithNoRefunds.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenASimpleCaseRefund.cs" />
     <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
-    <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
