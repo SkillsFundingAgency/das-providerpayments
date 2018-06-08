@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
-                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, It.IsAny<IEnumerable<RequiredPaymentEntity>>()))
+                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, parameters.HistoricalPayments))
                     .Returns(mockLearner.Object);
 
                 sut.Process(parameters);
@@ -85,7 +85,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
-                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, It.IsAny<IEnumerable<RequiredPaymentEntity>>()))
+                    .Setup(factory => factory.CreateLearner(parameters.RawEarnings, parameters.RawEarningsMathsEnglish, priceEpisodes, parameters.HistoricalPayments))
                     .Returns(mockLearner.Object);
 
                 mockLearner

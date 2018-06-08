@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 parameters.RawEarnings, 
                 parameters.RawEarningsMathsEnglish, 
                 priceEpisodes, 
-                parameters.RequiredPayments);//todo: last param is wrong
+                parameters.HistoricalPayments);
             
             var results = learner.CalculatePaymentsDue();
 
