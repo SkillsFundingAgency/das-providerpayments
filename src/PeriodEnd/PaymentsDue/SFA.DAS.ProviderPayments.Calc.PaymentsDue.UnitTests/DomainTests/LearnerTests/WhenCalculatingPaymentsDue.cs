@@ -12,14 +12,88 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
     [TestFixture]
     public class WhenCalculatingPaymentsDue
     {
-        private static IFixture _fixture = new Fixture();
+        private static readonly IFixture Fixture = new Fixture();
 
         [Test]
-        public void ThenThePaymentsAreCorrectForASimpleScenario()
+        public void ThenThereAreNoNonPaymentsForASimpleAct1Learner()
         {
-            // Commitment 
-            // 
+            // 1 Price Episode 
+            // No Maths or English
+            // 6 earnings
+            // No past payments
+
+            var priceEpisode1 = Fixture.Create<string>();
+
+            var datalocks = Fixture.Build<PriceEpisode>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .With(x => x.Payable, true)
+                .CreateMany(1);
+            var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
+            var earnings = Fixture.Build<RawEarning>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .CreateMany(6);
+            var pastPayments = new List<RequiredPaymentEntity>();
+
+            var sut = new Learner(earnings, mathsAndEnglishEarnings, datalocks, pastPayments);
+            var actual = sut.CalculatePaymentsDue();
+
+            actual.NonPayableEarnings.Should().BeEmpty();
         }
+
+        [Test]
+        public void ThenThereAreTheCorrectNumberOfPaymentsForASimpleAct1Learner()
+        {
+            // 1 Price Episode 
+            // No Maths or English
+            // 6 earnings
+            // No past payments
+
+            var priceEpisode1 = Fixture.Create<string>();
+
+            var datalocks = Fixture.Build<PriceEpisode>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .With(x => x.Payable, true)
+                .CreateMany(1);
+            var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
+            var earnings = Fixture.Build<RawEarning>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .CreateMany(6);
+            var pastPayments = new List<RequiredPaymentEntity>();
+
+            var sut = new Learner(earnings, mathsAndEnglishEarnings, datalocks, pastPayments);
+            var actual = sut.CalculatePaymentsDue();
+
+            var expected = earnings.NumberOfNonZeroTransactions();
+            actual.PayableEarnings.Should().HaveCount(expected);
+        }
+
+        [Test]
+        public void ThenThePaymentsAreCorrectForASimpleAct1Learner()
+        {
+            // 1 Price Episode 
+            // No Maths or English
+            // 6 earnings
+            // No past payments
+
+            var priceEpisode1 = Fixture.Create<string>();
+
+            var datalocks = Fixture.Build<PriceEpisode>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .With(x => x.Payable, true)
+                .CreateMany(1);
+            var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
+            var earnings = Fixture.Build<RawEarning>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .CreateMany(6);
+            var pastPayments = new List<RequiredPaymentEntity>();
+
+            var sut = new Learner(earnings, mathsAndEnglishEarnings, datalocks, pastPayments);
+            var actual = sut.CalculatePaymentsDue();
+
+            var expected = earnings.TotalAmount();
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+        }
+
 
         [Test]
         public void ThenThereAreNoNonPayablePaymentsForASimpleAct2Learner()
@@ -29,11 +103,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             // 6 earnings
             // No past payments
 
-            var priceEpisode1 = _fixture.Create<string>();
+            var priceEpisode1 = Fixture.Create<string>();
 
             var datalocks = new List<PriceEpisode>();
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
-            var earnings = _fixture.Build<RawEarning>()
+            var earnings = Fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                 .CreateMany(6);
             var pastPayments = new List<RequiredPaymentEntity>();
@@ -52,11 +126,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             // 6 earnings
             // No past payments
 
-            var priceEpisode1 = _fixture.Create<string>();
+            var priceEpisode1 = Fixture.Create<string>();
 
             var datalocks = new List<PriceEpisode>();
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
-            var earnings = _fixture.Build<RawEarning>()
+            var earnings = Fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                 .CreateMany(6)
                 .ToList();
@@ -77,11 +151,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             // 6 earnings
             // No past payments
 
-            var priceEpisode1 = _fixture.Create<string>();
+            var priceEpisode1 = Fixture.Create<string>();
 
             var datalocks = new List<PriceEpisode>();
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
-            var earnings = _fixture.Build<RawEarning>()
+            var earnings = Fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                 .CreateMany(6)
                 .ToList();
