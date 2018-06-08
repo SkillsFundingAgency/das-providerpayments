@@ -5,57 +5,47 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     // ReSharper disable once InconsistentNaming
-    public class IShouldBeInTheDatalockComponent
+    public class IShouldBeInTheDatalockComponent : IIShouldBeInTheDataLockComponent
     {
-        public IShouldBeInTheDatalockComponent(
+        public List<PriceEpisode> ValidatePriceEpisodes(
             List<Commitment> commitments,
-            List<DataLockPriceEpisodePeriodMatchEntity> datalocks)
-        {
-            _commitments = commitments;
-            _datalocks = datalocks;
-            _priceEpisdodes = new List<PriceEpisode>();
-        }
-
-        private readonly List<Commitment> _commitments;
-        private readonly List<DataLockPriceEpisodePeriodMatchEntity> _datalocks;
-
-        public IReadOnlyList<PriceEpisode> PriceEpisodes { get; private set; }
-        private readonly List<PriceEpisode> _priceEpisdodes;
-
-        public void ValidatePriceEpisodes()
+            List<DataLockPriceEpisodePeriodMatchEntity> dataLocks)
         {
             // ASSUMPTIONS from Looking at the live data.
             //  Datalocks are 'keyed' by UKPRN, LearnRefNumber, PriceEpisodeIdentifier and CommitmentId
             //  Where there are multiple commitmentids, one is payable and the rest are not
             //  Per unique key above, payable are either all true or all false
 
-            // Process datalocks by price episode
-            var datalocksByPriceEpisode = _datalocks.ToLookup(x => x.PriceEpisodeIdentifier);
-            foreach (var datalocks in datalocksByPriceEpisode)
+            var priceEpisodes = new List<PriceEpisode>();
+
+            // Process dataLocks by price episode
+            var dataLocksByPriceEpisode = dataLocks.ToLookup(x => x.PriceEpisodeIdentifier);
+
+            foreach (var dataLockGroup in dataLocksByPriceEpisode)
             {
                 // Break it down by commitment
-                var priceEpisodesByCommitment = datalocks.ToLookup(x => x.CommitmentId);
-                foreach (var priceEpisodes in priceEpisodesByCommitment)
+                var priceEpisodesByCommitment = dataLockGroup.ToLookup(x => x.CommitmentId);
+                foreach (var priceEpisodeGroup in priceEpisodesByCommitment)
                 {
-                    var commitment = _commitments.First(x => x.CommitmentId == priceEpisodes.Key);
-                    if (priceEpisodes.Any(x => x.Payable))
+                    var commitment = commitments.First(x => x.CommitmentId == priceEpisodeGroup.Key);
+                    if (priceEpisodeGroup.Any(x => x.Payable))
                     {
-                        var priceEpisode = new PriceEpisode(datalocks.Key, true,
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, true,
                             commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
                             commitment.AccountId ?? 0, commitment.AccountVersionId);
-                        _priceEpisdodes.Add(priceEpisode);
+                        priceEpisodes.Add(priceEpisode);
                     }
                     else
                     {
-                        var priceEpisode = new PriceEpisode(datalocks.Key, false,
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, false,
                             commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
                             commitment.AccountId ?? 0, commitment.AccountVersionId);
-                        _priceEpisdodes.Add(priceEpisode);
+                        priceEpisodes.Add(priceEpisode);
                     }
                 }
             }
 
-            PriceEpisodes = _priceEpisdodes;
+            return priceEpisodes;
         }
     }
 }

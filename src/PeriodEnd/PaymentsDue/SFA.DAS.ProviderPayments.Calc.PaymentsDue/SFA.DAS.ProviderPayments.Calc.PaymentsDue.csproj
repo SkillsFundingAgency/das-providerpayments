@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="CS.Common.External">
       <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
@@ -48,6 +51,9 @@
     <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap.AutoFactory, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.AutoFactory.1.0.1\lib\net45\StructureMap.AutoFactory.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -63,6 +69,10 @@
     <Compile Include="Application\ILearnerProcessParametersBuilder.cs" />
     <Compile Include="Application\IPayableEarningsCalculator.cs" />
     <Compile Include="Application\IProviderLearnersBuilder.cs" />
+    <Compile Include="Domain\IDataLockComponentFactory.cs" />
+    <Compile Include="Domain\IIShouldBeInTheDatalockComponent.cs" />
+    <Compile Include="Domain\ILearner.cs" />
+    <Compile Include="Domain\ILearnerFactory.cs" />
     <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
     <Compile Include="Application\PayableEarning.cs" />
@@ -79,7 +89,6 @@
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
-    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentsHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DataLockPriceEpisodePeriodMatchesRepository.cs" />
@@ -100,6 +109,7 @@
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
     <Compile Include="IProviderProcessor.cs" />
+    <Compile Include="LearnerProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueProcessorV2.cs" />

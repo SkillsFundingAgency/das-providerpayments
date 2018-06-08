@@ -1,12 +1,12 @@
 ﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class PriceEpisode
+    public class PriceEpisode : IHoldCommitmentInformation
     {
         public string PriceEpisodeIdentifier { get; set; }
         public bool Payable { get; set; }
-        public long CommitmentId { get; set; }
+        public long? CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
-        public long AccountId { get; set; }
+        public long? AccountId { get; set; }
         public string AccountVersionId { get; set; }
 
         public PriceEpisode(string priceEpisodeIdentifier,

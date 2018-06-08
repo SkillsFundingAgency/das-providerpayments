@@ -72,11 +72,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllHistoricalPaymentsWithLearnerRefNumberButNoUln(
             long ukprn,
             string learnRefNumber,
-            List<RequiredPaymentsHistoryEntity> historicalPayments,
+            long uln,
+            List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             LearnerProcessParametersBuilder sut)
         {
-            historicalPayments.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
+            historicalPayments.ForEach(entity =>
+            {
+                entity.LearnRefNumber = learnRefNumber;
+                entity.Uln = uln;
+            });
 
             mockHistoricalPaymentsRepository
                 .Setup(repository => repository.GetAllForProvider(ukprn))
@@ -86,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
-            learners[0].Uln.Should().BeNull();
+            learners[0].Uln.Should().Be(uln);
             learners[0].HistoricalPayments.ShouldAllBeEquivalentTo(historicalPayments);
         }
 
@@ -121,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            List<RequiredPaymentsHistoryEntity> historicalPayments,
+            List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             List<DataLockPriceEpisodePeriodMatchEntity> dataLocks,
             [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
@@ -129,6 +134,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
             LearnerProcessParametersBuilder sut)
         {
+
+            // Arrange data so each maps to the Uln or LearnerRefNumber
             for (var i = 0; i <= 2; i++)
             {
                 rawEarnings[i].LearnRefNumber = learnRefNumbers[i];
@@ -150,7 +157,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockCommitmentsRepository.Setup(repository => repository.GetProviderCommitments(ukprn)).Returns(commitments);
 
             var learners = sut.Build(ukprn);
-
             
             learners.Count.Should().Be(3);
 
@@ -177,11 +183,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     learners[i].Commitments[0].Should().Be(commitments[i]);
 
                 }
-
             }
-
         }
-
 
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesASingleNewLearnerProcessParametersInstanceFromRawEarningsWithLearnerRefNumberAndUlnAndUsesThisUlnToMapTheCommitmentRecords(
@@ -217,8 +220,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners[0].RawEarnings.ShouldAllBeEquivalentTo(rawEarnings);
             learners[0].Commitments.ShouldAllBeEquivalentTo(commitments);
         }
-
-
-
     }
 }

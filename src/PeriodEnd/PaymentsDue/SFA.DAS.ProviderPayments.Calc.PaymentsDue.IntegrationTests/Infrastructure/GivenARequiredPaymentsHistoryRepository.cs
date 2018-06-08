@@ -41,8 +41,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingGetAllForProvider : AndThereAreSomeRequiredPaymentsHistoryForProvider
             {
-                private List<RequiredPaymentsHistoryEntity> _actualHistoricalPayments;
-                private List<RequiredPaymentsHistoryEntity> _expectedHistoricalPayments;
+                private List<RequiredPaymentEntity> _actualHistoricalPayments;
+                private List<RequiredPaymentEntity> _expectedHistoricalPayments;
 
                 [SetUp]
                 public new void Setup()

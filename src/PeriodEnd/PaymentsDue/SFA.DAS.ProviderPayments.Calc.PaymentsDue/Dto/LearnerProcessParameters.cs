@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
         public List<RawEarning> RawEarnings { get; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; } = new List<RawEarningForMathsOrEnglish>();
         public List<DataLockPriceEpisodePeriodMatchEntity> DataLocks { get; } = new List<DataLockPriceEpisodePeriodMatchEntity>();
-        public List<RequiredPaymentsHistoryEntity> HistoricalPayments { get; } = new List<RequiredPaymentsHistoryEntity>();
+        public List<RequiredPaymentEntity> HistoricalPayments { get; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; } = new List<Commitment>();
     }
 }

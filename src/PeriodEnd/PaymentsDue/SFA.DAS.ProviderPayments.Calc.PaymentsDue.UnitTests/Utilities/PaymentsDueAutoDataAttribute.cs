@@ -13,7 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
         {
             var fixture = new Fixture();
             fixture.Customize(new AutoMoqCustomization());
-            //fixture.Register(() => ContextMother.CreateContext().Object);
             
             return fixture;
         }
