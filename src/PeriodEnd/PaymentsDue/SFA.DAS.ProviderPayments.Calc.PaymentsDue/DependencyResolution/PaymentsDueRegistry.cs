@@ -6,6 +6,7 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using StructureMap;
 using StructureMap.AutoFactory;
 

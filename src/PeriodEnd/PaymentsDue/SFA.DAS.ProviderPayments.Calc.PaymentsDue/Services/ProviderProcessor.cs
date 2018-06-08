@@ -6,7 +6,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class ProviderProcessor : IProviderProcessor
     {

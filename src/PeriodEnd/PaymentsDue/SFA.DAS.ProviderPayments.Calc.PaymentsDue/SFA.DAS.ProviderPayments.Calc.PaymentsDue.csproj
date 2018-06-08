@@ -69,10 +69,11 @@
     <Compile Include="Application\ILearnerProcessParametersBuilder.cs" />
     <Compile Include="Application\IPayableEarningsCalculator.cs" />
     <Compile Include="Application\IProviderLearnersBuilder.cs" />
-    <Compile Include="Domain\IDataLockComponentFactory.cs" />
-    <Compile Include="Domain\IIShouldBeInTheDatalockComponent.cs" />
-    <Compile Include="Domain\ILearner.cs" />
-    <Compile Include="Domain\ILearnerFactory.cs" />
+    <Compile Include="Services\DatalockComponentFactory.cs" />
+    <Compile Include="Services\IDataLockComponentFactory.cs" />
+    <Compile Include="Services\IIShouldBeInTheDatalockComponent.cs" />
+    <Compile Include="Services\ILearner.cs" />
+    <Compile Include="Services\ILearnerFactory.cs" />
     <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
     <Compile Include="Application\PayableEarning.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\MatchSetForPayments.cs" />
     <Compile Include="Domain\PriceEpisode.cs" />
-    <Compile Include="ILearnerProcessor.cs" />
+    <Compile Include="Services\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DataLockPriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
@@ -108,14 +109,15 @@
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
-    <Compile Include="IProviderProcessor.cs" />
-    <Compile Include="LearnerProcessor.cs" />
+    <Compile Include="Services\IProviderProcessor.cs" />
+    <Compile Include="Services\LearnerFactory.cs" />
+    <Compile Include="Services\LearnerProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProviderProcessor.cs" />
+    <Compile Include="Services\ProviderProcessor.cs" />
     <Compile Include="Dto\LearnerProcessParameters.cs" />
     <Compile Include="Services\LearnerProcessResults.cs" />
   </ItemGroup>
