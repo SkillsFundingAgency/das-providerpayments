@@ -16,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             var fixture = new Fixture();
 
-            var historicalPayments = fixture.Build<RequiredPaymentsHistoryEntity>()
+            var historicalPayments = fixture.Build<RequiredPaymentEntity>()
                 .With(earning => earning.Ukprn,
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
 
-            var historicalPaymentsMatchingUkprn = fixture.Build<RequiredPaymentsHistoryEntity>()
+            var historicalPaymentsMatchingUkprn = fixture.Build<RequiredPaymentEntity>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
                 .CreateMany(3)
                 .ToList();

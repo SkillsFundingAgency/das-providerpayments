@@ -57,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllHistoricalPaymentsIfLearnerNotAlreadyExists(
             long ukprn,
             string learnRefNumber,
-            List<RequiredPaymentsHistoryEntity> historicalPayments,
+            List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             ProviderLearnersBuilder sut)
         {

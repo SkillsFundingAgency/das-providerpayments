@@ -6,7 +6,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class Learner
+    public class Learner : ILearner
     {
         public Learner(IEnumerable<RawEarning> rawEarnings, IEnumerable<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
             IEnumerable<PriceEpisode> priceEpisodes, IEnumerable<RequiredPaymentEntity> pastPayments)
@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
 
         // Internal
-        private List<FundingDue> PayableEarnings { get; set; } = new List<FundingDue>();
+        private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
         private bool _ignoreLearner;                // Used for special case ACT2 -> ACT1 with datalock
         
