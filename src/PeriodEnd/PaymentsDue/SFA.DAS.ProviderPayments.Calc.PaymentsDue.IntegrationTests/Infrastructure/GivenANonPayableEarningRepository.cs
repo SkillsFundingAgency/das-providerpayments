@@ -173,6 +173,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenItSetsReason() =>
                     _actualEntities[0].Reason
                         .Should().Be(_expectedEntities[0].Reason);
+
+                [Test]
+                public void ThenItSetsCollectionPeriodName() =>
+                    _actualEntities[0].CollectionPeriodName
+                        .Should().Be(_expectedEntities[0].CollectionPeriodName);
+
+                [Test]
+                public void ThenItSetsCollectionPeriodMonth() =>
+                    _actualEntities[0].CollectionPeriodMonth
+                        .Should().Be(_expectedEntities[0].CollectionPeriodMonth);
+
+                [Test]
+                public void ThenItSetsCollectionPeriodYear() =>
+                    _actualEntities[0].CollectionPeriodYear
+                        .Should().Be(_expectedEntities[0].CollectionPeriodYear);
             }
         }
     }

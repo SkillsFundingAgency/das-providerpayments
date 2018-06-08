@@ -65,5 +65,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public DateTime LearningStartDate { get; set; }
         [StringLength(1000)]
         public string Reason { get; set; }
+        [StringLength(8)]
+        public string CollectionPeriodName { get; set; }
+        public int CollectionPeriodMonth { get; set; }
+        public int CollectionPeriodYear { get; set; }
     }
 }
