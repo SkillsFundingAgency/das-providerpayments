@@ -89,13 +89,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue-Refunds.cs" />
     <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
+    <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />
     <Compile Include="PaymentsDueTask\WhenExecutingWithInvalidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
   </ItemGroup>

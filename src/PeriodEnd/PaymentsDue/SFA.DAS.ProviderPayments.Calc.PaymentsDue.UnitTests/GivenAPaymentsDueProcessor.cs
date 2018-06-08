@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         [Test, PaymentsDueAutoData]
         public void ThenItGetsProvidersFromRepository(
             [Frozen] Mock<IProviderRepository> mockProviderRepository,
-            PaymentsDueProcessorV2 sut)
+            PaymentsDueProcessor sut)
         {
             sut.Process();
 
@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<ProviderEntity> providers,
             [Frozen] Mock<IProviderRepository> mockProviderRepository,
             [Frozen] Mock<IProviderProcessor> mockProviderProcessor,
-            PaymentsDueProcessorV2 sut)
+            PaymentsDueProcessor sut)
         {
             mockProviderRepository
                 .Setup(repository => repository.GetAllProviders())

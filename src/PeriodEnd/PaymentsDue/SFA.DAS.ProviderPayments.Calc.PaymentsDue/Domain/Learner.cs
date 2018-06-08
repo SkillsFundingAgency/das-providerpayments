@@ -24,8 +24,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
         
         // Output
-        public List<RequiredPaymentEntity> RequiredPayments { get; set; } = new List<RequiredPaymentEntity>();
-        public List<NonPayableEarningEntity> NonPayableEarnings { get; set; } = new List<NonPayableEarningEntity>();
+        public List<RequiredPaymentEntity> RequiredPayments { get; private set; } = new List<RequiredPaymentEntity>();
+        public List<NonPayableEarningEntity> NonPayableEarnings { get; private set; } = new List<NonPayableEarningEntity>();
 
 
         // Internal
@@ -190,7 +190,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 DeliveryMonth = x.DeliveryMonth,
                 AccountId = x.AccountId,
                 CommitmentId = x.CommitmentId,
-            }).ToDictionary(x => x.Key, x => x.ToList()); ;
+            }).ToDictionary(x => x.Key, x => x.ToList()); 
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)
@@ -220,7 +220,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 }
 
                 var payments = groupedPastPayments[key];
-                var payment = -(payments.Sum(x => x.AmountDue));
+                var payment = -payments.Sum(x => x.AmountDue);
                 if (payment != 0)
                 {
                     AddRequiredPayment(payments.First(), payment);
@@ -236,8 +236,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
         private void AddRequiredPayment(RequiredPaymentEntity requiredPayment, decimal amount)
         {
-            requiredPayment.AmountDue = amount;
-            RequiredPayments.Add(requiredPayment);
+            var payment = new RequiredPaymentEntity(requiredPayment);
+            payment.AmountDue = amount;
+            RequiredPayments.Add(payment);
         }
 
         private void MarkAsPayable(IEnumerable<RawEarning> earnings, IHoldCommitmentInformation commitment = null)
@@ -256,12 +257,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(FundingDue));
+        private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
         private void AddFundingDue(RawEarning rawEarnings, IHoldCommitmentInformation commitmentInformation = null)
         {
             for (var i = 1; i <= 15; i++)
             {
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{i:D2}"];
+                var propertyName = $"TransactionType{i:D2}";
+                var amountDue = (decimal)FundingDueAccessor[rawEarnings, propertyName];
                 if (amountDue == 0)
                 {
                     continue;
