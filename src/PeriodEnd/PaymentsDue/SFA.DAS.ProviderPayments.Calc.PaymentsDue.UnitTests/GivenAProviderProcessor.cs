@@ -169,7 +169,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 sut.Process(provider);
 
                 actualNonPayableEarnings.ForEach(entity =>
-                    entity.DeliveryMonth.Should().Be(collectionPeriod.Month));
+                    entity.CollectionPeriodMonth.Should().Be(collectionPeriod.Month));
             }
 
             [Test, PaymentsDueAutoData]
@@ -235,7 +235,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 sut.Process(provider);
 
                 actualPayableEarnings.ForEach(entity =>
-                    entity.DeliveryMonth.Should().Be(collectionPeriod.Month));
+                    entity.CollectionPeriodMonth.Should().Be(collectionPeriod.Month));
             }
         } 
     }

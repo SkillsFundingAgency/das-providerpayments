@@ -54,13 +54,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             allNonPayablesForProvider.ForEach(nonPayable =>
             {
                 nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-                nonPayable.DeliveryMonth = currentCollectionPeriod.Month;//todo:needs to be collection prop instead
+                nonPayable.CollectionPeriodMonth = currentCollectionPeriod.Month;
             });
 
             allPayablesForProvider.ForEach(payable =>
             {
                 payable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-                payable.DeliveryMonth = currentCollectionPeriod.Month;//todo:needs to be collection prop instead
+                payable.CollectionPeriodMonth = currentCollectionPeriod.Month;
             });
 
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
