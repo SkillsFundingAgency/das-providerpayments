@@ -90,9 +90,9 @@
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue-Refunds.cs" />
+    <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
     <Compile Include="DomainTests\LearnerTests\WhenCalculatingPaymentsDue.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
-    <Compile Include="GivenAProviderLearnersBuilder.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />

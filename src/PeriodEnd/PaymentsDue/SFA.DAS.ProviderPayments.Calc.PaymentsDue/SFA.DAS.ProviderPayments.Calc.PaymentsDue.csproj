@@ -76,7 +76,7 @@
     <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
     <Compile Include="Application\PayableEarning.cs" />
-    <Compile Include="Application\ProviderLearnersBuilder.cs" />
+    <Compile Include="Application\LearnerProcessParametersBuilder.cs" />
     <Compile Include="Application\Providers\Provider.cs" />
     <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
     <Compile Include="Domain\FundingDue.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderProcessor.cs" />
-    <Compile Include="Services\LearnerProcessParameters.cs" />
+    <Compile Include="Dto\LearnerProcessParameters.cs" />
     <Compile Include="Services\LearnerProcessResults.cs" />
   </ItemGroup>
   <ItemGroup>
