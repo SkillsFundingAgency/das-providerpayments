@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoFixture.NUnit3;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
@@ -76,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             }
 
             [Test, PaymentsDueAutoData]
-            public void ThenItSavesAllPaymentsForProvider(
+            public void ThenItSavesAllPayableEarningsForProvider(
                 ProviderEntity provider,
                 HashSet<LearnerProcessParameters> learnerParameters,
                 LearnerProcessResults learnerResult,
@@ -101,6 +102,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var expectedEarningsArray = expectedPayableEarnings.ToArray();
                 mockRequiredPaymentsRepository
                     .Verify(repository => repository.AddRequiredPayments(expectedEarningsArray));
+            }
+
+            [Test, PaymentsDueAutoData]
+            public void ThenIlrSubmissionDateIsSetOnNonPayableEarnings(
+                ProviderEntity provider,
+                HashSet<LearnerProcessParameters> learnerParameters,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
+                ProviderProcessor sut)
+            {
+                var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult);
+
+                mockNonPayableEarningsRepository
+                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarningEntity>>()))
+                    .Callback<List<NonPayableEarningEntity>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
+
+                sut.Process(provider);
+
+                actualNonPayableEarnings.ForEach(entity => 
+                    entity.IlrSubmissionDateTime.Should().Be(provider.IlrSubmissionDateTime));
             }
         } 
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
@@ -14,6 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
         private readonly ILearnerProcessor _learnerProcessor;
         private readonly INonPayableEarningRepository _nonPayableEarningRepository;
         private readonly IRequiredPaymentRepository _requiredPaymentRepository;
+        private readonly ICollectionPeriodRepository _colrepo;
 
         public ProviderProcessor(
             ILogger logger,
@@ -45,7 +47,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 allNonPayablesForProvider.AddRange(learnerResult.NonPayableEarnings);
                 allPayablesForProvider.AddRange(learnerResult.PayableEarnings);
             }
-            
+
+            allNonPayablesForProvider.ForEach(nonPayable =>
+            {
+                nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
+            });
+
+            /*foreach (var requiredPaymentEntity in allPayablesForProvider)
+            {
+                requiredPaymentEntity.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
+                requiredPaymentEntity.CollectionPeriodMonth = _colrepo.GetAllCollectionPeriods().Where(entity => entity.Open).First().Month
+            }*/
+
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
             _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
 
