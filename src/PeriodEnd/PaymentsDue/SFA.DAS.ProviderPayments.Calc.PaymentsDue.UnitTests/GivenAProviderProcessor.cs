@@ -108,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenIlrSubmissionDateIsSetOnNonPayableEarnings(
                 ProviderEntity provider,
-                HashSet<LearnerProcessParameters> learnerParameters,
+                List<LearnerProcessParameters> learnerParameters,
                 LearnerProcessResults learnerResult,
                 [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
