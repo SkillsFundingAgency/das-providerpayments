@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
@@ -38,6 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
             FundingLineType = copy.FundingLineType;
             UseLevyBalance = copy.UseLevyBalance;
             LearningStartDate = copy.LearningStartDate;
+            Period = copy.Period;
         }
 
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -90,5 +92,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int CollectionPeriodMonth { get; set; }
         [Range(2017, 2019)]
         public int CollectionPeriodYear { get; set; }
+
+        [NotMapped]
+        [Range(1, 12)]
+        public int Period { get; set; }
     }
 }

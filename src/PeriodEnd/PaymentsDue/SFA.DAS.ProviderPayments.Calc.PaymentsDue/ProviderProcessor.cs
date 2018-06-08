@@ -35,11 +35,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 
         public void Process(ProviderEntity provider)
         {
+            var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
+            var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
+            var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
+
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
             var learnersParams = _parametersBuilder.Build(provider.Ukprn);
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
-
+            
             var allNonPayablesForProvider = new List<NonPayableEarningEntity>();
             var allPayablesForProvider = new List<RequiredPaymentEntity>();
 
@@ -57,6 +61,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 nonPayable.CollectionPeriodName = currentCollectionPeriod.Name;
                 nonPayable.CollectionPeriodMonth = currentCollectionPeriod.Month;
                 nonPayable.CollectionPeriodYear = currentCollectionPeriod.Year;
+                nonPayable.DeliveryMonth = periodToMonthMapper[nonPayable.Period];
+                nonPayable.DeliveryYear = periodToYearMapper[nonPayable.Period];
             });
 
             allPayablesForProvider.ForEach(payable =>
@@ -65,6 +71,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 payable.CollectionPeriodName = currentCollectionPeriod.Name;
                 payable.CollectionPeriodMonth = currentCollectionPeriod.Month;
                 payable.CollectionPeriodYear = currentCollectionPeriod.Year;
+                payable.DeliveryMonth = periodToMonthMapper[payable.Period];
+                payable.DeliveryYear = periodToYearMapper[payable.Period];
             });
 
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
