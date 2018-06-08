@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
@@ -132,6 +133,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 sut.Process(provider);
 
                 actualNonPayableEarnings.ForEach(entity => 
+                    entity.IlrSubmissionDateTime.Should().Be(provider.IlrSubmissionDateTime));
+            }
+
+            [Test, PaymentsDueAutoData]
+            public void ThenIlrSubmissionDateIsSetOnPayableEarnings(
+                ProviderEntity provider,
+                List<LearnerProcessParameters> learnerParameters,
+                LearnerProcessResults learnerResult,
+                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
+                ProviderProcessor sut)
+            {
+                var actualPayableEarnings = new List<RequiredPaymentEntity>();
+
+                mockParametersBuilder
+                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Returns(learnerParameters);
+
+                mockLearnerProcessor
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Returns(learnerResult);
+
+                mockRequiredPaymentsRepository
+                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
+                    .Callback<RequiredPaymentEntity[]>(payableEarnings => actualPayableEarnings = payableEarnings.ToList());
+
+                sut.Process(provider);
+
+                actualPayableEarnings.ForEach(entity =>
                     entity.IlrSubmissionDateTime.Should().Be(provider.IlrSubmissionDateTime));
             }
         } 

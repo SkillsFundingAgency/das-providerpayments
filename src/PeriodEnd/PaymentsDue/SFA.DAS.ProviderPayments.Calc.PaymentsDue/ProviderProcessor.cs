@@ -53,6 +53,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
                 nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
             });
 
+            allPayablesForProvider.ForEach(payable =>
+            {
+                payable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
+            });
+
             /*foreach (var requiredPaymentEntity in allPayablesForProvider)
             {
                 requiredPaymentEntity.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
