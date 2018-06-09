@@ -245,6 +245,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             foreach (var rawEarning in earnings)
             {
+                if (rawEarning.ApprenticeshipContractType == 1)
+                {
+                    rawEarning.UseLevyBalance = true;
+                }
                 AddFundingDue(rawEarning, commitment);
             }
         }
@@ -270,6 +274,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 }
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = i;
+                
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
                 if (commitmentInformation != null)
@@ -312,18 +317,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             input.CommitmentId = commitmentInformation.CommitmentId;
             input.CommitmentVersionId = commitmentInformation.CommitmentVersionId;
             return input;
-        }
-        
-        private int CalculateDeliveryMonth(int period)
-        {
-            //return CollectionPeriods.First(x => x.Id == period).Month;
-            return 0;
-        }
-
-        private int CalculateDeliveryYear(int period)
-        {
-            //return CollectionPeriods.First(x => x.Id == period).Year;
-            return 0;
         }
     }
 }

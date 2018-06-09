@@ -1,6 +1,6 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public interface IProviderProcessor
     {

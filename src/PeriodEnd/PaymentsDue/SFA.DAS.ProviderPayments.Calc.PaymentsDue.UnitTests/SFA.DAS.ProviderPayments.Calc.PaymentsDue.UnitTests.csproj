@@ -89,10 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithRefunds.cs" />
+    <Compile Include="DomainTests\DatalockTests\GivenADatalockValidator.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithNoRefunds.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenASimpleCaseRefund.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithARefund.cs" />
     <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />

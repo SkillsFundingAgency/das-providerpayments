@@ -49,7 +49,7 @@ AS
 	FROM
 		Reference.DasCommitments C
 	INNER JOIN 
-		PaymentsDue.vw_RequiredPayments R
+		PaymentsDue.RequiredPayments R
 	ON 
 		C.CommitmentId = R.CommitmentId
 		AND C.VersionId = R.CommitmentVersionId

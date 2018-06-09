@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class ProviderProcessor : IProviderProcessor
     {
@@ -38,8 +37,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
             var learnersParams = _parametersBuilder.Build(provider.Ukprn);
+            _collectionPeriodRepository.Reset();
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
-
+            
             var allNonPayablesForProvider = new List<NonPayableEarningEntity>();
             var allPayablesForProvider = new List<RequiredPaymentEntity>();
 

@@ -6,8 +6,8 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using StructureMap;
-using StructureMap.AutoFactory;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {
@@ -28,7 +28,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             // TODO: Fix so can be registered with convention
             For<ICollectionPeriodRepository>().Use<CollectionPeriodRepository>();
             For<IProviderRepository>().Use<ProviderRepository>();
-            For<IRequiredPaymentRepository>().Use<DcfsRequiredPaymentRepository>();
+            For<IRequiredPaymentRepository>().Use<RequiredPaymentRepository>();
+            For<ICommitmentRepository>().Use<CommitmentRepository>();
+            For<IDatalockOutputRepository>().Use<DatalockOutputRepository>();
+            For<INonPayableEarningRepository>().Use<NonPayableEarningRepository>();
+            For<IRequiredPaymentsHistoryRepository>().Use<RequiredPaymentsHistoryRepository>();
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
@@ -36,10 +40,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => GetAllInstances(ctx, t));
             For<IMediator>().Use<Mediator>();
 
-            // todo: For<ILearner>().Use<Learner>();
+            For<ILearner>().Use<Learner>();
             For<IIShouldBeInTheDataLockComponent>().Use<IShouldBeInTheDatalockComponent>();
-            For<ILearnerFactory>().CreateFactory();
-            For<IDataLockComponentFactory>().CreateFactory();
+            For<IRawEarningsRepository>().Use<RawEarningsRepository>();
+            For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
+            For<ILearnerFactory>().Use<LearnerFactory>();
+            For<IDataLockComponentFactory>().Use<DatalockComponentFactory>();
 
         }
 

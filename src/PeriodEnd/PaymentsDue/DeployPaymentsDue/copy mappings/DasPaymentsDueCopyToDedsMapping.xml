@@ -128,7 +128,7 @@
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
-      <Source>[PaymentsDue].[vw_EarningsToPayments]</Source>
+      <Source>[PaymentsDue].[vw_EarningsForPayment]</Source>
       <Destination>[PaymentsDue].[Earnings]</Destination>
       <Ordinal>2</Ordinal>
       <ColumnMappings>

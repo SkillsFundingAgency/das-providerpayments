@@ -16,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             var fixture = new Fixture();
 
-            var dataLocks = fixture.Build<DataLockPriceEpisodePeriodMatchEntity>()
+            var dataLocks = fixture.Build<DatalockOutput>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
 
-            var dataLocksMatchingUkprn = fixture.Build<DataLockPriceEpisodePeriodMatchEntity>()
+            var dataLocksMatchingUkprn = fixture.Build<DatalockOutput>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
                 .CreateMany(3)
                 .ToList();

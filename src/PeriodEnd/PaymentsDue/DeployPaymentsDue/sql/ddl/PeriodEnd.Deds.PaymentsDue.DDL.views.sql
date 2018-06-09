@@ -15,7 +15,12 @@ GO
 
 CREATE VIEW PaymentsDue.vw_RawEarnings
 AS
-select
+WITH [Period] AS (
+	SELECT Period_Id
+	FROM ${DAS_PeriodEnd.FQ}.dbo.Collection_Period_Mapping
+	WHERE Collection_Open = 1
+)
+SELECT
 	APEP.LearnRefNumber,
 	APEP.Ukprn,
 	APE.PriceEpisodeAimSeqNumber [AimSeqNumber],
@@ -48,15 +53,16 @@ select
 	0 [TransactionType14],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
     CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
-from Rulebase.AEC_ApprenticeshipPriceEpisode_Period APEP
-inner join Rulebase.AEC_ApprenticeshipPriceEpisode APE
+FROM [Period],
+	${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode_Period APEP
+INNER JOIN ${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode APE
     on APEP.UKPRN = APE.UKPRN
     and APEP.LearnRefNumber = APE.LearnRefNumber
     and APEP.PriceEpisodeIdentifier = APE.PriceEpisodeIdentifier
-join Valid.Learner L
+JOIN ${ILR_Deds.FQ}.Valid.Learner L
 	on L.UKPRN = APEP.Ukprn
 	and L.LearnRefNumber = APEP.LearnRefNumber
-join Valid.LearningDelivery LD
+JOIN ${ILR_Deds.FQ}.Valid.LearningDelivery LD
 	on LD.UKPRN = APEP.Ukprn
 	and LD.LearnRefNumber = APEP.LearnRefNumber
 	and LD.AimSeqNumber = APE.PriceEpisodeAimSeqNumber
@@ -75,11 +81,7 @@ where (
 	or APEP.PriceEpisodeSecondDisadvantagePayment != 0
 	or APEP.PriceEpisodeLSFCash != 0
     )
-	and APEP.[Period] <= (
-		select cast(replace(Return_Code, 'R', '') as int)
-		from Collection_Period_Mapping
-		where Collection_Open = 1
-	)
+	and APEP.[Period] <= Period_Id
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,6 +95,11 @@ GO
 
 CREATE VIEW PaymentsDue.vw_RawEarningsMathsEnglish
 AS
+WITH [Period] AS (
+	SELECT Period_Id
+	FROM ${DAS_PeriodEnd.FQ}.dbo.Collection_Period_Mapping
+	WHERE Collection_Open = 1
+)
 select 
 	LDP.LearnRefNumber,
 	LDP.Ukprn,
@@ -126,12 +133,13 @@ select
     COALESCE(MathEngBalPayment, 0) [TransactionType14],
     COALESCE(LearnSuppFundCash, 0) [TransactionType15],
     CASE WHEN LDP.LearnDelContType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
-from Rulebase.AEC_LearningDelivery_Period LDP
-inner join Valid.LearningDelivery LD
+FROM [Period],
+	${ILR_Deds.FQ}.Rulebase.AEC_LearningDelivery_Period LDP
+INNER JOIN ${ILR_Deds.FQ}.Valid.LearningDelivery LD
     on LD.UKPRN = LDP.UKPRN
     and LD.LearnRefNumber = LDP.LearnRefNumber
     and LD.AimSeqNumber = LDP.AimSeqNumber
-join Valid.Learner L
+JOIN ${ILR_Deds.FQ}.Valid.Learner L
 	on L.UKPRN = LD.Ukprn
 	and L.LearnRefNumber = LD.LearnRefNumber
 where (
@@ -139,10 +147,47 @@ where (
     or MathEngBalPayment != 0
     or LearnSuppFundCash != 0
     )
-    and LDP.[Period] <= (
-		select cast(replace(Return_Code, 'R', '') as int)
-		from Collection_Period_Mapping
-		where Collection_Open = 1
-	)
+    and LDP.[Period] <= Period_Id
     and LD.LearnAimRef != 'ZPROG001'
 GO
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_IlrBreakdown 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_IlrBreakdown' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+    DROP VIEW PaymentsDue.vw_IlrBreakdown
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_IlrBreakdown
+AS
+SELECT 
+	APE.UKPRN,
+	APE.LearnRefNumber, 
+	PriceEpisodeIdentifier,
+	LD.LearnStartDate [StartDate],
+	LD.LearnPlanEndDate [PlannedEndDate],
+	LD.LearnActEndDate [ActualEndDate],
+	LD.CompStatus [CompletionStatus],
+	RLD.PlannedNumOnProgInstalm [PlannedInstalments],
+	PriceEpisodeCompletionElement [CompletionPayment],
+	PriceEpisodeInstalmentValue [Instalment],
+	PriceEpisodeCumulativePMRs [EmployerPayments],
+	EPAOrgID [EndpointAssessorId]
+
+FROM ${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode APE
+INNER JOIN ${ILR_Deds.FQ}.Valid.LearningDelivery LD
+	ON APE.UKPRN = LD.UKPRN
+	AND APE.LearnRefNumber = LD.LearnRefNumber
+	AND APE.PriceEpisodeAimSeqNumber = LD.AimSeqNumber
+INNER JOIN ${ILR_Deds.FQ}.Rulebase.AEC_LearningDelivery RLD
+	ON APE.UKPRN = RLD.UKPRN
+	AND APE.LearnRefNumber = RLD.LearnRefNumber
+	AND APE.PriceEpisodeAimSeqNumber = RLD.AimSeqNumber
+GO
+
+
+

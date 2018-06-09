@@ -83,9 +83,8 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql</Link>
     </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>

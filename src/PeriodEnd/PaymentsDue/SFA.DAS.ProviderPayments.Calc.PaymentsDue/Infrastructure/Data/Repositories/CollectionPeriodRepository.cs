@@ -10,10 +10,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         private const string CollectionPeriodSource = "Reference.CollectionPeriods";
 
         private const string CollectionPeriodColumns = @"Id,
-                                                        Name,
+                                                        [Name],
                                                         CalendarMonth [Month],
                                                         CalendarYear [Year],
-                                                        Open,
+                                                        [Open],
                                                         AcademicYear";
 
         private const string SelectCollectionPeriods = "SELECT " + CollectionPeriodColumns + " FROM " + CollectionPeriodSource;
@@ -58,6 +58,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             }
 
             return CollectionPeriods;
+        }
+
+        public void Reset()
+        {
+            LoadCollectionPeriods();
         }
     }
 }
