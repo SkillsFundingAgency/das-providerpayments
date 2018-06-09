@@ -100,7 +100,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             List<DataLockPriceEpisodePeriodMatchEntity> dataLocks,
-            [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
+            [Frozen] Mock<IDatalockOutputRepository> mockDataLockRepository,
             LearnerProcessParametersBuilder sut)
         {
             dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             List<DataLockPriceEpisodePeriodMatchEntity> dataLocks,
-            [Frozen] Mock<IDataLockPriceEpisodePeriodMatchesRepository> mockDataLockRepository,
+            [Frozen] Mock<IDatalockOutputRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
             LearnerProcessParametersBuilder sut)

@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
         private readonly IRequiredPaymentsHistoryRepository _historicalPaymentsRepository;
-        private readonly IDataLockPriceEpisodePeriodMatchesRepository _dataLockRepository;
+        private readonly IDatalockOutputRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             IRawEarningsRepository rawEarningsRepository, 
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository, 
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository, 
-            IDataLockPriceEpisodePeriodMatchesRepository dataLockRepository,
+            IDatalockOutputRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;

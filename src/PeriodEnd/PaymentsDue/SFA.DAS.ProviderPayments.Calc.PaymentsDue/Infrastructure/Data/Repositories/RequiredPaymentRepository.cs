@@ -3,7 +3,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
-    public class DcfsRequiredPaymentRepository : DcfsRepository, IRequiredPaymentRepository
+    public class RequiredPaymentRepository : DcfsRepository, IRequiredPaymentRepository
     {
         private const string PaymentsDestination = "PaymentsDue.RequiredPayments";
 
@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         private const string SelectPaymentsWithoutEarnings = "SELECT " + PaymentHistoryColumns + ",IlrSubmissionDateTime FROM " + PaymentHistoryWithoutEarningSource;
         private const string SelectLearnerPayments = SelectProviderPayments + " AND LearnRefNumber = @LearnRefNumber";
 
-        public DcfsRequiredPaymentRepository(string connectionString)
+        public RequiredPaymentRepository(string connectionString)
             : base(connectionString)
         {
         }

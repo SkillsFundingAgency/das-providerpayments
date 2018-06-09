@@ -11,12 +11,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     [TestFixture, SetupUkprn]
     public class GivenADataLockPriceEpisodePeriodMatchesRepository
     {
-        private DataLockPriceEpisodePeriodMatchesRepository _sut;
+        private DatalockOutputRepository _sut;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _sut = new DataLockPriceEpisodePeriodMatchesRepository(GlobalTestContext.Instance.TransientConnectionString);
+            _sut = new DatalockOutputRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
 
         [TestFixture, SetupNoDataLockPriceEpisodePeriodMatches]

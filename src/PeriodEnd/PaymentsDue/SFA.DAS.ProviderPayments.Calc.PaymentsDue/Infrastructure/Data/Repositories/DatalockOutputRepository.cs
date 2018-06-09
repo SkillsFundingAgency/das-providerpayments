@@ -5,14 +5,14 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
-    public interface IDataLockPriceEpisodePeriodMatchesRepository
+    public interface IDatalockOutputRepository
     {
         List<DataLockPriceEpisodePeriodMatchEntity> GetAllForProvider(long ukprn);
     }
 
-    public class DataLockPriceEpisodePeriodMatchesRepository: DcfsRepository, IDataLockPriceEpisodePeriodMatchesRepository
+    public class DatalockOutputRepository: DcfsRepository, IDatalockOutputRepository
     {
-        public DataLockPriceEpisodePeriodMatchesRepository(string connectionString) : base(connectionString)
+        public DatalockOutputRepository(string connectionString) : base(connectionString)
         {
         }
 

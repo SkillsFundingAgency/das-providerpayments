@@ -92,9 +92,9 @@
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DataLockPriceEpisodePeriodMatchesRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DatalockOutputRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CollectionPeriodRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsRequiredPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
