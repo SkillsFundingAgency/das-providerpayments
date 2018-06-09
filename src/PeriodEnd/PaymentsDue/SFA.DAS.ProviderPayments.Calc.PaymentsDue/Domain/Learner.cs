@@ -318,17 +318,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             input.CommitmentVersionId = commitmentInformation.CommitmentVersionId;
             return input;
         }
-        
-        private int CalculateDeliveryMonth(int period)
-        {
-            //return CollectionPeriods.First(x => x.Id == period).Month;
-            return 0;
-        }
-
-        private int CalculateDeliveryYear(int period)
-        {
-            //return CollectionPeriods.First(x => x.Id == period).Year;
-            return 0;
-        }
     }
 }
