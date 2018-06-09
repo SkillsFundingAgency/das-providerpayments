@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         private IReadOnlyList<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; }
         public IReadOnlyList<PriceEpisode> PriceEpisodes { get; }
         public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
-        
+
         // Output
         public List<RequiredPaymentEntity> RequiredPayments { get; private set; } = new List<RequiredPaymentEntity>();
         public List<NonPayableEarningEntity> NonPayableEarnings { get; private set; } = new List<NonPayableEarningEntity>();
@@ -32,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
         private bool _ignoreLearner;                // Used for special case ACT2 -> ACT1 with datalock
-        
+
         private void MatchMathsAndEnglishToOnProg()
         {
             var payableEarnings = new List<RawEarning>();
@@ -55,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     nonPayableEarnings.Add(mathsOrEnglishEarning);
                 }
             }
-            
+
             RawEarnings.AddRange(payableEarnings);
             MarkAsNonPayable(nonPayableEarnings, "Maths or english aim with no matching on-prog aim");
         }
@@ -69,13 +69,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             //  If a learner is ACT2 only, pay everything
             //  If a learner moves from ACT2 to ACT1 and has a 'bad' datalock, then ignore them
             //  If a learner has a 'bad' datalock, ignore them for payments and refunds (includes the above)
-            
+
             var act1 = Act1RawEarnings.ToList();
             // if there are *no* ACT1 earnings, then everything is ACT2 and payable
             if (act1.Count == 0)
             {
                 MarkAsPayable(RawEarnings);
-                
+
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             reason = string.Empty;
             var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
-            
+
             // If only act2 earnings
             if (earnings.All(x => x.ApprenticeshipContractType == 2))
             {
@@ -159,38 +159,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             var processedGroups = new HashSet<MatchSetForPayments>();
 
             var groupedEarnings = PayableEarnings.GroupBy(x => new MatchSetForPayments
-            {
-                StandardCode = x.StandardCode,
-                FrameworkCode = x.FrameworkCode,
-                ProgrammeType = x.ProgrammeType,
-                PathwayCode = x.PathwayCode,
-                ApprenticeshipContractType = x.ApprenticeshipContractType,
-                TransactionType = x.TransactionType,
-                SfaContributionPercentage = x.SfaContributionPercentage,
-                LearnAimRef = x.LearnAimRef,
-                FundingLineType = x.FundingLineType,
-                DeliveryYear = x.DeliveryYear,
-                DeliveryMonth = x.DeliveryMonth,
-                AccountId = x.AccountId,
-                CommitmentId = x.CommitmentId,
-            }).ToDictionary(x => x.Key, x => x.ToList());
+                (
+                    x.StandardCode,
+                    x.FrameworkCode,
+                    x.ProgrammeType,
+                    x.PathwayCode,
+                    x.ApprenticeshipContractType,
+                    x.TransactionType,
+                    x.SfaContributionPercentage,
+                    x.LearnAimRef,
+                    x.FundingLineType,
+                    x.DeliveryYear,
+                    x.DeliveryMonth,
+                    x.AccountId,
+                    x.CommitmentId)
+            ).ToDictionary(x => x.Key, x => x.ToList());
 
             var groupedPastPayments = PastPayments.GroupBy(x => new MatchSetForPayments
-            {
-                StandardCode = x.StandardCode,
-                FrameworkCode = x.FrameworkCode,
-                ProgrammeType = x.ProgrammeType,
-                PathwayCode = x.PathwayCode,
-                ApprenticeshipContractType = x.ApprenticeshipContractType,
-                TransactionType = x.TransactionType,
-                SfaContributionPercentage = x.SfaContributionPercentage,
-                LearnAimRef = x.LearnAimRef,
-                FundingLineType = x.FundingLineType,
-                DeliveryYear = x.DeliveryYear,
-                DeliveryMonth = x.DeliveryMonth,
-                AccountId = x.AccountId,
-                CommitmentId = x.CommitmentId,
-            }).ToDictionary(x => x.Key, x => x.ToList()); 
+            (
+                x.StandardCode,
+                x.FrameworkCode,
+                x.ProgrammeType,
+                x.PathwayCode,
+                x.ApprenticeshipContractType,
+                x.TransactionType,
+                x.SfaContributionPercentage,
+                x.LearnAimRef,
+                x.FundingLineType,
+                x.DeliveryYear,
+                x.DeliveryMonth,
+                x.AccountId,
+                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)
@@ -274,7 +273,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 }
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = i;
-                
+
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
                 if (commitmentInformation != null)
@@ -297,7 +296,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                 var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
                 nonPayableEarning.TransactionType = i;
-                
+
                 // Doing this to prevent a huge switch statement
                 nonPayableEarning.AmountDue = amountDue;
                 if (commitmentInformation != null)

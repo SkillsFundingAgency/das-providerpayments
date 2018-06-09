@@ -170,7 +170,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 actualNonPayableEarnings.ForEach(entity =>
                 {
-                    entity.CollectionPeriodName.Should().Be(collectionPeriod.Name);
+                    entity.CollectionPeriodName.Should().Be(collectionPeriod.CollectionPeriodName);
                     entity.CollectionPeriodMonth.Should().Be(collectionPeriod.Month);
                     entity.CollectionPeriodYear.Should().Be(collectionPeriod.Year);
                 });
@@ -240,7 +240,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 actualPayableEarnings.ForEach(entity =>
                 {
-                    entity.CollectionPeriodName.Should().Be(collectionPeriod.Name);
+                    entity.CollectionPeriodName.Should().Be(collectionPeriod.CollectionPeriodName);
                     entity.CollectionPeriodMonth.Should().Be(collectionPeriod.Month);
                     entity.CollectionPeriodYear.Should().Be(collectionPeriod.Year);
                 });

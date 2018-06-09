@@ -94,6 +94,7 @@
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithNoRefunds.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithARefund.cs" />
+    <Compile Include="DomainTests\MatchSetTests\GivenAMatchSet.cs" />
     <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />

@@ -82,7 +82,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Common
                     CollectionYear = academicYear,
                     PeriodId = periodNumber,
                     Period = "R" + periodNumber.ToString("00"),
-                    PeriodName = academicYear + "R" + periodNumber.ToString("00"),
+                    PeriodName = academicYear + "-R" + periodNumber.ToString("00"),
                     CalendarMonth = month,
                     CalendarYear = year,
                     CollectionOpen = open,

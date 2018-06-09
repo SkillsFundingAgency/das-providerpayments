@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             allNonPayablesForProvider.ForEach(nonPayable =>
             {
                 nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-                nonPayable.CollectionPeriodName = currentCollectionPeriod.Name;
+                nonPayable.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
                 nonPayable.CollectionPeriodMonth = currentCollectionPeriod.Month;
                 nonPayable.CollectionPeriodYear = currentCollectionPeriod.Year;
             });
@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             allPayablesForProvider.ForEach(payable =>
             {
                 payable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-                payable.CollectionPeriodName = currentCollectionPeriod.Name;
+                payable.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
                 payable.CollectionPeriodMonth = currentCollectionPeriod.Month;
                 payable.CollectionPeriodYear = currentCollectionPeriod.Year;
             });

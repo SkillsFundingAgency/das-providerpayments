@@ -29,8 +29,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 foreach (var priceEpisodeGroup in priceEpisodesByCommitment)
                 {
                     // Not sure about this one...
-                    var commitment = commitments.FirstOrDefault(x => x.CommitmentId == priceEpisodeGroup.Key);
-                    if (commitment == null || priceEpisodeGroup.All(x => !x.Payable))
+                    var commitment = commitments
+                        .OrderByDescending(x => x.CommitmentVersionId)
+                        .FirstOrDefault(x => x.CommitmentId == priceEpisodeGroup.Key);
+
+                    if (commitment == null || 
+                        !commitment.IsLevyPayer || 
+                        priceEpisodeGroup.All(x => !x.Payable))
                     {
                         var priceEpisode = new PriceEpisode(dataLockGroup.Key, false,
                             commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,

@@ -24,5 +24,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public string LegalEntityName { get; set; }
         public long TransferSendingEmployerAccountId { get; set; }
         public DateTime? TransferApprovalDate { get; set; }
+        public bool IsLevyPayer { get; set; }
     }
 }

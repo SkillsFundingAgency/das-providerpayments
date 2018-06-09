@@ -106,7 +106,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         [Given(@"the employer is not a levy payer")]
         public void GivenTheEmployerIsNotALevyPayer()
         {
-            AddOrUpdateEmployerAccount(Defaults.EmployerAccountId,0m, isLevyPayer:false);
+            AddOrUpdateEmployerAccount(Defaults.EmployerAccountId, 0m, isLevyPayer:false);
         }
 
 

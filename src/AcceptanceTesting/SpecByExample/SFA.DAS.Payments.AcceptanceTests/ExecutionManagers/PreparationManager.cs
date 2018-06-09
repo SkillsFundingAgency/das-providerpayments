@@ -61,6 +61,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 connection.Execute("TRUNCATE TABLE Payments.Payments");
                 connection.Execute("TRUNCATE TABLE PaymentsDue.RequiredPayments");
+                connection.Execute("TRUNCATE TABLE PaymentsDue.NonPayableEarnings");
+
                 connection.Execute("TRUNCATE TABLE Adjustments.ManualAdjustments");
 
                 connection.Execute("TRUNCATE TABLE DataLock.DataLockEventCommitmentVersions");

@@ -1,8 +1,10 @@
 TRUNCATE TABLE [Reference].[CollectionPeriods]
 GO
 
-INSERT INTO [Reference].[CollectionPeriods] ([Id], [Name], [CalendarMonth], [CalendarYear], [Open], [AcademicYear])
-    SELECT
+INSERT INTO [Reference].[CollectionPeriods] 
+	([Id], [Name], [CalendarMonth], [CalendarYear], [Open], [AcademicYear])
+    
+	SELECT
         [Period_ID] AS [Id],
         [Return_Code] AS [Name],
         [Calendar_Month] AS [CalendarMonth],
