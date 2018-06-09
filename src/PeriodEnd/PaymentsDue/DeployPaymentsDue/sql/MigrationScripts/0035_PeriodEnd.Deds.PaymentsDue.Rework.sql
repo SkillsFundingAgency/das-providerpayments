@@ -40,6 +40,8 @@ BEGIN
 		SfaContributionPercentage decimal(15,5),
 		FundingLineType varchar(60),
 		UseLevyBalance bit,
+		LearnAimRef varchar(8),
+		LearningStartDate date,
 		Reason varchar(1000)
 	)
 END

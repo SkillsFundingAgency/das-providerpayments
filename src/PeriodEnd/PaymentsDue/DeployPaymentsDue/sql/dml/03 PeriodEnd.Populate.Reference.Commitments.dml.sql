@@ -40,10 +40,10 @@ GO
 INSERT INTO [Reference].[DasCommitments]
     SELECT
         [CommitmentId],
-        MAX([VersionId]) [VersionId],
+        MAX(C.[VersionId]) [VersionId],
         [Uln],
         [Ukprn],
-        [AccountId],
+        C.[AccountId],
         [StartDate],
         [EndDate],
         [AgreedCost],
@@ -66,7 +66,7 @@ INSERT INTO [Reference].[DasCommitments]
     GROUP BY [CommitmentId],
         [Uln],
         [Ukprn],
-        [AccountId],
+        C.[AccountId],
         [StartDate],
         [EndDate],
         [AgreedCost],
@@ -81,7 +81,8 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName],
 		[TransferSendingEmployerAccountId],
-		[TransferApprovalDate]
+		[TransferApprovalDate],
+        A.IsLevyPayer
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])
