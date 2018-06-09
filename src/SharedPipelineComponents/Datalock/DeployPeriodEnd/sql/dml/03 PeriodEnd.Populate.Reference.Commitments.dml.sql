@@ -58,8 +58,11 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName],
 		[TransferSendingEmployerAccountId],
-		[TransferApprovalDate]
-    FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
+		[TransferApprovalDate],
+		A.IsLevyPayer
+    FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments] C
+	LEFT JOIN ${DAS_Accounts.FQ}.[dbo].[DasAccounts] A
+	ON C.AccountId = A.AccountId
     GROUP BY [CommitmentId],
         [Uln],
         [Ukprn],

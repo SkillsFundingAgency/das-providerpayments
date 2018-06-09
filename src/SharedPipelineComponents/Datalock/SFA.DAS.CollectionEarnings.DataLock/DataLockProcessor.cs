@@ -64,8 +64,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                         _logger.Info("No price episodes found.");
                     }
                 }
-
-
             }
             else
             {
