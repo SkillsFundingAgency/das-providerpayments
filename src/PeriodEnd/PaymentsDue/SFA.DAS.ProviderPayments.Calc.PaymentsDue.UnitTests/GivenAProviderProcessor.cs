@@ -245,67 +245,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     entity.CollectionPeriodYear.Should().Be(collectionPeriod.Year);
                 });
             }
-
-
-            [Test, PaymentsDueAutoData]
-            public void ThenDeliveryPeriodIsSetOnPayableEarnings(
-                ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                CollectionPeriodEntity collectionPeriod,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
-                [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
-                [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
-                [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
-                ProviderProcessor sut)
-            {
-                var actualPayableEarnings = new List<RequiredPaymentEntity>();
-                var collectionPeriods = new List<CollectionPeriodEntity>
-                {
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 1, Month = 8, Year = 2017, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 2, Month = 9, Year = 2017, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 3, Month = 10, Year = 2017, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 4, Month = 11, Year = 2017, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 5, Month = 12, Year = 2017, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 6, Month = 1, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 7, Month = 2, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 8, Month = 3, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 9, Month = 4, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 10, Month = 5, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 11, Month = 6, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 12, Month = 7, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 13, Month = 9, Year = 2018, },
-                    new CollectionPeriodEntity {AcademicYear = "1718", Id = 14, Month = 10, Year = 2018, },
-                };
-
-                mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
-                    .Returns(learnerParameters);
-
-                mockCollectionPeriodRepository
-                    .Setup(repository => repository.GetCurrentCollectionPeriod())
-                    .Returns(collectionPeriod);
-
-                mockCollectionPeriodRepository
-                    .Setup(x => x.GetAllCollectionPeriods())
-                    .Returns(collectionPeriods);
-
-                mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
-                    .Returns(learnerResult);
-
-                mockRequiredPaymentsRepository
-                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
-                    .Callback<RequiredPaymentEntity[]>(payableEarnings => actualPayableEarnings = payableEarnings.ToList());
-
-                sut.Process(provider);
-
-                actualPayableEarnings.ForEach(entity =>
-                {
-                    entity.DeliveryMonth.Should().Be(collectionPeriods.First(x => x.Id == entity.Period).Month);
-                    entity.DeliveryYear.Should().Be(collectionPeriods.First(x => x.Id == entity.Period).Year);
-                });
-            }
         } 
     }
 }

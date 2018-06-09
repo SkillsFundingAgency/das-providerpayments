@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
@@ -54,5 +55,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public decimal TransactionType13 { get; set; }
         public decimal TransactionType14 { get; set; }
         public decimal TransactionType15 { get; set; }
+        [NotMapped]
+        public int DeliveryMonth { get; set; }
+        [NotMapped]
+        public int DeliveryYear { get; set; }
     }
 }

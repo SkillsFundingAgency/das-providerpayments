@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
@@ -13,12 +15,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenALearnerProcessParametersBuilder
     {
+        static List<CollectionPeriodEntity> collectionPeriods = new List<CollectionPeriodEntity>
+        {
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 1, Month = 8, Year = 2017, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 2, Month = 9, Year = 2017, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 3, Month = 10, Year = 2017, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 4, Month = 11, Year = 2017, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 5, Month = 12, Year = 2017, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 6, Month = 1, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 7, Month = 2, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 8, Month = 3, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 9, Month = 4, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 10, Month = 5, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 11, Month = 6, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 12, Month = 7, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 13, Month = 9, Year = 2018, },
+            new CollectionPeriodEntity {AcademicYear = "1718", Id = 14, Month = 10, Year = 2018, },
+        };
+
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesASingleNewLearnerProcessParametersInstanceForAllRawEarningsWithLearnerRefNumberAndUln(
             long ukprn,
             string learnRefNumber,
             long uln,
             List<RawEarning> rawEarnings,
+            [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             LearnerProcessParametersBuilder sut)
         {
@@ -31,6 +52,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockRawEarningsRepository
                 .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(rawEarnings);
+
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(collectionPeriods);
 
             var learners = sut.Build(ukprn);
 
@@ -46,6 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             long uln,
+            [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
             LearnerProcessParametersBuilder sut)
@@ -59,6 +85,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockRawEarningsMathsEnglishRepository
                 .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(rawEarningsMathsEnglish);
+
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(collectionPeriods);
 
             var learners = sut.Build(ukprn);
 
@@ -122,6 +152,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string[] learnRefNumbers,
             long[] ulns,
+            [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             List<RawEarning> rawEarnings,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
@@ -155,6 +186,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(historicalPayments);
             mockDataLockRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(dataLocks);
             mockCommitmentsRepository.Setup(repository => repository.GetProviderCommitments(ukprn)).Returns(commitments);
+
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(collectionPeriods);
 
             var learners = sut.Build(ukprn);
             
@@ -191,6 +226,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             long uln,
+            [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             List<RawEarning> rawEarnings,
             List<Commitment> commitments,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
@@ -212,6 +248,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetProviderCommitments(ukprn))
                 .Returns(commitments);
 
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(collectionPeriods);
+
             var learners = sut.Build(ukprn);
 
             learners.Count.Should().Be(1);
@@ -219,6 +259,49 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners[0].Uln.Should().Be(uln);
             learners[0].RawEarnings.ShouldAllBeEquivalentTo(rawEarnings);
             learners[0].Commitments.ShouldAllBeEquivalentTo(commitments);
+        }
+
+        [Test, PaymentsDueAutoData]
+        public void ThenDeliveryPeriodIsSetOnEarnings(
+            long ukprn,
+            string learnRefNumber,
+            long uln,
+            List<RawEarning> rawEarnings,
+            List<Commitment> commitments,
+            [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
+            [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
+            [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+            LearnerProcessParametersBuilder sut)
+        {
+            var actualPayableEarnings = new List<RequiredPaymentEntity>();
+            
+
+            rawEarnings.ForEach(entity =>
+            {
+                entity.LearnRefNumber = learnRefNumber;
+                entity.Uln = uln;
+            });
+            commitments.ForEach(entity => entity.Uln = uln);
+
+            mockRawEarningsRepository
+                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Returns(rawEarnings);
+
+            mockCommitmentsRepository
+                .Setup(repository => repository.GetProviderCommitments(ukprn))
+                .Returns(commitments);
+
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(collectionPeriods);
+
+            var learners = sut.Build(ukprn);
+
+            learners.Count.Should().Be(1);
+            learners[0].RawEarnings.ForEach(x => x.DeliveryMonth.Should().Be(collectionPeriods.First(y => y.Id == x.Period).Month));
+            learners[0].RawEarnings.ForEach(x => x.DeliveryYear.Should().Be(collectionPeriods.First(y => y.Id == x.Period).Year));
+            learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryMonth.Should().Be(collectionPeriods.First(y => y.Id == x.Period).Month));
+            learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryYear.Should().Be(collectionPeriods.First(y => y.Id == x.Period).Year));
         }
     }
 }

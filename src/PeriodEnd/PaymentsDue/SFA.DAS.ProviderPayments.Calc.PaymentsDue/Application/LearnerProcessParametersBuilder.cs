@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
@@ -12,6 +13,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private readonly IRequiredPaymentsHistoryRepository _historicalPaymentsRepository;
         private readonly IDatalockOutputRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
+        private readonly ICollectionPeriodRepository _collectionPeriodRepository;
+
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
 
@@ -20,26 +23,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository, 
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository, 
             IDatalockOutputRepository dataLockRepository,
-            ICommitmentRepository commitmentsRepository)
+            ICommitmentRepository commitmentsRepository,
+            ICollectionPeriodRepository collectionPeriodRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
             _rawEarningsMathsEnglishRepository = rawEarningsMathsEnglishRepository;
             _historicalPaymentsRepository = historicalPaymentsRepository;
             _dataLockRepository = dataLockRepository;
             _commitmentsRepository = commitmentsRepository;
+            _collectionPeriodRepository = collectionPeriodRepository;
         }
 
         public List<LearnerProcessParameters> Build(long ukprn)
         {
             ResetLearnerResultsList();
+            var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
+            var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
+            var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
 
             foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
             {
+                rawEarning.DeliveryMonth = periodToMonthMapper[rawEarning.Period];
+                rawEarning.DeliveryYear = periodToYearMapper[rawEarning.Period];
+
                 GetLearnerProcessParametersInstanceForLearner(rawEarning.LearnRefNumber, rawEarning.Uln).RawEarnings.Add(rawEarning);
             }
 
             foreach (var rawEarningMathsEnglish in _rawEarningsMathsEnglishRepository.GetAllForProvider(ukprn))
             {
+                rawEarningMathsEnglish.DeliveryMonth = periodToMonthMapper[rawEarningMathsEnglish.Period];
+                rawEarningMathsEnglish.DeliveryYear = periodToYearMapper[rawEarningMathsEnglish.Period];
+
                 GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
