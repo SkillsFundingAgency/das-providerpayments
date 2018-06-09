@@ -59,5 +59,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
             return CollectionPeriods;
         }
+
+        public void Reset()
+        {
+            LoadCollectionPeriods();
+        }
     }
 }

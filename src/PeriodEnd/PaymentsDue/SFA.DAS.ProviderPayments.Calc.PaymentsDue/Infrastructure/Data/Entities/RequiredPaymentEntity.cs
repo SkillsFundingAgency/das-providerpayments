@@ -11,7 +11,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 
         public RequiredPaymentEntity(RequiredPaymentEntity copy)
         {
-            Id = copy.Id;
             CommitmentId = copy.CommitmentId;
             CommitmentVersionId = copy.CommitmentVersionId;
             AccountId = copy.AccountId;

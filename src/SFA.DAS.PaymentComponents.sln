@@ -318,10 +318,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{3CD867A5-C0A
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql
 	EndProjectSection
