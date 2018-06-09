@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="DomainTests\DatalockTests\GivenADatalockValidator.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithNoRefunds.cs" />

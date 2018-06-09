@@ -28,17 +28,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 var priceEpisodesByCommitment = dataLockGroup.ToLookup(x => x.CommitmentId);
                 foreach (var priceEpisodeGroup in priceEpisodesByCommitment)
                 {
-                    var commitment = commitments.First(x => x.CommitmentId == priceEpisodeGroup.Key);
-                    if (priceEpisodeGroup.Any(x => x.Payable))
+                    // Not sure about this one...
+                    var commitment = commitments.FirstOrDefault(x => x.CommitmentId == priceEpisodeGroup.Key);
+                    if (commitment == null || priceEpisodeGroup.All(x => !x.Payable))
                     {
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, true,
-                            commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
-                            commitment.AccountId ?? 0, commitment.AccountVersionId);
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, false,
+                            commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,
+                            commitment?.AccountId ?? 0, commitment?.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);
                     }
                     else
                     {
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, false,
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, true,
                             commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
                             commitment.AccountId ?? 0, commitment.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);
