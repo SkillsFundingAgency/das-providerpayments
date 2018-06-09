@@ -58,7 +58,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 config.DestinationConnectionString = _copyDirection == DataCopyDirection.TransientToDeds ? context.DedsDatabaseConnectionString : context.TransientConnectionString;
 
                 var copyCat = new CopyCat(config);
-                copyCat.Copy();
+                try
+                {
+                    copyCat.Copy();
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"while copying data for {mapping}");
+                }
             }
         }
 

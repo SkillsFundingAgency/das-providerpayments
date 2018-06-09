@@ -191,3 +191,53 @@ GO
 
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_RequiredPaymentsForThisAcademicYear
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_RequiredPaymentsForThisAcademicYear' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+    DROP VIEW PaymentsDue.vw_RequiredPaymentsForThisAcademicYear
+END
+GO
+
+CREATE VIEW PaymentsDue.vw_RequiredPaymentsForThisAcademicYear
+AS
+WITH [Period] AS (
+	SELECT CONCAT(Collection_Year, '-R%') [CollectionYear]
+	FROM ${DAS_PeriodEnd.FQ}.dbo.Collection_Period_Mapping
+	WHERE Collection_Open = 1
+)
+SELECT 
+	[Id]
+	,[CommitmentId]
+	,[CommitmentVersionId]
+	,[AccountId]
+	,[AccountVersionId]
+	,[Uln]
+	,[LearnRefNumber]
+	,[AimSeqNumber]
+	,[Ukprn]
+	,[IlrSubmissionDateTime]
+	,[PriceEpisodeIdentifier]
+	,[StandardCode]
+	,[ProgrammeType]
+	,[FrameworkCode]
+	,[PathwayCode]
+	,[ApprenticeshipContractType]
+	,[DeliveryMonth]
+	,[DeliveryYear]
+	,[CollectionPeriodName]
+	,[CollectionPeriodMonth]
+	,[CollectionPeriodYear]
+	,[TransactionType]
+	,[AmountDue]
+	,[SfaContributionPercentage]
+	,[FundingLineType]
+	,[UseLevyBalance]
+	,[LearnAimRef]
+	,[LearningStartDate]
+FROM PaymentsDue.RequiredPayments, [Period]
+WHERE CollectionPeriodName LIKE CollectionYear
+GO
+
+

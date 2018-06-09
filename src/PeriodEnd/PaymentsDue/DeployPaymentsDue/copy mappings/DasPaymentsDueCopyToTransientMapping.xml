@@ -211,7 +211,7 @@
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
-      <Source>[PaymentsDue].[RequiredPayments]</Source>
+      <Source>[PaymentsDue].[vw_RequiredPaymentsForThisAcademicYear]</Source>
       <Destination>[Reference].[RequiredPaymentsHistory]</Destination>
       <Ordinal>3</Ordinal>
       <ColumnMappings>
