@@ -22,8 +22,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
         [TestFixture]
         public class WithAMismatchedCommitment
         {
-            private static readonly List<DataLockPriceEpisodePeriodMatchEntity> Datalocks =
-                Fixture.Build<DataLockPriceEpisodePeriodMatchEntity>()
+            private static readonly List<DatalockOutput> Datalocks =
+                Fixture.Build<DatalockOutput>()
                     .With(x => x.CommitmentId, Commitments[2].CommitmentId)
                     .With(x => x.PriceEpisodeIdentifier, PriceEpisode1)
                     .With(x => x.Payable, true)

@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 {
     public interface IDatalockOutputRepository
     {
-        List<DataLockPriceEpisodePeriodMatchEntity> GetAllForProvider(long ukprn);
+        List<DatalockOutput> GetAllForProvider(long ukprn);
     }
 
     public class DatalockOutputRepository: DcfsRepository, IDatalockOutputRepository
@@ -16,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public List<DataLockPriceEpisodePeriodMatchEntity> GetAllForProvider(long ukprn)
+        public List<DatalockOutput> GetAllForProvider(long ukprn)
         {
             const string sql = @"
             SELECT *
             FROM [DataLock].[PriceEpisodePeriodMatch]
             WHERE Ukprn = @ukprn";
 
-            var result = Query<DataLockPriceEpisodePeriodMatchEntity>(sql, new { ukprn })
+            var result = Query<DatalockOutput>(sql, new { ukprn })
                 .ToList();
 
             return result;

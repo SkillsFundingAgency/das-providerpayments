@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
@@ -26,6 +24,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
             FundingLineType = rawEarning.FundingLineType;
             LearnAimRef = rawEarning.LearnAimRef;
             LearningStartDate = rawEarning.LearningStartDate;
+            DeliveryMonth = rawEarning.DeliveryMonth;
+            DeliveryYear = rawEarning.DeliveryYear;
         }
 
         [StringLength(1000)]

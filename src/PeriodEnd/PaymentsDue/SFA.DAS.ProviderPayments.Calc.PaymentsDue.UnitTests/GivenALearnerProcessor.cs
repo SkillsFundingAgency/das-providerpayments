@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DataLockPriceEpisodePeriodMatchEntity>>()))
+                        It.IsAny<List<DatalockOutput>>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
@@ -86,7 +86,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DataLockPriceEpisodePeriodMatchEntity>>()))
+                        It.IsAny<List<DatalockOutput>>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory

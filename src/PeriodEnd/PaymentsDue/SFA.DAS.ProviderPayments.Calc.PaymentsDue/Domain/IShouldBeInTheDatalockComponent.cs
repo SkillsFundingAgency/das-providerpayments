@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
     {
         public List<PriceEpisode> ValidatePriceEpisodes(
             List<Commitment> commitments,
-            List<DataLockPriceEpisodePeriodMatchEntity> dataLocks)
+            List<DatalockOutput> dataLocks)
         {
             // ASSUMPTIONS from Looking at the live data.
             //  Datalocks are 'keyed' by UKPRN, LearnRefNumber, PriceEpisodeIdentifier and CommitmentId

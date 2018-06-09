@@ -86,7 +86,7 @@
     <Compile Include="Domain\PriceEpisode.cs" />
     <Compile Include="Services\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
-    <Compile Include="Infrastructure\Data\Entities\DataLockPriceEpisodePeriodMatchEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\DatalockOutput.cs" />
     <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />

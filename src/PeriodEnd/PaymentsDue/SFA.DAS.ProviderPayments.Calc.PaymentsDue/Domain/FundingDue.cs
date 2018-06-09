@@ -25,6 +25,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             FundingLineType = rawEarning.FundingLineType;
             LearnAimRef = rawEarning.LearnAimRef;
             LearningStartDate = rawEarning.LearningStartDate;
+            DeliveryMonth = rawEarning.DeliveryMonth;
+            DeliveryYear = rawEarning.DeliveryYear;
         }
 
         public FundingDue(RequiredPaymentEntity requiredPaymentsHistoryEntity)
@@ -54,8 +56,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             LearnAimRef = requiredPaymentsHistoryEntity.LearnAimRef;
             LearningStartDate = requiredPaymentsHistoryEntity.LearningStartDate;
         }
-
-        public int Period { get; set; }
     }
 
     public interface IFundingDue
@@ -74,5 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         string FundingLineType { get; set; }
         string LearnAimRef { get; set; }
         int ApprenticeshipContractType { get; set; }
+        int DeliveryMonth { get; set; }
+        int DeliveryYear { get; set; }
     }
 }

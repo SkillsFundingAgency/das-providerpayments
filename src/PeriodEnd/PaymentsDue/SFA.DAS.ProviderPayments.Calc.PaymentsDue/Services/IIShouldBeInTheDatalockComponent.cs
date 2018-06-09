@@ -8,6 +8,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     {
         List<PriceEpisode> ValidatePriceEpisodes(
             List<Commitment> commitments,
-            List<DataLockPriceEpisodePeriodMatchEntity> dataLocks);
+            List<DatalockOutput> dataLocks);
     }
 }
