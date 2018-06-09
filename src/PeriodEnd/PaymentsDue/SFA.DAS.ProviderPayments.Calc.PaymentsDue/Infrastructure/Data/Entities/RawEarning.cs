@@ -59,5 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int DeliveryMonth { get; set; }
         [NotMapped]
         public int DeliveryYear { get; set; }
+
+        public bool UseLevyBalance { get; set; }
     }
 }

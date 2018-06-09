@@ -28,7 +28,7 @@ GO
 IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name] = 'Logs' AND [schema_id] = SCHEMA_ID('AT'))
 	BEGIN
 		CREATE TABLE [AT].[Logs](
-			[LogId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
+			[LogId] bigint IDENTITY(1,1) NOT NULL,
 			[RunId] [varchar](50) NOT NULL,
 			[LogLevel] [int] NOT NULL,
 			[LogDtTm] [datetime] NOT NULL DEFAULT(GETDATE()),

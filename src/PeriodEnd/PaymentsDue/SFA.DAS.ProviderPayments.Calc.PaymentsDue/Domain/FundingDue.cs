@@ -27,6 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             LearningStartDate = rawEarning.LearningStartDate;
             DeliveryMonth = rawEarning.DeliveryMonth;
             DeliveryYear = rawEarning.DeliveryYear;
+            UseLevyBalance = rawEarning.UseLevyBalance;
         }
 
         public FundingDue(RequiredPaymentEntity requiredPaymentsHistoryEntity)
