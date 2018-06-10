@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -32,6 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             foreach (var rawEarning in earnings)
             {
+                rawEarning.SfaContributionPercentage = Math.Round(rawEarning.SfaContributionPercentage, 4);
                 RawEarningsMathsEnglishDataHelper.CreateRawEarningMathsEnglish(rawEarning);
             }
 
