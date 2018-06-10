@@ -37,8 +37,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("TRUNCATE TABLE PaymentsDue.RequiredPayments");
                 connection.Execute("TRUNCATE TABLE PaymentsDue.TaskLog");
 
-                connection.Execute("TRUNCATE TABLE Reference.ApprenticeshipDeliveryEarnings");
-                connection.Execute("TRUNCATE TABLE Reference.ApprenticeshipEarnings");
                 connection.Execute("TRUNCATE TABLE Reference.CoInvestedPaymentsHistory");
                 connection.Execute("TRUNCATE TABLE Reference.CollectionPeriods");
                 connection.Execute("TRUNCATE TABLE Reference.DasAccounts");
