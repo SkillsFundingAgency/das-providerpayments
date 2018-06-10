@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -34,6 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             foreach (var historicalPayment in historicalPayments)
             {
+                historicalPayment.SfaContributionPercentage = Math.Round(historicalPayment.SfaContributionPercentage, 4);
                 RequiredPaymentsHistoryDataHelper.CreateEntity(historicalPayment);
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -38,6 +39,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                         .Build<NonPayableEarningEntity>()
                         .CreateMany()
                         .ToList();
+
+                    _expectedEntities.ForEach(x => x.SfaContributionPercentage = Math.Round(x.SfaContributionPercentage, 4));
 
                     _sut.AddMany(_expectedEntities);
 

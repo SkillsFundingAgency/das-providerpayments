@@ -14,17 +14,17 @@ IF NOT EXISTS(SELECT NULL FROM
 BEGIN
 	CREATE TABLE PaymentsDue.NonPayableEarnings
 	(
-		Id uniqueidentifier PRIMARY KEY DEFAULT(NEWID()),
+		Id uniqueidentifier DEFAULT(NEWID()),
 		CommitmentId bigint,
-		CommitmentVersionId varchar(50),
-		AccountId varchar(50),
+		CommitmentVersionId varchar(25),
+		AccountId bigint,
 		AccountVersionId varchar(50),
 		Uln bigint,
-		LearnRefNumber varchar(12),
+		LearnRefNumber varchar(12) NOT NULL,
 		AimSeqNumber int,
 		Ukprn bigint,
 		IlrSubmissionDateTime datetime,
-		PriceEpisodeIdentifier varchar(25),
+		PriceEpisodeIdentifier varchar(25)  NOT NULL,
 		StandardCode bigint,
 		ProgrammeType int,
 		FrameworkCode int,
@@ -33,17 +33,22 @@ BEGIN
 		DeliveryMonth int,
 		DeliveryYear int,
 		CollectionPeriodName varchar(8) NOT NULL,
-		CollectionPeriodMonth int NOT NULL,
-		CollectionPeriodYear int NOT NULL,
+		CollectionPeriodMonth int,
+		CollectionPeriodYear int,
 		TransactionType int,
 		AmountDue decimal(15,5),
 		SfaContributionPercentage decimal(15,5),
-		FundingLineType varchar(60),
+		FundingLineType varchar(100),
 		UseLevyBalance bit,
-		LearnAimRef varchar(8),
-		LearningStartDate date,
-		Reason varchar(1000)
+		LearnAimRef varchar(8) NOT NULL,
+		LearningStartDate datetime,
+		Reason varchar(1000) NOT NULL
 	)
+
+	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_CollectionPeriodName ON PaymentsDue.NonPayableEarnings (CollectionPeriodName)
+	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_UkprnLearnRefNumber ON PaymentsDue.NonPayableEarnings (Ukprn, LearnRefNumber)
+	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_Uln ON PaymentsDue.NonPayableEarnings (Uln)
+	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_CommitmentId ON PaymentsDue.NonPayableEarnings (CommitmentId)
 END
 GO
 
