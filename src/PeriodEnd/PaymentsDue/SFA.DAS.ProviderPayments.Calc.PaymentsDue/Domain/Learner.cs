@@ -8,8 +8,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     public class Learner : ILearner
     {
-        public Learner(IEnumerable<RawEarning> rawEarnings, IEnumerable<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
-            IEnumerable<PriceEpisode> priceEpisodes, IEnumerable<RequiredPaymentEntity> pastPayments)
+        public Learner(
+            IEnumerable<RawEarning> rawEarnings,
+            IEnumerable<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            IEnumerable<PriceEpisode> priceEpisodes, 
+            IEnumerable<RequiredPaymentEntity> pastPayments)
         {
             RawEarnings = rawEarnings.ToList();
             RawEarningsMathsEnglish = mathsAndEnglishEarnings.ToList();
@@ -24,10 +27,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
 
         // Output
-        public List<RequiredPaymentEntity> RequiredPayments { get; private set; } = new List<RequiredPaymentEntity>();
-        public List<NonPayableEarningEntity> NonPayableEarnings { get; private set; } = new List<NonPayableEarningEntity>();
-
-
+        public List<RequiredPaymentEntity> RequiredPayments { get; } = new List<RequiredPaymentEntity>();
+        public List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
+     
         // Internal
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
@@ -41,10 +43,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             // Find a matching raw earning with the same course information
             foreach (var mathsOrEnglishEarning in RawEarningsMathsEnglish)
             {
-                var matchingOnProg = RawEarnings.FirstOrDefault(x => x.FrameworkCode == mathsOrEnglishEarning.FrameworkCode &&
-                                                            x.StandardCode == mathsOrEnglishEarning.StandardCode &&
-                                                            x.PathwayCode == mathsOrEnglishEarning.PathwayCode &&
-                                                            x.ProgrammeType == mathsOrEnglishEarning.ProgrammeType);
+                var matchingOnProg = RawEarnings.FirstOrDefault(x =>
+                    x.FrameworkCode == mathsOrEnglishEarning.FrameworkCode &&
+                    x.StandardCode == mathsOrEnglishEarning.StandardCode &&
+                    x.PathwayCode == mathsOrEnglishEarning.PathwayCode &&
+                    x.ProgrammeType == mathsOrEnglishEarning.ProgrammeType &&
+                    x.ApprenticeshipContractType == mathsOrEnglishEarning.ApprenticeshipContractType);
+
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
@@ -191,18 +196,45 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 x.AccountId,
                 x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
 
+            var groupedIgnoredPayments = NonPayableEarnings.GroupBy(x => new MatchSetForPayments
+            (
+                x.StandardCode,
+                x.FrameworkCode,
+                x.ProgrammeType,
+                x.PathwayCode,
+                x.ApprenticeshipContractType,
+                x.TransactionType,
+                x.SfaContributionPercentage,
+                x.LearnAimRef,
+                x.FundingLineType,
+                x.DeliveryYear,
+                x.DeliveryMonth,
+                x.AccountId,
+                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
+
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)
             {
                 processedGroups.Add(key);
                 var earnings = groupedEarnings[key];
                 var pastPayments = new List<RequiredPaymentEntity>();
+                var ignoredEarnings = new List<NonPayableEarningEntity>();
+
                 if (groupedPastPayments.ContainsKey(key))
                 {
                     pastPayments = groupedPastPayments[key];
                 }
 
-                var payment = earnings.Sum(x => x.AmountDue) - pastPayments.Sum(x => x.AmountDue);
+                if (groupedIgnoredPayments.ContainsKey(key))
+                {
+                    ignoredEarnings = groupedIgnoredPayments[key];
+                }
+
+                var payment = 
+                    earnings.Sum(x => x.AmountDue) - 
+                    pastPayments.Sum(x => x.AmountDue) -
+                    ignoredEarnings.Sum(x => x.AmountDue);
+
                 if (payment != 0)
                 {
                     AddRequiredPayment(earnings.First(), payment);
@@ -218,11 +250,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     continue;
                 }
 
-                var payments = groupedPastPayments[key];
-                var payment = -payments.Sum(x => x.AmountDue);
+                var pastPayments = groupedPastPayments[key];
+
+                var ignoredEarnings = new List<NonPayableEarningEntity>();
+                if (groupedIgnoredPayments.ContainsKey(key))
+                {
+                    ignoredEarnings = groupedIgnoredPayments[key];
+                }
+
+                var payment = ignoredEarnings.Sum(x => x.AmountDue) 
+                              - pastPayments.Sum(x => x.AmountDue);
+
                 if (payment != 0)
                 {
-                    AddRequiredPayment(payments.First(), payment);
+                    AddRequiredPayment(pastPayments.First(), payment);
                 }
             }
 
