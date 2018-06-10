@@ -19,9 +19,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         private const string SelectCollectionPeriods = "SELECT " + CollectionPeriodColumns + " FROM " + CollectionPeriodSource;
 
         
-        private static List<CollectionPeriodEntity> CollectionPeriods { get; set; } = new List<CollectionPeriodEntity>();
-        private static CollectionPeriodEntity _openCollectionPeriod = null;
-        private static bool _collectionPeriodLoaded = false;
+        private List<CollectionPeriodEntity> CollectionPeriods { get; set; } = new List<CollectionPeriodEntity>();
+        private CollectionPeriodEntity _openCollectionPeriod = null;
+        private bool _collectionPeriodLoaded = false;
 
         public CollectionPeriodRepository(string connectionString)
             : base(connectionString)
@@ -58,11 +58,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             }
 
             return CollectionPeriods;
-        }
-
-        public void Reset()
-        {
-            LoadCollectionPeriods();
         }
     }
 }
