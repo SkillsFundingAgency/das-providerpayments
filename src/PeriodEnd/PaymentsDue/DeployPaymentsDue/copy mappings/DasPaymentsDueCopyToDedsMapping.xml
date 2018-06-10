@@ -173,7 +173,7 @@
     <TableMapping>
       <Source>[PaymentsDue].[NonPayableEarnings]</Source>
       <Destination>[PaymentsDue].[NonPayableEarnings]</Destination>
-      <Ordinal>1</Ordinal>
+      <Ordinal>3</Ordinal>
       <ColumnMappings>
         <ColumnMapping>
           <Source>Id</Source>

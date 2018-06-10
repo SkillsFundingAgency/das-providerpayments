@@ -91,11 +91,11 @@ CREATE TABLE PaymentsDue.NonPayableEarnings
 	AccountId bigint,
 	AccountVersionId varchar(50),
 	Uln bigint,
-	LearnRefNumber varchar(12),
+	LearnRefNumber varchar(12) NOT NULL,
 	AimSeqNumber int,
 	Ukprn bigint,
 	IlrSubmissionDateTime datetime,
-	PriceEpisodeIdentifier varchar(25),
+	PriceEpisodeIdentifier varchar(25) NOT NULL,
 	StandardCode bigint,
 	ProgrammeType int,
 	FrameworkCode int,
@@ -104,16 +104,16 @@ CREATE TABLE PaymentsDue.NonPayableEarnings
 	DeliveryMonth int,
 	DeliveryYear int,
 	CollectionPeriodName varchar(8) NOT NULL,
-	CollectionPeriodMonth int NOT NULL,
-	CollectionPeriodYear int NOT NULL,
+	CollectionPeriodMonth int,
+	CollectionPeriodYear int,
 	TransactionType int,
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
 	FundingLineType varchar(100),
 	UseLevyBalance bit ,
-	LearnAimRef varchar(8),
+	LearnAimRef varchar(8) NOT NULL,
 	LearningStartDate datetime,
-	Reason varchar(1000)
+	Reason varchar(1000) NOT NULL
 )
 GO
 
