@@ -140,5 +140,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
+        [Test]
+        public void WithPassingDatalockInR03ButHavingMadeNoPaymentsInR02AndAPriceIncrease_ThereArePaymentsForR03()
+        {
+            Datalocks[0].Payable = true;
+            Earnings.ForEach(x => x.TransactionType01 = 150);
+
+            var sut = new Learner(Earnings.Take(3), MathsAndEnglishEarnings, Datalocks, PastPayments.Take(1));
+            var actual = sut.CalculatePaymentsDue();
+
+            var expected = 350;
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+        }
+
+
+
     }
 }
