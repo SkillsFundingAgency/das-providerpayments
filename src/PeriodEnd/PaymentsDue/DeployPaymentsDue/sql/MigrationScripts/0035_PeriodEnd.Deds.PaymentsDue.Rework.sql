@@ -134,6 +134,7 @@ where (
 	or APEP.PriceEpisodeFirstDisadvantagePayment != 0
 	or APEP.PriceEpisodeSecondDisadvantagePayment != 0
 	or APEP.PriceEpisodeLSFCash != 0
+	OR APEP.[Period] = 1
     )
 	and APEP.[Period] <= Period_Id
 GO
