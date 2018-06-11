@@ -277,10 +277,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             foreach (var rawEarning in earnings)
             {
-                if (rawEarning.ApprenticeshipContractType == 1)
+                if (rawEarning.ApprenticeshipContractType == 1 &&
+                    rawEarning.SfaContributionPercentage < 1)
                 {
                     rawEarning.UseLevyBalance = true;
                 }
+
                 AddFundingDue(rawEarning, commitment);
             }
         }
