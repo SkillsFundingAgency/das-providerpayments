@@ -107,6 +107,7 @@
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
+    <Compile Include="Utilities\SetupAttributes\SetupEarningsAndPastPayments.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
