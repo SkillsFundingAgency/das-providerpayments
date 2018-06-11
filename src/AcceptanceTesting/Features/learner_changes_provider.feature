@@ -103,12 +103,12 @@ Feature: Apprentice changes provider scenarios
         Then OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 | 04/18 | ... | 11/18 |
             | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
-            | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     | 0     | ... | 0     |
+            | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
             | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
-            | Provider Paid by SFA           | 0     | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
+            | Provider Paid by SFA           | 0     | 500   | 500   | ... | 500   | 500   | 500   | ... | 0     |
             | Payment due from Employer      | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
-            | Levy account debited           | 0     | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
-            | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     | 0     | ... | 0     |
+            | Levy account debited           | 0     | 500   | 500   | ... | 500   | 500   | 500   | ... | 0     |
+            | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
             | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
             | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
         And OBSOLETE - the earnings and payments break down for provider b is as follows:

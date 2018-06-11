@@ -7,6 +7,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data
     {
         CollectionPeriodEntity GetCurrentCollectionPeriod();
         List<CollectionPeriodEntity> GetAllCollectionPeriods();
-        void Reset(); // For AT. This pains me...
     }
 }

@@ -61,8 +61,6 @@ namespace SFA.DAS.Payments.AcceptanceTests
         {
             SavedDataCollector.CaptureEventsDataForScenario();
             SavedDataCollector.CapturePaymentsDataForScenario();
-
         }
-
     }
 }
