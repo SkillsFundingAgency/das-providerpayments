@@ -90,7 +90,9 @@
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockValidator.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPrice.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithPartialRefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithChangingDatalock.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />

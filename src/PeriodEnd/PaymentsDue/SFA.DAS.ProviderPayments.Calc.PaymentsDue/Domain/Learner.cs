@@ -242,16 +242,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     continue;
                 }
 
-                var pastPayments = groupedPastPayments[key];
-
-                var ignoredEarnings = new List<NonPayableEarningEntity>();
                 if (groupedIgnoredPayments.ContainsKey(key))
                 {
-                    ignoredEarnings = groupedIgnoredPayments[key];
+                    continue;
                 }
 
-                var payment = ignoredEarnings.Sum(x => x.AmountDue) 
-                              - pastPayments.Sum(x => x.AmountDue);
+                var pastPayments = groupedPastPayments[key];
+
+                var payment = - pastPayments.Sum(x => x.AmountDue);
 
                 if (payment != 0)
                 {
