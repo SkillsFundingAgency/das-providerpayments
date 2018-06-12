@@ -22,34 +22,34 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             // Process dataLocks by price episode
             var dataLocksByPriceEpisode = dataLocks.ToLookup(x => x.PriceEpisodeIdentifier);
 
-            foreach (var dataLockGroup in dataLocksByPriceEpisode)
+            foreach (var datalockByPriceEpisode in dataLocksByPriceEpisode)
             {
                 // Break it down by commitment
-                var priceEpisodesByCommitment = dataLockGroup.ToLookup(x => x.CommitmentId);
-                foreach (var priceEpisodeGroup in priceEpisodesByCommitment)
+                var priceEpisodesByCommitment = datalockByPriceEpisode.ToLookup(x => x.CommitmentId);
+                foreach (var priceEpisodeByCommitment in priceEpisodesByCommitment)
                 {
                     // Not sure about this one...
                     var commitment = commitments
                         .OrderByDescending(x => x.CommitmentVersionId)
-                        .FirstOrDefault(x => x.CommitmentId == priceEpisodeGroup.Key);
+                        .FirstOrDefault(x => x.CommitmentId == priceEpisodeByCommitment.Key);
 
                     if (commitment == null || 
                         !commitment.IsLevyPayer || 
-                        priceEpisodeGroup.All(x => !x.Payable))
+                        priceEpisodeByCommitment.All(x => !x.Payable))
                     {
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, new  List<int>(), 
+                        var priceEpisode = new PriceEpisode(datalockByPriceEpisode.Key, new  List<int>(), 
                             commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,
                             commitment?.AccountId ?? 0, commitment?.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);
                     }
                     else
                     {
-                        var payablePeriods = priceEpisodeGroup
+                        var payablePeriods = priceEpisodeByCommitment
                             .Where(x => x.Payable)
                             .Select(x => x.Period)
                             .ToList();
 
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, payablePeriods,
+                        var priceEpisode = new PriceEpisode(datalockByPriceEpisode.Key, payablePeriods,
                             commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
                             commitment.AccountId ?? 0, commitment.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);

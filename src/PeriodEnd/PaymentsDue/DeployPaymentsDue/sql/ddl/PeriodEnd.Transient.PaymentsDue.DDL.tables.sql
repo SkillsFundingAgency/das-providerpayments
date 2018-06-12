@@ -15,7 +15,7 @@ GO
 
 CREATE TABLE PaymentsDue.TaskLog
 (
-	[TaskLogId] uniqueidentifier NOT NULL DEFAULT(NEWID()),
+	[TaskLogId] bigint identity(1,1) NOT NULL,
 	[DateTime] datetime NOT NULL DEFAULT(GETDATE()),
 	[Level] nvarchar(10) NOT NULL,
 	[Logger] nvarchar(512) NOT NULL,

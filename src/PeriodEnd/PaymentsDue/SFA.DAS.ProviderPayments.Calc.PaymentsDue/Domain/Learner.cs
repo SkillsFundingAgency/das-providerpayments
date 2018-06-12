@@ -88,13 +88,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             // THERE ARE ACT1 EARNINGS AT THIS POINT
 
             // Process each price episode seperately
-            var priceEpisodes = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
+            var priceEpisodesFromEarnings = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
 
-            foreach (var earningsForEpisode in priceEpisodes)
+            foreach (var earningsForEpisode in priceEpisodesFromEarnings)
             {
                 string reason;
-                var priceEpisode = PriceEpisodes.SingleOrDefault(x => x.PriceEpisodeIdentifier == earningsForEpisode.Key);
+                var availablePriceEpisodes = PriceEpisodes
+                    .Where(x => x.PriceEpisodeIdentifier == earningsForEpisode.Key)
+                    .ToList();
+                if (availablePriceEpisodes.Count > 1)
+                {
+                    MarkAsNonPayable(earningsForEpisode, "Multiple overlapping commitments found for earnings");
+                    return;
+                }
 
+                var priceEpisode = availablePriceEpisodes.FirstOrDefault();
                 var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason);
                 
                 MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
