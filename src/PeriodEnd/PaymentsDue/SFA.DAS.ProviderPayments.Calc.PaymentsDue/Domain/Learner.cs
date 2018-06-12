@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using FastMember;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -94,18 +95,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 string reason;
                 var priceEpisode = PriceEpisodes.SingleOrDefault(x => x.PriceEpisodeIdentifier == earningsForEpisode.Key);
 
-                if (ShouldPayPriceEpisode(earningsForEpisode.Key, priceEpisode, out reason))
-                {
-                    MarkAsPayable(earningsForEpisode, priceEpisode);
-                }
-                else
-                {
-                    MarkAsNonPayable(earningsForEpisode, reason, priceEpisode);
-                }
+                var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason);
+                
+                MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
+                MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
             }
         }
 
-        private bool ShouldPayPriceEpisode(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason)
+        class ShouldPayPriceEpisodeResult
+        {
+            public List<RawEarning> PayableEarnings { get; set; } = new List<RawEarning>();
+            public List<RawEarning> NonPayableEarnings { get; set; } = new List<RawEarning>();
+        }
+
+        private ShouldPayPriceEpisodeResult CalculatePayableEarnings(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason)
         {
             reason = string.Empty;
             var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
@@ -114,13 +117,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             if (earnings.All(x => x.ApprenticeshipContractType == 2))
             {
                 // Pay the price episode
-                return true;
+                return new ShouldPayPriceEpisodeResult
+                {
+                    PayableEarnings = earnings,
+                };
             }
-
+            
             // If no 'bad' datalock, then pay for the price episode
-            if (priceEpisode?.Payable ?? false)
+            // TODO: May need to rename this to make it simpler to follow
+            var earningsPeriodsThatAreNotPayableInThePriceEpisode = earnings.Select(x => x.Period)
+                .Except(priceEpisode?.PayablePeriods ?? new List<int>())
+                .ToList();
+
+            if (!earningsPeriodsThatAreNotPayableInThePriceEpisode.Any())
             {
-                return true;
+                return new ShouldPayPriceEpisodeResult
+                {
+                    PayableEarnings = earnings,
+                };
             }
 
             // Check to see if we should be ignoring the learner
@@ -132,7 +146,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 //  and a 'bad' datalock
                 _ignoreLearner = true;
                 reason = "ACT2 -> ACT1 learner with a failing datalock";
-                return false;
+                return new ShouldPayPriceEpisodeResult
+                {
+                    NonPayableEarnings = earnings,
+                };
             }
 
             if (priceEpisode == null)
@@ -144,7 +161,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 reason = $"Datalock failure for price episode {priceEpisodeIdentifier}";
             }
 
-            return false;
+            return new ShouldPayPriceEpisodeResult
+            {
+                PayableEarnings =
+                    earnings.Where(x => !earningsPeriodsThatAreNotPayableInThePriceEpisode.Contains(x.Period))
+                        .ToList(),
+                NonPayableEarnings =
+                    earnings.Where(x => earningsPeriodsThatAreNotPayableInThePriceEpisode.Contains(x.Period))
+                        .ToList(),
+            };
         }
 
         public LearnerProcessResults CalculatePaymentsDue()

@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
     class SetupMatchingEarningsAndPastPayments : Attribute, IApplyToContext
     {
         private readonly int _apprenticeshipContractType;
-        private readonly bool _datalockSuccess;
+        private readonly List<int> _datalockSuccess;
         private readonly decimal _onProgAmount;
 
         public SetupMatchingEarningsAndPastPayments(
@@ -21,7 +21,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             int onProgAmount = 500)
         {
             _apprenticeshipContractType = apprenticeshipContractType;
-            _datalockSuccess = datalockSuccess;
+            if (datalockSuccess)
+            {
+                _datalockSuccess = Enumerable.Range(1, 12).ToList();
+            }
+            else
+            {
+                _datalockSuccess = new List<int>();
+            }
             _onProgAmount = onProgAmount;
         }
 
@@ -59,7 +66,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var datalocks = fixture.Build<PriceEpisode>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
-                .With(x => x.Payable, _datalockSuccess)
+                .With(x => x.PayablePeriods, _datalockSuccess)
                 .CreateMany(1)
                 .ToList();
 
@@ -81,6 +88,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 earnings[i].TransactionType14 = 0;
                 earnings[i].TransactionType15 = 0;
 
+                earnings[i].Period = i + 1;
+
                 pastPayments[i].DeliveryMonth = earnings[i].DeliveryMonth;
                 pastPayments[i].DeliveryYear = earnings[i].DeliveryYear;
                 pastPayments[i].AmountDue = earnings[i].TransactionType01;
@@ -95,7 +104,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 pastPayments[i].LearnAimRef = earnings[i].LearnAimRef;
                 pastPayments[i].SfaContributionPercentage = earnings[i].SfaContributionPercentage;
                 pastPayments[i].TransactionType = 1;
-                pastPayments[i].UseLevyBalance = datalocks[0].Payable;
+                pastPayments[i].UseLevyBalance = datalocks[0].PayablePeriods.Contains(i);
+
+                pastPayments[i].Period = earnings[i].Period;
 
                 if (_apprenticeshipContractType == 2)
                 {

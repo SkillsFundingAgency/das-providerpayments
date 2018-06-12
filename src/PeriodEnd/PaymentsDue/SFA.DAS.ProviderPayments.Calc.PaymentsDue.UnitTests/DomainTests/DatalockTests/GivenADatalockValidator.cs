@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
 
                 foreach (var priceEpisode in actual)
                 {
-                    priceEpisode.Payable.Should().BeFalse();
+                    priceEpisode.PayablePeriods.Should().BeEmpty();
                 }
             }
 
