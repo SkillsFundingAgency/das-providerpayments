@@ -94,6 +94,7 @@
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithADatalockThatFailsInR03.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithOverlappingCommitments.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithPartialRefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithChangingDatalock.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
