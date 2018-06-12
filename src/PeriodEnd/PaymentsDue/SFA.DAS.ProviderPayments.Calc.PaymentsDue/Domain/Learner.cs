@@ -98,7 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     .ToList();
                 if (availablePriceEpisodes.Count > 1)
                 {
-                    MarkAsNonPayable(earningsForEpisode, "Multiple price episodes found for earnings");
+                    MarkAsNonPayable(earningsForEpisode, "Multiple overlapping commitments found for earnings");
                     return;
                 }
 
