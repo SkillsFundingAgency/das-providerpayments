@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             var datalocks = Fixture.Build<PriceEpisode>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
-                .With(x => x.Payable, true)
+                .With(x => x.PayablePeriods, Enumerable.Range(1, 14).ToList())
                 .CreateMany(1);
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
             var earnings = new List<RawEarning>();
@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             var datalocks = Fixture.Build<PriceEpisode>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
-                .With(x => x.Payable, true)
+                .With(x => x.PayablePeriods, Enumerable.Range(1, 14).ToList())
                 .CreateMany(1);
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
             var earnings = new List<RawEarning>();

@@ -1,105 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.LearnerTests
 {
     [TestFixture]
     public class GivenAnAct2LearnerWithPartialRefund
     {
-        private static readonly IFixture Fixture = new Fixture();
-
-        private static readonly string PriceEpisode1 = Fixture.Create<string>();
-
-        private static readonly int ProgrammeType = Fixture.Create<int>();
-        private static readonly int StandardCode = Fixture.Create<int>();
-        private static readonly int PathwayCode = Fixture.Create<int>();
-        private static readonly int FrameworkCode = Fixture.Create<int>();
-
-        private static readonly List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings =
-            new List<RawEarningForMathsOrEnglish>();
-
-        private static readonly List<PriceEpisode> Datalocks = new List<PriceEpisode>();
-
         [TestFixture]
         public class PriceChangeFrom500To750InR03
         {
-            private static readonly List<RawEarning> Earnings = Fixture.Build<RawEarning>()
-                .With(x => x.PriceEpisodeIdentifier, PriceEpisode1)
-                .With(x => x.ApprenticeshipContractType, 2)
-                .With(x => x.StandardCode, StandardCode)
-                .With(x => x.ProgrammeType, ProgrammeType)
-                .With(x => x.PathwayCode, PathwayCode)
-                .With(x => x.FrameworkCode, FrameworkCode)
-                .CreateMany(6)
-                .ToList();
-
-            private static readonly List<RequiredPaymentEntity> PastPayments =
-                Fixture.Build<RequiredPaymentEntity>()
-                    .With(x => x.PriceEpisodeIdentifier, PriceEpisode1)
-                    .With(x => x.ApprenticeshipContractType, 2)
-                    .With(x => x.StandardCode, StandardCode)
-                    .With(x => x.ProgrammeType, ProgrammeType)
-                    .With(x => x.PathwayCode, PathwayCode)
-                    .With(x => x.FrameworkCode, FrameworkCode)
-                    .CreateMany(6)
-                    .ToList();
-
-            
+            private List<PriceEpisode> _datalocks;
+            private List<RawEarning> _earnings;
+            private List<RawEarningForMathsOrEnglish> _mathsAndEnglishEarnings;
+            private List<RequiredPaymentEntity> _pastPayments;
 
             [SetUp]
             public void Setup()
             {
-                for (var i = 0; i < 6; i++)
+                var list = TestContext.CurrentContext.Test.Properties["EarningsDictionary"];
+                if (list.Count == 0)
                 {
-                    Earnings[i].TransactionType01 = 500;
-                    Earnings[i].TransactionType02 = 0;
-                    Earnings[i].TransactionType03 = 0;
-                    Earnings[i].TransactionType04 = 0;
-                    Earnings[i].TransactionType05 = 0;
-                    Earnings[i].TransactionType06 = 0;
-                    Earnings[i].TransactionType07 = 0;
-                    Earnings[i].TransactionType08 = 0;
-                    Earnings[i].TransactionType09 = 0;
-                    Earnings[i].TransactionType10 = 0;
-                    Earnings[i].TransactionType11 = 0;
-                    Earnings[i].TransactionType12 = 0;
-                    Earnings[i].TransactionType13 = 0;
-                    Earnings[i].TransactionType14 = 0;
-                    Earnings[i].TransactionType15 = 0;
-                    
-                    PastPayments[i].DeliveryMonth = Earnings[i].DeliveryMonth;
-                    PastPayments[i].DeliveryYear = Earnings[i].DeliveryYear;
-                    PastPayments[i].AmountDue = Earnings[i].TransactionType01;
-                   
-                    PastPayments[i].AimSeqNumber = Earnings[i].AimSeqNumber;
-                    PastPayments[i].ApprenticeshipContractType = Earnings[i].ApprenticeshipContractType;
-                    PastPayments[i].FundingLineType = Earnings[i].FundingLineType;
-                    PastPayments[i].LearnAimRef = Earnings[i].LearnAimRef;
-                    PastPayments[i].SfaContributionPercentage = Earnings[i].SfaContributionPercentage;
-                    PastPayments[i].TransactionType = 1;
-
-                    PastPayments[i].AccountId = null;
-                    PastPayments[i].AccountVersionId = null;
-                    PastPayments[i].CommitmentId = null;
-                    PastPayments[i].CommitmentVersionId = null;
+                    throw new Exception("Please include a setup attribute in your test");
                 }
+                var earningsDictionary = list[0] as Dictionary<string, object>;
+                if (earningsDictionary == null)
+                {
+                    throw new Exception("Please include a setup attribute in your test");
+                }
+                _datalocks = earningsDictionary["Datalocks"] as List<PriceEpisode>;
+                _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
+                _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
+                _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPaymentEntity>;
             }
 
             [Test]
+            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
             public void ThereArePaymentsForR01Of500()
             {
-                Earnings[0].TransactionType01 = 500;
-
-                PastPayments[0].AmountDue = 500;
-                
-
-                var sut = new Learner(Earnings.Take(1), MathsAndEnglishEarnings, Datalocks, PastPayments.Take(0));
+                var sut = new Learner(_earnings.Take(1), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(0));
                 var actual = sut.CalculatePaymentsDue();
 
                 var expected = 500;
@@ -107,16 +52,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             }
 
             [Test]
+            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
             public void ThereArePaymentsForR02Of500()
             {
-                Earnings[0].TransactionType01 = 500;
-                Earnings[1].TransactionType01 = 500;
-
-                PastPayments[0].AmountDue = 500;
-                PastPayments[1].AmountDue = 500;
-                
-
-                var sut = new Learner(Earnings.Take(2), MathsAndEnglishEarnings, Datalocks, PastPayments.Take(1));
+                var sut = new Learner(_earnings.Take(2), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(1));
                 var actual = sut.CalculatePaymentsDue();
 
                 var expected = 500;
@@ -124,18 +63,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             }
 
             [Test]
+            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
             public void WithAPriceIncreaseTo750_ThereAreCorrectPaymentsForR03()
             {
-                Earnings[0].TransactionType01 = 750;
-                Earnings[1].TransactionType01 = 750;
-                Earnings[2].TransactionType01 = 750;
+                _earnings[0].TransactionType01 = 750;
+                _earnings[1].TransactionType01 = 750;
+                _earnings[2].TransactionType01 = 750;
 
-                PastPayments[0].AmountDue = 500;
-                PastPayments[1].AmountDue = 500;
-                PastPayments[2].AmountDue = 500;
-                
-
-                var sut = new Learner(Earnings.Take(3), MathsAndEnglishEarnings, Datalocks, PastPayments.Take(2));
+                var sut = new Learner(_earnings.Take(3), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(2));
                 var actual = sut.CalculatePaymentsDue();
 
                 var expected = 1250;
@@ -148,46 +83,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             }
 
             [Test]
+            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
             public void ThereArePaymentsForR04Of750()
             {
-                Earnings[0].TransactionType01 = 750;
-                Earnings[1].TransactionType01 = 750;
-                Earnings[2].TransactionType01 = 750;
-                Earnings[3].TransactionType01 = 750;
+                _earnings[0].TransactionType01 = 750;
+                _earnings[1].TransactionType01 = 750;
+                _earnings[2].TransactionType01 = 750;
+                _earnings[3].TransactionType01 = 750;
 
-                PastPayments[0].AmountDue = 500;
-                PastPayments[1].AmountDue = 500;
-                PastPayments[2].AmountDue = 750;
-                PastPayments[3].AmountDue = 250;
-                PastPayments[4].AmountDue = 250;
+                _pastPayments[0].AmountDue = 500;
+                _pastPayments[1].AmountDue = 500;
+                _pastPayments[2].AmountDue = 750;
+                _pastPayments[3].AmountDue = 250;
+                _pastPayments[4].AmountDue = 250;
 
-                CopySignificantProperties(PastPayments[0], PastPayments[3]);
-                CopySignificantProperties(PastPayments[1], PastPayments[4]);
+                _pastPayments[0].CopySignificantPaymentPropertiesTo(_pastPayments[3]);
+                _pastPayments[1].CopySignificantPaymentPropertiesTo(_pastPayments[4]);
 
-                var sut = new Learner(Earnings.Take(4), MathsAndEnglishEarnings, Datalocks, PastPayments.Take(5));
+                var sut = new Learner(_earnings.Take(4), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(5));
                 var actual = sut.CalculatePaymentsDue();
 
                 var expected = 750;
                 actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
-            }
-
-            void CopySignificantProperties(RequiredPaymentEntity from, RequiredPaymentEntity to)
-            {
-                to.DeliveryMonth = from.DeliveryMonth;
-                to.DeliveryYear = from.DeliveryYear;
-                to.AccountId = from.AccountId;
-                to.AccountVersionId = from.AccountVersionId;
-                to.CommitmentId = from.CommitmentId;
-                to.TransactionType = from.TransactionType;
-                to.AimSeqNumber = from.AimSeqNumber;
-                to.ApprenticeshipContractType = from.ApprenticeshipContractType;
-                to.FrameworkCode = from.FrameworkCode;
-                to.StandardCode = from.StandardCode;
-                to.ProgrammeType = from.ProgrammeType;
-                to.PathwayCode = from.PathwayCode;
-                to.FundingLineType = from.FundingLineType;
-                to.LearnAimRef = from.LearnAimRef;
-                to.PriceEpisodeIdentifier = from.PriceEpisodeIdentifier;
             }
         }
     }

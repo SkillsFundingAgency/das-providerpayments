@@ -90,7 +90,9 @@
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockValidator.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPrice.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
+    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithPartialRefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithChangingDatalock.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
@@ -104,9 +106,12 @@
     <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />
     <Compile Include="PaymentsDueTask\WhenExecutingWithInvalidContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sandbox.cs" />
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
+    <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
+    <Compile Include="Utilities\SetupAttributes\SetupEarningsAndPastPayments.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

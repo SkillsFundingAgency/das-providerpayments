@@ -37,14 +37,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                         !commitment.IsLevyPayer || 
                         priceEpisodeGroup.All(x => !x.Payable))
                     {
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, false,
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, new  List<int>(), 
                             commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,
                             commitment?.AccountId ?? 0, commitment?.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);
                     }
                     else
                     {
-                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, true,
+                        var payablePeriods = priceEpisodeGroup
+                            .Where(x => x.Payable)
+                            .Select(x => x.Period)
+                            .ToList();
+
+                        var priceEpisode = new PriceEpisode(dataLockGroup.Key, payablePeriods,
                             commitment.CommitmentId ?? 0, commitment.CommitmentVersionId,
                             commitment.AccountId ?? 0, commitment.AccountVersionId);
                         priceEpisodes.Add(priceEpisode);
