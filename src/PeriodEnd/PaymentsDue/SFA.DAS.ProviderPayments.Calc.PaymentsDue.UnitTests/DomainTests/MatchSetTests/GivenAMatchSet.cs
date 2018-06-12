@@ -30,8 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             string fundingLineType,
             int deliveryYear,
             int deliveryMonth,
-            long? accountId,
-            long? commitmentId)
+            long? accountId)
         {
             var object1 = new MatchSetForPayments
             (
@@ -46,8 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
                 fundingLineType,
                 deliveryYear,
                 deliveryMonth,
-                accountId,
-                commitmentId);
+                accountId);
             var object2 = new MatchSetForPayments
             (
                 standardCode,
@@ -61,8 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
                 fundingLineType,
                 deliveryYear,
                 deliveryMonth,
-                accountId,
-                commitmentId);
+                accountId);
 
             var actual = object1.Equals(object2);
 
