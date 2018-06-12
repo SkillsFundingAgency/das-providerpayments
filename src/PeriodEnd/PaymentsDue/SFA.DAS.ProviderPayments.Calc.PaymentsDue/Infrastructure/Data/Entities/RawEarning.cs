@@ -33,9 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
             DeliveryMonth = copy.DeliveryMonth;
             DeliveryYear = copy.DeliveryYear;
             UseLevyBalance = copy.UseLevyBalance;
-            FirstIncentiveDate = copy.FirstIncentiveDate;
-            SecondIncentiveDate = copy.SecondIncentiveDate;
-
+            
             TransactionType01 = copy.TransactionType01;
             TransactionType02 = copy.TransactionType02;
             TransactionType03 = copy.TransactionType03;
