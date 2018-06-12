@@ -270,7 +270,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 {
                     submission.Learners[i].LearnRefNumber = (i + 1).ToString();
                 }
-                i++;
             }
             return submission;
         }
