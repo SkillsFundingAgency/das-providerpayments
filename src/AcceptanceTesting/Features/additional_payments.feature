@@ -1027,7 +1027,7 @@ Scenario:657-AC01 Non-DAS learner, takes an English qualification that has a pla
 Scenario:657-AC02 DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim and learning support is applicable for all learning
 	Given levy balance > agreed price for all months 
 	And the following commitments exist:
-		| commitment Id | version Id | ULN | start date | end date | agreed price | status |
+		| commitment Id | version Id | ULN       | start date | end date   | agreed price | status |
 		| 1             | 1-001      | learner a | 01/08/2017 | 01/08/2018 | 15000        | active |
 	When an ILR file is submitted with the following data:
 		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |

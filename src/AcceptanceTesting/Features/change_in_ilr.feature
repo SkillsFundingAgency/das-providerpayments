@@ -75,8 +75,8 @@ Scenario:822-AC01- Levy apprentice, provider changes aim sequence numbers in ILR
         Given the apprenticeship funding band maximum is 9000
        
         When an ILR file is submitted for period R01 with the following data:
-			| learner reference number | ULN        | learner type           | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | aim rate | framework code | programme type | pathway code |
-			| learner a                | 1111111111 | programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   |          | 403            | 2              | 1            |
+			| learner reference number | ULN        | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
+			| learner a                | 1111111111 | programme only non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | 403            | 2              | 1            |
         
         And an ILR file is submitted for period R03 with the following data:
 			| learner reference number | ULN        | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
