@@ -15,7 +15,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         private static readonly IFixture Fixture = new Fixture();
 
         private static readonly string PriceEpisode1 = Fixture.Create<string>();
-        private static readonly string PriceEpisode2 = Fixture.Create<string>();
 
         private static readonly int ProgrammeType = Fixture.Create<int>();
         private static readonly int StandardCode = Fixture.Create<int>();

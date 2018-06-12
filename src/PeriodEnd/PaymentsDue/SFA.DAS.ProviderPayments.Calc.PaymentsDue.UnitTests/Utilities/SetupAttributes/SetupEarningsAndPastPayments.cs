@@ -13,13 +13,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
     {
         private readonly int _apprenticeshipContractType;
         private readonly bool _datalockSuccess;
+        private readonly decimal _onProgAmount;
 
         public SetupMatchingEarningsAndPastPayments(
             int apprenticeshipContractType, 
-            bool datalockSuccess = true)
+            bool datalockSuccess = true,
+            int onProgAmount = 500)
         {
             _apprenticeshipContractType = apprenticeshipContractType;
             _datalockSuccess = datalockSuccess;
+            _onProgAmount = onProgAmount;
         }
 
         public void ApplyToContext(TestExecutionContext context)
@@ -62,6 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             for (var i = 0; i < 12; i++)
             {
+                earnings[i].TransactionType01 = _onProgAmount;
                 earnings[i].TransactionType02 = 0;
                 earnings[i].TransactionType03 = 0;
                 earnings[i].TransactionType04 = 0;
@@ -92,6 +96,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 pastPayments[i].SfaContributionPercentage = earnings[i].SfaContributionPercentage;
                 pastPayments[i].TransactionType = 1;
                 pastPayments[i].UseLevyBalance = datalocks[0].Payable;
+
+                if (_apprenticeshipContractType == 2)
+                {
+                    pastPayments[i].AccountId = null;
+                    pastPayments[i].AccountVersionId = null;
+                    pastPayments[i].CommitmentId = null;
+                    pastPayments[i].CommitmentVersionId = null;
+                }
             }
 
             var earningsDictionary = new Dictionary<string, object>
