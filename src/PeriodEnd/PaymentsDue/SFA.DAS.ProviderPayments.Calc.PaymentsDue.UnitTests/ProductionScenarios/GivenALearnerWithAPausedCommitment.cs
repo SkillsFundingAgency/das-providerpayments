@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
     [TestFixture]
     public class GivenALearnerWithAPausedCommitment
     {
-        private static IFixture Fixture = new Fixture();
-        private static long CommitmentOne = Fixture.Create<long>();
-        private static string PriceEpisodeIdentifierForThisYear = "2-444-1-14/09/2017";
+        private static readonly IFixture Fixture = new Fixture();
+        private static readonly long CommitmentOne = Fixture.Create<long>();
+        private static readonly string PriceEpisodeIdentifierForThisYear = "2-444-1-14/09/2017";
         
-        private static string LearnAimRefForZprog = Fixture.Create<string>();
-        private static string LearnAimRefForMaths = Fixture.Create<string>();
-        private static string LearnAimRefForEnglish = Fixture.Create<string>();
-        private static long AccountId = Fixture.Create<long>();
-        private static string FundingLineType = Fixture.Create<string>();
+        private static readonly string LearnAimRefForZprog = Fixture.Create<string>();
+        private static readonly string LearnAimRefForMaths = Fixture.Create<string>();
+        private static readonly string LearnAimRefForEnglish = Fixture.Create<string>();
+        private static readonly long AccountId = Fixture.Create<long>();
+        private static readonly string FundingLineType = Fixture.Create<string>();
 
-        private static List<RequiredPaymentEntity> PastPayments = new List<RequiredPaymentEntity>();
-        private static List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
+        private static readonly List<RequiredPaymentEntity> PastPayments = new List<RequiredPaymentEntity>();
+        private static readonly List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 
-        private static List<DatalockOutput> Datalocks = new List<DatalockOutput>();
+        private static readonly List<DatalockOutput> Datalocks = new List<DatalockOutput>();
 
-        private static List<Commitment> Commitments = new List<Commitment>
+        private static readonly List<Commitment> Commitments = new List<Commitment>
         {
             new Commitment
             {
@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             },
         };
 
-        private static List<RawEarning> Earnings = Fixture.Build<RawEarning>()
+        private static readonly List<RawEarning> Earnings = Fixture.Build<RawEarning>()
             .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
             .With(x => x.ProgrammeType, 2)
             .With(x => x.StandardCode, 0)
@@ -70,26 +70,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             .With(x => x.ApprenticeshipContractType, 1)
             .CreateMany(4)
             .ToList();
-
-        static int DeliveryYearFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return 2017;
-            }
-
-            return 2018;
-        }
-
-        static int DeliveryMonthFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return period + 7;
-            }
-
-            return period - 6;
-        }
 
         [SetUp]
         public void Setup()
@@ -214,26 +194,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             
             for (var i = 0; i < 4; i++)
             {
-                PastPayments[i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                PastPayments[i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                PastPayments[i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                PastPayments[i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
-                PastPayments[4 + i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                PastPayments[4 + i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                PastPayments[4 + i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                PastPayments[4 + i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
-                PastPayments[8 + i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                PastPayments[8 + i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                PastPayments[8 + i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                PastPayments[8 + i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
                 Earnings[i].Period = i + 2;
-                Earnings[i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                Earnings[i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                Earnings[i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                Earnings[i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
                 MathsAndEnglishEarnings[i].Period = i + 2;
-                MathsAndEnglishEarnings[i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                MathsAndEnglishEarnings[i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                MathsAndEnglishEarnings[i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                MathsAndEnglishEarnings[i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
                 MathsAndEnglishEarnings[4 + i].Period = i + 2;
-                MathsAndEnglishEarnings[4 + i].DeliveryYear = DeliveryYearFromPeriod(i + 2);
-                MathsAndEnglishEarnings[4 + i].DeliveryMonth = DeliveryMonthFromPeriod(i + 2);
+                MathsAndEnglishEarnings[4 + i].DeliveryYear = (i + 2).DeliveryYearFromPeriod();
+                MathsAndEnglishEarnings[4 + i].DeliveryMonth = (i + 2).DeliveryMonthFromPeriod();
 
                 datalockForNextYearFirstCommitment[i].Period = i + 2;
             }
