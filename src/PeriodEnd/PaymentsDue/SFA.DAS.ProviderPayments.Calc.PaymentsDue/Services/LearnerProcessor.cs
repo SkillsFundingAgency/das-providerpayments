@@ -9,7 +9,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly IDataLockComponentFactory _dataLockComponentFactory;
         private readonly ILearnerFactory _learnerFactory;
 
-        public LearnerProcessor(ILogger logger, IDataLockComponentFactory dataLockComponentFactory, ILearnerFactory learnerFactory)
+        public LearnerProcessor(
+            ILogger logger, 
+            IDataLockComponentFactory dataLockComponentFactory, 
+            ILearnerFactory learnerFactory)
         {
             _logger = logger;
             _dataLockComponentFactory = dataLockComponentFactory;
@@ -19,10 +22,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public LearnerProcessResults Process(LearnerProcessParameters parameters)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
-
+            
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
             
-            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks);
+            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, parameters.YearAcademicYearStarted);
 
             var learner = _learnerFactory.CreateLearner(
                 parameters.RawEarnings, 

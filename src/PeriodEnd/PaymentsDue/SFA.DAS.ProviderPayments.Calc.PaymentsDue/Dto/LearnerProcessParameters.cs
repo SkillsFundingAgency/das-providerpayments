@@ -18,5 +18,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
         public List<DatalockOutput> DataLocks { get; } = new List<DatalockOutput>();
         public List<RequiredPaymentEntity> HistoricalPayments { get; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; } = new List<Commitment>();
+        public int YearAcademicYearStarted { get; set; }
     }
 }
