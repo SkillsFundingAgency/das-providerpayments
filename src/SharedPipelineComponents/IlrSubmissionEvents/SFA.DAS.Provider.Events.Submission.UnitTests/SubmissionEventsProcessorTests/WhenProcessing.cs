@@ -165,9 +165,9 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].OnProgrammeTotalPrice == updatedSubmissionChanged.OnProgrammeTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].CompletionTotalPrice == updatedSubmissionChanged.CompletionTotalPrice)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].NiNumber == null)));
-            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
-            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].GivenNames == ilrForFirstSubmission.GivenNames)));
-            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].FamilyName == ilrForFirstSubmission.FamilyName)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].GivenNames == ilrForFirstSubmission.GivenNames)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].FamilyName == ilrForFirstSubmission.FamilyName)));
         }
 
         [Test]
