@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using AutoFixture;
@@ -195,7 +196,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         public void ThereShouldBeNoRefunds()
         {
             var datalockComponent = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, 2017);
+            var datalockResult = datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, new DateTime(2018, 07, 31));
 
             var sut = new Learner(Earnings, new List<RawEarningForMathsOrEnglish>(), datalockResult, PastPayments);
             var actual = sut.CalculatePaymentsDue();

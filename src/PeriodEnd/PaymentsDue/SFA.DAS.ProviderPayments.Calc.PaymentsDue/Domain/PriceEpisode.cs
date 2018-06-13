@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public string CommitmentVersionId { get; set; }
         public long? AccountId { get; set; }
         public string AccountVersionId { get; set; }
-        public bool IgnorePriceEpisode { get; set; }
+        public bool MustRefundPriceEpisode { get; set; }
 
         public PriceEpisode(string priceEpisodeIdentifier,
             List<int> payablePeriods, 
@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             string commitmentVersionId, 
             long accountId, 
             string accountVersionId,
-            bool ignoreEpisode = false)
+            bool mustRefundEpisode = false)
         {
             PriceEpisodeIdentifier = priceEpisodeIdentifier;
             PayablePeriods = payablePeriods;
@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             CommitmentVersionId = commitmentVersionId;
             AccountId = accountId;
             AccountVersionId = accountVersionId;
-            IgnorePriceEpisode = ignoreEpisode;
+            MustRefundPriceEpisode = mustRefundEpisode;
         }
     }
 }
