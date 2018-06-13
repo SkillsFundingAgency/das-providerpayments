@@ -14,9 +14,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private readonly IDatalockOutputRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-
+        
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
+        private int _yearAcademicYearStarted;
 
         public LearnerProcessParametersBuilder(
             IRawEarningsRepository rawEarningsRepository, 
@@ -37,6 +38,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         public List<LearnerProcessParameters> Build(long ukprn)
         {
             ResetLearnerResultsList();
+            SetYearAcademicYearStarted();
+
             var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
             var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
@@ -75,6 +78,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             return _learnerProcessParameters.Values.ToList();
         }
 
+        private void SetYearAcademicYearStarted()
+        {
+            var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear??"1718";
+            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(0, 2)) + 2000; // will fail in 2100...
+            _yearAcademicYearStarted = startingYear;
+        }
+
         private void ResetLearnerResultsList()
         {
             _learnerProcessParameters = new Dictionary<string, LearnerProcessParameters>();
@@ -97,7 +107,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             LearnerProcessParameters instance; 
             if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
             {
-                instance = new LearnerProcessParameters(learnerRefNumber, uln);
+                instance = new LearnerProcessParameters(learnerRefNumber, uln)
+                {
+                    YearAcademicYearStarted = _yearAcademicYearStarted,
+                };
                 _learnerProcessParameters.Add(learnerRefNumber, instance);
             }
             else

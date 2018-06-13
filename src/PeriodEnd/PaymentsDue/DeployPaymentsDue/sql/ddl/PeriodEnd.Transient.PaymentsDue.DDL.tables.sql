@@ -95,7 +95,7 @@ CREATE TABLE PaymentsDue.NonPayableEarnings
 	AimSeqNumber int,
 	Ukprn bigint,
 	IlrSubmissionDateTime datetime,
-	PriceEpisodeIdentifier varchar(25) NOT NULL,
+	PriceEpisodeIdentifier varchar(25) NULL,
 	StandardCode bigint,
 	ProgrammeType int,
 	FrameworkCode int,

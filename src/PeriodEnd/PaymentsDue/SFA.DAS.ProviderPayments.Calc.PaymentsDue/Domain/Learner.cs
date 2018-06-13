@@ -88,9 +88,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             // THERE ARE ACT1 EARNINGS AT THIS POINT
 
             // Process each price episode seperately
-            var priceEpisodesFromEarnings = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
+            var earningsByPriceEpisode = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
 
-            foreach (var earningsForEpisode in priceEpisodesFromEarnings)
+            foreach (var earningsForEpisode in earningsByPriceEpisode)
             {
                 string reason;
                 var availablePriceEpisodes = PriceEpisodes
@@ -98,15 +98,62 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     .ToList();
                 if (availablePriceEpisodes.Count > 1)
                 {
-                    MarkAsNonPayable(earningsForEpisode, "Multiple overlapping commitments found for earnings");
-                    return;
-                }
+                    // Check for overlapping periods
+                    var episodesThatArePayable = availablePriceEpisodes
+                        .Where(x => x.PayablePeriods.Count > 0 &&
+                                    x.IgnorePriceEpisode == false).ToList();
+                    if (episodesThatArePayable.Count == 0)
+                    {
+                        MarkAsNonPayable(earningsForEpisode, $"Could not find a price episode for payment with price episode id: {earningsForEpisode.Key}");
+                        continue;
+                    }
+                    var payablePeriodsSeen = new HashSet<int>();
+                    foreach (var period in episodesThatArePayable.SelectMany(x => x.PayablePeriods))
+                    {
+                        if (payablePeriodsSeen.Contains(period))
+                        {
+                            MarkAsNonPayable(earningsForEpisode, "Multiple overlapping commitments found for earnings");
+                            continue;
+                        }
 
-                var priceEpisode = availablePriceEpisodes.FirstOrDefault();
-                var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason);
-                
-                MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
-                MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
+                        payablePeriodsSeen.Add(period);
+                    }
+                    // Split the earnings by price episode
+                    foreach (var period in payablePeriodsSeen)
+                    {
+                        var earningsForPeriod = RawEarnings.Where(x =>
+                            x.PriceEpisodeIdentifier == earningsForEpisode.Key &&
+                            x.Period == period);
+                        var episodeForPeriod = availablePriceEpisodes.Where(x => x.PayablePeriods.Contains(period)).ToList();
+                        if (episodeForPeriod.Count > 1)
+                        {
+                            MarkAsNonPayable(earningsForPeriod, "Multiple overlapping commitments found for earnings");
+                        }
+                        else
+                        {
+                            var priceEpisode = episodeForPeriod.FirstOrDefault();
+                            var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason, period);
+
+                            MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
+                            MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
+                        }
+                    }
+                }
+                else
+                {
+                    var priceEpisode = availablePriceEpisodes.FirstOrDefault();
+                    if (priceEpisode?.IgnorePriceEpisode??false)
+                    {
+                        MarkAsNonPayable(earningsForEpisode, "Datalocked price episode - ignoring earning", priceEpisode);
+                    }
+                    else
+                    {
+                        var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason);
+
+                        MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
+                        MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
+                    }
+                }
             }
         }
 
@@ -116,10 +163,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             public List<RawEarning> NonPayableEarnings { get; set; } = new List<RawEarning>();
         }
 
-        private ShouldPayPriceEpisodeResult CalculatePayableEarnings(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason)
+        private ShouldPayPriceEpisodeResult CalculatePayableEarnings(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason, int period = -1)
         {
             reason = string.Empty;
-            var earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
+            List<RawEarning> earnings;
+            if (period == -1)
+            {
+                earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
+            }
+            else
+            {
+                earnings = RawEarnings
+                    .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier
+                                && x.Period == period)
+                    .ToList();
+            }
 
             // If only act2 earnings
             if (earnings.All(x => x.ApprenticeshipContractType == 2))
@@ -209,41 +267,40 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     x.FundingLineType,
                     x.DeliveryYear,
                     x.DeliveryMonth,
-                    x.AccountId,
-                    x.CommitmentId)
+                    x.AccountId)
             ).ToDictionary(x => x.Key, x => x.ToList());
 
             var groupedPastPayments = PastPayments.GroupBy(x => new MatchSetForPayments
-            (
-                x.StandardCode,
-                x.FrameworkCode,
-                x.ProgrammeType,
-                x.PathwayCode,
-                x.ApprenticeshipContractType,
-                x.TransactionType,
-                x.SfaContributionPercentage,
-                x.LearnAimRef,
-                x.FundingLineType,
-                x.DeliveryYear,
-                x.DeliveryMonth,
-                x.AccountId,
-                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
+                (
+                    x.StandardCode,
+                    x.FrameworkCode,
+                    x.ProgrammeType,
+                    x.PathwayCode,
+                    x.ApprenticeshipContractType,
+                    x.TransactionType,
+                    x.SfaContributionPercentage,
+                    x.LearnAimRef,
+                    x.FundingLineType,
+                    x.DeliveryYear,
+                    x.DeliveryMonth,
+                    x.AccountId)
+            ).ToDictionary(x => x.Key, x => x.ToList());
 
             var groupedIgnoredPayments = NonPayableEarnings.GroupBy(x => new MatchSetForPayments
-            (
-                x.StandardCode,
-                x.FrameworkCode,
-                x.ProgrammeType,
-                x.PathwayCode,
-                x.ApprenticeshipContractType,
-                x.TransactionType,
-                x.SfaContributionPercentage,
-                x.LearnAimRef,
-                x.FundingLineType,
-                x.DeliveryYear,
-                x.DeliveryMonth,
-                x.AccountId,
-                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
+                (
+                    x.StandardCode,
+                    x.FrameworkCode,
+                    x.ProgrammeType,
+                    x.PathwayCode,
+                    x.ApprenticeshipContractType,
+                    x.TransactionType,
+                    x.SfaContributionPercentage,
+                    x.LearnAimRef,
+                    x.FundingLineType,
+                    x.DeliveryYear,
+                    x.DeliveryMonth,
+                    x.AccountId)
+            ).ToDictionary(x => x.Key, x => x.ToList());
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)

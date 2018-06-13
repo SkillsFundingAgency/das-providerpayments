@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 sut.Process(parameters);
 
                 mockDataLockComponent
-                    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks), 
+                    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, It.IsAny<int>()), 
                     Times.Once);
             }
 
@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DatalockOutput>>()))
+                        It.IsAny<List<DatalockOutput>>(), It.IsAny<int>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
@@ -86,7 +86,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DatalockOutput>>()))
+                        It.IsAny<List<DatalockOutput>>(), It.IsAny<int>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
