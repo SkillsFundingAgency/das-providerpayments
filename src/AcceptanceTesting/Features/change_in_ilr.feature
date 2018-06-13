@@ -108,25 +108,26 @@ Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after
         And the apprenticeship funding band maximum is 9000
 
          And the following commitments exist:
-			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status | effective from | effective to |
-			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 539            | 2              | 1            | 9000         | Active | 01/08/2017     | 01/10/2017   |
-			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active | 01/08/2017     |              |
+			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | effective from | effective to |
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 401            | 2              | 1            | 9000         | Active    | 01/08/2017     | 30/09/2017   |
+			| 1             | 2          | learner a | 01/08/2017 | 01/08/2018 | 401            | 2              | 1            | 9000         | Cancelled | 01/10/2017     | 01/10/2017   |
+			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 404            | 2              | 1            | 9000         | Active    | 02/10/2017     |              |
         
         When an ILR file is submitted for period R01 with the following data:
 			| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
-			| learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 539            | 2              | 1            |
+			| learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 1                   |          | 401            | 2              | 1            |
         
         And an ILR file is submitted for period R03 with the following data:
 			| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
-			| learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |
-			| learner a | programme only DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            |
+			| learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 404            | 2              | 1            |
+			| learner a | programme only DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 404            | 2              | 1            |
   
         Then the provider earnings and payments break down as follows:
 			| Type                                    | 08/17 | 09/17 | 10/17  | 11/17   | 12/17  | 01/18  |
 			| Provider Earned Total                   | 600   | 600   | 639.25 | 639.25  | 639.25 | 639.25 |
 			| Provider Earned from SFA                | 600   | 600   | 639.25 | 639.25  | 639.25 | 639.25 |
 			| Provider Earned from Employer           | 0     | 0     | 0      | 0       | 0      | 0      |
-			| Provider Paid by SFA                    | 0     | 600   | 600    | 1917.75 | 639.25 | 639.25 |
+			| Provider Paid by SFA                    | 0     | 600   | 600    | 1278.50 | 639.25 | 639.25 |
 			| Refund taken by SFA                     | 0     | 0     | 0      | 0       | 0      | 0      |
 			| Payment due from Employer               | 0     | 0     | 0      | 0       | 0      | 0      |
 			| Refund due to employer                  | 0     | 0     | 0      | 0       | 0      | 0      |
