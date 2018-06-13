@@ -1,13 +1,10 @@
 ﻿using Dapper;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
-using SFA.DAS.Payments.AcceptanceTests.DataCollectors.Entities;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
 {
@@ -19,7 +16,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
 
             var balance = ReadAccountBalanceFromDeds(collectionPeriodDate.Month,collectionPeriodDate.Year);
 
-            var learner = GetOrCreateLearner(lookupContext.Providers.First().Value, lookupContext.Learners.First().Key, results, lookupContext);
+            var learner = GetOrCreateLearner(lookupContext.Providers.First().Value, lookupContext.Learners.First().Key, lookupContext.Learners.First().Value, results, lookupContext);
 
             learner.LevyAccountBalanceResults.Add(new LevyAccountBalanceResult
             {
@@ -43,7 +40,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 return connection.Query<decimal?>(command,new { calculationPeriodMonth, calculationPeriodYear }).Single();
             }
         }
-        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, List<LearnerResults> results, LookupContext lookupContext)
+        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, long uln, List<LearnerResults> results, LookupContext lookupContext)
         {
             var providerId = lookupContext.GetProviderId(ukprn);
             var learner = results.SingleOrDefault(l => l.ProviderId == providerId && l.LearnerReferenceNumber == learnerReferenceNumber);
@@ -52,13 +49,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner = new LearnerResults
                 {
                     ProviderId = providerId,
-                    LearnerReferenceNumber = learnerReferenceNumber
+                    LearnerReferenceNumber = learnerReferenceNumber,
+                    Uln = uln
                 };
                 results.Add(learner);
             }
             return learner;
         }
-       
-
     }
 }

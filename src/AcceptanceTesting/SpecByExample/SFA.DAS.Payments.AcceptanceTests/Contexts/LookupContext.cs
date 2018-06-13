@@ -51,7 +51,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
             var uln = GetUln(learnerId);
             if (uln == 0)
             {
-                uln = UlnSeed + Learners.Count;
+                if (!long.TryParse(learnerId, out uln))
+                {
+                    uln = UlnSeed + Learners.Count;
+                }
                 AddUln(learnerId.ToUpper(), uln);
             }
             return uln;

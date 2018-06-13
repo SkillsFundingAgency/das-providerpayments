@@ -224,6 +224,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                         Account receiver
                     )
                     {
+                        requiredPayments.ForEach(x=>x.AmountDue = 100);
                         var amount = requiredPayments.Sum(x => x.AmountDue);
 
                         var entity = new DasAccount { Balance = amount / 3, TransferAllowance = amount / 2, IsLevyPayer = true };
