@@ -209,8 +209,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     x.FundingLineType,
                     x.DeliveryYear,
                     x.DeliveryMonth,
-                    x.AccountId,
-                    x.CommitmentId)
+                    x.AccountId)
             ).ToDictionary(x => x.Key, x => x.ToList());
 
             var groupedPastPayments = PastPayments.GroupBy(x => new MatchSetForPayments
@@ -226,8 +225,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 x.FundingLineType,
                 x.DeliveryYear,
                 x.DeliveryMonth,
-                x.AccountId,
-                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
+                x.AccountId)).ToDictionary(x => x.Key, x => x.ToList());
 
             var groupedIgnoredPayments = NonPayableEarnings.GroupBy(x => new MatchSetForPayments
             (
@@ -242,8 +240,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 x.FundingLineType,
                 x.DeliveryYear,
                 x.DeliveryMonth,
-                x.AccountId,
-                x.CommitmentId)).ToDictionary(x => x.Key, x => x.ToList());
+                x.AccountId)).ToDictionary(x => x.Key, x => x.ToList());
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)

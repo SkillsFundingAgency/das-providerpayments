@@ -13,8 +13,7 @@
             string fundingLineType,
             int deliveryYear,
             int deliveryMonth,
-            long? accountId,
-            long? commitmentId)
+            long? accountId)
         {
             StandardCode = standardCode;
             FrameworkCode = frameworkCode;
@@ -28,7 +27,6 @@
             DeliveryMonth = deliveryMonth;
             DeliveryYear = deliveryYear;
             AccountId = accountId ?? -1;
-            CommitmentId = commitmentId ?? -1;
         }
         public int StandardCode { get; }
         public int FrameworkCode { get; }
@@ -42,7 +40,6 @@
         public int DeliveryYear { get; }
         public int DeliveryMonth { get; }
         public long AccountId { get; }
-        public long CommitmentId { get; }
 
         public override bool Equals(object obj)
         {
@@ -63,8 +60,7 @@
                    FundingLineType == test.FundingLineType &&
                    DeliveryMonth == test.DeliveryMonth &&
                    DeliveryYear == test.DeliveryYear &&
-                   AccountId == test.AccountId &&
-                   CommitmentId == test.CommitmentId;
+                   AccountId == test.AccountId;
         }
 
         public override int GetHashCode()
@@ -84,7 +80,6 @@
                 hash = 31 * hash + DeliveryMonth.GetHashCode();
                 hash = 31 * hash + DeliveryYear.GetHashCode();
                 hash = 31 * hash + AccountId.GetHashCode();
-                hash = 31 * hash + CommitmentId.GetHashCode();
 
                 return hash;
             }
