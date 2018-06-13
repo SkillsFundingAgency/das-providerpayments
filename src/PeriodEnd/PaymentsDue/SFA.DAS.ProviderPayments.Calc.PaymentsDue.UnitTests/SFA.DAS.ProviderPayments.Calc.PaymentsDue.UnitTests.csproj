@@ -107,6 +107,7 @@
     <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />
     <Compile Include="PaymentsDueTask\WhenExecutingWithInvalidContext.cs" />
+    <Compile Include="ProductionScenarios\GivenALearnerWithAPausedCommitment.cs" />
     <Compile Include="ProductionScenarios\GivenALearnerWithTwoCommitments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox.cs" />
