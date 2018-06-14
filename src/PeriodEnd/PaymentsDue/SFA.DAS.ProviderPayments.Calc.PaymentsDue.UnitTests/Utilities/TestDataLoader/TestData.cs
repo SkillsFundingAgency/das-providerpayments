@@ -14,7 +14,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
     {
         public static TestDataParameters LoadFrom(string filename)
         {
-            var fixture = new Fixture();
             var result = new TestDataParameters();
 
             var document = new XLWorkbook(Path.Combine(TestContext.CurrentContext.TestDirectory, "ScenarioData", $"{filename}.xlsx"));
