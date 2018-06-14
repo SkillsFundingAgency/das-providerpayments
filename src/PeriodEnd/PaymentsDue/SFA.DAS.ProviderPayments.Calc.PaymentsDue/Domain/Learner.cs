@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         // Output
         public List<RequiredPaymentEntity> RequiredPayments { get; } = new List<RequiredPaymentEntity>();
         public List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
+        public List<RequiredPaymentEntity> MustRefundThesePayments { get; } = new List<RequiredPaymentEntity>();
      
         // Internal
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
@@ -100,11 +101,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 {
                     // Check for overlapping periods
                     var episodesThatArePayable = availablePriceEpisodes
-                        .Where(x => x.PayablePeriods.Count > 0 &&
-                                    x.IgnorePriceEpisode == false).ToList();
+                        .Where(x => x.MustRefundPriceEpisode == false).ToList();
                     if (episodesThatArePayable.Count == 0)
                     {
-                        MarkAsNonPayable(earningsForEpisode, $"Could not find a price episode for payment with price episode id: {earningsForEpisode.Key}");
+                        MarkAsNonPayable(earningsForEpisode, $"Could not find a datalock price episode for earning with price episode id: {earningsForEpisode.Key}");
                         continue;
                     }
                     var payablePeriodsSeen = new HashSet<int>();
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     {
                         if (payablePeriodsSeen.Contains(period))
                         {
-                            MarkAsNonPayable(earningsForEpisode, "Multiple overlapping commitments found for earnings");
+                            MarkAsNonPayable(earningsForEpisode, "Multiple overlapping datalock price episodes found for earnings");
                             continue;
                         }
 
@@ -136,15 +136,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                             MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
                             MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
+                            MarkAsMustRefund(allEarnings.MustRefundEarnings, reason, priceEpisode);
                         }
                     }
                 }
                 else
                 {
                     var priceEpisode = availablePriceEpisodes.FirstOrDefault();
-                    if (priceEpisode?.IgnorePriceEpisode??false)
+                    if (priceEpisode?.MustRefundPriceEpisode == true) 
                     {
-                        MarkAsNonPayable(earningsForEpisode, "Datalocked price episode - ignoring earning", priceEpisode);
+                        MarkAsMustRefund(earningsForEpisode, "Not paying and also refunding as this if from a future academic year", priceEpisode);
                     }
                     else
                     {
@@ -152,6 +153,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                         MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
                         MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
+                        MarkAsMustRefund(allEarnings.MustRefundEarnings, reason, priceEpisode);
                     }
                 }
             }
@@ -161,6 +163,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             public List<RawEarning> PayableEarnings { get; set; } = new List<RawEarning>();
             public List<RawEarning> NonPayableEarnings { get; set; } = new List<RawEarning>();
+            public List<RawEarning> MustRefundEarnings { get; set; } = new List<RawEarning>();
         }
 
         private ShouldPayPriceEpisodeResult CalculatePayableEarnings(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason, int period = -1)
@@ -189,6 +192,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 };
             }
             
+            // If the datalock price episode is set to 'Must Refund' add them to the must
+            //  refund list
+            if (priceEpisode?.MustRefundPriceEpisode == true)
+            {
+                reason = "Not paying and also refunding as this if from a future academic year";
+                return new ShouldPayPriceEpisodeResult
+                {
+                    MustRefundEarnings = earnings,
+                };
+            }
+
             // If no 'bad' datalock, then pay for the price episode
             // TODO: May need to rename this to make it simpler to follow
             var earningsPeriodsThatAreNotPayableInThePriceEpisode = earnings.Select(x => x.Period)
@@ -302,6 +316,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     x.AccountId)
             ).ToDictionary(x => x.Key, x => x.ToList());
 
+            var groupedMustRefund = MustRefundThesePayments.GroupBy(x => new MatchSetForPayments
+            (
+                x.StandardCode,
+                x.FrameworkCode,
+                x.ProgrammeType,
+                x.PathwayCode,
+                x.ApprenticeshipContractType,
+                x.TransactionType,
+                x.SfaContributionPercentage,
+                x.LearnAimRef,
+                x.FundingLineType,
+                x.DeliveryYear,
+                x.DeliveryMonth,
+                x.AccountId)
+            ).ToDictionary(x => x.Key, x => x.ToList());
+
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)
             {
@@ -332,7 +362,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     continue;
                 }
 
-                if (groupedIgnoredPayments.ContainsKey(key))
+                var mustRefund = groupedMustRefund.ContainsKey(key);
+
+                if (groupedIgnoredPayments.ContainsKey(key) && !mustRefund)
                 {
                     continue;
                 }
@@ -380,6 +412,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             foreach (var rawEarning in earnings)
             {
                 AddNonpayableFundingDue(rawEarning, reason, commitment);
+            }
+        }
+
+        private void MarkAsMustRefund(IEnumerable<RawEarning> earnings, string reason, IHoldCommitmentInformation commitment = null)
+        {
+            foreach (var rawEarning in earnings)
+            {
+                AddMustRefundEarnings(rawEarning, reason, commitment);
             }
         }
 
@@ -432,13 +472,39 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        private IHoldCommitmentInformation AddCommitmentInformation(IHoldCommitmentInformation input, IHoldCommitmentInformation commitmentInformation)
+        private void AddMustRefundEarnings(RawEarning rawEarnings, string reason, IHoldCommitmentInformation commitmentInformation = null)
+        {
+            for (var i = 1; i <= 15; i++)
+            {
+                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{i:D2}"];
+                if (amountDue == 0)
+                {
+                    continue;
+                }
+
+                var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
+                nonPayableEarning.TransactionType = i;
+
+                // Doing this to prevent a huge switch statement
+                nonPayableEarning.AmountDue = amountDue;
+                
+                if (commitmentInformation != null)
+                {
+                    AddCommitmentInformation(nonPayableEarning, commitmentInformation);
+                }
+
+                nonPayableEarning.Reason = reason;
+                NonPayableEarnings.Add(nonPayableEarning);
+                MustRefundThesePayments.Add(nonPayableEarning);
+            }
+        }
+
+        private void AddCommitmentInformation(IHoldCommitmentInformation input, IHoldCommitmentInformation commitmentInformation)
         {
             input.AccountId = commitmentInformation.AccountId;
             input.AccountVersionId = commitmentInformation.AccountVersionId;
             input.CommitmentId = commitmentInformation.CommitmentId;
             input.CommitmentVersionId = commitmentInformation.CommitmentVersionId;
-            return input;
         }
     }
 }

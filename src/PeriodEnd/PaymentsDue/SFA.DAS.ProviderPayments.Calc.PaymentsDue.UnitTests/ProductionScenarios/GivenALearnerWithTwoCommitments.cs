@@ -1,28 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
     [TestFixture]
     public class GivenALearnerWithTwoCommitments
     {
-        private static IFixture Fixture = new Fixture();
-        private static long CommitmentOne = Fixture.Create<long>();
-        private static long CommitmentTwo = Fixture.Create<long>();
-        private static string PriceEpisodeIdentifierForThisYear = "25-80-01/08/2017";
-        private static string PriceEpisodeIdentifierForNextYear = "25-80-01/08/2018";
+        private static readonly IFixture Fixture = new Fixture();
+        private static readonly long CommitmentOne = Fixture.Create<long>();
+        private static readonly long CommitmentTwo = Fixture.Create<long>();
+        private static readonly string PriceEpisodeIdentifierForThisYear = "25-80-01/08/2017";
+        private static readonly string PriceEpisodeIdentifierForNextYear = "25-80-01/08/2018";
 
-        private static string LearnAimRef = Fixture.Create<string>();
-        private static long AccountId = Fixture.Create<long>();
-        private static string FundingLineType = Fixture.Create<string>();
+        private static readonly string LearnAimRef = Fixture.Create<string>();
+        private static readonly long AccountId = Fixture.Create<long>();
+        private static readonly string FundingLineType = Fixture.Create<string>();
 
-        private static List<RequiredPaymentEntity> PastPayments = Fixture.Build<RequiredPaymentEntity>()
+        private static readonly List<RequiredPaymentEntity> PastPayments = Fixture.Build<RequiredPaymentEntity>()
             .With(x => x.CommitmentId, CommitmentOne)
             .With(x => x.AccountId, AccountId)
             .With(x => x.TransactionType, 1)
@@ -39,9 +40,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             .CreateMany(9)
             .ToList();
 
-        private static List<DatalockOutput> Datalocks = new List<DatalockOutput>();
+        private static readonly List<DatalockOutput> Datalocks = new List<DatalockOutput>();
 
-        private static List<Commitment> Commitments = new List<Commitment>
+        private static readonly List<Commitment> Commitments = new List<Commitment>
         {
             new Commitment
             {
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             }
         };
 
-        private static List<RawEarning> Earnings = Fixture.Build<RawEarning>()
+        private static readonly List<RawEarning> Earnings = Fixture.Build<RawEarning>()
             .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
             .With(x => x.ProgrammeType, 25)
             .With(x => x.StandardCode, 80)
@@ -94,26 +95,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             .With(x => x.ApprenticeshipContractType, 1)
             .CreateMany(10)
             .ToList();
-
-        static int DeliveryYearFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return 2017;
-            }
-
-            return 2018;
-        }
-
-        static int DeliveryMonthFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return period + 7;
-            }
-
-            return period - 6;
-        }
 
         [SetUp]
         public void Setup()
@@ -165,12 +146,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
 
             for (var i = 0; i < 10; i++)
             {
-                PastPayments[i].DeliveryYear = DeliveryYearFromPeriod(i + 1);
-                PastPayments[i].DeliveryMonth = DeliveryMonthFromPeriod(i + 1);
+                PastPayments[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
+                PastPayments[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
 
                 Earnings[i].Period = i + 1;
-                Earnings[i].DeliveryYear = DeliveryYearFromPeriod(i + 1);
-                Earnings[i].DeliveryMonth = DeliveryMonthFromPeriod(i + 1);
+                Earnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
+                Earnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
 
                 datalockForNextYearFirstCommitment[i].Period = i + 1;
                 datalockForNextYearSecondommitment[i].Period = i + 1;
@@ -195,7 +176,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         public void ThereShouldBeNoRefunds()
         {
             var datalockComponent = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, 2017);
+            var datalockResult = datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, new DateTime(2018, 07, 31));
 
             var sut = new Learner(Earnings, new List<RawEarningForMathsOrEnglish>(), datalockResult, PastPayments);
             var actual = sut.CalculatePaymentsDue();
