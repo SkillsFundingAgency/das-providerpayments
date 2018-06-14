@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
             
-            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, parameters.YearAcademicYearStarted);
+            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, parameters.LastDayOfAcademicYear);
 
             var learner = _learnerFactory.CreateLearner(
                 parameters.RawEarnings, 

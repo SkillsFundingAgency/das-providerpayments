@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
@@ -17,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
-        private int _yearAcademicYearStarted;
+        private DateTime _lastDayOfTheAcademicYear;
 
         public LearnerProcessParametersBuilder(
             IRawEarningsRepository rawEarningsRepository, 
@@ -81,8 +82,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
         private void SetYearAcademicYearStarted()
         {
             var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear??"1718";
-            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(0, 2)) + 2000; // will fail in 2100...
-            _yearAcademicYearStarted = startingYear;
+            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
+            _lastDayOfTheAcademicYear = new DateTime(startingYear, 7, 31);
         }
 
         private void ResetLearnerResultsList()
@@ -109,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             {
                 instance = new LearnerProcessParameters(learnerRefNumber, uln)
                 {
-                    YearAcademicYearStarted = _yearAcademicYearStarted,
+                    LastDayOfAcademicYear = _lastDayOfTheAcademicYear,
                 };
                 _learnerProcessParameters.Add(learnerRefNumber, instance);
             }

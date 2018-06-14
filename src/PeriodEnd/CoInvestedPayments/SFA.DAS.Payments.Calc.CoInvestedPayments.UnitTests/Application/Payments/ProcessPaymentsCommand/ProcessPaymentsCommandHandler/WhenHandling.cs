@@ -51,7 +51,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.UnitTests.Application.Payment
 
             _repository = new Mock<IPaymentRepository>();
 
-            _handler = new CoInvestedPayments.Application.Payments.ProcessPaymentsCommand.ProcessPaymentsCommandHandler(_repository.Object);
+            _handler = new CoInvestedPayments.Application.Payments.ProcessPaymentsCommand.ProcessPaymentsCommandHandler(_repository.Object, null);
         }
 
         [Test]

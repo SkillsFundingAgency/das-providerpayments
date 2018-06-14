@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -11,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public List<PriceEpisode> ValidatePriceEpisodes(
             List<Commitment> commitments,
             List<DatalockOutput> dataLocks,
-            int yearAcademicYearStarted)
+            DateTime lastDayOfAcademicYear)
         {
             // ASSUMPTIONS from Looking at the live data.
             //  Datalocks are 'keyed' by UKPRN, LearnRefNumber, PriceEpisodeIdentifier and CommitmentId
@@ -41,17 +43,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                         .FirstOrDefault(x => x.CommitmentId == priceEpisodeByCommitment.Key);
 
                     // Check that it's for this academic year
-                    int priceEpisodeStartYear;
-                    if (int.TryParse(datalockByPriceEpisode.Key.Substring(datalockByPriceEpisode.Key.Length - 4),
-                        out priceEpisodeStartYear))
+                    var datePortion = datalockByPriceEpisode.Key.Substring(datalockByPriceEpisode.Key.Length - 10);
+                    DateTime dateEpisodeStarted;
+                    if (DateTime.TryParseExact(datePortion, "dd/MM/yyyy", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None, out dateEpisodeStarted))
                     {
-                        if (priceEpisodeStartYear > yearAcademicYearStarted)
+                        if (dateEpisodeStarted > lastDayOfAcademicYear)
                         {
                             // Next academic year
                             var priceEpisode = new PriceEpisode(datalockByPriceEpisode.Key, new List<int>(),
                                 commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,
                                 commitment?.AccountId ?? 0, commitment?.AccountVersionId,
-                                ignoreEpisode: false); // We want to refund this. It's a future academic year
+                                mustRefundEpisode: true); // We want to refund this. It's a future academic year
                             priceEpisodes.Add(priceEpisode);
                         }
                         else if(commitment == null ||
@@ -61,8 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                             // No commitment or the datalock output doesn't have any payable periods
                             var priceEpisode = new PriceEpisode(datalockByPriceEpisode.Key, new List<int>(),
                                 commitment?.CommitmentId ?? 0, commitment?.CommitmentVersionId,
-                                commitment?.AccountId ?? 0, commitment?.AccountVersionId,
-                                ignoreEpisode: true); // We don't want to refund for failed datalocks
+                                commitment?.AccountId ?? 0, commitment?.AccountVersionId); 
                             priceEpisodes.Add(priceEpisode);
                         }
                         else

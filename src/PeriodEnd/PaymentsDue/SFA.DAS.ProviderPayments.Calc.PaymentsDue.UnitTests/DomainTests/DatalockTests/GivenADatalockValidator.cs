@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -13,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
     {
         private static readonly IFixture Fixture = new Fixture();
 
-        private static readonly string PriceEpisode1 = Fixture.Create<string>() + "2017";
+        private static readonly string PriceEpisode1 = Fixture.Create<string>() + "01/10/2017";
 
         private static readonly List<Commitment> Commitments = Fixture.Build<Commitment>()
             .CreateMany()
@@ -34,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
             public void ThenAllPriceEpisodesAreNotPayable()
             {
                 var sut = new IShouldBeInTheDatalockComponent();
-                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, 1718);
+                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, new DateTime(2017, 07, 31));
 
                 foreach (var priceEpisode in actual)
                 {
@@ -46,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
             public void ThenThereShouldBePriceEpisodes()
             {
                 var sut = new IShouldBeInTheDatalockComponent();
-                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, 1718);
+                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, new DateTime(2017, 07, 31));
 
                 actual.Should().NotBeEmpty();
             }
@@ -55,7 +56,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
             public void ThenThePriceEpisodesShouldHaveTheCorrectId()
             {
                 var sut = new IShouldBeInTheDatalockComponent();
-                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, 1718);
+                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, new DateTime(2017, 07, 31));
 
                 foreach (var priceEpisode in actual)
                 {
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
             public void ThenThePriceEpisodesShouldHaveTheCorrectAccountId()
             {
                 var sut = new IShouldBeInTheDatalockComponent();
-                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, 1718);
+                var actual = sut.ValidatePriceEpisodes(Commitments.Take(1).ToList(), Datalocks, new DateTime(2017, 07, 31));
 
                 foreach (var priceEpisode in actual)
                 {
