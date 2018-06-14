@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
@@ -31,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 sut.Process(parameters);
 
                 mockDataLockComponent
-                    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, It.IsAny<int>()), 
+                    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, It.IsAny<DateTime>()), 
                     Times.Once);
             }
 
@@ -51,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DatalockOutput>>(), It.IsAny<int>()))
+                        It.IsAny<List<DatalockOutput>>(), It.IsAny<DateTime>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory
@@ -86,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 mockDataLockComponent
                     .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                        It.IsAny<List<DatalockOutput>>(), It.IsAny<int>()))
+                        It.IsAny<List<DatalockOutput>>(), It.IsAny<DateTime>()))
                     .Returns(priceEpisodes);
 
                 mockLearnerFactory

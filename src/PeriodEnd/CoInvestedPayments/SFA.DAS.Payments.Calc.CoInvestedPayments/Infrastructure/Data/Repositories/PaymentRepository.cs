@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
+﻿using System;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Repositories
