@@ -19,9 +19,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public List<DatalockOutput> GetAllForProvider(long ukprn)
         {
             const string sql = @"
-            SELECT *
-            FROM [DataLock].[PriceEpisodePeriodMatch]
-            WHERE Ukprn = @ukprn";
+            SELECT PM.*
+            FROM [DataLock].[PriceEpisodePeriodMatch] PM
+            JOIN [DataLock].[PriceEpisodeMatch] M ON M.PriceEpisodeIdentifier = PM.PriceEpisodeIdentifier AND M.UkPrn = PM.UkPrn
+            WHERE PM.Ukprn = @ukprn AND M.IsSuccess = 1";
 
             var result = Query<DatalockOutput>(sql, new { ukprn })
                 .ToList();
