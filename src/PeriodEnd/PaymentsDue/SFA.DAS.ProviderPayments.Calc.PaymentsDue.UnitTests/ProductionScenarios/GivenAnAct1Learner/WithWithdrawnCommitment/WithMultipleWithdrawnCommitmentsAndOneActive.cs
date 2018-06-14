@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
@@ -8,12 +7,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoad
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios.GivenAnAct1Learner.WithWithdrawnCommitment
 {
     [TestFixture]
-    public class AndPeriodsRemovedFromTheIlr
+    public class WithMultipleWithdrawnCommitmentsAndOneActiveButStillDatalocked
     {
         [Test]
-        public void ThenThereShouldBeRefundsForTheWithdrawnPeriod()
+        public void ThenThereShouldBeNoRefunds()
         {
-            var parameters = TestData.LoadFrom("LearnerWithWithdrawnCommitmentAndRemovedPeriodsInTheIlr");
+            var parameters = TestData.LoadFrom("LearnerWithMultipleWithdrawnCommitmentAndOneActiveCommitment");
 
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DatalockOutputs, new DateTime(2018, 07, 31));
@@ -25,3 +24,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         }
     }
 }
+
+

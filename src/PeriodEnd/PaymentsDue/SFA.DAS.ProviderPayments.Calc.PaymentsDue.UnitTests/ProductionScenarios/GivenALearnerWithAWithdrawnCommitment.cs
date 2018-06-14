@@ -201,7 +201,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             }
 
             [Test]
-            public void ThenThereShouldBeRefundsForThePeriodsWithdrawnFromTheIlr()
+            public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr()
             {
                 var datalockComponent = new IShouldBeInTheDatalockComponent();
                 var datalockResult =
@@ -210,7 +210,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 var sut = new Learner(Earnings, MathsAndEnglishEarnings, datalockResult, PastPayments);
                 var actual = sut.CalculatePaymentsDue();
 
-                actual.PayableEarnings.Should().HaveCount(2);
+                actual.PayableEarnings.Should().HaveCount(0);
             }
 
             [Test]
@@ -223,7 +223,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 var sut = new Learner(Earnings, MathsAndEnglishEarnings, datalockResult, PastPayments);
                 var actual = sut.CalculatePaymentsDue();
 
-                actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(-500);
+                actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(0);
             }
         }
     }

@@ -87,6 +87,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
 
             // THERE ARE ACT1 EARNINGS AT THIS POINT
+            // Does the learner currently have a successful datalock?
+            var currentPriceEpisodes = PriceEpisodes
+                .Where(x => x.MustRefundPriceEpisode == false);
+            var currentPayablePeriods = currentPriceEpisodes
+                .SelectMany(x => x.PayablePeriods)
+                .ToList();
+            var mostRecentPayablePeriod = 
+                (currentPayablePeriods.Count == 0) ? 0 :
+                currentPayablePeriods
+                .Max();
+
+            var mostRecentEarningPeriod = RawEarnings
+                .Union(RawEarningsMathsEnglish)
+                .Max(x => x.Period);
+
+            if (mostRecentEarningPeriod <= mostRecentPayablePeriod)
+            {
+                _ignoreLearner = false;
+            }
+            else
+            {
+                _ignoreLearner = true;
+            }
 
             // Process each price episode seperately
             var earningsByPriceEpisode = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
@@ -101,23 +124,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 {
                     // Check for overlapping periods
                     var episodesThatArePayable = availablePriceEpisodes
-                        .Where(x => x.MustRefundPriceEpisode == false).ToList();
+                        .Where(x => x.MustRefundPriceEpisode == false)
+                        .ToList();
+
                     if (episodesThatArePayable.Count == 0)
                     {
                         MarkAsNonPayable(earningsForEpisode, $"Could not find a datalock price episode for earning with price episode id: {earningsForEpisode.Key}");
                         continue;
                     }
+
                     var payablePeriodsSeen = new HashSet<int>();
                     foreach (var period in episodesThatArePayable.SelectMany(x => x.PayablePeriods))
                     {
                         if (payablePeriodsSeen.Contains(period))
                         {
-                            MarkAsNonPayable(earningsForEpisode, "Multiple overlapping datalock price episodes found for earnings");
-                            continue;
+                            MarkAsNonPayable(RawEarnings, "Multiple overlapping datalock price episodes found for earnings");
+                            return;
                         }
 
                         payablePeriodsSeen.Add(period);
                     }
+
                     // Split the earnings by price episode
                     foreach (var period in payablePeriodsSeen)
                     {
