@@ -32,7 +32,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 @TransactionTypesFlag
             );";
 
+            const string nonPeriodSql = @"
+                    IF NOT EXISTS (
+                        SELECT NULL 
+                        FROM Datalock.PriceEpisodeMatch
+                        WHERE PriceEpisodeIdentifier = @PriceEpisodeIdentifier
+                    )
+                    INSERT INTO Datalock.PriceEpisodeMatch
+                    (UKPRN, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, IsSuccess)
+                    VALUES
+                    (@Ukprn, @priceEpisodeIdentifier, @LearnRefNumber, @AimSeqNumber, @CommitmentId, 1)
+                ";
+
             TestDataHelper.Execute(sql, entity);
+            TestDataHelper.Execute(nonPeriodSql, entity);
         }
 
         internal static void Truncate()
