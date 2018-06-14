@@ -101,6 +101,9 @@ Scenario:822-AC01- Levy apprentice, provider changes aim sequence numbers in ILR
 			| SFA non-Levy additional payments budget | 0     | 0     | 0     | 0     | 
         
 @CourseOrAimrefChanges
+# Failing because FrameworkCode changes and no retrospective refund is made.	
+# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the	
+# PaymentsDueProcessor.GetPaymentsDue method
 Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after payments have already occurred
 
         Given The learner is programme only DAS
@@ -123,21 +126,21 @@ Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after
 			| learner a | programme only DAS |              | 06/08/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 404            | 2              | 1            |
   
         Then the provider earnings and payments break down as follows:
-			| Type                                    | 08/17 | 09/17 | 10/17  | 11/17  | 12/17  | 01/18  |
-			| Provider Earned Total                   | 600   | 600   | 639.25 | 639.25 | 639.25 | 639.25 |
-			| Provider Earned from SFA                | 600   | 600   | 639.25 | 639.25 | 639.25 | 639.25 |
-			| Provider Earned from Employer           | 0     | 0     | 0      | 0      | 0      | 0      |
-			| Provider Paid by SFA                    | 0     | 600   | 600    | 717.75 | 639.25 | 639.25 | 
-			| Refund taken by SFA                     | 0     | 0     | 0      | 0      | 0      | 0      |
-			| Payment due from Employer               | 0     | 0     | 0      | 0      | 0      | 0      |
-			| Refund due to employer                  | 0     | 0     | 0      | 0      | 0      | 0      |
-			| Levy account debited                    | 0     | 600   | 600    | 1800   | 600    | 600    |
-			| Levy account credited                   | 0     | 0     | 0      | 1200   | 0      | 0      |
-			| SFA Levy employer budget                | 600   | 600   | 600    | 600    | 600    | 600    |
-			| SFA Levy co-funding budget              | 0     | 0     | 0      | 0      | 0      | 0      |
-			| SFA Levy additional payments budget     | 39.25 | 39.25 | 39.25  | 39.25  | 39.25  | 39.25  |
-			| SFA non-Levy co-funding budget          | 0     | 0     | 0      | 0      | 0      | 0      |
-			| SFA non-Levy additional payments budget | 0     | 0     | 0      | 0      | 0      | 0      |
+			| Type                                    | 08/17 | 09/17 | 10/17  | 11/17   | 12/17  | 01/18  |
+			| Provider Earned Total                   | 600   | 600   | 639.25 | 639.25  | 639.25 | 639.25 |
+			| Provider Earned from SFA                | 600   | 600   | 639.25 | 639.25  | 639.25 | 639.25 |
+			| Provider Earned from Employer           | 0     | 0     | 0      | 0       | 0      | 0      |
+			| Provider Paid by SFA                    | 0     | 600   | 600    | 1917.75 | 639.25 | 639.25 |
+			| Refund taken by SFA                     | 0     | 0     | 0      | -1200   | 0      | 0      |
+			| Payment due from Employer               | 0     | 0     | 0      | 0       | 0      | 0      |
+			| Refund due to employer                  | 0     | 0     | 0      | 0       | 0      | 0      |
+			| Levy account debited                    | 0     | 600   | 600    | 1800    | 600    | 600    |
+			| Levy account credited                   | 0     | 0     | 0      | 1200    | 0      | 0      |
+			| SFA Levy employer budget                | 600   | 600   | 600    | 600     | 600    | 600    |
+			| SFA Levy co-funding budget              | 0     | 0     | 0      | 0       | 0      | 0      |
+			| SFA Levy additional payments budget     | 39.25 | 39.25 | 39.25  | 39.25   | 39.25  | 39.25  |
+			| SFA non-Levy co-funding budget          | 0     | 0     | 0      | 0       | 0      | 0      |
+			| SFA non-Levy additional payments budget | 0     | 0     | 0      | 0       | 0      | 0      |
      
 
 @CourseOrAimrefChanges
