@@ -20,7 +20,8 @@ CREATE TABLE PaymentsDue.TaskLog
 	[Level] nvarchar(10) NOT NULL,
 	[Logger] nvarchar(512) NOT NULL,
 	[Message] nvarchar(1024) NOT NULL,
-	[Exception] nvarchar(max) NULL
+	[Exception] nvarchar(max) NULL,
+	PRIMARY KEY (TaskLogId)
 )
 GO
 
