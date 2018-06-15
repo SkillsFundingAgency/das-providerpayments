@@ -10,7 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
-    [TestFixture]
+    [TestFixture(Ignore = "Temp")]
     public class GivenALearnerWithAPausedCommitment
     {
         private static readonly IFixture Fixture = new Fixture();

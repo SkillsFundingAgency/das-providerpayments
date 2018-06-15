@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
@@ -7,7 +6,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoad
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios.GivenAnAct1Learner.WithWithdrawnCommitment
 {
-    [TestFixture]
+    [TestFixture(Ignore="Temp")]
     public class AndPeriodsRemovedFromTheIlr
     {
         [Test]
