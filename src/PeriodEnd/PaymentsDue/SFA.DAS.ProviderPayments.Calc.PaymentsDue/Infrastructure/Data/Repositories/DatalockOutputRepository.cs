@@ -19,10 +19,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public List<DatalockOutput> GetAllForProvider(long ukprn)
         {
             const string sql = @"
-            SELECT PM.*
-            FROM [DataLock].[PriceEpisodePeriodMatch] PM
-            JOIN [DataLock].[PriceEpisodeMatch] M ON M.PriceEpisodeIdentifier = PM.PriceEpisodeIdentifier AND M.UkPrn = PM.UkPrn
-            WHERE PM.Ukprn = @ukprn AND M.IsSuccess = 1";
+                 SELECT 
+		                PM.Ukprn,
+		                PM.PriceEpisodeIdentifier,
+		                PM.LearnRefNumber,
+		                PM.AimSeqNumber,
+		                PM.CommitmentId,
+		                PM.VersionId,
+		                PM.[Period],
+		                CASE WHEN M.IsSuccess = 1 AND PM.Payable = 1 THEN 1 ELSE 0 END AS Payable,
+		                PM.TransactionType,
+		                PM.TransactionTypesFlag
+                 FROM [DataLock].[PriceEpisodePeriodMatch] PM
+                 JOIN [DataLock].[PriceEpisodeMatch] M ON M.PriceEpisodeIdentifier = PM.PriceEpisodeIdentifier AND M.UkPrn = PM.UkPrn
+                 WHERE PM.Ukprn = @ukprn";
 
             var result = Query<DatalockOutput>(sql, new { ukprn })
                 .ToList();
