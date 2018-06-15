@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using FastMember;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -17,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             RawEarnings = rawEarnings.ToList();
             RawEarningsMathsEnglish = mathsAndEnglishEarnings.ToList();
-            PriceEpisodes = priceEpisodes.ToList();
+            PriceEpisodeDatalockResults = priceEpisodes.ToList();
             PastPayments = pastPayments.ToList();
         }
 
         // Input
         private List<RawEarning> RawEarnings { get; }
         private IReadOnlyList<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; }
-        public IReadOnlyList<PriceEpisode> PriceEpisodes { get; }
+        public IReadOnlyList<PriceEpisode> PriceEpisodeDatalockResults { get; }
         public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
 
         // Output
@@ -35,13 +34,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         // Internal
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private IEnumerable<RawEarning> Act1RawEarnings => RawEarnings.Where(x => x.ApprenticeshipContractType == 1);
-        private bool _ignoreLearner;                // Used for special case ACT2 -> ACT1 with datalock
-
+        
         private void MatchMathsAndEnglishToOnProg()
         {
-            var payableEarnings = new List<RawEarning>();
-            var nonPayableEarnings = new List<RawEarning>();
-
             // Find a matching raw earning with the same course information
             foreach (var mathsOrEnglishEarning in RawEarningsMathsEnglish)
             {
@@ -55,16 +50,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
-                    payableEarnings.Add(mathsOrEnglishEarning);
-                }
-                else
-                {
-                    nonPayableEarnings.Add(mathsOrEnglishEarning);
+
+                    var priceEpisode = PriceEpisodeDatalockResults.FirstOrDefault(x =>
+                        x.PriceEpisodeIdentifier == matchingOnProg.PriceEpisodeIdentifier);
+
+                    if (priceEpisode != null)
+                    {
+                        if (priceEpisode.SuccesfulDatalock)
+                        {
+                            MarkAsPayable(new List<RawEarning>{ mathsOrEnglishEarning }, priceEpisode);
+                            continue;
+                        }
+                        if (priceEpisode.MustRefundPriceEpisode)
+                        {
+                            MarkAsMustRefund(new List<RawEarning> { mathsOrEnglishEarning },
+                                $"Payment for future academic year - refunding - with price episode id: {matchingOnProg.PriceEpisodeIdentifier}",
+                                priceEpisode);
+                            continue;
+                        }
+                    }
+                    MarkAsNonPayable(new List<RawEarning>{ mathsOrEnglishEarning }, "Not paying maths/english. No price episode or price episode is datalocked");
                 }
             }
-
-            RawEarnings.AddRange(payableEarnings);
-            MarkAsNonPayable(nonPayableEarnings, "Maths or english aim with no matching on-prog aim");
         }
 
         private void ValidateEarningsAgainstDatalocks()
@@ -82,201 +89,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             if (act1.Count == 0)
             {
                 MarkAsPayable(RawEarnings);
+                MarkAsPayable(RawEarningsMathsEnglish);
 
                 return;
             }
 
             // THERE ARE ACT1 EARNINGS AT THIS POINT
-            // Does the learner currently have a successful datalock?
-            var currentPriceEpisodes = PriceEpisodes
-                .Where(x => x.MustRefundPriceEpisode == false);
-            var currentPayablePeriods = currentPriceEpisodes
-                .SelectMany(x => x.PayablePeriods)
-                .ToList();
-            var mostRecentPayablePeriod = 
-                (currentPayablePeriods.Count == 0) ? 0 :
-                currentPayablePeriods
-                .Max();
-
-            var mostRecentEarningPeriod = RawEarnings
-                .Union(RawEarningsMathsEnglish)
-                .Max(x => x.Period);
-
-            if (mostRecentEarningPeriod <= mostRecentPayablePeriod)
-            {
-                _ignoreLearner = false;
-            }
-            else
-            {
-                _ignoreLearner = true;
-            }
-
+            
             // Process each price episode seperately
             var earningsByPriceEpisode = RawEarnings.ToLookup(x => x.PriceEpisodeIdentifier).Distinct();
-
+            
             foreach (var earningsForEpisode in earningsByPriceEpisode)
             {
-                string reason;
-                var availablePriceEpisodes = PriceEpisodes
-                    .Where(x => x.PriceEpisodeIdentifier == earningsForEpisode.Key)
-                    .ToList();
-                if (availablePriceEpisodes.Count > 1)
+                foreach (var rawEarning in earningsForEpisode)
                 {
-                    // Check for overlapping periods
-                    var episodesThatArePayable = availablePriceEpisodes
-                        .Where(x => x.MustRefundPriceEpisode == false)
-                        .ToList();
-
-                    if (episodesThatArePayable.Count == 0)
+                    var priceEpisode = PriceEpisodeDatalockResults.FirstOrDefault(x =>
+                        x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier &&
+                        !x.PeriodsToIgnore.Contains(rawEarning.Period));
+                    if (priceEpisode != null && priceEpisode.SuccesfulDatalock)
                     {
-                        MarkAsNonPayable(earningsForEpisode, $"Could not find a datalock price episode for earning with price episode id: {earningsForEpisode.Key}");
-                        continue;
+                        MarkAsPayable(new List<RawEarning>{rawEarning}, priceEpisode);
                     }
-
-                    var payablePeriodsSeen = new HashSet<int>();
-                    foreach (var period in episodesThatArePayable.SelectMany(x => x.PayablePeriods))
+                    else if (priceEpisode != null && priceEpisode.MustRefundPriceEpisode)
                     {
-                        if (payablePeriodsSeen.Contains(period))
-                        {
-                            MarkAsNonPayable(RawEarnings, "Multiple overlapping datalock price episodes found for earnings");
-                            return;
-                        }
-
-                        payablePeriodsSeen.Add(period);
+                        MarkAsMustRefund(new List<RawEarning>{rawEarning}, "Future academic year payment clawback", priceEpisode);
                     }
-
-                    // Split the earnings by price episode
-                    foreach (var period in payablePeriodsSeen)
+                    else if (priceEpisode == null)
                     {
-                        var earningsForPeriod = RawEarnings.Where(x =>
-                            x.PriceEpisodeIdentifier == earningsForEpisode.Key &&
-                            x.Period == period);
-                        var episodeForPeriod = availablePriceEpisodes.Where(x => x.PayablePeriods.Contains(period)).ToList();
-                        if (episodeForPeriod.Count > 1)
-                        {
-                            MarkAsNonPayable(earningsForPeriod, "Multiple overlapping commitments found for earnings");
-                        }
-                        else
-                        {
-                            var priceEpisode = episodeForPeriod.FirstOrDefault();
-                            var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason, period);
-
-                            MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
-                            MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
-                            MarkAsMustRefund(allEarnings.MustRefundEarnings, reason, priceEpisode);
-                        }
-                    }
-                }
-                else
-                {
-                    var priceEpisode = availablePriceEpisodes.FirstOrDefault();
-                    if (priceEpisode?.MustRefundPriceEpisode == true) 
-                    {
-                        MarkAsMustRefund(earningsForEpisode, "Not paying and also refunding as this if from a future academic year", priceEpisode);
-                    }
+                        MarkAsPayable(new List<RawEarning> { rawEarning });
+                    } 
                     else
                     {
-                        var allEarnings = CalculatePayableEarnings(earningsForEpisode.Key, priceEpisode, out reason);
-
-                        MarkAsPayable(allEarnings.PayableEarnings, priceEpisode);
-                        MarkAsNonPayable(allEarnings.NonPayableEarnings, reason, priceEpisode);
-                        MarkAsMustRefund(allEarnings.MustRefundEarnings, reason, priceEpisode);
+                        MarkAsNonPayable(new List<RawEarning> { rawEarning }, "Datalock failure for earning", priceEpisode);
                     }
+
                 }
             }
-        }
-
-        class ShouldPayPriceEpisodeResult
-        {
-            public List<RawEarning> PayableEarnings { get; set; } = new List<RawEarning>();
-            public List<RawEarning> NonPayableEarnings { get; set; } = new List<RawEarning>();
-            public List<RawEarning> MustRefundEarnings { get; set; } = new List<RawEarning>();
-        }
-
-        private ShouldPayPriceEpisodeResult CalculatePayableEarnings(string priceEpisodeIdentifier, PriceEpisode priceEpisode, out string reason, int period = -1)
-        {
-            reason = string.Empty;
-            List<RawEarning> earnings;
-            if (period == -1)
-            {
-                earnings = RawEarnings.Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier).ToList();
-            }
-            else
-            {
-                earnings = RawEarnings
-                    .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier
-                                && x.Period == period)
-                    .ToList();
-            }
-
-            // If only act2 earnings
-            if (earnings.All(x => x.ApprenticeshipContractType == 2))
-            {
-                // Pay the price episode
-                return new ShouldPayPriceEpisodeResult
-                {
-                    PayableEarnings = earnings,
-                };
-            }
-            
-            // If the datalock price episode is set to 'Must Refund' add them to the must
-            //  refund list
-            if (priceEpisode?.MustRefundPriceEpisode == true)
-            {
-                reason = "Not paying and also refunding as this if from a future academic year";
-                return new ShouldPayPriceEpisodeResult
-                {
-                    MustRefundEarnings = earnings,
-                };
-            }
-
-            // If no 'bad' datalock, then pay for the price episode
-            // TODO: May need to rename this to make it simpler to follow
-            var earningsPeriodsThatAreNotPayableInThePriceEpisode = earnings.Select(x => x.Period)
-                .Except(priceEpisode?.PayablePeriods ?? new List<int>())
-                .ToList();
-
-            if (!earningsPeriodsThatAreNotPayableInThePriceEpisode.Any())
-            {
-                return new ShouldPayPriceEpisodeResult
-                {
-                    PayableEarnings = earnings,
-                };
-            }
-
-            // Check to see if we should be ignoring the learner
-            var pastAct2Payments = PastPayments.Any(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier &&
-                                                           x.ApprenticeshipContractType == 2);
-            if (pastAct2Payments)
-            {
-                // Past payments for an ACT1 episode that were ACT2
-                //  and a 'bad' datalock
-                _ignoreLearner = true;
-                reason = "ACT2 -> ACT1 learner with a failing datalock";
-                return new ShouldPayPriceEpisodeResult
-                {
-                    NonPayableEarnings = earnings,
-                };
-            }
-
-            if (priceEpisode == null)
-            {
-                reason = $"No datalock present for price episode {priceEpisodeIdentifier}";
-            }
-            else
-            {
-                reason = $"Datalock failure for price episode {priceEpisodeIdentifier}";
-            }
-
-            return new ShouldPayPriceEpisodeResult
-            {
-                PayableEarnings =
-                    earnings.Where(x => !earningsPeriodsThatAreNotPayableInThePriceEpisode.Contains(x.Period))
-                        .ToList(),
-                NonPayableEarnings =
-                    earnings.Where(x => earningsPeriodsThatAreNotPayableInThePriceEpisode.Contains(x.Period))
-                        .ToList(),
-            };
         }
 
         public LearnerProcessResults CalculatePaymentsDue()
@@ -284,7 +132,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             MatchMathsAndEnglishToOnProg();
             ValidateEarningsAgainstDatalocks();
 
-            if (_ignoreLearner)
+            var periodsToIgnore = PriceEpisodeDatalockResults
+                .Where(x => !x.SuccesfulDatalock)
+                .SelectMany(x => x.PeriodsToIgnore)
+                .ToList();
+            var periodsToProcess = Enumerable.Range(1, 12)
+                .Except(periodsToIgnore)
+                .ToList();
+
+
+            if (periodsToProcess.Count == 0)
             {
                 return new LearnerProcessResults
                 {
@@ -365,14 +222,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 processedGroups.Add(key);
                 var earnings = groupedEarnings[key];
                 var pastPayments = new List<RequiredPaymentEntity>();
+                var mustRefund = new List<RequiredPaymentEntity>();
                 
                 if (groupedPastPayments.ContainsKey(key))
                 {
                     pastPayments = groupedPastPayments[key];
                 }
 
+                if (groupedMustRefund.ContainsKey(key))
+                {
+                    mustRefund = groupedMustRefund[key];
+                }
+
                 var payment = earnings.Sum(x => x.AmountDue) -
-                              pastPayments.Sum(x => x.AmountDue);
+                              pastPayments.Sum(x => x.AmountDue) -
+                              mustRefund.Sum(x => x.AmountDue);
 
                 if (payment != 0)
                 {

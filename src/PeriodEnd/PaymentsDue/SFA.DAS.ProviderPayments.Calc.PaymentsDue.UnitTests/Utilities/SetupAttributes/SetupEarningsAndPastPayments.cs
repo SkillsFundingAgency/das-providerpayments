@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
     class SetupMatchingEarningsAndPastPayments : Attribute, IApplyToContext
     {
         private readonly int _apprenticeshipContractType;
-        private readonly List<int> _datalockSuccess;
+        private readonly List<int> _periodsToIgnore;
         private readonly decimal _onProgAmount;
 
         public SetupMatchingEarningsAndPastPayments(
@@ -21,13 +21,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             int onProgAmount = 500)
         {
             _apprenticeshipContractType = apprenticeshipContractType;
-            if (datalockSuccess)
+            if (!datalockSuccess)
             {
-                _datalockSuccess = Enumerable.Range(1, 12).ToList();
+                _periodsToIgnore = Enumerable.Range(1, 12).ToList();
             }
             else
             {
-                _datalockSuccess = new List<int>();
+                _periodsToIgnore = new List<int>();
             }
             _onProgAmount = onProgAmount;
         }
@@ -66,7 +66,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var datalocks = fixture.Build<PriceEpisode>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
-                .With(x => x.PayablePeriods, _datalockSuccess)
+                .With(x => x.PeriodsToIgnore, _periodsToIgnore)
+                .With(x => x.SuccesfulDatalock, _periodsToIgnore.Count == 0)
                 .CreateMany(1)
                 .ToList();
 
@@ -104,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 pastPayments[i].LearnAimRef = earnings[i].LearnAimRef;
                 pastPayments[i].SfaContributionPercentage = earnings[i].SfaContributionPercentage;
                 pastPayments[i].TransactionType = 1;
-                pastPayments[i].UseLevyBalance = datalocks[0].PayablePeriods.Contains(i);
+                pastPayments[i].UseLevyBalance = !datalocks[0].PeriodsToIgnore.Contains(i);
 
                 pastPayments[i].Period = earnings[i].Period;
 

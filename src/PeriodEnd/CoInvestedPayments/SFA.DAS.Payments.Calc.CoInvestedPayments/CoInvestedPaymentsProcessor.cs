@@ -232,7 +232,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                                             CollectionPeriod currentPeriod)
         {
             var amountPaidTotal = historyPayments.Sum(x => x.Amount);
-            if (amountPaidTotal == 0)
+            if (amountPaidTotal < 0.005m)
             {
                 return;
             }

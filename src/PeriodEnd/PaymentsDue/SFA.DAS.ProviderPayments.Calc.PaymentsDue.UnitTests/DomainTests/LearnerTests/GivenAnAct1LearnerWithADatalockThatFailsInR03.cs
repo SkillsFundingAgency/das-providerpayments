@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
             _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPaymentEntity>;
 
-            _datalocks[0].PayablePeriods = new List<int> { 1, 2 };
+            _datalocks[0].PeriodsToIgnore = new List<int> {  };
         }
 
         [Test]

@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
                 {
                     private static readonly List<PriceEpisode> Datalocks = Fixture.Build<PriceEpisode>()
                         .With(x => x.PriceEpisodeIdentifier, PriceEpisode1)
-                        .With(x => x.PayablePeriods, Enumerable.Range(1, 14).ToList())
+                        .With(x => x.PeriodsToIgnore, new List<int>())
                         .CreateMany(1)
                         .ToList();
 
@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
                 {
                     private static readonly List<PriceEpisode> Datalocks = Fixture.Build<PriceEpisode>()
                         .With(x => x.PriceEpisodeIdentifier, PriceEpisode1)
-                        .With(x => x.PayablePeriods, new List<int>())
+                        .With(x => x.PeriodsToIgnore, new List<int>())
                         .CreateMany(1)
                         .ToList();
 
