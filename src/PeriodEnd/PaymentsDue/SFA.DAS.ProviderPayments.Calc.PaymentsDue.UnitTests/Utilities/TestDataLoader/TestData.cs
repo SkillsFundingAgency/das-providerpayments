@@ -134,6 +134,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 result.DatalockOutputs.Add(datalock);
             }
 
+            var datalockValidationErrorSheet = document.Worksheet("DatalockValidationErrors");
+            range = datalockValidationErrorSheet.RowsUsed();
+            foreach (var xlRow in range.Skip(1))
+            {
+                var validationError = new DatalockValidationError
+                {
+                    PriceEpisodeIdentifier = xlRow.Cell(1).GetValue<string>(),
+                    RuleId = xlRow.Cell(2).GetValue<string>(),
+                };
+                result.DatalockValidationErrors.Add(validationError);
+            }
+
             var commitmentsSheet = document.Worksheet("Commitments");
             range = commitmentsSheet.RowsUsed();
             foreach (var xlRow in range.Skip(1))
@@ -177,5 +189,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<RequiredPaymentEntity> PastPayments { get; set; } = new List<RequiredPaymentEntity>();
+        public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
     }
 }

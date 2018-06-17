@@ -46,3 +46,8 @@ WHERE  UKPRN = @ukprn
   FROM Reference.DasCommitments
  WHERE UKPRN = @ukprn
  AND Uln = @uln
+
+ SELECT PriceEpisodeIdentifier, RuleId
+ FROM Datalock.ValidationErrors
+ WHERE UKPRN = @ukprn
+ AND LearnRefNumber = @learnRefNumber

@@ -2,6 +2,7 @@
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
 {

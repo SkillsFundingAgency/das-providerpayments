@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
@@ -11,12 +12,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     [TestFixture, SetupUkprn]
     public class GivenADataLockPriceEpisodePeriodMatchesRepository
     {
-        private DatalockOutputRepository _sut;
+        private DatalockRepository _sut;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _sut = new DatalockOutputRepository(GlobalTestContext.Instance.TransientConnectionString);
+            _sut = new DatalockRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
 
         [TestFixture, SetupNoDataLockPriceEpisodePeriodMatches]
@@ -29,7 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenItReturnsAnEmptyList()
                 {
                     Setup();
-                    var result = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    var result =
+                        _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn, new DateTime(2018, 8, 1));
                     result.Should().BeEmpty();
                 }
             }
@@ -49,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualDataLocks = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    _actualDataLocks = _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn, new DateTime(2018, 8, 1));
 
                     _expectedDataLocks = PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches
                         .Where(entity => entity.Ukprn == PaymentsDueTestContext.Ukprn)

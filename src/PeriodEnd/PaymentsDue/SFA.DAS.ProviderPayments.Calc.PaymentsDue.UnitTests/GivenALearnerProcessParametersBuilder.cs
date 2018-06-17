@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
@@ -130,13 +131,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             List<DatalockOutput> dataLocks,
-            [Frozen] Mock<IDatalockOutputRepository> mockDataLockRepository,
+            [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             LearnerProcessParametersBuilder sut)
         {
             dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
             mockDataLockRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Setup(repository => repository.GetDatalockOutputForProvider(ukprn, It.IsAny<DateTime>()))
                 .Returns(dataLocks);
 
             var learners = sut.Build(ukprn);
@@ -160,7 +161,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             List<DatalockOutput> dataLocks,
-            [Frozen] Mock<IDatalockOutputRepository> mockDataLockRepository,
+            [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
             LearnerProcessParametersBuilder sut)
@@ -184,7 +185,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
             mockRawEarningsMathsEnglishRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarningsMathsEnglish);
             mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(historicalPayments);
-            mockDataLockRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(dataLocks);
+            mockDataLockRepository.Setup(repository => repository.GetDatalockOutputForProvider(ukprn, It.IsAny<DateTime>())).Returns(dataLocks);
             mockCommitmentsRepository.Setup(repository => repository.GetProviderCommitments(ukprn)).Returns(commitments);
 
             collectionPeriodRepository

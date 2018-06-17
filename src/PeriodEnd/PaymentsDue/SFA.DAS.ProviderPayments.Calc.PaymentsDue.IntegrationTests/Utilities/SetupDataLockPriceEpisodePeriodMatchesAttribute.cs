@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -15,16 +16,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
             DataLockPriceEpisodePeriodMatchDataHelper.Truncate();
 
             var fixture = new Fixture();
+            var priceEpisodeIdentifier = "1-2-01/03/2018";
 
             var dataLocks = fixture.Build<DatalockOutput>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
+                .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
 
             var dataLocksMatchingUkprn = fixture.Build<DatalockOutput>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
+                .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
 

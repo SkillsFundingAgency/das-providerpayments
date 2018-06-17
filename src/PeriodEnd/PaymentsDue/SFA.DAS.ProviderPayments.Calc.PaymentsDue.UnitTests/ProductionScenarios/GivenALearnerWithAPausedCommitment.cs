@@ -10,7 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
-    [TestFixture(Ignore = "Temp")]
+    [TestFixture]
     public class GivenALearnerWithAPausedCommitment
     {
         private static readonly IFixture Fixture = new Fixture();
@@ -227,12 +227,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         public void ThereShouldBeNoRefunds()
         {
             var datalockComponent = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, new DateTime(2018, 07, 31));
+            var datalockResult = datalockComponent.ValidatePriceEpisodes(
+                Commitments, 
+                Datalocks, 
+                new List<DatalockValidationError>(), 
+                Earnings, 
+                MathsAndEnglishEarnings);
 
-            var sut = new Learner(Earnings, MathsAndEnglishEarnings, datalockResult, PastPayments);
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
             var actual = sut.CalculatePaymentsDue();
 
-            actual.PayableEarnings.Should().NotContain(x => x.AmountDue < 0);
+            actual.Should().NotContain(x => x.AmountDue < 0);
         }
     }
 }

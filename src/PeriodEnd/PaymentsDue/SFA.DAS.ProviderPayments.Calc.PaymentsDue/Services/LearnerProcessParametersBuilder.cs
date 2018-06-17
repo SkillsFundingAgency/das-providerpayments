@@ -4,27 +4,28 @@ using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class LearnerProcessParametersBuilder : ILearnerProcessParametersBuilder
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
         private readonly IRequiredPaymentsHistoryRepository _historicalPaymentsRepository;
-        private readonly IDatalockOutputRepository _dataLockRepository;
+        private readonly IDatalockRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        
+
         private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
-        private DateTime _lastDayOfTheAcademicYear;
+        private DateTime _firstDayOfTheNextAcademicYear;
 
         public LearnerProcessParametersBuilder(
-            IRawEarningsRepository rawEarningsRepository, 
-            IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository, 
-            IRequiredPaymentsHistoryRepository historicalPaymentsRepository, 
-            IDatalockOutputRepository dataLockRepository,
+            IRawEarningsRepository rawEarningsRepository,
+            IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
+            IRequiredPaymentsHistoryRepository historicalPaymentsRepository,
+            IDatalockRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository,
             ICollectionPeriodRepository collectionPeriodRepository)
         {
@@ -66,9 +67,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
                 GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
             }
 
-            foreach (var dataLock in _dataLockRepository.GetAllForProvider(ukprn))
+            foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn, _firstDayOfTheNextAcademicYear))
             {
                 GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(dataLock);
+            }
+
+            foreach (var datalockValidationError in _dataLockRepository.GetValidationErrorsForProvider(ukprn))
+            {
+                GetLearnerProcessParametersInstanceForLearner(datalockValidationError.LearnRefNumber).DatalockValidationErrors.Add(datalockValidationError);
             }
 
             foreach (var commitment in _commitmentsRepository.GetProviderCommitments(ukprn))
@@ -81,9 +87,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
 
         private void SetYearAcademicYearStarted()
         {
-            var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear??"1718";
+            var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
             var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
-            _lastDayOfTheAcademicYear = new DateTime(startingYear, 7, 31);
+            _firstDayOfTheNextAcademicYear = new DateTime(startingYear, 8, 1);
         }
 
         private void ResetLearnerResultsList()
@@ -102,16 +108,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application
             }
             return GetLearnerProcessParametersInstanceForLearner(learnerRefNumber, uln);
         }
-        
+
         private LearnerProcessParameters GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber, long? uln = null)
         {
-            LearnerProcessParameters instance; 
+            LearnerProcessParameters instance;
             if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
             {
-                instance = new LearnerProcessParameters(learnerRefNumber, uln)
-                {
-                    LastDayOfAcademicYear = _lastDayOfTheAcademicYear,
-                };
+                instance = new LearnerProcessParameters(learnerRefNumber, uln);
                 _learnerProcessParameters.Add(learnerRefNumber, instance);
             }
             else

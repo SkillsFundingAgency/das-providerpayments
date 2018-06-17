@@ -108,17 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
-    <Compile Include="DomainTests\DatalockTests\GivenADatalockValidator.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPrice.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithADatalockThatFailsInR03.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithARefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithOverlappingCommitments.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithPartialRefund.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithChangingDatalock.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithNoRefunds.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithNoRefunds.cs" />
-    <Compile Include="DomainTests\LearnerTests\GivenAnAct2LearnerWithARefund.cs" />
     <Compile Include="DomainTests\MatchSetTests\GivenAMatchSet.cs" />
     <Compile Include="GivenALearnerProcessParametersBuilder.cs" />
     <Compile Include="GivenALearnerProcessor.cs" />
@@ -170,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
+    <Folder Include="DomainTests\DatalockTests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScenarioData\Test Data Query.sql" />

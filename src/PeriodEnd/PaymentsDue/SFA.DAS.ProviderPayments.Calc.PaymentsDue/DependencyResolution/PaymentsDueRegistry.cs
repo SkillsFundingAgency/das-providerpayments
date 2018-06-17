@@ -7,6 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
@@ -30,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IProviderRepository>().Use<ProviderRepository>();
             For<IRequiredPaymentRepository>().Use<RequiredPaymentRepository>();
             For<ICommitmentRepository>().Use<CommitmentRepository>();
-            For<IDatalockOutputRepository>().Use<DatalockOutputRepository>();
+            For<IDatalockRepository>().Use<DatalockRepository>();
             For<INonPayableEarningRepository>().Use<NonPayableEarningRepository>();
             For<IRequiredPaymentsHistoryRepository>().Use<RequiredPaymentsHistoryRepository>();
 

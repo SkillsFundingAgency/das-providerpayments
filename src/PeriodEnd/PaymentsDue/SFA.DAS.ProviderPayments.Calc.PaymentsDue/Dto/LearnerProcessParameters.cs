@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
@@ -19,6 +18,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
         public List<DatalockOutput> DataLocks { get; } = new List<DatalockOutput>();
         public List<RequiredPaymentEntity> HistoricalPayments { get; } = new List<RequiredPaymentEntity>();
         public List<Commitment> Commitments { get; } = new List<Commitment>();
-        public DateTime LastDayOfAcademicYear { get; set; }
+        public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
     }
 }

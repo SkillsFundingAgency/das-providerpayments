@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using NLog;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
