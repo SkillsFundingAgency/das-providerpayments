@@ -16,16 +16,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
             RawEarningsDataHelper.Truncate();
 
             var fixture = new Fixture();
+            var priceEpisodeIdentifier = $"{fixture.Create<string>().Substring(0, 5)}-01/03/2018";
 
             var earnings = fixture.Build<RawEarning>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
+                .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
 
             var earningsMatchingUkprn = fixture.Build<RawEarning>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
+                .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
 
