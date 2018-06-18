@@ -110,35 +110,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     continue;
                 }
 
-                var commitment = Commitments.FirstOrDefault(x => x.CommitmentId == datalocks[0].CommitmentId);
+                var commitment = Commitments.OrderByDescending(x => x.CommitmentId).FirstOrDefault(x => x.CommitmentId == datalocks[0].CommitmentId);
 
-                if (datalocks.Count > 1)
+                // Go through all the transactiontypeflags
+                //  and pay each in turn
+                for (var i = 1; i < 4; i++)
                 {
-                    // There is more than one datalock, so go through all the transactiontypeflags
-                    //  and pay each in turn
-                    for (var i = 1; i < 4; i++)
+                    var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
+                    if (datalocksForFlag.Count > 1)
                     {
-                        var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
-                        if (datalocksForFlag.Count > 1)
-                        {
-                            MarkAsNonPayable(earningsForPeriod,
-                                $"Multiple matching datalocks for price episode: {priceEpisode}",
-                                commitment);
-                            PeriodsToIgnore.Add(period.Key);
-                            continue;
-                        }
-
-                        if (datalocksForFlag.Count == 1)
-                        {
-                            // We have 1 datalock and a commitment
-                            MarkAsPayable(earningsForPeriod, commitment, i);
-                        }
+                        MarkAsNonPayable(earningsForPeriod,
+                            $"Multiple matching datalocks for price episode: {priceEpisode}",
+                            commitment);
+                        PeriodsToIgnore.Add(period.Key);
+                        continue;
                     }
 
-                    continue;
+                    if (datalocksForFlag.Count == 1)
+                    {
+                        // We have 1 datalock and a commitment
+                        MarkAsPayable(earningsForPeriod, commitment, i);
+                    }
                 }
-
-                MarkAsPayable(earningsForPeriod, commitment, datalocks[0].TransactionTypesFlag);
             }
         }
 
@@ -161,7 +154,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     x.StandardCode == mathsOrEnglishEarning.StandardCode &&
                     x.PathwayCode == mathsOrEnglishEarning.PathwayCode &&
                     x.ProgrammeType == mathsOrEnglishEarning.ProgrammeType &&
-                    x.ApprenticeshipContractType == mathsOrEnglishEarning.ApprenticeshipContractType);
+                    x.ApprenticeshipContractType == mathsOrEnglishEarning.ApprenticeshipContractType &&
+                    !PeriodsToIgnore.Contains(x.Period));
 
                 if (matchingOnProg != null)
                 {

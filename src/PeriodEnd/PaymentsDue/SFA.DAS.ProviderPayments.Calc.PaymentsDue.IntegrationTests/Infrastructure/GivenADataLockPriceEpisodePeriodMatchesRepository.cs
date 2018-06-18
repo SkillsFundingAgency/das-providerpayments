@@ -55,7 +55,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                     _expectedDataLocks = PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches
                         .Where(entity => entity.Ukprn == PaymentsDueTestContext.Ukprn)
-                        .OrderBy(entity => entity.PriceEpisodeIdentifier) // there's a sorted index on the table
+                        .OrderBy(entity => entity.PriceEpisodeIdentifier)
+                        .ThenBy(x => x.LearnRefNumber)      // there's a sorted index on the table
                         .ToList();
                 }
 

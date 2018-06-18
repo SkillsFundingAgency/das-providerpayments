@@ -118,27 +118,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             PastPayments.AddRange(secondSetOfPastPayments);
 
 
-            var datalockForNextYearFirstCommitment = Fixture.Build<DatalockOutput>()
-                .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForNextYear)
-                .With(x => x.CommitmentId, CommitmentOne)
-                .With(x => x.Payable, false)
-                .CreateMany(12)
-                .ToList();
+            var datalockForNextYearFirstCommitment = new List<DatalockOutput>();
             var datalockForThisYearFirstCommitment = Fixture.Build<DatalockOutput>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentOne)
+                .With(x => x.TransactionTypesFlag, 1)
                 .With(x => x.Payable, false)
                 .CreateMany(12)
                 .ToList();
-            var datalockForNextYearSecondommitment = Fixture.Build<DatalockOutput>()
-                .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForNextYear)
-                .With(x => x.CommitmentId, CommitmentTwo)
-                .With(x => x.Payable, true)
-                .CreateMany(12)
-                .ToList();
+            var datalockForNextYearSecondCommitment = new List<DatalockOutput>();
             var datalockForThisYearSecondCommitment = Fixture.Build<DatalockOutput>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentTwo)
+                .With(x => x.TransactionTypesFlag, 1)
                 .With(x => x.Payable, true)
                 .CreateMany(12)
                 .ToList();
@@ -153,21 +145,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 Earnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
                 Earnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
 
-                datalockForNextYearFirstCommitment[i].Period = i + 1;
-                datalockForNextYearSecondommitment[i].Period = i + 1;
                 datalockForThisYearFirstCommitment[i].Period = i + 1;
                 datalockForThisYearSecondCommitment[i].Period = i + 1;
             }
             for (var i = 10; i < 12; i++)
             {
-                datalockForNextYearFirstCommitment[i].Period = i + 1;
-                datalockForNextYearSecondommitment[i].Period = i + 1;
                 datalockForThisYearFirstCommitment[i].Period = i + 1;
                 datalockForThisYearSecondCommitment[i].Period = i + 1;
             }
 
             Datalocks.AddRange(datalockForNextYearFirstCommitment);
-            Datalocks.AddRange(datalockForNextYearSecondommitment);
+            Datalocks.AddRange(datalockForNextYearSecondCommitment);
             Datalocks.AddRange(datalockForThisYearFirstCommitment);
             Datalocks.AddRange(datalockForThisYearSecondCommitment);
         }
