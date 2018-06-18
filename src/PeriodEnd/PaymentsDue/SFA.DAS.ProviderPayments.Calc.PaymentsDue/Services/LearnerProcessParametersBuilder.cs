@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
             var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
 
-            foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
+            foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn, _firstDayOfTheNextAcademicYear))
             {
                 rawEarning.DeliveryMonth = periodToMonthMapper[rawEarning.Period];
                 rawEarning.DeliveryYear = periodToYearMapper[rawEarning.Period];

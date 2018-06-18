@@ -16,6 +16,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenALearnerProcessParametersBuilder
     {
+        private DateTime _firstDayOfNextAcademicYear = new DateTime(2018, 8, 1);
+
         private static readonly List<CollectionPeriodEntity> CollectionPeriods = new List<CollectionPeriodEntity>
         {
             new CollectionPeriodEntity {AcademicYear = "1718", Id = 1, Month = 8, Year = 2017, },
@@ -51,7 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             });
  
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
                 .Returns(rawEarnings);
 
             collectionPeriodRepository
@@ -182,7 +184,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             // Force this commitment to not match
             commitments[0].Uln = -99897689;
 
-            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
+            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear)).Returns(rawEarnings);
             mockRawEarningsMathsEnglishRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarningsMathsEnglish);
             mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(historicalPayments);
             mockDataLockRepository.Setup(repository => repository.GetDatalockOutputForProvider(ukprn, It.IsAny<DateTime>())).Returns(dataLocks);
@@ -242,7 +244,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             commitments.ForEach(entity => entity.Uln = uln);
 
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
                 .Returns(rawEarnings);
 
             mockCommitmentsRepository
@@ -285,7 +287,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             commitments.ForEach(entity => entity.Uln = uln);
 
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn))
+                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
                 .Returns(rawEarnings);
 
             mockCommitmentsRepository
