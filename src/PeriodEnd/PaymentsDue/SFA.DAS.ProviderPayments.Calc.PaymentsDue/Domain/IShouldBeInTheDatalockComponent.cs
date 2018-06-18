@@ -133,26 +133,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                 var commitment = Commitments.OrderByDescending(x => x.CommitmentId).FirstOrDefault(x => x.CommitmentId == datalocks[0].CommitmentId);
 
-                // Go through all the transactiontypeflags
-                //  and pay each in turn
-                for (var i = 1; i < 4; i++)
+                if (datalocks.Count > 1)
                 {
-                    var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
-                    if (datalocksForFlag.Count > 1)
+                    // There is more than one datalock, so go through all the transactiontypeflags
+                    //  and pay each in turn
+                    for (var i = 1; i < 4; i++)
                     {
-                        MarkNonZeroTransactionTypesAsNonPayable(earningsForPeriod,
-                            $"Multiple matching datalocks for price episode: {priceEpisode}",
-                            commitment);
-                        PeriodsToIgnore.Add(period.Key);
-                        continue;
+                        var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
+                        if (datalocksForFlag.Count > 1)
+                        {
+                            MarkNonZeroTransactionTypesAsNonPayable(earningsForPeriod,
+                                $"Multiple matching datalocks for price episode: {priceEpisode}",
+                                commitment);
+                            PeriodsToIgnore.Add(period.Key);
+                            continue;
+                        }
+
+                        if (datalocksForFlag.Count == 1)
+                        {
+                            // We have 1 datalock and a commitment
+                            MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, commitment, i);
+                        }
                     }
 
-                    if (datalocksForFlag.Count == 1)
-                    {
-                        // We have 1 datalock and a commitment
-                        MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, commitment, i);
-                    }
+                    continue;
                 }
+
+                MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, commitment, datalocks[0].TransactionTypesFlag);
             }
         }
 
