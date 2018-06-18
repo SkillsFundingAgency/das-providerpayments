@@ -28,10 +28,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         List<DatalockOutput> DatalockOutput { get; set; }
         private List<Commitment> Commitments { get; set; }
         private List<DatalockValidationError> DatalockValidationErrors { get; set; }
-        
+
         // INTERNAL
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
-
+        private List<DatalockOutput> SuccessfulDatalocks { get; } = new List<DatalockOutput>();
+    
         // OUTPUT
         private HashSet<int> PeriodsToIgnore { get; } = new HashSet<int>();
         private List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
@@ -52,10 +53,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             
             // The reason for this method is to put each raw earning into a payable or non-payable pot
             
+            PopulateSuccessfulDatalocks();
             ValidateEarnings();
             MatchMathsAndEnglishToOnProg();
 
             return new DatalockValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
+        }
+
+        private void PopulateSuccessfulDatalocks()
+        {
+            var invalidPriceEpisodeIdentifiers =
+                DatalockValidationErrors.Select(x => x.PriceEpisodeIdentifier).ToList();
+            var succesfulDatalocks = DatalockOutput
+                .Where(x => x.Payable &&
+                            !invalidPriceEpisodeIdentifiers.Contains(x.PriceEpisodeIdentifier))
+                .ToList();
+            SuccessfulDatalocks.AddRange(succesfulDatalocks);
         }
 
         private void ValidateEarnings()
@@ -66,13 +79,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 return;
             }
 
-            var invalidPriceEpisodeIdentifiers =
-                DatalockValidationErrors.Select(x => x.PriceEpisodeIdentifier).ToList();
-            var succesfulDatalocks = DatalockOutput
-                .Where(x => x.Payable &&
-                            !invalidPriceEpisodeIdentifiers.Contains(x.PriceEpisodeIdentifier))
-                .ToList();
-            
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
             //  period
             // If there are 0 successful datalocks, then ignore the period
@@ -113,7 +119,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                 var priceEpisode = priceEpisodes.Single();
 
-                var datalocks = succesfulDatalocks
+                var datalocks = SuccessfulDatalocks
                     .Where(x => x.Period == period.Key &&
                                 x.PriceEpisodeIdentifier == priceEpisode)
                     .ToList();
@@ -157,6 +163,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         /// </summary>
         private void MatchMathsAndEnglishToOnProg()
         {
+            // Special case for learner that has completed on-prog aim in one academic year 
+            //  and continues maths/english aims onto next year
+            // 1. If there are raw earnings for period 1 *only* and those would have 
+            //      passed datalock, then pay maths/english earnings
+            if (NonPayableEarnings.Count == 0 && PayableEarnings.Count == 0)
+            {
+                foreach (var rawEarning in RawEarnings)
+                {
+                    // Do we have a datalock??
+                    var datalock = SuccessfulDatalocks
+                        .FirstOrDefault(x =>
+                        x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier);
+                    if (datalock != null)
+                    {
+                        var commitment = Commitments
+                            .OrderByDescending(x => x.CommitmentVersionId)
+                            .FirstOrDefault(x => x.CommitmentId == datalock.CommitmentId);
+                            
+                        var matchingMathsAndEnglish = RawEarningsMathsOrEnglish
+                            .Where(x => x.StandardCode == rawEarning.StandardCode &&
+                                        x.ProgrammeType == rawEarning.ProgrammeType &&
+                                        x.FrameworkCode == rawEarning.FrameworkCode &&
+                                        x.PathwayCode == rawEarning.PathwayCode &&
+                                        x.ApprenticeshipContractType == rawEarning.ApprenticeshipContractType)
+                            .ToList();
+                        MarkNonZeroTransactionTypesAsPayable(matchingMathsAndEnglish, commitment);
+                    }
+                }
+            }
+
             // 450 learners with no on-prog - 200 of which are from one provider
             //  but if there are no earnings, then assume that the earnings are 
             //  from last year and pay the M/E
