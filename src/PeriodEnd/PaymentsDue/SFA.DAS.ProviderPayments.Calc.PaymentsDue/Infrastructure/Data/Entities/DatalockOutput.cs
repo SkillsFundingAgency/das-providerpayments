@@ -20,5 +20,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int TransactionType { get; set; }
         [Range(1,3)]
         public int TransactionTypesFlag { get; set; }
-    }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+                hash = 31 * hash + Ukprn.GetHashCode();
+                hash = 31 * hash + PriceEpisodeIdentifier.GetHashCode();
+                hash = 31 * hash + LearnRefNumber.GetHashCode();
+                hash = 31 * hash + AimSeqNumber.GetHashCode();
+                hash = 31 * hash + CommitmentId.GetHashCode();
+                hash = 31 * hash + TransactionType.GetHashCode();
+                hash = 31 * hash + VersionId.GetHashCode();
+                hash = 31 * hash + Period.GetHashCode();
+                hash = 31 * hash + Payable.GetHashCode();
+                hash = 31 * hash + TransactionType.GetHashCode();
+                hash = 31 * hash + TransactionTypesFlag.GetHashCode();
+
+                return hash;
+            }
+
+        }
 }
