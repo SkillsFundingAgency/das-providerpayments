@@ -65,38 +65,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Earnings\PeriodEarning.cs" />
-    <Compile Include="Application\ILearnerProcessParametersBuilder.cs" />
-    <Compile Include="Application\IPayableEarningsCalculator.cs" />
-    <Compile Include="Application\IProviderLearnersBuilder.cs" />
+    <Compile Include="Dto\DatalockValidationResult.cs" />
+    <Compile Include="Services\Dependencies\ILearnerProcessParametersBuilder.cs" />
+    <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
+    <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Services\DatalockComponentFactory.cs" />
-    <Compile Include="Services\IDataLockComponentFactory.cs" />
-    <Compile Include="Services\IIShouldBeInTheDatalockComponent.cs" />
-    <Compile Include="Services\ILearner.cs" />
-    <Compile Include="Services\ILearnerFactory.cs" />
+    <Compile Include="Services\Dependencies\IDataLockComponentFactory.cs" />
+    <Compile Include="Services\Dependencies\IIShouldBeInTheDatalockComponent.cs" />
+    <Compile Include="Services\Dependencies\ILearner.cs" />
+    <Compile Include="Services\Dependencies\ILearnerFactory.cs" />
     <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
-    <Compile Include="Application\PayableEarning.cs" />
-    <Compile Include="Application\LearnerProcessParametersBuilder.cs" />
-    <Compile Include="Application\Providers\Provider.cs" />
-    <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
+    <Compile Include="Services\LearnerProcessParametersBuilder.cs" />
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\MatchSetForPayments.cs" />
-    <Compile Include="Domain\PriceEpisode.cs" />
-    <Compile Include="Services\ILearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockOutput.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DatalockOutputRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DatalockRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
     <Compile Include="DependencyResolution\PaymentsDueRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
@@ -108,7 +103,7 @@
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
-    <Compile Include="Services\IProviderProcessor.cs" />
+    <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\LearnerFactory.cs" />
     <Compile Include="Services\LearnerProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
@@ -116,9 +111,9 @@
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Dto\LearnerProcessResults.cs" />
     <Compile Include="Services\ProviderProcessor.cs" />
     <Compile Include="Dto\LearnerProcessParameters.cs" />
-    <Compile Include="Services\LearnerProcessResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

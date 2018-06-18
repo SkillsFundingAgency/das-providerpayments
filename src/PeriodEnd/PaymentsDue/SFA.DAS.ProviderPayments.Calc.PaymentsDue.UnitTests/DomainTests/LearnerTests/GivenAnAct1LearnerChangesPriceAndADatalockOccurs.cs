@@ -13,10 +13,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
     [TestFixture]
     public class GivenAnAct1LearnerChangesPriceAndADatalockOccurs
     {
-        private List<PriceEpisode> _datalocks;
+        private List<DatalockOutput> _datalocks;
         private List<RawEarning> _earnings;
         private List<RawEarningForMathsOrEnglish> _mathsAndEnglishEarnings;
         private List<RequiredPaymentEntity> _pastPayments;
+        private List<Commitment> _commitments;
+        private List<DatalockValidationError> _datalockValidationErrors;
 
         [SetUp]
         public void Setup()
@@ -31,21 +33,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             {
                 throw new Exception("Please include a setup attribute in your test");
             }
-            _datalocks = earningsDictionary["Datalocks"] as List<PriceEpisode>;
+            _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutput>;
             _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
             _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
             _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPaymentEntity>;
+            _commitments = earningsDictionary["Commitments"] as List<Commitment>;
+            _datalockValidationErrors = earningsDictionary["DatalockValidationErrors"] as List<DatalockValidationError>;
         }
 
         [Test]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100)]
         public void WithPassingDatalock_ThereArePaymentsForR01()
         {
-            var sut = new Learner(_earnings.Take(1), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(0));
+            var datalock = new IShouldBeInTheDatalockComponent();
+            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+                _earnings.Take(1).ToList(), _mathsAndEnglishEarnings);
+
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
             var actual = sut.CalculatePaymentsDue();
 
             var expected = _earnings.Skip(0).Take(1).TotalAmount();
-            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+            actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
         [Test]
@@ -54,11 +62,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         {
             _earnings.ForEach(x => x.TransactionType01 = 300);
 
-            var sut = new Learner(_earnings.Take(2), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(1));
+            var datalock = new IShouldBeInTheDatalockComponent();
+            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
 
             var expected = 0;
-            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+            actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
         [Test]
@@ -67,22 +79,30 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         {
             _earnings.ForEach(x => x.TransactionType01 = 50);
 
-            var sut = new Learner(_earnings.Take(2), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(1));
+            var datalock = new IShouldBeInTheDatalockComponent();
+            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
 
             var expected = 0;
-            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+            actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
         [Test]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, datalockSuccess: false)]
         public void WithFailingDatalockAndNoChangeInPrice_ThereAreNoPaymentsForR02()
         {
-            var sut = new Learner(_earnings.Take(2), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(1));
+            var datalock = new IShouldBeInTheDatalockComponent();
+            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
 
             var expected = 0;
-            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+            actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
         [Test]
@@ -91,11 +111,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         {
             _earnings.ForEach(x => x.TransactionType01 = 150);
 
-            var sut = new Learner(_earnings.Take(3), _mathsAndEnglishEarnings, _datalocks, _pastPayments.Take(1));
+            var datalock = new IShouldBeInTheDatalockComponent();
+            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+                _earnings.Take(3).ToList(), _mathsAndEnglishEarnings);
+
+            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
 
             var expected = 350;
-            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expected);
+            actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
@@ -9,10 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly IDataLockComponentFactory _dataLockComponentFactory;
         private readonly ILearnerFactory _learnerFactory;
 
-        public LearnerProcessor(
-            ILogger logger, 
-            IDataLockComponentFactory dataLockComponentFactory, 
-            ILearnerFactory learnerFactory)
+        public LearnerProcessor(ILogger logger, IDataLockComponentFactory dataLockComponentFactory, ILearnerFactory learnerFactory)
         {
             _logger = logger;
             _dataLockComponentFactory = dataLockComponentFactory;
@@ -22,19 +20,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public LearnerProcessResults Process(LearnerProcessParameters parameters)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
-            
+
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
-            
-            var priceEpisodes = dataLock.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, parameters.LastDayOfAcademicYear);
+
+            var validationResult = dataLock.ValidatePriceEpisodes(
+                parameters.Commitments,
+                parameters.DataLocks,
+                parameters.DatalockValidationErrors,
+                parameters.RawEarnings,
+                parameters.RawEarningsMathsEnglish);
 
             var learner = _learnerFactory.CreateLearner(
-                parameters.RawEarnings, 
-                parameters.RawEarningsMathsEnglish, 
-                priceEpisodes, 
+                validationResult.Earnings,
+                validationResult.PeriodsToIgnore,
                 parameters.HistoricalPayments);
-            
-            var results = learner.CalculatePaymentsDue();
 
+            var paymentsDue = learner.CalculatePaymentsDue();
+            var results = new LearnerProcessResults(paymentsDue, validationResult.NonPayableEarnings);
+            
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
             _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
             _logger.Info($"Processing finished for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");

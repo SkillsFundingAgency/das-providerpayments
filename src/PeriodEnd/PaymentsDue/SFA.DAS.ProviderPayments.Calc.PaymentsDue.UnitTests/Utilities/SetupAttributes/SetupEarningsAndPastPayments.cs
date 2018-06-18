@@ -4,31 +4,24 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes
 {
     class SetupMatchingEarningsAndPastPayments : Attribute, IApplyToContext
     {
         private readonly int _apprenticeshipContractType;
-        private readonly List<int> _datalockSuccess;
+        private readonly bool _datalockSuccess;
         private readonly decimal _onProgAmount;
 
         public SetupMatchingEarningsAndPastPayments(
-            int apprenticeshipContractType, 
+            int apprenticeshipContractType,
             bool datalockSuccess = true,
             int onProgAmount = 500)
         {
             _apprenticeshipContractType = apprenticeshipContractType;
-            if (datalockSuccess)
-            {
-                _datalockSuccess = Enumerable.Range(1, 12).ToList();
-            }
-            else
-            {
-                _datalockSuccess = new List<int>();
-            }
+            _datalockSuccess = datalockSuccess;
             _onProgAmount = onProgAmount;
         }
 
@@ -43,6 +36,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             int frameworkCode = fixture.Create<int>();
 
             var mathsAndEnglishearnings = new List<RawEarningForMathsOrEnglish>();
+
+            var accountId = fixture.Create<long>();
+            var commitmentId = fixture.Create<long>();
 
             var earnings = fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
@@ -64,47 +60,69 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                     .CreateMany(12)
                     .ToList();
 
-            var datalocks = fixture.Build<PriceEpisode>()
+            var datalocks = fixture.Build<DatalockOutput>()
+                .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.Payable, _datalockSuccess)
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
-                .With(x => x.PayablePeriods, _datalockSuccess)
+                .With(x => x.TransactionTypesFlag, 1)
+                .CreateMany(12)
+                .ToList();
+
+            var commitments = fixture.Build<Commitment>()
+                .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.AccountId, accountId)
                 .CreateMany(1)
                 .ToList();
+
+            var datalockValidationErrors = fixture.Build<DatalockValidationError>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .CreateMany(1)
+                .ToList();
+
+            if (_datalockSuccess)
+            {
+                datalockValidationErrors.Clear();
+            }
 
             for (var i = 0; i < 12; i++)
             {
                 earnings[i].TransactionType01 = _onProgAmount;
-                earnings[i].TransactionType02 = 0;
-                earnings[i].TransactionType03 = 0;
-                earnings[i].TransactionType04 = 0;
-                earnings[i].TransactionType05 = 0;
-                earnings[i].TransactionType06 = 0;
-                earnings[i].TransactionType07 = 0;
-                earnings[i].TransactionType08 = 0;
-                earnings[i].TransactionType09 = 0;
-                earnings[i].TransactionType10 = 0;
-                earnings[i].TransactionType11 = 0;
-                earnings[i].TransactionType12 = 0;
-                earnings[i].TransactionType13 = 0;
-                earnings[i].TransactionType14 = 0;
-                earnings[i].TransactionType15 = 0;
-
+                
                 earnings[i].Period = i + 1;
+
+                datalocks[i].Period = i + 1;
+
+                earnings[i].TransactionType02 = 0m;
+                earnings[i].TransactionType03 = 0m;
+                earnings[i].TransactionType04 = 0m;
+                earnings[i].TransactionType05 = 0m;
+                earnings[i].TransactionType06 = 0m;
+                earnings[i].TransactionType07 = 0m;
+                earnings[i].TransactionType08 = 0m;
+                earnings[i].TransactionType09 = 0m;
+                earnings[i].TransactionType10 = 0m;
+                earnings[i].TransactionType11 = 0m;
+                earnings[i].TransactionType12 = 0m;
+                earnings[i].TransactionType13 = 0m;
+                earnings[i].TransactionType14 = 0m;
+                earnings[i].TransactionType15 = 0m;
+
+                earnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
+                earnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
 
                 pastPayments[i].DeliveryMonth = earnings[i].DeliveryMonth;
                 pastPayments[i].DeliveryYear = earnings[i].DeliveryYear;
                 pastPayments[i].AmountDue = earnings[i].TransactionType01;
-                pastPayments[i].AccountId = datalocks[0].AccountId;
-                pastPayments[i].AccountVersionId = datalocks[0].AccountVersionId;
+                pastPayments[i].AccountId = accountId;
                 pastPayments[i].CommitmentId = datalocks[0].CommitmentId;
-                pastPayments[i].CommitmentVersionId = datalocks[0].CommitmentVersionId;
-
+                
                 pastPayments[i].AimSeqNumber = earnings[i].AimSeqNumber;
                 pastPayments[i].ApprenticeshipContractType = earnings[i].ApprenticeshipContractType;
                 pastPayments[i].FundingLineType = earnings[i].FundingLineType;
                 pastPayments[i].LearnAimRef = earnings[i].LearnAimRef;
                 pastPayments[i].SfaContributionPercentage = earnings[i].SfaContributionPercentage;
                 pastPayments[i].TransactionType = 1;
-                pastPayments[i].UseLevyBalance = datalocks[0].PayablePeriods.Contains(i);
+                pastPayments[i].UseLevyBalance = true;
 
                 pastPayments[i].Period = earnings[i].Period;
 
@@ -122,7 +140,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 {"MathsAndEnglishEarnings", mathsAndEnglishearnings},
                 {"Earnings", earnings},
                 {"PastPayments", pastPayments},
-                {"Datalocks", datalocks}
+                {"Datalocks", datalocks},
+                {"DatalockValidationErrors", datalockValidationErrors },
+                {"Commitments", commitments },
             };
 
             context.CurrentTest.Properties.Add("EarningsDictionary", earningsDictionary);

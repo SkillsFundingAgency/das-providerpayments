@@ -201,29 +201,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             }
 
             [Test]
-            public void ThenThereShouldBeRefundsForThePeriodsWithdrawnFromTheIlr()
+            public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr()
             {
                 var datalockComponent = new IShouldBeInTheDatalockComponent();
-                var datalockResult =
-                    datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, new DateTime(2018, 07, 31));
+                var datalockResult = datalockComponent.ValidatePriceEpisodes(
+                    Commitments,
+                    Datalocks,
+                    new List<DatalockValidationError>(),
+                    Earnings,
+                    MathsAndEnglishEarnings);
 
-                var sut = new Learner(Earnings, MathsAndEnglishEarnings, datalockResult, PastPayments);
+                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
                 var actual = sut.CalculatePaymentsDue();
 
-                actual.PayableEarnings.Should().HaveCount(2);
+                actual.Should().HaveCount(2);
             }
 
             [Test]
             public void ThenTheRefundAmountShouldBeCorrect()
             {
                 var datalockComponent = new IShouldBeInTheDatalockComponent();
-                var datalockResult =
-                    datalockComponent.ValidatePriceEpisodes(Commitments, Datalocks, new DateTime(2018, 07, 31));
+                var datalockResult = datalockComponent.ValidatePriceEpisodes(
+                    Commitments,
+                    Datalocks,
+                    new List<DatalockValidationError>(),
+                    Earnings,
+                    MathsAndEnglishEarnings);
 
-                var sut = new Learner(Earnings, MathsAndEnglishEarnings, datalockResult, PastPayments);
+                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
                 var actual = sut.CalculatePaymentsDue();
 
-                actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(-500);
+                actual.Sum(x => x.AmountDue).Should().Be(-500);
             }
         }
     }
