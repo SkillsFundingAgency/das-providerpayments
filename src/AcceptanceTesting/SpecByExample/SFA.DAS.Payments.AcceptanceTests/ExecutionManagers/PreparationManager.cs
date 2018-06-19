@@ -43,7 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("DELETE FROM dbo.EAS_Submission");
                 connection.Execute("DELETE FROM dbo.EAS_Submission_Values");
                 connection.Execute("DELETE FROM dbo.FileDetails");
-                connection.Execute("DELETE FROM dbo.Payment_Types");
+                //connection.Execute("DELETE FROM dbo.Payment_Types");
 
                 connection.Execute("TRUNCATE TABLE Payments.Payments");
                 connection.Execute("TRUNCATE TABLE Payments.Periods");
