@@ -101,27 +101,27 @@ Feature: Apprentice changes provider scenarios
         #    | Payment type | 08/17               | 09/17               | 10/17               | ... | 02/18           | 03/18 | 04/18               | 05/18               | 06/18               | 07/18               | 
         #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | 
         Then OBSOLETE - the earnings and payments break down for provider a is as follows:
-            | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 | 04/18 | ... | 11/18 |
-            | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 0     | 0     | ... | 0     |
-            | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     | 0     | ... | 0     |
-            | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
-            | Provider Paid by SFA           | 0     | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
-            | Payment due from Employer      | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
-            | Levy account debited           | 0     | 500   | 500   | ... | 500   | 500   | 0     | ... | 0     |
-            | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     | 0     | ... | 0     |
-            | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
-            | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     | 0     | ... | 0     |
+            | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 | 04/18 | 05/18 | ... | 08/18 |
+            | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 500   | 0     | 0     | ... | 0     |
+            | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 500   | 0     | 0     | ... | 0     |
+            | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | ... | 0     |
+            | Provider Paid by SFA           | 0     | 500   | 500   | ... | 500   | 500   | 500   | 0     | ... | 0     |
+            | Payment due from Employer      | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | ... | 0     |
+            | Levy account debited           | 0     | 500   | 500   | ... | 500   | 500   | 500   | 0     | ... | 0     |
+            | SFA Levy employer budget       | 500   | 500   | 500   | ... | 500   | 0     | 0     | 0     | ... | 0     |
+            | SFA Levy co-funding budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | ... | 0     |
+            | SFA non-Levy co-funding budget | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | ... | 0     |
         And OBSOLETE - the earnings and payments break down for provider b is as follows:
-            | Type                           | 08/17 | ... | 04/18 | 05/18 | 06/18 | 07/18 | 08/18 |
-            | Provider Earned Total          | 0     | ... | 900   | 900   | 900   | 900   | 0     |
-            | Provider Earned from SFA       | 0     | ... | 900   | 900   | 900   | 900   | 0     |
-            | Provider Earned from Employer  | 0     | ... | 0     | 0     | 0     | 0     | 0     |
-            | Provider Paid by SFA           | 0     | ... | 0     | 900   | 900   | 900   | 900   |
-            | Payment due from Employer      | 0     | ... | 0     | 0     | 0     | 0     | 0     |
-            | Levy account debited           | 0     | ... | 0     | 900   | 900   | 900   | 900   |
-            | SFA Levy employer budget       | 0     | ... | 900   | 900   | 900   | 900   | 0     |
-            | SFA Levy co-funding budget     | 0     | ... | 0     | 0     | 0     | 0     | 0     |
-            | SFA non-Levy co-funding budget | 0     | ... | 0     | 0     | 0     | 0     | 0     |
+            | Type                           | 08/17 | ... | 03/18 | 04/18 | 05/18 | 06/18 | 07/18 | 08/18 |
+            | Provider Earned Total          | 0     | ... | 0     | 900   | 900   | 900   | 900   | 0     |
+            | Provider Earned from SFA       | 0     | ... | 0     | 900   | 900   | 900   | 900   | 0     |
+            | Provider Earned from Employer  | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
+            | Provider Paid by SFA           | 0     | ... | 0     | 0     | 900   | 900   | 900   | 900   |
+            | Payment due from Employer      | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
+            | Levy account debited           | 0     | ... | 0     | 0     | 900   | 900   | 900   | 900   |
+            | SFA Levy employer budget       | 0     | ... | 0     | 900   | 900   | 900   | 900   | 0     |
+            | SFA Levy co-funding budget     | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
+            | SFA non-Levy co-funding budget | 0     | ... | 0     | 0     | 0     | 0     | 0     | 0     |
 
 
     Scenario: Apprentice changes provider but remains with the same employer, ILR changes before the new commitment is in place
