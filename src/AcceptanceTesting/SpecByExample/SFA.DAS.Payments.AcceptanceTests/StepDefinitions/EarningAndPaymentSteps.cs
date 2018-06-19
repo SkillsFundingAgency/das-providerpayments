@@ -256,7 +256,18 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     var year = int.Parse(payment.PeriodName.Substring(3, 2)) + 2000;
                     var date = new DateTime(year, month, 1);
                     var periodNumber = date.GetPeriodNumber();
-                    var periodName = $"{TestEnvironment.Variables.OpaRulebaseYear}-R" + periodNumber.ToString("00");
+                    
+                    var yearPortion = int.Parse(payment.PeriodName.Substring(3, 2));
+                    string academicYear;
+                    if (month < 8)
+                    {
+                        academicYear = $"{(yearPortion - 1)}{yearPortion}";
+                    }
+                    else
+                    {
+                        academicYear = $"{yearPortion}{yearPortion + 1}";
+                    }
+                    var periodName = $"{academicYear}-R" + periodNumber.ToString("00");
 
 
                     PaymentsManager.SavePaymentDue(requiredPaymentId, ukprn, uln, commitment, learnRefNumber, periodName,
@@ -297,10 +308,22 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             {
                 var requiredPaymentId = Guid.NewGuid().ToString();
                 var month = int.Parse(earned.PeriodName.Substring(0, 2));
-                var year = int.Parse(earned.PeriodName.Substring(3, 2)) + 2000;
+                int year = int.Parse(earned.PeriodName.Substring(3, 2)) + 2000;
+
                 var date = new DateTime(year, month, 1);
                 var periodNumber = date.GetPeriodNumber();
-                var periodName = $"{TestEnvironment.Variables.OpaRulebaseYear}-R" + periodNumber.ToString("00");
+
+                string academicYear;
+                var yearPortion = int.Parse(earned.PeriodName.Substring(3, 2));
+                if (month < 8)
+                {
+                    academicYear = $"{(yearPortion - 1)}{yearPortion}";
+                }
+                else
+                {
+                    academicYear = $"{yearPortion}{yearPortion + 1}";
+                }
+                var periodName = $"{academicYear}-R" + periodNumber.ToString("00");
 
                 if (earned.Value > 0)
                 {

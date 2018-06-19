@@ -211,7 +211,7 @@ Scenario: 780-AC01 - Non-DAS standard learner, price is changed and a negative a
         | Levy account credited          | 0     | 0     | 0     | 0     | 0     | 0     | 
         | SFA Levy employer budget       | 0     | 0     | 0     | 0     | 0     | 0     | 
         | SFA Levy co-funding budget     | 0     | 0     | 0     | 0     | 0     | 0     | 
-        | SFA non-Levy co-funding budget | 675   | 585   | 0     | 0     | 0     | 0     | 
+        | SFA non-Levy co-funding budget | 675   | 675   | 0     | 0     | 0     | 0     | 
 
 
 @das
@@ -243,7 +243,7 @@ Scenario:518-AC01 - DAS standard learner, price is changed and a negative amount
         | Refund due to employer         | 0     | 0     | 0     | 0     | 0     | 0     | 
         | Levy account debited           | 0     | 750   | 750   | 0     | 0     | 0     | 
         | Levy account credited          | 0     | 0     | 0     | 100   | 0     | 0     | 
-        | SFA Levy employer budget       | 750   | 650   | 0     | 0     | 0     | 0     | 
+        | SFA Levy employer budget       | 750   | 750   | 0     | 0     | 0     | 0     | 
         | SFA Levy co-funding budget     | 0     | 0     | 0     | 0     | 0     | 0     | 
         | SFA non-Levy co-funding budget | 0     | 0     | 0     | 0     | 0     | 0     |
 
