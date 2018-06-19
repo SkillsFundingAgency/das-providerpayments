@@ -52,7 +52,7 @@ SELECT
 	EndpointAssessorId [EndpointAssessorId]
 
 FROM PaymentsDue.RequiredPayments R
-LEFT JOIN Reference.IlrBreakdown I
+INNER JOIN Reference.IlrBreakdown I
 	ON R.Ukprn = I.Ukprn
 	AND R.LearnRefNumber = I.LearnRefNumber
 	AND R.PriceEpisodeIdentifier = I.PriceEpisodeIdentifier
