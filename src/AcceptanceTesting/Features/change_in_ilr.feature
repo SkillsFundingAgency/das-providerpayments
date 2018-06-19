@@ -344,7 +344,7 @@ Scenario:865-AC01- Levy apprentice, provider moves forward course start and adds
 # Failing because date changes and no retrospective refund is made.
 # Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
 # PaymentsDueProcessor.GetPaymentsDue method
-Scenario:865-AC02 Levy apprentice, learner moves start date forward , on prog payments and english/maths will be refunded
+Scenario:865-AC02 Levy apprentice, learner moves start date forward, on prog payments and english/maths will be refunded
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
@@ -385,41 +385,29 @@ Scenario:865-AC02 Levy apprentice, learner moves start date forward , on prog pa
 
 			
 @LearningSupportDateMovedForward
-# Failing because date changes and no retrospective refund is made.
-# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
-# PaymentsDueProcessor.GetPaymentsDue method
 Scenario:869-AC01 Levy apprentice, learner moves dates for learning support , on learning support payments will be refunded
 
 		Given The learner is programme only DAS
         And levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
 
-        And the following commitments exist:
+		And the following commitments exist:
 			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | effective from | effective to |
-			| 1             | 1          | learner a | 01/05/2017 | 01/05/2018 | 403            | 2              | 1            | 9000         | Active    | 01/05/2017     |              |
-        
-        And following learning has been recorded for previous payments:
-            | ULN       | start date | aim sequence number | aim type  | framework code | programme type | pathway code | completion status |
-            | learner a | 06/05/2017 | 1                   | programme | 403            | 2              | 1            | continuing        |
-  
-        And the following payments have been made to the provider A for learner a:
-             | Payment type                 | 05/17 | 06/17 |
-             | On-program                   | 600   | 600   |
-             | Completion                   | 0     | 0     |
-             | Balancing                    | 0     | 0     |
-             | Employer 16-18 incentive     | 0     | 0     |
-             | Provider 16-18 incentive     | 0     | 0     |
-             | Provider disadvantage uplift | 0     | 0     |
-             | Provider learning support    | 150   | 150   | 
-        
-        When an ILR file is submitted for the first time on 31/07/17 with the following data:
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            | 2              | 1            | 9000         | Active    | 01/08/2017     |              |
+              
+        When an ILR file is submitted for period R01 with the following data:
             | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | aim rate | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to |
-            | learner a | programme only DAS | 9000         | 06/05/2017 | 20/05/2018       |                 | continuing        | programme | 1                   |          | 403            | 2              | 1            | 1                     | 06/07/2017                 | 20/07/2018               |  
+            | learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   |          | 403            | 2              | 1            | 1                     | 06/08/2017                 | 20/08/2018               |  
   
+        When an ILR file is submitted for period R03 with the following data:
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type  | aim sequence number | aim rate | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to |
+            | learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme | 1                   |          | 403            | 2              | 1            | 1                     | 06/10/2017                 | 20/08/2018               |  
+  
+        #todo: confirm line "SFA Levy additional payments budget" is meant to be 0 for first 2 months
         Then the provider earnings and payments break down as follows:
-            | Type                                    | 05/17 | 06/17 | 07/17 | 08/17 | 09/17 | 10/17 |
-            | Provider Earned Total                   | 600   | 600   | 750   | 750   | 750   | 750   |
-            | Provider Earned from SFA                | 600   | 750   | 750   | 750   | 750   | 750   |
+            | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
+            | Provider Earned Total                   | 750   | 750   | 750   | 750   | 750   | 750   |
+            | Provider Earned from SFA                | 750   | 750   | 750   | 750   | 750   | 750   |
             | Provider Earned from Employer           | 0     | 0     | 0     | 0     | 0     | 0     |
             | Provider Paid by SFA                    | 0     | 750   | 750   | 750   | 750   | 750   |
             | Refund taken by SFA                     | 0     | 0     | 0     | -300  | 0     | 0     |
@@ -431,4 +419,4 @@ Scenario:869-AC01 Levy apprentice, learner moves dates for learning support , on
             | SFA Levy co-funding budget              | 0     | 0     | 0     | 0     | 0     | 0     |
             | SFA Levy additional payments budget     | 0     | 0     | 150   | 150   | 150   | 150   |
             | SFA non-Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | 0     |
-            | SFA non-Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | 0     |   
+            | SFA non-Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | 0     | 
