@@ -81,13 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
             }
-
-            // Now fix DataLock Duplicate records
-            foreach (var learner in _learnerProcessParameters.Values)
-            {
-                learner.DataLocks = learner.DataLocks.Distinct().ToList();
-            }
-
+            
             return _learnerProcessParameters.Values.ToList();
         }
 

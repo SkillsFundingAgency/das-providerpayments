@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -185,7 +184,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             MathsAndEnglishEarnings.AddRange(englishEarnings);
 
 
-            var datalockForNextYearFirstCommitment = Fixture.Build<DatalockOutput>()
+            var datalockForNextYearFirstCommitment = Fixture.Build<DatalockOutputEntity>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentOne)
                 .With(x => x.Payable, false)
@@ -220,7 +219,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
 
             datalockForNextYearFirstCommitment[4].Period = 6;
 
-            Datalocks.AddRange(datalockForNextYearFirstCommitment);
+            Datalocks.AddRange(datalockForNextYearFirstCommitment.Select(x => new DatalockOutput(x)));
         }
 
         [Test]

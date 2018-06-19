@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AutoFixture;
 using ClosedXML.Excel;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -123,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
             range = datalockSheet.RowsUsed();
             foreach (var xlRow in range.Skip(1))
             {
-                var datalock = new DatalockOutput
+                var datalock = new DatalockOutputEntity
                 {
                     PriceEpisodeIdentifier = xlRow.Cell(1).GetValue<string>(),
                     CommitmentId = xlRow.Cell(2).GetValue<long>(),
@@ -131,7 +131,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     Period = xlRow.Cell(4).GetValue<int>(),
                     Payable = xlRow.Cell(5).GetValue<int>() == 1,
                 };
-                result.DatalockOutputs.Add(datalock);
+                result.DatalockOutputs.Add(new DatalockOutput(datalock));
             }
 
             var datalockValidationErrorSheet = document.Worksheet("DatalockValidationErrors");

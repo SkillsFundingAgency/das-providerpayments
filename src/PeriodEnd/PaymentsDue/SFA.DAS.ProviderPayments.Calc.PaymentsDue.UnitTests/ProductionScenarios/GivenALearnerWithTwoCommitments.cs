@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -118,16 +117,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             PastPayments.AddRange(secondSetOfPastPayments);
 
 
-            var datalockForNextYearFirstCommitment = new List<DatalockOutput>();
-            var datalockForThisYearFirstCommitment = Fixture.Build<DatalockOutput>()
+            var datalockForNextYearFirstCommitment = new List<DatalockOutputEntity>();
+            var datalockForThisYearFirstCommitment = Fixture.Build<DatalockOutputEntity>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentOne)
                 .With(x => x.TransactionTypesFlag, 1)
                 .With(x => x.Payable, false)
                 .CreateMany(12)
                 .ToList();
-            var datalockForNextYearSecondCommitment = new List<DatalockOutput>();
-            var datalockForThisYearSecondCommitment = Fixture.Build<DatalockOutput>()
+            var datalockForNextYearSecondCommitment = new List<DatalockOutputEntity>();
+            var datalockForThisYearSecondCommitment = Fixture.Build<DatalockOutputEntity>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentTwo)
                 .With(x => x.TransactionTypesFlag, 1)
@@ -154,10 +153,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 datalockForThisYearSecondCommitment[i].Period = i + 1;
             }
 
-            Datalocks.AddRange(datalockForNextYearFirstCommitment);
-            Datalocks.AddRange(datalockForNextYearSecondCommitment);
-            Datalocks.AddRange(datalockForThisYearFirstCommitment);
-            Datalocks.AddRange(datalockForThisYearSecondCommitment);
+            Datalocks.AddRange(datalockForNextYearFirstCommitment.Select(x => new DatalockOutput(x)));
+            Datalocks.AddRange(datalockForNextYearSecondCommitment.Select(x => new DatalockOutput(x)));
+            Datalocks.AddRange(datalockForThisYearFirstCommitment.Select(x => new DatalockOutput(x)));
+            Datalocks.AddRange(datalockForThisYearSecondCommitment.Select(x => new DatalockOutput(x)));
         }
 
         [Test]

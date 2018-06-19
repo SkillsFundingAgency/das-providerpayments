@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\DatalockOutput.cs" />
     <Compile Include="Dto\DatalockValidationResult.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessParametersBuilder.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Domain\MatchSetForPayments.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
-    <Compile Include="Infrastructure\Data\Entities\DatalockOutput.cs" />
+    <Compile Include="Infrastructure\Data\Entities\DatalockOutputEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />

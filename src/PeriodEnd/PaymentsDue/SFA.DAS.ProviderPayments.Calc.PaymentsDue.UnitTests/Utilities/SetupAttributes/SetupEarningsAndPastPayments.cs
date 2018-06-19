@@ -4,6 +4,7 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -60,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                     .CreateMany(12)
                     .ToList();
 
-            var datalocks = fixture.Build<DatalockOutput>()
+            var datalocks = fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, commitmentId)
                 .With(x => x.Payable, _datalockSuccess)
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
@@ -135,12 +136,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 }
             }
 
+            var transformedDatalocks = new HashSet<DatalockOutput>(datalocks.Select(x => new DatalockOutput(x)))
+                .ToList();
             var earningsDictionary = new Dictionary<string, object>
             {
                 {"MathsAndEnglishEarnings", mathsAndEnglishearnings},
                 {"Earnings", earnings},
                 {"PastPayments", pastPayments},
-                {"Datalocks", datalocks},
+                {"Datalocks", transformedDatalocks},
                 {"DatalockValidationErrors", datalockValidationErrors },
                 {"Commitments", commitments },
             };

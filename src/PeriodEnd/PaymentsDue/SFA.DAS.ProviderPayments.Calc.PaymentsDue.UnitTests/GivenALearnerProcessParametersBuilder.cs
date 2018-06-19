@@ -132,7 +132,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllDataLocksWithLearnerRefNumberButNoUln(
             long ukprn,
             string learnRefNumber,
-            List<DatalockOutput> dataLocks,
+            List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             LearnerProcessParametersBuilder sut)
         {
@@ -162,7 +162,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            List<DatalockOutput> dataLocks,
+            List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,

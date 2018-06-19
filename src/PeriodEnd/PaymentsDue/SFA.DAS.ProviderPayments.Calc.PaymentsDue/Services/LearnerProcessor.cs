@@ -1,4 +1,7 @@
-﻿using NLog;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NLog;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
@@ -21,11 +24,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
 
+            var datalockOutput = parameters.DataLocks.Select(x => new DatalockOutput(x)).Distinct().ToList();
+            
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
 
             var validationResult = dataLock.ValidatePriceEpisodes(
                 parameters.Commitments,
-                parameters.DataLocks,
+                datalockOutput,
                 parameters.DatalockValidationErrors,
                 parameters.RawEarnings,
                 parameters.RawEarningsMathsEnglish);
