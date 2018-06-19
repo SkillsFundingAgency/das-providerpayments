@@ -44,8 +44,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingGetAllForProvider : AndThereAreSomeDataLocksForProvider
             {
-                private List<DatalockOutput> _actualDataLocks;
-                private List<DatalockOutput> _expectedDataLocks;
+                private List<DatalockOutputEntity> _actualDataLocks;
+                private List<DatalockOutputEntity> _expectedDataLocks;
 
                 [SetUp]
                 public new void Setup()

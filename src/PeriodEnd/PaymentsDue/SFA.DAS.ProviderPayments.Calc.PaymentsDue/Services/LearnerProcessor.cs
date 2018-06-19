@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System.Linq;
+using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
@@ -25,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             var validationResult = dataLock.ValidatePriceEpisodes(
                 parameters.Commitments,
-                parameters.DataLocks,
+                parameters.DataLocks.ToList(),
                 parameters.DatalockValidationErrors,
                 parameters.RawEarnings,
                 parameters.RawEarningsMathsEnglish);

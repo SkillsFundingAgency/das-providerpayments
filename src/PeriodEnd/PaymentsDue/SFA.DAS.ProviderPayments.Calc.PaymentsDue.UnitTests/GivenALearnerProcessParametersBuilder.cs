@@ -5,6 +5,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -16,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenALearnerProcessParametersBuilder
     {
-        private DateTime _firstDayOfNextAcademicYear = new DateTime(2018, 8, 1);
+        private readonly DateTime _firstDayOfNextAcademicYear = new DateTime(2018, 8, 1);
 
         private static readonly List<CollectionPeriodEntity> CollectionPeriods = new List<CollectionPeriodEntity>
         {
@@ -132,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesASingleNewLearnerForAllDataLocksWithLearnerRefNumberButNoUln(
             long ukprn,
             string learnRefNumber,
-            List<DatalockOutput> dataLocks,
+            List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             LearnerProcessParametersBuilder sut)
         {
@@ -162,7 +163,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            List<DatalockOutput> dataLocks,
+            List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
@@ -209,7 +210,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 learners[i].HistoricalPayments.Count.Should().Be(1);
                 learners[i].HistoricalPayments[0].Should().Be(historicalPayments[i]);
                 learners[i].DataLocks.Count.Should().Be(1);
-                learners[i].DataLocks[0].Should().Be(dataLocks[i]);
+                learners[i].DataLocks.Any(x=> x.Equals(new DatalockOutput(dataLocks[i]))).Should().BeTrue();
 
                 if (i == 0)
                 {
