@@ -442,7 +442,6 @@ Scenario:865-AC02 Levy apprentice, learner moves start date forward , on prog pa
             | learner a | programme only DAS | 9000         | 06/07/2017 | 20/07/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |
             | learner a | programme only DAS |              | 06/07/2017 | 20/07/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            |
   
-  
         Then the provider earnings and payments break down as follows:
             | Type                                    | 05/17 | 06/17  | 07/17  | 08/17    | 09/17  | 10/17  |
             | Provider Earned Total                   | 0     | 0      | 639.25 | 639.25   | 639.25 | 639.25 |
