@@ -108,58 +108,54 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     MarkNonZeroTransactionTypesAsPayable(earningsForPeriod);
                     continue;
                 }
-                
-                var priceEpisodes = earningsForPeriod.Select(x => x.PriceEpisodeIdentifier).Distinct().ToList();
-                if (priceEpisodes.Count > 1)
+
+                var earningsForPeriodByPriceEpisode = earningsForPeriod.ToLookup(x => x.PriceEpisodeIdentifier);
+                foreach (var periodEarningsForPriceEpisode in earningsForPeriodByPriceEpisode)
                 {
-                    MarkNonZeroTransactionTypesAsNonPayable(earningsForPeriod, $"Multiple price episodes for earnings in the same period: {period.Key}, price episode identifiers: {string.Join(", ", priceEpisodes)}");
-                    PeriodsToIgnore.Add(period.Key);
-                    continue;
-                }
+                    var priceEpisode = periodEarningsForPriceEpisode.Key;
+                    
+                    var datalocks = SuccessfulDatalocks
+                        .Where(x => x.Period == period.Key &&
+                                    x.PriceEpisodeIdentifier == priceEpisode)
+                        .ToList();
 
-                var priceEpisode = priceEpisodes.Single();
-
-                var datalocks = SuccessfulDatalocks
-                    .Where(x => x.Period == period.Key &&
-                                x.PriceEpisodeIdentifier == priceEpisode)
-                    .ToList();
-
-                if (datalocks.Count == 0)
-                {
-                    MarkNonZeroTransactionTypesAsNonPayable(earningsForPeriod, $"Could not find a matching datalock for price episode: {priceEpisode}");
-                    PeriodsToIgnore.Add(period.Key);
-                    continue;
-                }
-
-                var commitment = Commitments.OrderByDescending(x => x.CommitmentId).FirstOrDefault(x => x.CommitmentId == datalocks[0].CommitmentId);
-
-                if (datalocks.Count > 1)
-                {
-                    // There is more than one datalock, so go through all the transactiontypeflags
-                    //  and pay each in turn
-                    for (var i = 1; i < 4; i++)
+                    if (datalocks.Count == 0)
                     {
-                        var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
-                        if (datalocksForFlag.Count > 1)
-                        {
-                            MarkNonZeroTransactionTypesAsNonPayable(earningsForPeriod,
-                                $"Multiple matching datalocks for price episode: {priceEpisode}",
-                                commitment);
-                            PeriodsToIgnore.Add(period.Key);
-                            continue;
-                        }
-
-                        if (datalocksForFlag.Count == 1)
-                        {
-                            // We have 1 datalock and a commitment
-                            MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, commitment, i);
-                        }
+                        MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode, $"Could not find a matching datalock for price episode: {priceEpisode}");
+                        PeriodsToIgnore.Add(period.Key);
+                        continue;
                     }
 
-                    continue;
-                }
+                    var commitment = Commitments.OrderByDescending(x => x.CommitmentId).FirstOrDefault(x => x.CommitmentId == datalocks[0].CommitmentId);
 
-                MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, commitment, datalocks[0].TransactionTypesFlag);
+                    if (datalocks.Count > 1)
+                    {
+                        // There is more than one datalock, so go through all the transactiontypeflags
+                        //  and pay each in turn
+                        for (var i = 1; i < 4; i++)
+                        {
+                            var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
+                            if (datalocksForFlag.Count > 1)
+                            {
+                                MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
+                                    $"Multiple matching datalocks for price episode: {priceEpisode}",
+                                    commitment);
+                                PeriodsToIgnore.Add(period.Key);
+                                continue;
+                            }
+
+                            if (datalocksForFlag.Count == 1)
+                            {
+                                // We have 1 datalock and a commitment
+                                MarkNonZeroTransactionTypesAsPayable(periodEarningsForPriceEpisode, commitment, i);
+                            }
+                        }
+
+                        continue;
+                    }
+
+                    MarkNonZeroTransactionTypesAsPayable(periodEarningsForPriceEpisode, commitment, datalocks[0].TransactionTypesFlag);
+                }
             }
         }
 
@@ -176,6 +172,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             //      passed datalock, then pay maths/english earnings
             if (NonPayableEarnings.Count == 0 && PayableEarnings.Count == 0)
             {
+                if (RawEarningsMathsOrEnglish.All(x => x.ApprenticeshipContractType == 2))
+                {
+                    MarkNonZeroTransactionTypesAsPayable(RawEarningsMathsOrEnglish);
+                    return;
+                }
+
                 foreach (var rawEarning in RawEarnings)
                 {
                     // Do we have a datalock??
@@ -198,6 +200,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                         MarkNonZeroTransactionTypesAsPayable(matchingMathsAndEnglish, commitment);
                     }
                 }
+
+                return;
             }
 
             // 450 learners with no on-prog - 200 of which are from one provider
