@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 {
     public interface IDatalockRepository
     {
-        List<DatalockOutput> GetDatalockOutputForProvider(long ukprn, DateTime firstDayOfNextAcademicYear);
+        List<DatalockOutputEntity> GetDatalockOutputForProvider(long ukprn, DateTime firstDayOfNextAcademicYear);
         List<DatalockValidationError> GetValidationErrorsForProvider(long ukprn);
     }
 
@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public List<DatalockOutput> GetDatalockOutputForProvider(long ukprn, DateTime firstDayOfNextAcademicYear)
+        public List<DatalockOutputEntity> GetDatalockOutputForProvider(long ukprn, DateTime firstDayOfNextAcademicYear)
         {
             const string sql = @"
             SELECT          
@@ -39,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             WHERE PM.Ukprn = @ukprn
 			AND CONVERT(date, SUBSTRING(PM.PriceEpisodeIdentifier, LEN(PM.PriceEpisodeIdentifier) - 9, 10), 103) < @firstDayOfNextAcademicYear";
 
-            var result = Query<DatalockOutput>(sql, new { ukprn, firstDayOfNextAcademicYear })
+            var result = Query<DatalockOutputEntity>(sql, new { ukprn, firstDayOfNextAcademicYear })
                 .ToList();
 
             return result;

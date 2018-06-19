@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             DataLockPriceEpisodePeriodMatchDataHelper.Truncate();
 
-            PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches = new List<DatalockOutput>();
+            PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches = new List<DatalockOutputEntity>();
 
             base.BeforeTest(test);
         }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoFixture.NUnit3;
-using FluentAssertions;
+﻿using AutoFixture.NUnit3;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
@@ -52,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 //mockDataLockComponent
                 //    .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                //        It.IsAny<List<DatalockOutput>>(), It.IsAny<DateTime>()))
+                //        It.IsAny<List<DatalockOutputEntity>>(), It.IsAny<DateTime>()))
                 //    .Returns(priceEpisodes);
 
                 //mockLearnerFactory
@@ -86,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 //mockDataLockComponent
                 //    .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
-                //        It.IsAny<List<DatalockOutput>>(), It.IsAny<DateTime>()))
+                //        It.IsAny<List<DatalockOutputEntity>>(), It.IsAny<DateTime>()))
                 //    .Returns(priceEpisodes);
 
                 //mockLearnerFactory

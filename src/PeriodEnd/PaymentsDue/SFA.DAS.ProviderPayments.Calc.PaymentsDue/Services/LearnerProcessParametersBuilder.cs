@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -69,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn, _firstDayOfTheNextAcademicYear))
             {
-                GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(dataLock);
+                GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(new DatalockOutput(dataLock));
             }
 
             foreach (var datalockValidationError in _dataLockRepository.GetValidationErrorsForProvider(ukprn))
@@ -81,13 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
             }
-
-            // Now fix DataLock Duplicate records
-            foreach (var learner in _learnerProcessParameters.Values)
-            {
-                learner.DataLocks = learner.DataLocks.Distinct().ToList();
-            }
-
+            
             return _learnerProcessParameters.Values.ToList();
         }
 

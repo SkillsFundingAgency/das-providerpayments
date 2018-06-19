@@ -5,7 +5,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class DataLockPriceEpisodePeriodMatchDataHelper
     {
-        internal static void CreateEntity(DatalockOutput entity)
+        internal static void CreateEntity(DatalockOutputEntity entity)
         {
             const string sql = @"
             INSERT INTO [DataLock].[PriceEpisodePeriodMatch] (
