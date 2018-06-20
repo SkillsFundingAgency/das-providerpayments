@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MediatR;
 using NLog;
 
@@ -212,10 +213,14 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 return 0m;
             }
 
+            var levyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
+            amount = Math.Min(amount, levyPaidInPeriod);
+
             var totalLevyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
             var percentagePaidByLevyInPeriod = totalLevyPaidInPeriod / totalAmountPaidInPeriod;
 
             var amountToRefund = amount * percentagePaidByLevyInPeriod;
+            
             if (amountToRefund < 0)
             {
                 _mediator.Send(new ProcessPaymentCommandRequest
