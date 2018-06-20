@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 foreach (var parameter in learnerParameters)
                 {
-                    mockLearnerProcessor.Verify(builder => builder.Process(parameter), Times.Once);
+                    mockLearnerProcessor.Verify(builder => builder.Process(parameter, It.IsAny<long>()), Times.Once);
                 }
             }
 
@@ -68,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult)
                     .Callback(() => expectedNonPayableEarnings.AddRange(learnerResult.NonPayableEarnings));
 
@@ -95,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult)
                     .Callback(() => expectedPayableEarnings.AddRange(learnerResult.PayableEarnings));
 
@@ -123,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
@@ -159,7 +159,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(collectionPeriod);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
@@ -193,7 +193,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository
@@ -229,7 +229,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(collectionPeriod);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository

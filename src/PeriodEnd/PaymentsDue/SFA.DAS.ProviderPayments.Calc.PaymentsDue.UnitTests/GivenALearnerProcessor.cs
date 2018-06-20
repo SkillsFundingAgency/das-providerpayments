@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Setup(factory => factory.CreateDataLockComponent())
                     .Returns(mockDataLockComponent.Object);
                 
-                sut.Process(parameters);
+                sut.Process(parameters, 0);
 
                 //mockDataLockComponent
                 //    .Verify(dataLockComponent => dataLockComponent.ValidatePriceEpisodes(parameters.Commitments, parameters.DataLocks, It.IsAny<DateTime>()), 
