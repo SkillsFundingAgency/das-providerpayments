@@ -18,9 +18,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _learnerFactory = learnerFactory;
         }
 
-        public LearnerProcessResults Process(LearnerProcessParameters parameters)
+        public LearnerProcessResults Process(LearnerProcessParameters parameters, long ukprn)
         {
-            _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
+            _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
 
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
 
@@ -39,9 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var paymentsDue = learner.CalculatePaymentsDue();
             var results = new LearnerProcessResults(paymentsDue, validationResult.NonPayableEarnings);
             
-            _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
-            _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
-            _logger.Info($"Processing finished for Learner LearnRefNumber: [{parameters.LearnRefNumber}].");
+            _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
+            _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
+            _logger.Info($"Processing finished for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
 
             return results;
         }

@@ -44,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             foreach (var parameters in learnersParams)
             {
-                var learnerResult = _learnerProcessor.Process(parameters);
+                var learnerResult = _learnerProcessor.Process(parameters, provider.Ukprn);
 
                 allNonPayablesForProvider.AddRange(learnerResult.NonPayableEarnings);
                 allPayablesForProvider.AddRange(learnerResult.PayableEarnings);
@@ -69,8 +69,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
             _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
 
-            _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
-            _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Learner LearnRefNumber: [{provider.Ukprn}].");
+            _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Provider UKPRN: [{provider.Ukprn}].");
+            _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Provider UKPRN: [{provider.Ukprn}].");
             _logger.Info($"Processing finished for Provider UKPRN: [{provider.Ukprn}].");
         }
     }

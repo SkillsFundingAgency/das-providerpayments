@@ -16,8 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         private static readonly long CommitmentOne = Fixture.Create<long>();
         private static readonly long CommitmentTwo = Fixture.Create<long>();
         private static readonly string PriceEpisodeIdentifierForThisYear = "25-80-01/08/2017";
-        private static readonly string PriceEpisodeIdentifierForNextYear = "25-80-01/08/2018";
-
+        
         private static readonly string LearnAimRef = Fixture.Create<string>();
         private static readonly long AccountId = Fixture.Create<long>();
         private static readonly string FundingLineType = Fixture.Create<string>();
