@@ -121,7 +121,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                     if (datalocks.Count == 0)
                     {
-                        MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode, $"Could not find a matching datalock for price episode: {priceEpisode}");
+                        MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode, $"Could not find a matching datalock for price episode: {priceEpisode} in period: {period.Key}");
                         PeriodsToIgnore.Add(period.Key);
                         continue;
                     }
@@ -138,7 +138,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                             if (datalocksForFlag.Count > 1)
                             {
                                 MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
-                                    $"Multiple matching datalocks for price episode: {priceEpisode}",
+                                    $"Multiple matching datalocks for price episode: {priceEpisode} in period: {period.Key}",
                                     commitment);
                                 PeriodsToIgnore.Add(period.Key);
                                 continue;
