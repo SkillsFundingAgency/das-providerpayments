@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios.GivenAnAct1Learner
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
     [TestFixture]
-    public class AndPeriodsRemovedFromTheIlr
+    public class SheetsWithPayments
     {
         [Test]
-        public void ThenThereShouldBePaymentsForR01ToR03()
+        [TestCase("DuplicateDataLocks")]
+        public void ThenThereShouldBePaymentsForR01ToR03(string filename)
         {
-            var parameters = TestData.LoadFrom("DuplicateDatalocks");
+            var parameters = TestData.LoadFrom(filename);
 
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
@@ -29,8 +26,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
             var actual = sut.CalculatePaymentsDue();
 
-            actual.Should().HaveCount(3);
-            actual.Sum(x => x.AmountDue).Should().Be(1500);
+            actual.Should().HaveCount(parameters.Payments.Count);
+            actual.Sum(x => x.AmountDue).Should().Be(parameters.Payments.Sum(x => x.AmountDue));
         }
     }
 }

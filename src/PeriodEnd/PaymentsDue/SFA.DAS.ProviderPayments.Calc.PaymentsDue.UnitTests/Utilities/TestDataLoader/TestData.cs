@@ -130,7 +130,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     VersionId = xlRow.Cell(3).GetValue<string>(),
                     Period = xlRow.Cell(4).GetValue<int>(),
                     Payable = xlRow.Cell(5).GetValue<int>() == 1,
-                    TransactionTypesFlag = xlRow.Cell(6).GetValue<int>(),
+                    TransactionTypesFlag = xlRow.Cell(6).IsEmpty() || xlRow.Cell(6).Value.Equals("NULL") ? 1 : xlRow.Cell(6).GetValue<int>(),
                 };
                 result.DatalockOutputs.Add(new DatalockOutput(datalock));
             }
@@ -173,6 +173,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 result.Commitments.Add(commitment);
             }
 
+            IXLWorksheet worksheet;
+            if (document.TryGetWorksheet("Payments", out worksheet))
+            {
+                range = worksheet.RowsUsed();
+                foreach (var xlRow in range.Skip(1))
+                {
+                    var payment = new RequiredPaymentEntity
+                    {
+                        Period = xlRow.Cell(1).GetValue<int>(),
+                        AmountDue = xlRow.Cell(2).GetValue<decimal>(),
+                        TransactionType = xlRow.Cell(3).GetValue<int>(),
+                        PriceEpisodeIdentifier = xlRow.Cell(4).GetValue<string>(),
+                    };
+                    result.Payments.Add(payment);
+                }
+            }
+            
             result.RawEarnings.ForEach(x => x.DeliveryMonth = x.Period.DeliveryMonthFromPeriod());
             result.RawEarnings.ForEach(x => x.DeliveryYear = x.Period.DeliveryYearFromPeriod());
 
@@ -190,6 +207,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<RequiredPaymentEntity> PastPayments { get; set; } = new List<RequiredPaymentEntity>();
+        public List<RequiredPaymentEntity> Payments { get; set; } = new List<RequiredPaymentEntity>();
         public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
     }
 }

@@ -22,10 +22,11 @@ SELECT * FROM PaymentsDue.RequiredPayments
  StandardCode, SfaContributionPercentage, FundingLineType, LearnAimRef, LearningStartDate, TransactionType01, TransactionType02,
  TransactionType03,TransactionType04, TransactionType05, TransactionType06, TransactionType07, TransactionType08, 
  TransactionType09, TransactionType10, TransactionType11, TransactionType12, TransactionType13, TransactionType14, 
- TransactionType15, ApprenticeshipContractType
+ TransactionType15, ApprenticeshipContractType, LearnRefNumber
   FROM Staging.RawEarnings
 -- WHERE  UKPRN = @ukprn
 -- AND LearnRefNumber = @learnRefNumber
+ORDER BY LearnRefNumber
 
   SELECT  PriceEpisodeIdentifier, EpisodeStartDate, EpisodeEffectiveTNPStartDate, Period, ProgrammeType, FrameworkCode, PathwayCode,
  StandardCode, SfaContributionPercentage, FundingLineType, LearnAimRef, LearningStartDate, TransactionType01, TransactionType02,
@@ -50,7 +51,7 @@ JOIN [DataLock].[PriceEpisodeMatch] M
 	AND M.UkPrn = PM.UkPrn
 WHERE 1=1
 AND CONVERT(date, SUBSTRING(PM.PriceEpisodeIdentifier, LEN(PM.PriceEpisodeIdentifier) - 9, 10), 103) < '2018-08-01'
-ORDER BY UKPRN, LearnRefNumber
+ORDER BY PM.UKPRN, LearnRefNumber
 -- AND  UKPRN = @ukprn
 -- AND LearnRefNumber = @learnRefNumber
 
