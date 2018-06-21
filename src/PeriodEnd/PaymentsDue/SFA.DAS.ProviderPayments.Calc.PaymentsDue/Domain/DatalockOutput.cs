@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             Ukprn = entity.Ukprn;
             PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier;
-            LearnRefNumber = entity.LearnRefNumber;
+            LearnRefNumber = entity.LearnRefNumber??string.Empty;
             CommitmentId = entity.CommitmentId;
             Period = entity.Period;
             Payable = entity.Payable;

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
@@ -16,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
                 parameters.Commitments,
-                parameters.DatalockOutputs,
+                parameters.DatalockOutputs.ToList(),
                 parameters.DatalockValidationErrors,
                 parameters.RawEarnings,
                 parameters.RawEarningsForMathsOrEnglish);

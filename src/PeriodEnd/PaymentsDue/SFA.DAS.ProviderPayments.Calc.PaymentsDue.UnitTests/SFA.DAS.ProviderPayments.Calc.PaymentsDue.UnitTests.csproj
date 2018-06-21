@@ -123,6 +123,7 @@
     <Compile Include="ProductionScenarios\GivenALearnerWithAWithdrawnCommitment.cs" />
     <Compile Include="ProductionScenarios\GivenALearnerWithAPausedCommitment.cs" />
     <Compile Include="ProductionScenarios\GivenALearnerWithTwoCommitments.cs" />
+    <Compile Include="ProductionScenarios\GivenAnAct1Learner\WithDuplicateDatalocks.cs" />
     <Compile Include="ProductionScenarios\GivenAnAct1Learner\WithWithdrawnCommitment\AndPeriodsRemovedFromTheIlr.cs" />
     <Compile Include="ProductionScenarios\GivenAnAct1Learner\WithWithdrawnCommitment\WithMultipleWithdrawnCommitmentsAndOneActive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +139,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="ScenarioData\DuplicateDatalocks.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ScenarioData\LearnerWithMultipleWithdrawnCommitmentAndOneActiveCommitment.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

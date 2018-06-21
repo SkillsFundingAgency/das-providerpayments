@@ -130,6 +130,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     VersionId = xlRow.Cell(3).GetValue<string>(),
                     Period = xlRow.Cell(4).GetValue<int>(),
                     Payable = xlRow.Cell(5).GetValue<int>() == 1,
+                    TransactionTypesFlag = xlRow.Cell(6).GetValue<int>(),
                 };
                 result.DatalockOutputs.Add(new DatalockOutput(datalock));
             }
@@ -184,7 +185,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
 
     class TestDataParameters
     {
-        public List<DatalockOutput> DatalockOutputs { get; set; } = new List<DatalockOutput>();
+        public HashSet<DatalockOutput> DatalockOutputs { get; set; } = new HashSet<DatalockOutput>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
