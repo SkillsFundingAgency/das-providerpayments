@@ -1,6 +1,8 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
+﻿using System;
+
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class MatchSetForPayments
+    public class MatchSetForPayments : IEquatable<MatchSetForPayments>
     {
         public MatchSetForPayments(int standardCode,
             int frameworkCode,
@@ -41,28 +43,6 @@
         public int DeliveryMonth { get; }
         public long AccountId { get; }
 
-        public override bool Equals(object obj)
-        {
-            var test = obj as MatchSetForPayments;
-            if (test == null)
-            {
-                return false;
-            }
-
-            return StandardCode == test.StandardCode &&
-                   FrameworkCode == test.FrameworkCode &&
-                   ProgrammeType == test.ProgrammeType &&
-                   PathwayCode == test.PathwayCode &&
-                   ApprenticeshipContractType == test.ApprenticeshipContractType &&
-                   TransactionType == test.TransactionType &&
-                   SfaContributionPercentage == test.SfaContributionPercentage &&
-                   LearnAimRef == test.LearnAimRef &&
-                   FundingLineType == test.FundingLineType &&
-                   DeliveryMonth == test.DeliveryMonth &&
-                   DeliveryYear == test.DeliveryYear &&
-                   AccountId == test.AccountId;
-        }
-
         public override int GetHashCode()
         {
             unchecked
@@ -83,6 +63,55 @@
 
                 return hash;
             }
+        }
+
+        public static bool operator ==(MatchSetForPayments left, MatchSetForPayments right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(MatchSetForPayments left, MatchSetForPayments right)
+        {
+            return !(left == right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as MatchSetForPayments;
+            return other != null && Equals(other);
+        }
+
+        public bool Equals(MatchSetForPayments test)
+        {
+            if (ReferenceEquals(null, test)) return false;
+            if (ReferenceEquals(this, test)) return true;
+
+            return StandardCode == test.StandardCode &&
+                   FrameworkCode == test.FrameworkCode &&
+                   ProgrammeType == test.ProgrammeType &&
+                   PathwayCode == test.PathwayCode &&
+                   ApprenticeshipContractType == test.ApprenticeshipContractType &&
+                   TransactionType == test.TransactionType &&
+                   SfaContributionPercentage == test.SfaContributionPercentage &&
+                   LearnAimRef == test.LearnAimRef &&
+                   FundingLineType == test.FundingLineType &&
+                   DeliveryMonth == test.DeliveryMonth &&
+                   DeliveryYear == test.DeliveryYear &&
+                   AccountId == test.AccountId;
         }
     }
 }

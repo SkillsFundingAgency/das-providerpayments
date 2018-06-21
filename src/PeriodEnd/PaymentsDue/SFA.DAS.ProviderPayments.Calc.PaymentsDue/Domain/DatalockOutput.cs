@@ -47,9 +47,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
         public bool Equals(DatalockOutput obj)
         {
-            if (obj == null)
+            if (ReferenceEquals(obj, null))
             {
                 return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
             }
 
             return Ukprn == obj.Ukprn &&
@@ -59,6 +64,36 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                    Period == obj.Period &&
                    Payable == obj.Payable &&
                    TransactionTypesFlag == obj.TransactionTypesFlag;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as DatalockOutput;
+            return other != null && Equals(other);
+        }
+
+        public static bool operator == (DatalockOutput left, DatalockOutput right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(right, null))
+            {
+                return false;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator != (DatalockOutput left, DatalockOutput right)
+        {
+            return !(left == right);
         }
     }
 }

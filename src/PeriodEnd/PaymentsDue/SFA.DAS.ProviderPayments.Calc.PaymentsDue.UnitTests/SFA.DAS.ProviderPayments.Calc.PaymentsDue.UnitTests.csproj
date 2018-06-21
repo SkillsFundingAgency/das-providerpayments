@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="DomainTests\DatalockTests\GivenADatalockOutput.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPrice.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerWithADatalockThatFailsInR03.cs" />
     <Compile Include="DomainTests\LearnerTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
@@ -186,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="DomainTests\DatalockTests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScenarioData\Test Data Query.sql" />
