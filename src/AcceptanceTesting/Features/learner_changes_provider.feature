@@ -95,14 +95,14 @@ Feature: Apprentice changes provider scenarios
             | 2             | 1-001      | provider b | learner a | 05/03/2018 | 01/08/2018 | 4500         | active    | 05/03/2018     |              |
         When the providers submit the following ILR files:
             | Provider   | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date |
-            | provider a | learner a | 06/08/2017 | 08/08/2018       | 04/03/2018      | withdrawn         | 6000                 | 06/08/2017                          | 1500                   | 06/08/2017                            |
+            | provider a | learner a | 06/08/2017 | 08/08/2018       | 04/04/2018      | withdrawn         | 6000                 | 06/08/2017                          | 1500                   | 06/08/2017                            |
             | provider b | learner a | 05/04/2018 | 08/08/2018       |                 | continuing        | 3000                 | 05/04/2018                          | 1500                   | 05/04/2018                            |
         #Then the data lock status will be as follows:
         #    | Payment type | 08/17               | 09/17               | 10/17               | ... | 02/18           | 03/18 | 04/18               | 05/18               | 06/18               | 07/18               | 
         #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 | commitment 1 v1-001 | ... | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | commitment 2 v1-001 | 
         Then OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                           | 08/17 | 09/17 | 10/17 | ... | 02/18 | 03/18 | 04/18 | 05/18 | ... | 08/18 |
-            | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 0     | 0     | 0     | ... | 0     |
+            | Provider Earned Total          | 500   | 500   | 500   | ... | 500   | 500   | 0     | 0     | ... | 0     |
             | Provider Earned from SFA       | 500   | 500   | 500   | ... | 500   | 0     | 0     | 0     | ... | 0     |
             | Provider Earned from Employer  | 0     | 0     | 0     | ... | 0     | 0     | 0     | 0     | ... | 0     |
             | Provider Paid by SFA           | 0     | 500   | 500   | ... | 500   | 500   | 0     | 0     | ... | 0     |

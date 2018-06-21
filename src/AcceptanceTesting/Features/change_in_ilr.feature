@@ -361,8 +361,8 @@ Scenario:865-AC02 Levy apprentice, learner moves start date forward, on prog pay
 			
         And an ILR file is submitted for period R03 with the following data:
 			| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
-			| learner a | programme only DAS | 9000         | 06/10/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |
-			| learner a | programme only DAS |              | 06/10/2017 | 20/08/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            |
+			| learner a | programme only DAS | 9000         | 06/10/2017 | 20/10/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |
+			| learner a | programme only DAS |              | 06/10/2017 | 20/10/2018       |                 | continuing        | maths or english | 1                   | 471      | 403            | 2              | 1            |
   									    
         Then the provider earnings and payments break down as follows:
             | Type                                    | 08/17  | 09/17  | 10/17  | 11/17    | 12/17  | 01/18  |
@@ -375,9 +375,9 @@ Scenario:865-AC02 Levy apprentice, learner moves start date forward, on prog pay
             | Refund due to employer                  | 0      | 0      | 0      | 0        | 0      | 0      |
             | Levy account debited                    | 0      | 600    | 600    | 600      | 600    | 600    |
             | Levy account credited                   | 0      | 0      | 0      | 1200     | 0      | 0      |
-            | SFA Levy employer budget                | 600    | 600    | 600    | 600      | 600    | 600    |
+            | SFA Levy employer budget                | 0      | 0      | 600    | 600      | 600    | 600    |
             | SFA Levy co-funding budget              | 0      | 0      | 0      | 0        | 0      | 0      |
-            | SFA Levy additional payments budget     | 39.25  | 39.25  | 39.25  | 39.25    | 39.25  | 39.25  |
+            | SFA Levy additional payments budget     | 0      | 0      | 39.25  | 39.25    | 39.25  | 39.25  |
             | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0        | 0      | 0      |
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0        | 0      | 0      |   
 
