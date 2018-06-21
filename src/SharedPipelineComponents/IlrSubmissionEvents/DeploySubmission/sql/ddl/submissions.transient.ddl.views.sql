@@ -48,7 +48,8 @@ SELECT
 	ld.LearnActEndDate,
 	ld.EPAOrgID,
 	l.FamilyName,
-	l.GivenNames
+	l.GivenNames,
+	ld.CompStatus
 FROM Valid.LearningDelivery ld
 INNER JOIN Valid.Learner l
 	ON ld.LearnRefNumber = l.LearnRefNumber
@@ -134,7 +135,8 @@ SELECT
 	pe.EmpId As EmployerReferenceNumber,
 	ld.EPAOrgId,
 	ld.FamilyName,
-	ld.GivenNames
+	ld.GivenNames,
+	ld.CompStatus
 FROM Submissions.vw_Providers p
 INNER JOIN Submissions.vw_LearningDeliveries ld
 	ON p.UKPRN = ld.UKPRN

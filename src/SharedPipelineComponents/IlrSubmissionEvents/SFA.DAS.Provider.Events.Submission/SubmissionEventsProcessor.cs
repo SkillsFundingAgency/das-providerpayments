@@ -164,6 +164,11 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).FamilyName = currentIlr.FamilyName;
             }
 
+            if (currentIlr.CompStatus != lastSeenIlr?.CompStatus)
+            {
+                (@event = @event ?? new SubmissionEvent()).CompStatus = currentIlr.CompStatus;
+            }
+
             // If there have been changes then set the standard properties
             if (@event != null)
             {
@@ -187,6 +192,7 @@ namespace SFA.DAS.Provider.Events.Submission
 
                 @event.StandardCode = currentIlr.StandardCode;
                 @event.ActualStartDate = currentIlr.ActualStartDate;
+                @event.CompStatus = currentIlr.CompStatus;
             }
 
             return @event;

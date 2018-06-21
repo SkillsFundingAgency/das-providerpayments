@@ -30,5 +30,6 @@ namespace SFA.DAS.Provider.Events.Submission.Domain
         public string EPAOrgId { get; set; }
         public string GivenNames { get; set; }
         public string FamilyName { get; set; }
+        public int? CompStatus { get; set; }
     }
 }

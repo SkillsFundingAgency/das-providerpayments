@@ -50,7 +50,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 NiNumber = "AB123456A",
                 EPAOrgId = "EPA0001",
                 GivenNames = "James",
-                FamilyName = "Kirk"
+                FamilyName = "Kirk",
+                CompStatus = 1
             };
             var updatedSubmissionOriginal = new IlrDetails
             {
@@ -71,7 +72,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 NiNumber = "AB123456A",
                 EPAOrgId = "EPA0001",
                 GivenNames = "James",
-                FamilyName = "Kirk"
+                FamilyName = "Kirk",
+                CompStatus = 1
             };
             var updatedSubmissionChanged = new IlrDetails
             {
@@ -92,7 +94,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 NiNumber = "AB123456A",
                 EPAOrgId = "EPA0001",
                 GivenNames = "James",
-                FamilyName = "Kirk"
+                FamilyName = "Kirk",
+                CompStatus = 1
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
@@ -144,6 +147,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].GivenNames == ilrForFirstSubmission.GivenNames)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].FamilyName == ilrForFirstSubmission.FamilyName)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[0].CompStatus == ilrForFirstSubmission.CompStatus)));
 
             // Provider with updated submission
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].IlrFileName == updatedSubmissionChanged.IlrFileName)));
@@ -168,6 +172,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].EPAOrgId == ilrForFirstSubmission.EPAOrgId)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].GivenNames == ilrForFirstSubmission.GivenNames)));
             _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].FamilyName == ilrForFirstSubmission.FamilyName)));
+            _mediator.Verify(m => m.Send(It.Is<WriteSubmissionEventCommand>(c => c.Events[1].CompStatus == ilrForFirstSubmission.CompStatus)));
         }
 
         [Test]
@@ -192,7 +197,8 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
                 NiNumber = "AB123456A",
                 EPAOrgId = "EPA0001",
                 GivenNames = "James",
-                FamilyName = "Kirk"
+                FamilyName = "Kirk",
+                CompStatus = 1
             };
 
             _mediator.Setup(m => m.Send(It.IsAny<GetCurrentVersionsQuery>()))
@@ -236,6 +242,7 @@ namespace SFA.DAS.Provider.Events.Submission.UnitTests.SubmissionEventsProcessor
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].EPAOrgId == ilrForFirstSubmission.EPAOrgId)), Times.Once);
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].GivenNames == ilrForFirstSubmission.GivenNames)), Times.Once);
             _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].FamilyName == ilrForFirstSubmission.FamilyName)), Times.Once);
+            _mediator.Verify(m => m.Send(It.Is<WriteLastSeenIlrDetailsCommand>(c => c.LastSeenIlrs[0].CompStatus == ilrForFirstSubmission.CompStatus)), Times.Once);
         }
     }
 }

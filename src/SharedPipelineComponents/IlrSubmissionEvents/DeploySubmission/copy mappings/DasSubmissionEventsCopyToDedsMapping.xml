@@ -113,6 +113,10 @@
           <Source>FamilyName</Source>
           <Destination>FamilyName</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>CompStatus</Source>
+          <Destination>CompStatus</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
@@ -219,6 +223,10 @@
         <ColumnMapping>
           <Source>FamilyName</Source>
           <Destination>FamilyName</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CompStatus</Source>
+          <Destination>CompStatus</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

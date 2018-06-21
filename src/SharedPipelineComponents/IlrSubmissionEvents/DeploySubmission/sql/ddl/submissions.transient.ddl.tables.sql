@@ -65,7 +65,8 @@ CREATE TABLE [Submissions].[SubmissionEvents]
 	EmployerReferenceNumber int             NULL,
 	EPAOrgId				VARCHAR(7)		NULL,
 	GivenNames				VARCHAR(100)	NULL,
-	FamilyName				VARCHAR(100)	NULL
+	FamilyName				VARCHAR(100)	NULL,
+	CompStatus				int				NULL
 )
 GO
 
@@ -104,6 +105,7 @@ CREATE TABLE [Submissions].[LastSeenVersion]
 	EmployerReferenceNumber int             NULL,
 	EPAOrgId				VARCHAR(7)		NULL,
 	GivenNames				VARCHAR(100)	NULL,
-	FamilyName				VARCHAR(100)	NULL
+	FamilyName				VARCHAR(100)	NULL,
+	CompStatus				int				NULL
 )
 GO
