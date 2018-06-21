@@ -29,7 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 parameters.DataLocks.ToList(),
                 parameters.DatalockValidationErrors,
                 parameters.RawEarnings,
-                parameters.RawEarningsMathsEnglish);
+                parameters.RawEarningsMathsEnglish,
+                parameters.FirstDayOfAcademicYear);
 
             var learner = _learnerFactory.CreateLearner(
                 validationResult.Earnings,

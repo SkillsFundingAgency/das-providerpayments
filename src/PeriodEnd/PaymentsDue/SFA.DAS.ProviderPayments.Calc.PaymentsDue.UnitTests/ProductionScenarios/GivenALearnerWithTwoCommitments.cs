@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -167,7 +168,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 Datalocks,
                 new List<DatalockValidationError>(),
                 Earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(), 
+                new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
             var actual = sut.CalculatePaymentsDue();

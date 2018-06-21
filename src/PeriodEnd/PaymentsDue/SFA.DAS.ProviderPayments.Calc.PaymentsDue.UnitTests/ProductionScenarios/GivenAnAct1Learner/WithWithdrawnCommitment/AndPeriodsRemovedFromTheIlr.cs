@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
@@ -23,7 +24,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 parameters.DatalockOutputs.ToList(),
                 parameters.DatalockValidationErrors,
                 parameters.RawEarnings,
-                parameters.RawEarningsForMathsOrEnglish);
+                parameters.RawEarningsForMathsOrEnglish, 
+                new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
             var actual = sut.CalculatePaymentsDue();

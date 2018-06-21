@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FastMember;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
@@ -29,6 +31,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         private List<Commitment> Commitments { get; set; }
         private List<DatalockValidationError> DatalockValidationErrors { get; set; }
 
+        private DateTime _firstDayOfAcademicYear;
+
         // INTERNAL
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private List<DatalockOutput> SuccessfulDatalocks { get; } = new List<DatalockOutput>();
@@ -43,13 +47,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             List<DatalockOutput> datalockOutput,
             List<DatalockValidationError> datalockValidationErrors,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            DateTime firstDayOfAcademicYear)
         {
             RawEarnings = earnings;
             RawEarningsMathsOrEnglish = mathsAndEnglishEarnings;
             DatalockOutput = datalockOutput;
             Commitments = commitments;
             DatalockValidationErrors = datalockValidationErrors;
+            _firstDayOfAcademicYear = firstDayOfAcademicYear;
             
             // The reason for this method is to put each raw earning into a payable or non-payable pot
             
@@ -159,6 +165,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
+        private DateTime DateFromPriceEpisodeIdentifier(string priceEpisodeIdentifier)
+        {
+            var datePortion = priceEpisodeIdentifier.Substring(priceEpisodeIdentifier.Length - 10);
+            DateTime date;
+            if (DateTime.TryParseExact(datePortion, "dd/MM/yyyy", 
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            {
+                return date;
+            }
+            return DateTime.MinValue;
+        }
+
         /// <summary>
         /// Matches maths and english earnings to on-prog earnings
         ///     If there are on-prog earnings, if they are payable then pay
@@ -166,6 +184,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         /// </summary>
         private void MatchMathsAndEnglishToOnProg()
         {
+            // 450 learners with no on-prog - 200 of which are from one provider
+            //  not sure what to do...
+            
+
             // Special case for learner that has completed on-prog aim in one academic year 
             //  and continues maths/english aims onto next year
             // 1. If there are raw earnings for period 1 *only* and those would have 
@@ -174,7 +196,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             {
                 if (RawEarningsMathsOrEnglish.All(x => x.ApprenticeshipContractType == 2))
                 {
-                    MarkNonZeroTransactionTypesAsPayable(RawEarningsMathsOrEnglish);
+                    var firstDayOfNextAcademicYear = _firstDayOfAcademicYear.AddYears(1);
+                    foreach (var rawEarningForMathsOrEnglish in RawEarningsMathsOrEnglish)
+                    {
+                        var matchingEarning = RawEarnings.FirstOrDefault(x =>
+                            x.StandardCode == rawEarningForMathsOrEnglish.StandardCode &&
+                            x.ProgrammeType == rawEarningForMathsOrEnglish.ProgrammeType &&
+                            x.PathwayCode == rawEarningForMathsOrEnglish.PathwayCode &&
+                            x.FrameworkCode == rawEarningForMathsOrEnglish.FrameworkCode &&
+                            x.ApprenticeshipContractType == rawEarningForMathsOrEnglish.ApprenticeshipContractType &&
+                            DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) < firstDayOfNextAcademicYear &&
+                            DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) >= _firstDayOfAcademicYear
+                            );
+                        if (matchingEarning != null)
+                        {
+                            rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
+                            MarkNonZeroTransactionTypesAsPayable(
+                                new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish});
+                        }
+                    }
+                    
                     return;
                 }
 
@@ -203,10 +244,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
                 return;
             }
-
-            // 450 learners with no on-prog - 200 of which are from one provider
-            //  but if there are no earnings, then assume that the earnings are 
-            //  from last year and pay the M/E
 
             // Find a matching payment with the same course information
             foreach (var mathsOrEnglishEarning in RawEarningsMathsOrEnglish)

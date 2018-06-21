@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
         {
             var datalock = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
-                _earnings.Take(1).ToList(), _mathsAndEnglishEarnings);
+                _earnings.Take(1).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
             var actual = sut.CalculatePaymentsDue();
@@ -64,7 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             var datalock = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
@@ -81,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             var datalock = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
@@ -98,8 +98,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             var datalock = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
-
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
+              
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
             var actual = sut.CalculatePaymentsDue();
 

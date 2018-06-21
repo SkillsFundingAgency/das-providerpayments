@@ -116,6 +116,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
             {
                 instance = new LearnerProcessParameters(learnerRefNumber, uln);
+                instance.FirstDayOfAcademicYear = _firstDayOfTheNextAcademicYear.AddYears(-1);
                 _learnerProcessParameters.Add(learnerRefNumber, instance);
             }
             else

@@ -181,10 +181,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 {
                     var payment = new RequiredPaymentEntity
                     {
-                        Period = xlRow.Cell(1).GetValue<int>(),
-                        AmountDue = xlRow.Cell(2).GetValue<decimal>(),
-                        TransactionType = xlRow.Cell(3).GetValue<int>(),
-                        PriceEpisodeIdentifier = xlRow.Cell(4).GetValue<string>(),
+                        DeliveryYear = xlRow.Cell(1).GetValue<int>(),
+                        DeliveryMonth = xlRow.Cell(2).GetValue<int>(),
+                        AmountDue = xlRow.Cell(3).GetValue<decimal>(),
+                        TransactionType = xlRow.Cell(4).GetValue<int>(),
+                        PriceEpisodeIdentifier = xlRow.Cell(5).GetValue<string>(),
                     };
                     result.Payments.Add(payment);
                 }
