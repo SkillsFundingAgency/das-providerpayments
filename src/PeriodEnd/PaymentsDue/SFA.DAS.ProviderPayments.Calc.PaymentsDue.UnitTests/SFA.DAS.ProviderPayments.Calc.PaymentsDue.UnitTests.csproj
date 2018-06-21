@@ -142,6 +142,9 @@
     <None Include="ScenarioData\MathsEnglishWIthNoOnprogInYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ScenarioData\OverlappingDatalocks.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ScenarioData\SecondIncentivePaidWithOnprog.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
