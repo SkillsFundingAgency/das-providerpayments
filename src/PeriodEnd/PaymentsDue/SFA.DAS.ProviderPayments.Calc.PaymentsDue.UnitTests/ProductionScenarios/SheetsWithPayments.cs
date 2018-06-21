@@ -18,6 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         [TestCase("MathsEnglishWIthNoOnprogInYear")]
         [TestCase("OverlappingDatalocks")]
         [TestCase("Act1MathsEnglishWIthNoOnprogInYear")]
+        [TestCase("Act1MathsEnglish")]
         public void ThenThePaymentsGeneratedShouldMatchTheExpectedPayments(string filename)
         {
             var parameters = TestData.LoadFrom(filename);

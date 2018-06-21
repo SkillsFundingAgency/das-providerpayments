@@ -238,6 +238,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                                         x.PathwayCode == rawEarning.PathwayCode &&
                                         x.ApprenticeshipContractType == rawEarning.ApprenticeshipContractType)
                             .ToList();
+                        matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
                         MarkNonZeroTransactionTypesAsPayable(matchingMathsAndEnglish, commitment);
                     }
                 }
