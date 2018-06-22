@@ -6,5 +6,7 @@
         public string LearnRefNumber { get; set; }
         public long Uln { get; set; }
         public string NiNumber { get; set; }
+        public string FamilyName { get; set; }
+        public string GivenNames { get; set; }
     }
 }
