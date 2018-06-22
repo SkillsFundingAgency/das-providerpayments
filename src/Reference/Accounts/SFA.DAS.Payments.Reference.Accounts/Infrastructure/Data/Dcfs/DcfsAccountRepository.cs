@@ -5,24 +5,45 @@ namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Dcfs
 {
     public class DcfsAccountRepository : DcfsRepository, IAccountRepository
     {
-        private const string Source = "dbo.DasAccounts";
-        private const string Columns = "AccountId, "
-                                     + "AccountHashId, "
-                                     + "AccountName, "
-                                     + "Balance, "
-                                     + "VersionId,"
-                                     + "IsLevyPayer";
-        private const string SingleAccountClause = "WHERE AccountId=@AccountId";
-        private const string SelectByIdQuery = "SELECT " + Columns + " FROM " + Source + " " + SingleAccountClause;
-        private const string InsertCommand = "INSERT INTO " + Source + " (" + Columns + ") VALUES (@AccountId,@AccountHashId,@AccountName,@Balance,@VersionId,@IsLevyPayer)";
-        private const string UpdateCommand = "UPDATE " + Source + " SET "
-                                           + "AccountId=@AccountId, "
-                                           + "AccountHashId=@AccountHashId, "
-                                           + "AccountName=@AccountName, "
-                                           + "Balance=@Balance,  "
-                                           + "VersionId=@VersionId, "
-                                           + "IsLevyPayer=@IsLevyPayer "
-                                           + SingleAccountClause;
+        private const string SelectByIdQuery = @"   SELECT AccountId, 
+                                                        AccountHashId, 
+                                                        AccountName, 
+                                                        Balance, 
+                                                        VersionId,
+                                                        IsLevyPayer,
+                                                        TransferAllowance
+                                                    FROM dbo.DasAccounts
+                                                    Where AccountId = @AccountId";
+        private const string InsertCommand = @" INSERT INTO dbo.DasAccounts
+                                                (
+                                                    AccountId, 
+                                                    AccountHashId, 
+                                                    AccountName, 
+                                                    Balance, 
+                                                    VersionId,
+                                                    IsLevyPayer,
+                                                    TransferAllowance
+                                                ) 
+                                                VALUES 
+                                                (
+                                                    @AccountId,
+                                                    @AccountHashId,
+                                                    @AccountName,
+                                                    @Balance,
+                                                    @VersionId,
+                                                    @IsLevyPayer,
+                                                    @TransferAllowance
+                                                )";
+
+        private const string UpdateCommand = @" UPDATE dbo.DasAccounts 
+                                                SET AccountId = @AccountId,
+                                                    AccountHashId = @AccountHashId, 
+                                                    AccountName = @AccountName, 
+                                                    Balance = @Balance,  
+                                                    VersionId = @VersionId, 
+                                                    IsLevyPayer = @IsLevyPayer, 
+                                                    TransferAllowance = @TransferAllowance
+                                                WHERE AccountId=@AccountId";
 
 
         public DcfsAccountRepository(ContextWrapper context)

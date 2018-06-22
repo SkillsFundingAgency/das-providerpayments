@@ -18,10 +18,12 @@ AS
 SELECT
 	acc.AccountId,
 	acc.AccountName,
-	acc.Balance - ISNULL(stat.LevySpent,0) [Balance]
+	(acc.Balance - ISNULL(stat.LevySpent,0) - ISNULL(ta.Amount,0)) [Balance]
 FROM Reference.DasAccounts acc
-LEFT JOIN LevyPayments.AccountProcessStatus stat
+LEFT JOIN LevyPayments.AccountProcessStatus stat 
 	ON acc.AccountId = stat.AccountId
+LEFT JOIN TransferPayments.vw_TransferedAmountForAccount ta 
+	ON acc.AccountId = ta.SendingAccountId
 WHERE acc.AccountId IN (SELECT AccountId FROM Reference.DasCommitments)
 AND (stat.HasBeenProcessed IS NULL OR stat.HasBeenProcessed = 0)
 GO
@@ -89,16 +91,16 @@ GO
 CREATE VIEW LevyPayments.vw_PaymentsDue
 AS
 SELECT
-	Id,
-	CommitmentId,
-	LearnRefNumber,
-	AimSeqNumber,
-	Ukprn,
-	DeliveryMonth,
-	DeliveryYear,
-	TransactionType,
-	AmountDue
-FROM PaymentsDue.RequiredPayments
-WHERE  UseLevyBalance = 1 AND TransactionType IN (1,2,3)
-	And Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
-GO
+	rp.Id,
+	rp.CommitmentId,
+	rp.LearnRefNumber,
+	rp.AimSeqNumber,
+	rp.Ukprn,
+	rp.DeliveryMonth,
+	rp.DeliveryYear,
+	rp.TransactionType,
+	(rp.AmountDue - COALESCE(tp.Amount, 0.00)) AS AmountDue
+FROM PaymentsDue.RequiredPayments rp
+	LEFT JOIN TransferPayments.Payments tp ON rp.Id = tp.RequiredPaymentId
+WHERE  rp.UseLevyBalance = 1 AND rp.TransactionType IN (1,2,3) 
+	AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	

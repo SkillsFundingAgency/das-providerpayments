@@ -11,3 +11,7 @@ To run the solution locally you will need:
 * [Azure SDK 2.9 (for Visual Studio)](https://azure.microsoft.com/en-us/downloads/)
 
 You should run Visual Studio as Administrator
+
+Currently, the Resharper supported C# version is 6.0, which has been enforced within the $/src/SFA.DAS.PaymentComponents.sln.DotSettings file with the line:
+
+<s:String x:Key="/Default/CodeInspection/CSharpLanguageProject/LanguageLevel/@EntryValue">CSharp60</s:String>

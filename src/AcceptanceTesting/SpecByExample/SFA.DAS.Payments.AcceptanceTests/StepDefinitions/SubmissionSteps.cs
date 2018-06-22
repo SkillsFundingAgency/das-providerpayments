@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.TableParsers;
@@ -29,7 +26,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenAnIlrFileIsSubmitted(Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -37,7 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenAnIlrFileIsSubmittedForPeriod(string period, Table ilrDetails)
         {
             var submission = new Submission() {SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriod(period)};
-            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -45,7 +42,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenMultipleIlrFilesAreSubmitted(Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -53,7 +50,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenIlrSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             MultipleSubmissionsContext.Add(submission);
         }
 
@@ -61,7 +58,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         public void WhenIlrFirstSubmittedOnSpecificDate(string specSumissionDate, Table ilrDetails)
         {
             var submission = new Submission();
-            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails);
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
             
 
             DateTime firstSubmissionDate;

@@ -9,6 +9,7 @@ if not exist "Deploy%Component%\test-results" ( md "Deploy%Component%\test-resul
 
 if exist "SFA.DAS.Provider.Events.%Component%\bin\%BuildConfig%" (
   xcopy SFA.DAS.Provider.Events.%Component%\bin\%BuildConfig%\*.dll Deploy%Component%\component\
+  xcopy SFA.DAS.Provider.Events.%Component%\bin\%BuildConfig%\*.pdb Deploy%Component%\component\
 )
 
 xcopy ..\..\TestResult*.Events.DataLock.xml DeployDataLock\test-results\

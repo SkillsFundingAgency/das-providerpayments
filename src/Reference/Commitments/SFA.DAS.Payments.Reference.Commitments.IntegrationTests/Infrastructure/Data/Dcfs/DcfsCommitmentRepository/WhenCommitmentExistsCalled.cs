@@ -4,10 +4,6 @@ using SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data;
 using SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure.Data.Dcfs.DcfsCommitmentRepository
 {
@@ -39,14 +35,16 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
                 PaymentStatusDescription = PaymentStatus.Withdrawn.ToString(),
                 VersionId = "1",
                 EffectiveFromDate = new DateTime(2019, 9, 1),
-                LegalEntityName="Legal Entity"
+                LegalEntityName="Legal Entity",
+                TransferSendingEmployerAccountId = 123L,
+                TransferApprovalDate = DateTime.Today
             };
 
             CommitmentDataHelper.AddCommitment(_commitment.CommitmentId, _commitment.AccountId
-                   , _commitment.Uln, _commitment.Ukprn, _commitment.StartDate, _commitment.EndDate, _commitment.AgreedCost,
-                   _commitment.StandardCode, _commitment.ProgrammeType, _commitment.FrameworkCode, _commitment.PathwayCode, _commitment.Priority,
-                   _commitment.PaymentStatus, _commitment.PaymentStatusDescription,
-                   _commitment.VersionId, _commitment.EffectiveFromDate,null,_commitment.LegalEntityName);
+                , _commitment.Uln, _commitment.Ukprn, _commitment.StartDate, _commitment.EndDate, _commitment.AgreedCost,
+                _commitment.StandardCode, _commitment.ProgrammeType, _commitment.FrameworkCode, _commitment.PathwayCode, _commitment.Priority,
+                _commitment.PaymentStatus, _commitment.PaymentStatusDescription,
+                _commitment.VersionId, _commitment.EffectiveFromDate, null, _commitment.TransferSendingEmployerAccountId, _commitment.TransferApprovalDate, _commitment.LegalEntityName);
 
             _repository = new Commitments.Infrastructure.Data.Dcfs.DcfsCommitmentRepository(GlobalTestContext.Instance.TransientConnectionString);
         }

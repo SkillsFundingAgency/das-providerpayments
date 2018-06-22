@@ -22,8 +22,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                       | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total      | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -40,8 +40,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -57,7 +57,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
 	@_Minimum_Acceptance_
     Scenario: 2 DAS learners, only enough levy to cover 1
         Given the employer's levy balance is:
-            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |
+            | 10/17 | 11/17 | 12/17 | ... | 09/18 | 10/18 |
             | 0     | 500   | 500   | 500 | 500   | 1500  |
         And the following commitments exist:
             | ULN       | priority | start date | end date   | agreed price |
@@ -85,8 +85,8 @@ Feature: Provider earnings and payments where learner completes on time and is f
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | agreed price | learner type           | start date | planned end date | actual end date | completion status |
-            | 15000        | programme only non-DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | agreed price | learner type           | start date | planned end date | actual end date | completion status |
+            | learner a | 15000        | programme only non-DAS | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -102,14 +102,14 @@ Feature: Provider earnings and payments where learner completes on time and is f
 
 	Scenario: 1 DAS Learner, not enough levy to cover full payment
         Given the employer's levy balance is:
-            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |
+            | 10/17 | 11/17 | 12/17 | ... | 09/18 | 10/18 |
             | 500   | 500   | 500   | 500 | 500   | 1500  |
 		And the following commitments exist:
             | ULN       | priority | start date | end date   | agreed price |
             | learner a | 1        | 01/09/2017 | 08/09/2018 | 15000        |
         When an ILR file is submitted with the following data:
-            | learner type       | agreed price | start date | planned end date | actual end date | completion status |
-            | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
+            | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+            | learner a | programme only DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/09/2018      | completed         |
         Then the provider earnings and payments break down as follows:
             | Type                          | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 |
             | Provider Earned Total         | 1000  | 1000  | 1000  | ... | 1000  | 3000  | 0     |
@@ -152,10 +152,10 @@ Feature: Provider earnings and payments where learner completes on time and is f
 
     Scenario: 2 learners, 2 employers, 1 provider - not enough levy
         Given the employer 1 has a levy balance of:
-            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |
+            | 10/17 | 11/17 | 12/17 | ... | 09/18 | 10/18 |
             | 0     | 100   | 100   | 100 | 250   | 500   |
         And the employer 2 has a levy balance of:
-            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |
+            | 10/17 | 11/17 | 12/17 | ... | 09/18 | 10/18 |
             | 500   | 500   | 500   | 500 | 500   | 1500  |
         And the following commitments exist:
             | Employer   | ULN       | priority | agreed price | start date | end date   |
@@ -217,7 +217,7 @@ Feature: Provider earnings and payments where learner completes on time and is f
         
     Scenario: 2 learners, 1 employer, 2 providers - not enough levy
         Given the employer 1 has a levy balance of:
-            | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 |
+            | 10/17 | 11/17 | 12/17 | ... | 09/18 | 10/18 |
             | 750   | 750   | 750   | 750 | 1000  | 1000  |
         And the following commitments exist:
             | Employer   | Provider   | ULN       | priority | agreed price | start date | end date   |

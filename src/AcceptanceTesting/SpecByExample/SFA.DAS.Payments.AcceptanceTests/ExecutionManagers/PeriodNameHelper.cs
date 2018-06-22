@@ -28,7 +28,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "R14": return new DateTime(yearStartDate.Year + 1, 9, 1);
                 default: return new DateTime(yearStartDate.Year, 8, 1);
             }
-
         }
 
         public static string GetPeriodFromStringDate(string periodDate)
@@ -50,11 +49,29 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "05/18": return "R10";
                 case "06/18": return "R11";
                 case "07/18": return "R12";
-                case "09/18": return "R13";
-                case "10/18": return "R14";
+                case "08/18": return "R13";
+                case "09/18": return "R14";
                 default: return null;
             }
+        }
 
+        public static DateTime? GetDateFromStringDate(string periodDate)
+        {
+            if (string.IsNullOrEmpty(periodDate))
+                return null;
+
+            var dateParts = periodDate.Split('/');
+            if (dateParts.Length != 2)
+                return null;
+            int year;
+            if (!int.TryParse($"20{dateParts[1]}", out year))
+                return null;
+            int month;
+            if (!int.TryParse(dateParts[0], out month))
+                return null;
+            const int day = 1;
+
+            return new DateTime(year, month, day);
         }
 
         public static string GetStringDateFromPeriod(string period)
@@ -80,6 +97,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 case "R14": return "10/18";
                 default: return null;
             }
+        }
+
+        public static string GetStringDateFromLongPeriod(string longPeriod)
+        {
+            return GetStringDateFromPeriod(longPeriod.Substring(5));
         }
 
         public static int GetNumericalPeriodFromPeriod(string period)

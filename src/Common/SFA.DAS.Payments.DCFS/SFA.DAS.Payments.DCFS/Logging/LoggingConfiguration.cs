@@ -31,7 +31,7 @@ namespace SFA.DAS.Payments.DCFS.Logging
             config.LoggingRules.Add(new LoggingRule("*", GetLogLevel(logLevel), sqlServerTarget));
 
             LogManager.Configuration = config;
-            LogManager.ThrowExceptions = true;
+            LogManager.ThrowExceptions = false;
         }
 
         private static LogLevel GetLogLevel(string logLevel)

@@ -6,7 +6,7 @@ namespace IlrGenerator
     {
         public string Code { get; set; }
         public DateTime From { get; set; }
-        public DateTime To { get; set; }
+        public DateTime? To { get; set; }
         public string FamType { get; set; }
     }
 }

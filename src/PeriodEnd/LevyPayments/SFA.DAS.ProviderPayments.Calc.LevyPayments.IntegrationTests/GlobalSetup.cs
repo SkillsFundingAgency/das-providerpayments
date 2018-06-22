@@ -28,6 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
 
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
+                    RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
                     RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);
@@ -39,13 +40,19 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql", connection);
 
+                    RunSqlScript(@"PeriodEnd.Transient.Staging.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.TransferPayments.DDL.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.views.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.TransferPayments.DDL.views.sql", connection);
+
+
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
-                   
-                    
 
                 }
                 finally

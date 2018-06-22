@@ -15,6 +15,7 @@ xcopy "PeriodEnd\DeployManualAdjustments" "..\artifacts\components\ManualAdjustm
 xcopy "PeriodEnd\DeployPaymentsDue" "..\artifacts\components\PaymentsDue\" /S /Y
 xcopy "PeriodEnd\DeployPeriodEndScripts" "..\artifacts\components\PeriodEndScripts\" /S /Y
 xcopy "PeriodEnd\DeployProviderAdjustments" "..\artifacts\components\ProviderAdjustmentsCalculator\" /S /Y
+xcopy "PeriodEnd\DeployTransferPayments" "..\artifacts\components\TransferPaymentsCalculator\" /S /Y
 
 
 

@@ -33,6 +33,7 @@ CREATE TABLE [dbo].[DasAccounts](
 	[Balance] decimal(18,4) NOT NULL,
 	[VersionId] varchar(50) NOT NULL,
 	[IsLevyPayer] bit NOT NULL,
+	[TransferAllowance] decimal(15, 5) null,
 	PRIMARY KEY CLUSTERED (
 		[AccountId]
 	)

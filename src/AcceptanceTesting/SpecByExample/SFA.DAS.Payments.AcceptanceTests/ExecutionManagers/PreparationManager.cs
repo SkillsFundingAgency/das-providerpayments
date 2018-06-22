@@ -73,6 +73,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
                 connection.Execute("TRUNCATE TABLE AT.ReferenceData");
                 //connection.Execute("DELETE FROM Collection_Period_Mapping");
+
+                connection.Execute("TRUNCATE TABLE TransferPayments.AccountTransfers");
             }
         }
 
@@ -88,19 +90,20 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         {
             var watcher = new RebuildStatusWatcher();
 
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ReferenceCommitments, TestEnvironment.Variables, watcher);
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ReferenceAccounts, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.DataLockSubmission, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.DataLockPeriodEnd, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.EarningsCalculator, TestEnvironment.Variables, watcher);
-            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.PaymentsDue, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.LevyCalculator, TestEnvironment.Variables, watcher);
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.PaymentsDue, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.CoInvestedPayments, TestEnvironment.Variables, watcher);
-            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ReferenceCommitments, TestEnvironment.Variables, watcher);
-            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ReferenceAccounts, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.PeriodEndScripts, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.DataLockEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.SubmissionEvents, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ManualAdjustments, TestEnvironment.Variables, watcher);
             PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.ProviderAdjustments, TestEnvironment.Variables, watcher);
+            PrepareDatabaseForComponent(TestEnvironment.ProcessService, ComponentType.TransferPayments, TestEnvironment.Variables, watcher);
 
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {

@@ -21,13 +21,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         public int? PathwayCode { get; set; }
 
         public int ApprenticeshipContractType { get; set; }
+
         public string PriceEpisodeIdentifier { get; set; }
 
         public string PriceEpisodeFundLineType { get; set; }
         public decimal PriceEpisodeSfaContribPct { get; set; }
         public int? PriceEpisodeLevyNonPayInd { get; set; }
-
-        public DateTime PriceEpisodeEndDate { get; set; }
 
         public int TransactionType { get; set; }
         public decimal Amount { get; set; }

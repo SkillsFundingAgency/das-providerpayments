@@ -34,6 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", dedsConnection);
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", dedsConnection);
                     RunSqlScript(@"DasAccounts.Deds.DDL.sql", dedsConnection);
+                    RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
                     RunSqlScript(@"DataLock.Transient.DDL.sql", transientConnection);
@@ -44,6 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql", dedsConnection);
                     RunSqlScript(@"2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql", dedsConnection);
                     RunSqlScript(@"4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql", dedsConnection);
+                    RunSqlScript(@"6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql", dedsConnection);
 
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
@@ -76,10 +78,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
         private string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
-                      .Replace("${YearOfCollection}", "1617");
+                .Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${DAS_Commitments.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
+                .Replace("${YearOfCollection}", "1617");
         }
     }
 }

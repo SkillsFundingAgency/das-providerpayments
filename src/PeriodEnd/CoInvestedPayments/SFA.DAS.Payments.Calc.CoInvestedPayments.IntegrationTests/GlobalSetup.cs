@@ -43,6 +43,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
 
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);
+                    RunSqlScript(@"PeriodEnd.Transient.TransferPayments.DDL.tables.sql", connection);
 
                     RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.CoInvestedPayments.DDL.views.sql", connection);

@@ -15,11 +15,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
             "02 PeriodEnd.Populate.Reference.Providers.dml.sql",
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
+            "04 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql",
-            "06 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql"
-
-
         };
 
         private static readonly string[] SubmissionCopyReferenceDataScripts =
@@ -27,9 +25,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             "01 Ilr.Populate.Reference.CollectionPeriods.dml.sql",
             "02 Ilr.DataLock.Populate.Reference.DasCommitments.dml.sql",
             "03 ilr.Populate.Reference.Accounts.dml.sql"
-
         };
-
 
         internal static void Clean()
         {
@@ -127,7 +123,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         PaymentStatus,
                         PaymentStatusDescription,
                         EffectiveFromDate,
-                        EffectiveToDate
+                        EffectiveToDate,
+	                    TransferSendingEmployerAccountId,
+	                    TransferApprovalDate
                     ) VALUES (
                         @CommitmentId, 
                         @VersionId, 
@@ -145,7 +143,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         @PaymentStatus,
                         @PaymentStatusDescription,
                         @EffectiveFromDate,
-                        @EffectiveToDate
+                        @EffectiveToDate,
+	                    @TransferSendingEmployerAccountId,
+	                    @TransferApprovalDate
                     )",
                 new
                 {
@@ -165,10 +165,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                     PaymentStatusDescription = commitment.PaymentStatusDescription,
                     EffectiveFromDate = commitment.EffectiveFrom,
                     EffectiveToDate = commitment.EffectiveTo,
-                    Priority  = commitment.Priority
+                    Priority  = commitment.Priority,
+                    TransferSendingEmployerAccountId = commitment.TransferSendingEmployerAccountId,
+                    TransferApprovalDate = commitment.TransferApprovalDate
                 });
         }
-
 
         internal static void AddDasAccount(DasAccount account)
         {

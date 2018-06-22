@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SFA.DAS.Payments.AcceptanceTests.ExecutionManagers;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using TechTalk.SpecFlow;
 
@@ -16,17 +17,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException("Earnings and payments table must have at least 1 row");
             }
 
-            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments);
+            var periodNames = ParseEarningAndPaymentsHeaders(earningAndPayments, "Type");
             ParseEarningAndPaymentsRows(breakdown, earningAndPayments, periodNames);
         }
 
 
-        private static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments)
+        internal static string[] ParseEarningAndPaymentsHeaders(Table earningAndPayments, string expectedFirstColumn)
         {
             var headers = earningAndPayments.Header.ToArray();
-            if (headers[0] != "Type")
+            if (headers[0] != expectedFirstColumn)
             {
-                throw new ArgumentException("Earnings and payments table must have Type as first column");
+                throw new ArgumentException($"Earnings and payments table must have {expectedFirstColumn} as first column");
             }
 
             var periods = new string[headers.Length];
@@ -48,6 +49,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
         }
         private static void ParseEarningAndPaymentsRows(EarningsAndPaymentsBreakdown breakdown, Table earningAndPayments, string[] periodNames)
         {
+            breakdown.PeriodDates = periodNames
+                .Skip(1)
+                .Select(name => PeriodNameHelper.GetDateFromStringDate(name).GetValueOrDefault())
+                .ToList();
+
             foreach (var row in earningAndPayments.Rows)
             {
                 Match match;
@@ -71,6 +77,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseNonEmployerRow(row, periodNames, breakdown.ProviderPaidBySfa);
                 }
+                else if ((match = Regex.Match(row[0], "Provider Paid by SFA for ULN ([0-9]{1,9}$)", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseUlnRow(match.Groups[1].Value, row, periodNames, breakdown.ProviderPaidBySfaForUln);
+                }
                 else if (row[0].Equals("Payment due from Employer", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.PaymentDueFromEmployers);
@@ -83,9 +93,25 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
-                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited", RegexOptions.IgnoreCase)).Success)
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited$", RegexOptions.IgnoreCase)).Success)
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebited);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited for ULN ([0-9]{1,9})$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerUlnRow(match.Groups[1].Value, match.Groups[2].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedForUln);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited via transfer", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedViaTransfer);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited for ULN ([0-9]{1,9}) via transfer$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerUlnRow(match.Groups[1].Value, match.Groups[2].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedForUlnViaTransfer);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountCredited);
                 }
                 else if (row[0].Equals("SFA Levy employer budget", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -119,6 +145,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.RefundDueToEmployer);
                 }
+                else if ((match = Regex.Match(row[0], "Refund due to employer ([0-9]{1,})", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.RefundDueToEmployer);
+                }
                 else
                 {
                     throw new ArgumentException($"Unexpected earning and payments row type of '{row[0]}'");
@@ -141,7 +171,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"Employer id '{rowAccountId}' is not valid (Parsing row {row[0]})");
             }
 
-
             ParseRowValues(row, periodNames, contextList, (periodName, value) => new EmployerAccountPeriodValue
             {
                 EmployerAccountId = employerAccountId,
@@ -149,6 +178,45 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 Value = value
             });
         }
+
+        private static void ParseEmployerUlnRow(string rowAccountId, string rowUlnId, TableRow row, string[] periodNames, List<EmployerAccountUlnPeriodValue> contextList)
+        {
+            int employerAccountId;
+            if (!int.TryParse(rowAccountId, out employerAccountId))
+            {
+                throw new ArgumentException($"Employer id '{rowAccountId}' is not valid (Parsing row {row[0]})");
+            }
+
+            long uln;
+            if (!long.TryParse(rowUlnId, out uln))
+            {
+                throw new ArgumentException($"Uln '{rowUlnId}' is not valid (Parsing row {row[0]})");
+            }
+            ParseRowValues(row, periodNames, contextList, (periodName, value) => new EmployerAccountUlnPeriodValue
+            {
+                EmployerAccountId = employerAccountId,
+                Uln = uln,
+                PeriodName = periodName,
+                Value = value
+            });
+        }
+
+        private static void ParseUlnRow(string rowUlnId, TableRow row, string[] periodNames, List<UlnPeriodValue> contextList)
+        {
+            long uln;
+            if (!long.TryParse(rowUlnId, out uln))
+            {
+                throw new ArgumentException($"Uln '{rowUlnId}' is not valid (Parsing row {row[0]})");
+            }
+
+            ParseRowValues(row, periodNames, contextList, (periodName, value) => new UlnPeriodValue
+            {
+                Uln = uln,
+                PeriodName = periodName,
+                Value = value
+            });
+        }
+
         private static void ParseRowValues<T>(TableRow row, string[] periodNames, List<T> contextList, Func<string, decimal, T> valueCreator)
         {
             for (var i = 1; i < periodNames.Length; i++)

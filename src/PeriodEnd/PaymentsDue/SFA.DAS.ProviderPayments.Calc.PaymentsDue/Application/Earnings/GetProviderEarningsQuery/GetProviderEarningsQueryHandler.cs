@@ -82,6 +82,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
 
         private void AddEarningForPeriod(List<PeriodEarning> earnings, EarningEntity entity, string academicYear, int month, int year)
         {
+            int contractTypeCode;
+
+           
+
             earnings.Add(new PeriodEarning
             {
                 CommitmentId = entity.CommitmentId,
@@ -106,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings.GetProv
                 PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier,
                 SfaContributionPercentage = entity.PriceEpisodeSfaContribPct,
                 FundingLineType = entity.PriceEpisodeFundLineType,
-                UseLevyBalance = entity.PriceEpisodeLevyNonPayInd.HasValue && entity.PriceEpisodeLevyNonPayInd.Value == 1 ? false : true,
+                UseLevyBalance = !entity.PriceEpisodeLevyNonPayInd.HasValue || entity.PriceEpisodeLevyNonPayInd.Value != 1,
                 IsSuccess = entity.IsSuccess,
                 Payable = entity.Payable,
                 LearnAimRef = entity.LearnAimRef,

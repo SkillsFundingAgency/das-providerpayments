@@ -116,6 +116,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

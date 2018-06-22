@@ -42,6 +42,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Application.Earnings
 
         public string LearnAimRef { get; set; }
         public DateTime LearningStartDate { get; set; }
-
     }
 }

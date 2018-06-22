@@ -47,7 +47,9 @@ SELECT
     [Priority],
     [EffectiveFromDate],
     [EffectiveToDate],
-    [LegalEntityName]
+    [LegalEntityName],
+	[TransferSendingEmployerAccountId],
+	[TransferApprovalDate]
 FROM OPENQUERY(${DAS_CommitmentsReferenceData.servername}, '
 		SELECT
 			[CommitmentId],
@@ -67,7 +69,9 @@ FROM OPENQUERY(${DAS_CommitmentsReferenceData.servername}, '
 			[Priority],
 			[EffectiveFromDate],
 			[EffectiveToDate],
-			[LegalEntityName]
+			[LegalEntityName],
+			[TransferSendingEmployerAccountId],
+			[TransferApprovalDate]
 		FROM 
 			${DAS_CommitmentsReferenceData.databasename}.[dbo].[DasCommitments]'
     ) AS oq
@@ -90,7 +94,9 @@ GROUP BY
     [Priority],
     [EffectiveFromDate],
     [EffectiveToDate],
-    [LegalEntityName]
+    [LegalEntityName],
+	[TransferSendingEmployerAccountId],
+	[TransferApprovalDate]
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])

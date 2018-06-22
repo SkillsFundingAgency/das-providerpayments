@@ -107,3 +107,4 @@ SELECT
 				ELSE CONVERT(VARCHAR(10), '07/31/' +  Cast(CalendarYear as varchar) , 101) END
 				From  Reference.CollectionPeriods Where [Open] = 1)
 		 And   ndtt.TransactionType In ( 13,14,15)
+GO

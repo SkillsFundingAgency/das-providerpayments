@@ -91,7 +91,7 @@ namespace SFA.DAS.Provider.Events.Submission
             // Check for any changes in properties we care about
             if (currentIlr.StandardCode != lastSeenIlr?.StandardCode)
             {
-                (@event = @event ?? new SubmissionEvent()).StandardCode = currentIlr.StandardCode;
+                (@event = new SubmissionEvent()).StandardCode = currentIlr.StandardCode;
             }
 
             if (currentIlr.ProgrammeType != lastSeenIlr?.ProgrammeType)
@@ -139,62 +139,44 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).NiNumber = currentIlr.NiNumber;
             }
 
-            if (currentIlr.CommitmentId != lastSeenIlr?.CommitmentId)
+            // any difference in these fields should mean an event is created, but as we always set these fields there's no need to set them here
+            if (currentIlr.CommitmentId != lastSeenIlr?.CommitmentId
+                || currentIlr.EmployerReferenceNumber != lastSeenIlr?.EmployerReferenceNumber
+                || currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId
+                || currentIlr.GivenNames != lastSeenIlr?.GivenNames
+                || currentIlr.FamilyName != lastSeenIlr?.FamilyName
+                || currentIlr.CompStatus != lastSeenIlr?.CompStatus)
             {
-                (@event = @event ?? new SubmissionEvent()).CommitmentId = currentIlr.CommitmentId;
-            }
-
-            if (currentIlr.EmployerReferenceNumber != lastSeenIlr?.EmployerReferenceNumber)
-            {
-                (@event = @event ?? new SubmissionEvent()).EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
-            }
-
-            if (currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId)
-            {
-                (@event = @event ?? new SubmissionEvent()).EPAOrgId = currentIlr.EPAOrgId;
-            }
-
-            if (currentIlr.GivenNames != lastSeenIlr?.GivenNames)
-            {
-                (@event = @event ?? new SubmissionEvent()).GivenNames = currentIlr.GivenNames;
-            }
-
-            if (currentIlr.FamilyName != lastSeenIlr?.FamilyName)
-            {
-                (@event = @event ?? new SubmissionEvent()).FamilyName = currentIlr.FamilyName;
-            }
-
-            if (currentIlr.CompStatus != lastSeenIlr?.CompStatus)
-            {
-                (@event = @event ?? new SubmissionEvent()).CompStatus = currentIlr.CompStatus;
+                if (@event == null)
+                    @event = new SubmissionEvent();
             }
 
             // If there have been changes then set the standard properties
-            if (@event != null)
-            {
-                @event.IlrFileName = currentIlr.IlrFileName;
-                @event.FileDateTime = currentIlr.FileDateTime;
-                @event.SubmittedDateTime = currentIlr.SubmittedDateTime;
-                @event.ComponentVersionNumber = SubmissionEventsTask.ComponentVersion;
-                @event.Ukprn = currentIlr.Ukprn;
-                @event.Uln = currentIlr.Uln;
-                @event.LearnRefNumber = currentIlr.LearnRefNumber;
-                @event.AimSeqNumber = currentIlr.AimSeqNumber;
-                @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
-                @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
-                @event.AcademicYear = currentIlr.AcademicYear;
-                // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
-                // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
-                @event.EPAOrgId = currentIlr.EPAOrgId;
-                @event.GivenNames = currentIlr.GivenNames;
-                @event.FamilyName = currentIlr.FamilyName;
-                @event.CommitmentId = currentIlr.CommitmentId;
+            if (@event == null)
+                return null;
 
-                @event.StandardCode = currentIlr.StandardCode;
-                @event.ActualStartDate = currentIlr.ActualStartDate;
-                @event.CompStatus = currentIlr.CompStatus;
-            }
+            @event.CommitmentId = currentIlr.CommitmentId;
+            @event.IlrFileName = currentIlr.IlrFileName;
+            @event.FileDateTime = currentIlr.FileDateTime;
+            @event.SubmittedDateTime = currentIlr.SubmittedDateTime;
+            @event.ComponentVersionNumber = SubmissionEventsTask.ComponentVersion;
+            @event.Ukprn = currentIlr.Ukprn;
+            @event.Uln = currentIlr.Uln;
+            @event.LearnRefNumber = currentIlr.LearnRefNumber;
+            @event.AimSeqNumber = currentIlr.AimSeqNumber;
+            @event.PriceEpisodeIdentifier = currentIlr.PriceEpisodeIdentifier;
+            @event.EmployerReferenceNumber = currentIlr.EmployerReferenceNumber;
+            @event.AcademicYear = currentIlr.AcademicYear;
+            // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
+            // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
+            @event.EPAOrgId = currentIlr.EPAOrgId;
+            @event.GivenNames = currentIlr.GivenNames;
+            @event.FamilyName = currentIlr.FamilyName;
+            @event.CommitmentId = currentIlr.CommitmentId;
 
+            @event.StandardCode = currentIlr.StandardCode;
+            @event.ActualStartDate = currentIlr.ActualStartDate;
+            @event.CompStatus = currentIlr.CompStatus;
             return @event;
         }
     }

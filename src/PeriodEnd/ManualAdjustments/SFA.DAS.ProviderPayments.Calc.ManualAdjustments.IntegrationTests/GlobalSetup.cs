@@ -36,14 +36,13 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests
                     transientConnection.RunSqlScript(@"ExternalComponents\\Levy\\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\Levy\\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\PaymentsDue\\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql");
+                    transientConnection.RunSqlScript(@"DDL\\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql");
 
                     // Component scripts
                     dedsConnection.RunSqlScript(@"DDL\\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql");
                     dedsConnection.RunSqlScript(@"DDL\\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql");
-
                     dedsConnection.RunSqlScript(@"DDL\\PeriodEnd.Deds.ManualAdjustments.ddl.tables.sql");
-
-                    transientConnection.RunSqlScript(@"Migration Scripts\\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql");
+                    dedsConnection.RunSqlScript(@"Migration Scripts\\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql");
                 }
                 finally
                 {
