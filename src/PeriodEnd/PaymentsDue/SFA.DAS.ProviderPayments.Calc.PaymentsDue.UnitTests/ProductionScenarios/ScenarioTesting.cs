@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using Castle.Core.Logging;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
 {
     [TestFixture]
-    public class SheetsWithPayments
+    public class ScenarioTesting
     {
         [Test]
         [TestCase("DuplicateDataLocks")]
@@ -23,11 +24,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         {
             var parameters = TestData.LoadFrom(filename);
 
+            var commitmentMatcher = new DatalockValidationService(NullLogger.Instance);
+            var datalockOutput = commitmentMatcher.ProcessDatalocks(
+                parameters.DatalockOutputs,
+                parameters.DatalockValidationErrors,
+                parameters.Commitments);
+
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                parameters.Commitments,
-                parameters.DatalockOutputs.ToList(),
-                parameters.DatalockValidationErrors,
+                datalockOutput,
                 parameters.RawEarnings,
                 parameters.RawEarningsForMathsOrEnglish, 
                 new DateTime(2017, 08, 01));

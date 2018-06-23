@@ -210,7 +210,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 learners[i].HistoricalPayments.Count.Should().Be(1);
                 learners[i].HistoricalPayments[0].Should().Be(historicalPayments[i]);
                 learners[i].DataLocks.Count.Should().Be(1);
-                learners[i].DataLocks.Any(x=> x.Equals(new DatalockOutput(dataLocks[i]))).Should().BeTrue();
+                learners[i].DataLocks.Any(x=> x.Equals(dataLocks[i])).Should().BeTrue();
 
                 if (i == 0)
                 {

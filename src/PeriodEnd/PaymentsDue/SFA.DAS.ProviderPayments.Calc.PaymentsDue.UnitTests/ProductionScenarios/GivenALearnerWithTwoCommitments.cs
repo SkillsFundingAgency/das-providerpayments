@@ -6,6 +6,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
@@ -39,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             .CreateMany(9)
             .ToList();
 
-        private static readonly List<DatalockOutput> Datalocks = new List<DatalockOutput>();
+        private static readonly List<DatalockOutputEntity> Datalocks = new List<DatalockOutputEntity>();
 
         private static readonly List<Commitment> Commitments = new List<Commitment>
         {
@@ -117,7 +119,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             PastPayments.AddRange(secondSetOfPastPayments);
 
 
-            var datalockForNextYearFirstCommitment = new List<DatalockOutputEntity>();
             var datalockForThisYearFirstCommitment = Fixture.Build<DatalockOutputEntity>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentOne)
@@ -125,7 +126,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 .With(x => x.Payable, false)
                 .CreateMany(12)
                 .ToList();
-            var datalockForNextYearSecondCommitment = new List<DatalockOutputEntity>();
             var datalockForThisYearSecondCommitment = Fixture.Build<DatalockOutputEntity>()
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.CommitmentId, CommitmentTwo)
@@ -153,20 +153,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 datalockForThisYearSecondCommitment[i].Period = i + 1;
             }
 
-            Datalocks.AddRange(datalockForNextYearFirstCommitment.Select(x => new DatalockOutput(x)));
-            Datalocks.AddRange(datalockForNextYearSecondCommitment.Select(x => new DatalockOutput(x)));
-            Datalocks.AddRange(datalockForThisYearFirstCommitment.Select(x => new DatalockOutput(x)));
-            Datalocks.AddRange(datalockForThisYearSecondCommitment.Select(x => new DatalockOutput(x)));
+            Datalocks.AddRange(datalockForThisYearFirstCommitment);
+            Datalocks.AddRange(datalockForThisYearSecondCommitment);
         }
 
-        [Test]
-        public void ThereShouldBeNoRefunds()
+        [Theory, PaymentsDueAutoData]
+        public void ThereShouldBeNoRefunds(DatalockValidationService commitmentMatcher)
         {
+            var datalockOutput = commitmentMatcher.ProcessDatalocks(
+                Datalocks, new List<DatalockValidationError>(),
+                Commitments);
+
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                Commitments,
-                Datalocks,
-                new List<DatalockValidationError>(),
+                datalockOutput,
                 Earnings,
                 new List<RawEarningForMathsOrEnglish>(), 
                 new DateTime(2017, 08, 01));

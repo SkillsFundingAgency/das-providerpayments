@@ -4,9 +4,14 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class DatalockOutput : IEquatable<DatalockOutput>
+    /// <summary>
+    /// Datalock value object
+    ///     Account id is assumed to be equal if the commitment id is equal
+    ///     Account version id and commitment version id are not used in equality comparisons
+    /// </summary>
+    public class DatalockOutput : IEquatable<DatalockOutput>, IHoldCommitmentInformation
     {
-        public DatalockOutput(DatalockOutputEntity entity)
+        public DatalockOutput(DatalockOutputEntity entity, Commitment commitment)
         {
             Ukprn = entity.Ukprn;
             PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier;
@@ -15,13 +20,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             Period = entity.Period;
             Payable = entity.Payable;
             TransactionTypesFlag = entity.TransactionTypesFlag;
+            AccountId = commitment.AccountId;
+            AccountVersionId = commitment.AccountVersionId;
+            CommitmentVersionId = commitment.CommitmentVersionId;
         }
+
         public long Ukprn { get; }
         [StringLength(25)]
         public string PriceEpisodeIdentifier { get; }
         [StringLength(12)]
         public string LearnRefNumber { get; }
         public long CommitmentId { get; }
+        public string CommitmentVersionId { get; set; }
+        public long AccountId { get; set; }
+        public string AccountVersionId { get; set; }
+
         [Range(1, 12)]
         public int Period { get; }
         public bool Payable { get; }
@@ -30,6 +43,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
         public override int GetHashCode()
         {
+            // Assumptions:
+            //  If the commitment id is the same, the account id will be the same
+            //  A different version of a commitment doesn't mean that the datalock
+            //  is different
+            //  We ignore the account version id
             unchecked
             {
                 var hash = 17;

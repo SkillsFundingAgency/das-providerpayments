@@ -10,24 +10,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly ILogger _logger;
         private readonly IDataLockComponentFactory _dataLockComponentFactory;
         private readonly ILearnerFactory _learnerFactory;
+        private readonly IValidateRawDatalocks _datalockCommitmentMatcher;
 
-        public LearnerProcessor(ILogger logger, IDataLockComponentFactory dataLockComponentFactory, ILearnerFactory learnerFactory)
+        public LearnerProcessor(ILogger logger, 
+            IDataLockComponentFactory dataLockComponentFactory, 
+            ILearnerFactory learnerFactory,
+            IValidateRawDatalocks datalockCommitmentMatcher)
         {
             _logger = logger;
             _dataLockComponentFactory = dataLockComponentFactory;
             _learnerFactory = learnerFactory;
+            _datalockCommitmentMatcher = datalockCommitmentMatcher;
         }
 
         public LearnerProcessResults Process(LearnerProcessParameters parameters, long ukprn)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
 
+            var processedDatalocks = _datalockCommitmentMatcher
+                .ProcessDatalocks(parameters.DataLocks, 
+                    parameters.DatalockValidationErrors, 
+                    parameters.Commitments);
+            
             var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
 
             var validationResult = dataLock.ValidatePriceEpisodes(
-                parameters.Commitments,
-                parameters.DataLocks.ToList(),
-                parameters.DatalockValidationErrors,
+                processedDatalocks,
                 parameters.RawEarnings,
                 parameters.RawEarningsMathsEnglish,
                 parameters.FirstDayOfAcademicYear);

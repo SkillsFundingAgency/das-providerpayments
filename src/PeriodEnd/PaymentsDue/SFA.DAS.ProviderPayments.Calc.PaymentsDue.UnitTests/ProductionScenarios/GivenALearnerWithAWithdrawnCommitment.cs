@@ -6,6 +6,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
@@ -31,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
             private static readonly List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings =
                 new List<RawEarningForMathsOrEnglish>();
 
-            private static readonly List<DatalockOutput> Datalocks = new List<DatalockOutput>();
+            private static readonly List<DatalockOutputEntity> Datalocks = new List<DatalockOutputEntity>();
 
             private static readonly List<Commitment> Commitments = new List<Commitment>
             {
@@ -197,17 +199,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 PastPayments[12].LearnAimRef = LearnAimRefForEnglish;
 
 
-                Datalocks.AddRange(datalockForNextYearFirstCommitment.Select(x => new DatalockOutput(x)));
+                Datalocks.AddRange(datalockForNextYearFirstCommitment);
             }
 
-            [Test]
-            public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr()
+            [Theory, PaymentsDueAutoData]
+            public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr(
+                DatalockValidationService commitmentMatcher)
             {
+                var datalockOutput = commitmentMatcher.ProcessDatalocks(
+                    Datalocks, 
+                    new List<DatalockValidationError>(), 
+                    Commitments);
+
                 var datalockComponent = new IShouldBeInTheDatalockComponent();
                 var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                    Commitments,
-                    Datalocks,
-                    new List<DatalockValidationError>(),
+                    datalockOutput,
                     Earnings,
                     MathsAndEnglishEarnings, 
                     new DateTime(2017, 08, 01));
@@ -218,14 +224,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 actual.Should().HaveCount(2);
             }
 
-            [Test]
-            public void ThenTheRefundAmountShouldBeCorrect()
+            [Theory, PaymentsDueAutoData]
+            public void ThenTheRefundAmountShouldBeCorrect(DatalockValidationService commitmentMatcher)
             {
+                var datalockOutput = commitmentMatcher.ProcessDatalocks(Datalocks, 
+                    new List<DatalockValidationError>(),
+                    Commitments);
+
                 var datalockComponent = new IShouldBeInTheDatalockComponent();
                 var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                    Commitments,
-                    Datalocks,
-                    new List<DatalockValidationError>(),
+                    datalockOutput,
                     Earnings,
                     MathsAndEnglishEarnings,
                     new DateTime(2017, 08, 01));

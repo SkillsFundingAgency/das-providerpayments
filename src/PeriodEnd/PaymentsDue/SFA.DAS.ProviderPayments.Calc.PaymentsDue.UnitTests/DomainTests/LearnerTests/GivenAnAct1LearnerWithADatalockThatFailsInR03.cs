@@ -5,6 +5,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.LearnerTests
@@ -12,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
     [TestFixture]
     public class GivenAnAct1LearnerWithADatalockThatFailsInR03
     {
-        private List<DatalockOutput> _datalocks;
+        private List<DatalockOutputEntity> _datalocks;
         private List<RawEarning> _earnings;
         private List<RawEarningForMathsOrEnglish> _mathsAndEnglishEarnings;
         private List<RequiredPaymentEntity> _pastPayments;
@@ -32,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             {
                 throw new Exception("Please include a setup attribute in your test");
             }
-            _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutput>;
+            _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutputEntity>;
             _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
             _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
             _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPaymentEntity>;
@@ -43,12 +45,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             _datalocks.RemoveRange(2, 10);
         }
 
-        [Test]
+        [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100)]
-        public void ShouldPayR01()
+        public void ShouldPayR01(DatalockValidationService datalockValidator)
         {
+            var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+
             var datalock = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+            var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                 _earnings.Take(1).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
@@ -58,12 +62,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Test]
+        [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100)]
-        public void ShouldPayR02()
+        public void ShouldPayR02(DatalockValidationService datalockValidator)
         {
+            var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+
             var datalock = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+            var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                 _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
@@ -73,12 +79,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Test]
+        [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100)]
-        public void ShouldNotPayR03()
+        public void ShouldNotPayR03(DatalockValidationService datalockValidator)
         {
+            var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+
             var datalock = new IShouldBeInTheDatalockComponent();
-            var datalockResult = datalock.ValidatePriceEpisodes(_commitments, _datalocks, _datalockValidationErrors,
+            var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                 _earnings.Take(3).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
             var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(2).ToList());

@@ -3,7 +3,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class NonPayableEarningEntity : RequiredPaymentEntity, IFundingDue, IHoldCommitmentInformation
+    public class NonPayableEarningEntity : RequiredPaymentEntity, ICanStoreCommitmentInformation
     {
         public NonPayableEarningEntity()
         {}
@@ -29,6 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         }
 
         [StringLength(1000)]
-        public string Reason { get; set; }
+        public string PaymentFailureMessage { get; set; }
+
+        public PaymentFailureType PaymentFailureReason { get; set; }
     }
 }

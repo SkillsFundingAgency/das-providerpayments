@@ -174,8 +174,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 [Test]
                 public void ThenItSetsReason() =>
-                    _actualEntities[0].Reason
-                        .Should().Be(_expectedEntities[0].Reason);
+                    _actualEntities[0].PaymentFailureMessage
+                        .Should().Be(_expectedEntities[0].PaymentFailureMessage);
 
                 [Test]
                 public void ThenItSetsCollectionPeriodName() =>

@@ -288,8 +288,12 @@
           <Destination>LearningStartDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>Reason</Source>
-          <Destination>Reason</Destination>
+          <Source>PaymentFailureMessage</Source>
+          <Destination>PaymentFailureMessage</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PaymentFailureReason</Source>
+          <Destination>PaymentFailureReason</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
@@ -14,15 +13,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
     {
         [Theory, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForTheWithdrawnPeriod(
-            LearnerProcessParametersBuilder parametersBuilder)
+            LearnerProcessParametersBuilder parametersBuilder,
+            DatalockValidationService commitmentMatcher)
         {
             var parameters = TestData.LoadFrom("LearnerWithWithdrawnCommitmentAndRemovedPeriodsInTheIlr");
 
+            var datalockOutput = commitmentMatcher.ProcessDatalocks(
+                parameters.DatalockOutputs,
+                parameters.DatalockValidationErrors,
+                parameters.Commitments);
+
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                parameters.Commitments,
-                parameters.DatalockOutputs.ToList(),
-                parameters.DatalockValidationErrors,
+                datalockOutput,
                 parameters.RawEarnings,
                 parameters.RawEarningsForMathsOrEnglish, 
                 new DateTime(2017, 08, 01));

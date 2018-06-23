@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchSetTests
@@ -28,13 +27,50 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
         }
 
         [Theory, PaymentsDueAutoData]
-        public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqual(
-            DatalockOutputEntity seed)
+        public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqualUsingShorthand(
+            int standardCode,
+            int frameworkCode,
+            int programmeType,
+            int pathwayCode,
+            int apprenticeshipContractType,
+            int transactionType,
+            decimal sfaContributionPercentage,
+            string learnAimRef,
+            string fundingLineType,
+            int deliveryYear,
+            int deliveryMonth,
+            long? accountId)
         {
-            var object1 = new DatalockOutput(seed);
-            var object2 = new DatalockOutput(seed);
+            var object1 = new MatchSetForPayments
+            (
+                standardCode,
+                frameworkCode,
+                programmeType,
+                pathwayCode,
+                apprenticeshipContractType,
+                transactionType,
+                sfaContributionPercentage,
+                learnAimRef,
+                fundingLineType,
+                deliveryYear,
+                deliveryMonth,
+                accountId);
+            var object2 = new MatchSetForPayments
+            (
+                standardCode,
+                frameworkCode,
+                programmeType,
+                pathwayCode,
+                apprenticeshipContractType,
+                transactionType,
+                sfaContributionPercentage,
+                learnAimRef,
+                fundingLineType,
+                deliveryYear,
+                deliveryMonth,
+                accountId);
 
-            var actual = object1.Equals(object2);
+            var actual = object1 == object2;
 
             actual.Should().BeTrue();
         }

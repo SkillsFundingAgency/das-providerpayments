@@ -66,8 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DatalockOutput.cs" />
+    <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
+    <Compile Include="Domain\PaymentFailureType.cs" />
     <Compile Include="Dto\DatalockValidationResult.cs" />
+    <Compile Include="Services\DatalockValidationService.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessParametersBuilder.cs" />
+    <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Services\DatalockComponentFactory.cs" />
@@ -77,6 +81,7 @@
     <Compile Include="Services\Dependencies\ILearnerFactory.cs" />
     <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
     <Compile Include="Domain\Learner.cs" />
+    <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Services\LearnerProcessParametersBuilder.cs" />
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />

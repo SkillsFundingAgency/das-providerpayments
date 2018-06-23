@@ -6,6 +6,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenarios
@@ -26,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
         private static readonly List<RequiredPaymentEntity> PastPayments = new List<RequiredPaymentEntity>();
         private static readonly List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 
-        private static readonly List<DatalockOutput> Datalocks = new List<DatalockOutput>();
+        private static readonly List<DatalockOutputEntity> Datalocks = new List<DatalockOutputEntity>();
 
         private static readonly List<Commitment> Commitments = new List<Commitment>
         {
@@ -220,17 +222,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
 
             datalockForNextYearFirstCommitment[4].Period = 6;
 
-            Datalocks.AddRange(datalockForNextYearFirstCommitment.Select(x => new DatalockOutput(x)));
+            Datalocks.AddRange(datalockForNextYearFirstCommitment);
         }
 
-        [Test]
-        public void ThereShouldBeNoRefunds()
+        [Theory, PaymentsDueAutoData]
+        public void ThereShouldBeNoRefunds(DatalockValidationService datalockValidator)
         {
+            var datalockOutput = datalockValidator.ProcessDatalocks(
+                Datalocks,
+                new List<DatalockValidationError>(), 
+                Commitments);
+
             var datalockComponent = new IShouldBeInTheDatalockComponent();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
-                Commitments, 
-                Datalocks, 
-                new List<DatalockValidationError>(), 
+                datalockOutput, 
                 Earnings, 
                 MathsAndEnglishEarnings, 
                 new DateTime(2017, 08, 01));

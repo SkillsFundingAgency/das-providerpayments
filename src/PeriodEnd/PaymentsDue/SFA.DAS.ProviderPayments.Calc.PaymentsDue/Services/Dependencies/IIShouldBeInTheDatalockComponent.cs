@@ -9,9 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
     public interface IIShouldBeInTheDataLockComponent
     {
         DatalockValidationResult ValidatePriceEpisodes(
-            List<Commitment> commitments,
             List<DatalockOutput> datalockOutput, 
-            List<DatalockValidationError> datalockValidationErrors,
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
             DateTime firstDayOfAcademicYear);

@@ -4,7 +4,6 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -129,21 +128,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
                 if (_apprenticeshipContractType == 2)
                 {
-                    pastPayments[i].AccountId = null;
+                    pastPayments[i].AccountId = 0;
                     pastPayments[i].AccountVersionId = null;
-                    pastPayments[i].CommitmentId = null;
+                    pastPayments[i].CommitmentId = 0;
                     pastPayments[i].CommitmentVersionId = null;
                 }
             }
 
-            var transformedDatalocks = new HashSet<DatalockOutput>(datalocks.Select(x => new DatalockOutput(x)))
-                .ToList();
             var earningsDictionary = new Dictionary<string, object>
             {
                 {"MathsAndEnglishEarnings", mathsAndEnglishearnings},
                 {"Earnings", earnings},
                 {"PastPayments", pastPayments},
-                {"Datalocks", transformedDatalocks},
+                {"Datalocks", datalocks},
                 {"DatalockValidationErrors", datalockValidationErrors },
                 {"Commitments", commitments },
             };
