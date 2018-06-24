@@ -45,7 +45,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IIDetermineWhichEarningsShouldBePaid>().Use<IDetermineWhichEarningsShouldBePaid>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
-            For<ILearnerFactory>().Use<LearnerFactory>();
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using FastMember;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
@@ -23,36 +24,64 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         //  If a learner is ACT2 only, pay everything
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
+        private readonly DateTime _firstDayOfThisAcademicYear;
+        private readonly DateTime _firstDayOfNextAcademicYear;
+
+        public IDetermineWhichEarningsShouldBePaid(ICollectionPeriodRepository collectionPeriodRepository)
+        {
+            var currentCollectionPeriodAcademicYear = collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
+            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
+            _firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
+            _firstDayOfThisAcademicYear = _firstDayOfNextAcademicYear.AddYears(-1);
+        }
 
         // INPUT
         List<RawEarning> RawEarnings { get; set; }
         List<RawEarningForMathsOrEnglish> RawEarningsMathsOrEnglish { get; set; }
         List<DatalockOutput> DatalockOutput { get; set; }
-        DateTime _firstDayOfAcademicYear;
-
+        
         // OUTPUT
         private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private HashSet<int> PeriodsToIgnore { get; } = new HashSet<int>();
         private List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
 
 
-        public DatalockValidationResult ValidatePriceEpisodes(
+        public EarningValidationResult DeterminePayableEarnings(
             List<DatalockOutput> datalockOutput,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
-            DateTime firstDayOfAcademicYear)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
         {
-            RawEarnings = earnings;
+            // Exclude any earnings or datalocks that fall outside this academic year
+            RawEarnings = earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
+            DatalockOutput = datalockOutput.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
+
             RawEarningsMathsOrEnglish = mathsAndEnglishEarnings;
-            DatalockOutput = datalockOutput;
-            _firstDayOfAcademicYear = firstDayOfAcademicYear;
 
             // The reason for this method is to put each raw earning into a payable or non-payable pot
 
             ValidateEarnings();
             MatchMathsAndEnglishToOnProg();
 
-            return new DatalockValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
+            return new EarningValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
+        }
+
+        private DateTime DateFromPriceEpisodeIdentifier(string priceEpisodeIdentifier)
+        {
+            var datePortion = priceEpisodeIdentifier.Substring(priceEpisodeIdentifier.Length - 10);
+            DateTime date;
+            if (DateTime.TryParseExact(datePortion, "dd/MM/yyyy",
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            {
+                return date;
+            }
+            return DateTime.MinValue;
+        }
+
+        private bool PriceEpisodeFallsWithinAcademicYear(string priceEpisodeIdentifier)
+        {
+            var priceEpisodeStartDate = DateFromPriceEpisodeIdentifier(priceEpisodeIdentifier);
+            return priceEpisodeStartDate >= _firstDayOfThisAcademicYear &&
+                   priceEpisodeStartDate < _firstDayOfNextAcademicYear;
         }
 
         private void ValidateEarnings()
@@ -129,18 +158,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        private DateTime DateFromPriceEpisodeIdentifier(string priceEpisodeIdentifier)
-        {
-            var datePortion = priceEpisodeIdentifier.Substring(priceEpisodeIdentifier.Length - 10);
-            DateTime date;
-            if (DateTime.TryParseExact(datePortion, "dd/MM/yyyy",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
-            {
-                return date;
-            }
-            return DateTime.MinValue;
-        }
-
         /// <summary>
         /// Matches maths and english earnings to on-prog earnings
         ///     If there are on-prog earnings, if they are payable then pay
@@ -160,14 +177,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             {
                 if (RawEarningsMathsOrEnglish.All(x => x.ApprenticeshipContractType == 2))
                 {
-                    var firstDayOfNextAcademicYear = _firstDayOfAcademicYear.AddYears(1);
                     foreach (var rawEarningForMathsOrEnglish in RawEarningsMathsOrEnglish)
                     {
                         var matchingEarning = RawEarnings.FirstOrDefault(x =>
-                            x.HasMatchingCourseInformationWith(rawEarningForMathsOrEnglish) &&
-                            DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) < firstDayOfNextAcademicYear &&
-                            DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) >= _firstDayOfAcademicYear
-                            );
+                            x.HasMatchingCourseInformationWith(rawEarningForMathsOrEnglish));
                         if (matchingEarning != null)
                         {
                             rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
@@ -279,6 +292,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         }
 
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
+
         private void AddFundingDue(
             RawEarning rawEarnings,
             IHoldCommitmentInformation commitmentInformation = null,

@@ -8,29 +8,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class PaymentsDueCalculationService : ICalculatePaymentsDue
     {
-        public PaymentsDueCalculationService(
-            List<FundingDue> earnings,
-            List<int> periodsToIgnore,
-            List<RequiredPaymentEntity> pastPayments)
-        {
-            PastPayments = pastPayments;
-            Earnings = earnings;
-            PeriodsToIgnore = periodsToIgnore;
-        }
-
+        
         // Input
-        public IReadOnlyList<FundingDue> Earnings { get; }
-        public IReadOnlyList<int> PeriodsToIgnore { get; }
-        public IReadOnlyList<RequiredPaymentEntity> PastPayments { get; }
-
+        private IReadOnlyList<int> PeriodsToIgnore { get; set; }
+        
         // Output
         public List<RequiredPaymentEntity> RequiredPayments { get; } = new List<RequiredPaymentEntity>();
         
-        public List<RequiredPaymentEntity> Calculate()
+        public List<RequiredPaymentEntity> Calculate(List<FundingDue> earnings,
+            List<int> periodsToIgnore,
+            List<RequiredPaymentEntity> pastPayments)
         {
+            PeriodsToIgnore = periodsToIgnore;
+
             var processedGroups = new HashSet<PaymentGroup>();
 
-            var groupedEarnings = Earnings.GroupBy(x => new PaymentGroup
+            var groupedEarnings = earnings.GroupBy(x => new PaymentGroup
                 (
                     x.StandardCode,
                     x.FrameworkCode,
@@ -46,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     x.AccountId)
             ).ToDictionary(x => x.Key, x => x.ToList());
 
-            var groupedPastPayments = PastPayments.GroupBy(x => new PaymentGroup
+            var groupedPastPayments = pastPayments.GroupBy(x => new PaymentGroup
                 (
                     x.StandardCode,
                     x.FrameworkCode,
@@ -71,20 +64,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
-                var earnings = groupedEarnings[key];
-                var pastPayments = new List<RequiredPaymentEntity>();
+                var earningsForGroup = groupedEarnings[key];
+                var pastPaymentsForGroup = new List<RequiredPaymentEntity>();
 
                 if (groupedPastPayments.ContainsKey(key))
                 {
-                    pastPayments = groupedPastPayments[key];
+                    pastPaymentsForGroup = groupedPastPayments[key];
                 }
 
-                var payment = earnings.Sum(x => x.AmountDue) -
-                              pastPayments.Sum(x => x.AmountDue);
+                var payment = earningsForGroup.Sum(x => x.AmountDue) -
+                              pastPaymentsForGroup.Sum(x => x.AmountDue);
 
                 if (payment != 0)
                 {
-                    AddRequiredPayment(earnings.First(), payment);
+                    AddRequiredPayment(earningsForGroup.First(), payment);
                 }
             }
 
@@ -102,13 +95,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
                 
-                var pastPayments = groupedPastPayments[key];
+                var pastPaymentsForGroup = groupedPastPayments[key];
 
-                var payment = -pastPayments.Sum(x => x.AmountDue);
+                var payment = -pastPaymentsForGroup.Sum(x => x.AmountDue);
 
                 if (payment != 0)
                 {
-                    AddRequiredPayment(pastPayments.First(), payment);
+                    AddRequiredPayment(pastPaymentsForGroup.First(), payment);
                 }
             }
 

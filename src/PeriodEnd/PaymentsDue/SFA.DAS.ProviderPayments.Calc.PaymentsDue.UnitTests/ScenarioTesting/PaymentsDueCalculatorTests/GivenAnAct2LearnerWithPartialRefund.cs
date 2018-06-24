@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.NUnit3;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.LearnerTests
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.PaymentsDueCalculatorTests
 {
     [TestFixture]
     public class GivenAnAct2LearnerWithPartialRefund
@@ -49,16 +52,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             [Theory, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
-            public void ThereArePaymentsForR01Of500(DatalockValidationService datalockValidator)
+            public void ThereArePaymentsForR01Of500(
+                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+                IDetermineWhichEarningsShouldBePaid datalock,
+                PaymentsDueCalculationService sut,
+                DatalockValidationService datalockValidator)
             {
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IDetermineWhichEarningsShouldBePaid();
-                var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
-                    _earnings.Take(1).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
+                collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
+                    .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
-                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
-                var actual = sut.Calculate();
+                var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
+                    _earnings.Take(1).ToList(), _mathsAndEnglishEarnings);
+
+                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
 
                 var expected = 500;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -66,16 +74,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             [Theory, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
-            public void ThereArePaymentsForR02Of500(DatalockValidationService datalockValidator)
+            public void ThereArePaymentsForR02Of500(
+                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+                IDetermineWhichEarningsShouldBePaid datalock,
+                PaymentsDueCalculationService sut,
+                DatalockValidationService datalockValidator)
             {
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IDetermineWhichEarningsShouldBePaid();
-                var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
-                    _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
+                collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
+                    .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
-                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
-                var actual = sut.Calculate();
+                var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
+                    _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
+
+                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
 
                 var expected = 500;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -83,7 +96,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             [Theory, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
-            public void WithAPriceIncreaseTo750_ThereAreCorrectPaymentsForR03(DatalockValidationService datalockValidator)
+            public void WithAPriceIncreaseTo750_ThereAreCorrectPaymentsForR03(
+                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+                IDetermineWhichEarningsShouldBePaid datalock,
+                PaymentsDueCalculationService sut,
+                DatalockValidationService datalockValidator)
             {
                 _earnings[0].TransactionType01 = 750;
                 _earnings[1].TransactionType01 = 750;
@@ -91,12 +108,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IDetermineWhichEarningsShouldBePaid();
-                var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
-                    _earnings.Take(3).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
+                collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
+                    .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
-                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(2).ToList());
-                var actual = sut.Calculate();
+                var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
+                    _earnings.Take(3).ToList(), _mathsAndEnglishEarnings);
+
+                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(2).ToList());
 
                 var expected = 1250;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -109,7 +127,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
             [Theory, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500)]
-            public void ThereArePaymentsForR04Of750(DatalockValidationService datalockValidator)
+            public void ThereArePaymentsForR04Of750(
+                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+                IDetermineWhichEarningsShouldBePaid datalock,
+                PaymentsDueCalculationService sut,
+                DatalockValidationService datalockValidator)
             {
                 _earnings[0].TransactionType01 = 750;
                 _earnings[1].TransactionType01 = 750;
@@ -127,12 +149,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IDetermineWhichEarningsShouldBePaid();
-                var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
-                    _earnings.Take(4).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
+                collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
+                    .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
-                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(5).ToList());
-                var actual = sut.Calculate();
+                var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
+                    _earnings.Take(4).ToList(), _mathsAndEnglishEarnings);
+
+                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(5).ToList());
 
                 var expected = 750;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);

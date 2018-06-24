@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
@@ -17,10 +16,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
-        private Dictionary<string, LearnerProcessParameters> _learnerProcessParameters;
+        private Dictionary<string, LearnerData> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
-        private DateTime _firstDayOfTheNextAcademicYear;
-
+       
         public SortProviderDataIntoLearnerData(
             IRawEarningsRepository rawEarningsRepository,
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
@@ -37,16 +35,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _collectionPeriodRepository = collectionPeriodRepository;
         }
 
-        public List<LearnerProcessParameters> Sort(long ukprn)
+        public List<LearnerData> Sort(long ukprn)
         {
             ResetLearnerResultsList();
-            SetFirstDayOfAcademicYear();
-
+            
             var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
             var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
-
-            foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn, _firstDayOfTheNextAcademicYear))
+            
+            foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
             {
                 rawEarning.DeliveryMonth = periodToMonthMapper[rawEarning.Period];
                 rawEarning.DeliveryYear = periodToYearMapper[rawEarning.Period];
@@ -67,7 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
             }
 
-            foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn, _firstDayOfTheNextAcademicYear))
+            foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn))
             {
                 GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(dataLock);
             }
@@ -81,24 +78,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
             }
-            
-            return _learnerProcessParameters.Values.ToList();
-        }
 
-        private void SetFirstDayOfAcademicYear()
-        {
-            var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
-            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
-            _firstDayOfTheNextAcademicYear = new DateTime(startingYear, 8, 1);
+            return _learnerProcessParameters.Values.ToList();
         }
 
         private void ResetLearnerResultsList()
         {
-            _learnerProcessParameters = new Dictionary<string, LearnerProcessParameters>();
+            _learnerProcessParameters = new Dictionary<string, LearnerData>();
             _ulnToLearnerRefNumber = new Dictionary<long, string>();
         }
 
-        private LearnerProcessParameters GetLearnerProcessParametersInstanceForLearner(long uln)
+        private LearnerData GetLearnerProcessParametersInstanceForLearner(long uln)
         {
             var learnerRefNumber = LookupLearnerRefNumber(uln);
             // TODO What do we do if no match is found? At the moment we return a null result
@@ -109,13 +99,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return GetLearnerProcessParametersInstanceForLearner(learnerRefNumber, uln);
         }
 
-        private LearnerProcessParameters GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber, long? uln = null)
+        private LearnerData GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber, long? uln = null)
         {
-            LearnerProcessParameters instance;
+            LearnerData instance;
             if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
             {
-                instance = new LearnerProcessParameters(learnerRefNumber, uln);
-                instance.FirstDayOfAcademicYear = _firstDayOfTheNextAcademicYear.AddYears(-1);
+                instance = new LearnerData(learnerRefNumber, uln);
                 _learnerProcessParameters.Add(learnerRefNumber, instance);
             }
             else

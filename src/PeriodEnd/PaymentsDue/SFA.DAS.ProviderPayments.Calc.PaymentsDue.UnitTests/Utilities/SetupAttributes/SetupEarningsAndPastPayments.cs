@@ -14,22 +14,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
         private readonly int _apprenticeshipContractType;
         private readonly bool _datalockSuccess;
         private readonly decimal _onProgAmount;
-
+        private readonly string _academicYear;
+        
         public SetupMatchingEarningsAndPastPayments(
             int apprenticeshipContractType,
             bool datalockSuccess = true,
-            int onProgAmount = 500)
+            int onProgAmount = 500,
+            string academicYear = "1718")
         {
             _apprenticeshipContractType = apprenticeshipContractType;
             _datalockSuccess = datalockSuccess;
             _onProgAmount = onProgAmount;
+            _academicYear = academicYear;
         }
 
         public void ApplyToContext(TestExecutionContext context)
         {
             var fixture = new Fixture();
 
-            var priceEpisode1 = fixture.Create<string>();
+            var priceEpisode1 = fixture.Create<string>() + $"01/08/20{_academicYear.Substring(0, 2)}";
             int programmeType = fixture.Create<int>();
             int standardCode = fixture.Create<int>();
             int pathwayCode = fixture.Create<int>();

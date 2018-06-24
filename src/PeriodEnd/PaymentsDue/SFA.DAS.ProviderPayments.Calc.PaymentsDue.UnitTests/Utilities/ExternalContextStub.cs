@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CS.Common.External.Interfaces;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Tools
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
 {
     internal class ExternalContextStub : IExternalContext
     {

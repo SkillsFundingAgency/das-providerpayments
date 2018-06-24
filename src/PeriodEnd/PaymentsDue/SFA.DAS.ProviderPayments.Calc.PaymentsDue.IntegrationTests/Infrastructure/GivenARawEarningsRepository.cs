@@ -13,7 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
     public class GivenARawEarningsRepository
     {
         private RawEarningsRepository _sut;
-        private readonly DateTime _firstDayOfNextAcademicYear = new DateTime(2018, 8, 1);
 
         [OneTimeSetUp]
         public void Setup()
@@ -31,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenItReturnsAnEmptyList()
                 {
                     Setup();
-                    var result = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn, _firstDayOfNextAcademicYear);
+                    var result = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
             }
@@ -50,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualRawEarnings = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn, _firstDayOfNextAcademicYear);
+                    _actualRawEarnings = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
 
                     _expectedRawEarnings = PaymentsDueTestContext.RawEarnings
                         .Where(earning => earning.Ukprn == PaymentsDueTestContext.Ukprn).ToList();
