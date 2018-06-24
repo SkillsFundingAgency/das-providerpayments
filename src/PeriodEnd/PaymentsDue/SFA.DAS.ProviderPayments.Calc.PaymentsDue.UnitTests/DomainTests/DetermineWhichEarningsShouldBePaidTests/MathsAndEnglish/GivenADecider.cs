@@ -50,6 +50,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Theory, PaymentsDueAutoData]
+        [SetupMatchingEarningsAndPastPayments(2)]
+        public void MathsEnglishWithNoPayableOnprogNotPaidForAct2(
+            IDetermineWhichEarningsShouldBePaid sut)
+        {
+            _earnings.Clear();
+
+            var actual = sut.DeterminePayableEarnings(
+                new List<DatalockOutput>(),
+                new List<RawEarning>(),
+                _mathsAndEnglishEarnings);
+
+            actual.Earnings.Should().BeEmpty();
+        }
+
+        [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishWithPayableOnProgPaid(
             IDetermineWhichEarningsShouldBePaid sut)
