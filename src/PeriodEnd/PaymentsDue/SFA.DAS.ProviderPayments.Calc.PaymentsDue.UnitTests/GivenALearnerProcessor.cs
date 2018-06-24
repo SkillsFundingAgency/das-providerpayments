@@ -17,14 +17,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItGetsPriceEpisodesFromDataLockValidation(
                 LearnerProcessParameters parameters,
-                [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
-                [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
+                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
                 LearnerProcessor sut)
             {
-                mockDataLockFactory
-                    .Setup(factory => factory.CreateDataLockComponent())
-                    .Returns(mockDataLockComponent.Object);
-                
                 sut.Process(parameters, 0);
 
                 //mockDataLockComponent
@@ -35,16 +30,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItCalculatesPaymentsFromLearner(
                 LearnerProcessParameters parameters,
-                [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
-                [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
-                [Frozen] Mock<ILearner> mockLearner,
+                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
+                [Frozen] Mock<ICalculatePaymentsDue> mockLearner,
                 [Frozen] Mock<ILearnerFactory> mockLearnerFactory,
                 LearnerProcessor sut)
             {
-                mockDataLockFactory
-                    .Setup(factory => factory.CreateDataLockComponent())
-                    .Returns(mockDataLockComponent.Object);
-
                 //mockDataLockComponent
                 //    .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
                 //        It.IsAny<List<DatalockOutputEntity>>(), It.IsAny<DateTime>()))
@@ -69,16 +59,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             public void ThenItReturnsTheCalculationResult(
                 LearnerProcessParameters parameters,
                 LearnerProcessResults processResults,
-                [Frozen] Mock<IIShouldBeInTheDataLockComponent> mockDataLockComponent,
-                [Frozen] Mock<IDataLockComponentFactory> mockDataLockFactory,
-                [Frozen] Mock<ILearner> mockLearner,
+                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
+                [Frozen] Mock<ICalculatePaymentsDue> mockLearner,
                 [Frozen] Mock<ILearnerFactory> mockLearnerFactory,
                 LearnerProcessor sut)
             {
-                mockDataLockFactory
-                    .Setup(factory => factory.CreateDataLockComponent())
-                    .Returns(mockDataLockComponent.Object);
-
                 //mockDataLockComponent
                 //    .Setup(component => component.ValidatePriceEpisodes(It.IsAny<List<Commitment>>(),
                 //        It.IsAny<List<DatalockOutputEntity>>(), It.IsAny<DateTime>()))

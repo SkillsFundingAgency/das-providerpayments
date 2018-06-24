@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
     {
         [Theory, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForTheWithdrawnPeriod(
-            LearnerProcessParametersBuilder parametersBuilder,
+            SortProviderDataIntoLearnerData parametersBuilder,
             DatalockValidationService commitmentMatcher)
         {
             var parameters = TestData.LoadFrom("LearnerWithWithdrawnCommitmentAndRemovedPeriodsInTheIlr");
@@ -23,15 +23,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 parameters.DatalockValidationErrors,
                 parameters.Commitments);
 
-            var datalockComponent = new IShouldBeInTheDatalockComponent();
+            var datalockComponent = new IDetermineWhichEarningsShouldBePaid();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
                 datalockOutput,
                 parameters.RawEarnings,
                 parameters.RawEarningsForMathsOrEnglish, 
                 new DateTime(2017, 08, 01));
 
-            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
-            var actual = sut.CalculatePaymentsDue();
+            var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
+            var actual = sut.Calculate();
 
             actual.Should().HaveCount(2);
         }

@@ -6,9 +6,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
-    public interface IIShouldBeInTheDataLockComponent
+    public interface IIDetermineWhichEarningsShouldBePaid
     {
-        DatalockValidationResult ValidatePriceEpisodes(
+        EarningValidationResult ValidatePriceEpisodes(
             List<DatalockOutput> datalockOutput, 
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,

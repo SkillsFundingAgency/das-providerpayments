@@ -233,15 +233,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ProductionScenario
                 new List<DatalockValidationError>(), 
                 Commitments);
 
-            var datalockComponent = new IShouldBeInTheDatalockComponent();
+            var datalockComponent = new IDetermineWhichEarningsShouldBePaid();
             var datalockResult = datalockComponent.ValidatePriceEpisodes(
                 datalockOutput, 
                 Earnings, 
                 MathsAndEnglishEarnings, 
                 new DateTime(2017, 08, 01));
 
-            var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
-            var actual = sut.CalculatePaymentsDue();
+            var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
+            var actual = sut.Calculate();
 
             actual.Should().NotContain(x => x.AmountDue < 0);
         }

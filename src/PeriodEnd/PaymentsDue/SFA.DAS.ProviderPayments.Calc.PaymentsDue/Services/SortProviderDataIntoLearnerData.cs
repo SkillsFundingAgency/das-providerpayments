@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class LearnerProcessParametersBuilder : ILearnerProcessParametersBuilder
+    public class SortProviderDataIntoLearnerData : ISortProviderDataIntoLearnerData
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private Dictionary<long, string> _ulnToLearnerRefNumber;
         private DateTime _firstDayOfTheNextAcademicYear;
 
-        public LearnerProcessParametersBuilder(
+        public SortProviderDataIntoLearnerData(
             IRawEarningsRepository rawEarningsRepository,
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository,
@@ -37,10 +37,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _collectionPeriodRepository = collectionPeriodRepository;
         }
 
-        public List<LearnerProcessParameters> Build(long ukprn)
+        public List<LearnerProcessParameters> Sort(long ukprn)
         {
             ResetLearnerResultsList();
-            SetYearAcademicYearStarted();
+            SetFirstDayOfAcademicYear();
 
             var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
@@ -85,7 +85,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return _learnerProcessParameters.Values.ToList();
         }
 
-        private void SetYearAcademicYearStarted()
+        private void SetFirstDayOfAcademicYear()
         {
             var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
             var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...

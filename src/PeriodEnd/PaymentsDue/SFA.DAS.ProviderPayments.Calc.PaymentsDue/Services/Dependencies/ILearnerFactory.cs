@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface ILearnerFactory
     {
-        ILearner CreateLearner(
+        ICalculatePaymentsDue CreateLearner(
             List<FundingDue> earnings,
             List<int> periodsToIgnore,
             List<RequiredPaymentEntity> pastPayments);

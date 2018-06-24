@@ -2,9 +2,14 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    public class MatchSetForPayments : IEquatable<MatchSetForPayments>
+    /// <summary>
+    /// Value object for determining whether two payments should be
+    ///     treated the same (ie aggregated) 
+    ///     or differently (ie refunded and repaid)
+    /// </summary>
+    public class PaymentGroup : IEquatable<PaymentGroup>
     {
-        public MatchSetForPayments(int standardCode,
+        public PaymentGroup(int standardCode,
             int frameworkCode,
             int programmeType,
             int pathwayCode,
@@ -65,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        public static bool operator ==(MatchSetForPayments left, MatchSetForPayments right)
+        public static bool operator ==(PaymentGroup left, PaymentGroup right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -84,18 +89,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             return left.Equals(right);
         }
 
-        public static bool operator !=(MatchSetForPayments left, MatchSetForPayments right)
+        public static bool operator !=(PaymentGroup left, PaymentGroup right)
         {
             return !(left == right);
         }
 
         public override bool Equals(object obj)
         {
-            var other = obj as MatchSetForPayments;
+            var other = obj as PaymentGroup;
             return other != null && Equals(other);
         }
 
-        public bool Equals(MatchSetForPayments test)
+        public bool Equals(PaymentGroup test)
         {
             if (ReferenceEquals(null, test)) return false;
             if (ReferenceEquals(this, test)) return true;

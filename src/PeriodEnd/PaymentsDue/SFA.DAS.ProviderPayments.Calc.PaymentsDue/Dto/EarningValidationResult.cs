@@ -4,9 +4,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
 {
-    public class DatalockValidationResult
+    public class EarningValidationResult
     {
-        public DatalockValidationResult(
+        public EarningValidationResult(
             List<FundingDue> earnings,
             List<NonPayableEarningEntity> nonPayableEarnings,
             List<int> periodsToIgnore = null)

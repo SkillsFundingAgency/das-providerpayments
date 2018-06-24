@@ -53,12 +53,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             {
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IShouldBeInTheDatalockComponent();
+                var datalock = new IDetermineWhichEarningsShouldBePaid();
                 var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                     _earnings.Take(1).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
-                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
-                var actual = sut.CalculatePaymentsDue();
+                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
+                var actual = sut.Calculate();
 
                 var expected = 500;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -70,12 +70,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
             {
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IShouldBeInTheDatalockComponent();
+                var datalock = new IDetermineWhichEarningsShouldBePaid();
                 var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                     _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
-                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
-                var actual = sut.CalculatePaymentsDue();
+                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
+                var actual = sut.Calculate();
 
                 var expected = 500;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -91,12 +91,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IShouldBeInTheDatalockComponent();
+                var datalock = new IDetermineWhichEarningsShouldBePaid();
                 var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                     _earnings.Take(3).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
-                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(2).ToList());
-                var actual = sut.CalculatePaymentsDue();
+                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(2).ToList());
+                var actual = sut.Calculate();
 
                 var expected = 1250;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -127,12 +127,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Learne
 
                 var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
-                var datalock = new IShouldBeInTheDatalockComponent();
+                var datalock = new IDetermineWhichEarningsShouldBePaid();
                 var datalockResult = datalock.ValidatePriceEpisodes(datalockOutput,
                     _earnings.Take(4).ToList(), _mathsAndEnglishEarnings, new DateTime(2017, 08, 01));
 
-                var sut = new Learner(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(5).ToList());
-                var actual = sut.CalculatePaymentsDue();
+                var sut = new PaymentsDueCalculationService(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(5).ToList());
+                var actual = sut.Calculate();
 
                 var expected = 750;
                 actual.Sum(x => x.AmountDue).Should().Be(expected);

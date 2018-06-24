@@ -11,7 +11,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     // ReSharper disable once InconsistentNaming
-    public class IShouldBeInTheDatalockComponent : IIShouldBeInTheDataLockComponent
+    public class IDetermineWhichEarningsShouldBePaid : IIDetermineWhichEarningsShouldBePaid
     {
         // ASSUMPTIONS from Looking at the live data.
         //  Datalocks are 'keyed' by UKPRN, LearnRefNumber, PriceEpisodeIdentifier and CommitmentId
@@ -21,21 +21,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         // BUSINESS RULES:
         //  If a learner has any passed datalocks, then pay all M/E
         //  If a learner is ACT2 only, pay everything
-        //  If a learner moves from ACT2 to ACT1 and has a 'bad' datalock, then ignore them
-        //  If a learner has a 'bad' datalock, ignore them for payments and refunds (includes the above)
+        //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
 
         // INPUT
         List<RawEarning> RawEarnings { get; set; }
         List<RawEarningForMathsOrEnglish> RawEarningsMathsOrEnglish { get; set; }
         List<DatalockOutput> DatalockOutput { get; set; }
-        
-        private DateTime _firstDayOfAcademicYear;
+        DateTime _firstDayOfAcademicYear;
 
-        // INTERNAL
-        private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
-        
         // OUTPUT
+        private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
         private HashSet<int> PeriodsToIgnore { get; } = new HashSet<int>();
         private List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
 
@@ -69,26 +65,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
             //  period
-            // If there are 0 successful datalocks, then ignore the period
+            // If there are earnings and 0 successful datalocks, then ignore the period
 
             var earningsByPeriod = RawEarnings.ToLookup(x => x.Period);
-            foreach (var period in earningsByPeriod.OrderBy(x => x.Key))
+            foreach (var periodGroup in earningsByPeriod.OrderBy(x => x.Key))
             {
-                var earningsForPeriod = period.Where(x => x.TransactionType01 != 0 ||
-                                                          x.TransactionType02 != 0 ||
-                                                          x.TransactionType03 != 0 ||
-                                                          x.TransactionType04 != 0 ||
-                                                          x.TransactionType05 != 0 ||
-                                                          x.TransactionType06 != 0 ||
-                                                          x.TransactionType07 != 0 ||
-                                                          x.TransactionType08 != 0 ||
-                                                          x.TransactionType09 != 0 ||
-                                                          x.TransactionType10 != 0 ||
-                                                          x.TransactionType11 != 0 ||
-                                                          x.TransactionType12 != 0 ||
-                                                          x.TransactionType13 != 0 ||
-                                                          x.TransactionType14 != 0 ||
-                                                          x.TransactionType15 != 0)
+                var earningsForPeriod = periodGroup
+                    .Where(x => x.HasNonZeroTransactions())
                     .ToList();
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == 2))
@@ -97,44 +80,49 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     continue;
                 }
 
-                var earningsForPeriodByPriceEpisode = earningsForPeriod.ToLookup(x => x.PriceEpisodeIdentifier);
-                foreach (var periodEarningsForPriceEpisode in earningsForPeriodByPriceEpisode)
+                var periodEarningsForPriceEpisodeGroups = earningsForPeriod.ToLookup(x => x.PriceEpisodeIdentifier);
+                foreach (var periodEarningsForPriceEpisode in periodEarningsForPriceEpisodeGroups)
                 {
                     var priceEpisode = periodEarningsForPriceEpisode.Key;
 
                     var datalocks = DatalockOutput
-                        .Where(x => x.Period == period.Key &&
+                        .Where(x => x.Period == periodGroup.Key &&
                                     x.PriceEpisodeIdentifier == priceEpisode)
                         .ToList();
 
                     if (datalocks.Count == 0)
                     {
                         MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
-                            $"Could not find a matching datalock for price episode: {priceEpisode} in period: {period.Key}",
+                            $"Could not find a matching datalock for price episode: {priceEpisode} in period: {periodGroup.Key}",
                             PaymentFailureType.CouldNotFindSuccessfulDatalock);
-                        PeriodsToIgnore.Add(period.Key);
+                        PeriodsToIgnore.Add(periodGroup.Key);
                         continue;
                     }
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    for (var i = 1; i < 4; i++)
+                    for (var transactionTypesFlag = 1; transactionTypesFlag < 4; transactionTypesFlag++)
                     {
-                        var datalocksForFlag = datalocks.Where(x => x.TransactionTypesFlag == i).ToList();
+                        var datalocksForFlag = datalocks
+                            .Where(x => x.TransactionTypesFlag == transactionTypesFlag)
+                            .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
                             MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
-                                $"Multiple matching datalocks for price episode: {priceEpisode} in period: {period.Key}",
+                                $"Multiple matching datalocks for price episode: {priceEpisode} in period: {periodGroup.Key}",
                                 PaymentFailureType.MultipleMatchingSuccessfulDatalocks,
                                 datalocksForFlag.First());
-                            PeriodsToIgnore.Add(period.Key);
+                            PeriodsToIgnore.Add(periodGroup.Key);
                             continue;
                         }
 
                         if (datalocksForFlag.Count == 1)
                         {
                             // We have 1 datalock and a commitment
-                            MarkNonZeroTransactionTypesAsPayable(periodEarningsForPriceEpisode, datalocksForFlag.Single(), i);
+                            MarkNonZeroTransactionTypesAsPayable(
+                                periodEarningsForPriceEpisode, 
+                                datalocksForFlag.Single(), 
+                                transactionTypesFlag);
                         }
                     }
                 }
@@ -176,11 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     foreach (var rawEarningForMathsOrEnglish in RawEarningsMathsOrEnglish)
                     {
                         var matchingEarning = RawEarnings.FirstOrDefault(x =>
-                            x.StandardCode == rawEarningForMathsOrEnglish.StandardCode &&
-                            x.ProgrammeType == rawEarningForMathsOrEnglish.ProgrammeType &&
-                            x.PathwayCode == rawEarningForMathsOrEnglish.PathwayCode &&
-                            x.FrameworkCode == rawEarningForMathsOrEnglish.FrameworkCode &&
-                            x.ApprenticeshipContractType == rawEarningForMathsOrEnglish.ApprenticeshipContractType &&
+                            x.HasMatchingCourseInformationWith(rawEarningForMathsOrEnglish) &&
                             DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) < firstDayOfNextAcademicYear &&
                             DateFromPriceEpisodeIdentifier(x.PriceEpisodeIdentifier) >= _firstDayOfAcademicYear
                             );
@@ -189,6 +173,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                             rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
                             MarkNonZeroTransactionTypesAsPayable(
                                 new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish });
+                        }
+                        else
+                        {
+                            MarkNonZeroTransactionTypesAsNonPayable(
+                                new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish },
+                                "No on-prog earning found for maths/english earning",
+                                PaymentFailureType.CouldNotFindMatchingOnprog);
                         }
                     }
 
@@ -204,11 +195,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     if (datalock != null)
                     {
                         var matchingMathsAndEnglish = RawEarningsMathsOrEnglish
-                            .Where(x => x.StandardCode == rawEarning.StandardCode &&
-                                        x.ProgrammeType == rawEarning.ProgrammeType &&
-                                        x.FrameworkCode == rawEarning.FrameworkCode &&
-                                        x.PathwayCode == rawEarning.PathwayCode &&
-                                        x.ApprenticeshipContractType == rawEarning.ApprenticeshipContractType)
+                            .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
                             .ToList();
                         matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
                         MarkNonZeroTransactionTypesAsPayable(matchingMathsAndEnglish, datalock);
@@ -222,11 +209,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             foreach (var mathsOrEnglishEarning in RawEarningsMathsOrEnglish)
             {
                 var matchingOnProg = PayableEarnings.FirstOrDefault(x =>
-                    x.FrameworkCode == mathsOrEnglishEarning.FrameworkCode &&
-                    x.StandardCode == mathsOrEnglishEarning.StandardCode &&
-                    x.PathwayCode == mathsOrEnglishEarning.PathwayCode &&
-                    x.ProgrammeType == mathsOrEnglishEarning.ProgrammeType &&
-                    x.ApprenticeshipContractType == mathsOrEnglishEarning.ApprenticeshipContractType &&
+                    x.HasMatchingCourseInformationWith(mathsOrEnglishEarning) &&
                     !PeriodsToIgnore.Contains(x.Period));
 
                 if (matchingOnProg != null)
@@ -301,21 +284,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             IHoldCommitmentInformation commitmentInformation = null,
             int datalockType = -1)
         {
-            for (var i = 1; i <= 15; i++)
+            for (var transactionType = 1; transactionType <= 15; transactionType++)
             {
-                if (datalockType != -1 && IgnoreTransactionType(datalockType, i))
+                if (datalockType != -1 && IgnoreTransactionType(datalockType, transactionType))
                 {
                     continue;
                 }
 
-                var propertyName = $"TransactionType{i:D2}";
+                var propertyName = $"TransactionType{transactionType:D2}";
                 var amountDue = (decimal)FundingDueAccessor[rawEarnings, propertyName];
                 if (amountDue == 0)
                 {
                     continue;
                 }
                 var fundingDue = new FundingDue(rawEarnings);
-                fundingDue.TransactionType = i;
+                fundingDue.TransactionType = transactionType;
 
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
@@ -329,16 +312,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             PaymentFailureType paymentFailureReason,
             IHoldCommitmentInformation commitmentInformation = null)
         {
-            for (var i = 1; i <= 15; i++)
+            for (var transactionType = 1; transactionType <= 15; transactionType++)
             {
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{i:D2}"];
+                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
                 if (amountDue == 0)
                 {
                     continue;
                 }
 
                 var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
-                nonPayableEarning.TransactionType = i;
+                nonPayableEarning.TransactionType = transactionType;
 
                 // Doing this to prevent a huge switch statement
                 nonPayableEarning.AmountDue = amountDue;

@@ -3,8 +3,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
-    public interface ILearner
+    public interface ICalculatePaymentsDue
     {
-        List<RequiredPaymentEntity> CalculatePaymentsDue();
+        List<RequiredPaymentEntity> Calculate();
     }
 }

@@ -7,12 +7,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class LearnerFactory : ILearnerFactory
     {
-        public ILearner CreateLearner(
+        public ICalculatePaymentsDue CreateLearner(
             List<FundingDue> earnings,
             List<int> periodsToIgnore,
             List<RequiredPaymentEntity> pastPayments)
         {
-            return new Learner(earnings, periodsToIgnore, pastPayments);
+            return new PaymentsDueCalculationService(earnings, periodsToIgnore, pastPayments);
         }
     }
 }

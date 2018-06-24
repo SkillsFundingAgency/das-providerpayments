@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class Learner : ILearner
+    public class PaymentsDueCalculationService : ICalculatePaymentsDue
     {
-        public Learner(
+        public PaymentsDueCalculationService(
             List<FundingDue> earnings,
             List<int> periodsToIgnore,
             List<RequiredPaymentEntity> pastPayments)
@@ -25,11 +26,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         // Output
         public List<RequiredPaymentEntity> RequiredPayments { get; } = new List<RequiredPaymentEntity>();
         
-        public List<RequiredPaymentEntity> CalculatePaymentsDue()
+        public List<RequiredPaymentEntity> Calculate()
         {
-            var processedGroups = new HashSet<MatchSetForPayments>();
+            var processedGroups = new HashSet<PaymentGroup>();
 
-            var groupedEarnings = Earnings.GroupBy(x => new MatchSetForPayments
+            var groupedEarnings = Earnings.GroupBy(x => new PaymentGroup
                 (
                     x.StandardCode,
                     x.FrameworkCode,
@@ -45,20 +46,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                     x.AccountId)
             ).ToDictionary(x => x.Key, x => x.ToList());
 
-            var groupedPastPayments = PastPayments.GroupBy(x => new MatchSetForPayments
-            (
-                x.StandardCode,
-                x.FrameworkCode,
-                x.ProgrammeType,
-                x.PathwayCode,
-                x.ApprenticeshipContractType,
-                x.TransactionType,
-                x.SfaContributionPercentage,
-                x.LearnAimRef,
-                x.FundingLineType,
-                x.DeliveryYear,
-                x.DeliveryMonth,
-                x.AccountId)).ToDictionary(x => x.Key, x => x.ToList());
+            var groupedPastPayments = PastPayments.GroupBy(x => new PaymentGroup
+                (
+                    x.StandardCode,
+                    x.FrameworkCode,
+                    x.ProgrammeType,
+                    x.PathwayCode,
+                    x.ApprenticeshipContractType,
+                    x.TransactionType,
+                    x.SfaContributionPercentage,
+                    x.LearnAimRef,
+                    x.FundingLineType,
+                    x.DeliveryYear,
+                    x.DeliveryMonth,
+                    x.AccountId)
+            ).ToDictionary(x => x.Key, x => x.ToList());
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)
@@ -113,7 +115,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             return RequiredPayments;
         }
 
-        private bool ShouldIgnoreEarnings(MatchSetForPayments earningInformation)
+        private bool ShouldIgnoreEarnings(PaymentGroup earningInformation)
         {
             var period = PeriodFromDeliveryMonth(earningInformation.DeliveryMonth);
             if (PeriodsToIgnore.Contains(period))

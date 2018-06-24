@@ -23,24 +23,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItGetsLearnerParametersForTheProvider(
             ProviderEntity provider,
-            [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+            [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
             ProviderProcessor sut)
             {
                 sut.Process(provider);
 
-                mockParametersBuilder.Verify(builder => builder.Build(provider.Ukprn), Times.Once);
+                mockParametersBuilder.Verify(builder => builder.Sort(provider.Ukprn), Times.Once);
             }
 
             [Test, PaymentsDueAutoData]
             public void ThenItProcessesEachLearner(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                List<LearnerData> learnerParameters,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 ProviderProcessor sut)
             {
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 sut.Process(provider);
@@ -54,9 +54,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItSavesAllNonPayableEarningsForProvider(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                List<LearnerData> learnerParameters,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
@@ -64,11 +64,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var expectedNonPayableEarnings = new List<NonPayableEarningEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult)
                     .Callback(() => expectedNonPayableEarnings.AddRange(learnerResult.NonPayableEarnings));
 
@@ -81,9 +81,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItSavesAllPayableEarningsForProvider(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                List<LearnerData> learnerParameters,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
@@ -91,11 +91,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var expectedPayableEarnings = new List<RequiredPaymentEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult)
                     .Callback(() => expectedPayableEarnings.AddRange(learnerResult.PayableEarnings));
 
@@ -109,9 +109,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenIlrSubmissionDateIsSetOnNonPayableEarnings(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                List<LearnerData> learnerParameters,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
@@ -119,11 +119,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
@@ -139,10 +139,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenCollectionFieldsAreSetOnNonPayableEarnings(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
+                List<LearnerData> learnerParameters,
                 CollectionPeriodEntity collectionPeriod,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
@@ -151,7 +151,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockCollectionPeriodRepository
@@ -159,7 +159,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(collectionPeriod);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
@@ -179,9 +179,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenIlrSubmissionDateIsSetOnPayableEarnings(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                List<LearnerData> learnerParameters,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
@@ -189,11 +189,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualPayableEarnings = new List<RequiredPaymentEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository
@@ -209,10 +209,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenCollectionFieldsAreSetOnPayableEarnings(
                 ProviderEntity provider,
-                List<LearnerProcessParameters> learnerParameters,
+                List<LearnerData> learnerParameters,
                 CollectionPeriodEntity collectionPeriod,
-                LearnerProcessResults learnerResult,
-                [Frozen] Mock<ILearnerProcessParametersBuilder> mockParametersBuilder,
+                PaymentsDueResult learnerResult,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
@@ -221,7 +221,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualPayableEarnings = new List<RequiredPaymentEntity>();
 
                 mockParametersBuilder
-                    .Setup(builder => builder.Build(provider.Ukprn))
+                    .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockCollectionPeriodRepository
@@ -229,7 +229,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(collectionPeriod);
 
                 mockLearnerProcessor
-                    .Setup(processor => processor.Process(It.IsAny<LearnerProcessParameters>(), It.IsAny<long>()))
+                    .Setup(processor => processor.Process(It.IsAny<LearnerData>(), It.IsAny<long>()))
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository

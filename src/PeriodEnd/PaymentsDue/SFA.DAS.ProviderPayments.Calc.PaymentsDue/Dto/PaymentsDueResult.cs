@@ -3,9 +3,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
 {
-    public class LearnerProcessResults
+    public class PaymentsDueResult
     {
-        public LearnerProcessResults(
+        public PaymentsDueResult(
             List<RequiredPaymentEntity> payableEarnings, 
             List<NonPayableEarningEntity> nonPayableEarnings)
         {

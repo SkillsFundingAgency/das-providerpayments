@@ -4,9 +4,9 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
 {
-    public class LearnerProcessParameters
+    public class LearnerData
     {
-        public LearnerProcessParameters(string learnerRefNumber, long? uln)
+        public LearnerData(string learnerRefNumber, long? uln)
         {
             LearnRefNumber = learnerRefNumber;
             Uln = uln;

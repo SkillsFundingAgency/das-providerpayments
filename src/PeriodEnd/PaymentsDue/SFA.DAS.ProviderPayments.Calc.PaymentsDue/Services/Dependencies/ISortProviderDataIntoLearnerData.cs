@@ -3,8 +3,8 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
-    public interface ILearnerProcessParametersBuilder
+    public interface ISortProviderDataIntoLearnerData
     {
-        List<LearnerProcessParameters> Build(long ukprn);
+        List<LearnerData> Sort(long ukprn);
     }
 }

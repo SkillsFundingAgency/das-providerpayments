@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RequiredPaymentEntity 
+    public class RequiredPaymentEntity
     {
         public RequiredPaymentEntity()
         {}
