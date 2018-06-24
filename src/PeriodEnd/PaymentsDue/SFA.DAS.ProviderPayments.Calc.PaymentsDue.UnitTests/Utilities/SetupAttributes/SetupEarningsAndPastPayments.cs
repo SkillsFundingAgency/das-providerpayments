@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoFixture;
 using Castle.Core.Logging;
+using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -171,7 +173,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 }
             }
 
-            var validationService = new DatalockValidationService(NullLogger.Instance);
+            var validationService = new DatalockValidationService(LogManager.CreateNullLogger());
             var datalockOutput = validationService.ProcessDatalocks(datalocks, datalockValidationErrors, commitments);
 
             var earningsDictionary = new Dictionary<string, object>

@@ -10,6 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
+using NullLogger = NLog.NullLogger;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
 {
@@ -29,11 +30,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             IDetermineWhichEarningsShouldBePaid datalock,
             PaymentsDueCalculationService sut,
+            DatalockValidationService commitmentMatcher,
             CollectionPeriodEntity collectionPeriod)
         {
             var parameters = TestData.LoadFrom(filename);
 
-            var commitmentMatcher = new DatalockValidationService(NullLogger.Instance);
             var datalockOutput = commitmentMatcher.ProcessDatalocks(
                 parameters.DatalockOutputs,
                 parameters.DatalockValidationErrors,
