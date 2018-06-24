@@ -282,7 +282,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             
          And the transaction types for the payments for provider b are:
             | Payment type             | 11/17 | 12/17 | 01/18 | 02/18 |
-            | On-program               | 0     | 0     | 500   | 500   |
+            | On-program               | 0     | 500   | 500   | 500   |
             | Completion               | 0     | 0     | 0     | 0     |
             | Balancing                | 0     | 0     | 0     | 0     |
             | Employer 16-18 incentive | 0     | 0     | 0     | 0     |
