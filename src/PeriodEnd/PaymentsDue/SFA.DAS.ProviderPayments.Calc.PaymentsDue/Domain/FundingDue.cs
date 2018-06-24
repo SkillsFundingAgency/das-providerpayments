@@ -2,6 +2,9 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
+    /// <summary>
+    /// Used as an intermediary step in calculating payments due
+    /// </summary>
     public class FundingDue : RequiredPaymentEntity, 
         ICanStoreCommitmentInformation, 
         IHoldCommitmentInformation,

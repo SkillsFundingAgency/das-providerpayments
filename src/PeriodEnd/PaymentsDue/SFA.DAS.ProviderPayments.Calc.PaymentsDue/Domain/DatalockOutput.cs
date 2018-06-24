@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
     ///     Account id is assumed to be equal if the commitment id is equal
     ///     Account version id and commitment version id are not used in equality comparisons
     /// </summary>
-    public class DatalockOutput : IEquatable<DatalockOutput>, IHoldCommitmentInformation
+    public sealed class DatalockOutput : IEquatable<DatalockOutput>, IHoldCommitmentInformation
     {
         public DatalockOutput(DatalockOutputEntity entity, Commitment commitment)
         {

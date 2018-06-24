@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
     ///     treated the same (ie aggregated) 
     ///     or differently (ie refunded and repaid)
     /// </summary>
-    public class PaymentGroup : IEquatable<PaymentGroup>
+    public sealed class PaymentGroup : IEquatable<PaymentGroup>
     {
         public PaymentGroup(int standardCode,
             int frameworkCode,
