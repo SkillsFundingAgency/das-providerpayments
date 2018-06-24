@@ -24,15 +24,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         //  If a learner is ACT2 only, pay everything
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
-        private readonly DateTime _firstDayOfThisAcademicYear;
-        private readonly DateTime _firstDayOfNextAcademicYear;
+        private DateTime _firstDayOfThisAcademicYear;
+        private DateTime _firstDayOfNextAcademicYear;
+        private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
         public IDetermineWhichEarningsShouldBePaid(ICollectionPeriodRepository collectionPeriodRepository)
         {
-            var currentCollectionPeriodAcademicYear = collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
-            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
-            _firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
-            _firstDayOfThisAcademicYear = _firstDayOfNextAcademicYear.AddYears(-1);
+            _collectionPeriodRepository = collectionPeriodRepository;
         }
 
         // INPUT
@@ -41,9 +39,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         List<DatalockOutput> DatalockOutput { get; set; }
         
         // OUTPUT
-        private List<FundingDue> PayableEarnings { get; } = new List<FundingDue>();
-        private HashSet<int> PeriodsToIgnore { get; } = new HashSet<int>();
-        private List<NonPayableEarningEntity> NonPayableEarnings { get; } = new List<NonPayableEarningEntity>();
+        private List<FundingDue> PayableEarnings { get; set; }
+        private HashSet<int> PeriodsToIgnore { get; set; }
+        private List<NonPayableEarningEntity> NonPayableEarnings { get; set; }
 
 
         public EarningValidationResult DeterminePayableEarnings(
@@ -51,6 +49,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
         {
+            PayableEarnings = new List<FundingDue>();
+            PeriodsToIgnore = new HashSet<int>();
+            NonPayableEarnings = new List<NonPayableEarningEntity>();
+
+            SetFirstDayOfAcademicYears();
+
             // Exclude any earnings or datalocks that fall outside this academic year
             RawEarnings = earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
             DatalockOutput = datalockOutput.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
@@ -63,6 +67,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             MatchMathsAndEnglishToOnProg();
 
             return new EarningValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
+        }
+
+        private void SetFirstDayOfAcademicYears()
+        {
+            var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
+            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
+            _firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
+            _firstDayOfThisAcademicYear = _firstDayOfNextAcademicYear.AddYears(-1);
         }
 
         private DateTime DateFromPriceEpisodeIdentifier(string priceEpisodeIdentifier)

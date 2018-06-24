@@ -13,12 +13,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private IReadOnlyList<int> PeriodsToIgnore { get; set; }
         
         // Output
-        public List<RequiredPaymentEntity> RequiredPayments { get; } = new List<RequiredPaymentEntity>();
-        
+        public List<RequiredPaymentEntity> RequiredPayments { get; private set; }
+
         public List<RequiredPaymentEntity> Calculate(List<FundingDue> earnings,
             List<int> periodsToIgnore,
             List<RequiredPaymentEntity> pastPayments)
         {
+            RequiredPayments = new List<RequiredPaymentEntity>();
             PeriodsToIgnore = periodsToIgnore;
 
             var processedGroups = new HashSet<PaymentGroup>();
@@ -105,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
             }
 
-            return RequiredPayments;
+            return new List<RequiredPaymentEntity>(RequiredPayments);
         }
 
         private bool ShouldIgnoreEarnings(PaymentGroup earningInformation)
