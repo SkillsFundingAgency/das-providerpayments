@@ -198,13 +198,40 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
         private void MakeCoInvestedRefundsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
         {
-
             _logger.Info($"Making a co invested refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType}  / {paymentDue.Ukprn}");
+
+            var year = paymentDue.DeliveryYear;
+            var month = paymentDue.DeliveryMonth;
+            var refunded = 0m;
+
+            while (paymentDue.AmountDue < refunded)
+            {
+                refunded += MakeCoinvestedRefund(payments, currentPeriod, paymentDue, year, month, paymentDue.AmountDue - refunded);
+
+                month--;
+                if (month == 0)
+                {
+                    year--;
+                    month = 12;
+                }
+
+                if (month == 7)
+                {
+                    // Previous academic year
+                    break;
+                }
+            }
+        }
+
+        private decimal MakeCoinvestedRefund(ICollection<Payment> payments, CollectionPeriod period, PaymentDue paymentDue, int year, int month,
+            decimal amount)
+        {
+            var refunded = 0m;
 
             var historyPayments = _mediator.Send(new GetCoInvestedPaymentsHistoryQueryRequest
             {
-                DeliveryYear = paymentDue.DeliveryYear,
-                DeliveryMonth = paymentDue.DeliveryMonth,
+                DeliveryYear = year,
+                DeliveryMonth = month,
                 TransactionType = (int)paymentDue.TransactionType,
                 AimSequenceNumber = paymentDue.AimSequenceNumber,
                 Ukprn = paymentDue.Ukprn,
@@ -220,43 +247,55 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                 throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorReadingPaymentsHistoryMessage, historyPayments.Exception);
             }
 
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.FullyFundedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedEmployer, paymentDue, currentPeriod);
+            var historicalPayments = historyPayments.Items.ToList();
+            var coinvestedFundingSources = new[]
+                {FundingSource.FullyFundedSfa, FundingSource.CoInvestedSfa, FundingSource.CoInvestedEmployer};
+
+            var totalPaidInPeriod = historicalPayments.Where(x => coinvestedFundingSources.Contains(x.FundingSource)).Sum(x => x.Amount);
+            amount = Math.Min(amount, totalPaidInPeriod);
+
+            refunded += AddRefundPayment(payments, historicalPayments, FundingSource.FullyFundedSfa, paymentDue, period, amount);
+            refunded += AddRefundPayment(payments, historicalPayments, FundingSource.CoInvestedSfa, paymentDue, period, amount);
+            refunded += AddRefundPayment(payments, historicalPayments, FundingSource.CoInvestedEmployer, paymentDue, period, amount);
+
+            return refunded;
         }
 
-        private void AddRefundPayment(ICollection<Payment> payments,
-                                            IEnumerable<PaymentHistory> historyPayments,
-                                            FundingSource fundingSource,
-                                            PaymentDue paymentDue,
-                                            CollectionPeriod currentPeriod)
+        private decimal AddRefundPayment(ICollection<Payment> payments,
+            List<PaymentHistory> historyPayments,
+            FundingSource fundingSource,
+            PaymentDue paymentDue,
+            CollectionPeriod currentPeriod,
+            decimal refund)
         {
             var amountPaidTotal = historyPayments.Sum(x => x.Amount);
             if (amountPaidTotal < 0.005m)
             {
-                return;
+                return 0m;
             }
 
             var amountPaidFromSource = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
 
             var percentagePaidFromSource = amountPaidFromSource / amountPaidTotal;
-            var amountToRefund = paymentDue.AmountDue * percentagePaidFromSource;
+            var amountToRefund = refund * percentagePaidFromSource;
             if (amountToRefund < 0)
             {
                 payments.Add(
-                          new Payment
-                          {
-                              RequiredPaymentId = paymentDue.Id,
-                              DeliveryMonth = paymentDue.DeliveryMonth,
-                              DeliveryYear = paymentDue.DeliveryYear,
-                              CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                              CollectionPeriodMonth = currentPeriod.Month,
-                              CollectionPeriodYear = currentPeriod.Year,
-                              FundingSource = fundingSource,
-                              TransactionType = paymentDue.TransactionType,
-                              Amount = amountToRefund
-                          });
+                    new Payment
+                    {
+                        RequiredPaymentId = paymentDue.Id,
+                        DeliveryMonth = paymentDue.DeliveryMonth,
+                        DeliveryYear = paymentDue.DeliveryYear,
+                        CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                        CollectionPeriodMonth = currentPeriod.Month,
+                        CollectionPeriodYear = currentPeriod.Year,
+                        FundingSource = fundingSource,
+                        TransactionType = paymentDue.TransactionType,
+                        Amount = amountToRefund
+                    });
             }
+
+            return amountToRefund;
         }
 
         private static decimal DetermineCoInvestedAmount(FundingSource fundingSource, decimal sfaContributionPercentage, decimal amountToPay)
