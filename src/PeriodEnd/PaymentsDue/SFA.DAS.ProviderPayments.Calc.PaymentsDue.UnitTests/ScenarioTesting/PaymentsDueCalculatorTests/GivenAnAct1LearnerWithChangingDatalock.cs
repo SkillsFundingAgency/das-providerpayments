@@ -50,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Theory, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(1)]
+            [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR01(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 IDetermineWhichEarningsShouldBePaid datalock,
@@ -72,7 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Theory, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(1)]
+            [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR02(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 IDetermineWhichEarningsShouldBePaid datalock,
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Theory, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(1, datalockSuccess: false)]
+            [SetupMatchingEarningsAndPastPayments(1, datalockSuccess: false, mathsEnglishAmount: 0)]
             public void WithFailingDatalock_ThereAreNoPaymentsForR03(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 IDetermineWhichEarningsShouldBePaid datalock,
@@ -119,7 +119,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Theory, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(1)]
+            [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR04(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 IDetermineWhichEarningsShouldBePaid datalock,
