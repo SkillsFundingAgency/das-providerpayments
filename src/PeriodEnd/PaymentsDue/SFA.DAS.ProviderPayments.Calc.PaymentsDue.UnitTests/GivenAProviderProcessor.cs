@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenAProviderProcessor
     {
-        [TestFixture(Ignore = "To fix")]
+        [TestFixture]
         public class WhenCallingProcess
         {
             [Test, PaymentsDueAutoData]
@@ -37,12 +37,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
-                ProviderProcessor sut)
+                ProviderProcessor sut,
+                List<PaymentsDueResult> testResults
+                )
             {
                 mockParametersBuilder
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
+                for (var i = 0; i < learnerParameters.Count; i++)
+                {
+                    var returnValue = testResults[i];
+                    var parameter = learnerParameters[i];
+                    mockLearnerProcessor.Setup(x => x.Process(parameter, It.IsAny<long>()))
+                        .Returns(returnValue);
+                }
+                
                 sut.Process(provider);
 
                 foreach (var parameter in learnerParameters)

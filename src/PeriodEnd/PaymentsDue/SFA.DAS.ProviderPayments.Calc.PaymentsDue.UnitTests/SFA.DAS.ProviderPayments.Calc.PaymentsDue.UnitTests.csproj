@@ -126,7 +126,6 @@
     <Compile Include="ExtensionTests\GivenAnEntityThatHoldsCourseInformation.cs" />
     <Compile Include="ExtensionTests\GivenARawEarning.cs" />
     <Compile Include="GivenASortProviderDataIntoLearnerData.cs" />
-    <Compile Include="GivenALearnerProcessor.cs" />
     <Compile Include="GivenAPaymentsDueProcessor.cs" />
     <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />
