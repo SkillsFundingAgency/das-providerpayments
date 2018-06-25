@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
-            SortProviderDataIntoLearnerData parametersBuilder,
+            SortProviderDataIntoLearnerDataService parametersBuilder,
             DatalockValidationService commitmentMatcher)
         {
             var parameters = TestData.LoadFrom("LearnerWithWithdrawnCommitmentAndRemovedPeriodsInTheIlr");

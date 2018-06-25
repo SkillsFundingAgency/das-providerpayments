@@ -82,7 +82,7 @@
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Services\Extensions\CourseExtensions.cs" />
     <Compile Include="Services\Extensions\EarningsExtensions.cs" />
-    <Compile Include="Services\SortProviderDataIntoLearnerData.cs" />
+    <Compile Include="Services\SortProviderDataIntoLearnerDataService.cs" />
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentGroup.cs" />

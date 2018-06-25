@@ -13,7 +13,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 {
     [TestFixture]
-    public class GivenALearnerProcessParametersBuilder
+    public class GivenASortProviderDataIntoLearnerData
     {
         private static readonly List<CollectionPeriodEntity> CollectionPeriods = new List<CollectionPeriodEntity>
         {
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<RawEarning> rawEarnings,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             rawEarnings.ForEach(entity =>
             {
@@ -74,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             rawEarningsMathsEnglish.ForEach(entity =>
             {
@@ -105,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long uln,
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             historicalPayments.ForEach(entity =>
             {
@@ -131,7 +131,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             string learnRefNumber,
             List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
@@ -163,7 +163,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
 
             // Arrange data so each maps to the Uln or LearnerRefNumber
@@ -231,7 +231,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<Commitment> commitments,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             rawEarnings.ForEach(entity =>
             {
@@ -271,7 +271,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            SortProviderDataIntoLearnerData sut)
+            SortProviderDataIntoLearnerDataService sut)
         {
             var actualPayableEarnings = new List<RequiredPaymentEntity>();
             

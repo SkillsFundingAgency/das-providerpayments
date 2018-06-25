@@ -7,7 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class SortProviderDataIntoLearnerData : ISortProviderDataIntoLearnerData
+    public class SortProviderDataIntoLearnerDataService : ISortProviderDataIntoLearnerData
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private Dictionary<string, LearnerData> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
        
-        public SortProviderDataIntoLearnerData(
+        public SortProviderDataIntoLearnerDataService(
             IRawEarningsRepository rawEarningsRepository,
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository,
