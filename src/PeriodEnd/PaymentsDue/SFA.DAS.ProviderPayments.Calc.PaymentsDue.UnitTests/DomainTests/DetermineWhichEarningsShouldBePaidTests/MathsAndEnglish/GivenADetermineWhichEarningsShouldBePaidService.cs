@@ -11,7 +11,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttribu
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.DetermineWhichEarningsShouldBePaidTests.MathsAndEnglish
 {
     [TestFixture]
-    public class GivenADecider
+    public class GivenADetermineWhichEarningsShouldBePaidService
     {
         private List<RawEarning> _earnings;
         private List<RawEarningForMathsOrEnglish> _mathsAndEnglishEarnings;

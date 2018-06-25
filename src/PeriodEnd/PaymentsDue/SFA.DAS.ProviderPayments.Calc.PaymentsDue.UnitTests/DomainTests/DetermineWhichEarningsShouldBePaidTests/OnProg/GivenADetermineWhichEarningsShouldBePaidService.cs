@@ -13,7 +13,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttribu
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.DetermineWhichEarningsShouldBePaidTests.OnProg
 {
     [TestFixture]
-    public class GivenADecider
+    public class GivenADetermineWhichEarningsShouldBePaidService
     {
         private List<RawEarning> _earnings;
         private List<DatalockOutput> _datalockOutput;
