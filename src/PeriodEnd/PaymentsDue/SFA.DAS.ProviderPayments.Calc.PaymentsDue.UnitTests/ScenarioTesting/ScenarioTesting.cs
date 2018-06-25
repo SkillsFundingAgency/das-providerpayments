@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         public void ThenThePaymentsGeneratedShouldMatchTheExpectedPayments(
             string filename,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService paymentsDueCalc,
             DatalockValidationService commitmentMatcher,
             CollectionPeriodEntity collectionPeriod)

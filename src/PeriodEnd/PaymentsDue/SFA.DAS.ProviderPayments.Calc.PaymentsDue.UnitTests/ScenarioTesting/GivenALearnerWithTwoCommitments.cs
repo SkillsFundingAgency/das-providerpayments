@@ -162,7 +162,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         [Theory, PaymentsDueAutoData]
         public void ThereShouldBeNoRefunds(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService commitmentMatcher)
         {

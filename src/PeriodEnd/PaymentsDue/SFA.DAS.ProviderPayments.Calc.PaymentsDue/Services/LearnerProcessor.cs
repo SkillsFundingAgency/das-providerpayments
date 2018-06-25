@@ -7,12 +7,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     public class LearnerProcessor : ILearnerProcessor
     {
         private readonly ILogger _logger;
-        private readonly IIDetermineWhichEarningsShouldBePaid _determinePayableEarnings;
+        private readonly IDetermineWhichEarningsShouldBePaid _determinePayableEarnings;
         private readonly IValidateRawDatalocks _datalockCommitmentMatcher;
         private readonly ICalculatePaymentsDue _paymentsDueCalc;
 
         public LearnerProcessor(ILogger logger,
-            IIDetermineWhichEarningsShouldBePaid determinePayableEarnings, 
+            IDetermineWhichEarningsShouldBePaid determinePayableEarnings, 
             IValidateRawDatalocks datalockCommitmentMatcher, 
             ICalculatePaymentsDue paymentsDueCalc)
         {

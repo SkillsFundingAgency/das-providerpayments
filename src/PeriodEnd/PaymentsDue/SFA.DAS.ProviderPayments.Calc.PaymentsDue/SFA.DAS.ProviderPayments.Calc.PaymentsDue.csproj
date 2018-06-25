@@ -75,9 +75,9 @@
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
-    <Compile Include="Services\Dependencies\IIDetermineWhichEarningsShouldBePaid.cs" />
+    <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
-    <Compile Include="Domain\IDetermineWhichEarningsShouldBePaid.cs" />
+    <Compile Include="Domain\DetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="Services\PaymentsDueCalculationService.cs" />
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Services\Extensions\CourseExtensions.cs" />

@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItGetsPriceEpisodesFromDataLockValidation(
                 LearnerData parameters,
-                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
+                [Frozen] Mock<IDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
                 LearnerProcessor sut)
             {
                 sut.Process(parameters, 0);
@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItCalculatesPaymentsFromLearner(
                 LearnerData parameters,
-                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
+                [Frozen] Mock<IDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
                 [Frozen] Mock<ICalculatePaymentsDue> mockLearner,
                 LearnerProcessor sut)
             {
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             public void ThenItReturnsTheCalculationResult(
                 LearnerData parameters,
                 PaymentsDueResult processResults,
-                [Frozen] Mock<IIDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
+                [Frozen] Mock<IDetermineWhichEarningsShouldBePaid> mockDataLockComponent,
                 [Frozen] Mock<ICalculatePaymentsDue> mockLearner,
                 LearnerProcessor sut)
             {

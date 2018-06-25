@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishWithNoPayableOnprogNotPaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             _earnings.Clear();
             
@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishWithNoPayableOnprogNotPaidForAct2(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             _earnings.Clear();
 
@@ -67,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishWithPayableOnProgPaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -80,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishAct2WithNoOtherEarningsArePaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var blankEarning = _earnings[0];
             blankEarning.TransactionType01 = 0;
@@ -96,7 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishAct1WithNoOtherEarningsArePaidWhenMatchingDatalock(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var blankEarning = _earnings[0];
             blankEarning.TransactionType01 = 0;
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishAct2WithNoOtherEarningsAreNotPaidWhenNoMatchingDatalock(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(), 

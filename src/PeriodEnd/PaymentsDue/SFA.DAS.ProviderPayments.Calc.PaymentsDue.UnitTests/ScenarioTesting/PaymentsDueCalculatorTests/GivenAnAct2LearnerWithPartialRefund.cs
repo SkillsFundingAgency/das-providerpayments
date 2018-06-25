@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR01Of500(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService datalockValidator)
             {
@@ -76,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR02Of500(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService datalockValidator)
             {
@@ -98,7 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void WithAPriceIncreaseTo750_ThereAreCorrectPaymentsForR03(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService datalockValidator)
             {
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR04Of750(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService datalockValidator)
             {

@@ -207,7 +207,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             [Theory, PaymentsDueAutoData]
             public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService commitmentMatcher)
             {
@@ -232,7 +232,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             [Theory, PaymentsDueAutoData]
             public void ThenTheRefundAmountShouldBeCorrect(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                IDetermineWhichEarningsShouldBePaid datalock,
+                DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
                 DatalockValidationService commitmentMatcher)
             {

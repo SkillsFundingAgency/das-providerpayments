@@ -50,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void WithPassingDatalock_ThereArePaymentsForR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -72,7 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, datalockSuccess: false, mathsEnglishAmount: 0)]
         public void WithFailingDatalockAndAnIncreaseInPrice_ThereAreNoPaymentsForR02(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -96,7 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, datalockSuccess: false, mathsEnglishAmount: 0)]
         public void WithFailingDatalockAndADecreaseInPrice_ThereAreNoPaymentsForR02(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -120,7 +120,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, datalockSuccess: false, mathsEnglishAmount: 0)]
         public void WithFailingDatalockAndNoChangeInPrice_ThereAreNoPaymentsForR02(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -142,7 +142,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void WithPassingDatalockInR03ButHavingMadeNoPaymentsInR02AndAPriceIncrease_ThereArePaymentsForR03(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {

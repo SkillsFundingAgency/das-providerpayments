@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldPayR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -74,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldPayR02(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
@@ -96,7 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldNotPayR03(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {

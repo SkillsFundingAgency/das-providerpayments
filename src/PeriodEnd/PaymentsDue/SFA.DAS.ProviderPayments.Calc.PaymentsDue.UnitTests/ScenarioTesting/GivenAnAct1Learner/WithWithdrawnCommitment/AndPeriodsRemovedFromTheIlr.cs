@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
         [Theory, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForTheWithdrawnPeriod(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            IDetermineWhichEarningsShouldBePaid datalock,
+            DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService sut,
             SortProviderDataIntoLearnerData parametersBuilder,
             DatalockValidationService commitmentMatcher)

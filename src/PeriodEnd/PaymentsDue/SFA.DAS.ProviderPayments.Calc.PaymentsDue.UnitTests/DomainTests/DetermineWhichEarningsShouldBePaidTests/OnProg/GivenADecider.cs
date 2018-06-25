@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, academicYear:"1617")]
         public void IfEarningsAreForAPreviousYearTheyShouldBeIgnored(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -50,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, academicYear:"1819")]
         public void IfEarningsAreForAFutureYearTheyShouldBeIgnored(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -63,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void IfEarningsAreAct2PayThemAll(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -76,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1AndHaveAMatchingDatalock(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -89,7 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1WithNoMatchingDatalockIgnorePeriodIsSet(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var expectedPeriodToIgnore = _datalockOutput[0].Period;
             _datalockOutput.RemoveAt(0);
@@ -105,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1WithMatchingDatalockTheyArePaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
@@ -118,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag1IncentivesNotPaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             for (var i = 0; i < 12; i++)
             {
@@ -142,7 +142,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag2OnlyFirstIncentivesPaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             for (var i = 0; i < 12; i++)
             {
@@ -168,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag3OnlySecondIncentivesPaid(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             for (var i = 0; i < 12; i++)
             {

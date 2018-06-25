@@ -33,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         [Theory, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void CallingTwiceWithTheSameDataReturnsTheSameResults(
-            IDetermineWhichEarningsShouldBePaid sut)
+            DetermineWhichEarningsShouldBePaidService sut)
         {
             var runOne = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),

@@ -12,7 +12,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     // ReSharper disable once InconsistentNaming
-    public class IDetermineWhichEarningsShouldBePaid : IIDetermineWhichEarningsShouldBePaid
+    public class DetermineWhichEarningsShouldBePaidService : IDetermineWhichEarningsShouldBePaid
     {
         // ASSUMPTIONS from Looking at the live data.
         //  Datalocks are 'keyed' by UKPRN, LearnRefNumber, PriceEpisodeIdentifier and CommitmentId
@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         private DateTime _firstDayOfNextAcademicYear;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
-        public IDetermineWhichEarningsShouldBePaid(ICollectionPeriodRepository collectionPeriodRepository)
+        public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
         }

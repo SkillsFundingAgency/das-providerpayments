@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IMediator>().Use<Mediator>();
 
             For<ICalculatePaymentsDue>().Use<PaymentsDueCalculationService>();
-            For<IIDetermineWhichEarningsShouldBePaid>().Use<IDetermineWhichEarningsShouldBePaid>();
+            For<IDetermineWhichEarningsShouldBePaid>().Use<DetermineWhichEarningsShouldBePaidService>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
         }
