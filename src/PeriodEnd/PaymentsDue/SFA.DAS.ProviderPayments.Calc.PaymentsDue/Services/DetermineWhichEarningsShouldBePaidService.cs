@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FastMember;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
+namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     // ReSharper disable once InconsistentNaming
     public class DetermineWhichEarningsShouldBePaidService : IDetermineWhichEarningsShouldBePaid

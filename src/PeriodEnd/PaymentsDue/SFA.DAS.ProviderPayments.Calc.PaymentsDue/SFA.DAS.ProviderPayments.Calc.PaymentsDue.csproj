@@ -77,7 +77,7 @@
     <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
-    <Compile Include="Domain\DetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="Services\PaymentsDueCalculationService.cs" />
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Services\Extensions\CourseExtensions.cs" />
