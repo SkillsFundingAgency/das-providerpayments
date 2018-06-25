@@ -1,16 +1,16 @@
 ﻿using System.Linq;
 using AutoFixture.NUnit3;
-using Castle.Core.Logging;
 using FluentAssertions;
 using Moq;
+using NLog;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
-using NullLogger = NLog.NullLogger;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
 {
@@ -29,37 +29,51 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             string filename,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             IDetermineWhichEarningsShouldBePaid datalock,
-            PaymentsDueCalculationService sut,
+            PaymentsDueCalculationService paymentsDueCalc,
             DatalockValidationService commitmentMatcher,
             CollectionPeriodEntity collectionPeriod)
         {
-            var parameters = TestData.LoadFrom(filename);
+            var testData = TestData.LoadFrom(filename);
 
-            var datalockOutput = commitmentMatcher.ProcessDatalocks(
-                parameters.DatalockOutputs,
-                parameters.DatalockValidationErrors,
-                parameters.Commitments);
+            var sut = new LearnerProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc);
+
+            var parameters = new LearnerData(testData.LearnRefNumber, testData.Uln);
+            parameters.RawEarnings.AddRange(testData.RawEarnings);
+            parameters.Commitments.AddRange(testData.Commitments);
+            parameters.DataLocks.AddRange(testData.DatalockOutputs);
+            parameters.DatalockValidationErrors.AddRange(testData.DatalockValidationErrors);
+            parameters.HistoricalPayments.AddRange(testData.PastPayments);
+            parameters.RawEarningsMathsEnglish.AddRange(testData.RawEarningsForMathsOrEnglish);
 
             collectionPeriod.AcademicYear = "1718";
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(collectionPeriod);
 
-            var datalockResult = datalock.DeterminePayableEarnings(
-                datalockOutput,
-                parameters.RawEarnings,
-                parameters.RawEarningsForMathsOrEnglish);
+            var actual = sut.Process(parameters, testData.Ukprn);
 
-            var actual = sut.Calculate(
-                datalockResult.Earnings,
-                datalockResult.PeriodsToIgnore,
-                parameters.PastPayments);
+            //var datalockOutput = commitmentMatcher.ProcessDatalocks(
+            //    parameters.DatalockOutputs,
+            //    parameters.DatalockValidationErrors,
+            //    parameters.Commitments);
 
-            actual.Should().HaveCount(parameters.Payments.Count);
-            actual.Sum(x => x.AmountDue).Should().Be(parameters.Payments.Sum(x => x.AmountDue));
+            
 
-            foreach (var payment in parameters.Payments)
+            //var datalockResult = datalock.DeterminePayableEarnings(
+            //    datalockOutput,
+            //    parameters.RawEarnings,
+            //    parameters.RawEarningsForMathsOrEnglish);
+
+            //var actual = paymentsDueCalc.Calculate(
+            //    datalockResult.Earnings,
+            //    datalockResult.PeriodsToIgnore,
+            //    parameters.PastPayments);
+
+            actual.PayableEarnings.Should().HaveCount(testData.Payments.Count);
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(testData.Payments.Sum(x => x.AmountDue));
+
+            foreach (var payment in testData.Payments)
             {
-                actual.Should().Contain(x =>
+                actual.PayableEarnings.Should().Contain(x =>
                     x.TransactionType == payment.TransactionType &&
                     x.AmountDue == payment.AmountDue &&
                     x.PriceEpisodeIdentifier == payment.PriceEpisodeIdentifier &&

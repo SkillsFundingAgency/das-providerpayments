@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AutoFixture;
-using Castle.Core.Logging;
 using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;

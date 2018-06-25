@@ -110,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Theory, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishAct2WithNoOtherEarningsAreNotPaidWhenNoMatchingDatalock(
             IDetermineWhichEarningsShouldBePaid sut)
         {
