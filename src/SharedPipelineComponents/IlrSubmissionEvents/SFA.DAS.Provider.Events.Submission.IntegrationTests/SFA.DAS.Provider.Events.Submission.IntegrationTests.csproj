@@ -147,6 +147,9 @@
       <Link>DbSetupScripts\~2_Submissions.Deds.AddColumns.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeploySubmission\sql\migrationscripts\~3_Submissions.Deds.AddColumns.sql">
+      <Link>DbSetupScripts\~3_Submissions.Deds.AddColumns.sql</Link>
+    </Content>
     <Content Include="DbSetupScripts\4_SubmissionEvents.Deds.Add_Uln_Index.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -154,9 +157,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\ilr.transient.ddl.tables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\~3_Submissions.Deds.AddColumns.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
