@@ -658,7 +658,7 @@ Scenario:AC2- Provider earnings and payments where learner changes employer and 
         #    | On-program   | commitment 1 v1-001 | commitment 1 v1-001 |       | commitment 2 v1-001 | commitment 2 v1-001 |
         Then the provider earnings and payments break down as follows:
             | Type                            | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 |
-            | Provider Earned Total           | 1000  | 1000  | 0     | 500   | 500   |
+            | Provider Earned Total           | 1000  | 1000  | 1000  | 500   | 500   |
             | Provider Paid by SFA            | 0     | 1000  | 1000  | 0     | 500   |
             | Employer 1 Levy account debited | 0     | 1000  | 1000  | 0     | 0     |
             | Employer 2 Levy account debited | 0     | 0     | 0     | 0     | 500   |
