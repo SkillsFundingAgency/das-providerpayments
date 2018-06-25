@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
     [TestFixture]
     public class GivenAnEntityThatHoldsCourseInformation
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsTrueWhenCourseInformationIsTheSame(
             FundingDue lhs, FundingDue rhs)
         {
@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsFalseWhenPathwayCodeIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {
@@ -39,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsFalseWhenFrameworkCodeIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {
@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsFalseWhenStandardCodeIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {
@@ -69,7 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsFalseWhenProgrammeTypeIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {
@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasMatchingCourseInformationReturnsFalseWhenActIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {

@@ -33,7 +33,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 .ToList();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenThereShouldBeNoDuplicateOutput(DatalockValidationService sut)
         {
             RawDatalocks[1] = RawDatalocks[0];

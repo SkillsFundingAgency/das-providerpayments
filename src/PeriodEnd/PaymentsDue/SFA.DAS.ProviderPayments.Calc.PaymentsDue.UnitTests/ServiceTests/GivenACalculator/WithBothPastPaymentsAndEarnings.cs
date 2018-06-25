@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         [TestFixture]
         public class AndThePastPaymentsMatchTheEarnings
         {
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             public void ThenThereAreNoPaymentsDue(
                 List<FundingDue> earnings,
                 PaymentsDueCalculationService sut
@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         [TestFixture]
         public class AndThereIsOneMoreEarningThanMatchingPastPayments
         {
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             public void ThenThePayentsDueMatchesTheEarning(
                 List<FundingDue> earnings,
                 PaymentsDueCalculationService sut,
@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         [TestFixture]
         public class AndThereIsOneMorePastPayment
         {
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             public void ThenThePayentsDueMatchesTheEarning(
                 List<FundingDue> earnings,
                 PaymentsDueCalculationService sut

@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
     [TestFixture]
     public class AndPeriodsRemovedFromTheIlr
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForTheWithdrawnPeriod(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             DetermineWhichEarningsShouldBePaidService datalock,

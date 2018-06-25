@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
     [TestFixture]
     public class GivenARawEarning
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsFalseForAClearEarning(
             RawEarning test)
         {
@@ -20,7 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT01IsPresent(
             RawEarning test)
         {
@@ -32,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT02IsPresent(
             RawEarning test)
         {
@@ -44,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT03IsPresent(
             RawEarning test)
         {
@@ -56,7 +56,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT04IsPresent(
             RawEarning test)
         {
@@ -68,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT05IsPresent(
             RawEarning test)
         {
@@ -80,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT06IsPresent(
             RawEarning test)
         {
@@ -91,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
 
             actual.Should().BeTrue();
         }
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT07IsPresent(
             RawEarning test)
         {
@@ -103,7 +103,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT08IsPresent(
             RawEarning test)
         {
@@ -115,7 +115,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT09IsPresent(
             RawEarning test)
         {
@@ -127,7 +127,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT10IsPresent(
             RawEarning test)
         {
@@ -139,7 +139,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT11IsPresent(
             RawEarning test)
         {
@@ -151,7 +151,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT12IsPresent(
             RawEarning test)
         {
@@ -163,7 +163,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT13IsPresent(
             RawEarning test)
         {
@@ -175,7 +175,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT14IsPresent(
             RawEarning test)
         {
@@ -187,7 +187,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenT15IsPresent(
             RawEarning test)
         {
@@ -199,7 +199,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenHasNonZeroTransactionsIsTrueWhenMultipleTransactionTypesPresent(
             RawEarning test)
         {

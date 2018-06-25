@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             _datalocks.RemoveRange(2, 10);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldPayR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -70,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldPayR02(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -92,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ShouldNotPayR03(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,

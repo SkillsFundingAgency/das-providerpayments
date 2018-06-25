@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             _datalockOutput = earningsDictionary["DatalockOutput"] as List<DatalockOutput>;
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, academicYear:"1617")]
         public void IfEarningsAreForAPreviousYearTheyShouldBeIgnored(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(0);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, academicYear:"1819")]
         public void IfEarningsAreForAFutureYearTheyShouldBeIgnored(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(0);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void IfEarningsAreAct2PayThemAll(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -74,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(12);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1AndHaveAMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -87,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(12);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1WithNoMatchingDatalockIgnorePeriodIsSet(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -103,7 +103,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.PeriodsToIgnore.Should().Contain(expectedPeriodToIgnore);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void IfEarningsAreAct1WithMatchingDatalockTheyArePaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -116,7 +116,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(12);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag1IncentivesNotPaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -140,7 +140,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag2OnlyFirstIncentivesPaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -166,7 +166,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void EarningsWithMatchingDatalockTransFlag3OnlySecondIncentivesPaid(
             DetermineWhichEarningsShouldBePaidService sut)

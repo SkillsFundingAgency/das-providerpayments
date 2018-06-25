@@ -227,7 +227,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             Datalocks.AddRange(datalockForNextYearFirstCommitment);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThereShouldBeNoRefunds(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             DetermineWhichEarningsShouldBePaidService datalock,

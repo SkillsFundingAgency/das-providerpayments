@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
     [TestFixture]
     public class GivenAMatchSet
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqualUsingObject(
             PaymentGroup sut)
         {
@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqualUsingShortcut(
             PaymentGroup sut)
         {
@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqualUsingShorthand(
             int standardCode,
             int frameworkCode,
@@ -75,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithDifferentPropertiesWillNotBeEqualUsingShorthand(
             PaymentGroup object1,
             PaymentGroup object2
@@ -86,7 +86,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ComparingToNullWillNotBeEqual(
             PaymentGroup test)
         {
@@ -95,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ComparingWithNullWillNotBeEqual1(
             PaymentGroup test)
         {
@@ -104,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ComparingWithNullWillNotBeEqual2(
             PaymentGroup test)
         {
@@ -113,7 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeFalse();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ObjectComparingWithNullWillNotBeEqual2(
             PaymentGroup test)
         {
@@ -123,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
         }
 
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqual(
             PaymentGroup sut)
         {
@@ -132,7 +132,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqual(
             int standardCode,
             int frameworkCode,
@@ -181,7 +181,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqualUsingShortcut(
             int standardCode,
             int frameworkCode,
@@ -230,7 +230,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             actual.Should().BeTrue();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithDifferentPropertiesWillNotBeEqual(
             PaymentGroup object1,
             PaymentGroup object2

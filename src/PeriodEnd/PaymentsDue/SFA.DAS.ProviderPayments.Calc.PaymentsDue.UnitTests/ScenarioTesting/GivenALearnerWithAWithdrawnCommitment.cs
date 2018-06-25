@@ -204,7 +204,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 Datalocks.AddRange(datalockForNextYearFirstCommitment);
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             public void ThenThereShouldBeNoRefundsForThePeriodsWithdrawnFromTheIlr(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,
@@ -229,7 +229,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 actual.Should().HaveCount(2);
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             public void ThenTheRefundAmountShouldBeCorrect(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,

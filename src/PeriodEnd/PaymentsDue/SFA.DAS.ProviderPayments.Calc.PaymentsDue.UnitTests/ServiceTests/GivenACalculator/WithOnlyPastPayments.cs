@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
     [TestFixture]
     public class WithOnlyPastPayments
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForAllPastPayments(
             List<RequiredPaymentEntity> pastPayments,
             PaymentsDueCalculationService sut

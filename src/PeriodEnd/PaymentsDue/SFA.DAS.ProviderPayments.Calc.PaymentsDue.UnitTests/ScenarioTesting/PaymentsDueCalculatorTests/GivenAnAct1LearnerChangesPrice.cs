@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             _datalockValidationErrors = earningsDictionary["DatalockValidationErrors"] as List<DatalockValidationError>;
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount:100, mathsEnglishAmount:0)]
         public void ThereArePaymentsForR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -68,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount: 100, mathsEnglishAmount: 0)]
         public void ThereArePaymentsForR02WhichIncludeTheMissingAmountFromR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount:100, mathsEnglishAmount: 0)]
         public void ThereArePaymentsForR02WhichIncludeTheRefundAmountFromR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -118,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             actual.Sum(x => x.AmountDue).Should().Be(expected);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1, onProgAmount:100, mathsEnglishAmount: 0)]
         public void ThereIsARefundPaymentsForR02BecauseTheBigPriceReductionFromR01(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,

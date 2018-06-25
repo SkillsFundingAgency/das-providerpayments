@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
     [TestFixture]
     public class WithMultipleWithdrawnCommitmentsAndOneActiveButStillDatalocked
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenThereShouldBeNoRefunds(
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             DetermineWhichEarningsShouldBePaidService datalock,

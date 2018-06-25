@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
     [TestFixture]
     public class ScenarioTesting
     {
-        [Theory]
+        [Test]
         [PaymentsDueInlineAutoData("DuplicateDataLocks")]
         [PaymentsDueInlineAutoData("IncentivePaidButNotOnprog")]
         [PaymentsDueInlineAutoData("SecondIncentivePaidWithOnprog")]

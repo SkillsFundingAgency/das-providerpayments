@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void CallingTwiceWithTheSameDataReturnsTheSameResults(
             DetermineWhichEarningsShouldBePaidService sut)

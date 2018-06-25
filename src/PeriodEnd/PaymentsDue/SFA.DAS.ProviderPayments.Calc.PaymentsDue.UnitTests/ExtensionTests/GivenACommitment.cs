@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
     [TestFixture]
     public class GivenACommitment
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTransferCommitmentInformationCopiesAccountId(
             Commitment testCommitment, FundingDue actual)
         {
@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.AccountId.Should().Be(testCommitment.AccountId);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTransferCommitmentInformationCopiesCommitmentId(
             Commitment testCommitment, FundingDue actual)
         {
@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.CommitmentId.Should().Be(testCommitment.CommitmentId);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTransferCommitmentInformationCopiesCommitmentVersionId(
             Commitment testCommitment, FundingDue actual)
         {
@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             actual.CommitmentVersionId.Should().Be(testCommitment.CommitmentVersionId);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenTransferCommitmentInformationCopiesAccountVersionId(
             Commitment testCommitment, FundingDue actual)
         {

@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
     [TestFixture]
     public class WithNoPastPayments
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void ThenThePaymentsMatchTheEarnings(
             List<FundingDue> earnings,
             PaymentsDueCalculationService sut

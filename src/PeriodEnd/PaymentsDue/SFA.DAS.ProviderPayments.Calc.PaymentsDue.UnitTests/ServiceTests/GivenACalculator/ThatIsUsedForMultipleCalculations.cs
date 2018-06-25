@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
     [TestFixture]
     public class ThatIsUsedForMultipleCalculations
     {
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         public void CallingTwiceWithTheSameDataReturnsTheSameResults(
             PaymentsDueCalculationService sut,
             List<FundingDue> earnings)

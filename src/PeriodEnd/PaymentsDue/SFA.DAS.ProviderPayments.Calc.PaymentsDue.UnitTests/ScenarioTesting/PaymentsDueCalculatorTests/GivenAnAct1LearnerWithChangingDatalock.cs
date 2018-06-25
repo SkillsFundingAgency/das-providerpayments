@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 _datalockValidationErrors = earningsDictionary["DatalockValidationErrors"] as List<DatalockValidationError>;
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR01(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -71,7 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR02(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(1, datalockSuccess: false, mathsEnglishAmount: 0)]
             public void WithFailingDatalock_ThereAreNoPaymentsForR03(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
@@ -118,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 actual.Sum(x => x.AmountDue).Should().Be(expected);
             }
 
-            [Theory, PaymentsDueAutoData]
+            [Test, PaymentsDueAutoData]
             [SetupMatchingEarningsAndPastPayments(1, mathsEnglishAmount: 0)]
             public void WithPassingDatalock_ThereArePaymentsForR04(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,

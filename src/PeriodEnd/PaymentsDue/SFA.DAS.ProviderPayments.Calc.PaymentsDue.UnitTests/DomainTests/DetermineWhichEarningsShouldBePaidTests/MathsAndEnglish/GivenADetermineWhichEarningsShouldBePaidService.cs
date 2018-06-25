@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             _datalockOutput = earningsDictionary["DatalockOutput"] as List<DatalockOutput>;
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishWithNoPayableOnprogNotPaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -50,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().BeEmpty();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishWithNoPayableOnprogNotPaidForAct2(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().BeEmpty();
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishWithPayableOnProgPaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -78,7 +78,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(24); // M/E as well as onprog * 12
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishAct2WithNoOtherEarningsArePaid(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(12);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
         public void MathsEnglishAct1WithNoOtherEarningsArePaidWhenMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
@@ -110,7 +110,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             actual.Earnings.Should().HaveCount(12);
         }
 
-        [Theory, PaymentsDueAutoData]
+        [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
         public void MathsEnglishAct2WithNoOtherEarningsAreNotPaidWhenNoMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
