@@ -23,25 +23,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Test, PaymentsDueAutoData]
             public void ThenItGetsLearnerParametersForTheProvider(
             ProviderEntity provider,
-            [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+            [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
             ProviderProcessor sut)
             {
                 sut.Process(provider);
 
-                mockParametersBuilder.Verify(builder => builder.Sort(provider.Ukprn), Times.Once);
+                providerDataSorter.Verify(builder => builder.Sort(provider.Ukprn), Times.Once);
             }
 
             [Test, PaymentsDueAutoData]
             public void ThenItProcessesEachLearner(
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 ProviderProcessor sut,
                 List<PaymentsDueResult> testResults
                 )
             {
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 {
                     var returnValue = testResults[i];
                     var parameter = learnerParameters[i];
-                    mockLearnerProcessor.Setup(x => x.Process(parameter, It.IsAny<long>()))
+                    mockLearnerProcessor.Setup(x => x.Process(para, It.IsAny<long>()))
                         .Returns(returnValue);
                 }
                 
@@ -66,14 +66,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
             {
                 var expectedNonPayableEarnings = new List<NonPayableEarningEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -93,14 +93,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
             {
                 var expectedPayableEarnings = new List<RequiredPaymentEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -121,14 +121,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
             {
                 var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -152,7 +152,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 CollectionPeriodEntity collectionPeriod,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
@@ -160,7 +160,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             {
                 var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -191,14 +191,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
             {
                 var actualPayableEarnings = new List<RequiredPaymentEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
@@ -222,7 +222,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 CollectionPeriodEntity collectionPeriod,
                 PaymentsDueResult learnerResult,
-                [Frozen] Mock<ISortProviderDataIntoLearnerData> mockParametersBuilder,
+                [Frozen] Mock<ISortProviderDataIntoLearnerData> providerDataSorter,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
                 [Frozen] Mock<ILearnerProcessor> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
@@ -230,7 +230,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             {
                 var actualPayableEarnings = new List<RequiredPaymentEntity>();
 
-                mockParametersBuilder
+                providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
                     .Returns(learnerParameters);
 
