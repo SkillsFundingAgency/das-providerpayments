@@ -279,8 +279,8 @@ Scenario:802-AC01 - DAS standard learner, price is changed, originally mix funde
         | Refund due to employer         | 0     | 0      | 0      | 5     | 0     | 0     | 
         | Levy account debited           | 0     | 750    | 375    | 0     | 0     | 0     | 
         | Levy account credited          | 0     | 0      | 0      | 50    | 0     | 0     | 
-        | SFA Levy employer budget       | 750   | 325    | 0      | 0     | 0     | 0     | 
-        | SFA Levy co-funding budget     | 0     | 292.50 | 0      | 0     | 0     | 0     | 
+        | SFA Levy employer budget       | 750   | 375    | 0      | 0     | 0     | 0     | 
+        | SFA Levy co-funding budget     | 0     | 337.50 | 0      | 0     | 0     | 0     | 
         | SFA non-Levy co-funding budget | 0     | 0      | 0      | 0     | 0     | 0     |
 
 
