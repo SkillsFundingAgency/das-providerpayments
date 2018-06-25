@@ -1,4 +1,5 @@
 ﻿using System;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
@@ -35,6 +36,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             DeliveryYear = deliveryYear;
             AccountId = accountId ?? -1;
         }
+
+        public PaymentGroup(RequiredPaymentEntity copy)
+        {
+            StandardCode = copy.StandardCode;
+            FrameworkCode = copy.FrameworkCode;
+            ProgrammeType = copy.ProgrammeType;
+            PathwayCode = copy.PathwayCode;
+            ApprenticeshipContractType = copy.ApprenticeshipContractType;
+            TransactionType = copy.TransactionType;
+            SfaContributionPercentage = copy.SfaContributionPercentage;
+            LearnAimRef = copy.LearnAimRef;
+            FundingLineType = copy.FundingLineType;
+            DeliveryMonth = copy.DeliveryMonth;
+            DeliveryYear = copy.DeliveryYear;
+            AccountId = copy.AccountId;
+        }
+
         public int StandardCode { get; }
         public int FrameworkCode { get; }
         public int ProgrammeType { get; }

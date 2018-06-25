@@ -24,37 +24,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             var processedGroups = new HashSet<PaymentGroup>();
 
-            var groupedEarnings = earnings.GroupBy(x => new PaymentGroup
-                (
-                    x.StandardCode,
-                    x.FrameworkCode,
-                    x.ProgrammeType,
-                    x.PathwayCode,
-                    x.ApprenticeshipContractType,
-                    x.TransactionType,
-                    x.SfaContributionPercentage,
-                    x.LearnAimRef,
-                    x.FundingLineType,
-                    x.DeliveryYear,
-                    x.DeliveryMonth,
-                    x.AccountId)
-            ).ToDictionary(x => x.Key, x => x.ToList());
+            var groupedEarnings = earnings
+                .GroupBy(x => new PaymentGroup(x))
+                .ToDictionary(x => x.Key, x => x.ToList());
 
-            var groupedPastPayments = pastPayments.GroupBy(x => new PaymentGroup
-                (
-                    x.StandardCode,
-                    x.FrameworkCode,
-                    x.ProgrammeType,
-                    x.PathwayCode,
-                    x.ApprenticeshipContractType,
-                    x.TransactionType,
-                    x.SfaContributionPercentage,
-                    x.LearnAimRef,
-                    x.FundingLineType,
-                    x.DeliveryYear,
-                    x.DeliveryMonth,
-                    x.AccountId)
-            ).ToDictionary(x => x.Key, x => x.ToList());
+            var groupedPastPayments = pastPayments
+                .GroupBy(x => new PaymentGroup(x))
+                .ToDictionary(x => x.Key, x => x.ToList());
 
             // Payments for earnings
             foreach (var key in groupedEarnings.Keys)

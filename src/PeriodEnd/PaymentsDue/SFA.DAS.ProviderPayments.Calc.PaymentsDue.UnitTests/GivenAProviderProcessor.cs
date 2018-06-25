@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 {
                     var returnValue = testResults[i];
                     var parameter = learnerParameters[i];
-                    mockLearnerProcessor.Setup(x => x.Process(para, It.IsAny<long>()))
+                    mockLearnerProcessor.Setup(x => x.Process(parameter, It.IsAny<long>()))
                         .Returns(returnValue);
                 }
                 
