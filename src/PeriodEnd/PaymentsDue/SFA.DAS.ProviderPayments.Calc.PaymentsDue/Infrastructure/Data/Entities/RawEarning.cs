@@ -5,7 +5,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RawEarning : IFundingDue
+    public class RawEarning : IHoldCourseInformation
     {
         public RawEarning()
         {

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using ClosedXML.Excel;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -23,9 +22,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
             foreach (var xlRow in range.Skip(1))
             {
                 var pastPayment = new RequiredPaymentEntity();
-                pastPayment.CommitmentId = xlRow.Cell(1).IsEmpty() || xlRow.Cell(1).Value.Equals("NULL") ? (long?)null : xlRow.Cell(1).GetValue<long>();
+                pastPayment.CommitmentId = xlRow.Cell(1).IsEmpty() || xlRow.Cell(1).Value.Equals("NULL") ? 0 : xlRow.Cell(1).GetValue<long>();
                 pastPayment.CommitmentVersionId = xlRow.Cell(2).GetValue<string>();
-                pastPayment.AccountId = xlRow.Cell(3).IsEmpty() || xlRow.Cell(3).Value.Equals("NULL") ? (long?)null : xlRow.Cell(3).GetValue<long>();
+                pastPayment.AccountId = xlRow.Cell(3).IsEmpty() || xlRow.Cell(3).Value.Equals("NULL") ? 0 : xlRow.Cell(3).GetValue<long>();
                 pastPayment.DeliveryMonth = xlRow.Cell(5).GetValue<int>();
                 pastPayment.DeliveryYear = xlRow.Cell(6).GetValue<int>();
                 pastPayment.CollectionPeriodName = xlRow.Cell(7).GetValue<string>();
@@ -132,7 +131,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     Payable = xlRow.Cell(5).GetValue<int>() == 1,
                     TransactionTypesFlag = xlRow.Cell(6).IsEmpty() || xlRow.Cell(6).Value.Equals("NULL") ? 1 : xlRow.Cell(6).GetValue<int>(),
                 };
-                result.DatalockOutputs.Add(new DatalockOutput(datalock));
+                result.DatalockOutputs.Add(datalock);
             }
 
             var datalockValidationErrorSheet = document.Worksheet("DatalockValidationErrors");
@@ -203,7 +202,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
 
     class TestDataParameters
     {
-        public HashSet<DatalockOutput> DatalockOutputs { get; set; } = new HashSet<DatalockOutput>();
+        public List<DatalockOutputEntity> DatalockOutputs { get; set; } = new List<DatalockOutputEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();

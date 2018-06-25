@@ -42,13 +42,15 @@ BEGIN
 		UseLevyBalance bit,
 		LearnAimRef varchar(8) NOT NULL,
 		LearningStartDate datetime,
-		Reason varchar(1000) NOT NULL
+		PaymentFailureMessage varchar(1000) NOT NULL,
+		PaymentFailureReason int NOT NULL,
 	)
 
 	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_CollectionPeriodName ON PaymentsDue.NonPayableEarnings (CollectionPeriodName)
 	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_UkprnLearnRefNumber ON PaymentsDue.NonPayableEarnings (Ukprn, LearnRefNumber)
 	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_Uln ON PaymentsDue.NonPayableEarnings (Uln)
 	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_CommitmentId ON PaymentsDue.NonPayableEarnings (CommitmentId)
+	CREATE INDEX IX_PaymentsDue_NonPayableEarnings_PaymentFailureReason ON PaymentsDue.NonPayableEarnings (PaymentFailureReason)
 END
 GO
 

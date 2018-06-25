@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchSetTests
@@ -11,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
     {
         [Theory, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqualUsingObject(
-            MatchSetForPayments sut)
+            PaymentGroup sut)
         {
             var actual = sut.Equals((object)sut);
 
@@ -20,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqualUsingShortcut(
-            MatchSetForPayments sut)
+            PaymentGroup sut)
         {
             var actual = sut == sut;
 
@@ -28,21 +27,58 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
         }
 
         [Theory, PaymentsDueAutoData]
-        public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqual(
-            DatalockOutputEntity seed)
+        public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqualUsingShorthand(
+            int standardCode,
+            int frameworkCode,
+            int programmeType,
+            int pathwayCode,
+            int apprenticeshipContractType,
+            int transactionType,
+            decimal sfaContributionPercentage,
+            string learnAimRef,
+            string fundingLineType,
+            int deliveryYear,
+            int deliveryMonth,
+            long? accountId)
         {
-            var object1 = new DatalockOutput(seed);
-            var object2 = new DatalockOutput(seed);
+            var object1 = new PaymentGroup
+            (
+                standardCode,
+                frameworkCode,
+                programmeType,
+                pathwayCode,
+                apprenticeshipContractType,
+                transactionType,
+                sfaContributionPercentage,
+                learnAimRef,
+                fundingLineType,
+                deliveryYear,
+                deliveryMonth,
+                accountId);
+            var object2 = new PaymentGroup
+            (
+                standardCode,
+                frameworkCode,
+                programmeType,
+                pathwayCode,
+                apprenticeshipContractType,
+                transactionType,
+                sfaContributionPercentage,
+                learnAimRef,
+                fundingLineType,
+                deliveryYear,
+                deliveryMonth,
+                accountId);
 
-            var actual = object1.Equals(object2);
+            var actual = object1 == object2;
 
             actual.Should().BeTrue();
         }
 
         [Theory, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithDifferentPropertiesWillNotBeEqualUsingShorthand(
-            MatchSetForPayments object1,
-            MatchSetForPayments object2
+            PaymentGroup object1,
+            PaymentGroup object2
         )
         {
             var actual = object1 == object2;
@@ -52,7 +88,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ComparingToNullWillNotBeEqual(
-            MatchSetForPayments test)
+            PaymentGroup test)
         {
             var actual = test.Equals(null);
 
@@ -61,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ComparingWithNullWillNotBeEqual1(
-            MatchSetForPayments test)
+            PaymentGroup test)
         {
             var actual = test == null;
 
@@ -70,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ComparingWithNullWillNotBeEqual2(
-            MatchSetForPayments test)
+            PaymentGroup test)
         {
             var actual = null == test;
 
@@ -79,7 +115,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ObjectComparingWithNullWillNotBeEqual2(
-            MatchSetForPayments test)
+            PaymentGroup test)
         {
             var actual = null == (object)test;
 
@@ -89,7 +125,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ThenTwoIdenticalObjectsWillBeEqual(
-            MatchSetForPayments sut)
+            PaymentGroup sut)
         {
             var actual = sut.Equals(sut);
 
@@ -111,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             int deliveryMonth,
             long? accountId)
         {
-            var object1 = new MatchSetForPayments
+            var object1 = new PaymentGroup
             (
                 standardCode,
                 frameworkCode,
@@ -125,7 +161,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
                 deliveryYear,
                 deliveryMonth,
                 accountId);
-            var object2 = new MatchSetForPayments
+            var object2 = new PaymentGroup
             (
                 standardCode,
                 frameworkCode,
@@ -160,7 +196,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             int deliveryMonth,
             long? accountId)
         {
-            var object1 = new MatchSetForPayments
+            var object1 = new PaymentGroup
             (
                 standardCode,
                 frameworkCode,
@@ -174,7 +210,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
                 deliveryYear,
                 deliveryMonth,
                 accountId);
-            var object2 = new MatchSetForPayments
+            var object2 = new PaymentGroup
             (
                 standardCode,
                 frameworkCode,
@@ -196,8 +232,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
 
         [Theory, PaymentsDueAutoData]
         public void ThenTwoDifferentObjectsWithDifferentPropertiesWillNotBeEqual(
-            MatchSetForPayments object1,
-            MatchSetForPayments object2
+            PaymentGroup object1,
+            PaymentGroup object2
             )
         {
             var actual = object1.Equals(object2);

@@ -31,9 +31,45 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
         public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqual(
             DatalockOutputEntity seed)
         {
-            var object1 = new DatalockOutput(seed);
-            var object2 = new DatalockOutput(seed);
+            var object1 = new DatalockOutput(seed, new Commitment());
+            var object2 = new DatalockOutput(seed, new Commitment());
             
+            var actual = object1.Equals(object2);
+
+            actual.Should().BeTrue();
+        }
+
+        [Theory, PaymentsDueAutoData]
+        public void ThenTwoObjectsWithIdenticalPropertiesExceptForCommitmentVersionWillBeEqual(
+            DatalockOutputEntity seed)
+        {
+            var object1 = new DatalockOutput(seed, new Commitment{CommitmentVersionId = "a"});
+            var object2 = new DatalockOutput(seed, new Commitment{CommitmentVersionId = "b"});
+
+            var actual = object1.Equals(object2);
+
+            actual.Should().BeTrue();
+        }
+
+        [Theory, PaymentsDueAutoData]
+        public void ThenTwoObjectsWithIdenticalPropertiesExceptForAccountIdWillBeEqual(
+            DatalockOutputEntity seed)
+        {
+            var object1 = new DatalockOutput(seed, new Commitment { AccountId = 100 });
+            var object2 = new DatalockOutput(seed, new Commitment { AccountId = 200 });
+
+            var actual = object1.Equals(object2);
+
+            actual.Should().BeTrue();
+        }
+
+        [Theory, PaymentsDueAutoData]
+        public void ThenTwoObjectsWithIdenticalPropertiesExceptForAccountVersionWillBeEqual(
+            DatalockOutputEntity seed)
+        {
+            var object1 = new DatalockOutput(seed, new Commitment { AccountVersionId = "a" });
+            var object2 = new DatalockOutput(seed, new Commitment { AccountVersionId = "b" });
+
             var actual = object1.Equals(object2);
 
             actual.Should().BeTrue();
@@ -43,8 +79,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
         public void ThenTwoDifferentObjectsWithIdenticalPropertiesWillBeEqualUsingShorthand(
             DatalockOutputEntity seed)
         {
-            var object1 = new DatalockOutput(seed);
-            var object2 = new DatalockOutput(seed);
+            var object1 = new DatalockOutput(seed, new Commitment());
+            var object2 = new DatalockOutput(seed, new Commitment());
 
             var actual = object1 == object2;
 

@@ -5,7 +5,6 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -17,8 +16,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
     [TestFixture]
     public class GivenALearnerProcessParametersBuilder
     {
-        private readonly DateTime _firstDayOfNextAcademicYear = new DateTime(2018, 8, 1);
-
         private static readonly List<CollectionPeriodEntity> CollectionPeriods = new List<CollectionPeriodEntity>
         {
             new CollectionPeriodEntity {AcademicYear = "1718", Id = 1, Month = 8, Year = 2017, },
@@ -45,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<RawEarning> rawEarnings,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             rawEarnings.ForEach(entity =>
             {
@@ -54,14 +51,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             });
  
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
+                .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(rawEarnings);
 
             collectionPeriodRepository
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -78,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             rawEarningsMathsEnglish.ForEach(entity =>
             {
@@ -94,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -109,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long uln,
             List<RequiredPaymentEntity> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             historicalPayments.ForEach(entity =>
             {
@@ -121,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(historicalPayments);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -135,15 +132,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             string learnRefNumber,
             List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             dataLocks.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
 
             mockDataLockRepository
-                .Setup(repository => repository.GetDatalockOutputForProvider(ukprn, It.IsAny<DateTime>()))
+                .Setup(repository => repository.GetDatalockOutputForProvider(ukprn))
                 .Returns(dataLocks);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -167,7 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
             List<Commitment> commitments,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
 
             // Arrange data so each maps to the Uln or LearnerRefNumber
@@ -185,17 +182,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             // Force this commitment to not match
             commitments[0].Uln = -99897689;
 
-            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear)).Returns(rawEarnings);
+            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
             mockRawEarningsMathsEnglishRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarningsMathsEnglish);
             mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(historicalPayments);
-            mockDataLockRepository.Setup(repository => repository.GetDatalockOutputForProvider(ukprn, It.IsAny<DateTime>())).Returns(dataLocks);
+            mockDataLockRepository.Setup(repository => repository.GetDatalockOutputForProvider(ukprn)).Returns(dataLocks);
             mockCommitmentsRepository.Setup(repository => repository.GetProviderCommitments(ukprn)).Returns(commitments);
 
             collectionPeriodRepository
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
             
             learners.Count.Should().Be(3);
 
@@ -210,7 +207,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 learners[i].HistoricalPayments.Count.Should().Be(1);
                 learners[i].HistoricalPayments[0].Should().Be(historicalPayments[i]);
                 learners[i].DataLocks.Count.Should().Be(1);
-                learners[i].DataLocks.Any(x=> x.Equals(new DatalockOutput(dataLocks[i]))).Should().BeTrue();
+                learners[i].DataLocks.Any(x=> x.Equals(dataLocks[i])).Should().BeTrue();
 
                 if (i == 0)
                 {
@@ -235,7 +232,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             List<Commitment> commitments,
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             rawEarnings.ForEach(entity =>
             {
@@ -245,7 +242,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             commitments.ForEach(entity => entity.Uln = uln);
 
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
+                .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(rawEarnings);
 
             mockCommitmentsRepository
@@ -256,7 +253,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -275,7 +272,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             [Frozen] Mock<ICommitmentRepository> mockCommitmentsRepository,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-            LearnerProcessParametersBuilder sut)
+            SortProviderDataIntoLearnerData sut)
         {
             var actualPayableEarnings = new List<RequiredPaymentEntity>();
             
@@ -288,7 +285,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             commitments.ForEach(entity => entity.Uln = uln);
 
             mockRawEarningsRepository
-                .Setup(repository => repository.GetAllForProvider(ukprn, _firstDayOfNextAcademicYear))
+                .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(rawEarnings);
 
             mockCommitmentsRepository
@@ -299,7 +296,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Build(ukprn);
+            var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].RawEarnings.ForEach(x => x.DeliveryMonth.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Month));
