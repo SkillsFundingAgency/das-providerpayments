@@ -144,9 +144,6 @@ Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after
      
 
 @CourseOrAimrefChanges
-# Failing because LearnAimRef changes and no retrospective refund is made.
-# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
-# PaymentsDueProcessor.GetPaymentsDue method
 Scenario:852-AC02 Levy apprentice, changes aim reference for English/maths aims and payments are reconciled 
 
 		Given The learner is programme only DAS
@@ -214,9 +211,6 @@ Scenario:852-AC02 Levy apprentice, changes aim reference for English/maths aims 
             | SFA non-Levy additional payments budget | 0      | 0      | 0      | 0       | 0      | 0      |   
 
 @CourseOrAimrefChanges
-# Failing because LearnAimRef changes do not cause refund to be made.
-# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
-# PaymentsDueProcessor.GetPaymentsDue method
 	Scenario:852-AC03 Levy apprentice, deleted aim reference for English/maths aims and payments are refunded for the aim 
 
 		Given The learner is programme only DAS
@@ -301,9 +295,6 @@ Scenario:852-AC04- Levy apprentice, provider changes course details from standar
 
 						
 @StartDateMovedForward
-# Failing because date changes and no retrospective refund is made.
-# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
-# PaymentsDueProcessor.GetPaymentsDue method
 Scenario:865-AC01- Levy apprentice, provider moves forward course start and adds maths/english in ILR after payments have already occurred
 
         Given The learner is programme only DAS
@@ -341,9 +332,6 @@ Scenario:865-AC01- Levy apprentice, provider moves forward course start and adds
 			| SFA non-Levy additional payments budget | 0     | 0     | 0      | 0      | 0      | 0      |      
 
 @StartDateMovedForward
-# Failing because date changes and no retrospective refund is made.
-# Requires a change to the historicalAllPayments LINQ query and then the ProcessContractTypeChanges method call within the
-# PaymentsDueProcessor.GetPaymentsDue method
 Scenario:865-AC02 Levy apprentice, learner moves start date forward, on prog payments and english/maths will be refunded
 
 		Given The learner is programme only DAS
