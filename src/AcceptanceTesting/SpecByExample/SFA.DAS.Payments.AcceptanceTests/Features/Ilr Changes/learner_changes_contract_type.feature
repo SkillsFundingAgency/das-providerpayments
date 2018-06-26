@@ -206,21 +206,21 @@ Scenario: DPP_1283_01 - Levy apprentice, provider submits first ILR in R08 showi
         | learner a | programme only DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |               |                         |
 		
 	Then the provider earnings and payments break down as follows:
-        | Type                                    | 08/17  | ... | 03/18  | 04/18   | 05/18   |
-        | Provider Earned Total                   | 639.25 | ... | 639.25 | 639.25  | 639.25  |
-        | Provider Earned from SFA                | 639.25 | ... | 639.25 | 639.25  | 639.25  |
-        | Provider Earned from Employer           | 0      | ... | 0      | 0       | 0       |
-        | Provider Paid by SFA                    | 0      | ... | 0      | 4634.00 | 5753.25 |
-        | Refund taken by SFA                     | 0      | ... | 0      | 0       | 4634.00 |
-        | Payment due from Employer               | 0      | ... | 0      | 480     | 0       |
-        | Refund due to employer                  | 0      | ... | 0      | 0       | 480     |
-        | Levy account debited                    | 0      | ... | 0      | 0       | 5400    |
-        | Levy account credited                   | 0      | ... | 0      | 0       | 0       |
-        | SFA Levy employer budget                | 600    | ... | 600    | 600     | 600     |
-        | SFA Levy co-funding budget              | 0      | ... | 0      | 0       | 0       |
-        | SFA Levy additional payments budget     | 39.25  | ... | 39.25  | 39.25   | 39.25   |
-        | SFA non-Levy co-funding budget          | 0      | ... | 0      | 0       | 0       |
-        | SFA non-Levy additional payments budget | 0      | ... | 0      | 0       | 0       |
+        | Type                                    | 08/17  | ... | 03/18  | 04/18   | 05/18    |
+        | Provider Earned Total                   | 639.25 | ... | 639.25 | 639.25  | 639.25   |
+        | Provider Earned from SFA                | 639.25 | ... | 639.25 | 639.25  | 639.25   |
+        | Provider Earned from Employer           | 0      | ... | 0      | 0       | 0        |
+        | Provider Paid by SFA                    | 0      | ... | 0      | 4634.00 | 5753.25  |
+        | Refund taken by SFA                     | 0      | ... | 0      | 0       | -4634.00 |
+        | Payment due from Employer               | 0      | ... | 0      | 480     | 0        |
+        | Refund due to employer                  | 0      | ... | 0      | 0       | 480      |
+        | Levy account debited                    | 0      | ... | 0      | 0       | 5400     |
+        | Levy account credited                   | 0      | ... | 0      | 0       | 0        |
+        | SFA Levy employer budget                | 600    | ... | 600    | 600     | 600      |
+        | SFA Levy co-funding budget              | 0      | ... | 0      | 0       | 0        |
+        | SFA Levy additional payments budget     | 39.25  | ... | 39.25  | 39.25   | 39.25    |
+        | SFA non-Levy co-funding budget          | 0      | ... | 0      | 0       | 0        |
+        | SFA non-Levy additional payments budget | 0      | ... | 0      | 0       | 0        |
 
 @MathsAndEnglish
 Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showing ACT1 from the start of learning and then a second ILR in R09 showing ACT2 from the beginning. Correct Maths or English refunds are processed
@@ -242,18 +242,18 @@ Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showi
         | learner a | programme only Non-DAS | 9000         | 06/08/2017 | 20/08/2018       |                 | continuing        | programme        | 2                   |          | 403            | 2              | 1            |               |                         |
 		
 	Then the provider earnings and payments break down as follows:
-        | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  | 12/17  | 01/18  | 02/18  | 03/18  | 04/18   | 05/18   |
-        | Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25  |
-        | Provider Earned from SFA                | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25  | 639.25  |
-        | Provider Earned from Employer           | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
-        | Provider Paid by SFA                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 5114.00 | 5213.25 |
-        | Refund taken by SFA                     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | -5114   |
-        | Payment due from Employer               | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60      | 60      |
-        | Refund due to employer                  | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
-        | Levy account debited                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 4800    | 0       |
-        | Levy account credited                   | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
-        | SFA Levy employer budget                | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
-        | SFA Levy co-funding budget              | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540     | 0       |
-        | SFA Levy additional payments budget     | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 0       | 0       |
-        | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 540     | 540     |
-        | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25   | 39.25   |
+        | Type                                    | 08/17  | 09/17  | 10/17  | 11/17  | 12/17  | 01/18  | 02/18  | 03/18  | 04/18  | 05/18  |
+        | Provider Earned Total                   | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 | 639.25 |
+        | Provider Earned from SFA                | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 | 579.25 |
+        | Provider Earned from Employer           | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60     |
+        | Provider Paid by SFA                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 5114   | 5213.25|
+        | Refund taken by SFA                     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | -5114  |
+        | Payment due from Employer               | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 540    |
+        | Refund due to employer                  | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      |
+        | Levy account debited                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 4800   | 0      |
+        | Levy account credited                   | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 4800   |
+        | SFA Levy employer budget                | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      |
+        | SFA Levy co-funding budget              | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      |
+        | SFA Levy additional payments budget     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      |
+        | SFA non-Levy co-funding budget          | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    |
+        | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  |
