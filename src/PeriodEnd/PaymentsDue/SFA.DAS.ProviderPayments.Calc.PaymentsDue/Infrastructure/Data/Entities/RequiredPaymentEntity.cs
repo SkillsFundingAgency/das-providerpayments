@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class RequiredPaymentEntity : IFundingDue
+    public class RequiredPaymentEntity
     {
         public RequiredPaymentEntity()
         {}
@@ -43,10 +42,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         }
 
         public Guid Id { get; set; } = Guid.NewGuid();
-        public long? CommitmentId { get; set; }
+        public long CommitmentId { get; set; }
         [StringLength(25)]
         public string CommitmentVersionId { get; set; }
-        public long? AccountId { get; set; }
+        public long AccountId { get; set; }
         [StringLength(50)]
         public string AccountVersionId { get; set; }
         public long Uln { get; set; }

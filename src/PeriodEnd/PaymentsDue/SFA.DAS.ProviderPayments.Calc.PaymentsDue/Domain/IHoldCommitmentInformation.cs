@@ -1,10 +1,10 @@
 ﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
-    interface IHoldCommitmentInformation
+    public interface IHoldCommitmentInformation
     {
-        long? CommitmentId { get; set; }
-        string CommitmentVersionId { get; set; }
-        long? AccountId { get; set; }
-        string AccountVersionId { get; set; }
+        long CommitmentId { get; }
+        string CommitmentVersionId { get; }
+        long AccountId { get; }
+        string AccountVersionId { get; }
     }
 }

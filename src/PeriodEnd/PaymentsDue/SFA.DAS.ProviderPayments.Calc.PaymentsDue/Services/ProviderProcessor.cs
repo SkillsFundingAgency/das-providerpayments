@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     public class ProviderProcessor : IProviderProcessor
     {
         private readonly ILogger _logger;
-        private readonly ILearnerProcessParametersBuilder _parametersBuilder;
+        private readonly ISortProviderDataIntoLearnerData _parametersBuilder;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
         private readonly ILearnerProcessor _learnerProcessor;
         private readonly INonPayableEarningRepository _nonPayableEarningRepository;
@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         public ProviderProcessor(
             ILogger logger,
-            ILearnerProcessParametersBuilder parametersBuilder,
+            ISortProviderDataIntoLearnerData parametersBuilder,
             ICollectionPeriodRepository collectionPeriodRepository,
             ILearnerProcessor learnerProcessor,
             INonPayableEarningRepository nonPayableEarningRepository,
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
-            var learnersParams = _parametersBuilder.Build(provider.Ukprn);
+            var learnersParams = _parametersBuilder.Sort(provider.Ukprn);
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
             
             var allNonPayablesForProvider = new List<NonPayableEarningEntity>();

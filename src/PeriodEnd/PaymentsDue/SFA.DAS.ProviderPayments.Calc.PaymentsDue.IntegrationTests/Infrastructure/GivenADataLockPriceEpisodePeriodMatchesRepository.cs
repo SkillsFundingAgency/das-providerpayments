@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
@@ -31,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 {
                     Setup();
                     var result =
-                        _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn, new DateTime(2018, 8, 1));
+                        _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
             }
@@ -51,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualDataLocks = _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn, new DateTime(2018, 8, 1));
+                    _actualDataLocks = _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn);
 
                     _expectedDataLocks = PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches
                         .Where(entity => entity.Ukprn == PaymentsDueTestContext.Ukprn)

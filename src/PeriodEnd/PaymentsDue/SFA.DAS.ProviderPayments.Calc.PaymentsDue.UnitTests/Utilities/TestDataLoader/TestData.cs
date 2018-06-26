@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoFixture;
 using ClosedXML.Excel;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -16,6 +16,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
         {
             var result = new TestDataParameters();
 
+            var fixture = new Fixture();
+            result.LearnRefNumber = fixture.Create<string>().Substring(0, 12);
+            result.Ukprn = fixture.Create<long>();
+            result.Uln = fixture.Create<long>();
+
             var document = new XLWorkbook(Path.Combine(TestContext.CurrentContext.TestDirectory, "ScenarioData", $"{filename}.xlsx"));
 
             var pastPaymentSheet = document.Worksheet("PastPayments");
@@ -23,9 +28,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
             foreach (var xlRow in range.Skip(1))
             {
                 var pastPayment = new RequiredPaymentEntity();
-                pastPayment.CommitmentId = xlRow.Cell(1).IsEmpty() || xlRow.Cell(1).Value.Equals("NULL") ? (long?)null : xlRow.Cell(1).GetValue<long>();
+                pastPayment.CommitmentId = xlRow.Cell(1).IsEmpty() || xlRow.Cell(1).Value.Equals("NULL") ? 0 : xlRow.Cell(1).GetValue<long>();
                 pastPayment.CommitmentVersionId = xlRow.Cell(2).GetValue<string>();
-                pastPayment.AccountId = xlRow.Cell(3).IsEmpty() || xlRow.Cell(3).Value.Equals("NULL") ? (long?)null : xlRow.Cell(3).GetValue<long>();
+                pastPayment.AccountId = xlRow.Cell(3).IsEmpty() || xlRow.Cell(3).Value.Equals("NULL") ? 0 : xlRow.Cell(3).GetValue<long>();
                 pastPayment.DeliveryMonth = xlRow.Cell(5).GetValue<int>();
                 pastPayment.DeliveryYear = xlRow.Cell(6).GetValue<int>();
                 pastPayment.CollectionPeriodName = xlRow.Cell(7).GetValue<string>();
@@ -41,6 +46,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 pastPayment.ApprenticeshipContractType = xlRow.Cell(17).GetValue<int>();
                 pastPayment.SfaContributionPercentage = xlRow.Cell(18).GetValue<decimal>();
                 pastPayment.FundingLineType = xlRow.Cell(19).GetValue<string>();
+
+                pastPayment.Ukprn = result.Ukprn;
+                pastPayment.Uln = result.Uln;
+                pastPayment.LearnRefNumber = result.LearnRefNumber;
+
                 result.PastPayments.Add(pastPayment);
             }
 
@@ -79,6 +89,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 earning.TransactionType15 = xlRow.Cell(27).GetValue<decimal>();
                 earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>();
 
+                earning.Ukprn = result.Ukprn;
+                earning.Uln = result.Uln;
+                earning.LearnRefNumber = result.LearnRefNumber;
+
                 result.RawEarnings.Add(earning);
             }
 
@@ -116,6 +130,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 earning.TransactionType14 = xlRow.Cell(26).Value.Equals("NULL") ? 0 : xlRow.Cell(26).GetValue<decimal>();
                 earning.TransactionType15 = xlRow.Cell(27).GetValue<decimal>();
                 earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>();
+
+                earning.Ukprn = result.Ukprn;
+                earning.Uln = result.Uln;
+                earning.LearnRefNumber = result.LearnRefNumber;
+
                 result.RawEarningsForMathsOrEnglish.Add(earning);
             }
 
@@ -130,8 +149,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     VersionId = xlRow.Cell(3).GetValue<string>(),
                     Period = xlRow.Cell(4).GetValue<int>(),
                     Payable = xlRow.Cell(5).GetValue<int>() == 1,
+                    TransactionTypesFlag = xlRow.Cell(6).IsEmpty() || xlRow.Cell(6).Value.Equals("NULL") ? 1 : xlRow.Cell(6).GetValue<int>(),
+                    Ukprn = result.Ukprn,
+                    LearnRefNumber = result.LearnRefNumber,
                 };
-                result.DatalockOutputs.Add(new DatalockOutput(datalock));
+                result.DatalockOutputs.Add(datalock);
             }
 
             var datalockValidationErrorSheet = document.Worksheet("DatalockValidationErrors");
@@ -142,6 +164,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 {
                     PriceEpisodeIdentifier = xlRow.Cell(1).GetValue<string>(),
                     RuleId = xlRow.Cell(2).GetValue<string>(),
+                    Ukprn = result.Ukprn,
+                    LearnRefNumber = result.LearnRefNumber,
                 };
                 result.DatalockValidationErrors.Add(validationError);
             }
@@ -168,10 +192,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                     EffectiveTo = xlRow.Cell(14).IsEmpty() || xlRow.Cell(14).Value.Equals("NULL") ? (DateTime?)null : xlRow.Cell(14).GetDateTime(),
                     TransferSendingEmployerAccountId = xlRow.Cell(15).Value.Equals("NULL") ? 0 : xlRow.Cell(15).GetValue<long>(),
                     TransferApprovalDate = xlRow.Cell(16).IsEmpty() || xlRow.Cell(16).Value.Equals("NULL") ? (DateTime?)null : xlRow.Cell(16).GetDateTime(),
+                    Uln = result.Uln,
+                    Ukprn = result.Ukprn,
                 };
                 result.Commitments.Add(commitment);
             }
 
+            IXLWorksheet worksheet;
+            if (document.TryGetWorksheet("Payments", out worksheet))
+            {
+                range = worksheet.RowsUsed();
+                foreach (var xlRow in range.Skip(1))
+                {
+                    var payment = new RequiredPaymentEntity
+                    {
+                        DeliveryYear = xlRow.Cell(1).GetValue<int>(),
+                        DeliveryMonth = xlRow.Cell(2).GetValue<int>(),
+                        AmountDue = xlRow.Cell(3).GetValue<decimal>(),
+                        TransactionType = xlRow.Cell(4).GetValue<int>(),
+                        PriceEpisodeIdentifier = xlRow.Cell(5).GetValue<string>(),
+                        Ukprn = result.Ukprn,
+                        Uln = result.Uln,
+                        LearnRefNumber = result.LearnRefNumber,
+                    };
+                    result.Payments.Add(payment);
+                }
+            }
+            
             result.RawEarnings.ForEach(x => x.DeliveryMonth = x.Period.DeliveryMonthFromPeriod());
             result.RawEarnings.ForEach(x => x.DeliveryYear = x.Period.DeliveryYearFromPeriod());
 
@@ -184,11 +231,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
 
     class TestDataParameters
     {
-        public List<DatalockOutput> DatalockOutputs { get; set; } = new List<DatalockOutput>();
+        public string LearnRefNumber { get; set; }
+        public long Uln { get; set; }
+        public long Ukprn { get; set; }
+
+        public List<DatalockOutputEntity> DatalockOutputs { get; set; } = new List<DatalockOutputEntity>();
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
         public List<RequiredPaymentEntity> PastPayments { get; set; } = new List<RequiredPaymentEntity>();
+        public List<RequiredPaymentEntity> Payments { get; set; } = new List<RequiredPaymentEntity>();
         public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
     }
 }

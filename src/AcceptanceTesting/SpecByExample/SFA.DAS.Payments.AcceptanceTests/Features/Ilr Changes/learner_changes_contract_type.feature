@@ -216,11 +216,11 @@ Scenario: DPP_1283_01 - Levy apprentice, provider submits first ILR in R08 showi
         | Refund due to employer                  | 0      | ... | 0      | 0       | 480     |
         | Levy account debited                    | 0      | ... | 0      | 0       | 5400    |
         | Levy account credited                   | 0      | ... | 0      | 0       | 0       |
-        | SFA Levy employer budget                | 600      | ... | 600      | 600     | 600     |
+        | SFA Levy employer budget                | 600    | ... | 600    | 600     | 600     |
         | SFA Levy co-funding budget              | 0      | ... | 0      | 0       | 0       |
-        | SFA Levy additional payments budget     |39.25      | ... | 39.25      | 39.25   | 39.25   |
-        | SFA non-Levy co-funding budget          | 0    | ... | 0    | 0       | 0       |
-        | SFA non-Levy additional payments budget | 0  | ... | 0  | 0       | 0       |
+        | SFA Levy additional payments budget     | 39.25  | ... | 39.25  | 39.25   | 39.25   |
+        | SFA non-Levy co-funding budget          | 0      | ... | 0      | 0       | 0       |
+        | SFA non-Levy additional payments budget | 0      | ... | 0      | 0       | 0       |
 
 @MathsAndEnglish
 Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showing ACT1 from the start of learning and then a second ILR in R09 showing ACT2 from the beginning. Correct Maths or English refunds are processed
@@ -248,12 +248,12 @@ Scenario: DPP_1283_02 - Levy apprentice, provider submits first ILR in R08 showi
         | Provider Earned from Employer           | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
         | Provider Paid by SFA                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 5114.00 | 5213.25 |
         | Refund taken by SFA                     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | -5114   |
-        | Payment due from Employer               | 60      | 60      | 60      | 60      | 60      | 60      | 60      | 60      | 60       | 60     |
+        | Payment due from Employer               | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60     | 60      | 60      |
         | Refund due to employer                  | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
         | Levy account debited                    | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 4800    | 0       |
         | Levy account credited                   | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
-        | SFA Levy employer budget                | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0       | 0       |
-        | SFA Levy co-funding budget              | 540      |  540      |  540      |  540      |  540      |  540      |  540      |  540      |  540       | 0       |
+        | SFA Levy employer budget                | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0       | 0       |
+        | SFA Levy co-funding budget              | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540    | 540     | 0       |
         | SFA Levy additional payments budget     | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 0       | 0       |
         | SFA non-Levy co-funding budget          | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 540     | 540     |
-        | SFA non-Levy additional payments budget | 39.25      | 39.25      | 39.25      | 39.25      | 39.25     | 39.25      | 39.25      | 39.25      | 39.25   | 39.25   |
+        | SFA non-Levy additional payments budget | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25  | 39.25   | 39.25   |

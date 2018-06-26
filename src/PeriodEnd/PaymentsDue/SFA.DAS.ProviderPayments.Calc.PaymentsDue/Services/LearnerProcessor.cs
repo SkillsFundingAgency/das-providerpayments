@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NLog;
+﻿using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
@@ -8,36 +7,39 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     public class LearnerProcessor : ILearnerProcessor
     {
         private readonly ILogger _logger;
-        private readonly IDataLockComponentFactory _dataLockComponentFactory;
-        private readonly ILearnerFactory _learnerFactory;
+        private readonly IDetermineWhichEarningsShouldBePaid _determinePayableEarnings;
+        private readonly IValidateRawDatalocks _datalockCommitmentMatcher;
+        private readonly ICalculatePaymentsDue _paymentsDueCalc;
 
-        public LearnerProcessor(ILogger logger, IDataLockComponentFactory dataLockComponentFactory, ILearnerFactory learnerFactory)
+        public LearnerProcessor(ILogger logger,
+            IDetermineWhichEarningsShouldBePaid determinePayableEarnings, 
+            IValidateRawDatalocks datalockCommitmentMatcher, 
+            ICalculatePaymentsDue paymentsDueCalc)
         {
             _logger = logger;
-            _dataLockComponentFactory = dataLockComponentFactory;
-            _learnerFactory = learnerFactory;
+            _determinePayableEarnings = determinePayableEarnings;
+            _datalockCommitmentMatcher = datalockCommitmentMatcher;
+            _paymentsDueCalc = paymentsDueCalc;
         }
 
-        public LearnerProcessResults Process(LearnerProcessParameters parameters, long ukprn)
+        public PaymentsDueResult Process(LearnerData parameters, long ukprn)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
 
-            var dataLock = _dataLockComponentFactory.CreateDataLockComponent();
-
-            var validationResult = dataLock.ValidatePriceEpisodes(
-                parameters.Commitments,
-                parameters.DataLocks.ToList(),
-                parameters.DatalockValidationErrors,
+            var processedDatalocks = _datalockCommitmentMatcher
+                .ProcessDatalocks(parameters.DataLocks, 
+                    parameters.DatalockValidationErrors, 
+                    parameters.Commitments);
+            
+            var validationResult = _determinePayableEarnings.DeterminePayableEarnings(
+                processedDatalocks,
                 parameters.RawEarnings,
                 parameters.RawEarningsMathsEnglish);
 
-            var learner = _learnerFactory.CreateLearner(
-                validationResult.Earnings,
+            var paymentsDue = _paymentsDueCalc.Calculate(validationResult.Earnings,
                 validationResult.PeriodsToIgnore,
                 parameters.HistoricalPayments);
-
-            var paymentsDue = learner.CalculatePaymentsDue();
-            var results = new LearnerProcessResults(paymentsDue, validationResult.NonPayableEarnings);
+            var results = new PaymentsDueResult(paymentsDue, validationResult.NonPayableEarnings);
             
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
             _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");

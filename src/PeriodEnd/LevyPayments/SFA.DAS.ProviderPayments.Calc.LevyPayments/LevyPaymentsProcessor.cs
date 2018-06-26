@@ -63,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                     {
                         _logger.Info($"refund due of {paymentDue.AmountDue} for commitment {commitment.Id}, to credit for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
 
-                        var amountToRefund = MakeLevyRefund(period, paymentDue);
+                        var amountToRefund = MakeLevyRefund(commitment, period, paymentDue);
                         if (amountToRefund < 0)
                         {
                             GetLevyAllocation(account, amountToRefund);
@@ -94,13 +94,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
                         if (levyAllocation == 0)
                         {
-                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            _logger.Info($"No more levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
                             accountHasFundsForLevy = false;
                             break;
                         }
 
                         MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
-
                     }
 
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
@@ -191,12 +190,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             });
         }
 
-        private decimal MakeLevyRefund(int year, int month, decimal amount, PaymentDue paymentDue, CollectionPeriod period)
+
+        private decimal MakeLevyRefund(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue)
         {
+            _logger.Info($"Making a levy refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+            
             var historyPaymentsResponse = _mediator.Send(new GetLevyPaymentsHistoryQueryRequest
             {
-                DeliveryYear = year,
-                DeliveryMonth = month,
+                DeliveryYear = paymentDue.DeliveryYear,
+                DeliveryMonth = paymentDue.DeliveryMonth,
                 TransactionType = (int)paymentDue.TransactionType,
                 CommitmentId = paymentDue.CommitmentId
             });
@@ -213,14 +215,10 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 return 0m;
             }
 
-            var levyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
-            amount = Math.Min(amount, levyPaidInPeriod);
-
             var totalLevyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
             var percentagePaidByLevyInPeriod = totalLevyPaidInPeriod / totalAmountPaidInPeriod;
 
-            var amountToRefund = amount * percentagePaidByLevyInPeriod;
-            
+            var amountToRefund = paymentDue.AmountDue * percentagePaidByLevyInPeriod;
             if (amountToRefund < 0)
             {
                 _mediator.Send(new ProcessPaymentCommandRequest
@@ -241,35 +239,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             }
 
             return amountToRefund;
-        }
-
-        private decimal MakeLevyRefund(CollectionPeriod period, PaymentDue paymentDue)
-        {
-            _logger.Info($"Making a levy refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-
-            var month = paymentDue.DeliveryMonth;
-            var year = paymentDue.DeliveryYear;
-            var refunded = 0m;
-
-            while (paymentDue.AmountDue < refunded)
-            {
-                refunded += MakeLevyRefund(year, month, paymentDue.AmountDue - refunded, paymentDue, period);
-
-                month--;
-                if (month == 0)
-                {
-                    year--;
-                    month = 12;
-                }
-
-                if (month == 7)
-                {
-                    // Previous academic year
-                    break;
-                }
-            }
-
-            return refunded;
         }
     }
 }

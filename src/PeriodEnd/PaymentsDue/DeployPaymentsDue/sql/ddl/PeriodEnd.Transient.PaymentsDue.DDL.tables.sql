@@ -113,7 +113,8 @@ CREATE TABLE PaymentsDue.NonPayableEarnings
 	UseLevyBalance bit ,
 	LearnAimRef varchar(8) NOT NULL,
 	LearningStartDate datetime,
-	Reason varchar(1000) NOT NULL
+	PaymentFailureMessage varchar(1000) NOT NULL,
+	PaymentFailureReason int NOT NULL,
 )
 GO
 

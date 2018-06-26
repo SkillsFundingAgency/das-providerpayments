@@ -5,11 +5,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class Commitment : IHoldCommitmentInformation
     {
-        public long? CommitmentId { get; set; }
+        public long CommitmentId { get; set; }
         public string CommitmentVersionId { get; set; }
         public long Uln { get; set; }
         public long Ukprn { get; set; }
-        public long? AccountId { get; set; }
+        public long AccountId { get; set; }
         public string AccountVersionId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

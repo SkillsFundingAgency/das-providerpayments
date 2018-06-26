@@ -173,9 +173,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                         .Should().BeSameDateAs(_expectedEntities[0].LearningStartDate);
 
                 [Test]
-                public void ThenItSetsReason() =>
-                    _actualEntities[0].Reason
-                        .Should().Be(_expectedEntities[0].Reason);
+                public void ThenItSetsPaymentFailureMessage() =>
+                    _actualEntities[0].PaymentFailureMessage
+                        .Should().Be(_expectedEntities[0].PaymentFailureMessage);
+
+                [Test]
+                public void ThenItSetsPaymentFailureReason() =>
+                    _actualEntities[0].PaymentFailureReason
+                        .Should().Be(_expectedEntities[0].PaymentFailureReason);
 
                 [Test]
                 public void ThenItSetsCollectionPeriodName() =>

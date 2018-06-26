@@ -41,13 +41,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => GetAllInstances(ctx, t));
             For<IMediator>().Use<Mediator>();
 
-            For<ILearner>().Use<Learner>();
-            For<IIShouldBeInTheDataLockComponent>().Use<IShouldBeInTheDatalockComponent>();
+            For<ICalculatePaymentsDue>().Use<PaymentsDueCalculationService>();
+            For<IDetermineWhichEarningsShouldBePaid>().Use<DetermineWhichEarningsShouldBePaidService>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
-            For<ILearnerFactory>().Use<LearnerFactory>();
-            For<IDataLockComponentFactory>().Use<DatalockComponentFactory>();
-
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

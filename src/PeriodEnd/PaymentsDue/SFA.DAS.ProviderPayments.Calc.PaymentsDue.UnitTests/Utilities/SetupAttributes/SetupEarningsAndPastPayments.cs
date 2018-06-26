@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
+using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes
@@ -15,28 +16,34 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
         private readonly int _apprenticeshipContractType;
         private readonly bool _datalockSuccess;
         private readonly decimal _onProgAmount;
-
+        private readonly decimal _mathsEnglishAmount;
+        private readonly string _academicYear;
+        
         public SetupMatchingEarningsAndPastPayments(
             int apprenticeshipContractType,
             bool datalockSuccess = true,
-            int onProgAmount = 500)
+            int onProgAmount = 500,
+            string academicYear = "1718",
+            int mathsEnglishAmount = 39)
         {
             _apprenticeshipContractType = apprenticeshipContractType;
             _datalockSuccess = datalockSuccess;
             _onProgAmount = onProgAmount;
+            _academicYear = academicYear;
+            _mathsEnglishAmount = mathsEnglishAmount;
         }
 
         public void ApplyToContext(TestExecutionContext context)
         {
             var fixture = new Fixture();
 
-            var priceEpisode1 = fixture.Create<string>();
+            var priceEpisode1 = fixture.Create<string>() + $"01/08/20{_academicYear.Substring(0, 2)}";
             int programmeType = fixture.Create<int>();
             int standardCode = fixture.Create<int>();
             int pathwayCode = fixture.Create<int>();
             int frameworkCode = fixture.Create<int>();
 
-            var mathsAndEnglishearnings = new List<RawEarningForMathsOrEnglish>();
+            var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 
             var accountId = fixture.Create<long>();
             var commitmentId = fixture.Create<long>();
@@ -50,6 +57,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 .With(x => x.FrameworkCode, frameworkCode)
                 .CreateMany(12)
                 .ToList();
+
+            mathsAndEnglishEarnings.AddRange(fixture.Build<RawEarningForMathsOrEnglish>()
+                .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
+                .With(x => x.ApprenticeshipContractType, _apprenticeshipContractType)
+                .With(x => x.StandardCode, standardCode)
+                .With(x => x.ProgrammeType, programmeType)
+                .With(x => x.PathwayCode, pathwayCode)
+                .With(x => x.FrameworkCode, frameworkCode)
+                .CreateMany(12));
 
             var pastPayments = fixture.Build<RequiredPaymentEntity>()
                     .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
@@ -88,7 +104,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             for (var i = 0; i < 12; i++)
             {
                 earnings[i].TransactionType01 = _onProgAmount;
-                
+                mathsAndEnglishEarnings[i].TransactionType13 = _mathsEnglishAmount;
+
                 earnings[i].Period = i + 1;
 
                 datalocks[i].Period = i + 1;
@@ -108,8 +125,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 earnings[i].TransactionType14 = 0m;
                 earnings[i].TransactionType15 = 0m;
 
+                mathsAndEnglishEarnings[i].TransactionType01 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType02 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType03 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType04 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType05 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType06 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType07 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType08 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType09 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType10 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType11 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType12 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType14 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType15 = 0m;
+
                 earnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
                 earnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
+
+                mathsAndEnglishEarnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
+                mathsAndEnglishEarnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
 
                 pastPayments[i].DeliveryMonth = earnings[i].DeliveryMonth;
                 pastPayments[i].DeliveryYear = earnings[i].DeliveryYear;
@@ -129,23 +164,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
                 if (_apprenticeshipContractType == 2)
                 {
-                    pastPayments[i].AccountId = null;
+                    pastPayments[i].AccountId = 0;
                     pastPayments[i].AccountVersionId = null;
-                    pastPayments[i].CommitmentId = null;
+                    pastPayments[i].CommitmentId = 0;
                     pastPayments[i].CommitmentVersionId = null;
                 }
             }
 
-            var transformedDatalocks = new HashSet<DatalockOutput>(datalocks.Select(x => new DatalockOutput(x)))
-                .ToList();
+            var validationService = new DatalockValidationService(LogManager.CreateNullLogger());
+            var datalockOutput = validationService.ProcessDatalocks(datalocks, datalockValidationErrors, commitments);
+
             var earningsDictionary = new Dictionary<string, object>
             {
-                {"MathsAndEnglishEarnings", mathsAndEnglishearnings},
+                {"MathsAndEnglishEarnings", mathsAndEnglishEarnings},
                 {"Earnings", earnings},
                 {"PastPayments", pastPayments},
-                {"Datalocks", transformedDatalocks},
-                {"DatalockValidationErrors", datalockValidationErrors },
-                {"Commitments", commitments },
+                {"Datalocks", datalocks},
+                {"DatalockValidationErrors", datalockValidationErrors},
+                {"Commitments", commitments},
+                {"DatalockOutput", datalockOutput},
             };
 
             context.CurrentTest.Properties.Add("EarningsDictionary", earningsDictionary);

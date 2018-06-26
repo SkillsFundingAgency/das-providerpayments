@@ -66,21 +66,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DatalockOutput.cs" />
-    <Compile Include="Dto\DatalockValidationResult.cs" />
-    <Compile Include="Services\Dependencies\ILearnerProcessParametersBuilder.cs" />
+    <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
+    <Compile Include="Domain\IHoldCourseInformation.cs" />
+    <Compile Include="Domain\PaymentFailureType.cs" />
+    <Compile Include="Dto\EarningValidationResult.cs" />
+    <Compile Include="Services\DatalockValidationService.cs" />
+    <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
+    <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
-    <Compile Include="Services\DatalockComponentFactory.cs" />
-    <Compile Include="Services\Dependencies\IDataLockComponentFactory.cs" />
-    <Compile Include="Services\Dependencies\IIShouldBeInTheDatalockComponent.cs" />
-    <Compile Include="Services\Dependencies\ILearner.cs" />
-    <Compile Include="Services\Dependencies\ILearnerFactory.cs" />
-    <Compile Include="Domain\IShouldBeInTheDatalockComponent.cs" />
-    <Compile Include="Domain\Learner.cs" />
-    <Compile Include="Services\LearnerProcessParametersBuilder.cs" />
+    <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
+    <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
+    <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="Services\PaymentsDueCalculationService.cs" />
+    <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
+    <Compile Include="Services\Extensions\CourseExtensions.cs" />
+    <Compile Include="Services\Extensions\EarningsExtensions.cs" />
+    <Compile Include="Services\SortProviderDataIntoLearnerDataService.cs" />
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
-    <Compile Include="Domain\MatchSetForPayments.cs" />
+    <Compile Include="Domain\PaymentGroup.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockOutputEntity.cs" />
@@ -105,16 +110,15 @@
     <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
-    <Compile Include="Services\LearnerFactory.cs" />
     <Compile Include="Services\LearnerProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Dto\LearnerProcessResults.cs" />
+    <Compile Include="Dto\PaymentsDueResult.cs" />
     <Compile Include="Services\ProviderProcessor.cs" />
-    <Compile Include="Dto\LearnerProcessParameters.cs" />
+    <Compile Include="Dto\LearnerData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
