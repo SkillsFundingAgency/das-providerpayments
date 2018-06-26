@@ -13,9 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
             NonPayableEarnings = nonPayableEarnings;
         }
 
-        protected PaymentsDueResult()
-        {}
-
         public IReadOnlyList<RequiredPaymentEntity> PayableEarnings { get;  }
         public IReadOnlyList<NonPayableEarningEntity> NonPayableEarnings { get; }
     }

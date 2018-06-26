@@ -7,50 +7,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
     public class RawEarning : IHoldCourseInformation
     {
-        public RawEarning()
-        {
-        }
-
-        public RawEarning(RawEarning copy)
-        {
-            Ukprn = copy.Ukprn;
-            LearnRefNumber = copy.LearnRefNumber;
-            Uln = copy.Uln;
-            AimSeqNumber = copy.AimSeqNumber;
-            LearnAimRef = copy.LearnAimRef;
-            PriceEpisodeIdentifier = copy.PriceEpisodeIdentifier;
-            EpisodeStartDate = copy.EpisodeStartDate;
-            EpisodeEffectiveTnpStartDate = copy.EpisodeEffectiveTnpStartDate;
-            Period = copy.Period;
-            ProgrammeType = copy.ProgrammeType;
-            StandardCode = copy.StandardCode;
-            FrameworkCode = copy.FrameworkCode;
-            PathwayCode = copy.PathwayCode;
-            SfaContributionPercentage = copy.SfaContributionPercentage;
-            FundingLineType = copy.FundingLineType;
-            LearningStartDate = copy.LearningStartDate;
-            ApprenticeshipContractType = copy.ApprenticeshipContractType;
-            DeliveryMonth = copy.DeliveryMonth;
-            DeliveryYear = copy.DeliveryYear;
-            UseLevyBalance = copy.UseLevyBalance;
-            
-            TransactionType01 = copy.TransactionType01;
-            TransactionType02 = copy.TransactionType02;
-            TransactionType03 = copy.TransactionType03;
-            TransactionType04 = copy.TransactionType04;
-            TransactionType05 = copy.TransactionType05;
-            TransactionType06 = copy.TransactionType06;
-            TransactionType07 = copy.TransactionType07;
-            TransactionType08 = copy.TransactionType08;
-            TransactionType09 = copy.TransactionType09;
-            TransactionType10 = copy.TransactionType10;
-            TransactionType11 = copy.TransactionType11;
-            TransactionType12 = copy.TransactionType12;
-            TransactionType13 = copy.TransactionType13;
-            TransactionType14 = copy.TransactionType14;
-            TransactionType15 = copy.TransactionType15;
-        }
-
         public long Ukprn { get; set; }
 
         [StringLength(12)]

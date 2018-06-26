@@ -51,23 +51,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
 
             var actual = sut.Process(parameters, testData.Ukprn);
 
-            //var datalockOutput = commitmentMatcher.ProcessDatalocks(
-            //    parameters.DatalockOutputs,
-            //    parameters.DatalockValidationErrors,
-            //    parameters.Commitments);
-
-            
-
-            //var datalockResult = datalock.DeterminePayableEarnings(
-            //    datalockOutput,
-            //    parameters.RawEarnings,
-            //    parameters.RawEarningsForMathsOrEnglish);
-
-            //var actual = paymentsDueCalc.Calculate(
-            //    datalockResult.Earnings,
-            //    datalockResult.PeriodsToIgnore,
-            //    parameters.PastPayments);
-
             actual.PayableEarnings.Should().HaveCount(testData.Payments.Count);
             actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(testData.Payments.Sum(x => x.AmountDue));
 
