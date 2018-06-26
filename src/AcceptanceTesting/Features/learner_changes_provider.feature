@@ -248,8 +248,9 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
         
         Then OBSOLETE - the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 | 02/18 |
-            | Provider Earned Total               | 500   | 500   | 500   | 1000  | 0     | 0     | 0     |
+            | Provider Earned Total               | 500   | 500   | 500   | 1500  | 0     | 0     | 0     |
             | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     | 0     | 0     |
+            #| Employer Earned from SFA            | 0     | 0     | 0     | 500   | 0     | 0     | 0     |
             | Provider Earned from Employer       | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
             | Provider Paid by SFA                | 0     | 500   | 500   | 500   | 1000  | 0     | 0     |
             | Payment due from Employer           | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
@@ -282,7 +283,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
             
          And the transaction types for the payments for provider b are:
             | Payment type             | 11/17 | 12/17 | 01/18 | 02/18 |
-            | On-program               | 0     | 500   | 500   | 500   |
+            | On-program               | 0     | 0     | 500   | 500   |
             | Completion               | 0     | 0     | 0     | 0     |
             | Balancing                | 0     | 0     | 0     | 0     |
             | Employer 16-18 incentive | 0     | 0     | 0     | 0     |
