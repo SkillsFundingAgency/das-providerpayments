@@ -329,7 +329,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
-                commitmentInformation?.TransferCommitmentInformationTo(fundingDue);
+                commitmentInformation?.CopyCommitmentInformationTo(fundingDue);
                 PayableEarnings.Add(fundingDue);
             }
         }
@@ -352,7 +352,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 // Doing this to prevent a huge switch statement
                 nonPayableEarning.AmountDue = amountDue;
-                commitmentInformation?.TransferCommitmentInformationTo(nonPayableEarning);
+                commitmentInformation?.CopyCommitmentInformationTo(nonPayableEarning);
 
                 nonPayableEarning.PaymentFailureMessage = reason;
                 nonPayableEarning.PaymentFailureReason = paymentFailureReason;

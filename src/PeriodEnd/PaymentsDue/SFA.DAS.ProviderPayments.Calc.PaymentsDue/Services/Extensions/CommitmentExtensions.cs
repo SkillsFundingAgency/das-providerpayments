@@ -4,7 +4,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions
 {
     public static class CommitmentExtensions
     {
-        public static void TransferCommitmentInformationTo(this IHoldCommitmentInformation source,
+        public static void CopyCommitmentInformationTo(this IHoldCommitmentInformation source,
             ICanStoreCommitmentInformation target)
         {
             target.AccountId = source.AccountId;

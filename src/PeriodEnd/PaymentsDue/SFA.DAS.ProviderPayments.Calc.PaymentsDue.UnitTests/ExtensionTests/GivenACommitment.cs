@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         public void ThenTransferCommitmentInformationCopiesAccountId(
             Commitment testCommitment, FundingDue actual)
         {
-            testCommitment.TransferCommitmentInformationTo(actual);
+            testCommitment.CopyCommitmentInformationTo(actual);
 
             actual.AccountId.Should().Be(testCommitment.AccountId);
         }
@@ -23,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         public void ThenTransferCommitmentInformationCopiesCommitmentId(
             Commitment testCommitment, FundingDue actual)
         {
-            testCommitment.TransferCommitmentInformationTo(actual);
+            testCommitment.CopyCommitmentInformationTo(actual);
 
             actual.CommitmentId.Should().Be(testCommitment.CommitmentId);
         }
@@ -32,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         public void ThenTransferCommitmentInformationCopiesCommitmentVersionId(
             Commitment testCommitment, FundingDue actual)
         {
-            testCommitment.TransferCommitmentInformationTo(actual);
+            testCommitment.CopyCommitmentInformationTo(actual);
 
             actual.CommitmentVersionId.Should().Be(testCommitment.CommitmentVersionId);
         }
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         public void ThenTransferCommitmentInformationCopiesAccountVersionId(
             Commitment testCommitment, FundingDue actual)
         {
-            testCommitment.TransferCommitmentInformationTo(actual);
+            testCommitment.CopyCommitmentInformationTo(actual);
 
             actual.AccountVersionId.Should().Be(testCommitment.AccountVersionId);
         }
