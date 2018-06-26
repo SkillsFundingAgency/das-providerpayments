@@ -142,7 +142,10 @@ namespace SFA.DAS.Provider.Events.Submission
             // any difference in these fields should mean an event is created, but as we always set these fields there's no need to set them here
             if (currentIlr.CommitmentId != lastSeenIlr?.CommitmentId
                 || currentIlr.EmployerReferenceNumber != lastSeenIlr?.EmployerReferenceNumber
-                || currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId)
+                || currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId
+                || currentIlr.GivenNames != lastSeenIlr?.GivenNames
+                || currentIlr.FamilyName != lastSeenIlr?.FamilyName
+                || currentIlr.CompStatus != lastSeenIlr?.CompStatus)
             {
                 if (@event == null)
                     @event = new SubmissionEvent();
@@ -167,7 +170,13 @@ namespace SFA.DAS.Provider.Events.Submission
             // EPAOrgId is optional in the ilr, so we need to always set it, otherwise if it is null,
             // the consumer won't know if it hasn't changed or if it's been removed on a subsequent irl submission
             @event.EPAOrgId = currentIlr.EPAOrgId;
+            @event.GivenNames = currentIlr.GivenNames;
+            @event.FamilyName = currentIlr.FamilyName;
+            @event.CommitmentId = currentIlr.CommitmentId;
 
+            @event.StandardCode = currentIlr.StandardCode;
+            @event.ActualStartDate = currentIlr.ActualStartDate;
+            @event.CompStatus = currentIlr.CompStatus;
             return @event;
         }
     }
