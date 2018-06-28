@@ -11,9 +11,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.Assertions
         {
             new ProviderEarnedTotalRule(),
             new ProviderPaidBySfaRule(),
+            new ProviderPaidBySfaForUlnRule(),
             new PaymentDueFromEmployersRule(),
             new EmployersLevyAccountDebitedRule(),
+            new EmployersLevyAccountDebitedForUlnRule(),
             new EmployersLevyAccountDebitedViaTransferRule(),
+            new EmployersLevyAccountDebitedForUlnViaTransferRule(),
             new SfaLevyBudgetRule(),
             new SfaLevyCoFundBudgetRule(),
             new SfaNonLevyCoFundBudgetRule(),

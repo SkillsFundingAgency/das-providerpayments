@@ -77,6 +77,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseNonEmployerRow(row, periodNames, breakdown.ProviderPaidBySfa);
                 }
+                else if ((match = Regex.Match(row[0], "Provider Paid by SFA for ULN ([0-9]{1,9}$)", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseUlnRow(match.Groups[1].Value, row, periodNames, breakdown.ProviderPaidBySfaForUln);
+                }
                 else if (row[0].Equals("Payment due from Employer", StringComparison.InvariantCultureIgnoreCase))
                 {
                     ParseEmployerRow(Defaults.EmployerAccountId.ToString(), row, periodNames, breakdown.PaymentDueFromEmployers);
@@ -93,9 +97,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebited);
                 }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited for ULN ([0-9]{1,9})$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerUlnRow(match.Groups[1].Value, match.Groups[2].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedForUln);
+                }
                 else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited via transfer", RegexOptions.IgnoreCase)).Success)
                 {
                     ParseEmployerRow(match.Groups[1].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedViaTransfer);
+                }
+                else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account debited for ULN ([0-9]{1,9}) via transfer$", RegexOptions.IgnoreCase)).Success)
+                {
+                    ParseEmployerUlnRow(match.Groups[1].Value, match.Groups[2].Value, row, periodNames, breakdown.EmployersLevyAccountDebitedForUlnViaTransfer);
                 }
                 else if ((match = Regex.Match(row[0], "employer ([0-9]{1,}) Levy account credited$", RegexOptions.IgnoreCase)).Success)
                 {
@@ -159,7 +171,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"Employer id '{rowAccountId}' is not valid (Parsing row {row[0]})");
             }
 
-
             ParseRowValues(row, periodNames, contextList, (periodName, value) => new EmployerAccountPeriodValue
             {
                 EmployerAccountId = employerAccountId,
@@ -167,6 +178,45 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 Value = value
             });
         }
+
+        private static void ParseEmployerUlnRow(string rowAccountId, string rowUlnId, TableRow row, string[] periodNames, List<EmployerAccountUlnPeriodValue> contextList)
+        {
+            int employerAccountId;
+            if (!int.TryParse(rowAccountId, out employerAccountId))
+            {
+                throw new ArgumentException($"Employer id '{rowAccountId}' is not valid (Parsing row {row[0]})");
+            }
+
+            long uln;
+            if (!long.TryParse(rowUlnId, out uln))
+            {
+                throw new ArgumentException($"Uln '{rowUlnId}' is not valid (Parsing row {row[0]})");
+            }
+            ParseRowValues(row, periodNames, contextList, (periodName, value) => new EmployerAccountUlnPeriodValue
+            {
+                EmployerAccountId = employerAccountId,
+                Uln = uln,
+                PeriodName = periodName,
+                Value = value
+            });
+        }
+
+        private static void ParseUlnRow(string rowUlnId, TableRow row, string[] periodNames, List<UlnPeriodValue> contextList)
+        {
+            long uln;
+            if (!long.TryParse(rowUlnId, out uln))
+            {
+                throw new ArgumentException($"Uln '{rowUlnId}' is not valid (Parsing row {row[0]})");
+            }
+
+            ParseRowValues(row, periodNames, contextList, (periodName, value) => new UlnPeriodValue
+            {
+                Uln = uln,
+                PeriodName = periodName,
+                Value = value
+            });
+        }
+
         private static void ParseRowValues<T>(TableRow row, string[] periodNames, List<T> contextList, Func<string, decimal, T> valueCreator)
         {
             for (var i = 1; i < periodNames.Length; i++)
