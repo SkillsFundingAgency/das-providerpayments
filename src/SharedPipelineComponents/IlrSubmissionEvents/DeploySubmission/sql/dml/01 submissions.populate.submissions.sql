@@ -26,7 +26,10 @@ INSERT INTO [Submissions].[LastSeenVersion]
 	CommitmentId,
 	AcademicYear,
 	EmployerReferenceNumber,
-	EPAOrgId
+	EPAOrgId,
+	FamilyName, 
+	GivenNames,
+	CompStatus
 )
 SELECT 
 	IlrFileName,
@@ -51,7 +54,10 @@ SELECT
     CommitmentId,
     AcademicYear,
     EmployerReferenceNumber,
-	EPAOrgId
+	EPAOrgId,
+	FamilyName, 
+	GivenNames,
+	CompStatus
 FROM OPENQUERY(${DAS_ProviderEvents.servername}, '
 		select 
 			IlrFileName,
@@ -76,7 +82,10 @@ FROM OPENQUERY(${DAS_ProviderEvents.servername}, '
 			CommitmentId,
 			AcademicYear,
 			EmployerReferenceNumber,
-			EPAOrgId 
+			EPAOrgId,
+			FamilyName, 
+			GivenNames,
+			CompStatus
 		from 
 			${DAS_ProviderEvents.databasename}.Submissions.LastSeenVersion'
     ) lv

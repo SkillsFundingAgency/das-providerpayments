@@ -497,6 +497,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql
+		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~3_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~3_Submissions.Deds.AddColumns.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{10ED3F84-76FF-4152-BE98-5F74C13659B9}"

@@ -17,6 +17,9 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         private const string NiNumber = "AB123456A";
         private const string AcademicYear = "1718";
         private const string EPAOrgId = "EPA0001";
+        private const string GivenNames = "John";
+        private const string FamilyName = "Smith";
+        private const int CompStatus = 1;
         private readonly DateTime FilePrepDate = new DateTime(2017, 9, 2, 12, 37, 26);
         private readonly DateTime SubmissionTime = new DateTime(2017, 9, 2, 12, 54, 56);
         private readonly DateTime StartDate = new DateTime(2017, 9, 1);
@@ -79,7 +82,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
                 OnProgrammeTotalPrice = OnProgPrice * 0.8m,
                 CompletionTotalPrice = EndpointPrice * 0.8m,
                 AcademicYear = AcademicYear,
-                EPAOrgId = EPAOrgId
+                EPAOrgId = EPAOrgId, 
+                CompStatus = CompStatus,
+                GivenNames = GivenNames,
+                FamilyName = FamilyName
             };
 
             TestDataHelper.PopulateLastSeen(dedsConnection, ilrDetails);
@@ -109,6 +115,9 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(EndpointPrice * 0.8m, lastSeen[0].CompletionTotalPrice);
             Assert.AreEqual(AcademicYear, lastSeen[0].AcademicYear);
             Assert.AreEqual(EPAOrgId, lastSeen[0].EPAOrgId);
+            Assert.AreEqual(CompStatus, lastSeen[0].CompStatus);
+            Assert.AreEqual(FamilyName, lastSeen[0].FamilyName);
+            Assert.AreEqual(GivenNames, lastSeen[0].GivenNames);
         }
     }
 }

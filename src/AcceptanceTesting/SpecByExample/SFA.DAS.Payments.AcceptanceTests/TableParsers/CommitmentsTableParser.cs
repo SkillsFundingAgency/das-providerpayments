@@ -86,6 +86,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "pathway code":
                         structure.PathwayCodeIndex = c;
                         break;
+                    case "transfer approval date":
+                        structure.TransferApprovalDateIndex = c;
+                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in commitments table: {header}");
                 }
@@ -194,6 +197,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"'{row[structure.EffectiveToIndex]}' is not a valid effective to");
             }
 
+            DateTime? transferApprovalDate = null;
+            if (structure.TransferApprovalDateIndex > -1 && !TryParseNullableDateTime(row[structure.TransferApprovalDateIndex], out transferApprovalDate))
+            {
+                throw new ArgumentException($"'{row[structure.TransferApprovalDateIndex]}' is not a valid effective from");
+            }
+
             var standardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
             var frameworkCode = row.ReadRowColumnValue<int>(structure.FrameworkCodeIndex, "framework code");
             var programmeType = row.ReadRowColumnValue<int>(structure.ProgrammeTypeIndex, "programme type");
@@ -225,7 +234,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 ProgrammeType = programmeType == 0 ? 0 : programmeType,
                 PathwayCode = pathwayCode == 0 ? 0 : pathwayCode,
                 TransferSendingEmployerAccountId = sendingEmployerAccountId,
-                TransferApprovalDate = effectiveFrom
+                TransferApprovalDate = transferApprovalDate
             };
         }
 
@@ -261,6 +270,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int FrameworkCodeIndex { get; set; } = -1;
             public int ProgrammeTypeIndex { get; set; } = -1;
             public int PathwayCodeIndex { get; set; } = -1;
+            public int TransferApprovalDateIndex { get; set; } = -1;
+
+
         }
     }
 }

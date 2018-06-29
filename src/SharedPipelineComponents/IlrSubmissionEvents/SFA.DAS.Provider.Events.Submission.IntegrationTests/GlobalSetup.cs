@@ -23,8 +23,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests
             {
                 connection.RunDbSetupSqlScriptFile("submissions.deds.ddl.tables.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
                 connection.RunDbSetupSqlScriptFile("~2_Submissions.Deds.AddColumns.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
+                connection.RunDbSetupSqlScriptFile("~3_Submissions.Deds.AddColumns.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
                 connection.RunDbSetupSqlScriptFile("1_SubmissionEvents.Deds.Add_Indexes.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
                 connection.RunDbSetupSqlScriptFile("3_SubmissionEvents.Deds.Larger_Numbers.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
+                connection.RunDbSetupSqlScriptFile("4_SubmissionEvents.Deds.Add_Uln_Index.sql", GlobalTestContext.Current.DedsDatabaseNameBracketed, GlobalTestContext.Current.LinkedServerName);
             }
         }
 

@@ -63,7 +63,10 @@ CREATE TABLE [Submissions].[SubmissionEvents]
 	CommitmentId			bigint			NULL,
 	AcademicYear			varchar(4)    	NOT NULL,
 	EmployerReferenceNumber int             NULL,
-	EPAOrgId				VARCHAR(7)		NULL
+	EPAOrgId				VARCHAR(7)		NULL,
+	GivenNames				VARCHAR(100)	NULL,
+	FamilyName				VARCHAR(100)	NULL,
+	CompStatus				int				NULL
 )
 GO
 
@@ -100,6 +103,9 @@ CREATE TABLE [Submissions].[LastSeenVersion]
 	CommitmentId			bigint			NULL,
 	AcademicYear			varchar(4)    	NOT NULL,
 	EmployerReferenceNumber int             NULL,
-	EPAOrgId				VARCHAR(7)		NULL
+	EPAOrgId				VARCHAR(7)		NULL,
+	GivenNames				VARCHAR(100)	NULL,
+	FamilyName				VARCHAR(100)	NULL,
+	CompStatus				int				NULL
 )
 GO
