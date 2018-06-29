@@ -109,6 +109,7 @@
     <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndReferenceDataTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\DataLockEventsPeriodEndTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\ManualAdjustmentsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\RefundsTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\PeriodEndScriptsTask.cs" />
     <Compile Include="Workflow\RebuildDedsDatabase\RebuildDedsDatabaseWorkflow.cs" />
     <Compile Include="Workflow\RebuildDedsDatabase\Tasks\ExecuteDedsScriptsTask.cs" />
