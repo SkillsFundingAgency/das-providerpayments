@@ -15,5 +15,6 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data.Entities
         public DateTime LearnPlanEndDate { get; set; }
         public DateTime? LearnActEndDate { get; set; }
         public string EPAOrgId { get; set; }
+        public int? CompStatus { get; set; }
     }
 }

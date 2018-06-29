@@ -59,6 +59,9 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp2, version.CompletionTotalPrice);
             Assert.AreEqual(testDataSet.Learners[0].NiNumber, version.NiNumber);
             Assert.AreEqual(testDataSet.LearningDeliveries[0].EPAOrgId, version.EPAOrgId);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].CompStatus, version.CompStatus);
+            Assert.AreEqual(testDataSet.Learners[0].GivenNames, version.GivenNames);
+            Assert.AreEqual(testDataSet.Learners[0].FamilyName, version.FamilyName);
         }
 
 

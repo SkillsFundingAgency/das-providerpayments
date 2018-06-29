@@ -4,6 +4,7 @@
     {
         public long Ukprn { get; set; }
         public string LearnRefNumber { get; set; }
+        public long Uln { get; set; }
         public decimal Period1 { get; set; }
         public decimal Period2 { get; set; }
         public decimal Period3 { get; set; }

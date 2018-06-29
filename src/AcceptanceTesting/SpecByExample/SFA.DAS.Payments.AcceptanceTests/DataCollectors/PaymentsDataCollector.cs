@@ -16,11 +16,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
             var paymentsData = ReadPaymentsFromDeds();
             foreach (var data in paymentsData)
             {
-                var learner = GetOrCreateLearner(data.Ukprn, data.LearnRefNumber, results, lookupContext);
+                var learner = GetOrCreateLearner(data.Ukprn, data.LearnRefNumber, data.Uln, results, lookupContext);
 
                 learner.Payments.Add(new PaymentResult
                 {
                     EmployerAccountId = data.AccountId == null ? 0 : int.Parse(data.AccountId),
+                    Uln = data.Uln,
                     Amount = data.Amount,
                     CalculationPeriod = $"{data.CollectionPeriodMonth:00}/{(data.CollectionPeriodYear - 2000):00}",
                     DeliveryPeriod = $"{data.DeliveryMonth:00}/{(data.DeliveryYear - 2000):00}",
@@ -48,7 +49,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
 
         }
 
-        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, List<LearnerResults> results, LookupContext lookupContext)
+        private static LearnerResults GetOrCreateLearner(long ukprn, string learnerReferenceNumber, long uln, List<LearnerResults> results, LookupContext lookupContext)
         {
             var providerId = lookupContext.GetProviderId(ukprn);
             
@@ -58,7 +59,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
                 learner = new LearnerResults
                 {
                     ProviderId = providerId,
-                    LearnerReferenceNumber = learnerReferenceNumber
+                    LearnerReferenceNumber = learnerReferenceNumber,
+                    Uln = uln
                 };
                 results.Add(learner);
             }

@@ -15,10 +15,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
         {
             var command = "INSERT INTO Submissions.LastSeenVersion " +
                       "(IlrFileName,FileDateTime,SubmittedDateTime,ComponentVersionNumber,UKPRN,ULN,LearnRefNumber,AimSeqNumber,PriceEpisodeIdentifier," +
-                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear,EPAOrgId) " +
+                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear,EPAOrgId,CompStatus,FamilyName,GivenNames) " +
                       "VALUES " +
                       "(@IlrFileName,@FileDateTime,@SubmittedDateTime,@ComponentVersionNumber,@UKPRN,@ULN,@LearnRefNumber,@AimSeqNumber,@PriceEpisodeIdentifier," +
-                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear,@EPAOrgId)";
+                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear,@EPAOrgId,@CompStatus,@FamilyName,@GivenNames)";
 
             dedsConnection.Execute(command, new
             {
@@ -37,7 +37,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
                 OnProgrammeTotalPrice = ilrDetails.OnProgrammeTotalPrice,
                 CompletionTotalPrice = ilrDetails.CompletionTotalPrice ,
                 AcademicYear = ilrDetails.AcademicYear,
-                EPAOrgId = ilrDetails.EPAOrgId
+                EPAOrgId = ilrDetails.EPAOrgId,
+                CompStatus = ilrDetails.CompStatus,
+                FamilyName=  ilrDetails.FamilyName,
+                GivenNames=  ilrDetails.GivenNames
             });
         }
 
