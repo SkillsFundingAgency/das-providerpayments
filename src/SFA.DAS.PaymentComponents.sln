@@ -94,7 +94,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{E9E97DA8-052
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql
-		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
 	EndProjectSection
@@ -103,7 +102,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{AC7E72A7-C7F
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
-		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
