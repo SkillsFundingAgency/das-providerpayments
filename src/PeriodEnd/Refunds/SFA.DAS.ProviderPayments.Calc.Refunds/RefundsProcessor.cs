@@ -2,18 +2,21 @@
 using JetBrains.Annotations;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds
 {
     public class RefundsProcessor
     {
         private readonly IProviderRepository _providerRepository;
+        private readonly IProviderProcessor _providerProcessor;
         private readonly ILogger _logger;
 
         [UsedImplicitly]
-        public RefundsProcessor(IProviderRepository providerRepository, ILogger logger)
+        public RefundsProcessor(IProviderRepository providerRepository, IProviderProcessor providerProcessor, ILogger logger)
         {
             _providerRepository = providerRepository;
+            _providerProcessor = providerProcessor;
             _logger = logger;
         }
 
@@ -27,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
 
                 foreach (var provider in providers)
                 {
-                    //_providerProcessor.Process(provider);
+                    _providerProcessor.Process(provider);
                 }
             }
             catch (Exception ex)

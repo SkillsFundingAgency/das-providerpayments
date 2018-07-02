@@ -64,12 +64,19 @@
   <ItemGroup>
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\RefundsRegistry.cs" />
+    <Compile Include="Dto\AccountLevyCredit.cs" />
+    <Compile Include="Dto\LearnerData.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\ProviderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundsProcessor.cs" />
     <Compile Include="RefundsTask.cs" />
+    <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
+    <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
+    <Compile Include="Services\ProviderProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
