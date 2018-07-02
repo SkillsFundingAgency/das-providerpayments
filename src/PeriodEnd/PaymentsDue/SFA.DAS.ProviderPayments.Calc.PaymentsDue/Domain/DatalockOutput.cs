@@ -26,18 +26,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         }
 
         public long Ukprn { get; }
+
         [StringLength(25)]
         public string PriceEpisodeIdentifier { get; }
+
         [StringLength(12)]
         public string LearnRefNumber { get; }
+
         public long CommitmentId { get; }
+
         public string CommitmentVersionId { get; }
+
         public long AccountId { get; }
+
         public string AccountVersionId { get; }
 
         [Range(1, 12)]
         public int Period { get; }
+
         public bool Payable { get; }
+
         [Range(1, 3)]
         public int TransactionTypesFlag { get; }
 

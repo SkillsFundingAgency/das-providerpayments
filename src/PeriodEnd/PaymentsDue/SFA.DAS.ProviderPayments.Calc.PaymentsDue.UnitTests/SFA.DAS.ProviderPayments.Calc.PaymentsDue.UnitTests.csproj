@@ -109,11 +109,13 @@
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
-    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\MathsAndEnglish\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\OnProg\GivenADetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="ScenarioTesting\GivenAnAct1Learner\WithAnActiveCommitment.cs" />
     <Compile Include="ServiceTests\GivenACalculator\ThatIsUsedForMultipleCalculations.cs" />
     <Compile Include="ServiceTests\GivenACalculator\WithBothPastPaymentsAndEarnings.cs" />
+    <Compile Include="ServiceTests\GivenACalculator\WithValidPayments.cs" />
     <Compile Include="ServiceTests\GivenACalculator\WithNoPastPayments.cs" />
     <Compile Include="ServiceTests\GivenACalculator\WithOnlyPastPayments.cs" />
     <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct1LearnerChangesPrice.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="ScenarioTesting\ScenarioTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox.cs" />
+    <Compile Include="ServiceTests\GivenADatalockValidationService\WithAValidCommitment.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithDuplicateDatalockOutput.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithMissingCommitments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithNonPayableDatalocks.cs" />
