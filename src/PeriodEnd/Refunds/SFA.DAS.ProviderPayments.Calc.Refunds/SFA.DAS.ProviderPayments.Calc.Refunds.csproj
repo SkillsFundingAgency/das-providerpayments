@@ -63,7 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="DependencyResolution\TransfersRegistry.cs" />
+    <Compile Include="DependencyResolution\RefundsRegistry.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
+    <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\ProviderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundsProcessor.cs" />
     <Compile Include="RefundsTask.cs" />

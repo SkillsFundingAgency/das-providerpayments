@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
@@ -21,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
 
             For<ContextWrapper>().Use(contextWrapper);
 
-           
+            For<IProviderRepository>().Use<ProviderRepository>();
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => GetInstance(ctx, t));
