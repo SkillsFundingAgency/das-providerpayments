@@ -51,9 +51,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.views.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.DDL.sprocs.sql", connection);
-
-                    RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
-
                 }
                 finally
                 {
@@ -61,6 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                 }
             }
         }
+
         private void RunSqlScript(string fileName, SqlConnection connection)
         {
             var path = Path.Combine(GlobalTestContext.Instance.AssemblyDirectory, "DbSetupScripts", fileName);
@@ -71,6 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                 connection.Execute(command);
             }
         }
+
         private string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${DAS_Accounts.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
@@ -78,8 +77,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                        .Replace("$${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
-
-
         }
     }
 }

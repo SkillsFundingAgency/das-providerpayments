@@ -265,7 +265,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{7CD65BC9-1D3
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql
-		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
@@ -278,7 +277,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{98332D8D-4F0
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
-		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject

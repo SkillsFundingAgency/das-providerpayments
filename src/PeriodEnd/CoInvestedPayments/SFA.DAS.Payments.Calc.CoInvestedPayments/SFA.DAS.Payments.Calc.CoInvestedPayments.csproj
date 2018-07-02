@@ -83,7 +83,6 @@
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentDueEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PaymentHistoryEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\IPaymentDueRepository.cs" />
