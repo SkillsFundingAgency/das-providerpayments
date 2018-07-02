@@ -22,6 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
         public void ThenTwoIdenticalObjectsWillBeEqualUsingShortcut(
             PaymentGroup sut)
         {
+            // ReSharper disable once EqualExpressionComparison
             var actual = sut == sut;
 
             actual.Should().BeTrue();
@@ -248,7 +249,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             [Test, PaymentsDueAutoData]
             public void ThenEqualsReturnsTrue(
                 FundingDue fundingDue,
-                RequiredPaymentEntity pastPayment,
+                RequiredPayment pastPayment,
                 int standardCode,
                 int frameworkCode,
                 int programmeType,
@@ -290,7 +291,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             [Test, PaymentsDueAutoData]
             public void ThenEqualsReturnsFalse(
                 FundingDue fundingDue,
-                RequiredPaymentEntity pastPayment)
+                RequiredPayment pastPayment)
             {
                 var obj1 = new PaymentGroup(fundingDue);
                 var obj2 = new PaymentGroup(pastPayment);

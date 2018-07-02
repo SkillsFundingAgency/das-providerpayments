@@ -3,12 +3,12 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class NonPayableEarningEntity : RequiredPaymentEntity, ICanStoreCommitmentInformation
+    public class NonPayableEarning : RequiredPayment, ICanStoreCommitmentInformation
     {
-        public NonPayableEarningEntity()
+        public NonPayableEarning()
         {}
 
-        public NonPayableEarningEntity(RawEarning rawEarning)
+        public NonPayableEarning(RawEarning rawEarning)
         {
             Uln = rawEarning.Uln;
             LearnRefNumber = rawEarning.LearnRefNumber;

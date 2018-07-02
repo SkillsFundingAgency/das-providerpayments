@@ -8,11 +8,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
     {
         public EarningValidationResult(
             List<FundingDue> earnings,
-            List<NonPayableEarningEntity> nonPayableEarnings,
+            List<NonPayableEarning> nonPayableEarnings,
             List<int> periodsToIgnore = null)
         {
             Earnings = new List<FundingDue>(earnings);
-            NonPayableEarnings = new List<NonPayableEarningEntity>(nonPayableEarnings);
+            NonPayableEarnings = new List<NonPayableEarning>(nonPayableEarnings);
             if (periodsToIgnore == null)
             {
                 PeriodsToIgnore = new List<int>();
@@ -23,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
             }
         }
         public List<FundingDue> Earnings { get; set; }
-        public List<NonPayableEarningEntity> NonPayableEarnings { get; set; }
+        public List<NonPayableEarning> NonPayableEarnings { get; set; }
         public List<int> PeriodsToIgnore { get; set; }
     }
 }

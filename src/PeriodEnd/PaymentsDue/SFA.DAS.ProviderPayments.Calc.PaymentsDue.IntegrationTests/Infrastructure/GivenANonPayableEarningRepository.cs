@@ -27,8 +27,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingAddMany : AndThereAreNoNonPayableEarnings
             {
-                private List<NonPayableEarningEntity> _expectedEntities;
-                private List<NonPayableEarningEntity> _actualEntities;
+                private List<NonPayableEarning> _expectedEntities;
+                private List<NonPayableEarning> _actualEntities;
 
                 [OneTimeSetUp]
                 public new void Setup()
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                     base.Setup();
 
                     _expectedEntities = new Fixture()
-                        .Build<NonPayableEarningEntity>()
+                        .Build<NonPayableEarning>()
                         .CreateMany()
                         .ToList();
 
