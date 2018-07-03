@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
 {
     public interface IRequiredPaymentsHistoryRepository
     {
-        List<RequiredPaymentEntity> GetAllForProvider(long ukprn);
+        List<RequiredPayment> GetAllForProvider(long ukprn);
     }
 
     public class RequiredPaymentsHistoryRepository : DcfsRepository, IRequiredPaymentsHistoryRepository
@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public List<RequiredPaymentEntity> GetAllForProvider(long ukprn)
+        public List<RequiredPayment> GetAllForProvider(long ukprn)
         {
             const string sql = @"
             SELECT 
@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             FROM Reference.RequiredPaymentsHistory
             WHERE Ukprn = @ukprn";
 
-            var result = Query<RequiredPaymentEntity>(sql, new { ukprn })
+            var result = Query<RequiredPayment>(sql, new { ukprn })
                 .ToList();
 
             return result;

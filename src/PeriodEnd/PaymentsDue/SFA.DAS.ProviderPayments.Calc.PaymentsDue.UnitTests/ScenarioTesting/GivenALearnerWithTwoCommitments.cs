@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         private static readonly long AccountId = Fixture.Create<long>();
         private static readonly string FundingLineType = Fixture.Create<string>();
 
-        private static readonly List<RequiredPaymentEntity> PastPayments = Fixture.Build<RequiredPaymentEntity>()
+        private static readonly List<RequiredPayment> PastPayments = Fixture.Build<RequiredPayment>()
             .With(x => x.CommitmentId, CommitmentOne)
             .With(x => x.AccountId, AccountId)
             .With(x => x.TransactionType, 1)
@@ -102,7 +102,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         [SetUp]
         public void Setup()
         {
-            var secondSetOfPastPayments = Fixture.Build<RequiredPaymentEntity>()
+            var secondSetOfPastPayments = Fixture.Build<RequiredPayment>()
                 .With(x => x.CommitmentId, CommitmentTwo)
                 .With(x => x.AccountId, AccountId)
                 .With(x => x.TransactionType, 1)

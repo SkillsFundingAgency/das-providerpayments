@@ -4,6 +4,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -103,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             long uln,
-            List<RequiredPaymentEntity> historicalPayments,
+            List<RequiredPayment> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             SortProviderDataIntoLearnerDataService sut)
         {
@@ -157,7 +158,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
             List<RawEarningForMathsOrEnglish> rawEarningsMathsEnglish,
             [Frozen] Mock<IRawEarningsMathsEnglishRepository> mockRawEarningsMathsEnglishRepository,
-            List<RequiredPaymentEntity> historicalPayments,
+            List<RequiredPayment> historicalPayments,
             [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
             List<DatalockOutputEntity> dataLocks,
             [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
@@ -273,7 +274,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
             SortProviderDataIntoLearnerDataService sut)
         {
-            var actualPayableEarnings = new List<RequiredPaymentEntity>();
+            var actualPayableEarnings = new List<RequiredPayment>();
             
 
             rawEarnings.ForEach(entity =>
