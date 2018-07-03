@@ -70,6 +70,7 @@
     <Compile Include="Domain\IHoldCourseInformation.cs" />
     <Compile Include="Domain\PaymentFailureType.cs" />
     <Compile Include="Dto\EarningValidationResult.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
     <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\DatalockOutputEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\NonPayableEarningEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\NonPayableEarning.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="DependencyResolution\PaymentsDueRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Domain\RequiredPayment.cs" />
     <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\RawEarning.cs" />
