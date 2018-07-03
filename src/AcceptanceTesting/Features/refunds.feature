@@ -249,7 +249,6 @@ Scenario:518-AC01 - DAS standard learner, price is changed and a negative amount
 
 @Das
 @_Minimum_Acceptance_
-#ignoring as this will be fixed as part of subsequent work on refunds component
 Scenario:802-AC01 - DAS standard learner, price is changed, originally mix funded and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 27000
     And the employer's levy balance is:
