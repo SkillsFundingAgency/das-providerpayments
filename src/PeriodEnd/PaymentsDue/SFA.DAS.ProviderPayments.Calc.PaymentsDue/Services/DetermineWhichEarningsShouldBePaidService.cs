@@ -29,6 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private DateTime _firstDayOfNextAcademicYear;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
+        private static readonly List<int> OnProgTransactionTypes = new List<int> { 1, 2, 3 };
+
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
@@ -326,6 +328,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = transactionType;
+
+                if (!OnProgTransactionTypes.Contains(transactionType))
+                {
+                    fundingDue.SfaContributionPercentage = 1;
+                }
 
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
