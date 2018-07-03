@@ -101,5 +101,7 @@ SELECT
 	rp.TransactionType,
 	(rp.AmountDue - (SELECT COALESCE(SUM(Amount), 0) FROM TransferPayments.Payments WHERE RequiredPaymentId = rp.Id)) AS AmountDue
 FROM PaymentsDue.RequiredPayments rp
-WHERE  rp.UseLevyBalance = 1 AND rp.TransactionType IN (1,2,3) 
-	AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
+WHERE  rp.UseLevyBalance = 1 
+AND rp.TransactionType IN (1,2,3) 
+AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
+AND (rp.AmountDue - (SELECT COALESCE(SUM(Amount), 0) > 0
