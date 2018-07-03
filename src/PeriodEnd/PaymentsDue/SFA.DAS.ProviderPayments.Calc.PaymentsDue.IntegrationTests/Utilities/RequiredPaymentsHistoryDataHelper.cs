@@ -1,11 +1,11 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class RequiredPaymentsHistoryDataHelper
     {
-        internal static void CreateEntity(RequiredPaymentEntity entity)
+        internal static void CreateEntity(RequiredPayment entity)
         {
             const string sql = @"
             INSERT INTO Reference.RequiredPaymentsHistory (

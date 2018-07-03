@@ -24,7 +24,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             private List<DatalockOutputEntity> _datalocks;
             private List<RawEarning> _earnings;
             private List<RawEarningForMathsOrEnglish> _mathsAndEnglishEarnings;
-            private List<RequiredPaymentEntity> _pastPayments;
+            private List<RequiredPayment> _pastPayments;
             private List<Commitment> _commitments;
             private List<DatalockValidationError> _datalockValidationErrors;
 
@@ -44,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutputEntity>;
                 _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
                 _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
-                _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPaymentEntity>;
+                _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPayment>;
                 _commitments = earningsDictionary["Commitments"] as List<Commitment>;
                 _datalockValidationErrors = earningsDictionary["DatalockValidationErrors"] as List<DatalockValidationError>;
             }

@@ -3,9 +3,9 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data
 {
-    public interface IRefundPaymentRepository
+    public interface IPaymentRepository
     {
-        void AddMany(List<RefundPaymentEntity> refunds);
+        void AddMany(List<PaymentEntity> payments);
     }
 
 }

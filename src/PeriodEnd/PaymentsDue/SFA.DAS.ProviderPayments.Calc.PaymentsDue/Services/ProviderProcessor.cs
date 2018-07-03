@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
@@ -39,8 +40,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var learnersParams = _parametersBuilder.Sort(provider.Ukprn);
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
             
-            var allNonPayablesForProvider = new List<NonPayableEarningEntity>();
-            var allPayablesForProvider = new List<RequiredPaymentEntity>();
+            var allNonPayablesForProvider = new List<NonPayableEarning>();
+            var allPayablesForProvider = new List<RequiredPayment>();
 
             foreach (var parameters in learnersParams)
             {
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             });
 
             _nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
-            _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
+            _requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider);
 
             _logger.Info($"There are [{allNonPayablesForProvider.Count}] non-payable earnings for Provider UKPRN: [{provider.Ukprn}].");
             _logger.Info($"There are [{allPayablesForProvider.Count}] payable earnings for Provider UKPRN: [{provider.Ukprn}].");

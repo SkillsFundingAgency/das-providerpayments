@@ -1,11 +1,12 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions
 {
     public static class RequiredPaymentExtensions
     {
-        public static void CopySignificantPaymentPropertiesTo(this RequiredPaymentEntity from,
-            RequiredPaymentEntity to)
+        public static void CopySignificantPaymentPropertiesTo(this RequiredPayment from,
+            RequiredPayment to)
         {
             to.DeliveryMonth = from.DeliveryMonth;
             to.DeliveryYear = from.DeliveryYear;

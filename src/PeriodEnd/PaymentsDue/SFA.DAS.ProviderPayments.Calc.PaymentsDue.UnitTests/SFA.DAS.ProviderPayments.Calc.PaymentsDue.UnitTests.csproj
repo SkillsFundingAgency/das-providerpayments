@@ -110,6 +110,7 @@
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\Incentives\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\MathsAndEnglish\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\OnProg\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="ServiceTests\GivenACalculator\ThatIsUsedForMultipleCalculations.cs" />

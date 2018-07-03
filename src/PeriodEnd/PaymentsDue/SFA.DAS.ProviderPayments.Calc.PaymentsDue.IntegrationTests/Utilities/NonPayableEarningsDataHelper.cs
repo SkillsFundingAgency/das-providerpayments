@@ -7,14 +7,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
     internal static class NonPayableEarningsDataHelper
     {
-        internal static List<NonPayableEarningEntity> GetAll()
+        internal static List<NonPayableEarning> GetAll()
         {
             const string sql = @"
             SELECT *
             FROM PaymentsDue.NonPayableEarnings";
 
             return TestDataHelper
-                .Query<NonPayableEarningEntity>(sql)
+                .Query<NonPayableEarning>(sql)
                 .ToList();
         }
 

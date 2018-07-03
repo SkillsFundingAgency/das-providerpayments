@@ -4,6 +4,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -71,7 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
             {
-                var expectedNonPayableEarnings = new List<NonPayableEarningEntity>();
+                var expectedNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -98,7 +99,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
             {
-                var expectedPayableEarnings = new List<RequiredPaymentEntity>();
+                var expectedPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -111,9 +112,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
                 sut.Process(provider);
 
-                var expectedEarningsArray = expectedPayableEarnings.ToArray();
                 mockRequiredPaymentsRepository
-                    .Verify(repository => repository.AddRequiredPayments(expectedEarningsArray));
+                    .Verify(repository => repository.AddRequiredPayments(expectedPayableEarnings));
             }
 
             [Test, PaymentsDueAutoData]
@@ -126,7 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
             {
-                var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
+                var actualNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -137,8 +137,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
-                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarningEntity>>()))
-                    .Callback<List<NonPayableEarningEntity>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
+                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarning>>()))
+                    .Callback<List<NonPayableEarning>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
 
                 sut.Process(provider);
 
@@ -158,7 +158,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderProcessor sut)
             {
-                var actualNonPayableEarnings = new List<NonPayableEarningEntity>();
+                var actualNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -173,8 +173,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerResult);
 
                 mockNonPayableEarningsRepository
-                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarningEntity>>()))
-                    .Callback<List<NonPayableEarningEntity>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
+                    .Setup(repository => repository.AddMany(It.IsAny<List<NonPayableEarning>>()))
+                    .Callback<List<NonPayableEarning>>(nonPayableEarnings => actualNonPayableEarnings = nonPayableEarnings);
 
                 sut.Process(provider);
 
@@ -196,7 +196,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
             {
-                var actualPayableEarnings = new List<RequiredPaymentEntity>();
+                var actualPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -207,8 +207,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository
-                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
-                    .Callback<RequiredPaymentEntity[]>(payableEarnings => actualPayableEarnings = payableEarnings.ToList());
+                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<List<RequiredPayment>>()))
+                    .Callback<List<RequiredPayment>>(payableEarnings => actualPayableEarnings = payableEarnings);
 
                 sut.Process(provider);
 
@@ -228,7 +228,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderProcessor sut)
             {
-                var actualPayableEarnings = new List<RequiredPaymentEntity>();
+                var actualPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
                     .Setup(builder => builder.Sort(provider.Ukprn))
@@ -243,8 +243,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                     .Returns(learnerResult);
 
                 mockRequiredPaymentsRepository
-                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<RequiredPaymentEntity[]>()))
-                    .Callback<RequiredPaymentEntity[]>(payableEarnings => actualPayableEarnings = payableEarnings.ToList());
+                    .Setup(repository => repository.AddRequiredPayments(It.IsAny<List<RequiredPayment>>()))
+                    .Callback<List<RequiredPayment>>(payableEarnings => actualPayableEarnings = payableEarnings);
 
                 sut.Process(provider);
 

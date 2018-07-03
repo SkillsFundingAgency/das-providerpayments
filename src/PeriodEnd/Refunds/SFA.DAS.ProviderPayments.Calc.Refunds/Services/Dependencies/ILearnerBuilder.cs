@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies
 {
     public interface ILearnerBuilder
     {
-        List<LearnerData> CreateLearnersForThisProvider(long ukprn);
+        List<LearnerData> CreateLearnersForProvider(long ukprn);
     }
 }
