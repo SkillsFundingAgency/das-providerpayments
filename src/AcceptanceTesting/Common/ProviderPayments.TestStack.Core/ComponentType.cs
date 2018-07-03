@@ -16,6 +16,7 @@
         ManualAdjustments = 12,
         ProviderAdjustments = 13,
         TransferPayments = 14,
+        Refunds = 15,
         AllComponents = 99,
     }
 }

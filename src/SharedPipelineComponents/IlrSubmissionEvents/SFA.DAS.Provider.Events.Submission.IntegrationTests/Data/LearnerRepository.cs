@@ -11,7 +11,7 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
         {
             using (var connection = new SqlConnection(GlobalTestContext.Current.TransientDatabaseConnectionString))
             {
-                connection.Execute("INSERT INTO Valid.Learner (LearnRefNumber, ULN, NINumber, LLDDHealthProb, Ethnicity, Sex) VALUES (@learnRefNumber, @uln, @niNumber, 2, 31, 'M')", learner);
+                connection.Execute("INSERT INTO Valid.Learner (LearnRefNumber, ULN, NINumber, LLDDHealthProb, Ethnicity, Sex, GivenNames, FamilyName) VALUES (@learnRefNumber, @uln, @niNumber, 2, 31, 'M', @GivenNames, @FamilyName)", learner);
             }
         }
 

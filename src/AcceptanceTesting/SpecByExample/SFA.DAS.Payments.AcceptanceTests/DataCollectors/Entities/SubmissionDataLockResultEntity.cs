@@ -4,6 +4,7 @@
     {
         public long Ukprn { get; set; }
         public string LearnRefNumber { get; set; }
+        public long Uln { get; set; }
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
         

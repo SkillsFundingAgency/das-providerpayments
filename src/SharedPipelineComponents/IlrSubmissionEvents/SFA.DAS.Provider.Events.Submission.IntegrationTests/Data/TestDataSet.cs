@@ -121,7 +121,9 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                         Ukprn = ukprn,
                         LearnRefNumber = learnRefNumber,
                         Uln = 1000000000,
-                        NiNumber = "AB123456A"
+                        NiNumber = "AB123456A",
+                        FamilyName = "Smith",
+                        GivenNames = "John"
                     }
                 },
                 LearningDeliveries = new List<LearningDeliveryEntity>
@@ -134,7 +136,8 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                         StdCode = 34,
                         LearnStartDate = startDate,
                         LearnPlanEndDate = DateTime.Today.AddMonths(16),
-                        EPAOrgId = "EPA0001"
+                        EPAOrgId = "EPA0001",
+                        CompStatus = 1
                     }
                 },
                 LearnersEmploymentStatuses = new List<LearnerEmploymentStatusEntity>
@@ -246,7 +249,10 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Data
                             CommitmentId = match.CommitmentId,
                             EmployerReferenceNumber = employmentStatus.EmployerId,
                             AcademicYear = dataset.AcademicYear,
-                            EPAOrgId = learningDelivery.EPAOrgId
+                            EPAOrgId = learningDelivery.EPAOrgId, 
+                            CompStatus = learningDelivery.CompStatus,
+                            GivenNames = learner.GivenNames,
+                            FamilyName = learner.FamilyName
                         };
                     }));
             }

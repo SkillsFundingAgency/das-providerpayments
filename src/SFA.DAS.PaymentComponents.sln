@@ -493,6 +493,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\1_SubmissionEvents.Deds.Add_Indexes.sql
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\3_SubmissionEvents.Deds.Larger_Numbers.sql
 		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~2_Submissions.Deds.AddColumns.sql
+		SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~3_Submissions.Deds.AddColumns.sql = SharedPipelineComponents\IlrSubmissionEvents\DeploySubmission\sql\migrationscripts\~3_Submissions.Deds.AddColumns.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{10ED3F84-76FF-4152-BE98-5F74C13659B9}"
@@ -583,6 +584,22 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0E02732D-353C-4E25-B16C-8CFE6433513C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj", "{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refunds", "Refunds", "{A64464EE-85C2-423F-A9CC-E90BDDC225BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{AA7DA1DB-783A-4495-9A37-EF0AAC84C208}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToDedsMapping.xml = PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToDedsMapping.xml
+		PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToTransientMapping.xml = PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToTransientMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{FF9ECFCB-F09F-464A-B823-5C570CF3F030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.csproj", "{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.csproj", "{57848254-B55A-4699-AD69-FC0959CE031F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.csproj", "{D21F43C1-44B5-4C4A-A85C-675213B2354D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -778,6 +795,18 @@ Global
 		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -908,6 +937,12 @@ Global
 		{DC0D2659-A9F3-48AC-AD7A-29153B7E4BA6} = {4C562D21-00B4-421F-9359-6C2B3675B306}
 		{120A310C-CA9D-4546-83E9-92664E139AF1} = {4C562D21-00B4-421F-9359-6C2B3675B306}
 		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
+		{A64464EE-85C2-423F-A9CC-E90BDDC225BA} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{AA7DA1DB-783A-4495-9A37-EF0AAC84C208} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{FF9ECFCB-F09F-464A-B823-5C570CF3F030} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{57848254-B55A-4699-AD69-FC0959CE031F} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}

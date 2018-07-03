@@ -36,13 +36,16 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.IsNull(newEvent.ProgrammeType);
             Assert.IsNull(newEvent.FrameworkCode);
             Assert.IsNull(newEvent.PathwayCode);
-            Assert.IsNull(newEvent.ActualStartDate);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].LearnStartDate, newEvent.ActualStartDate);
             Assert.IsNull(newEvent.PlannedEndDate);
             Assert.IsNull(newEvent.ActualEndDate);
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp1, newEvent.OnProgrammeTotalPrice);
             Assert.IsNull(newEvent.CompletionTotalPrice);
             Assert.IsNull(newEvent.NiNumber);
             Assert.AreEqual(testDataSet.LearningDeliveries[0].EPAOrgId, newEvent.EPAOrgId);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].CompStatus, newEvent.CompStatus);
+            Assert.AreEqual(testDataSet.Learners[0].GivenNames, newEvent.GivenNames);
+            Assert.AreEqual(testDataSet.Learners[0].FamilyName, newEvent.FamilyName);
         }
 
         [Test]
@@ -80,6 +83,9 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(testDataSet.PriceEpisodes[0].Tnp2, version.CompletionTotalPrice);
             Assert.AreEqual(testDataSet.Learners[0].NiNumber, version.NiNumber);
             Assert.AreEqual(testDataSet.LearningDeliveries[0].EPAOrgId, version.EPAOrgId);
+            Assert.AreEqual(testDataSet.Learners[0].FamilyName, version.FamilyName);
+            Assert.AreEqual(testDataSet.Learners[0].GivenNames, version.GivenNames);
+            Assert.AreEqual(testDataSet.LearningDeliveries[0].CompStatus, version.CompStatus);
         }
 
         [Test]
