@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
 {
-    public class TransfersRegistry : Registry
+    public class RefundsRegistry : Registry
     {
-        public TransfersRegistry(Type taskType, ContextWrapper contextWrapper)
+        public RefundsRegistry(Type taskType, ContextWrapper contextWrapper)
         {
             Scan(
                 scan =>
                 {
-                    scan.AssemblyContainingType<TransfersRegistry>();
+                    scan.AssemblyContainingType<RefundsRegistry>();
 
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
 
             For<ContextWrapper>().Use(contextWrapper);
 
-           
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => GetInstance(ctx, t));
