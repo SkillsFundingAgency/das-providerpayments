@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Security;
 using AutoFixture.NUnit3;
-using FluentAssertions.Common;
 using Moq;
+using NLog;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
@@ -74,6 +74,33 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 
                 dasAccountService.Verify(x => x.UpdateAccountLevyBalances(It.Is<List<AccountLevyCredit>>(p => p == credits)), Times.Once);
             }
-        } 
+
+            [Test, RefundsAutoData]
+            public void ThenItCatchesAnUnhandledExceptionAndLogsIt(
+                [Frozen] Mock<IProviderRepository> providerRepository,
+                [Frozen] Mock<ILogger> logger,
+                RefundsProcessor sut
+            )
+            {
+                providerRepository.Setup(x => x.GetAllProviders()).Throws<KeyNotFoundException>();
+
+                try
+                {
+                    sut.Process();
+                    Assert.Fail();
+                }
+                catch (KeyNotFoundException)
+                {
+                    logger.Verify(x=>x.Error(It.IsAny<Exception>()));
+                }
+                catch(Exception)
+                {
+                    Assert.Fail();
+                }
+
+            }
+        }
+
+
     }
 }

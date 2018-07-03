@@ -11,17 +11,17 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
         private readonly IProviderRepository _providerRepository;
         private readonly IProviderProcessor _providerProcessor;
         private readonly ISummariseAccountBalances _summariseAccountBalances;
-        private readonly IDasAccountRepository _dasAccountRepository;
+        private readonly IDasAccountService _dasAccountService;
         private readonly ILogger _logger;
 
         [UsedImplicitly]
         public RefundsProcessor(IProviderRepository providerRepository, IProviderProcessor providerProcessor, ISummariseAccountBalances summariseAccountBalances, 
-            IDasAccountRepository dasAccountRepository, ILogger logger)
+            IDasAccountService dasAccountService, ILogger logger)
         {
             _providerRepository = providerRepository;
             _providerProcessor = providerProcessor;
             _summariseAccountBalances = summariseAccountBalances;
-            _dasAccountRepository = dasAccountRepository;
+            _dasAccountService = dasAccountService;
             _logger = logger;
         }
 
@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
                     _summariseAccountBalances.IncrementAccountLevyBalance(levyBalances);
                 }
 
-                _dasAccountRepository.Update(); // Need to work out how batch updates work
+                _dasAccountService.UpdateAccountLevyBalances(_summariseAccountBalances.AsList()); 
 
             }
             catch (Exception ex)

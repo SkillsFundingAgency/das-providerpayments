@@ -70,6 +70,7 @@
     <Compile Include="RefundsProcessor.cs" />
     <Compile Include="RefundsTask.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\IDasAccountService.cs" />
     <Compile Include="Services\Dependencies\ISummariseAccountBalances.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
