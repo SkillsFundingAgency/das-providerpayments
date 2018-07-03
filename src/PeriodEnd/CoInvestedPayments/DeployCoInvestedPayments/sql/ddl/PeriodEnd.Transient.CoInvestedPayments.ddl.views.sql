@@ -54,7 +54,7 @@ AS
 	FROM PaymentsDue.RequiredPayments rp
 	WHERE (rp.AmountDue - 
 		(SELECT COALESCE(SUM(Amount), 0) FROM TransferPayments.Payments WHERE RequiredPaymentId = rp.Id) - 
-		(SELECT COALESCE(SUM(Amount), 0) FROM LevyPayments.Payments WHERE RequiredPaymentId = rp.Id)) <> 0
+		(SELECT COALESCE(SUM(Amount), 0) FROM LevyPayments.Payments WHERE RequiredPaymentId = rp.Id)) > 0
 	AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
 GO
 

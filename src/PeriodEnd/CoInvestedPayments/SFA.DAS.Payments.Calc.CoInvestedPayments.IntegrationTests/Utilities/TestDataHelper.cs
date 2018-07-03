@@ -241,19 +241,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
                 new { requiredPaymentId,uln, learnerRefNumber, aimSequenceNumber, ukprn, transactionType, amountDue, sfaContributionPercentage });
         }
 
-        internal static void PopulatePaymentsHistory()
-        {
-            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql");
-
-            var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var command in commands)
-            {
-                Execute(command);
-            }
-
-        }
-
         internal static long AddProvider(long ukprn)
         {
             Execute("INSERT INTO Valid.LearningProvider" +
