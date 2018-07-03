@@ -3,7 +3,7 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -17,14 +17,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
             var fixture = new Fixture();
 
-            var historicalPayments = fixture.Build<RequiredPaymentEntity>()
+            var historicalPayments = fixture.Build<RequiredPayment>()
                 .With(earning => earning.Ukprn,
                     fixture.Create<Generator<long>>()
                         .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
 
-            var historicalPaymentsMatchingUkprn = fixture.Build<RequiredPaymentEntity>()
+            var historicalPaymentsMatchingUkprn = fixture.Build<RequiredPayment>()
                 .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
                 .CreateMany(3)
                 .ToList();

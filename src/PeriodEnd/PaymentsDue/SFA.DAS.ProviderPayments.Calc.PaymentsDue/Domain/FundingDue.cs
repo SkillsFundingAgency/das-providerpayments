@@ -1,11 +1,12 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     /// <summary>
     /// Used as an intermediary step in calculating payments due
     /// </summary>
-    public class FundingDue : RequiredPaymentEntity, 
+    public class FundingDue : RequiredPayment, 
         ICanStoreCommitmentInformation, 
         IHoldCommitmentInformation,
         IHoldCourseInformation

@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
     {
         [Test, PaymentsDueAutoData]
         public void ThenThereShouldBeRefundsForAllPastPayments(
-            List<RequiredPaymentEntity> pastPayments,
+            List<RequiredPayment> pastPayments,
             PaymentsDueCalculationService sut
         )
         {

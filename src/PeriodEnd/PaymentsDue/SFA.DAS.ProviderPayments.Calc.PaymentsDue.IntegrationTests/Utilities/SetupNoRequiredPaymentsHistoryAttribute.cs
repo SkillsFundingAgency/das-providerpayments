@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             RequiredPaymentsHistoryDataHelper.Truncate();
 
-            PaymentsDueTestContext.RequiredPaymentsHistory = new List<RequiredPaymentEntity>();
+            PaymentsDueTestContext.RequiredPaymentsHistory = new List<RequiredPayment>();
 
             base.BeforeTest(test);
         }

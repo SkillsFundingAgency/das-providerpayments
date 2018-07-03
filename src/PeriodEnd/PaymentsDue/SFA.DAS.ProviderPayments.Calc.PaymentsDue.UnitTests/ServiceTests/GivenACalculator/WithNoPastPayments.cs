@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             PaymentsDueCalculationService sut
         )
         {
-            var actual = sut.Calculate(earnings, new List<int>(), new List<RequiredPaymentEntity>());
+            var actual = sut.Calculate(earnings, new List<int>(), new List<RequiredPayment>());
 
             actual.Should().HaveCount(earnings.Count);
             foreach (var fundingDue in earnings)

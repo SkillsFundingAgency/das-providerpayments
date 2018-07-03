@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             AccountId = accountId ?? -1;
         }
 
-        public PaymentGroup(RequiredPaymentEntity copy)
+        public PaymentGroup(RequiredPayment copy)
         {
             StandardCode = copy.StandardCode;
             FrameworkCode = copy.FrameworkCode;

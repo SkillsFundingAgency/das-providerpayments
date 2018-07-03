@@ -21,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 PaymentsDueCalculationService sut
             )
             {
-                var pastPayments = earnings.Select(x => new RequiredPaymentEntity(x)).ToList();
+                var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
                 var actual = sut.Calculate(earnings, new List<int>(), pastPayments);
 
                 actual.Should().HaveCount(0);
@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 FundingDue test
             )
             {
-                var pastPayments = earnings.Select(x => new RequiredPaymentEntity(x)).ToList();
+                var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
                 earnings.Add(test);
 
                 var actual = sut.Calculate(earnings, new List<int>(), pastPayments);
@@ -57,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 PaymentsDueCalculationService sut
             )
             {
-                var pastPayments = earnings.Select(x => new RequiredPaymentEntity(x)).ToList();
+                var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
                 earnings.RemoveAt(0);
 
                 var actual = sut.Calculate(earnings, new List<int>(), pastPayments);

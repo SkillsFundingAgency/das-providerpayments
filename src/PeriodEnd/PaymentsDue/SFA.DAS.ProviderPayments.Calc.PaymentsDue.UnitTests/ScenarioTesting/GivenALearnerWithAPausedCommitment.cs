@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         private static readonly long AccountId = Fixture.Create<long>();
         private static readonly string FundingLineType = Fixture.Create<string>();
 
-        private static readonly List<RequiredPaymentEntity> PastPayments = new List<RequiredPaymentEntity>();
+        private static readonly List<RequiredPayment> PastPayments = new List<RequiredPayment>();
         private static readonly List<RawEarningForMathsOrEnglish> MathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 
         private static readonly List<DatalockOutputEntity> Datalocks = new List<DatalockOutputEntity>();
@@ -78,7 +78,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         [SetUp]
         public void Setup()
         {
-            var pastPayments = Fixture.Build<RequiredPaymentEntity>()
+            var pastPayments = Fixture.Build<RequiredPayment>()
                 .With(x => x.CommitmentId, CommitmentOne)
                 .With(x => x.AccountId, AccountId)
                 .With(x => x.TransactionType, 1)
@@ -95,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 .CreateMany(4)
                 .ToList();
             PastPayments.AddRange(pastPayments);
-            pastPayments = Fixture.Build<RequiredPaymentEntity>()
+            pastPayments = Fixture.Build<RequiredPayment>()
                 .With(x => x.CommitmentId, CommitmentOne)
                 .With(x => x.AccountId, AccountId)
                 .With(x => x.TransactionType, 13)
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 .CreateMany(4)
                 .ToList();
             PastPayments.AddRange(pastPayments);
-            pastPayments = Fixture.Build<RequiredPaymentEntity>()
+            pastPayments = Fixture.Build<RequiredPayment>()
                 .With(x => x.CommitmentId, CommitmentOne)
                 .With(x => x.AccountId, AccountId)
                 .With(x => x.TransactionType, 13)
