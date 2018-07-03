@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.DCFS.Extensions;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
@@ -571,7 +571,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 }, false);
         }
 
-        internal static void AddPaymentForNonDas(RequiredPaymentEntity requiredPayment)
+        internal static void AddPaymentForNonDas(RequiredPayment requiredPayment)
         {
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
@@ -674,9 +674,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         }
 
 
-        internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn)
+        internal static RequiredPayment[] GetRequiredPaymentsForProvider(long ukprn)
         {
-            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
+            return Query<RequiredPayment>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
         }
 
 

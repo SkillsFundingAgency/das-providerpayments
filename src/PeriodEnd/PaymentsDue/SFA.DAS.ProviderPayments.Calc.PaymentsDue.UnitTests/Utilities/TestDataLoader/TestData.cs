@@ -5,6 +5,7 @@ using System.Linq;
 using AutoFixture;
 using ClosedXML.Excel;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
 
@@ -27,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
             var range = pastPaymentSheet.RowsUsed();
             foreach (var xlRow in range.Skip(1))
             {
-                var pastPayment = new RequiredPaymentEntity();
+                var pastPayment = new RequiredPayment();
                 pastPayment.CommitmentId = xlRow.Cell(1).IsEmpty() || xlRow.Cell(1).Value.Equals("NULL") ? 0 : xlRow.Cell(1).GetValue<long>();
                 pastPayment.CommitmentVersionId = xlRow.Cell(2).GetValue<string>();
                 pastPayment.AccountId = xlRow.Cell(3).IsEmpty() || xlRow.Cell(3).Value.Equals("NULL") ? 0 : xlRow.Cell(3).GetValue<long>();
@@ -204,7 +205,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 range = worksheet.RowsUsed();
                 foreach (var xlRow in range.Skip(1))
                 {
-                    var payment = new RequiredPaymentEntity
+                    var payment = new RequiredPayment
                     {
                         DeliveryYear = xlRow.Cell(1).GetValue<int>(),
                         DeliveryMonth = xlRow.Cell(2).GetValue<int>(),
@@ -239,8 +240,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
         public List<Commitment> Commitments { get; set; } = new List<Commitment>();
         public List<RawEarning> RawEarnings { get; set; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish { get; set; } = new List<RawEarningForMathsOrEnglish>();
-        public List<RequiredPaymentEntity> PastPayments { get; set; } = new List<RequiredPaymentEntity>();
-        public List<RequiredPaymentEntity> Payments { get; set; } = new List<RequiredPaymentEntity>();
+        public List<RequiredPayment> PastPayments { get; set; } = new List<RequiredPayment>();
+        public List<RequiredPayment> Payments { get; set; } = new List<RequiredPayment>();
         public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
     }
 }

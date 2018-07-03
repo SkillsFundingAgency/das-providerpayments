@@ -13,13 +13,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private IReadOnlyList<int> PeriodsToIgnore { get; set; }
         
         // Output
-        public List<RequiredPaymentEntity> RequiredPayments { get; private set; }
+        public List<RequiredPayment> RequiredPayments { get; private set; }
 
-        public List<RequiredPaymentEntity> Calculate(List<FundingDue> earnings,
+        public List<RequiredPayment> Calculate(List<FundingDue> earnings,
             List<int> periodsToIgnore,
-            List<RequiredPaymentEntity> pastPayments)
+            List<RequiredPayment> pastPayments)
         {
-            RequiredPayments = new List<RequiredPaymentEntity>();
+            RequiredPayments = new List<RequiredPayment>();
             PeriodsToIgnore = periodsToIgnore;
 
             var processedGroups = new HashSet<PaymentGroup>();
@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
 
                 var earningsForGroup = groupedEarnings[key];
-                var pastPaymentsForGroup = new List<RequiredPaymentEntity>();
+                var pastPaymentsForGroup = new List<RequiredPayment>();
 
                 if (groupedPastPayments.ContainsKey(key))
                 {
@@ -82,7 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
             }
 
-            return new List<RequiredPaymentEntity>(RequiredPayments);
+            return new List<RequiredPayment>(RequiredPayments);
         }
 
         private bool ShouldIgnoreEarnings(PaymentGroup earningInformation)
@@ -96,9 +96,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return false;
         }
 
-        private void AddRequiredPayment(RequiredPaymentEntity requiredPayment, decimal amount)
+        private void AddRequiredPayment(RequiredPayment requiredPayment, decimal amount)
         {
-            var payment = new RequiredPaymentEntity(requiredPayment);
+            var payment = new RequiredPayment(requiredPayment);
             payment.AmountDue = amount;
             RequiredPayments.Add(payment);
         }

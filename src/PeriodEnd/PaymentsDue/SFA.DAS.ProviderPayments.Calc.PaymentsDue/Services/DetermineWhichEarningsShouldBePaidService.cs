@@ -29,6 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private DateTime _firstDayOfNextAcademicYear;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
 
+        private static readonly List<int> OnProgTransactionTypes = new List<int> { 1, 2, 3 };
+
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
@@ -42,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         // OUTPUT
         private List<FundingDue> PayableEarnings { get; set; }
         private HashSet<int> PeriodsToIgnore { get; set; }
-        private List<NonPayableEarningEntity> NonPayableEarnings { get; set; }
+        private List<NonPayableEarning> NonPayableEarnings { get; set; }
 
 
         public EarningValidationResult DeterminePayableEarnings(
@@ -52,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             PayableEarnings = new List<FundingDue>();
             PeriodsToIgnore = new HashSet<int>();
-            NonPayableEarnings = new List<NonPayableEarningEntity>();
+            NonPayableEarnings = new List<NonPayableEarning>();
 
             SetFirstDayOfAcademicYears();
 
@@ -327,6 +329,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = transactionType;
 
+                if (!OnProgTransactionTypes.Contains(transactionType))
+                {
+                    fundingDue.SfaContributionPercentage = 1;
+                }
+
                 // Doing this to prevent a huge switch statement
                 fundingDue.AmountDue = amountDue;
                 commitmentInformation?.CopyCommitmentInformationTo(fundingDue);
@@ -347,7 +354,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
-                var nonPayableEarning = new NonPayableEarningEntity(rawEarnings);
+                var nonPayableEarning = new NonPayableEarning(rawEarnings);
                 nonPayableEarning.TransactionType = transactionType;
 
                 // Doing this to prevent a huge switch statement

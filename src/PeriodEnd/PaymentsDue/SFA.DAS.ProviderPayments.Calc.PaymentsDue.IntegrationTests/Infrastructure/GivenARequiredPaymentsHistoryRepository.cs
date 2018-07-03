@@ -2,7 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
 
@@ -41,8 +41,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
             [TestFixture]
             public class WhenCallingGetAllForProvider : AndThereAreSomeRequiredPaymentsHistoryForProvider
             {
-                private List<RequiredPaymentEntity> _actualHistoricalPayments;
-                private List<RequiredPaymentEntity> _expectedHistoricalPayments;
+                private List<RequiredPayment> _actualHistoricalPayments;
+                private List<RequiredPayment> _expectedHistoricalPayments;
 
                 [SetUp]
                 public new void Setup()

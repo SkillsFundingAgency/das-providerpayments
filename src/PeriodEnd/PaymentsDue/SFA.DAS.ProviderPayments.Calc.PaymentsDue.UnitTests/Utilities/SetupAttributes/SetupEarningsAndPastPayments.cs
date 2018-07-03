@@ -5,6 +5,7 @@ using AutoFixture;
 using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 .With(x => x.FrameworkCode, frameworkCode)
                 .CreateMany(12));
 
-            var pastPayments = fixture.Build<RequiredPaymentEntity>()
+            var pastPayments = fixture.Build<RequiredPayment>()
                     .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                     .With(x => x.ApprenticeshipContractType, _apprenticeshipContractType)
                     .With(x => x.StandardCode, standardCode)

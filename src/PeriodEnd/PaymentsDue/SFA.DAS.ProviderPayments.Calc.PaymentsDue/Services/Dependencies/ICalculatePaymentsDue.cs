@@ -6,9 +6,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface ICalculatePaymentsDue
     {
-        List<RequiredPaymentEntity> Calculate(
+        List<RequiredPayment> Calculate(
             List<FundingDue> earnings,
             List<int> periodsToIgnore,
-            List<RequiredPaymentEntity> pastPayments);
+            List<RequiredPayment> pastPayments);
     }
 }
