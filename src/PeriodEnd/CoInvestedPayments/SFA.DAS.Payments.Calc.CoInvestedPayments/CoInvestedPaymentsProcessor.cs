@@ -11,7 +11,6 @@ using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.PaymentsDue.GetPaymentsDueForUkprnQuery;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Application.Providers.GetProvidersQuery;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.CoInvestedPayments.Application.Payments.GetCoInvestedPaymentsHistoryQuery;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 {
@@ -61,15 +60,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
 
                     foreach (var paymentDue in providerPaymentsDueQueryResponse.Items)
                     {
-                        if (paymentDue.AmountDue > 0)
-                        {
-                            AddCoInvestedPaymentsForLearner(learnerLevelPaymentsForProvider, collectionPeriod, paymentDue);
-                        }
-                        else if (paymentDue.AmountDue < 0)
-                        {
-                            MakeCoInvestedRefundsForLearner(learnerLevelPaymentsForProvider, collectionPeriod, paymentDue);
-
-                        }
+                        AddCoInvestedPaymentsForLearner(learnerLevelPaymentsForProvider, collectionPeriod, paymentDue);
                     }
 
                     WriteCoInvestedPaymentsForProviderOrThrow(provider.Ukprn, learnerLevelPaymentsForProvider);
@@ -193,69 +184,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                             });
                     }
                     break;
-            }
-        }
-
-        private void MakeCoInvestedRefundsForLearner(ICollection<Payment> payments, CollectionPeriod currentPeriod, PaymentDue paymentDue)
-        {
-
-            _logger.Info($"Making a co invested refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType}  / {paymentDue.Ukprn}");
-
-            var historyPayments = _mediator.Send(new GetCoInvestedPaymentsHistoryQueryRequest
-            {
-                DeliveryYear = paymentDue.DeliveryYear,
-                DeliveryMonth = paymentDue.DeliveryMonth,
-                TransactionType = (int)paymentDue.TransactionType,
-                AimSequenceNumber = paymentDue.AimSequenceNumber,
-                Ukprn = paymentDue.Ukprn,
-                FrameworkCode = paymentDue.FrameworkCode,
-                PathwayCode = paymentDue.PathwayCode,
-                ProgrammeType = paymentDue.ProgrammeType,
-                StandardCode = paymentDue.StandardCode,
-                Uln = paymentDue.Uln
-            });
-
-            if (!historyPayments.IsValid)
-            {
-                throw new CoInvestedPaymentsProcessorException(CoInvestedPaymentsProcessorException.ErrorReadingPaymentsHistoryMessage, historyPayments.Exception);
-            }
-
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.FullyFundedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedSfa, paymentDue, currentPeriod);
-            AddRefundPayment(payments, historyPayments.Items, FundingSource.CoInvestedEmployer, paymentDue, currentPeriod);
-        }
-
-        private void AddRefundPayment(ICollection<Payment> payments,
-                                            IEnumerable<PaymentHistory> historyPayments,
-                                            FundingSource fundingSource,
-                                            PaymentDue paymentDue,
-                                            CollectionPeriod currentPeriod)
-        {
-            var amountPaidTotal = historyPayments.Sum(x => x.Amount);
-            if (amountPaidTotal < 0.005m)
-            {
-                return;
-            }
-
-            var amountPaidFromSource = historyPayments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
-
-            var percentagePaidFromSource = amountPaidFromSource / amountPaidTotal;
-            var amountToRefund = paymentDue.AmountDue * percentagePaidFromSource;
-            if (amountToRefund < 0)
-            {
-                payments.Add(
-                          new Payment
-                          {
-                              RequiredPaymentId = paymentDue.Id,
-                              DeliveryMonth = paymentDue.DeliveryMonth,
-                              DeliveryYear = paymentDue.DeliveryYear,
-                              CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                              CollectionPeriodMonth = currentPeriod.Month,
-                              CollectionPeriodYear = currentPeriod.Year,
-                              FundingSource = fundingSource,
-                              TransactionType = paymentDue.TransactionType,
-                              Amount = amountToRefund
-                          });
             }
         }
 
