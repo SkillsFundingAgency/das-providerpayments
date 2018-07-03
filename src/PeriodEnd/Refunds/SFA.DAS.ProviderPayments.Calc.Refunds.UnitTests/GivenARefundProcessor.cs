@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
 using AutoFixture.NUnit3;
 using Moq;
 using NLog;
