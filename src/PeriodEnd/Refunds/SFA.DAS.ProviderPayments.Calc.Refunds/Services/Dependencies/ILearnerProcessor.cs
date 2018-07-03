@@ -7,6 +7,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies
 {
     public interface ILearnerProcessor
     {
-        IEnumerable<RefundPaymentEntity> Process(LearnerData learnerData);
+        IEnumerable<PaymentEntity> Process(LearnerData learnerData);
     }
 }

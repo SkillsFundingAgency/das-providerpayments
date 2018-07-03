@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 [Frozen] Mock<ILearnerProcessor> learnerProcessor,
                 [Frozen] Mock<ISummariseAccountBalances> summariseAccountBalances,
                 ProviderProcessor sut,
-                List<RefundPaymentEntity>[] refunds
+                List<PaymentEntity>[] refunds
             )
             {
                 learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
@@ -67,9 +67,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 List<LearnerData> learners,
                 [Frozen] Mock<ILearnerBuilder> learnerBuilder,
                 [Frozen] Mock<ILearnerProcessor> learnerProcessor,
-                [Frozen] Mock<IRefundPaymentRepository> refundPaymentRepository,
+                [Frozen] Mock<IPaymentRepository> refundPaymentRepository,
                 ProviderProcessor sut,
-                List<RefundPaymentEntity> refunds
+                List<PaymentEntity> refunds
             )
             {
                 learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
@@ -81,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 
                 refundPaymentRepository.Verify(
                     x => x.AddMany(
-                        It.Is<List<RefundPaymentEntity>>(p => p.Count() == learners.Count() * refunds.Count())),
+                        It.Is<List<PaymentEntity>>(p => p.Count() == learners.Count() * refunds.Count())),
                     Times.Once);
             }
 

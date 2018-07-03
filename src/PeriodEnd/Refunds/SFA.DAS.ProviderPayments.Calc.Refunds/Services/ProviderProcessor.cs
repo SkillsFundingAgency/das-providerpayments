@@ -14,14 +14,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
         private readonly ILearnerBuilder _learnersBuilder;
         private readonly ILearnerProcessor _learnerProcessor;
         private readonly ISummariseAccountBalances _summariseAccountBalances;
-        private readonly IRefundPaymentRepository _refundPaymentRepository;
+        private readonly IPaymentRepository _refundPaymentRepository;
 
         public ProviderProcessor(
             ILogger logger,
             ILearnerBuilder learnersBuilder,
             ILearnerProcessor learnerProcessor,
             ISummariseAccountBalances summariseAccountBalances,
-            IRefundPaymentRepository refundPaymentRepository)
+            IPaymentRepository refundPaymentRepository)
         {
             _logger = logger;
             _learnersBuilder = learnersBuilder;
@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
             var learners = _learnersBuilder.CreateLearnersForProvider(provider.Ukprn);
 
-            var allRefunds = new List<RefundPaymentEntity>();
+            var allRefunds = new List<PaymentEntity>();
 
             foreach (var learner in learners)
             {
