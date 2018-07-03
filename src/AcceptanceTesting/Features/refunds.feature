@@ -187,7 +187,6 @@ and this refund must be credited to Provider A where refunded Levy amount will b
         | 01/18 | 02/18 | 03/18 | 04/18 | 05/18 | 06/18 | 07/18 |
         | -1125 | 750   | 750   | 750   | 750   | 750   | 750   |
 
-@ignore 
 Scenario: 780-AC01 - Non-DAS standard learner, price is changed and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 27000
 	
@@ -215,7 +214,6 @@ Scenario: 780-AC01 - Non-DAS standard learner, price is changed and a negative a
 
 
 @das
-@ignore
 Scenario:518-AC01 - DAS standard learner, price is changed and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 27000
     And levy balance > agreed price for all months
@@ -251,8 +249,6 @@ Scenario:518-AC01 - DAS standard learner, price is changed and a negative amount
 
 @Das
 @_Minimum_Acceptance_
-#ignoring as this will be fixed as part of subsequent work on refunds component
-@ignore
 Scenario:802-AC01 - DAS standard learner, price is changed, originally mix funded and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 27000
     And the employer's levy balance is:
@@ -286,8 +282,6 @@ Scenario:802-AC01 - DAS standard learner, price is changed, originally mix funde
         | SFA Levy co-funding budget     | 0     | 337.50 | 0      | 0     | 0     | 0     | 
         | SFA non-Levy co-funding budget | 0     | 0      | 0      | 0     | 0     | 0     |
 
-#ignoring as this will be fixed as part of subsequent work on refunds component
-@ignore
 Scenario:894-AC01 - DAS standard learner, original commitment is withdrawn after payments amde and new commitment is created with lower price and a negative amount is left to be paid - results in a refund
 	Given  the apprenticeship funding band maximum is 15000
     And levy balance > agreed price for all months
