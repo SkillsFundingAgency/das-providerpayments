@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
@@ -10,56 +12,45 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
     {
         private readonly ILogger _logger;
         private readonly ILearnerBuilder _learnersBuilder;
+        private readonly ILearnerProcessor _learnerProcessor;
+        private readonly ISummariseAccountBalances _summariseAccountBalances;
+        private readonly IRefundPaymentRepository _refundPaymentRepository;
 
         public ProviderProcessor(
             ILogger logger,
-            ILearnerBuilder learnersBuilder)
+            ILearnerBuilder learnersBuilder,
+            ILearnerProcessor learnerProcessor,
+            ISummariseAccountBalances summariseAccountBalances,
+            IRefundPaymentRepository refundPaymentRepository)
         {
             _logger = logger;
             _learnersBuilder = learnersBuilder;
+            _learnerProcessor = learnerProcessor;
+            _summariseAccountBalances = summariseAccountBalances;
+            _refundPaymentRepository = refundPaymentRepository;
         }
 
-        public List<AccountLevyCredit> Process(ProviderEntity provider)
+        public IEnumerable<AccountLevyCredit> Process(ProviderEntity provider)
         {
             _logger.Info($"Processing refunds started for Provider UKPRN: [{provider.Ukprn}].");
 
+            _summariseAccountBalances.Initialise();
+
             var learners = _learnersBuilder.CreateLearnersForThisProvider(provider.Ukprn);
 
-            //var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
-            
-            //var allNonPayablesForProvider = new List<NonPayableEarningEntity>();
-            //var allPayablesForProvider = new List<RequiredPaymentEntity>();
+            var allRefunds = new List<RefundPaymentEntity>();
 
-            //foreach (var parameters in learners)
-            //{
-            //    var learnerResult = _learnerProcessor.Process(parameters, provider.Ukprn);
+            foreach (var learner in learners)
+            {
+                var refunds = _learnerProcessor.Process(learner).ToList();
+                allRefunds.AddRange(refunds);
+                _summariseAccountBalances.IncrementAccountLevyBalance(refunds);
+            }
 
-            //    allNonPayablesForProvider.AddRange(learnerResult.NonPayableEarnings);
-            //    allPayablesForProvider.AddRange(learnerResult.PayableEarnings);
-            //}
-
-            //allNonPayablesForProvider.ForEach(nonPayable =>
-            //{
-            //    nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-            //    nonPayable.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
-            //    nonPayable.CollectionPeriodMonth = currentCollectionPeriod.Month;
-            //    nonPayable.CollectionPeriodYear = currentCollectionPeriod.Year;
-            //});
-
-            //allPayablesForProvider.ForEach(payable =>
-            //{
-            //    payable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-            //    payable.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
-            //    payable.CollectionPeriodMonth = currentCollectionPeriod.Month;
-            //    payable.CollectionPeriodYear = currentCollectionPeriod.Year;
-            //});
-
-            //_nonPayableEarningRepository.AddMany(allNonPayablesForProvider);
-            //_requiredPaymentRepository.AddRequiredPayments(allPayablesForProvider.ToArray());
-
+            _refundPaymentRepository.AddMany(allRefunds);
             _logger.Info($"Processing refunds finished for Provider UKPRN: [{provider.Ukprn}].");
 
-            return null;
+            return _summariseAccountBalances.AsList();
         }
     }
 }

@@ -5,8 +5,8 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies
 {
-    public interface IProviderProcessor
+    public interface ILearnerProcessor
     {
-        IEnumerable<AccountLevyCredit> Process(ProviderEntity provider);
+        IEnumerable<RefundPaymentEntity> Process(LearnerData learnerData);
     }
 }

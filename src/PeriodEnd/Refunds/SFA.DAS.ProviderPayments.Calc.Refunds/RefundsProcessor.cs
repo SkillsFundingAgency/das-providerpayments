@@ -1,8 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 using NLog;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds
 {
@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
 
                 foreach (var provider in providers)
                 {
-                    _providerProcessor.Process(provider);
+                    //_providerProcessor.Process(provider);
                 }
             }
             catch (Exception ex)

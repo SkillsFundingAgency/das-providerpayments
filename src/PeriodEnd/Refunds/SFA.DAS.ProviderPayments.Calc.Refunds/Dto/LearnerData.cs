@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Data.Entities;
+﻿using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using System.Collections.Generic;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Dto
 {
@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Dto
             LearnRefNumber = learnerRefNumber;
         }
         public string LearnRefNumber { get; }
-        public List<RequiredPaymentEntity> RequiredRefunds { get; } = new List<RequiredPaymentEntity>();
-        public List<PaymentEntity> HistoricalPayments { get; } = new List<PaymentEntity>();
+        //public List<RequiredPaymentEntity> RequiredRefunds { get; } = new List<RequiredPaymentEntity>();
+        //public List<PaymentEntity> HistoricalPayments { get; } = new List<PaymentEntity>();
     }
 }
