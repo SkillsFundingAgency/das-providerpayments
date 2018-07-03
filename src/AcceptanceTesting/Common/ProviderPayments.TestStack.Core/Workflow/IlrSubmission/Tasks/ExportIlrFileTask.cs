@@ -9,11 +9,6 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission.Tasks
 {
     internal class ExportIlrFileTask : WorkflowTask
     {
-        private const string DateFormat = "yyyy-MM-dd";
-        private const string TimeFormat = "HH:mm:ss";
-        private const string DateTimeFormat = DateFormat + "T" + TimeFormat;
-        private const string CurrencyFormat = "0";
-
         private readonly ILogger _logger;
 
         public ExportIlrFileTask(ILogger logger)
@@ -29,7 +24,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission.Tasks
 
             if (context.SubmissionIsIlrFile)
             {
-                using (var stream = new System.IO.MemoryStream(Convert.FromBase64String(context.RequestContent)))
+                using (var stream = new MemoryStream(Convert.FromBase64String(context.RequestContent)))
                 {
                     ilrDocument = XDocument.Load(stream);
                 }
@@ -37,7 +32,23 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission.Tasks
             else
             {
                 var submission = GetSubmission(context);
-                ilrDocument = MakeIlrDocument(submission, context);
+
+                try
+                {
+                    ilrDocument = MakeIlrDocument(submission, context);
+                }
+                catch (InvalidOperationException e)
+                {
+                    // This happens when there are multiple providers and one provider
+                    //  doesn't have an ilr for a period. Don't want to pollute the 
+                    //  logs any further, so ignoring them here
+                    if (e.Message.Equals("Sequence contains no elements"))
+                    {
+                        return;
+                    }
+
+                    throw;
+                }
             }
 
             var path = SaveIlrDocument(ilrDocument, context);
