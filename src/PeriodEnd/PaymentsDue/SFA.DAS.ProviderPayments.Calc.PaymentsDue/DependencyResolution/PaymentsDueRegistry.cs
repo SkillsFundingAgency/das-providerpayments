@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.ReferenceData;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Repositories;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Repositories.Interfaces;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
@@ -45,6 +47,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IDetermineWhichEarningsShouldBePaid>().Use<DetermineWhichEarningsShouldBePaidService>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
+
+            For<IBulkCopyTables>().Use<BulkCopyTableService>();
+            For<ICopyIlrReferenceData>().Use<CopyIlrReferenceDataService>();
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

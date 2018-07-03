@@ -22,6 +22,14 @@ namespace SFA.DAS.Payments.DCFS.StructureMap.Infrastructure.DependencyResolution
             {
                 var transientConnectionString = _context.GetPropertyValue(ContextPropertyKeys.TransientDatabaseConnectionString);
                 instance.Dependencies.AddForConstructorParameter(connectionString, transientConnectionString);
+                return;
+            }
+
+            connectionString = instance?.Constructor?.GetParameters().FirstOrDefault(x => x.Name.Equals("ilrConnectionString", StringComparison.OrdinalIgnoreCase));
+            if (connectionString != null)
+            {
+                var ilrConnectionString = _context.GetPropertyValue(ContextPropertyKeys.IlrDatabaseConnectionString);
+                instance.Dependencies.AddForConstructorParameter(connectionString, ilrConnectionString);
             }
         }
     }

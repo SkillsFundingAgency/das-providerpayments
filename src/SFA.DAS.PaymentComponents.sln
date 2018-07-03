@@ -338,6 +338,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{FA54BBF3-280A-495D-BF4E-30F742309858}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_Ilr.Deds.PaymentsDue.Rework.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_Ilr.Deds.PaymentsDue.Rework.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_PeriodEnd.Deds.PaymentsDue.Rework.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_PeriodEnd.Deds.PaymentsDue.Rework.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql

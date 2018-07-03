@@ -17,12 +17,12 @@ namespace SFA.DAS.Payments.DCFS.StructureMap.Infrastructure.DependencyResolution
                 AddRegistry(c, taskType, contextWrapper);
             });
         }
+
         public virtual T GetInstance<T>()
         {
             return Container.GetInstance<T>();
         }
-
-
+        
         protected virtual void AddRegistry(ConfigurationExpression config, Type taskType, ContextWrapper contextWrapper)
         {
             config.AddRegistry(CreateRegistry(taskType, contextWrapper));

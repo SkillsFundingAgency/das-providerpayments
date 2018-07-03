@@ -3,6 +3,7 @@
     public class ContextPropertyKeys
     {
         public const string TransientDatabaseConnectionString = "TransientDatabaseConnectionString";
+        public const string IlrDatabaseConnectionString = "IlrDatabaseConnectionString";
         public const string LogLevel = "LogLevel";
     }
 }
