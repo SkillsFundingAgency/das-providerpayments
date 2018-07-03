@@ -605,6 +605,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.csproj", "{D21F43C1-44B5-4C4A-A85C-675213B2354D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{38E4D4DA-B4F3-46FE-8DE1-05A30658214E}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Deds.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Deds.Refunds.DDL.tables.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Deds.Refunds.DDL.views.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Deds.Refunds.DDL.views.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -947,6 +955,7 @@ Global
 		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
 		{57848254-B55A-4699-AD69-FC0959CE031F} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
 		{D21F43C1-44B5-4C4A-A85C-675213B2354D} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{38E4D4DA-B4F3-46FE-8DE1-05A30658214E} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}
