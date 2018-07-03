@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
             _summariseAccountBalances.Initialise();
 
-            var learners = _learnersBuilder.CreateLearnersForThisProvider(provider.Ukprn);
+            var learners = _learnersBuilder.CreateLearnersForProvider(provider.Ukprn);
 
             var allRefunds = new List<RefundPaymentEntity>();
 

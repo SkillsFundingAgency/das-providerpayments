@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 ProviderProcessor sut)
             {
                 sut.Process(provider);
-                learnerBuilder.Verify(builder => builder.CreateLearnersForThisProvider(provider.Ukprn), Times.Once);
+                learnerBuilder.Verify(builder => builder.CreateLearnersForProvider(provider.Ukprn), Times.Once);
             }
 
             [Test, RefundsAutoData]
@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 List<RefundPaymentEntity>[] refunds
             )
             {
-                learnerBuilder.Setup(builder => builder.CreateLearnersForThisProvider(provider.Ukprn))
+                learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
                     .Returns(learners);
 
                 for (var i = 0; i < learners.Count; i++)
@@ -72,7 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 List<RefundPaymentEntity> refunds
             )
             {
-                learnerBuilder.Setup(builder => builder.CreateLearnersForThisProvider(provider.Ukprn))
+                learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
                     .Returns(learners);
 
                 learnerProcessor.Setup(x => x.Process(It.IsAny<LearnerData>())).Returns(refunds);
