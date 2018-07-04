@@ -28,21 +28,46 @@ GO
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- LevyAccountActivity
 -----------------------------------------------------------------------------------------------------------------------------------------------
-IF NOT EXISTS(SELECT NULL FROM 
-	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
-	WHERE t.name='LevyAccountActivity' AND s.name='Refunds'
-)
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='LevyAccountActivity' AND [schema_id] = SCHEMA_ID('Refunds'))
 BEGIN
+	DROP TABLE Refunds.LevyAccountActivity
+END
+GO
+
 CREATE TABLE Refunds.LevyAccountActivity
 (
     CollectionPeriodName varchar(8) NOT NULL,
     AccountId bigint NOT NULL,
-    LevyAdjustment decimal(15,5) NOT NULL
+    LevyAdjustment decimal(15,5) NOT NULL,
 
     CONSTRAINT PK_LevyAccountActivity PRIMARY KEY NONCLUSTERED (CollectionPeriodName, AccountId)
 )
-END
+GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Payments
 -----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payments' AND [schema_id] = SCHEMA_ID('Refunds'))
+BEGIN
+	DROP TABLE Refunds.Payments
+END
+GO
+
+CREATE TABLE Refunds.Payments
+(
+	PaymentId uniqueidentifier DEFAULT(NEWID()),
+	RequiredPaymentId uniqueidentifier NOT NULL,
+	DeliveryMonth int NOT NULL,
+	DeliveryYear int NOT NULL,
+	CollectionPeriodName varchar(8) NOT NULL,
+	CollectionPeriodMonth int NOT NULL,
+	CollectionPeriodYear int NOT NULL,
+	FundingSource int NOT NULL,
+	TransactionType int NOT NULL,
+	Amount decimal(15,5),
+	
+	CONSTRAINT PK_Refunds_Payments_RequiredPaymentId_FundingSource PRIMARY KEY (RequiredPaymentId, FundingSource)
+)
+GO
+
+CREATE INDEX IX_Refunds_Payments_RequiredPaymentId ON Refunds.Payments (RequiredPaymentId) INCLUDE (Amount)
