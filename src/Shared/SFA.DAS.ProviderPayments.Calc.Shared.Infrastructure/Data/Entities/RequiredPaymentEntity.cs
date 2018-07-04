@@ -10,5 +10,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public int CollectionPeriodMonth { get; set; }
         public int CollectionPeriodYear { get; set; }
         public TransactionType TransactionType { get; set; }
+        public decimal AmountDue { get; set; }
+        public int DeliveryMonth { get; set; }
+        public int DeliveryYear { get; set; }
     }
 }

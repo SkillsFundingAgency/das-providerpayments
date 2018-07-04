@@ -9,6 +9,48 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
     class LearnerRefundProcessor : IProcessLearnerRefunds
     {
+
+        private List<PaymentEntity> ProcessRefund(
+            RequiredPaymentEntity refund, 
+            Dictionary<int, List<PaymentEntity>> previousPaymentsByDeliveryMonth)
+        {
+            var refundPayments = new List<PaymentEntity>();
+
+            var amountToRefund = refund.AmountDue;
+            var amountRefunded = 0m;
+            var month = refund.DeliveryMonth;
+            var year = refund.DeliveryYear;
+
+            while (amountToRefund <= amountRefunded)
+            {
+                if (previousPaymentsByDeliveryMonth.ContainsKey(month))
+                {
+                    var stillToRefund = amountToRefund - amountRefunded;
+                    var paymentsForPeriod = previousPaymentsByDeliveryMonth[month];
+                    var newRefunds = ProcessRefundForPeriod(stillToRefund, year, month, paymentsForPeriod, refund);
+                    amountRefunded += newRefunds.Sum(x => x.Amount);
+                    refundPayments.AddRange(newRefunds);
+                }
+
+                if (month == 8)
+                {
+                    break;
+                }
+
+                if (month == 1)
+                {
+                    month = 12;
+                    year -= 1;
+                }
+                else
+                {
+                    month--;
+                }
+            }
+
+            return refundPayments;
+        }
+
         private List<PaymentEntity> ProcessRefundForPeriod(
             decimal amount,
             int deliveryYear,
