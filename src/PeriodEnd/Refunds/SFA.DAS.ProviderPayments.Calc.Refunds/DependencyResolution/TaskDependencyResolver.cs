@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
     {
         protected override Registry CreateRegistry(Type taskType, ContextWrapper contextWrapper)
         {
-            return new TransfersRegistry(taskType, contextWrapper);
+            return new RefundsRegistry(taskType, contextWrapper);
         }
     }
 }
