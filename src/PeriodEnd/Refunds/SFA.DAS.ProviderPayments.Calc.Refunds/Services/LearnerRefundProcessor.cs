@@ -1,4 +1,7 @@
-﻿using SFA.DAS.Payments.DCFS.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependiencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -6,6 +9,48 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
     class LearnerRefundProcessor : IProcessLearnerRefunds
     {
+        private List<PaymentEntity> ProcessRefundForPeriod(
+            decimal amount,
+            int deliveryYear,
+            int deliveryMonth,
+            List<PaymentEntity> previoudPaymentsForPeriod,
+            RequiredPaymentEntity refund)
+        {
+            var fundingSourcesToRefund = new List<FundingSource>
+            {
+                FundingSource.Levy,
+                FundingSource.CoInvestedEmployer,
+                FundingSource.CoInvestedSfa,
+                FundingSource.FullyFundedSfa
+            };
+
+            var refundPayments = new List<PaymentEntity>();
+
+            var total = previoudPaymentsForPeriod.Sum(x => x.Amount);
+
+            var amountToRefund = Math.Min(total, amount);
+
+            foreach (var fundingSource in fundingSourcesToRefund)
+            {
+                var totalPaidForFundingSource = TotalForFundingSource(previoudPaymentsForPeriod, fundingSource);
+                var refundAmountForFundingSource = amountToRefund * (totalPaidForFundingSource / total);
+                var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
+                refundPayments.Add(payment);
+            }
+
+            return refundPayments;
+        }
+
+        private decimal TotalForFundingSource(List<PaymentEntity> payments, FundingSource fundingSource)
+        {
+            var total = payments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
+            if (total < 0)
+            {
+                throw new ApplicationException("Funding source total is negative");
+            }
+
+            return total;
+        }
 
         private PaymentEntity CreatePayment(
             RequiredPaymentEntity refund, 
