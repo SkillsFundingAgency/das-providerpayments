@@ -8,5 +8,24 @@
     <EnableStreaming>true</EnableStreaming>
   </SqlBulkCopySettings>
   <TableMappings>
+    <TableMapping>
+      <Source>[Refunds].[LevyAccountActivity]</Source>
+      <Destination>[Refunds].[LevyAccountActivity]</Destination>
+      <Ordinal>3</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>CollectionPeriodName</Source>
+          <Destination>CollectionPeriodName</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountId</Source>
+          <Destination>AccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LevyAdjustment</Source>
+          <Destination>LevyAdjustment</Destination>
+        </ColumnMapping>
+      </ColumnMappings>
+    </TableMapping>
   </TableMappings>
 </CopyCatConfig>

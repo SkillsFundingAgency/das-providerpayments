@@ -44,3 +44,20 @@ GO
 -- TABLES
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- LevyAccountActivity
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF NOT EXISTS(SELECT NULL FROM 
+	sys.tables t INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+	WHERE t.name='LevyAccountActivity' AND s.name='Refunds'
+)
+BEGIN
+CREATE TABLE Refunds.LevyAccountActivity
+(
+    CollectionPeriodName varchar(8) NOT NULL,
+    AccountId bigint NOT NULL,
+    LevyAdjustment decimal(15,5) NOT NULL
+
+    CONSTRAINT PK_LevyAccountActivity PRIMARY KEY NONCLUSTERED (CollectionPeriodName, AccountId)
+)
+END
