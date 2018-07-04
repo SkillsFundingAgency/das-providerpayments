@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSetup.cs" />
+    <Compile Include="GlobalTestContext.cs" />
+    <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,13 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
+    </Content>
+    <Content Include="..\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
