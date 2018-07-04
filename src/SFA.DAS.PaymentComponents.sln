@@ -601,6 +601,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.csproj", "{D21F43C1-44B5-4C4A-A85C-675213B2354D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.csproj", "{8C24276E-C915-4324-B491-96A3987ABFDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -807,6 +809,10 @@ Global
 		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -943,6 +949,7 @@ Global
 		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
 		{57848254-B55A-4699-AD69-FC0959CE031F} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
 		{D21F43C1-44B5-4C4A-A85C-675213B2354D} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{8C24276E-C915-4324-B491-96A3987ABFDB} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}
