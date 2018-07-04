@@ -1,12 +1,20 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependiencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
-    class INeedMyNameChangedService
+    class LearnerRefundProcessor : IProcessLearnerRefunds
     {
-        private PaymentEntity CreatePayment(RequiredPaymentEntity refund, decimal amount, int deliveryYear, int deliveryMonth, FundingSource fundingSource)
+
+        private PaymentEntity CreatePayment(
+            RequiredPaymentEntity refund, 
+            decimal amount, 
+            int deliveryYear,
+            int deliveryMonth, 
+            FundingSource fundingSource)
         {
-            var payment = new Payment
+            var payment = new PaymentEntity
             {
                 DeliveryYear = deliveryYear,
                 DeliveryMonth = deliveryMonth,

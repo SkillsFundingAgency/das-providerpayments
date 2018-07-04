@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependiencies
+namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALearnerRefundProcessor
 {
-    class INeedMyNameChanged
+    class WhenCallingCreatePayment
     {
     }
 }

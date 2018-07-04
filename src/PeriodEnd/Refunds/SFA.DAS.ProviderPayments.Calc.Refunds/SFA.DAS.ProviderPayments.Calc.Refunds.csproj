@@ -53,6 +53,7 @@
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -74,8 +75,8 @@
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
     <Compile Include="Services\ProviderProcessor.cs" />
-    <Compile Include="Services\Dependiencies\INeedMyNameChanged.cs" />
-    <Compile Include="Services\INeedMyNameChangedService.cs" />
+    <Compile Include="Services\Dependiencies\IProcessLearnerRefunds.cs" />
+    <Compile Include="Services\LearnerRefundProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
