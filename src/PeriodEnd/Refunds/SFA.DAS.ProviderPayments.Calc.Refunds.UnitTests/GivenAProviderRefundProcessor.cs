@@ -2,7 +2,6 @@
 using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
@@ -15,7 +14,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 {
     [TestFixture]
-    public class GivenAProviderProcessor
+    public class GivenAProviderRefundProcessor
     {
         [TestFixture]
         public class WhenCallingProcess
