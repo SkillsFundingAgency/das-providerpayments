@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoFixture.NUnit3;
+using FluentAssertions;
 using Moq;
 using NLog;
 using NUnit.Framework;
@@ -29,9 +30,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 
 
             [Test, RefundsAutoData]
-            public void ThenItProcessesEachProviderAddingLevyBalanceUpdatesToTheAccountBalance(
+            public void ThenItProcessesEachProvider(
                 List<ProviderEntity> providers,
-                List<AccountLevyCredit>[] credits,
+                List<PaymentEntity>[] credits,
                 [Frozen] Mock<IProviderRepository> providerRepository,
                 [Frozen] Mock<IProviderProcessor> providerProcessor,
                 [Frozen] Mock<ISummariseAccountBalances> summariseAccountBalances,
@@ -83,19 +84,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             {
                 providerRepository.Setup(x => x.GetAllProviders()).Throws<KeyNotFoundException>();
 
-                try
-                {
-                    sut.Process();
-                    Assert.Fail();
-                }
-                catch (KeyNotFoundException)
-                {
-                    logger.Verify(x=>x.Error(It.IsAny<Exception>()));
-                }
-                catch(Exception)
-                {
-                    Assert.Fail();
-                }
+                Action act = () => sut.Process();
+
+                act.Should().Throw<KeyNotFoundException>();
+                logger.Verify(x => x.Error(It.IsAny<Exception>()));
 
             }
         }

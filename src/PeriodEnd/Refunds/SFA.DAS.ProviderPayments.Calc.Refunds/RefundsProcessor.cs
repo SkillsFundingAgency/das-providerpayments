@@ -32,12 +32,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
             try
             {
                 var providers = _providerRepository.GetAllProviders();
-                _summariseAccountBalances.Initialise();
 
                 foreach (var provider in providers)
                 {
-                    var levyBalances = _providerProcessor.Process(provider);
-                    _summariseAccountBalances.IncrementAccountLevyBalance(levyBalances);
+                    var refunds = _providerProcessor.Process(provider);
+                    _summariseAccountBalances.IncrementAccountLevyBalance(refunds);
                 }
 
                 _dasAccountService.UpdateAccountLevyBalances(_summariseAccountBalances.AsList()); 
