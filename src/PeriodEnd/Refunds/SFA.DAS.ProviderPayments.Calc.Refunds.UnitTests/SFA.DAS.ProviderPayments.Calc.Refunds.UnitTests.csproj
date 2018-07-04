@@ -86,8 +86,9 @@
   <ItemGroup>
     <Compile Include="GivenAProviderProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceTests\GivenALearnerRefundProcessor\WhenCallingCreatePayment.cs" />
+    <Compile Include="ServiceTests\GivenALearnerRefundProcessor\AndThereArePreviousPaymentsForTheMonth.cs" />
     <Compile Include="Utilities\RefundsAutoDataAttribute.cs" />
+    <Compile Include="Utilities\TestHelpers\CreateMatchingRefundsAndPaymentsAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
