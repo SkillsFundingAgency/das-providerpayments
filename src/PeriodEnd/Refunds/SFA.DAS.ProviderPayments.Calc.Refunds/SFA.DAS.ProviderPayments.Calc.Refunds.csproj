@@ -74,6 +74,7 @@
     <Compile Include="Services\Dependencies\ISummariseAccountBalances.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
+    <Compile Include="Services\SummariseAccountBalances.cs" />
     <Compile Include="Services\ProviderRefundsProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
