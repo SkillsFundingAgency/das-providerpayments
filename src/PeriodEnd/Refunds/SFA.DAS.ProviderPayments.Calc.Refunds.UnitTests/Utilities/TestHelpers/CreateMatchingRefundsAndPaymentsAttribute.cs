@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
-using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
@@ -53,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
 
             foreach (var refund in refunds)
             {
-                var period = random.Next(12);
+                var period = random.Next(11) + 1; // 0 based
                 refund.DeliveryMonth = DeliveryMonthFromPeriod(period);
                 refund.DeliveryYear = DeliveryYearFromPeriod(period);
             }
@@ -70,8 +69,17 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                         .With(x => x.TransactionType, refund.TransactionType)
                         .With(x => x.DeliveryMonth, refund.DeliveryMonth)
                         .With(x => x.DeliveryYear, refund.DeliveryYear)
+                        .Without(x => x.FundingSource)
                         .CreateMany()
                         .ToList();
+
+                    foreach (var historicalPaymentEntity in pastPaymentsForRefund)
+                    {
+                        do
+                        {
+                            historicalPaymentEntity.FundingSource = fixture.Create<FundingSource>();
+                        } while (historicalPaymentEntity.FundingSource == FundingSource.Transfer);
+                    }
 
                     pastPayments.AddRange(pastPaymentsForRefund);
 

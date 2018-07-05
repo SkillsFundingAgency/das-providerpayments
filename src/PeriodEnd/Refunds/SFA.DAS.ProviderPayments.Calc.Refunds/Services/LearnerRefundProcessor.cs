@@ -107,9 +107,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             foreach (var fundingSource in fundingSourcesToRefund)
             {
                 var totalPaidForFundingSource = TotalForFundingSource(previoudPaymentsForPeriod, fundingSource);
-                var refundAmountForFundingSource = amountToRefund * (totalPaidForFundingSource / total);
-                var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
-                refundPayments.Add(payment);
+                if (totalPaidForFundingSource > 0)
+                {
+                    var refundAmountForFundingSource = amountToRefund * (totalPaidForFundingSource / total);
+                    var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
+                    refundPayments.Add(payment);
+                }
             }
 
             return refundPayments;

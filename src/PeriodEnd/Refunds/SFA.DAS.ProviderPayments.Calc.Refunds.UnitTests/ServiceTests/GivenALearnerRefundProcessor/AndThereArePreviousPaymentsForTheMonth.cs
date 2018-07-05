@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         {
             [Test]
             [CreateMatchingRefundsAndPayments]
-            public void TestTest(
+            public void ThenThereAreRefundPaymentsForAllPastPayments(
                 List<RequiredPaymentEntity> refunds, 
                 List<HistoricalPaymentEntity> payments,
                 LearnerRefundProcessor sut)
