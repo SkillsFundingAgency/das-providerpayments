@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 [Frozen] Mock<ILearnerProcessor> learnerProcessor,
                 [Frozen] Mock<IPaymentRepository> refundPaymentRepository,
                 ProviderRefundsProcessor sut,
-                List<PaymentEntity> refunds
+                List<Refund> refunds
             )
             {
                 learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
