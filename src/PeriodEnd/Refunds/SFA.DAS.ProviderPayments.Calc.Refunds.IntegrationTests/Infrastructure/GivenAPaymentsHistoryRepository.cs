@@ -28,7 +28,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Infrastructure
                 [Test]
                 public void ThenItReturnsAnEmptyList()
                 {
-                    Setup();
                     var result = _sut.GetAllForProvider(RefundsTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
@@ -47,7 +46,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Infrastructure
                 [SetUp]
                 public new void Setup()
                 {
-                    base.Setup();
                     _actualHistoricalPayments = _sut.GetAllForProvider(RefundsTestContext.Ukprn);
 
                     _expectedHistoricalPayments = RefundsTestContext.PaymentsHistory
