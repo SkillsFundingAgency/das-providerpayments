@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
     {
         public class RefundGeneratorResult
         {
-            public RequiredPaymentEntity Refund { get; set; }
+            public List<RequiredPaymentEntity> Refunds { get; set; }
             public List<HistoricalPaymentEntity> AssociatedPayments { get; set; }
         }
 
@@ -20,45 +20,68 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             decimal amount = -1000,
             decimal paymentAmount = 100,
             int numberOfPayments = 3,
-            string academicYear = "1819")
+            string academicYear = "1819",
+            int numberOfRefunds = 1)
         {
             var initialYearForAcademicYear = int.Parse(academicYear.Substring(0, 2)) + 2000;
             var fixture = new Fixture();
 
-            var refund = fixture.Build<RequiredPaymentEntity>()
-                .With(x => x.AmountDue, amount)
-                .Create();
-
+            List<RequiredPaymentEntity> refunds;
             var random = new Random();
 
-            refund.DeliveryMonth = DeliveryMonthFromPeriod(period);
-            refund.DeliveryYear = DeliveryYearFromPeriod(period, initialYearForAcademicYear);
-
-            var pastPayments = new List<HistoricalPaymentEntity>();
-            var pastPaymentsForRefund = fixture.Build<HistoricalPaymentEntity>()
-                .With(x => x.AccountId, refund.AccountId)
-                .With(x => x.ApprenticeshipContractType, refund.ApprenticeshipContractType)
-                .With(x => x.TransactionType, refund.TransactionType)
-                .With(x => x.DeliveryMonth, refund.DeliveryMonth)
-                .With(x => x.DeliveryYear, refund.DeliveryYear)
-                .Without(x => x.FundingSource)
-                .With(x => x.Amount, paymentAmount)
-                .CreateMany(numberOfPayments)
-                .ToList();
-
-            foreach (var historicalPaymentEntity in pastPaymentsForRefund)
+            if (numberOfRefunds > 1)
             {
-                do
-                {
-                    historicalPaymentEntity.FundingSource = fixture.Create<FundingSource>();
-                } while (historicalPaymentEntity.FundingSource == FundingSource.Transfer);
+                var transactionType = fixture.Create<TransactionType>();
+                var act = random.Next(2) + 1;
+
+                refunds = fixture.Build<RequiredPaymentEntity>()
+                    .With(x => x.AmountDue, amount)
+                    .With(x => x.AccountId, fixture.Create<Generator<long>>().First())
+                    .With(x => x.ApprenticeshipContractType, act)
+                    .With(x => x.TransactionType, transactionType)
+                    .CreateMany(numberOfRefunds)
+                    .ToList();
+            }
+            else
+            {
+                refunds = refunds = fixture.Build<RequiredPaymentEntity>()
+                    .With(x => x.AmountDue, amount)
+                    .CreateMany(numberOfRefunds)
+                    .ToList();
             }
 
-            pastPayments.AddRange(pastPaymentsForRefund);
+            var pastPayments = new List<HistoricalPaymentEntity>();
+
+            foreach (var refund in refunds)
+            {
+                refund.DeliveryMonth = DeliveryMonthFromPeriod(period);
+                refund.DeliveryYear = DeliveryYearFromPeriod(period, initialYearForAcademicYear);
+
+                var pastPaymentsForRefund = fixture.Build<HistoricalPaymentEntity>()
+                    .With(x => x.AccountId, refund.AccountId)
+                    .With(x => x.ApprenticeshipContractType, refund.ApprenticeshipContractType)
+                    .With(x => x.TransactionType, refund.TransactionType)
+                    .With(x => x.DeliveryMonth, refund.DeliveryMonth)
+                    .With(x => x.DeliveryYear, refund.DeliveryYear)
+                    .Without(x => x.FundingSource)
+                    .With(x => x.Amount, paymentAmount)
+                    .CreateMany(numberOfPayments)
+                    .ToList();
+
+                foreach (var historicalPaymentEntity in pastPaymentsForRefund)
+                {
+                    do
+                    {
+                        historicalPaymentEntity.FundingSource = fixture.Create<FundingSource>();
+                    } while (historicalPaymentEntity.FundingSource == FundingSource.Transfer);
+                }
+
+                pastPayments.AddRange(pastPaymentsForRefund);
+            }
 
             return new RefundGeneratorResult
             {
-                Refund = refund,
+                Refunds = refunds,
                 AssociatedPayments = pastPayments,
             };
         }

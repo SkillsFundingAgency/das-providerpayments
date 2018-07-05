@@ -11,8 +11,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
             ApprenticeshipContractType = entity.ApprenticeshipContractType;
-            DeliveryMonth = entity.DeliveryMonth;
-            DeliveryYear = entity.DeliveryYear;
         }
 
         public RefundGroup(HistoricalPaymentEntity entity)
@@ -20,16 +18,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
             ApprenticeshipContractType = entity.ApprenticeshipContractType;
-            DeliveryMonth = entity.DeliveryMonth;
-            DeliveryYear = entity.DeliveryYear;
         }
 
         public long AccountId { get; }
         public TransactionType TransactionType { get; }
         public int ApprenticeshipContractType { get; }
-        public int DeliveryYear { get; }
-        public int DeliveryMonth { get; }
-
+        
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -42,11 +36,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return AccountId == other.AccountId && 
-                   TransactionType == other.TransactionType && 
-                   ApprenticeshipContractType == other.ApprenticeshipContractType && 
-                   DeliveryYear == other.DeliveryYear && 
-                   DeliveryMonth == other.DeliveryMonth;
+            return AccountId == other.AccountId &&
+                   TransactionType == other.TransactionType &&
+                   ApprenticeshipContractType == other.ApprenticeshipContractType;
         }
 
         public override int GetHashCode()
@@ -57,8 +49,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
                 hashCode = hashCode * 31 + AccountId.GetHashCode();
                 hashCode = hashCode * 31 + TransactionType.GetHashCode();
                 hashCode = hashCode * 31 + ApprenticeshipContractType.GetHashCode();
-                hashCode = hashCode * 31 + DeliveryYear.GetHashCode();
-                hashCode = hashCode * 31 + DeliveryMonth.GetHashCode();
                 return hashCode;
             }
         }

@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
+using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -83,6 +84,39 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                         var expectedAmount = refund.AmountDue;
                         actual.Sum(x => x.Amount).Should().Be(expectedAmount);
                     }
+                }
+            }
+        }
+
+        [TestFixture]
+        public class AndThereAreMultipleRefunds
+        {
+            [TestFixture]
+            public class AndThereIsOneRefundForPeriodThreeWithoutEnoughPayments
+            {
+                [TestFixture]
+                public class AndThereIsOneRefundForPeriodTwo
+                {
+                    [Test, RefundsAutoData]
+                    public void ThenThePaymentsAreCorrect(
+                        LearnerRefundProcessor sut)
+                    {
+                        var data = RefundGenerator.Generate(numberOfRefunds:2, paymentAmount:200);
+                        var refundOne = data.Refunds[0];
+                        refundOne.DeliveryMonth = 9;
+                        refundOne.AmountDue = -700;
+                        var refundTwo = data.Refunds[1];
+                        refundTwo.AmountDue = -500;
+
+                        data.AssociatedPayments[3].DeliveryMonth = 9;
+                        data.AssociatedPayments[4].DeliveryMonth = 9;
+                        data.AssociatedPayments[5].DeliveryMonth = 9;
+
+                        var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                        actual.Sum(x => x.Amount).Should().Be(-1200);
+                    }
+
                 }
             }
         }

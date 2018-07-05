@@ -65,7 +65,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     paymentAmount: _paymentAmount, 
                     academicYear: _academicYear);
 
-                refunds.Add(generatedRefund.Refund);
+                refunds.Add(generatedRefund.Refunds.First());
                 if (_hasMatchingPastPayments)
                 {
                     var pastPaymentsForRefund = generatedRefund.AssociatedPayments;
@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     if (_monthsHaveHigherPaymentsThanRefunds)
                     {
                         var amount = pastPaymentsForRefund.Sum(x => x.Amount);
-                        generatedRefund.Refund.AmountDue = -1 * amount;
+                        generatedRefund.Refunds.First().AmountDue = -1 * amount;
                     }
 
                     while (_hasNegativeFundingSources && !pastPaymentsForRefund.Any(x => x.Amount < 0))
