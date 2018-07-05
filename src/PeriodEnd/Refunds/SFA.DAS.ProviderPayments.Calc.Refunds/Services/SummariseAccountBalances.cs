@@ -36,9 +36,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
         private void IncrementOrAddValue(long accountId, decimal amountToCredit)
         {
             bool updateFails;
+            int i = 0;
             do
             {
-                int i = 1;
+                i++;
                 decimal currentValueToCredit;
                 if (_accountsDictionary.TryGetValue(accountId, out currentValueToCredit))
                 {
@@ -48,15 +49,15 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 {
                     updateFails = !_accountsDictionary.TryAdd(accountId, amountToCredit);
                 }
+            } while (updateFails || i >= 50);
 
-                if (i >= 50)
-                {
-                    var message = "Refunds.SummariseAccountBalances class has failed to add or update account values";
-                    _logger.Error(message);
-                    throw new Exception(message);
-                }
+            if (i >= 50)
+            {
+                var message = "Refunds.SummariseAccountBalances class has failed to add or update account values";
+                _logger.Error(message);
+                throw new Exception(message);
+            }
 
-            } while (updateFails);
         }
     }
 }
