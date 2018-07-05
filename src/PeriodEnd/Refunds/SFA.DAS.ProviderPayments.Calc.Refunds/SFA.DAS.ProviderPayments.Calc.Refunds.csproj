@@ -73,10 +73,11 @@
     <Compile Include="RefundsProcessor.cs" />
     <Compile Include="RefundsTask.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\IDasAccountService.cs" />
     <Compile Include="Services\Dependencies\ISummariseAccountBalances.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
-    <Compile Include="Services\ProviderProcessor.cs" />
+    <Compile Include="Services\ProviderRefundsProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
