@@ -12,6 +12,7 @@
                 ComponentType.CoInvestedPayments,
                 ComponentType.DataLockEvents,
                 ComponentType.ProviderAdjustments,
+                ComponentType.Refunds
         };
 
         public CopyPeriodEndDataToDedsTask(ILogger logger)
