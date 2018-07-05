@@ -601,6 +601,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.csproj", "{D21F43C1-44B5-4C4A-A85C-675213B2354D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{38E4D4DA-B4F3-46FE-8DE1-05A30658214E}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{D01F90BB-17EF-487E-A3BF-309D310AC99F}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql = PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.csproj", "{8C24276E-C915-4324-B491-96A3987ABFDB}"
 EndProject
 Global
