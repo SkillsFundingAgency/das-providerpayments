@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
 
         public static RefundGeneratorResult Generate(
             int period = 1, 
-            decimal amount = -1000,
+            decimal refundAmount = -1000,
             decimal paymentAmount = 100,
             int numberOfPayments = 3,
             string academicYear = "1819",
@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                 var act = random.Next(2) + 1;
 
                 refunds = fixture.Build<RequiredPaymentEntity>()
-                    .With(x => x.AmountDue, amount)
+                    .With(x => x.AmountDue, refundAmount)
                     .With(x => x.AccountId, fixture.Create<Generator<long>>().First())
                     .With(x => x.ApprenticeshipContractType, act)
                     .With(x => x.TransactionType, transactionType)
@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             else
             {
                 refunds = refunds = fixture.Build<RequiredPaymentEntity>()
-                    .With(x => x.AmountDue, amount)
+                    .With(x => x.AmountDue, refundAmount)
                     .CreateMany(numberOfRefunds)
                     .ToList();
             }

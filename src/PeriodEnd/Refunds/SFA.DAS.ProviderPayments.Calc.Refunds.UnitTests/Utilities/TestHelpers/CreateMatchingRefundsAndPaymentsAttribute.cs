@@ -60,8 +60,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             for (var i = 0; i < _numberOfRefunds; i++)
             {
                 var generatedRefund = RefundGenerator.Generate(
-                    period: random.Next(2) + 1, 
-                    amount: _refundAmount,
+                    period: random.Next(11) + 1, 
+                    refundAmount: _refundAmount,
                     paymentAmount: _paymentAmount, 
                     academicYear: _academicYear);
 
