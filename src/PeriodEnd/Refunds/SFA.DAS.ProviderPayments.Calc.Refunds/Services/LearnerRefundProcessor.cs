@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
         {
             var refundPayments = new List<PaymentEntity>();
 
-            var amountToRefund = refund.AmountDue;
+            var amountToRefund = Math.Round(refund.AmountDue, 5);
             var amountRefunded = 0m;
             var month = refund.DeliveryMonth;
             var year = refund.DeliveryYear;
@@ -64,7 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                     .Where(x => x.DeliveryMonth == month && x.DeliveryYear == year)
                     .ToList();
                 var newRefunds = ProcessRefundForPeriod(stillToRefund, year, month, paymentsForPeriod, refund);
-                amountRefunded += newRefunds.Sum(x => x.Amount);
+                amountRefunded +=  Math.Round(newRefunds.Sum(x => x.Amount), 5);
                 refundPayments.AddRange(newRefunds);
             
                 if (month == 8)
@@ -103,22 +103,31 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
             var refundPayments = new List<PaymentEntity>();
 
-            var total = previoudPaymentsForPeriod.Sum(x => x.Amount);
+            var total = Math.Round(previoudPaymentsForPeriod.Sum(x => x.Amount), 5);
             if (total == 0)
             {
                 return refundPayments;
             }
 
-            var amountToRefund = Math.Min(total, amount);
+            var amountToRefund = Math.Round(Math.Min(total, amount), 5);
+            var payAll = (amount >= amountToRefund);
 
             foreach (var fundingSource in fundingSourcesToRefund)
             {
                 var totalPaidForFundingSource = TotalForFundingSource(previoudPaymentsForPeriod, fundingSource);
                 if (totalPaidForFundingSource > 0)
                 {
-                    var refundAmountForFundingSource = amountToRefund * (totalPaidForFundingSource / total);
-                    var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
-                    refundPayments.Add(payment);
+                    if (payAll)
+                    {
+                        var payment = CreatePayment(refund, totalPaidForFundingSource * -1, deliveryYear, deliveryMonth, fundingSource);
+                        refundPayments.Add(payment);
+                    }
+                    else
+                    {
+                        var refundAmountForFundingSource = amountToRefund * Math.Round(totalPaidForFundingSource / total, 5);
+                        var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
+                        refundPayments.Add(payment);
+                    }
                 }
             }
 
@@ -127,7 +136,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
         private decimal TotalForFundingSource(List<HistoricalPaymentEntity> payments, FundingSource fundingSource)
         {
-            var total = payments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
+            var total = Math.Round(payments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount), 5);
             if (total < 0)
             {
                 throw new ApplicationException("Funding source total is negative");

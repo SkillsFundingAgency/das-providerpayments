@@ -18,6 +18,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
         private readonly bool _hasMatchingPastPayments;
         private readonly bool _monthsHaveHigherPaymentsThanRefunds;
         private readonly bool _hasNegativeFundingSources;
+        private readonly decimal _refundAmount;
+        private readonly decimal _paymentAmount;
 
         private static readonly List<FundingSource> FundingSources = new List<FundingSource>
         {
@@ -28,11 +30,15 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
         };
 
         public CreateMatchingRefundsAndPaymentsAttribute(
+            int refundAmount = -900, 
+            int paymentAmount = 300, 
             bool hasNegativeFundingSources = false, 
             bool hasMatchingPastPayments = true, 
             bool monthsHaveHigherPaymentsThanRefunds = true,
             string academicYear = "1718")
         {
+            _refundAmount = refundAmount;
+            _paymentAmount = paymentAmount;
             _hasNegativeFundingSources = hasNegativeFundingSources;
             _hasMatchingPastPayments = hasMatchingPastPayments;
             _monthsHaveHigherPaymentsThanRefunds = monthsHaveHigherPaymentsThanRefunds;
@@ -45,6 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             var fixture = new Fixture();
 
             var refunds = fixture.Build<RequiredPaymentEntity>()
+                .With(x => x.AmountDue, _refundAmount)
                 .CreateMany()
                 .ToList();
 
@@ -70,6 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                         .With(x => x.DeliveryMonth, refund.DeliveryMonth)
                         .With(x => x.DeliveryYear, refund.DeliveryYear)
                         .Without(x => x.FundingSource)
+                        .With(x => x.Amount, _paymentAmount)
                         .CreateMany()
                         .ToList();
 
