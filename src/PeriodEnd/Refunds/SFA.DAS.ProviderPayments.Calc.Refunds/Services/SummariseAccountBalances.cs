@@ -1,6 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using NLog;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 
@@ -8,7 +10,15 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
     public class SummariseAccountBalances : ISummariseAccountBalances
     {
-        private ConcurrentDictionary<long, decimal> _accountsDictionary = new ConcurrentDictionary<long, decimal>();
+        private readonly ILogger _logger;
+        private readonly ConcurrentDictionary<long, decimal> _accountsDictionary;
+
+        public SummariseAccountBalances(ILogger logger)
+        {
+            _logger = logger;
+            _accountsDictionary = new ConcurrentDictionary<long, decimal>();
+        }
+
         public void IncrementAccountLevyBalance(IEnumerable<Refund> refunds)
         {
             var groupsByAccountId = refunds.GroupBy(x => x.AccountId);
@@ -28,6 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             bool updateFails;
             do
             {
+                int i = 1;
                 decimal currentValueToCredit;
                 if (_accountsDictionary.TryGetValue(accountId, out currentValueToCredit))
                 {
@@ -36,6 +47,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 else
                 {
                     updateFails = !_accountsDictionary.TryAdd(accountId, amountToCredit);
+                }
+
+                if (i >= 50)
+                {
+                    var message = "Refunds.SummariseAccountBalances class has failed to add or update account values";
+                    _logger.Error(message);
+                    throw new Exception(message);
                 }
 
             } while (updateFails);
