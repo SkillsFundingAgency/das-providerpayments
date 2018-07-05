@@ -93,7 +93,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     {
                         foreach (var fundingSource in FundingSources)
                         {
-                            if (random.Next(2) == 2)
+                            if (random.Next(2) == 1)
                             {
                                 pastPaymentsForRefund.Where(x => x.FundingSource == fundingSource).ToList()
                                     .ForEach(MakePaymentNegative);

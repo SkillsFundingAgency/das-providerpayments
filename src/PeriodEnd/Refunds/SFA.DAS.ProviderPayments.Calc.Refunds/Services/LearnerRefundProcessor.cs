@@ -25,14 +25,21 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 {
                     var previousPaymentGroup = volatilePreviousPayments.ToLookup(x => new RefundGroup(x));
                     var previousPaymentsForRefundGroup = new List<HistoricalPaymentEntity>();
-                    if (previousPaymentGroup.Contains(refundGroup.Key))
+                    try
                     {
-                        previousPaymentsForRefundGroup = previousPaymentGroup[refundGroup.Key].ToList();
-                    }
+                        if (previousPaymentGroup.Contains(refundGroup.Key))
+                        {
+                            previousPaymentsForRefundGroup = previousPaymentGroup[refundGroup.Key].ToList();
+                        }
 
-                    var newRefunds = ProcessRefund(refund, previousPaymentsForRefundGroup);
-                    refundPayments.AddRange(newRefunds);
-                    volatilePreviousPayments.AddRange(newRefunds.Select(x => new HistoricalPaymentEntity(x, refund)));
+                        var newRefunds = ProcessRefund(refund, previousPaymentsForRefundGroup);
+                        refundPayments.AddRange(newRefunds);
+                        volatilePreviousPayments.AddRange(newRefunds.Select(x => new HistoricalPaymentEntity(x, refund)));
+                    }
+                    catch(ApplicationException)
+                    { 
+                        // A funding source is negative, so ignoring this refund
+                    }
                 }
             }
 
