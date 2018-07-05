@@ -90,6 +90,7 @@
     <Compile Include="Utilities\Extensions\RefundListExtensions.cs" />
     <Compile Include="Utilities\RefundsAutoDataAttribute.cs" />
     <Compile Include="Utilities\TestHelpers\CreateMatchingRefundsAndPaymentsAttribute.cs" />
+    <Compile Include="Utilities\TestHelpers\RefundGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

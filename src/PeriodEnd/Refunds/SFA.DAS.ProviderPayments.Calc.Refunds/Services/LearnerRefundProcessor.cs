@@ -57,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             var month = refund.DeliveryMonth;
             var year = refund.DeliveryYear;
 
-            while (amountToRefund <= amountRefunded)
+            while (amountToRefund < amountRefunded)
             {
                 var stillToRefund = amountToRefund - amountRefunded;
                 var paymentsForPeriod = previousPayments
@@ -86,6 +86,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return refundPayments;
         }
 
+        private static readonly List<FundingSource> FundingSourcesToRefund = new List<FundingSource>
+                                        {
+                                            FundingSource.Levy,
+                                            FundingSource.CoInvestedEmployer,
+                                            FundingSource.CoInvestedSfa,
+                                            FundingSource.FullyFundedSfa
+                                        };
+
         private List<PaymentEntity> ProcessRefundForPeriod(
             decimal amount,
             int deliveryYear,
@@ -93,14 +101,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             List<HistoricalPaymentEntity> previoudPaymentsForPeriod,
             RequiredPaymentEntity refund)
         {
-            var fundingSourcesToRefund = new List<FundingSource>
-            {
-                FundingSource.Levy,
-                FundingSource.CoInvestedEmployer,
-                FundingSource.CoInvestedSfa,
-                FundingSource.FullyFundedSfa
-            };
-
             var refundPayments = new List<PaymentEntity>();
 
             var total = Math.Round(previoudPaymentsForPeriod.Sum(x => x.Amount), 5);
@@ -109,25 +109,16 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 return refundPayments;
             }
 
-            var amountToRefund = Math.Round(Math.Min(total, amount), 5);
-            var payAll = (amount >= amountToRefund);
-
-            foreach (var fundingSource in fundingSourcesToRefund)
+            var amountToRefund = Math.Round(Math.Max(total * -1, amount), 5);
+            
+            foreach (var fundingSource in FundingSourcesToRefund)
             {
                 var totalPaidForFundingSource = TotalForFundingSource(previoudPaymentsForPeriod, fundingSource);
                 if (totalPaidForFundingSource > 0)
                 {
-                    if (payAll)
-                    {
-                        var payment = CreatePayment(refund, totalPaidForFundingSource * -1, deliveryYear, deliveryMonth, fundingSource);
-                        refundPayments.Add(payment);
-                    }
-                    else
-                    {
-                        var refundAmountForFundingSource = amountToRefund * Math.Round(totalPaidForFundingSource / total, 5);
-                        var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
-                        refundPayments.Add(payment);
-                    }
+                    var refundAmountForFundingSource = Math.Round(amountToRefund * totalPaidForFundingSource / total, 5);
+                    var payment = CreatePayment(refund, refundAmountForFundingSource, deliveryYear, deliveryMonth, fundingSource);
+                    refundPayments.Add(payment);
                 }
             }
 

@@ -14,12 +14,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class CreateMatchingRefundsAndPaymentsAttribute : Attribute, ITestBuilder
     {
-        private readonly int _academicYear;
+        private readonly string _academicYear;
         private readonly bool _hasMatchingPastPayments;
         private readonly bool _monthsHaveHigherPaymentsThanRefunds;
         private readonly bool _hasNegativeFundingSources;
         private readonly decimal _refundAmount;
         private readonly decimal _paymentAmount;
+        private readonly int _numberOfRefunds;
 
         private static readonly List<FundingSource> FundingSources = new List<FundingSource>
         {
@@ -35,14 +36,16 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             bool hasNegativeFundingSources = false, 
             bool hasMatchingPastPayments = true, 
             bool monthsHaveHigherPaymentsThanRefunds = true,
-            string academicYear = "1718")
+            string academicYear = "1718",
+            int numberOfRefunds = 3)
         {
             _refundAmount = refundAmount;
             _paymentAmount = paymentAmount;
             _hasNegativeFundingSources = hasNegativeFundingSources;
             _hasMatchingPastPayments = hasMatchingPastPayments;
             _monthsHaveHigherPaymentsThanRefunds = monthsHaveHigherPaymentsThanRefunds;
-            _academicYear = int.Parse(academicYear.Substring(0, 2)) + 2000;
+            _academicYear = academicYear;
+            _numberOfRefunds = numberOfRefunds;
         }
 
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
@@ -50,51 +53,27 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             var results = new List<TestMethod>();
             var fixture = new Fixture();
 
-            var refunds = fixture.Build<RequiredPaymentEntity>()
-                .With(x => x.AmountDue, _refundAmount)
-                .CreateMany()
-                .ToList();
-
             var random = new Random();
-
-            foreach (var refund in refunds)
-            {
-                var period = random.Next(11) + 1; // 0 based
-                refund.DeliveryMonth = DeliveryMonthFromPeriod(period);
-                refund.DeliveryYear = DeliveryYearFromPeriod(period);
-            }
-
+            var refunds = new List<RequiredPaymentEntity>();
             var pastPayments = new List<HistoricalPaymentEntity>();
 
-            if (_hasMatchingPastPayments)
+            for (var i = 0; i < _numberOfRefunds; i++)
             {
-                foreach (var refund in refunds)
+                var generatedRefund = RefundGenerator.Generate(
+                    period: random.Next(2) + 1, 
+                    amount: _refundAmount,
+                    paymentAmount: _paymentAmount, 
+                    academicYear: _academicYear);
+
+                refunds.Add(generatedRefund.Refund);
+                if (_hasMatchingPastPayments)
                 {
-                    var pastPaymentsForRefund = fixture.Build<HistoricalPaymentEntity>()
-                        .With(x => x.AccountId, refund.AccountId)
-                        .With(x => x.ApprenticeshipContractType, refund.ApprenticeshipContractType)
-                        .With(x => x.TransactionType, refund.TransactionType)
-                        .With(x => x.DeliveryMonth, refund.DeliveryMonth)
-                        .With(x => x.DeliveryYear, refund.DeliveryYear)
-                        .Without(x => x.FundingSource)
-                        .With(x => x.Amount, _paymentAmount)
-                        .CreateMany()
-                        .ToList();
-
-                    foreach (var historicalPaymentEntity in pastPaymentsForRefund)
-                    {
-                        do
-                        {
-                            historicalPaymentEntity.FundingSource = fixture.Create<FundingSource>();
-                        } while (historicalPaymentEntity.FundingSource == FundingSource.Transfer);
-                    }
-
-                    pastPayments.AddRange(pastPaymentsForRefund);
-
+                    var pastPaymentsForRefund = generatedRefund.AssociatedPayments;
+                    
                     if (_monthsHaveHigherPaymentsThanRefunds)
                     {
                         var amount = pastPaymentsForRefund.Sum(x => x.Amount);
-                        refund.AmountDue = -1 * amount;
+                        generatedRefund.Refund.AmountDue = -1 * amount;
                     }
 
                     while (_hasNegativeFundingSources && !pastPaymentsForRefund.Any(x => x.Amount < 0))
@@ -108,9 +87,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                             }
                         }
                     }
+
+                    pastPayments.AddRange(pastPaymentsForRefund);
                 }
             }
-
+            
             var methodParameters = method.GetParameters();
             if (methodParameters.Length != 3 ||
                 methodParameters[0].ParameterType != typeof(List<RequiredPaymentEntity>) ||
@@ -125,26 +106,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
 
             results.Add(new NUnitTestCaseBuilder().BuildTestMethod(method, suite, parameters));
             return results;
-        }
-
-        private int DeliveryMonthFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return period + 7;
-            }
-
-            return period - 5;
-        }
-
-        private int DeliveryYearFromPeriod(int period)
-        {
-            if (period < 6)
-            {
-                return _academicYear;
-            }
-
-            return _academicYear + 1;
         }
 
         private void MakePaymentNegative(HistoricalPaymentEntity payment)
