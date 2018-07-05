@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests</RootNamespace>
     <AssemblyName>SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoFixture, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoFixture.4.2.1\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.AutoMoq, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoFixture.AutoMoq.4.2.1\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.NUnit3, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoFixture.NUnit3.4.2.1\lib\net452\AutoFixture.NUnit3.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -58,6 +68,7 @@
       <HintPath>..\..\..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,11 +79,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\SetupRequiredPaymentsRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupProviderRepositoryAttribute.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
+    <Compile Include="Tests\Infrastructure\GivenARequiredPaymentsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAProvidersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
