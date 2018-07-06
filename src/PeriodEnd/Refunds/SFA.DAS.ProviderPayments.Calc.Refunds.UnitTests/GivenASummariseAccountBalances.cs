@@ -14,12 +14,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
     [TestFixture]
     public class GivenASummariseAccountBalances
     {
-        protected SummariseAccountBalances _sut;
+        protected SummariseAccountBalances Sut;
 
         [SetUp]
         public void Init()
         {
-            _sut = new SummariseAccountBalances(Mock.Of<ILogger>());
+            Sut = new SummariseAccountBalances(Mock.Of<ILogger>());
         }
 
         [TestFixture]
@@ -31,13 +31,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             public void Setup()
             {
                 _refunds = GenerateListOfRefundsForDifferentAccounts();
-                _sut.IncrementAccountLevyBalance(_refunds);
+                Sut.IncrementAccountLevyBalance(_refunds);
             }
 
             [Test]
             public void ThenItReturns3Accounts()
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.Count.Should().Be(3);
             }
 
@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 long accountId,
                 decimal expectedCredit)
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.First(x => x.AccountId == accountId).LevyCredit.Should().Be(expectedCredit);
             }
         }
@@ -62,20 +62,20 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             public void Setup()
             {
                 _refunds = GenerateListOfRefundsForSameAccount();
-                _sut.IncrementAccountLevyBalance(_refunds);
+                Sut.IncrementAccountLevyBalance(_refunds);
             }
 
             [Test]
             public void ThenItReturns1Account()
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.Count.Should().Be(1);
             }
 
             [Test]
             public void ThenItReturnsCorrectCreditForThisAccount()
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.First().LevyCredit.Should().Be(300);
             }
 
@@ -88,14 +88,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             public void Setup()
             {
                 _refunds = GenerateListOfRefundsForDifferentAccounts();
-                _sut.IncrementAccountLevyBalance(_refunds);
-                _sut.IncrementAccountLevyBalance(_refunds);
+                Sut.IncrementAccountLevyBalance(_refunds);
+                Sut.IncrementAccountLevyBalance(_refunds);
             }
 
             [Test]
             public void ThenTheCountShouldStillBe3()
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.Count.Should().Be(3);
             }
 
@@ -106,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 long accountId,
                 decimal expectedCredit)
             {
-                var result = _sut.AsList();
+                var result = Sut.AsList();
                 result.First(x => x.AccountId == accountId).LevyCredit.Should().Be(expectedCredit);
             }
         }
@@ -117,8 +117,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             var refunds = fixture.Build<Refund>()
                 .With(x => x.AccountId, 1)
                 .With(x => x.Amount, -100)
-                .With(x => x.TransactionType, TransactionType.Learning)
-                .CreateMany(3).ToList();
+                .With(x => x.FundingSource, FundingSource.Levy)
+                .CreateMany(3)
+                .ToList();
 
             var nonLearningRefunds = GenerateListOfRefundsForNonLearningTransactionAccounts();
             refunds.AddRange(nonLearningRefunds);
@@ -129,7 +130,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
         protected List<Refund> GenerateListOfRefundsForDifferentAccounts()
         {
             var fixture = new Fixture();
-            var refunds = fixture.Build<Refund>().With(x=>x.TransactionType, TransactionType.Learning).CreateMany(3).ToList();
+            var refunds = fixture.Build<Refund>()
+                .With(x => x.FundingSource, FundingSource.Levy)
+                .CreateMany(3)
+                .ToList();
             long i = 0;
 
             refunds.ForEach(x =>
@@ -149,12 +153,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
         {
             var fixture = new Fixture();
             return fixture.Build<Refund>()
-                .With(x => x.TransactionType,
-                    fixture.Create<Generator<TransactionType>>().First(x => x != TransactionType.Learning))
+                .With(x => x.FundingSource,
+                    fixture.Create<Generator<FundingSource>>().First(x => x != FundingSource.Levy))
                 .CreateMany(3).ToList();
         }
-
-
-
     }
 }
