@@ -35,15 +35,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         {
             [Test]
             [CreateMatchingRefundsAndPayments(hasMatchingPastPayments: false)]
-            public void ThenTheRefundsAreForThePaymentAmount(
+            public void AndThereAreNoPastPayments_ThenTheRefundsIsZero(
                 List<RequiredPaymentEntity> refunds,
                 List<HistoricalPaymentEntity> payments,
                 LearnerRefundProcessor sut)
             {
                 var actual = sut.ProcessRefundsForLearner(refunds, payments);
 
-                var expectedAmount = payments.Sum(x => x.Amount);
-                actual.Sum(x => x.Amount).Should().Be(expectedAmount);
+                actual.Sum(x => x.Amount).Should().Be(0);
             }
 
             [TestFixture]
@@ -95,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                     data.AssociatedPayments[11].DeliveryMonth = 12;
 
 
-                    var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+                    var actual = sut.ProcessRefundsForLearner(data.Refunds.Take(2).ToList(), data.AssociatedPayments);
 
                     actual.Sum(x => x.Amount).Should().BeApproximately(-1400, 0.00005m);
                 }
@@ -109,10 +108,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
                 LearnerRefundProcessor sut)
             {
-                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, paymentAmount: 500);
 
                 var refundOne = data.Refunds[0];
                 refundOne.TransactionType = TransactionType.Balancing;
+                refundOne.AmountDue = -900;
                 var refundTwo = data.Refunds[1];
                 refundTwo.TransactionType = TransactionType.Balancing16To18FrameworkUplift;
                 refundTwo.AmountDue = -1200;
@@ -139,6 +139,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
 
                 var refundOne = data.Refunds[0];
                 refundOne.TransactionType = TransactionType.Balancing;
+                refundOne.AmountDue = -900;
                 var refundTwo = data.Refunds[1];
                 refundTwo.TransactionType = TransactionType.Balancing16To18FrameworkUplift;
                 refundTwo.AmountDue = -1200;
