@@ -68,16 +68,20 @@
     <Compile Include="Domain\RefundGroup.cs" />
     <Compile Include="Dto\AccountLevyCredit.cs" />
     <Compile Include="Dto\LearnerData.cs" />
+    <Compile Include="Infrastructure\Entities\HistoricalPaymentEntity.cs" />
+    <Compile Include="Infrastructure\Repositories\HistoricalPaymentsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundsProcessor.cs" />
     <Compile Include="RefundsTask.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\IDasAccountService.cs" />
     <Compile Include="Services\Dependencies\ISummariseAccountBalances.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
     <Compile Include="Services\ProviderProcessor.cs" />
     <Compile Include="Services\Dependiencies\IProcessLearnerRefunds.cs" />
     <Compile Include="Services\LearnerRefundProcessor.cs" />
+    <Compile Include="Services\ProviderRefundsProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -102,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\Data\" />
-    <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

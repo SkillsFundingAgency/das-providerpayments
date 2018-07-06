@@ -84,7 +84,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GivenAProviderProcessor.cs" />
+    <Compile Include="GivenARefundProcessor.cs" />
+    <Compile Include="GivenAProviderRefundProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\GivenALearnerRefundProcessor\AndThereArePreviousPaymentsForTheMonth.cs" />
     <Compile Include="Utilities\Extensions\RefundListExtensions.cs" />
