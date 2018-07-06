@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Data\Entities\HistoricalPaymentEntity.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\ProviderEntity.cs" />

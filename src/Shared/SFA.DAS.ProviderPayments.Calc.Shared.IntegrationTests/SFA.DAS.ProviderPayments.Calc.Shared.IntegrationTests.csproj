@@ -84,6 +84,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
+    <Compile Include="Helpers\DasAccountsDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="Tests\Infrastructure\GivenARequiredPaymentsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAProvidersRepository.cs" />
