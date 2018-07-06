@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
@@ -16,9 +14,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
             Scan(
                 scan =>
                 {
-                    scan.AssemblyContainingType<RefundsRegistry>();
+                    scan.AssembliesFromApplicationBaseDirectory();
 
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
+                    scan.SingleImplementationsOfInterface();
                 });
 
             For<ContextWrapper>().Use(contextWrapper);
