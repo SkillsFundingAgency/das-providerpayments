@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.Extensions;
@@ -102,6 +102,183 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             }
         }
 
+        [TestFixture]
+        public class AndThereAreMultipleRefundsWithDifferentTransactionTypes
+        {
+            [Test, RefundsAutoData]
+            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
+
+                var refundOne = data.Refunds[0];
+                refundOne.TransactionType = TransactionType.Balancing;
+                var refundTwo = data.Refunds[1];
+                refundTwo.TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].TransactionType = TransactionType.Balancing;
+                data.AssociatedPayments[1].TransactionType = TransactionType.Balancing;
+                data.AssociatedPayments[2].TransactionType = TransactionType.Balancing;
+
+                data.AssociatedPayments[3].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                data.AssociatedPayments[4].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                data.AssociatedPayments[5].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.TransactionType == TransactionType.Balancing).Sum(x => x.Amount).Should().BeApproximately(-900, 0.00005m);
+                actual.Where(x => x.TransactionType == TransactionType.Balancing16To18FrameworkUplift).Sum(x => x.Amount).Should().BeApproximately(-1200, 0.00005m);
+            }
+
+            [Test, RefundsAutoData]
+            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
+
+                var refundOne = data.Refunds[0];
+                refundOne.TransactionType = TransactionType.Balancing;
+                var refundTwo = data.Refunds[1];
+                refundTwo.TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].TransactionType = TransactionType.Balancing;
+                data.AssociatedPayments[1].TransactionType = TransactionType.Balancing;
+                data.AssociatedPayments[2].TransactionType = TransactionType.Balancing;
+
+                data.AssociatedPayments[3].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                data.AssociatedPayments[4].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                data.AssociatedPayments[5].TransactionType = TransactionType.Balancing16To18FrameworkUplift;
+                data.AssociatedPayments[3].Amount = 100;
+                data.AssociatedPayments[4].Amount = 100;
+                data.AssociatedPayments[5].Amount = 100;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.TransactionType == TransactionType.Balancing).Sum(x => x.Amount).Should().BeApproximately(-600, 0.00005m);
+                actual.Where(x => x.TransactionType == TransactionType.Balancing16To18FrameworkUplift).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
+            }
+        }
+
+        [TestFixture]
+        public class AndThereAreMultipleRefundsWithDifferentContractTypes
+        {
+            [Test, RefundsAutoData]
+            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
+
+                var refundOne = data.Refunds[0];
+                refundOne.ApprenticeshipContractType = 1;
+                var refundTwo = data.Refunds[1];
+                refundTwo.ApprenticeshipContractType = 2;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].ApprenticeshipContractType = 1;
+                data.AssociatedPayments[1].ApprenticeshipContractType = 1;
+                data.AssociatedPayments[2].ApprenticeshipContractType = 1;
+
+                data.AssociatedPayments[3].ApprenticeshipContractType = 2;
+                data.AssociatedPayments[4].ApprenticeshipContractType = 2;
+                data.AssociatedPayments[5].ApprenticeshipContractType = 2;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-900, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-1200, 0.00005m);
+            }
+
+            [Test, RefundsAutoData]
+            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
+
+                var refundOne = data.Refunds[0];
+                refundOne.ApprenticeshipContractType = 1;
+                var refundTwo = data.Refunds[1];
+                refundTwo.ApprenticeshipContractType = 2;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].ApprenticeshipContractType = 1;
+                data.AssociatedPayments[1].ApprenticeshipContractType = 1;
+                data.AssociatedPayments[2].ApprenticeshipContractType = 1;
+
+                data.AssociatedPayments[3].ApprenticeshipContractType = 2;
+                data.AssociatedPayments[4].ApprenticeshipContractType = 2;
+                data.AssociatedPayments[5].ApprenticeshipContractType = 2;
+                data.AssociatedPayments[3].Amount = 100;
+                data.AssociatedPayments[4].Amount = 100;
+                data.AssociatedPayments[5].Amount = 100;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-600, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
+            }
+        }
+
+        [TestFixture]
+        public class AndThereAreMultipleRefundsWithDifferentAccounts
+        {
+            [Test, RefundsAutoData]
+            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
+
+                var refundOne = data.Refunds[0];
+                refundOne.AccountId = 1000;
+                var refundTwo = data.Refunds[1];
+                refundTwo.AccountId = 2000;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].AccountId = 1000;
+                data.AssociatedPayments[1].AccountId = 1000;
+                data.AssociatedPayments[2].AccountId = 1000;
+
+                data.AssociatedPayments[3].AccountId = 2000;
+                data.AssociatedPayments[4].AccountId = 2000;
+                data.AssociatedPayments[5].AccountId = 2000;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-900, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-1200, 0.00005m);
+            }
+
+            [Test, RefundsAutoData]
+            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
+
+                var refundOne = data.Refunds[0];
+                refundOne.AccountId = 1000;
+                var refundTwo = data.Refunds[1];
+                refundTwo.AccountId = 2000;
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].AccountId = 1000;
+                data.AssociatedPayments[1].AccountId = 1000;
+                data.AssociatedPayments[2].AccountId = 1000;
+
+                data.AssociatedPayments[3].AccountId = 2000;
+                data.AssociatedPayments[4].AccountId = 2000;
+                data.AssociatedPayments[5].AccountId = 2000;
+                data.AssociatedPayments[3].Amount = 100;
+                data.AssociatedPayments[4].Amount = 100;
+                data.AssociatedPayments[5].Amount = 100;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-600, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
+            }
+        }
+        
         [TestFixture]
         public class AndThereAreNetNegativeFundingSources
         {
