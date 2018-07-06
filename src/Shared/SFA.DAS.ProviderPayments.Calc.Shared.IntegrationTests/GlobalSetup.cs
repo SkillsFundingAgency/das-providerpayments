@@ -29,32 +29,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
                         if not exists(select 1 from sys.servers where name = '{GlobalTestContext.Instance.LinkedServerName}')
 	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
 
-                    // Pre-req scripts
-                    RunSqlScript(@"Ilr.Deds.DDL.sql", dedsConnection);
-                    RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", dedsConnection);
-                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", dedsConnection);
-                    RunSqlScript(@"DasAccounts.Deds.DDL.sql", dedsConnection);
-                    RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", dedsConnection);
-                    RunSqlScript(@"Summarisation.Deds.DDL.sql", dedsConnection);
-                    RunSqlScript(@"Summarisation.Deds.DML.sql", dedsConnection);
-                    RunSqlScript(@"DataLock.Transient.DDL.sql", transientConnection);
-                    RunSqlScript(@"SeedReferenceData.sql", dedsConnection);
-
                     // Component scripts
-                    RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", dedsConnection);
-                    RunSqlScript(@"1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql", dedsConnection);
-                    RunSqlScript(@"2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql", dedsConnection);
-                    RunSqlScript(@"4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql", dedsConnection);
-                    RunSqlScript(@"6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql", dedsConnection);
-
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.Staging.DDL.tables.sql", transientConnection);
-                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.views.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", transientConnection);
                 }
                 finally
                 {
