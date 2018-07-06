@@ -78,8 +78,7 @@
     <Compile Include="Services\Dependencies\ISummariseAccountBalances.cs" />
     <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
-    <Compile Include="Services\ProviderProcessor.cs" />
-    <Compile Include="Services\Dependiencies\IProcessLearnerRefunds.cs" />
+    <Compile Include="Services\Dependencies\IProcessLearnerRefunds.cs" />
     <Compile Include="Services\LearnerRefundProcessor.cs" />
     <Compile Include="Services\ProviderRefundsProcessor.cs" />
   </ItemGroup>
