@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
+using AutoFixture.AutoMoq;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
@@ -52,6 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
         {
             var results = new List<TestMethod>();
             var fixture = new Fixture();
+            fixture.Customize(new AutoMoqCustomization());
 
             var random = new Random();
             var refunds = new List<RequiredPaymentEntity>();
@@ -102,7 +104,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                 throw new ApplicationException("Please ensure that you have 2 parameters, List<RequiredPaymentEntity> and List<HistoricPaymentEntity>");
             }
 
-            var parameters = new TestCaseParameters(new object[] { refunds, pastPayments, new LearnerRefundProcessor() });
+            var learnerRefundProcessor = fixture.Build<LearnerRefundProcessor>().Create();
+            var parameters = new TestCaseParameters(new object[] { refunds, pastPayments, learnerRefundProcessor });
 
             results.Add(new NUnitTestCaseBuilder().BuildTestMethod(method, suite, parameters));
             return results;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NLog;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependiencies;
@@ -10,6 +11,21 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 {
     public class LearnerRefundProcessor : IProcessLearnerRefunds
     {
+        private readonly ILogger _logger;
+
+        private static readonly List<FundingSource> FundingSourcesToRefund = new List<FundingSource>
+        {
+            FundingSource.Levy,
+            FundingSource.CoInvestedEmployer,
+            FundingSource.CoInvestedSfa,
+            FundingSource.FullyFundedSfa
+        };
+
+        public LearnerRefundProcessor(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public List<PaymentEntity> ProcessRefundsForLearner(
             List<RequiredPaymentEntity> refunds,
             List<HistoricalPaymentEntity> previousPayments)
@@ -39,6 +55,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                     catch(ApplicationException)
                     { 
                         // A funding source is negative, so ignoring this refund
+                        _logger.Error($"Refund for UKPRN: {refund.Ukprn} " +
+                                      $"LearnRefNumber: {refund.LearnRefNumber} " +
+                                      $"Amount: {refund.AmountDue} " +
+                                      $"DeliveryMonth: {refund.DeliveryMonth} " +
+                                      $"not made due to a net negative funding source");
                     }
                 }
             }
@@ -86,16 +107,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return refundPayments;
         }
 
-        private static readonly List<FundingSource> FundingSourcesToRefund = new List<FundingSource>
-                                        {
-                                            FundingSource.Levy,
-                                            FundingSource.CoInvestedEmployer,
-                                            FundingSource.CoInvestedSfa,
-                                            FundingSource.FullyFundedSfa
-                                        };
-
         private List<PaymentEntity> ProcessRefundForPeriod(
-            decimal amount,
+            decimal requestedRefundAmountForPeriod,
             int deliveryYear,
             int deliveryMonth,
             List<HistoricalPaymentEntity> previoudPaymentsForPeriod,
@@ -109,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 return refundPayments;
             }
 
-            var amountToRefund = Math.Max(total * -1, amount);
+            var amountToRefund = Math.Max(total * -1, requestedRefundAmountForPeriod);
             
             foreach (var fundingSource in FundingSourcesToRefund)
             {
