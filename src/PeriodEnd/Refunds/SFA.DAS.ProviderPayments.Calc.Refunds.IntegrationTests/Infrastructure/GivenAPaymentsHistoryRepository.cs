@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Infrastructure
                 [SetUp]
                 public new void Setup()
                 {
-                    _actualHistoricalPayments = _sut.GetAllForProvider(RefundsTestContext.Ukprn);
+                    _actualHistoricalPayments = _sut.GetAllForProvider(RefundsTestContext.Ukprn).ToList();
 
                     _expectedHistoricalPayments = RefundsTestContext.PaymentsHistory
                         .Where(payment => payment.Ukprn == RefundsTestContext.Ukprn).ToList();

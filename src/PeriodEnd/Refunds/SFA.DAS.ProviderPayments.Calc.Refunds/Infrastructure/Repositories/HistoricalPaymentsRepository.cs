@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories
 {
     public interface IHistoricalPaymentsRepository
     {
-        List<HistoricalPaymentEntity> GetAllForProvider(long ukprn);
+        IEnumerable<HistoricalPaymentEntity> GetAllForProvider(long ukprn);
     }
 
     public class HistoricalPaymentsRepository : DcfsRepository, IHistoricalPaymentsRepository
@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories
         public HistoricalPaymentsRepository(string transientConnectionString) 
             : base(transientConnectionString) { }
 
-        public List<HistoricalPaymentEntity> GetAllForProvider(long ukprn)
+        public IEnumerable<HistoricalPaymentEntity> GetAllForProvider(long ukprn)
         {
             const string sql = @"
             SELECT *
@@ -23,8 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories
             WHERE Ukprn = @ukprn
             ";
 
-            var result = Query<HistoricalPaymentEntity>(sql, new { ukprn })
-                .ToList();
+            var result = Query<HistoricalPaymentEntity>(sql, new { ukprn });
 
             return result;
         }
