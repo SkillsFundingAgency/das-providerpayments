@@ -5,6 +5,7 @@ using FluentAssertions;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 
@@ -113,20 +114,22 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
         protected List<Refund> GenerateListOfRefundsForSameAccount()
         {
             var fixture = new Fixture();
-            var refunds = fixture.Build<Refund>().CreateMany(3).ToList();
+            var refunds = fixture.Build<Refund>()
+                .With(x => x.AccountId, 1)
+                .With(x => x.Amount, -100)
+                .With(x => x.TransactionType, TransactionType.Learning)
+                .CreateMany(3).ToList();
 
-            refunds.ForEach(x =>
-            {
-                x.AccountId = 1;
-                x.Amount = -100;
-            });
+            var nonLearningRefunds = GenerateListOfRefundsForNonLearningTransactionAccounts();
+            refunds.AddRange(nonLearningRefunds);
 
             return refunds;
         }
+
         protected List<Refund> GenerateListOfRefundsForDifferentAccounts()
         {
             var fixture = new Fixture();
-            var refunds = fixture.Build<Refund>().CreateMany(3).ToList();
+            var refunds = fixture.Build<Refund>().With(x=>x.TransactionType, TransactionType.Learning).CreateMany(3).ToList();
             long i = 0;
 
             refunds.ForEach(x =>
@@ -135,7 +138,23 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 x.Amount = -100 * i;
             });
 
+            var nonLearningRefunds = GenerateListOfRefundsForNonLearningTransactionAccounts();
+
+            refunds.AddRange(nonLearningRefunds);
+
             return refunds;
         }
+
+        protected List<Refund> GenerateListOfRefundsForNonLearningTransactionAccounts()
+        {
+            var fixture = new Fixture();
+            return fixture.Build<Refund>()
+                .With(x => x.TransactionType,
+                    fixture.Create<Generator<TransactionType>>().First(x => x != TransactionType.Learning))
+                .CreateMany(3).ToList();
+        }
+
+
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 
@@ -21,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
         public void IncrementAccountLevyBalance(IEnumerable<Refund> refunds)
         {
-            var groupsByAccountId = refunds.GroupBy(x => x.AccountId);
+            var groupsByAccountId = refunds.Where(x=>x.TransactionType == TransactionType.Learning).GroupBy(x => x.AccountId);
             foreach (var account in groupsByAccountId)
             {
                 IncrementOrAddValue(account.Key, account.Sum(x => x.Amount) * -1);
