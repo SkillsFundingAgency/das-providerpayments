@@ -92,7 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             }
 
             [Test]
-            public void ThenItAddsTheRefundsAgain()
+            public void ThenTheCountShouldStillBe3()
             {
                 var result = _sut.AsList();
                 result.Count.Should().Be(3);
@@ -101,7 +101,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             [TestCase(1, 200)]
             [TestCase(2, 400)]
             [TestCase(3, 600)]
-            public void ThenItReturnsCorrectCreditForEachAccount(
+            public void ThenItReturnsTheCollectiveCreditsForEachAccount(
                 long accountId,
                 decimal expectedCredit)
             {
