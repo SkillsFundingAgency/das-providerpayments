@@ -1,19 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using AutoFixture;
-using AutoFixture.NUnit3;
-using Dapper;
 using FluentAssertions;
 using Moq;
 using NLog;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
-using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 {
@@ -36,16 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             [SetUp]
             public void Setup()
             {
-                var fixture = new Fixture();
-                _refunds = fixture.Build<Refund>().CreateMany(3).ToList();
-                long i = 0;
-
-                _refunds.ForEach(x =>
-                {
-                    x.AccountId = ++i;
-                    x.Amount = -100 * i;
-                });
-
+                _refunds = GenerateListOfRefundsForDifferentAccounts();
                 _sut.IncrementAccountLevyBalance(_refunds);
             }
 
@@ -63,7 +47,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 long accountId,
                 decimal expectedCredit)
             {
-
                 var result = _sut.AsList();
                 result.First(x => x.AccountId == accountId).LevyCredit.Should().Be(expectedCredit);
             }
@@ -77,15 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
             [SetUp]
             public void Setup()
             {
-                var fixture = new Fixture();
-                _refunds = fixture.Build<Refund>().CreateMany(3).ToList();
-
-                _refunds.ForEach(x =>
-                {
-                    x.AccountId = 1;
-                    x.Amount = -100;
-                });
-
+                _refunds = GenerateListOfRefundsForSameAccount();
                 _sut.IncrementAccountLevyBalance(_refunds);
             }
 
@@ -103,6 +78,64 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 result.First().LevyCredit.Should().Be(300);
             }
 
+        }
+        public class WhenAddingASecondSetOfRefundsWhichHaveExistingAccountIds : GivenASummariseAccountBalances
+        {
+            private List<Refund> _refunds;
+
+            [SetUp]
+            public void Setup()
+            {
+                _refunds = GenerateListOfRefundsForDifferentAccounts();
+                _sut.IncrementAccountLevyBalance(_refunds);
+                _sut.IncrementAccountLevyBalance(_refunds);
+            }
+
+            [Test]
+            public void ThenItAddsTheRefundsAgain()
+            {
+                var result = _sut.AsList();
+                result.Count.Should().Be(3);
+            }
+
+            [TestCase(1, 200)]
+            [TestCase(2, 400)]
+            [TestCase(3, 600)]
+            public void ThenItReturnsCorrectCreditForEachAccount(
+                long accountId,
+                decimal expectedCredit)
+            {
+                var result = _sut.AsList();
+                result.First(x => x.AccountId == accountId).LevyCredit.Should().Be(expectedCredit);
+            }
+        }
+
+        protected List<Refund> GenerateListOfRefundsForSameAccount()
+        {
+            var fixture = new Fixture();
+            var refunds = fixture.Build<Refund>().CreateMany(3).ToList();
+
+            refunds.ForEach(x =>
+            {
+                x.AccountId = 1;
+                x.Amount = -100;
+            });
+
+            return refunds;
+        }
+        protected List<Refund> GenerateListOfRefundsForDifferentAccounts()
+        {
+            var fixture = new Fixture();
+            var refunds = fixture.Build<Refund>().CreateMany(3).ToList();
+            long i = 0;
+
+            refunds.ForEach(x =>
+            {
+                x.AccountId = ++i;
+                x.Amount = -100 * i;
+            });
+
+            return refunds;
         }
     }
 }
