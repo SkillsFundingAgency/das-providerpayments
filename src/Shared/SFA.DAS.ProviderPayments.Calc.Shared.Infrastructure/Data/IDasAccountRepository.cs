@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data
 {
     public interface IDasAccountRepository
     {
-        void SaveMany(List<DasAccountEntity> dasAccount);
+        void AddMany(List<DasAccountEntity> dasAccounts);
     }
 }
