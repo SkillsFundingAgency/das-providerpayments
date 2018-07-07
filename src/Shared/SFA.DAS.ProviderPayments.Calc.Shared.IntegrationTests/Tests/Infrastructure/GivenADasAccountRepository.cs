@@ -3,8 +3,8 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
     [TestFixture, SetupUkprn]
     public class GivenADasAccountRepository
     {
-        private IDasAccountRepository _sut;
+        private DasAccountRepository _sut;
 
         [OneTimeSetUp]
         public void Setup()
@@ -83,19 +83,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             public void ThenItSetsTransferAllowance() =>
                 _actualEntities[0].TransferAllowance
                     .Should().Be(_expectedEntities[0].TransferAllowance);
-        }
-    }
-
-    public class DasAccountRepository : IDasAccountRepository
-    {
-        public DasAccountRepository(string transientConnectionString)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void AddMany(List<DasAccountEntity> dasAccounts)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
