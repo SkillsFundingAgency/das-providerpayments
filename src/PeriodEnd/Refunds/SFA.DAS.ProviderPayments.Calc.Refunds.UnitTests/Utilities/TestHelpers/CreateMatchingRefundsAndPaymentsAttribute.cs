@@ -7,6 +7,7 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -57,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
 
             var random = new Random();
             var refunds = new List<RequiredPaymentEntity>();
-            var pastPayments = new List<HistoricalPaymentEntity>();
+            var pastPayments = new List<HistoricalPayment>();
 
             for (var i = 0; i < _numberOfRefunds; i++)
             {
@@ -97,7 +98,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             var methodParameters = method.GetParameters();
             if (methodParameters.Length != 3 ||
                 methodParameters[0].ParameterType != typeof(List<RequiredPaymentEntity>) ||
-                methodParameters[1].ParameterType != typeof(List<HistoricalPaymentEntity>) ||
+                methodParameters[1].ParameterType != typeof(List<HistoricalPayment>) ||
                 methodParameters[2].ParameterType != typeof(LearnerRefundProcessor)
             )
             {
@@ -111,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             return results;
         }
 
-        private void MakePaymentNegative(HistoricalPaymentEntity payment)
+        private void MakePaymentNegative(HistoricalPayment payment)
         {
             payment.Amount = -payment.Amount;
         }

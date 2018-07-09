@@ -1,5 +1,6 @@
 ﻿using System;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
@@ -13,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             ApprenticeshipContractType = entity.ApprenticeshipContractType;
         }
 
-        public RefundGroup(HistoricalPaymentEntity entity)
+        public RefundGroup(HistoricalPayment entity)
         {
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;

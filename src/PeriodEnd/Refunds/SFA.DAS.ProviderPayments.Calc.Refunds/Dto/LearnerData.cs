@@ -11,6 +11,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Dto
         }
         public string LearnRefNumber { get; }
         public List<RequiredPaymentEntity> RequiredRefunds { get; } = new List<RequiredPaymentEntity>();
-        public List<PaymentEntity> HistoricalPayments { get; } = new List<PaymentEntity>();
+        public List<HistoricalPayment> HistoricalPayments { get; } = new List<HistoricalPayment>();
     }
 }

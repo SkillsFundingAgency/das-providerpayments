@@ -6,6 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies
 {
     public interface IProcessLearnerRefunds
     {
-        List<Refund> ProcessRefundsForLearner(List<RequiredPaymentEntity> refunds, List<HistoricalPaymentEntity> previousPayments);
+        List<Refund> ProcessRefundsForLearner(List<RequiredPaymentEntity> refunds, List<HistoricalPayment> previousPayments);
     }
 }

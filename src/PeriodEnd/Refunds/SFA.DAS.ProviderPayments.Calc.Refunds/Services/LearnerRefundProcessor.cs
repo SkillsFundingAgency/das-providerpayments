@@ -29,10 +29,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
         public List<Refund> ProcessRefundsForLearner(
             List<RequiredPaymentEntity> refunds,
-            List<HistoricalPaymentEntity> previousPayments)
+            List<HistoricalPayment> previousPayments)
         {
             var refundGroups = refunds.ToLookup(x => new RefundGroup(x));
-            var volatilePreviousPayments = new List<HistoricalPaymentEntity>(previousPayments);
+            var volatilePreviousPayments = new List<HistoricalPayment>(previousPayments);
 
             var refundPayments = new List<Refund>();
             
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 foreach (var refund in refundGroup)
                 {
                     var previousPaymentGroup = volatilePreviousPayments.ToLookup(x => new RefundGroup(x));
-                    var previousPaymentsForRefundGroup = new List<HistoricalPaymentEntity>();
+                    var previousPaymentsForRefundGroup = new List<HistoricalPayment>();
                     try
                     {
                         if (previousPaymentGroup.Contains(refundGroup.Key))
@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
                         var newRefunds = ProcessRefund(refund, previousPaymentsForRefundGroup);
                         refundPayments.AddRange(newRefunds);
-                        volatilePreviousPayments.AddRange(newRefunds.Select(x => new HistoricalPaymentEntity(x, refund)));
+                        volatilePreviousPayments.AddRange(newRefunds.Select(x => new HistoricalPayment(x, refund)));
                     }
                     catch(ApplicationException)
                     { 
@@ -70,7 +70,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
         private List<Refund> ProcessRefund(
             RequiredPaymentEntity refund, 
-            List<HistoricalPaymentEntity> previousPayments)
+            List<HistoricalPayment> previousPayments)
         {
             var refundPayments = new List<Refund>();
 
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             decimal requestedRefundAmountForPeriod,
             int deliveryYear,
             int deliveryMonth,
-            List<HistoricalPaymentEntity> previoudPaymentsForPeriod,
+            List<HistoricalPayment> previoudPaymentsForPeriod,
             RequiredPaymentEntity refund)
         {
             var refundPayments = new List<Refund>();
@@ -139,7 +139,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return refundPayments;
         }
 
-        private decimal TotalForFundingSource(List<HistoricalPaymentEntity> payments, FundingSource fundingSource)
+        private decimal TotalForFundingSource(List<HistoricalPayment> payments, FundingSource fundingSource)
         {
             var total = payments.Where(x => x.FundingSource == fundingSource).Sum(x => x.Amount);
             if (total < 0)
