@@ -79,6 +79,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\SetupAccountIdAttribute.cs" />
+    <Compile Include="Attributes\SetupDasAccountsAttribute.cs" />
     <Compile Include="Attributes\SetupRequiredPaymentsRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupProviderRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupUkprnAttribute.cs" />
