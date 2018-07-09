@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
+using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -10,13 +11,13 @@ using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
-    [TestFixture]
+    [TestFixture, SetupAccountId]
     public class GivenADasAccountRepository
     {
         private DasAccountRepository _sut;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void OneTimeSetup()
         {
             _sut = new DasAccountRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
@@ -28,10 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             private List<DasAccountEntity> _actualEntities;
 
             [OneTimeSetUp]
-            public new void Setup()
+            public void Setup()
             {
-                base.Setup();
-
                 _expectedEntities = new Fixture()
                     .Build<DasAccountEntity>()
                     .CreateMany()
@@ -84,6 +83,27 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             public void ThenItSetsTransferAllowance() =>
                 _actualEntities[0].TransferAllowance
                     .Should().Be(_expectedEntities[0].TransferAllowance);
+        }
+
+        [TestFixture, SetupDasAccounts]
+        public class WhenCallingUpdateBalance : GivenADasAccountRepository
+        {
+            [Test, AutoData]
+            public void ThenItUpdatesTheBalance(decimal newBalance)
+            {
+                var entityBeforeUpdate = DasAccountDataHelper
+                    .GetAll()
+                    .Single(entity => entity.AccountId == SharedTestContext.AccountId);
+                
+                _sut.UpdateBalance(SharedTestContext.AccountId, newBalance);
+
+                var entityAfterUpdate = DasAccountDataHelper
+                    .GetAll()
+                    .Single(entity => entity.AccountId == SharedTestContext.AccountId);
+
+                entityBeforeUpdate.Balance.Should().NotBe(newBalance);
+                entityAfterUpdate.Balance.Should().Be(newBalance);
+            }
         }
     }
 }
