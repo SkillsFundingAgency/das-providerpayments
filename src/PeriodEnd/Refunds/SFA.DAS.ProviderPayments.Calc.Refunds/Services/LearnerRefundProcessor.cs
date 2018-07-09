@@ -4,7 +4,8 @@ using System.Linq;
 using NLog;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependiencies;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
@@ -26,14 +27,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             _logger = logger;
         }
 
-        public List<PaymentEntity> ProcessRefundsForLearner(
+        public List<Refund> ProcessRefundsForLearner(
             List<RequiredPaymentEntity> refunds,
             List<HistoricalPaymentEntity> previousPayments)
         {
             var refundGroups = refunds.ToLookup(x => new RefundGroup(x));
             var volatilePreviousPayments = new List<HistoricalPaymentEntity>(previousPayments);
 
-            var refundPayments = new List<PaymentEntity>();
+            var refundPayments = new List<Refund>();
             
             foreach (var refundGroup in refundGroups)
             {
@@ -67,11 +68,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return refundPayments;
         }
 
-        private List<PaymentEntity> ProcessRefund(
+        private List<Refund> ProcessRefund(
             RequiredPaymentEntity refund, 
             List<HistoricalPaymentEntity> previousPayments)
         {
-            var refundPayments = new List<PaymentEntity>();
+            var refundPayments = new List<Refund>();
 
             var amountToRefund = refund.AmountDue;
             var amountRefunded = 0m;
@@ -107,14 +108,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return refundPayments;
         }
 
-        private List<PaymentEntity> ProcessRefundForPeriod(
+        private List<Refund> ProcessRefundForPeriod(
             decimal requestedRefundAmountForPeriod,
             int deliveryYear,
             int deliveryMonth,
             List<HistoricalPaymentEntity> previoudPaymentsForPeriod,
             RequiredPaymentEntity refund)
         {
-            var refundPayments = new List<PaymentEntity>();
+            var refundPayments = new List<Refund>();
 
             var total = previoudPaymentsForPeriod.Sum(x => x.Amount);
             if (total == 0)
@@ -149,14 +150,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             return total;
         }
 
-        private PaymentEntity CreatePayment(
+        private Refund CreatePayment(
             RequiredPaymentEntity refund, 
             decimal amount, 
             int deliveryYear,
             int deliveryMonth, 
             FundingSource fundingSource)
         {
-            var payment = new PaymentEntity
+            var payment = new Refund
             {
                 DeliveryYear = deliveryYear,
                 DeliveryMonth = deliveryMonth,
@@ -167,6 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 CollectionPeriodYear = refund.CollectionPeriodYear,
                 FundingSource = fundingSource,
                 TransactionType = refund.TransactionType,
+                AccountId = refund.AccountId,
             };
 
             return payment;

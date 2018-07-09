@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -26,13 +27,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             _refundPaymentRepository = refundPaymentRepository;
         }
 
-        public IEnumerable<PaymentEntity> Process(ProviderEntity provider)
+        public IEnumerable<Refund> Process(ProviderEntity provider)
         {
             _logger.Info($"Processing refunds started for Provider UKPRN: [{provider.Ukprn}].");
 
             var learners = _learnersBuilder.CreateLearnersForProvider(provider.Ukprn);
 
-            var allRefunds = new List<PaymentEntity>();
+            var allRefunds = new List<Refund>();
 
             foreach (var learner in learners)
             {
@@ -40,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
                 allRefunds.AddRange(refunds);
             }
 
-            _refundPaymentRepository.AddMany(allRefunds);
+            _refundPaymentRepository.AddMany(allRefunds.Select(x=>x as PaymentEntity).ToList());
             _logger.Info($"Processing refunds finished for Provider UKPRN: [{provider.Ukprn}].");
 
             return allRefunds;

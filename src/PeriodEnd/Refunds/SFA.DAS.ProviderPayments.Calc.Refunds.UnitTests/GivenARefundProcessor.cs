@@ -28,11 +28,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 providerRepository.Verify(x => x.GetAllProviders(), Times.Once);
             }
 
-
             [Test, RefundsAutoData]
             public void ThenItProcessesEachProvider(
                 List<ProviderEntity> providers,
-                List<PaymentEntity>[] credits,
+                List<Refund>[] credits,
                 [Frozen] Mock<IProviderRepository> providerRepository,
                 [Frozen] Mock<IProviderProcessor> providerProcessor,
                 [Frozen] Mock<ISummariseAccountBalances> summariseAccountBalances,
@@ -91,7 +90,5 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 
             }
         }
-
-
     }
 }
