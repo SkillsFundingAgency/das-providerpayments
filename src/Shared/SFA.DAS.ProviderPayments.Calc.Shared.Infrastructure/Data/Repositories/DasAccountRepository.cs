@@ -13,5 +13,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         {
             ExecuteBatch(dasAccounts.ToArray(), "Reference.DasAccounts");
         }
+
+        public void UpdateBalance(long accountId, decimal balance)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
