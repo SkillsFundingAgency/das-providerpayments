@@ -10,7 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
-    [TestFixture, SetupUkprn]
+    [TestFixture]
     public class GivenADasAccountRepository
     {
         private DasAccountRepository _sut;
@@ -35,6 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 _expectedEntities = new Fixture()
                     .Build<DasAccountEntity>()
                     .CreateMany()
+                    .OrderBy(entity => entity.AccountId)
                     .ToList();
 
                 DasAccountDataHelper.Truncate();
