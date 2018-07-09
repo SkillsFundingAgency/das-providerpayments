@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
-using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -88,21 +87,41 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         [TestFixture, SetupDasAccounts]
         public class WhenCallingUpdateBalance : GivenADasAccountRepository
         {
-            [Test, AutoData]
-            public void ThenItUpdatesTheBalance(decimal newBalance)
+            private List<DasAccountEntity> _entitiesBeforeUpdate = new List<DasAccountEntity>();
+            private List<DasAccountEntity> _entitiesAfterUpdate = new List<DasAccountEntity>();
+            private decimal _newBalance;
+
+            [SetUp]
+            public void Setup()
             {
-                var entityBeforeUpdate = DasAccountDataHelper
-                    .GetAll()
-                    .Single(entity => entity.AccountId == SharedTestContext.AccountId);
-                
-                _sut.UpdateBalance(SharedTestContext.AccountId, newBalance);
+                var fixture = new Fixture();
+                _newBalance = fixture.Create<decimal>();
 
-                var entityAfterUpdate = DasAccountDataHelper
-                    .GetAll()
+
+                _entitiesBeforeUpdate = DasAccountDataHelper.GetAll().ToList();
+
+                _sut.UpdateBalance(SharedTestContext.AccountId, _newBalance);
+
+                _entitiesAfterUpdate = DasAccountDataHelper.GetAll().ToList();
+            }
+
+            [Test]
+            public void ThenItUpdatesTheBalanceOfTheCorrectAccount()
+            {
+                var entityBeforeUpdate = _entitiesBeforeUpdate
+                    .Single(entity => entity.AccountId == SharedTestContext.AccountId);
+                var entityAfterUpdate = _entitiesAfterUpdate
                     .Single(entity => entity.AccountId == SharedTestContext.AccountId);
 
-                entityBeforeUpdate.Balance.Should().NotBe(newBalance);
-                entityAfterUpdate.Balance.Should().Be(newBalance);
+                entityBeforeUpdate.Balance.Should().NotBe(_newBalance);
+                entityAfterUpdate.Balance.Should().Be(_newBalance);
+            }
+
+            [Test]
+            public void ThenItDoesNotUpdateOtherAccounts()
+            {
+                _entitiesAfterUpdate.Count(entity => entity.Balance == _newBalance)
+                    .Should().Be(1);
             }
         }
     }
