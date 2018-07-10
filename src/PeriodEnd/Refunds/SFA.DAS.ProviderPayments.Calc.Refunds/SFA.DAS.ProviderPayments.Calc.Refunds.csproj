@@ -67,6 +67,7 @@
     <Compile Include="DependencyResolution\RefundsRegistry.cs" />
     <Compile Include="Domain\RefundGroup.cs" />
     <Compile Include="Dto\AccountLevyCredit.cs" />
+    <Compile Include="Domain\HistoricalPayment.cs" />
     <Compile Include="Dto\Refund.cs" />
     <Compile Include="Dto\LearnerData.cs" />
     <Compile Include="Infrastructure\Entities\HistoricalPaymentEntity.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Services\Dependencies\ILearnerBuilder.cs" />
     <Compile Include="Services\Dependencies\IProcessLearnerRefunds.cs" />
     <Compile Include="Services\LearnerRefundProcessor.cs" />
+    <Compile Include="Services\LearnerBuilder.cs" />
     <Compile Include="Services\SummariseAccountBalances.cs" />
     <Compile Include="Services\ProviderRefundsProcessor.cs" />
   </ItemGroup>

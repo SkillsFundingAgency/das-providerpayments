@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenALearnerBuilder.cs" />
     <Compile Include="GivenADasAccountService.cs" />
     <Compile Include="GivenASummariseAccountBalances.cs" />
     <Compile Include="GivenARefundProcessor.cs" />

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
@@ -12,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
         public class RefundGeneratorResult
         {
             public List<RequiredPaymentEntity> Refunds { get; set; }
-            public List<HistoricalPaymentEntity> AssociatedPayments { get; set; }
+            public List<HistoricalPayment> AssociatedPayments { get; set; }
         }
 
         public static RefundGeneratorResult Generate(
@@ -50,14 +52,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     .ToList();
             }
 
-            var pastPayments = new List<HistoricalPaymentEntity>();
+            var pastPayments = new List<HistoricalPayment>();
 
             foreach (var refund in refunds)
             {
                 refund.DeliveryMonth = DeliveryMonthFromPeriod(period);
                 refund.DeliveryYear = DeliveryYearFromPeriod(period, initialYearForAcademicYear);
 
-                var pastPaymentsForRefund = fixture.Build<HistoricalPaymentEntity>()
+                var pastPaymentsForRefund = fixture.Build<HistoricalPayment>()
                     .With(x => x.AccountId, refund.AccountId)
                     .With(x => x.ApprenticeshipContractType, refund.ApprenticeshipContractType)
                     .With(x => x.TransactionType, refund.TransactionType)

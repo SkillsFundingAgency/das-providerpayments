@@ -3,6 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.Extensions;
@@ -21,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             [CreateMatchingRefundsAndPayments]
             public void ThenThereAreRefundPaymentsForAllPastPayments(
                 List<RequiredPaymentEntity> refunds, 
-                List<HistoricalPaymentEntity> payments,
+                List<HistoricalPayment> payments,
                 LearnerRefundProcessor sut)
             {
                 var actual = sut.ProcessRefundsForLearner(refunds, payments);
@@ -37,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             [CreateMatchingRefundsAndPayments(hasMatchingPastPayments: false)]
             public void AndThereAreNoPastPayments_ThenTheRefundsIsZero(
                 List<RequiredPaymentEntity> refunds,
-                List<HistoricalPaymentEntity> payments,
+                List<HistoricalPayment> payments,
                 LearnerRefundProcessor sut)
             {
                 var actual = sut.ProcessRefundsForLearner(refunds, payments);
@@ -287,7 +289,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             [CreateMatchingRefundsAndPayments(hasNegativeFundingSources: true)]
             public void ThenThereAreNoRefundsForPaymentsThatHaveNegativeFundingSources(
                 List<RequiredPaymentEntity> refunds,
-                List<HistoricalPaymentEntity> payments,
+                List<HistoricalPayment> payments,
                 LearnerRefundProcessor sut)
             {
                 var actual = sut.ProcessRefundsForLearner(refunds, payments);
@@ -309,7 +311,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                     [CreateMatchingRefundsAndPayments(paymentAmount:200)]
                     public void ThenTheRefundPaymentAmountMatchesTheRefundAmount(
                         List<RequiredPaymentEntity> refunds,
-                        List<HistoricalPaymentEntity> payments,
+                        List<HistoricalPayment> payments,
                         LearnerRefundProcessor sut)
                     {
                         var refund = refunds.Latest();
@@ -362,7 +364,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         [CreateMatchingRefundsAndPayments(hasMatchingPastPayments: false)]
         public void ThenThereAreNoRefunds(
             List<RequiredPaymentEntity> refunds,
-            List<HistoricalPaymentEntity> payments,
+            List<HistoricalPayment> payments,
             LearnerRefundProcessor sut)
         {
             var actual = sut.ProcessRefundsForLearner(refunds, payments);
