@@ -5,6 +5,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Entities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;

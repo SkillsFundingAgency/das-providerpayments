@@ -67,7 +67,7 @@
     <Compile Include="DependencyResolution\RefundsRegistry.cs" />
     <Compile Include="Domain\RefundGroup.cs" />
     <Compile Include="Dto\AccountLevyCredit.cs" />
-    <Compile Include="Dto\HistoricalPayment.cs" />
+    <Compile Include="Domain\HistoricalPayment.cs" />
     <Compile Include="Dto\Refund.cs" />
     <Compile Include="Dto\LearnerData.cs" />
     <Compile Include="Infrastructure\Entities\HistoricalPaymentEntity.cs" />

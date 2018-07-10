@@ -7,6 +7,7 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;

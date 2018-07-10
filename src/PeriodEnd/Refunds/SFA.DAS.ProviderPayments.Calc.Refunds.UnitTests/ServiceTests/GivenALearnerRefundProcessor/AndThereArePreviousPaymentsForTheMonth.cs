@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;

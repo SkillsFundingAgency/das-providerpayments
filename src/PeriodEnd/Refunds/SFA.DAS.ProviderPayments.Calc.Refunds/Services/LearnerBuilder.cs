@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
@@ -12,8 +13,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
         private readonly IRequiredPaymentRepository _requiredPaymentRepository;
         private readonly IHistoricalPaymentsRepository _historicalPaymentsRepository;
 
-        private Dictionary<string, LearnerData> _learnerProcessParameters;
-       
         public LearnerBuilder(
             IRequiredPaymentRepository requiredPaymentRepository,
             IHistoricalPaymentsRepository historicalPaymentsRepository)
@@ -24,40 +23,40 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
         public List<LearnerData> CreateLearnersForProvider(long ukprn)
         {
-            ResetLearnerResultsList();
+            var learnersDictionary = new Dictionary<string, LearnerData>();
             
             foreach (var requiredRefund in _requiredPaymentRepository.GetRefundsForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(requiredRefund.LearnRefNumber).RequiredRefunds.Add(requiredRefund);
+                learnersDictionary.GetOrCreateLearnerInstance(requiredRefund.LearnRefNumber).RequiredRefunds.Add(requiredRefund);
             }
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber).HistoricalPayments.Add(new HistoricalPayment(historicalPayment));
+                learnersDictionary.GetOrCreateLearnerInstance(historicalPayment.LearnRefNumber).HistoricalPayments.Add(new HistoricalPayment(historicalPayment));
             }
 
-            return _learnerProcessParameters.Values.ToList();
+            return learnersDictionary.Values.ToList();
         }
 
-        private void ResetLearnerResultsList()
-        {
-            _learnerProcessParameters = new Dictionary<string, LearnerData>();
-        }
-
-        private LearnerData GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber)
+    }
+    static class LearnerDictionaryExtensions
+    {
+        internal static LearnerData GetOrCreateLearnerInstance(this Dictionary<string, LearnerData> dictionary, string learnerRefNumber)
         {
             LearnerData instance;
-            if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
+            if (!dictionary.ContainsKey(learnerRefNumber))
             {
                 instance = new LearnerData(learnerRefNumber);
-                _learnerProcessParameters.Add(learnerRefNumber, instance);
+                dictionary.Add(learnerRefNumber, instance);
             }
             else
             {
-                instance = _learnerProcessParameters[learnerRefNumber];
+                instance = dictionary[learnerRefNumber];
             }
 
             return instance;
         }
+
     }
+
 }

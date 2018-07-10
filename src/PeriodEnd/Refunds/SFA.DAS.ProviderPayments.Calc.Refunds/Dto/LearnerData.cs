@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Dto
 {

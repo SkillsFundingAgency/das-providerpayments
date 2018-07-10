@@ -2,7 +2,7 @@
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.Refunds.Dto
+namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
 {
     public class HistoricalPayment : PaymentEntity
     {
