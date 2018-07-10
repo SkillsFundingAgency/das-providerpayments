@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GivenALearnerBuilder.cs" />
+    <Compile Include="GivenADasAccountService.cs" />
     <Compile Include="GivenASummariseAccountBalances.cs" />
     <Compile Include="GivenARefundProcessor.cs" />
     <Compile Include="GivenAProviderRefundProcessor.cs" />
