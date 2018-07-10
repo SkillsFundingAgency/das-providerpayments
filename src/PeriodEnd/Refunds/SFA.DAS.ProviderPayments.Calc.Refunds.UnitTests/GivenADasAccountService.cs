@@ -13,25 +13,19 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
     public class GivenADasAccountService
     {
         [Test, RefundsAutoData]
-        public void ThenItProcessesEachCredit(
+        public void ThenItUpdatesEachDasAccount(
             List<AccountLevyCredit> credits,
             [Frozen]Mock<IDasAccountRepository> dasAccountRepository,
             DasAccountService sut
             )
         {
             sut.UpdateAccountLevyBalances(credits);
-            dasAccountRepository.Verify(x=>x.UpdateBalance(It.IsAny<long>(), It.IsAny<decimal>()), Times.Exactly(3));
-        }
 
-        [Test, RefundsAutoData]
-        public void ThenItProcessesEachCredit(
-            AccountLevyCredit credit,
-            [Frozen]Mock<IDasAccountRepository> dasAccountRepository,
-            DasAccountService sut
-        )
-        {
-            sut.UpdateAccountLevyBalances(new List<AccountLevyCredit>{credit});
-            dasAccountRepository.Verify(x => x.UpdateBalance(credit.AccountId, credit.LevyCredit), Times.Once);
+            credits.ForEach(credit =>
+            {
+                dasAccountRepository.Verify(repository => 
+                    repository.AdjustBalance(credit.AccountId, credit.LevyCredit), Times.Once);
+            });
         }
     }
 }

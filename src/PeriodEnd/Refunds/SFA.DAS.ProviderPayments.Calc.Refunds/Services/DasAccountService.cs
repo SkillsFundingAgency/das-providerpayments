@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
             _logger.Info("Start - Updating Levy Balances");
             foreach (var credit in items)
             {
-                _dasAccountRepository.UpdateBalance(credit.AccountId, credit.LevyCredit);
+                _dasAccountRepository.AdjustBalance(credit.AccountId, credit.LevyCredit);
             }
             _logger.Info("Finish - Updating Levy Balances");
         }
