@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
@@ -9,14 +7,15 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         public DasAccountRepository(string transientConnectionString) 
             : base(transientConnectionString) { }
 
-        public void AddMany(List<DasAccountEntity> dasAccounts)
+        public void AdjustBalance(long accountId, decimal balance)
         {
-            ExecuteBatch(dasAccounts.ToArray(), "Reference.DasAccounts");
-        }
+            var sql = @"
+                update Reference.DasAccounts
+                set Balance = Balance + @balance
+                where AccountId = @accountId;
+                ";
 
-        public void UpdateBalance(long accountId, decimal balance)
-        {
-            throw new System.NotImplementedException();
+            Execute(sql, new {accountId, balance});
         }
     }
 }

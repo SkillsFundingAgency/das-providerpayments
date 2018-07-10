@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.SpecimenBuilders;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes
 {
@@ -16,11 +17,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes
             DasAccountDataHelper.Truncate();
 
             var fixture = new Fixture();
+            fixture.Customizations.Add(new UnknownAccountIdBuilder());
 
             var dasAccounts = fixture.Build<DasAccountEntity>()
-                .With(account => account.AccountId, 
-                    fixture.Create<Generator<long>>()
-                        .First(accountId => accountId != SharedTestContext.AccountId))
                 .CreateMany(3)
                 .ToList();
 
