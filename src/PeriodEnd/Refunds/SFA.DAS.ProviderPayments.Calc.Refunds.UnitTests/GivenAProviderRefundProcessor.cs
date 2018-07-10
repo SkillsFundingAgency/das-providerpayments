@@ -4,6 +4,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
@@ -34,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learners,
                 [Frozen] Mock<ILearnerBuilder> learnerBuilder,
-                [Frozen] Mock<ILearnerProcessor> learnerProcessor,
+                [Frozen] Mock<IProcessLearnerRefunds> learnerProcessor,
                 [Frozen] Mock<ISummariseAccountBalances> summariseAccountBalances,
                 ProviderRefundsProcessor sut,
                 List<PaymentEntity>[] refunds
@@ -49,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 {
                     var learnerRefunds = refunds[i];
                     var learner = learners[i];
-                    learnerProcessor.Verify(x => x.Process(learner), Times.Once);
+                    learnerProcessor.Verify(x => x.ProcessRefundsForLearner(learner.RequiredRefunds, learner.HistoricalPayments), Times.Once);
                 }
             }
 
@@ -58,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learners,
                 [Frozen] Mock<ILearnerBuilder> learnerBuilder,
-                [Frozen] Mock<ILearnerProcessor> learnerProcessor,
+                [Frozen] Mock<IProcessLearnerRefunds> learnerProcessor,
                 [Frozen] Mock<IPaymentRepository> refundPaymentRepository,
                 ProviderRefundsProcessor sut,
                 List<Refund> refunds
@@ -67,18 +68,17 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
                     .Returns(learners);
 
-                learnerProcessor.Setup(x => x.Process(It.IsAny<LearnerData>())).Returns(refunds);
+                learnerProcessor.Setup(x => x.ProcessRefundsForLearner(It.IsAny<List<RequiredPaymentEntity>>(), It.IsAny<List<HistoricalPayment>>())).Returns(refunds);
 
                 var result = sut.Process(provider);
 
                 refundPaymentRepository.Verify(
                     x => x.AddMany(
-                        It.Is<List<PaymentEntity>>(p => p.Count() == learners.Count() * refunds.Count())),
+                        It.Is<List<PaymentEntity>>(p => p.Count() == learners.Count() * refunds.Count()), PaymentSchema.Refunds),
                     Times.Once);
 
                 result.Count().Should().Be(learners.Count() * refunds.Count());
             }
-
         } 
     }
 }

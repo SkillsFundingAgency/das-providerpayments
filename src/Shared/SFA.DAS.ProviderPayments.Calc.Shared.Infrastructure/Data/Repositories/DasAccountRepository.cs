@@ -4,8 +4,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
     public class DasAccountRepository : DcfsRepository, IDasAccountRepository
     {
-        public DasAccountRepository(string transientConnectionString) 
-            : base(transientConnectionString) { }
+        public DasAccountRepository(string connectionString) 
+            : base(connectionString) { }
 
         public void AdjustBalance(long accountId, decimal balance)
         {
