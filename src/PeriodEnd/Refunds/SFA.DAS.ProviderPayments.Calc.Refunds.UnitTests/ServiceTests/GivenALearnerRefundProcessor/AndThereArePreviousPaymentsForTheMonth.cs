@@ -4,7 +4,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Domain;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.Extensions;
@@ -22,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             [Test]
             [CreateMatchingRefundsAndPayments]
             public void ThenThereAreRefundPaymentsForAllPastPayments(
-                List<RequiredPaymentEntity> refunds, 
+                List<RequiredPaymentEntity> refunds,
                 List<HistoricalPayment> payments,
                 LearnerRefundProcessor sut)
             {
@@ -37,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         {
             [Test]
             [CreateMatchingRefundsAndPayments(hasMatchingPastPayments: false)]
-            public void AndThereAreNoPastPayments_ThenTheRefundsIsZero(
+            public void WhenThereAreNoPastPayments_ThenTheRefundsIsZero(
                 List<RequiredPaymentEntity> refunds,
                 List<HistoricalPayment> payments,
                 LearnerRefundProcessor sut)
@@ -48,18 +47,18 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             }
 
             [TestFixture]
-            public class AndThereAreSomePayments
+            public class WhenThereAreSomePayments
             {
                 [Test, RefundsAutoData]
                 public void ThenTheRefundAmountIsThePaymentAmount(
                     LearnerRefundProcessor sut)
                 {
                     var data = RefundGenerator.Generate(
-                        numberOfRefunds: 1, 
-                        refundAmount: -500, 
-                        paymentAmount: 100, 
-                        numberOfPayments:3);
-                    
+                        numberOfRefunds: 1,
+                        refundAmount: -500,
+                        paymentAmount: 100,
+                        numberOfPayments: 3);
+
                     var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
 
                     actual.Sum(x => x.Amount).Should().Be(-300);
@@ -107,7 +106,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         public class AndThereAreMultipleRefundsWithDifferentTransactionTypes
         {
             [Test, RefundsAutoData]
-            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+            public void WhenPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, paymentAmount: 500);
@@ -134,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             }
 
             [Test, RefundsAutoData]
-            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+            public void WhenPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
@@ -165,10 +164,71 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         }
 
         [TestFixture]
+        public class AndThereAreMultipleRefundsWithDifferentFundingLineTypes
+        {
+            [Test, RefundsAutoData]
+            public void WhenPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, paymentAmount: 500);
+
+                var refundOne = data.Refunds[0];
+                refundOne.FundingLineType = "flt1";
+                refundOne.AmountDue = -900;
+                var refundTwo = data.Refunds[1];
+                refundTwo.FundingLineType = "flt2";
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].FundingLineType = "flt1";
+                data.AssociatedPayments[1].FundingLineType = "flt1";
+                data.AssociatedPayments[2].FundingLineType = "flt1";
+
+                data.AssociatedPayments[3].FundingLineType = "flt2";
+                data.AssociatedPayments[4].FundingLineType = "flt2";
+                data.AssociatedPayments[5].FundingLineType = "flt2";
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-900, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-1200, 0.00005m);
+            }
+
+            [Test, RefundsAutoData]
+            public void WhenPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
+
+                var refundOne = data.Refunds[0];
+                refundOne.FundingLineType = "flt1";
+                refundOne.AmountDue = -900;
+                var refundTwo = data.Refunds[1];
+                refundTwo.FundingLineType = "flt2";
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].FundingLineType = "flt1";
+                data.AssociatedPayments[1].FundingLineType = "flt1";
+                data.AssociatedPayments[2].FundingLineType = "flt1";
+
+                data.AssociatedPayments[3].FundingLineType = "flt2";
+                data.AssociatedPayments[4].FundingLineType = "flt2";
+                data.AssociatedPayments[5].FundingLineType = "flt2";
+                data.AssociatedPayments[3].Amount = 100;
+                data.AssociatedPayments[4].Amount = 100;
+                data.AssociatedPayments[5].Amount = 100;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-600, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
+            }
+        }
+
+        [TestFixture]
         public class AndThereAreMultipleRefundsWithDifferentContractTypes
         {
             [Test, RefundsAutoData]
-            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+            public void WhenPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
@@ -194,7 +254,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             }
 
             [Test, RefundsAutoData]
-            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+            public void WhenPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
@@ -227,7 +287,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         public class AndThereAreMultipleRefundsWithDifferentAccounts
         {
             [Test, RefundsAutoData]
-            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+            public void WhenPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 500);
@@ -253,7 +313,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
             }
 
             [Test, RefundsAutoData]
-            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+            public void WhenPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
                 LearnerRefundProcessor sut)
             {
                 var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
@@ -281,9 +341,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                 actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
             }
         }
-        
+
         [TestFixture]
-        public class AndThereAreNetNegativeFundingSources
+        public class WhenThereAreNetNegativeFundingSources
         {
             [Test]
             [CreateMatchingRefundsAndPayments(hasNegativeFundingSources: true)]
@@ -299,7 +359,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         }
 
         [TestFixture]
-        public class AndThereIsOneRefund
+        public class WhenThereIsOneRefund
         {
             [TestFixture]
             public class AndThePastPaymentsForRefundMonthDoNotCoverRefund
@@ -308,14 +368,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                 public class AndThePaymentsForThePreviousMonthCoverTheRefund
                 {
                     [Test]
-                    [CreateMatchingRefundsAndPayments(paymentAmount:200)]
+                    [CreateMatchingRefundsAndPayments(paymentAmount: 200)]
                     public void ThenTheRefundPaymentAmountMatchesTheRefundAmount(
                         List<RequiredPaymentEntity> refunds,
                         List<HistoricalPayment> payments,
                         LearnerRefundProcessor sut)
                     {
                         var refund = refunds.Latest();
-                        var actual = sut.ProcessRefundsForLearner(new List<RequiredPaymentEntity>{refund}, payments);
+                        var actual = sut.ProcessRefundsForLearner(new List<RequiredPaymentEntity> { refund }, payments);
 
                         var expectedAmount = refund.AmountDue;
                         actual.Sum(x => x.Amount).Should().Be(expectedAmount);
@@ -325,7 +385,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         }
 
         [TestFixture]
-        public class AndThereAreMultipleRefunds
+        public class WhenThereAreMultipleRefunds
         {
             [TestFixture]
             public class AndThereIsOneRefundForPeriodThreeWithoutEnoughPayments
@@ -337,7 +397,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
                     public void ThenThePaymentsAreCorrect(
                         LearnerRefundProcessor sut)
                     {
-                        var data = RefundGenerator.Generate(numberOfRefunds:2, paymentAmount:200);
+                        var data = RefundGenerator.Generate(numberOfRefunds: 2, paymentAmount: 200);
                         var refundOne = data.Refunds[0];
                         refundOne.DeliveryMonth = 9;
                         refundOne.AmountDue = -700;
@@ -358,7 +418,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
     }
 
     [TestFixture]
-    public class AndThereAreNoPreviousPayments
+    public class WhenThereAreNoPreviousPayments
     {
         [Test]
         [CreateMatchingRefundsAndPayments(hasMatchingPastPayments: false)]

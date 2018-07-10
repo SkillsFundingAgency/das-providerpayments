@@ -34,6 +34,7 @@ select p.PaymentId
 	,rp.Ukprn
 	,rp.AccountId
 	,rp.LearnRefNumber
+	,rp.FundingLineType
 from Payments.Payments p
 join PaymentsDue.RequiredPayments rp
 	on rp.Id = p.RequiredPaymentId

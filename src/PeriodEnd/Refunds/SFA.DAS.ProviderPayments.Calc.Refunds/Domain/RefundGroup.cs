@@ -12,6 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
             ApprenticeshipContractType = entity.ApprenticeshipContractType;
+            FundingLineType = entity.FundingLineType ?? string.Empty;
         }
 
         public RefundGroup(HistoricalPayment entity)
@@ -19,11 +20,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
             ApprenticeshipContractType = entity.ApprenticeshipContractType;
+            FundingLineType = entity.FundingLineType ?? string.Empty;
         }
 
         public long AccountId { get; }
         public TransactionType TransactionType { get; }
         public int ApprenticeshipContractType { get; }
+        public string FundingLineType { get; }
         
         public override bool Equals(object obj)
         {
@@ -39,7 +42,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             if (ReferenceEquals(this, other)) return true;
             return AccountId == other.AccountId &&
                    TransactionType == other.TransactionType &&
-                   ApprenticeshipContractType == other.ApprenticeshipContractType;
+                   ApprenticeshipContractType == other.ApprenticeshipContractType &&
+                   FundingLineType == other.FundingLineType;
         }
 
         public override int GetHashCode()
@@ -50,6 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
                 hashCode = hashCode * 31 + AccountId.GetHashCode();
                 hashCode = hashCode * 31 + TransactionType.GetHashCode();
                 hashCode = hashCode * 31 + ApprenticeshipContractType.GetHashCode();
+                hashCode = hashCode * 31 + FundingLineType.GetHashCode();
                 return hashCode;
             }
         }
