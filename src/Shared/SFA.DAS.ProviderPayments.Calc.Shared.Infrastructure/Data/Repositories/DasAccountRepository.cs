@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
@@ -8,11 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
     {
         public DasAccountRepository(string transientConnectionString) 
             : base(transientConnectionString) { }
-
-        public void AddMany(List<DasAccountEntity> dasAccounts)
-        {
-            ExecuteBatch(dasAccounts.ToArray(), "Reference.DasAccounts");
-        }
 
         public void UpdateBalance(long accountId, decimal balance)
         {

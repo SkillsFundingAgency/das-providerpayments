@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
     public class DasAccountEntity
     {

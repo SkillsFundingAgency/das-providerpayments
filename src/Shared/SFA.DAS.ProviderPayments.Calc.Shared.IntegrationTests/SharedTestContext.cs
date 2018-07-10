@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
 {

@@ -89,6 +89,7 @@
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
+    <Compile Include="Helpers\DasAccountEntity.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="SharedTestContext.cs" />
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
