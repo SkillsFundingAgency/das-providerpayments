@@ -9,12 +9,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
     {
         private readonly ILogger _logger;
         private readonly IProviderRepository _providerRepository;
-        private readonly IProviderProcessor _providerProcessor;
+        private readonly IProviderPaymentsDueProcessor _providerProcessor;
 
         public PaymentsDueProcessor(
             ILogger logger,
             IProviderRepository providerRepository, 
-            IProviderProcessor providerProcessor)
+            IProviderPaymentsDueProcessor providerProcessor)
         {
             _logger = logger;
             _providerRepository = providerRepository;

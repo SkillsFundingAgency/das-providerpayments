@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
 
         public EarningValidationResult DeterminePayableEarnings(
-            List<DatalockOutput> datalockOutput,
+            List<DatalockOutput> successfulDatalocks,
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
         {
@@ -60,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             // Exclude any earnings or datalocks that fall outside this academic year
             RawEarnings = earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
-            DatalockOutput = datalockOutput.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
+            DatalockOutput = successfulDatalocks.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
 
             RawEarningsMathsOrEnglish = mathsAndEnglishEarnings;
 
