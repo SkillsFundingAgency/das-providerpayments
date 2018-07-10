@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Entities\HistoricalPaymentEntity.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\ProviderEntity.cs" />
     <Compile Include="Data\Entities\RequiredPaymentEntity.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="Data\IProviderRepository.cs" />
     <Compile Include="Data\IDasAccountRepository.cs" />
     <Compile Include="Data\IPaymentRepository.cs" />
+    <Compile Include="Data\Repositories\DasAccountRepository.cs" />
     <Compile Include="Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
