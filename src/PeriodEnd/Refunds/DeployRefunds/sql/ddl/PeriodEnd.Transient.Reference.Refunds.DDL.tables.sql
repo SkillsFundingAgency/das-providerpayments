@@ -29,6 +29,7 @@ CREATE TABLE Reference.PaymentsHistory
 	[Ukprn] [bigint] NULL,
 	[AccountId] [bigint] NULL,
 	[LearnRefNumber] [varchar](12) NULL,
+	[FundingLineType] varchar(100) NOT NULL
 )
 
 CREATE INDEX IX_Reference_PaymentsHistory_Ukrpn ON Reference.PaymentsHistory (Ukprn)

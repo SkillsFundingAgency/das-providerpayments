@@ -69,6 +69,10 @@
           <Source>LearnRefNumber</Source>
           <Destination>LearnRefNumber</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>FundingLineType</Source>
+          <Destination>FundingLineType</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>

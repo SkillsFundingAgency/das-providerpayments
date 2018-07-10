@@ -21,5 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Entities
         public long? AccountId { get; set; }
         [StringLength(12)]
         public string LearnRefNumber { get; set; }
+        [StringLength(100)]
+        public string FundingLineType { get; set; }
     }
 }

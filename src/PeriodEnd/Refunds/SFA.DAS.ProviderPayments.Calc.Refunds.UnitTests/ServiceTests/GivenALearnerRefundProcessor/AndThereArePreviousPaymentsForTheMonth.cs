@@ -163,6 +163,67 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.ServiceTests.GivenALea
         }
 
         [TestFixture]
+        public class AndThereAreMultipleRefundsWithDifferentFundingLineTypes
+        {
+            [Test, RefundsAutoData]
+            public void AndPaymentsSufficient_ThenTheRefundPaymentsAreCorrect(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, paymentAmount: 500);
+
+                var refundOne = data.Refunds[0];
+                refundOne.FundingLineType = "flt1";
+                refundOne.AmountDue = -900;
+                var refundTwo = data.Refunds[1];
+                refundTwo.FundingLineType = "flt2";
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].FundingLineType = "flt1";
+                data.AssociatedPayments[1].FundingLineType = "flt1";
+                data.AssociatedPayments[2].FundingLineType = "flt1";
+
+                data.AssociatedPayments[3].FundingLineType = "flt2";
+                data.AssociatedPayments[4].FundingLineType = "flt2";
+                data.AssociatedPayments[5].FundingLineType = "flt2";
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-900, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-1200, 0.00005m);
+            }
+
+            [Test, RefundsAutoData]
+            public void AndPaymentsNotSufficient_ThenTheRefundPaymentsAreTheSameAsTheMatchingPreviousPayments(
+                LearnerRefundProcessor sut)
+            {
+                var data = RefundGenerator.Generate(numberOfRefunds: 2, refundAmount: -900, paymentAmount: 200);
+
+                var refundOne = data.Refunds[0];
+                refundOne.FundingLineType = "flt1";
+                refundOne.AmountDue = -900;
+                var refundTwo = data.Refunds[1];
+                refundTwo.FundingLineType = "flt2";
+                refundTwo.AmountDue = -1200;
+
+                data.AssociatedPayments[0].FundingLineType = "flt1";
+                data.AssociatedPayments[1].FundingLineType = "flt1";
+                data.AssociatedPayments[2].FundingLineType = "flt1";
+
+                data.AssociatedPayments[3].FundingLineType = "flt2";
+                data.AssociatedPayments[4].FundingLineType = "flt2";
+                data.AssociatedPayments[5].FundingLineType = "flt2";
+                data.AssociatedPayments[3].Amount = 100;
+                data.AssociatedPayments[4].Amount = 100;
+                data.AssociatedPayments[5].Amount = 100;
+
+                var actual = sut.ProcessRefundsForLearner(data.Refunds, data.AssociatedPayments);
+
+                actual.Where(x => x.RequiredPaymentId == refundOne.Id).Sum(x => x.Amount).Should().BeApproximately(-600, 0.00005m);
+                actual.Where(x => x.RequiredPaymentId == refundTwo.Id).Sum(x => x.Amount).Should().BeApproximately(-300, 0.00005m);
+            }
+        }
+
+        [TestFixture]
         public class AndThereAreMultipleRefundsWithDifferentContractTypes
         {
             [Test, RefundsAutoData]

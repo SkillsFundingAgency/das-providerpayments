@@ -22,6 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.DataHelpers
                 ,Ukprn
                 ,AccountId
                 ,LearnRefNumber
+                ,FundingLineType
             ) VALUES (
                 @PaymentId
                 ,@RequiredPaymentId
@@ -37,6 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.DataHelpers
                 ,@Ukprn
                 ,@AccountId
                 ,@LearnRefNumber
+                ,@FundingLineType
             );";
 
             TestDataHelper.Execute(sql, payment);

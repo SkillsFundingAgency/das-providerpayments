@@ -116,6 +116,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Infrastructure
                 [Test]
                 public void ThenLearnRefNumberIsSetCorrectly() =>
                     _actualHistoricalPayments[0].LearnRefNumber.Should().Be(_expectedHistoricalPayments[0].LearnRefNumber);
+
+                [Test]
+                public void ThenFundingLineTypeIsSetCorrectly() =>
+                    _actualHistoricalPayments[0].FundingLineType.Should().Be(_expectedHistoricalPayments[0].FundingLineType);
             }
         }
     }

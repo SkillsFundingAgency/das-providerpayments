@@ -21,5 +21,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 
         [Range(1,2)]
         public int ApprenticeshipContractType { get; set; }
+
+        [StringLength(100)]
+        public string FundingLineType { get; set; }
     }
 }

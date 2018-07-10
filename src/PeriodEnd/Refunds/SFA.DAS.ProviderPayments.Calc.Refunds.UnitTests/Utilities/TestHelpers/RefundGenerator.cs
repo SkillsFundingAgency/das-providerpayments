@@ -21,7 +21,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             decimal paymentAmount = 100,
             int numberOfPayments = 3,
             string academicYear = "1819",
-            int numberOfRefunds = 1)
+            int numberOfRefunds = 1,
+            string fundingLineType = "flt1")
         {
             var initialYearForAcademicYear = int.Parse(academicYear.Substring(0, 2)) + 2000;
             var fixture = new Fixture();
@@ -39,6 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     .With(x => x.AccountId, fixture.Create<Generator<long>>().First())
                     .With(x => x.ApprenticeshipContractType, act)
                     .With(x => x.TransactionType, transactionType)
+                    .With(x => x.FundingLineType, fundingLineType)
                     .CreateMany(numberOfRefunds)
                     .ToList();
             }
@@ -46,6 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
             {
                 refunds = refunds = fixture.Build<RequiredPaymentEntity>()
                     .With(x => x.AmountDue, refundAmount)
+                    .With(x => x.FundingLineType, fundingLineType)
                     .CreateMany(numberOfRefunds)
                     .ToList();
             }
@@ -65,6 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.Utilities.TestHelpers
                     .With(x => x.DeliveryYear, refund.DeliveryYear)
                     .Without(x => x.FundingSource)
                     .With(x => x.Amount, paymentAmount)
+                    .With(x => x.FundingLineType, fundingLineType)
                     .CreateMany(numberOfPayments)
                     .ToList();
 
