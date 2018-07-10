@@ -25,39 +25,46 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         {
             private List<DasAccountEntity> _entitiesBeforeUpdate = new List<DasAccountEntity>();
             private List<DasAccountEntity> _entitiesAfterUpdate = new List<DasAccountEntity>();
-            private decimal _newBalance;
+            private decimal _adjustment;
 
             [SetUp]
             public void Setup()
             {
                 var fixture = new Fixture();
-                _newBalance = fixture.Create<decimal>();
-
+                _adjustment = fixture.Create<decimal>();
 
                 _entitiesBeforeUpdate = DasAccountDataHelper.GetAll().ToList();
 
-                _sut.AdjustBalance(SharedTestContext.AccountId, _newBalance);
+                _sut.AdjustBalance(SharedTestContext.AccountId, _adjustment);
 
                 _entitiesAfterUpdate = DasAccountDataHelper.GetAll().ToList();
             }
 
             [Test]
-            public void ThenItUpdatesTheBalanceOfTheCorrectAccount()
+            public void ThenItAdjustsTheBalanceOfTheCorrectAccount()
             {
                 var entityBeforeUpdate = _entitiesBeforeUpdate
                     .Single(entity => entity.AccountId == SharedTestContext.AccountId);
                 var entityAfterUpdate = _entitiesAfterUpdate
                     .Single(entity => entity.AccountId == SharedTestContext.AccountId);
+                var expectedAdjustedBalance = entityBeforeUpdate.Balance + _adjustment;
 
-                entityBeforeUpdate.Balance.Should().NotBe(_newBalance);
-                entityAfterUpdate.Balance.Should().Be(_newBalance);
+                entityBeforeUpdate.Balance.Should().NotBe(expectedAdjustedBalance);
+                entityAfterUpdate.Balance.Should().Be(expectedAdjustedBalance);
             }
 
             [Test]
-            public void ThenItDoesNotUpdateOtherAccounts()
+            public void ThenItDoesNotAdjustOtherAccounts()
             {
-                _entitiesAfterUpdate.Count(entity => entity.Balance == _newBalance)
+                _entitiesAfterUpdate
+                   .Count(entity => entity.Balance.HasValue 
+                    && entity.Balance == GetPriorBalance(entity.AccountId) + _adjustment)
                     .Should().Be(1);
+            }
+
+            private decimal? GetPriorBalance(long accountId)
+            {
+                return _entitiesBeforeUpdate.Single(entity => entity.AccountId == accountId).Balance;
             }
         }
     }

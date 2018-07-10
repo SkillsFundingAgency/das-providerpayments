@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         {
             var sql = @"
                 update Reference.DasAccounts
-                set Balance = @balance
+                set Balance = Balance + @balance
                 where AccountId = @accountId;
                 ";
 
