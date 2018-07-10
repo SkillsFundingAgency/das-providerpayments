@@ -2,6 +2,6 @@
 {
     public interface IDasAccountRepository
     {
+        void AdjustBalance(long accountId, decimal balance);
     }
-
 }
