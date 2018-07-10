@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCallsProviderProcessorForEachProvider(
             List<ProviderEntity> providers,
             [Frozen] Mock<IProviderRepository> mockProviderRepository,
-            [Frozen] Mock<IProviderProcessor> mockProviderProcessor,
+            [Frozen] Mock<IProviderPaymentsDueProcessor> mockProviderProcessor,
             PaymentsDueProcessor sut)
         {
             mockProviderRepository

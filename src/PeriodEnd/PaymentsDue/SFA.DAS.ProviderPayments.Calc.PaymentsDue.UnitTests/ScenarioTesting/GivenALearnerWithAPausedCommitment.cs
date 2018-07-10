@@ -234,7 +234,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             PaymentsDueCalculationService sut,
             DatalockValidationService datalockValidator)
         {
-            var datalockOutput = datalockValidator.ProcessDatalocks(
+            var datalockOutput = datalockValidator.GetSuccessfulDatalocks(
                 Datalocks,
                 new List<DatalockValidationError>(), 
                 Commitments);
@@ -246,7 +246,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 Earnings, 
                 MathsAndEnglishEarnings);
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 
             actual.Should().NotContain(x => x.AmountDue < 0);
         }

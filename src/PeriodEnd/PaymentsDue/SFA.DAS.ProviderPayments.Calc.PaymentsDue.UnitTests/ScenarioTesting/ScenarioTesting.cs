@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         {
             var testData = TestData.LoadFrom(filename);
 
-            var sut = new LearnerProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc);
+            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc);
 
             var parameters = new LearnerData(testData.LearnRefNumber, testData.Uln);
             parameters.RawEarnings.AddRange(testData.RawEarnings);
@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(collectionPeriod);
 
-            var actual = sut.Process(parameters, testData.Ukprn);
+            var actual = sut.GetPayableAndNonPayableEarnings(parameters, testData.Ukprn);
 
             actual.PayableEarnings.Should().HaveCount(testData.Payments.Count);
             actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(testData.Payments.Sum(x => x.AmountDue));

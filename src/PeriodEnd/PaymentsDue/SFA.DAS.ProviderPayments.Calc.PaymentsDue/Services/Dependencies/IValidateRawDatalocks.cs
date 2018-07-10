@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface IValidateRawDatalocks
     {
-        List<DatalockOutput> ProcessDatalocks(
+        List<DatalockOutput> GetSuccessfulDatalocks(
             List<DatalockOutputEntity> datalocks, 
             List<DatalockValidationError> datalockValidationErrors,
             List<Commitment> commitments);

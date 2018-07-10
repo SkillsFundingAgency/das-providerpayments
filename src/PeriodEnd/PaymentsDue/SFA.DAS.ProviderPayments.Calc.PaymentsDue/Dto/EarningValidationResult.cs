@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
             List<NonPayableEarning> nonPayableEarnings,
             List<int> periodsToIgnore = null)
         {
-            Earnings = new List<FundingDue>(earnings);
+            PayableEarnings = new List<FundingDue>(earnings);
             NonPayableEarnings = new List<NonPayableEarning>(nonPayableEarnings);
             if (periodsToIgnore == null)
             {
@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
                 PeriodsToIgnore = new List<int>(periodsToIgnore);
             }
         }
-        public List<FundingDue> Earnings { get; set; }
+        public List<FundingDue> PayableEarnings { get; set; }
         public List<NonPayableEarning> NonPayableEarnings { get; set; }
         public List<int> PeriodsToIgnore { get; set; }
     }

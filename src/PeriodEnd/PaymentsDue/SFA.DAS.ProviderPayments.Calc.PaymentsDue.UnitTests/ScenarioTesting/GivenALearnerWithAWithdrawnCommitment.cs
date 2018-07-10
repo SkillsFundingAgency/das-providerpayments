@@ -211,7 +211,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 PaymentsDueCalculationService sut,
                 DatalockValidationService commitmentMatcher)
             {
-                var datalockOutput = commitmentMatcher.ProcessDatalocks(
+                var datalockOutput = commitmentMatcher.GetSuccessfulDatalocks(
                     Datalocks, 
                     new List<DatalockValidationError>(), 
                     Commitments);
@@ -224,7 +224,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                     Earnings,
                     MathsAndEnglishEarnings);
 
-                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
+                var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 
                 actual.Should().HaveCount(2);
             }
@@ -236,7 +236,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 PaymentsDueCalculationService sut,
                 DatalockValidationService commitmentMatcher)
             {
-                var datalockOutput = commitmentMatcher.ProcessDatalocks(Datalocks, 
+                var datalockOutput = commitmentMatcher.GetSuccessfulDatalocks(Datalocks, 
                     new List<DatalockValidationError>(),
                     Commitments);
 
@@ -247,7 +247,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                     Earnings,
                     MathsAndEnglishEarnings);
 
-                var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
+                var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 
                 actual.Sum(x => x.AmountDue).Should().Be(-500);
             }

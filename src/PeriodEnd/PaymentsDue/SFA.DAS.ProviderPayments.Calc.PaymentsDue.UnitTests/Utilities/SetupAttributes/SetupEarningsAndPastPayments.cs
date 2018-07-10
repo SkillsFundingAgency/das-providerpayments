@@ -173,12 +173,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             }
 
             var validationService = new DatalockValidationService(LogManager.CreateNullLogger());
-            var datalockOutput = validationService.ProcessDatalocks(datalocks, datalockValidationErrors, commitments);
+            var datalockOutput = validationService.GetSuccessfulDatalocks(datalocks, datalockValidationErrors, commitments);
 
             var earningsDictionary = new Dictionary<string, object>
             {
                 {"MathsAndEnglishEarnings", mathsAndEnglishEarnings},
-                {"Earnings", earnings},
+                {"PayableEarnings", earnings},
                 {"PastPayments", pastPayments},
                 {"Datalocks", datalocks},
                 {"DatalockValidationErrors", datalockValidationErrors},

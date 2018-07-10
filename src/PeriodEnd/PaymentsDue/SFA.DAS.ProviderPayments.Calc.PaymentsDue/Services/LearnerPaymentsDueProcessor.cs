@@ -4,14 +4,14 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class LearnerProcessor : ILearnerProcessor
+    public class LearnerPaymentsDueProcessor : ILearnerPaymentsDueProcessor
     {
         private readonly ILogger _logger;
         private readonly IDetermineWhichEarningsShouldBePaid _determinePayableEarnings;
         private readonly IValidateRawDatalocks _datalockCommitmentMatcher;
         private readonly ICalculatePaymentsDue _paymentsDueCalc;
 
-        public LearnerProcessor(ILogger logger,
+        public LearnerPaymentsDueProcessor(ILogger logger,
             IDetermineWhichEarningsShouldBePaid determinePayableEarnings, 
             IValidateRawDatalocks datalockCommitmentMatcher, 
             ICalculatePaymentsDue paymentsDueCalc)
@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _paymentsDueCalc = paymentsDueCalc;
         }
 
-        public PaymentsDueResult Process(LearnerData parameters, long ukprn)
+        public PaymentsDueResult GetPayableAndNonPayableEarnings(LearnerData parameters, long ukprn)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
 

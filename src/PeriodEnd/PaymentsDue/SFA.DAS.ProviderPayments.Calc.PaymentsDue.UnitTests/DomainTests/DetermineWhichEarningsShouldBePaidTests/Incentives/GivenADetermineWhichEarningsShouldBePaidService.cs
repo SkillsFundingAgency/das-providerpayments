@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             {
                 throw new Exception("Please include a setup attribute in your test");
             }
-            _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
+            _earnings = earningsDictionary["PayableEarnings"] as List<RawEarning>;
         }
 
         [Test, PaymentsDueAutoData]
@@ -59,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            foreach (var actualEarning in actual.Earnings)
+            foreach (var actualEarning in actual.PayableEarnings)
             {
                 actualEarning.SfaContributionPercentage.Should().Be(1);
             }
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings.Take(1).ToList(),
                 new List<RawEarningForMathsOrEnglish>());
 
-            foreach (var actualEarning in actual.Earnings)
+            foreach (var actualEarning in actual.PayableEarnings)
             {
                 actualEarning.SfaContributionPercentage.Should().Be(_earnings[0].SfaContributionPercentage);
             }

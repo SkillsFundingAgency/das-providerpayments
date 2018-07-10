@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             {
                 throw new Exception("Please include a setup attribute in your test");
             }
-            _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
+            _earnings = earningsDictionary["PayableEarnings"] as List<RawEarning>;
         }
 
         [Test, PaymentsDueAutoData]
@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            runOne.Earnings.ShouldAllBeEquivalentTo(runTwo.Earnings, options => options.Excluding(x => x.Id));
+            runOne.PayableEarnings.ShouldAllBeEquivalentTo(runTwo.PayableEarnings, options => options.Excluding(x => x.Id));
             runOne.NonPayableEarnings.ShouldAllBeEquivalentTo(runTwo.NonPayableEarnings);
             runOne.PeriodsToIgnore.ShouldAllBeEquivalentTo(runTwo.PeriodsToIgnore);
         }

@@ -39,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 throw new Exception("Please include a setup attribute in your test");
             }
             _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutputEntity>;
-            _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
+            _earnings = earningsDictionary["PayableEarnings"] as List<RawEarning>;
             _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
             _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPayment>;
             _commitments = earningsDictionary["Commitments"] as List<Commitment>;
@@ -54,7 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             PaymentsDueCalculationService sut,
             DatalockValidationService commitmentMatcher)
         {
-            var datalockOutput = commitmentMatcher.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+            var datalockOutput = commitmentMatcher.GetSuccessfulDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
                 _earnings.Take(1).ToList(), _mathsAndEnglishEarnings);
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
 
             var expected = _earnings.Skip(0).Take(1).TotalAmount();
             actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -79,7 +79,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             _earnings.ForEach(x => x.TransactionType01 = 300);
 
             var datalockOutput =
-                datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+                datalockValidator.GetSuccessfulDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
@@ -87,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
                 _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore,
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore,
                 _pastPayments.Take(1).ToList());
 
             var expected = 500;
@@ -104,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         {
             _earnings.ForEach(x => x.TransactionType01 = 75);
 
-            var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+            var datalockOutput = datalockValidator.GetSuccessfulDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
                 _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
 
             var expected = 50; 
             actual.Sum(x => x.AmountDue).Should().Be(expected);
@@ -128,7 +128,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
         {
             _earnings.ForEach(x => x.TransactionType01 = 10);
 
-            var datalockOutput = datalockValidator.ProcessDatalocks(_datalocks, _datalockValidationErrors, _commitments);
+            var datalockOutput = datalockValidator.GetSuccessfulDatalocks(_datalocks, _datalockValidationErrors, _commitments);
 
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
@@ -136,7 +136,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
                 _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
               
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
 
             var expected = -80;
             actual.Sum(x => x.AmountDue).Should().Be(expected);
