@@ -3,7 +3,6 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
@@ -22,7 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         }
 
         [TestFixture, SetupDasAccounts]
-        public class WhenCallingUpdateBalance : GivenADasAccountRepository
+        public class WhenCallingAdjustBalance : GivenADasAccountRepository
         {
             private List<DasAccountEntity> _entitiesBeforeUpdate = new List<DasAccountEntity>();
             private List<DasAccountEntity> _entitiesAfterUpdate = new List<DasAccountEntity>();
@@ -37,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
 
                 _entitiesBeforeUpdate = DasAccountDataHelper.GetAll().ToList();
 
-                _sut.UpdateBalance(SharedTestContext.AccountId, _newBalance);
+                _sut.AdjustBalance(SharedTestContext.AccountId, _newBalance);
 
                 _entitiesAfterUpdate = DasAccountDataHelper.GetAll().ToList();
             }

@@ -7,7 +7,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         public DasAccountRepository(string transientConnectionString) 
             : base(transientConnectionString) { }
 
-        public void UpdateBalance(long accountId, decimal balance)
+        public void AdjustBalance(long accountId, decimal balance)
         {
             var sql = @"
                 update Reference.DasAccounts

@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         }
         public IEnumerable<RequiredPaymentEntity> GetRefundsForProvider(long ukprn)
         {
-            return Query<RequiredPaymentEntity>($"SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = {ukprn} AND AmountDue < 0 ");
+            return Query<RequiredPaymentEntity>($"SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = {ukprn} AND AmountDue < 0 ");// todo use parameterised query
         }
     }
 }
