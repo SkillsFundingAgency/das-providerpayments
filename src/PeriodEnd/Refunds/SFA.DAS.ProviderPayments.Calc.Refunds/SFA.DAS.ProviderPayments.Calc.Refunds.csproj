@@ -65,11 +65,12 @@
   <ItemGroup>
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DependencyResolution\RefundsRegistry.cs" />
-    <Compile Include="Domain\RefundGroup.cs" />
+    <Compile Include="Domain\RefundGroupIdentifier.cs" />
     <Compile Include="Dto\AccountLevyCredit.cs" />
     <Compile Include="Domain\HistoricalPayment.cs" />
     <Compile Include="Dto\Refund.cs" />
     <Compile Include="Dto\LearnerData.cs" />
+    <Compile Include="Exceptions\NetNegativePaymentsException.cs" />
     <Compile Include="Infrastructure\Entities\HistoricalPaymentEntity.cs" />
     <Compile Include="Infrastructure\Repositories\HistoricalPaymentsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,8 +108,6 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
