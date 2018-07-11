@@ -33,19 +33,68 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 _expectedEntities = new Fixture()
                     .Build<PaymentEntity>()
                     .CreateMany()
+                    .OrderBy(entity => entity.RequiredPaymentId)
                     .ToList();
 
                 PaymentDataHelper.Truncate(PaymentSchema.Refunds);
 
                 _sut.AddMany(_expectedEntities, PaymentSchema.Refunds);
 
-                _actualEntities = PaymentDataHelper.GetAll(PaymentSchema.Refunds).ToList();	
+                _actualEntities = PaymentDataHelper
+                    .GetAll(PaymentSchema.Refunds)
+                    .OrderBy(entity => entity.RequiredPaymentId)
+                    .ToList();	
             }
 
             [Test]	
             public void ThenItSavesTheExpectedNumberOfEntities() =>
                 _actualEntities.Count
                     .Should().Be(_expectedEntities.Count);
+
+            [Test]	
+            public void ThenItSetsDeliveryYear() =>
+                _actualEntities[0].DeliveryYear
+                    .Should().Be(_expectedEntities[0].DeliveryYear);
+
+            [Test]
+            public void ThenItSetsDeliveryMonth() =>
+                _actualEntities[0].DeliveryMonth
+                    .Should().Be(_expectedEntities[0].DeliveryMonth);
+
+            [Test]
+            public void ThenItSetsAmount() =>
+                _actualEntities[0].Amount
+                    .Should().Be(_expectedEntities[0].Amount);
+
+            [Test]
+            public void ThenItSetsRequiredPaymentId() =>
+                _actualEntities[0].RequiredPaymentId
+                    .Should().Be(_expectedEntities[0].RequiredPaymentId);
+
+            [Test]
+            public void ThenItSetsCollectionPeriodName() =>
+                _actualEntities[0].CollectionPeriodName
+                    .Should().Be(_expectedEntities[0].CollectionPeriodName);
+
+            [Test]
+            public void ThenItSetsCollectionPeriodMonth() =>
+                _actualEntities[0].CollectionPeriodMonth
+                    .Should().Be(_expectedEntities[0].CollectionPeriodMonth);
+
+            [Test]
+            public void ThenItSetsCollectionPeriodYear() =>
+                _actualEntities[0].CollectionPeriodYear
+                    .Should().Be(_expectedEntities[0].CollectionPeriodYear);
+
+            [Test]
+            public void ThenItSetsFundingSource() =>
+                _actualEntities[0].FundingSource
+                    .Should().Be(_expectedEntities[0].FundingSource);
+
+            [Test]
+            public void ThenItSetsTransactionType() =>
+                _actualEntities[0].TransactionType
+                    .Should().Be(_expectedEntities[0].TransactionType);
         }
     }
 }
