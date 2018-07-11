@@ -42,9 +42,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.IoC
                 .Should().BeSameAs(_contextWrapper);
 
         [Test]
-        public void ThenResolvesILogger() =>
-            _resolver.GetInstance<ILogger>()
-                .Should().BeOfType<Logger>();//todo with .name "Refunds"
+        public void ThenResolvesILoggerWithCorrectName()
+        {
+            var logger = _resolver.GetInstance<ILogger>();
+            logger.Should().BeOfType<Logger>();
+            logger.Name.Should().Be(typeof(RefundsProcessor).FullName);
+        }
 
         // Processors
 
