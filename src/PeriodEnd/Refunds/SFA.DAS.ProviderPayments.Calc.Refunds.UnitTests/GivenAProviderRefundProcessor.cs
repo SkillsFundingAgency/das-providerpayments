@@ -38,7 +38,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
                 [Frozen] Mock<IProcessLearnerRefunds> learnerProcessor,
                 [Frozen] Mock<ISummariseAccountBalances> summariseAccountBalances,
                 ProviderRefundsProcessor sut,
-                List<PaymentEntity>[] refunds
+                List<PaymentEntity>[] refunds,
+                List<HistoricalPayment> payments,
+                List<RequiredPaymentEntity> requiredRefunds
             )
             {
                 learnerBuilder.Setup(builder => builder.CreateLearnersForProvider(provider.Ukprn))
@@ -48,8 +50,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests
 
                 for (var i = 0; i < learners.Count; i++)
                 {
-                    var learnerRefunds = refunds[i];
                     var learner = learners[i];
+                    learner.HistoricalPayments.Add(payments[i]);
+                    learner.RequiredRefunds.Add(requiredRefunds[i]);
+
                     learnerProcessor.Verify(x => x.ProcessRefundsForLearner(learner.RequiredRefunds, learner.HistoricalPayments), Times.Once);
                 }
             }
