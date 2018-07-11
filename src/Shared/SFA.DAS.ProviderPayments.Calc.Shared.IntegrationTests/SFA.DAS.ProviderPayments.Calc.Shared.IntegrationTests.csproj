@@ -90,6 +90,7 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
+    <Compile Include="Helpers\PaymentDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="SharedTestContext.cs" />
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
@@ -115,6 +116,10 @@
     </Content>
     <Content Include="..\..\periodend\paymentsdue\deploypaymentsdue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
