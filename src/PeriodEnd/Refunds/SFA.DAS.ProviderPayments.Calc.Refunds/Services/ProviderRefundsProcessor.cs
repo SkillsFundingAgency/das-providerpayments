@@ -12,18 +12,18 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
     {
         private readonly ILogger _logger;
         private readonly ILearnerBuilder _learnersBuilder;
-        private readonly ILearnerProcessor _learnerProcessor;
+        private readonly IProcessLearnerRefunds _learnerRefundProcessor;
         private readonly IPaymentRepository _refundPaymentRepository;
 
         public ProviderRefundsProcessor(
             ILogger logger,
             ILearnerBuilder learnersBuilder,
-            ILearnerProcessor learnerProcessor,
+            IProcessLearnerRefunds learnerRefundProcessor,
             IPaymentRepository refundPaymentRepository)
         {
             _logger = logger;
             _learnersBuilder = learnersBuilder;
-            _learnerProcessor = learnerProcessor;
+            _learnerRefundProcessor = learnerRefundProcessor;
             _refundPaymentRepository = refundPaymentRepository;
         }
 
@@ -37,11 +37,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Services
 
             foreach (var learner in learners)
             {
-                var refunds = _learnerProcessor.Process(learner).ToList();
+                var refunds = _learnerRefundProcessor.ProcessRefundsForLearner(learner.RequiredRefunds, learner.HistoricalPayments);
                 allRefunds.AddRange(refunds);
             }
 
-            _refundPaymentRepository.AddMany(allRefunds.Select(x=>x as PaymentEntity).ToList());
+            _refundPaymentRepository.AddMany(allRefunds.Select(x=>x as PaymentEntity).ToList(), PaymentSchema.Refunds);
             _logger.Info($"Processing refunds finished for Provider UKPRN: [{provider.Ukprn}].");
 
             return allRefunds;

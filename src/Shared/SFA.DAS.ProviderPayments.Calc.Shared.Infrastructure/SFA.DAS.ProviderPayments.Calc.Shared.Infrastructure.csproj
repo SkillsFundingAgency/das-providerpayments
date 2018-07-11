@@ -53,6 +53,7 @@
     <Compile Include="Data\IDasAccountRepository.cs" />
     <Compile Include="Data\IPaymentRepository.cs" />
     <Compile Include="Data\Repositories\DasAccountRepository.cs" />
+    <Compile Include="Data\Repositories\PaymentRepository.cs" />
     <Compile Include="Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

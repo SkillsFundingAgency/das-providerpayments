@@ -11,8 +11,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories
 
     public class HistoricalPaymentsRepository : DcfsRepository, IHistoricalPaymentsRepository
     {
-        public HistoricalPaymentsRepository(string transientConnectionString) 
-            : base(transientConnectionString) { }
+        public HistoricalPaymentsRepository(string connectionString) 
+            : base(connectionString) { }
 
         public IEnumerable<HistoricalPaymentEntity> GetAllForProvider(long ukprn)
         {
