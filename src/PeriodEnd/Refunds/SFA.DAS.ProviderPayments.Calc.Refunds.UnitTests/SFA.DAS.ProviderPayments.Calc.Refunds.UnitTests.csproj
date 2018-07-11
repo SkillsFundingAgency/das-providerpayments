@@ -89,6 +89,7 @@
     <Compile Include="GivenASummariseAccountBalances.cs" />
     <Compile Include="GivenARefundProcessor.cs" />
     <Compile Include="GivenAProviderRefundProcessor.cs" />
+    <Compile Include="IoC\GivenARefundsRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\GivenALearnerRefundProcessor\AndThereArePreviousPaymentsForTheMonth.cs" />
     <Compile Include="Utilities\Extensions\RefundListExtensions.cs" />
