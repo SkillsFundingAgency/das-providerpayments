@@ -22,13 +22,26 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         }
 
         [TestFixture]
-        public class WhenCallingAddMany : GivenAPaymentRepository
+        public class AndSchemaIsRefunds : WhenCallingAddMany
         {
-            private List<PaymentEntity> _expectedEntities;	
-            private List<PaymentEntity> _actualEntities;
-
             [OneTimeSetUp]
             public void Setup()
+            {
+                base.Setup(PaymentSchema.Refunds);
+            }
+        }
+
+        // todo: AndSchemaIsLevyPayments
+
+        // todo: AndSchemaIsCoInvestedPayments
+
+        [TestFixture]
+        public abstract class WhenCallingAddMany : GivenAPaymentRepository
+        {
+            private List<PaymentEntity> _expectedEntities;
+            private List<PaymentEntity> _actualEntities;
+
+            protected void Setup(PaymentSchema paymentSchema)
             {
                 _expectedEntities = new Fixture()
                     .Build<PaymentEntity>()
@@ -36,12 +49,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                     .OrderBy(entity => entity.RequiredPaymentId)
                     .ToList();
 
-                PaymentDataHelper.Truncate(PaymentSchema.Refunds);
+                PaymentDataHelper.Truncate(paymentSchema);
 
-                _sut.AddMany(_expectedEntities, PaymentSchema.Refunds);
+                _sut.AddMany(_expectedEntities, paymentSchema);
 
                 _actualEntities = PaymentDataHelper
-                    .GetAll(PaymentSchema.Refunds)
+                    .GetAll(paymentSchema)
                     .OrderBy(entity => entity.RequiredPaymentId)
                     .ToList();	
             }
