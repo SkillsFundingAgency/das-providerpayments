@@ -21,13 +21,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             _sut = new PaymentRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
 
-        [TestFixture]
         public class AndSchemaIsRefunds : WhenCallingAddMany
         {
             [OneTimeSetUp]
-            public void Setup()
+            public void SetupForRefunds()
             {
-                base.Setup(PaymentSchema.Refunds);
+                Setup(PaymentSchema.Refunds);
             }
         }
 
