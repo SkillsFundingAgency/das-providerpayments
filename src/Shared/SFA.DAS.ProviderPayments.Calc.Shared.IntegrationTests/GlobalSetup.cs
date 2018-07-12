@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
 	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
 
                     // Component scripts
+                    RunSqlScript(@"PeriodEnd.Transient.ManualAddjustments.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", transientConnection);
