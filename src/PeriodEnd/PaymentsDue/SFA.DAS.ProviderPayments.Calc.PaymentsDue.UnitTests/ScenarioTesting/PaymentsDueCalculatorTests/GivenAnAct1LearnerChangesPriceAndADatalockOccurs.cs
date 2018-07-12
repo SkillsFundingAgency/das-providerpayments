@@ -39,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 throw new Exception("Please include a setup attribute in your test");
             }
             _datalocks = earningsDictionary["Datalocks"] as List<DatalockOutputEntity>;
-            _earnings = earningsDictionary["PayableEarnings"] as List<RawEarning>;
+            _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
             _mathsAndEnglishEarnings = earningsDictionary["MathsAndEnglishEarnings"] as List<RawEarningForMathsOrEnglish>;
             _pastPayments = earningsDictionary["PastPayments"] as List<RequiredPayment>;
             _commitments = earningsDictionary["Commitments"] as List<Commitment>;

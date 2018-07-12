@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().BeEmpty();
+            actual.PayableEarnings.Should().BeEmpty();
         }
 
         [Test, PaymentsDueAutoData]
@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>(),
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().BeEmpty();
+            actual.PayableEarnings.Should().BeEmpty();
         }
 
         [Test, PaymentsDueAutoData]
@@ -75,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().HaveCount(24); // M/E as well as onprog * 12
+            actual.PayableEarnings.Should().HaveCount(24); // M/E as well as onprog * 12
         }
 
         [Test, PaymentsDueAutoData]
@@ -91,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning> {blankEarning},
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
@@ -107,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>{blankEarning}, 
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
@@ -120,7 +120,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>(),
                 _mathsAndEnglishEarnings);
 
-            actual.Earnings.Should().HaveCount(0);
+            actual.PayableEarnings.Should().HaveCount(0);
         }
     }
 }

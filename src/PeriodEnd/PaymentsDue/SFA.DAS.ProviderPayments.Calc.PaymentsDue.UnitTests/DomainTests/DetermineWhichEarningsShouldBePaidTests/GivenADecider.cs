@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             {
                 throw new Exception("Please include a setup attribute in your test");
             }
-            _earnings = earningsDictionary["PayableEarnings"] as List<RawEarning>;
+            _earnings = earningsDictionary["Earnings"] as List<RawEarning>;
         }
 
         [Test, PaymentsDueAutoData]

@@ -178,7 +178,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             var earningsDictionary = new Dictionary<string, object>
             {
                 {"MathsAndEnglishEarnings", mathsAndEnglishEarnings},
-                {"PayableEarnings", earnings},
+                {"Earnings", earnings},
                 {"PastPayments", pastPayments},
                 {"Datalocks", datalocks},
                 {"DatalockValidationErrors", datalockValidationErrors},

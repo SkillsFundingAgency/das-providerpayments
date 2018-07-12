@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            actual.Earnings.Should().HaveCount(0);
+            actual.PayableEarnings.Should().HaveCount(0);
         }
 
         [Test, PaymentsDueAutoData]
@@ -58,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            actual.Earnings.Should().HaveCount(0);
+            actual.PayableEarnings.Should().HaveCount(0);
         }
 
         [Test, PaymentsDueAutoData]
@@ -71,7 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
@@ -84,7 +84,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
@@ -113,7 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
@@ -136,8 +136,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarningForMathsOrEnglish>());
 
             var expectedAmount = 150 * 12;
-            actual.Earnings.Should().HaveCount(12);
-            actual.Earnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
+            actual.PayableEarnings.Should().HaveCount(12);
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
         }
 
         [Test, PaymentsDueAutoData]
@@ -162,8 +162,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarningForMathsOrEnglish>());
 
             var expectedAmount = 1000 * 12; // (500 X 2)
-            actual.Earnings.Should().HaveCount(24);
-            actual.Earnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
+            actual.PayableEarnings.Should().HaveCount(24);
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
         }
 
         [Test, PaymentsDueAutoData]
@@ -188,8 +188,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarningForMathsOrEnglish>());
 
             var expectedAmount = 5000 * 12; // (2500 X 2)
-            actual.Earnings.Should().HaveCount(24);
-            actual.Earnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
+            actual.PayableEarnings.Should().HaveCount(24);
+            actual.PayableEarnings.Sum(x => x.AmountDue).Should().Be(expectedAmount);
         }
     }
 }
