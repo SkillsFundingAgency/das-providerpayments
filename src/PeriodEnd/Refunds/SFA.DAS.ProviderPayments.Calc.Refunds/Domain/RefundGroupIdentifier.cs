@@ -1,13 +1,12 @@
 ﻿using System;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Dto;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
 {
-    class RefundGroup : IEquatable<RefundGroup>
+    class RefundGroupIdentifier : IEquatable<RefundGroupIdentifier>
     {
-        public RefundGroup(RequiredPaymentEntity entity)
+        public RefundGroupIdentifier(RequiredPaymentEntity entity)
         {
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
@@ -15,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             FundingLineType = entity.FundingLineType ?? string.Empty;
         }
 
-        public RefundGroup(HistoricalPayment entity)
+        public RefundGroupIdentifier(HistoricalPayment entity)
         {
             AccountId = entity.AccountId;
             TransactionType = entity.TransactionType;
@@ -32,11 +31,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            var other = obj as RefundGroup;
+            var other = obj as RefundGroupIdentifier;
             return other != null && Equals(other);
         }
 
-        public bool Equals(RefundGroup other)
+        public bool Equals(RefundGroupIdentifier other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -59,12 +58,12 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.Domain
             }
         }
 
-        public static bool operator ==(RefundGroup left, RefundGroup right)
+        public static bool operator ==(RefundGroupIdentifier left, RefundGroupIdentifier right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(RefundGroup left, RefundGroup right)
+        public static bool operator !=(RefundGroupIdentifier left, RefundGroupIdentifier right)
         {
             return !Equals(left, right);
         }
