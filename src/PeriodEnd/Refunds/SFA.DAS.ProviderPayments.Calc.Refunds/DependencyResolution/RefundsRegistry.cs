@@ -2,10 +2,9 @@
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services;
-using SFA.DAS.ProviderPayments.Calc.Refunds.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
+
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
@@ -17,22 +16,21 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
             Scan(
                 scan =>
                 {
-                    scan.AssemblyContainingType<RefundsRegistry>();
-                    scan.AssemblyContainingType<IProviderRepository>();
+                    scan.TheCallingAssembly();
                     
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                     scan.SingleImplementationsOfInterface();
+                    scan.WithDefaultConventions();
                 });
 
             For<ContextWrapper>().Use(contextWrapper);
-
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
+            // these don't resolve by scan conventions above due to ctor params
             For<IDasAccountRepository>().Use<DasAccountRepository>();
             For<IPaymentRepository>().Use<PaymentRepository>();
             For<IProviderRepository>().Use<ProviderRepository>();
             For<IRequiredPaymentRepository>().Use<RequiredPaymentRepository>();
-
             For<IHistoricalPaymentsRepository>().Use<HistoricalPaymentsRepository>();
         }
     }
