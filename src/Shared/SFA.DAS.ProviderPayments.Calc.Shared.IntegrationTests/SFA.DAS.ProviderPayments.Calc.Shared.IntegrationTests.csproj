@@ -104,6 +104,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\periodend\paymentsdue\deploypaymentsdue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
