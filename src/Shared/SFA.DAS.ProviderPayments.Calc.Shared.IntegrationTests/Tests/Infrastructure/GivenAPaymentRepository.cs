@@ -64,7 +64,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             [Test]
             public void ThenItSetsAmount() =>
                 _actualEntities[0].Amount
-                    .Should().Be(_expectedEntities[0].Amount);
+                    .Should().BeApproximately(_expectedEntities[0].Amount, 0.00005m);
 
             [Test]
             public void ThenItSetsRequiredPaymentId() =>
