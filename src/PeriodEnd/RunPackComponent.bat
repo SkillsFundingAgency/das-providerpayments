@@ -1,6 +1,7 @@
 if "%1"=="" ( set "BuildConfig=Debug" ) else ( set "BuildConfig=%1" )
 if "%2"=="" ( set "Component=LevyPayments" ) else ( set "Component=%2" )
 
+if exist "Deploy%Component%\sql" ( rd /s /q "Deploy%Component%\sql" )
 if exist "Deploy%Component%\component" ( rd /s /q "Deploy%Component%\component" )
 if exist "Deploy%Component%\test-results" ( rd /s /q "Deploy%Component%\test-results" )
 
