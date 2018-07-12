@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -36,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1, academicYear:"1617")]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy, academicYear:"1617")]
         public void IfEarningsAreForAPreviousYearTheyShouldBeIgnored(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -49,7 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1, academicYear:"1819")]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy, academicYear:"1819")]
         public void IfEarningsAreForAFutureYearTheyShouldBeIgnored(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -62,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void IfEarningsAreAct2PayThemAll(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -75,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void IfEarningsAreAct1AndHaveAMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -88,7 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void IfEarningsAreAct1WithNoMatchingDatalockIgnorePeriodIsSet(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -104,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void IfEarningsAreAct1WithMatchingDatalockTheyArePaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -117,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void EarningsWithMatchingDatalockTransFlag1IncentivesNotPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -141,7 +142,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void EarningsWithMatchingDatalockTransFlag2OnlyFirstIncentivesPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -167,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void EarningsWithMatchingDatalockTransFlag3OnlySecondIncentivesPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {

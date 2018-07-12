@@ -5,6 +5,7 @@ using AutoFixture;
 using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -14,14 +15,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 {
     class SetupMatchingEarningsAndPastPayments : Attribute, IApplyToContext
     {
-        private readonly int _apprenticeshipContractType;
+        private readonly ApprenticeshipContractType _apprenticeshipContractType;
         private readonly bool _datalockSuccess;
         private readonly decimal _onProgAmount;
         private readonly decimal _mathsEnglishAmount;
         private readonly string _academicYear;
         
         public SetupMatchingEarningsAndPastPayments(
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             bool datalockSuccess = true,
             int onProgAmount = 500,
             string academicYear = "1718",
@@ -163,7 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
                 pastPayments[i].Period = earnings[i].Period;
 
-                if (_apprenticeshipContractType == 2)
+                if (_apprenticeshipContractType == ApprenticeshipContractType.NonLevy)
                 {
                     pastPayments[i].AccountId = 0;
                     pastPayments[i].AccountVersionId = null;

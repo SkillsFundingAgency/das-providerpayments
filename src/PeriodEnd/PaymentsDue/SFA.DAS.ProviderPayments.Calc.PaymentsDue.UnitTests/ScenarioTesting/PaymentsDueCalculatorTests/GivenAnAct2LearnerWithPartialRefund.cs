@@ -5,6 +5,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -51,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Test, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
+            [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR01Of500(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,
@@ -73,7 +74,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Test, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
+            [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR02Of500(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,
@@ -95,7 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Test, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
+            [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void WithAPriceIncreaseTo750_ThereAreCorrectPaymentsForR03(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,
@@ -126,7 +127,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
             }
 
             [Test, PaymentsDueAutoData]
-            [SetupMatchingEarningsAndPastPayments(2, onProgAmount: 500, mathsEnglishAmount: 0)]
+            [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy, onProgAmount: 500, mathsEnglishAmount: 0)]
             public void ThereArePaymentsForR04Of750(
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,

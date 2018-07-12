@@ -5,6 +5,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -76,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 .With(x => x.TransactionType13, 0)
                 .With(x => x.TransactionType14, 0)
                 .With(x => x.TransactionType15, 0)
-                .With(x => x.ApprenticeshipContractType, 1)
+                .With(x => x.ApprenticeshipContractType, ApprenticeshipContractType.Levy)
                 .CreateMany(3)
                 .ToList();
 
@@ -94,7 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                     .With(x => x.PathwayCode, 0)
                     .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                     .With(x => x.LearnAimRef, LearnAimRefForZprog)
-                    .With(x => x.ApprenticeshipContractType, 1)
+                    .With(x => x.ApprenticeshipContractType, ApprenticeshipContractType.Levy)
                     .With(x => x.SfaContributionPercentage, 0.9m)
                     .With(x => x.FundingLineType, FundingLineType)
                     .CreateMany(13)

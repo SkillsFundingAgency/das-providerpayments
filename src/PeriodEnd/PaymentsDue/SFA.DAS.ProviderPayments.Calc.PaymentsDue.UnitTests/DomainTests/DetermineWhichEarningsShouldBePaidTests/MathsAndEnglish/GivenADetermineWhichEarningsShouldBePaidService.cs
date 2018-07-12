@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -36,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishWithNoPayableOnprogNotPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -51,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishWithNoPayableOnprogNotPaidForAct2(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -66,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishWithPayableOnProgPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -79,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishAct2WithNoOtherEarningsArePaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -95,7 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishAct1WithNoOtherEarningsArePaidWhenMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -111,7 +112,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishAct2WithNoOtherEarningsAreNotPaidWhenNoMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
         {

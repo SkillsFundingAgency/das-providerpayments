@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
@@ -53,8 +54,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         [DataType(DataType.Date)]
         public DateTime LearningStartDate { get; set; }
 
-        [Range(1, 2)]
-        public int ApprenticeshipContractType { get; set; }
+        public ApprenticeshipContractType ApprenticeshipContractType { get; set; }
 
         public decimal TransactionType01 { get; set; }
         public decimal TransactionType02 { get; set; }
@@ -78,6 +78,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
         [NotMapped]
         public int DeliveryYear { get; set; }
 
-        public bool UseLevyBalance { get; set; }
+        public bool UseLevyBalance
+        {
+            get
+            {
+                return ApprenticeshipContractType == ApprenticeshipContractType.Levy && SfaContributionPercentage < 1;
+            }
+        }
     }
 }

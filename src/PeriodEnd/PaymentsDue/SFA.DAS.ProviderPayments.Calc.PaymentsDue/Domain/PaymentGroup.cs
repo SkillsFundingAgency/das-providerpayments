@@ -1,5 +1,5 @@
 ﻿using System;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
@@ -14,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             int frameworkCode,
             int programmeType,
             int pathwayCode,
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             int transactionType,
             decimal sfaContributionPercentage,
             string learnAimRef,
@@ -57,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public int FrameworkCode { get; }
         public int ProgrammeType { get; }
         public int PathwayCode { get; }
-        public int ApprenticeshipContractType { get; }
+        public ApprenticeshipContractType ApprenticeshipContractType { get; }
         public int TransactionType { get; }
         public decimal SfaContributionPercentage { get; }
         public string LearnAimRef { get; }
