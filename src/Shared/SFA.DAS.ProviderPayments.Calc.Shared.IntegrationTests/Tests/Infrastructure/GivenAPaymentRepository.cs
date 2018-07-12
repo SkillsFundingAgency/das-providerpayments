@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             [OneTimeSetUp]
             public void SetupForRefunds()
             {
-                Setup(PaymentSchema.Refunds);
+                SetupForSchema(PaymentSchema.Refunds);
             }
         }
 
@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             private List<PaymentEntity> _expectedEntities;
             private List<PaymentEntity> _actualEntities;
 
-            protected void Setup(PaymentSchema paymentSchema)
+            protected void SetupForSchema(PaymentSchema paymentSchema)
             {
                 _expectedEntities = new Fixture()
                     .Build<PaymentEntity>()
