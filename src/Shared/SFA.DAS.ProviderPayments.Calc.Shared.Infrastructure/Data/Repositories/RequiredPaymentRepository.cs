@@ -14,9 +14,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         {
             const string sql = @"
                 SELECT * 
-                FROM PaymentsDue.RequiredPayments 
+                FROM PaymentsDue.RequiredPayments
                 WHERE Ukprn = @ukprn 
                 AND AmountDue < 0 
+                AND Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
                 ";
 
             return Query<RequiredPaymentEntity>(sql, new { ukprn });
