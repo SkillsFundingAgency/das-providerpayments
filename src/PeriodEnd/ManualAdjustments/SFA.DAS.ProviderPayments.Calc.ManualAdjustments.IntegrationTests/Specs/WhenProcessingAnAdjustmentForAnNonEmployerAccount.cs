@@ -146,17 +146,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.Specs
             Assert.AreEqual(expectedPayment.DeliveryYear, actualPayment.DeliveryYear);
             Assert.AreEqual(expectedPayment.TransactionType, actualPayment.TransactionType);
             Assert.AreEqual(requiredPaymentMadePreviously.Ukprn, actualPayment.Ukprn);
-            Assert.AreEqual(requiredPaymentMadePreviously.Uln, actualPayment.Uln);
-            Assert.AreEqual(requiredPaymentMadePreviously.AimSeqNumber, actualPayment.AimSeqNumber);
-            Assert.AreEqual(requiredPaymentMadePreviously.StandardCode, actualPayment.StandardCode);
-            Assert.AreEqual(requiredPaymentMadePreviously.PathwayCode, actualPayment.PathwayCode);
-            Assert.AreEqual(requiredPaymentMadePreviously.ProgrammeType, actualPayment.ProgrammeType);
-            Assert.AreEqual(requiredPaymentMadePreviously.FrameworkCode, actualPayment.FrameworkCode);
         }
-            
-        
-
-
-
     }
 }
