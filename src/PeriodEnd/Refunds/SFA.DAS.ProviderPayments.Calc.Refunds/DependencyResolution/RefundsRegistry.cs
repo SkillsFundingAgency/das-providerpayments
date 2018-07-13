@@ -16,8 +16,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
             Scan(
                 scan =>
                 {
-                    scan.TheCallingAssembly();
-                    
+                    scan.AssemblyContainingType<RefundsRegistry>();
+
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                     scan.SingleImplementationsOfInterface();
                     scan.WithDefaultConventions();
