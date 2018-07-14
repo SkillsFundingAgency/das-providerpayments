@@ -1,6 +1,7 @@
 ﻿using System;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.StructureMap.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
@@ -24,6 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.DependencyResolution
                 });
 
             For<ContextWrapper>().Use(contextWrapper);
+            For<IHoldDcConfiguration>().Use<DcConfiguration>().Singleton();
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
             // these don't resolve by scan conventions above due to ctor params

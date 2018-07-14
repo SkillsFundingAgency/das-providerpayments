@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\DcConfiguration.cs" />
     <Compile Include="Infrastructure\DependencyResolution\DcfsConnectionStringPolicy.cs" />
     <Compile Include="Infrastructure\DependencyResolution\StructureMapDependencyResolver.cs" />
+    <Compile Include="Infrastructure\IHoldDcConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
