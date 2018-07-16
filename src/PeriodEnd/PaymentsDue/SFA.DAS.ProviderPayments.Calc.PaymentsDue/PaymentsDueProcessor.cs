@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
@@ -29,10 +30,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var providers = _providerRepository.GetAllProviders();
 
-                foreach (var provider in providers)
+                Parallel.ForEach(providers, provider =>
                 {
                     _providerProcessor.Process(provider);
-                }
+                });
             }
             catch (Exception ex)
             {
