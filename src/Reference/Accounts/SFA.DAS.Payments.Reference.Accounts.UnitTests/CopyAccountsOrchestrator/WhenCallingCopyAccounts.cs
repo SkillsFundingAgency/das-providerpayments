@@ -11,7 +11,7 @@ using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.CopyAccountsOrchestrator
 {
-    public class WhenProcessing
+    public class WhenCallingCopyAccounts
     {
         private Mock<IMediator> _mediator;
         private Mock<ILogger> _logger;

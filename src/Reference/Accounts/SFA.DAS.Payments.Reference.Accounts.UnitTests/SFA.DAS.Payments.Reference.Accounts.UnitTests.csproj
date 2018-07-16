@@ -77,7 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CopyAccountsOrchestrator\WhenProcessing.cs" />
+    <Compile Include="CopyAccountsOrchestrator\WhenCallingCopyAccounts.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler\WhenHandlingRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler\WhenHandlingRequest.cs" />
