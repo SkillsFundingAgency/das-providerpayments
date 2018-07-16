@@ -13,14 +13,14 @@ using SFA.DAS.Payments.Reference.Accounts.Processor;
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 {
     [TestFixture]
-    public class GivenACopyAccountsOrchestrator
+    public class GivenAnImportAccountsOrchestrator
     {
         [TestFixture]
         public class WhenCallingCopyAccounts
         {
             private Mock<IMediator> _mediator;
             private Mock<ILogger> _logger;
-            private CopyAccountsOrchestrator _processor;
+            private ImportAccountsOrchestrator _processor;
 
             [SetUp]
             public void Arrange()
@@ -40,7 +40,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
                 _logger = new Mock<ILogger>();
 
-                _processor = new CopyAccountsOrchestrator(_mediator.Object, _logger.Object);
+                _processor = new ImportAccountsOrchestrator(_mediator.Object, _logger.Object);
             }
 
             [Test]

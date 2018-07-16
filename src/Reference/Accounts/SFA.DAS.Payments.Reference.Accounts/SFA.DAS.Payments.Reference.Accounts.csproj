@@ -95,8 +95,8 @@
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="PassThroughProcessor.cs" />
     <Compile Include="Processor\ApiProcessor.cs" />
-    <Compile Include="Processor\CopyAccountsOrchestrator.cs" />
-    <Compile Include="Processor\ICopyAccountsOrchestrator.cs" />
+    <Compile Include="Processor\ImportAccountsOrchestrator.cs" />
+    <Compile Include="Processor\IImportAccountsOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
         {
             [Test, AccountsAutoData]
             public void ThenItImportsAccounts(
-                [Frozen] Mock<ICopyAccountsOrchestrator> mockAccountsOrchestrator,
+                [Frozen] Mock<IImportAccountsOrchestrator> mockAccountsOrchestrator,
                 ApiProcessor sut
                 )
             {

@@ -1,6 +1,6 @@
 namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
-    public interface ICopyAccountsOrchestrator
+    public interface IImportAccountsOrchestrator
     {
         void ImportAccounts();
     }
