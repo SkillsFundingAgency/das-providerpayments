@@ -6,6 +6,7 @@ using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.Payments.Reference.Accounts.Context;
+using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
 {
@@ -51,7 +52,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
             _task.Execute(_context.Object);
 
             // Assert
-            _dependencyResolver.Verify(r => r.Init(typeof(Accounts.ApiProcessor), It.Is<ContextWrapper>(cw => cw.Context == _context.Object)), Times.Once);
+            _dependencyResolver.Verify(r => r.Init(typeof(ApiProcessor), It.Is<ContextWrapper>(cw => cw.Context == _context.Object)), Times.Once);
         }
 
         [Test]

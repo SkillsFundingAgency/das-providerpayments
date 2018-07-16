@@ -73,8 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CopyAccountsOrchestrator.cs" />
-    <Compile Include="ApiProcessor.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
@@ -84,7 +82,7 @@
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
-    <Compile Include="IApiProcessor.cs" />
+    <Compile Include="Processor\IApiProcessor.cs" />
     <Compile Include="ImportAccountsTask.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAuditRepository.cs" />
@@ -96,6 +94,9 @@
     <Compile Include="Infrastructure\DependencyResolution\ApiClientFactory.cs" />
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="PassThroughProcessor.cs" />
+    <Compile Include="Processor\ApiProcessor.cs" />
+    <Compile Include="Processor\CopyAccountsOrchestrator.cs" />
+    <Compile Include="Processor\ICopyAccountsOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +113,7 @@
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddOrUpdateAccountCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
-namespace SFA.DAS.Payments.Reference.Accounts
+namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
     public class CopyAccountsOrchestrator : ICopyAccountsOrchestrator
     {
@@ -57,9 +57,5 @@ namespace SFA.DAS.Payments.Reference.Accounts
             });
             _logger.Info("Finished Accounts API Processor.");
         }
-    }
-
-    public interface ICopyAccountsOrchestrator
-    {
     }
 }

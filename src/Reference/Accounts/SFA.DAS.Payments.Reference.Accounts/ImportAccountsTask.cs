@@ -3,6 +3,7 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.Payments.Reference.Accounts.Context;
 using SFA.DAS.Payments.Reference.Accounts.Infrastructure.DependencyResolution;
+using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts
 {

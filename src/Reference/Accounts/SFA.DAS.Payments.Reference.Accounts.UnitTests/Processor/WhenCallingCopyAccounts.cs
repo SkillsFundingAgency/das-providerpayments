@@ -9,13 +9,13 @@ using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddOrUpdateAccountCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
-namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.CopyAccountsOrchestrator
+namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 {
     public class WhenCallingCopyAccounts
     {
         private Mock<IMediator> _mediator;
         private Mock<ILogger> _logger;
-        private Accounts.CopyAccountsOrchestrator _processor;
+        private Accounts.Processor.CopyAccountsOrchestrator _processor;
 
         [SetUp]
         public void Arrange()
@@ -35,7 +35,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.CopyAccountsOrchestrator
 
             _logger = new Mock<ILogger>();
 
-            _processor = new Accounts.CopyAccountsOrchestrator(_mediator.Object, _logger.Object);
+            _processor = new Accounts.Processor.CopyAccountsOrchestrator(_mediator.Object, _logger.Object);
         }
 
         [Test]

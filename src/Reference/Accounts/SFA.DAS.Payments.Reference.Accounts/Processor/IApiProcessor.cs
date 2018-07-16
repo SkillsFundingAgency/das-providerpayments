@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.Payments.Reference.Accounts
+﻿namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
     public interface IApiProcessor
     {

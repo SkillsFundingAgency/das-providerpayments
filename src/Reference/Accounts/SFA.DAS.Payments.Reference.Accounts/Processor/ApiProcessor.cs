@@ -5,7 +5,7 @@ using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddOrUpdateAccountCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
-namespace SFA.DAS.Payments.Reference.Accounts
+namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
     public class ApiProcessor : IApiProcessor
     {
