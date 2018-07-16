@@ -22,7 +22,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
         }
 
         [Test]
-        public void ThenItShouldAddAcountsThatDoNotExist()
+        public void ThenItShouldAddAccountsThatDoNotExist()
         {
             // Arrange
             var accountId = DateTime.Now.Ticks;
