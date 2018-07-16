@@ -62,6 +62,7 @@
     <Compile Include="Context\ContextWrapper.cs" />
     <Compile Include="Context\InvalidContextException.cs" />
     <Compile Include="DcfsTask.cs" />
+    <Compile Include="Domain\ApprenticeshipContractType.cs" />
     <Compile Include="Domain\FundingSource.cs" />
     <Compile Include="Domain\PaymentStatus.cs" />
     <Compile Include="Domain\TransactionType.cs" />

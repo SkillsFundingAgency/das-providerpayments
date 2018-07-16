@@ -22,7 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             )
             {
                 var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
-                var actual = sut.Calculate(earnings, new List<int>(), pastPayments);
+                var actual = sut.Calculate(earnings, new HashSet<int>(), pastPayments);
 
                 actual.Should().HaveCount(0);
             }
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
                 earnings.Add(test);
 
-                var actual = sut.Calculate(earnings, new List<int>(), pastPayments);
+                var actual = sut.Calculate(earnings, new HashSet<int>(), pastPayments);
 
                 actual.Should().HaveCount(1);
                 actual.Sum(x => x.AmountDue).Should().Be(test.AmountDue);
@@ -60,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 var pastPayments = earnings.Select(x => new RequiredPayment(x)).ToList();
                 earnings.RemoveAt(0);
 
-                var actual = sut.Calculate(earnings, new List<int>(), pastPayments);
+                var actual = sut.Calculate(earnings, new HashSet<int>(), pastPayments);
 
                 actual.Should().HaveCount(1);
                 actual.Sum(x => x.AmountDue).Should().Be(-pastPayments[0].AmountDue);

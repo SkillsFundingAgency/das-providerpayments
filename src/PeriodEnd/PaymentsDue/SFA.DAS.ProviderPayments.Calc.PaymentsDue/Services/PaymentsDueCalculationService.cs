@@ -1,27 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class PaymentsDueCalculationService : ICalculatePaymentsDue
     {
-        
-        // Input
-        private IReadOnlyList<int> PeriodsToIgnore { get; set; }
-        
-        // Output
-        public List<RequiredPayment> RequiredPayments { get; private set; }
-
         public List<RequiredPayment> Calculate(List<FundingDue> earnings,
-            List<int> periodsToIgnore,
+            HashSet<int> periodsToIgnore,
             List<RequiredPayment> pastPayments)
         {
-            RequiredPayments = new List<RequiredPayment>();
-            PeriodsToIgnore = periodsToIgnore;
-
+            var requiredPayments = new List<RequiredPayment>();
+            
             var processedGroups = new HashSet<PaymentGroup>();
 
             var groupedEarnings = earnings
@@ -36,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             foreach (var key in groupedEarnings.Keys)
             {
                 processedGroups.Add(key);
-                if (ShouldIgnoreEarnings(key))
+                if (ShouldIgnoreEarnings(key, periodsToIgnore))
                 {
                     continue;
                 }
@@ -54,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (payment != 0)
                 {
-                    AddRequiredPayment(earningsForGroup.First(), payment);
+                    requiredPayments.Add(CreateRequiredPayment(earningsForGroup.First(), payment));
                 }
             }
 
@@ -67,7 +58,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
-                if (ShouldIgnoreEarnings(key))
+                if (ShouldIgnoreEarnings(key, periodsToIgnore))
                 {
                     continue;
                 }
@@ -78,17 +69,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (payment != 0)
                 {
-                    AddRequiredPayment(pastPaymentsForGroup.First(), payment);
+                    requiredPayments.Add(CreateRequiredPayment(pastPaymentsForGroup.First(), payment));
                 }
             }
 
-            return new List<RequiredPayment>(RequiredPayments);
+            return requiredPayments;
         }
 
-        private bool ShouldIgnoreEarnings(PaymentGroup earningInformation)
+        private bool ShouldIgnoreEarnings(PaymentGroup earningInformation, HashSet<int> periodsToIgnore)
         {
             var period = PeriodFromDeliveryMonth(earningInformation.DeliveryMonth);
-            if (PeriodsToIgnore.Contains(period))
+            if (periodsToIgnore.Contains(period))
             {
                 return true;
             }
@@ -96,11 +87,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return false;
         }
 
-        private void AddRequiredPayment(RequiredPayment requiredPayment, decimal amount)
+        private RequiredPayment CreateRequiredPayment(RequiredPayment requiredPayment, decimal amount)
         {
             var payment = new RequiredPayment(requiredPayment);
             payment.AmountDue = amount;
-            RequiredPayments.Add(payment);
+            return payment;
         }
 
         private int PeriodFromDeliveryMonth(int deliveryMonth)

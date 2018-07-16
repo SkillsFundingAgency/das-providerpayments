@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
@@ -72,8 +73,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         [Range(0, 1000)]
         public int PathwayCode { get; set; }
 
-        [Range(1,2)]
-        public int ApprenticeshipContractType { get; set; }
+        public ApprenticeshipContractType ApprenticeshipContractType { get; set; }
+
         [StringLength(25)]
         public string PriceEpisodeIdentifier { get; set; }
 

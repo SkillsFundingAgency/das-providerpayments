@@ -2,7 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
-    public interface IProviderProcessor
+    public interface IProviderPaymentsDueProcessor
     {
         void Process(ProviderEntity provider);
     }

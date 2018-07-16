@@ -49,7 +49,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             [Test, PaymentsDueAutoData]
             public void ThenTheOutputShouldBeEmpty(DatalockValidationService sut)
             {
-                var actual = sut.ProcessDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
+                var actual = sut.GetSuccessfulDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
 
                 actual.Should().HaveCount(0);
             }
@@ -69,7 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             [Test, PaymentsDueAutoData]
             public void ThenThereShouldBeOutputForTheCommitments(DatalockValidationService sut)
             {
-                var actual = sut.ProcessDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
+                var actual = sut.GetSuccessfulDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
 
                 actual.Should().HaveCount(5);
             }

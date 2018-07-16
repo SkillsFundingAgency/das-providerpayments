@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             RawDatalocks[2] = RawDatalocks[0];
             RawDatalocks[3] = RawDatalocks[0];
 
-            var actual = sut.ProcessDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
+            var actual = sut.GetSuccessfulDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
 
             actual.Should().HaveCount(7);
         }
