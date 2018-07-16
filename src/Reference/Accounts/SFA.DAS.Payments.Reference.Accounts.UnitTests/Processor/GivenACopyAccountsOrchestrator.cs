@@ -81,7 +81,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     });
 
                 // Act
-                _processor.CopyAccounts();
+                _processor.ImportAccounts();
 
                 // Assert
                 _mediator.Verify(m => m.Send(It.IsAny<GetPageOfAccountsQueryRequest>()), Times.Exactly(3));
@@ -94,7 +94,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldAddOrUpdateEachAccount()
             {
                 // Act
-                _processor.CopyAccounts();
+                _processor.ImportAccounts();
 
                 // Assert
                 _mediator.Verify(m => m.Send(It.IsAny<AddOrUpdateAccountCommandRequest>()), Times.Exactly(2));
@@ -125,7 +125,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     });
 
                 // Act
-                _processor.CopyAccounts();
+                _processor.ImportAccounts();
 
                 // Assert
                 Assert.AreEqual(2, correlationDates.Count);
@@ -136,7 +136,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldSendTheCorrelationDateWithCreationCommands()
             {
                 // Act
-                _processor.CopyAccounts();
+                _processor.ImportAccounts();
 
                 // Assert
                 _mediator.Verify(m => m.Send(It.Is<AddOrUpdateAccountCommandRequest>(r => r.CorrelationDate >= DateTime.Today)), Times.Exactly(2));
@@ -146,7 +146,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldWriteAnAuditRecordAtEndOfProcess()
             {
                 // Act
-                _processor.CopyAccounts();
+                _processor.ImportAccounts();
 
                 // Assert
                 _mediator.Verify(m => m.Send(It.Is<AddAuditCommandRequest>(r => r.AccountRead == 2 && r.CorrelationDate >= DateTime.Today)), Times.Once());
