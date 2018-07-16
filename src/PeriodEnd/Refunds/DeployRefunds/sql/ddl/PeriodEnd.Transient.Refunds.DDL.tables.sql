@@ -66,7 +66,7 @@ CREATE TABLE Refunds.Payments
 	TransactionType int NOT NULL,
 	Amount decimal(15,5),
 	
-	CONSTRAINT PK_Refunds_Payments_RequiredPaymentId_FundingSource PRIMARY KEY (RequiredPaymentId, FundingSource)
+	CONSTRAINT PK_Refunds_Payments_RequiredPaymentId_FundingSource PRIMARY KEY (RequiredPaymentId, FundingSource, DeliveryYear, DeliveryMonth)
 )
 GO
 
