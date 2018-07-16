@@ -19,7 +19,7 @@ namespace SFA.DAS.Payments.Reference.Accounts
         }
 
 
-        public void Process()
+        public void CopyAccounts()
         {
             _logger.Info("Started Accounts API Processor.");
 
