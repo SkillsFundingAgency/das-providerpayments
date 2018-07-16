@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CopyAccountsOrchestrator.cs" />
     <Compile Include="ApiProcessor.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
