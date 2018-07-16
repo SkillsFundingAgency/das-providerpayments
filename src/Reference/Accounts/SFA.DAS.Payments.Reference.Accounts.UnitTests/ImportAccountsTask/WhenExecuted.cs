@@ -11,7 +11,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
 {
     public class WhenExecuted
     {
-        private Mock<Accounts.ApiProcessor> _processor;
+        private Mock<IApiProcessor> _processor;
         private Mock<IDependencyResolver> _dependencyResolver;
         private Accounts.ImportAccountsTask _task;
         private Mock<IExternalContext> _context;
@@ -35,10 +35,10 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
                     { KnownContextKeys.AccountsApiTenant, "http://ad.test" }
                 });
 
-            _processor = new Mock<Accounts.ApiProcessor>();
+            _processor = new Mock<IApiProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
-            _dependencyResolver.Setup(r => r.GetInstance<Accounts.ApiProcessor>())
+            _dependencyResolver.Setup(r => r.GetInstance<IApiProcessor>())
                 .Returns(_processor.Object);
 
             _task = new Accounts.ImportAccountsTask(_dependencyResolver.Object);

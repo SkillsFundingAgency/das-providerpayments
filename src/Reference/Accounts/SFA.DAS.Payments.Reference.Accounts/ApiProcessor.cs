@@ -7,7 +7,7 @@ using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts
 {
-    public class ApiProcessor
+    public class ApiProcessor : IApiProcessor
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
@@ -17,12 +17,9 @@ namespace SFA.DAS.Payments.Reference.Accounts
             _mediator = mediator;
             _logger = logger;
         }
-        protected ApiProcessor()
-        {
-            // For mocking
-        }
 
-        public virtual void Process()
+
+        public void Process()
         {
             _logger.Info("Started Accounts API Processor.");
 

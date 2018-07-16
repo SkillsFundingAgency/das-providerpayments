@@ -83,6 +83,7 @@
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
+    <Compile Include="IApiProcessor.cs" />
     <Compile Include="ImportAccountsTask.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAuditRepository.cs" />
