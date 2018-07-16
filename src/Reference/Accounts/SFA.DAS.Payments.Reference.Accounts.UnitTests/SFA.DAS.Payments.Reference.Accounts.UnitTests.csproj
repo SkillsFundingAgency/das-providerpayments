@@ -81,7 +81,7 @@
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler\WhenHandlingRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler\WhenHandlingRequest.cs" />
     <Compile Include="ImportAccountsTask\WhenExecuted.cs" />
-    <Compile Include="Processor\WhenCallingCopyAccounts.cs" />
+    <Compile Include="Processor\GivenACopyAccountsOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
