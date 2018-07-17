@@ -4,6 +4,6 @@
     {
         public const string TransientDatabaseConnectionString = "TransientDatabaseConnectionString";
         public const string LogLevel = "LogLevel";
-        public const string CollectionYear = "CollectionYear";
+        public const string CollectionYear = "YearOfCollection";
     }
 }

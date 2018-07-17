@@ -2,6 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.DCFS.StructureMap.Infrastructure;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Entities;
 using SFA.DAS.ProviderPayments.Calc.Refunds.Infrastructure.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Attributes;
@@ -16,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.Infrastructure
         [OneTimeSetUp]
         public void Setup()
         {
-            _sut = new HistoricalPaymentsRepository(GlobalTestContext.Instance.TransientConnectionString);
+            _sut = new HistoricalPaymentsRepository(new DcConfiguration(new ContextWrapper(new RefundsTestContext())));
         }
 
         [TestFixture, SetupNoPaymentsHistory]
