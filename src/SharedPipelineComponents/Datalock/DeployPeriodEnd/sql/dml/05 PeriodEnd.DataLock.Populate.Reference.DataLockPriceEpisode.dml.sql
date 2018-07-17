@@ -72,24 +72,44 @@ INSERT INTO [Reference].[DataLockPriceEpisode] (
 		ld.LearnStartDate AS LearningStartDate,
 		et.EffectiveTo
 	FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
-		JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l ON ape.[Ukprn] = l.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Valid].[Learner] l 
+			ON ape.[Ukprn] = l.[Ukprn]
 			AND ape.[LearnRefNumber] = l.[LearnRefNumber]
-		JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld ON ape.[Ukprn] = ld.[Ukprn]
+		JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] ld 
+			ON ape.[Ukprn] = ld.[Ukprn]
 			AND ape.[LearnRefNumber] = ld.[LearnRefNumber]
 			AND ape.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
 		LEFT JOIN (
-			SELECT x.Ukprn, x.PriceEpisodeIdentifier, x.LearnRefNumber, x.PriceEpisodeAimSeqNumber, DATEADD(DD,-1,MIN(y.EpisodeEffectiveTNPStartDate)) EffectiveTo
+			SELECT 
+				x.Ukprn, 
+				x.PriceEpisodeIdentifier, 
+				x.LearnRefNumber, 
+				x.PriceEpisodeAimSeqNumber, 
+				DATEADD(DD,-1,MIN(y.EpisodeEffectiveTNPStartDate)) EffectiveTo
 			FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] x
 			LEFT OUTER JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] y
 				ON x.LearnRefNumber = y.LearnRefNumber
 				AND y.EpisodeEffectiveTNPStartDate > x.EpisodeEffectiveTNPStartDate
-			GROUP BY x.ukprn, x.PriceEpisodeIdentifier,x.LearnRefNumber, x.PriceEpisodeAimSeqNumber, x.EpisodeEffectiveTNPStartDate
+			GROUP BY 
+				x.ukprn, 
+				x.PriceEpisodeIdentifier,
+				x.LearnRefNumber, 
+				x.PriceEpisodeAimSeqNumber, 
+				x.EpisodeEffectiveTNPStartDate
 		) et
 			ON ape.Ukprn = et.Ukprn
 			AND ape.PriceEpisodeIdentifier = et.PriceEpisodeIdentifier
 			AND ape.LearnRefNumber = et.LearnRefNumber
             AND ape.PriceEpisodeAimSeqNumber = et.PriceEpisodeAimSeqNumber
 	WHERE ape.PriceEpisodeContractType = 'Levy Contract'
+	AND EXISTS (
+		SELECT NULL 
+		FROM ${ILR_Deds.FQ}.Rulebase.[AEC_ApprenticeshipPriceEpisode_Period] APEP
+			WHERE ape.Ukprn = APEP.Ukprn
+			AND ape.LearnRefNumber = APEP.LearnRefNumber
+			AND ape.PriceEpisodeIdentifier = APEP.PriceEpisodeIdentifier
+			AND APEP.PriceEpisodeSFAContribPct != 0
+	)
 
 GO
 
