@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FastMember;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
@@ -313,8 +314,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             IHoldCommitmentInformation commitmentInformation = null,
             int datalockType = -1)
         {
-            for (var transactionType = 1; transactionType <= 15; transactionType++)
+            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
             {
+                var transactionType = (int)transactionTypeValue;
                 if (datalockType != -1 && IgnoreTransactionType(datalockType, transactionType))
                 {
                     continue;
@@ -346,8 +348,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             PaymentFailureType paymentFailureReason,
             IHoldCommitmentInformation commitmentInformation = null)
         {
-            for (var transactionType = 1; transactionType <= 15; transactionType++)
+            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
             {
+                var transactionType = (int) transactionTypeValue;
                 var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
                 if (amountDue == 0)
                 {
