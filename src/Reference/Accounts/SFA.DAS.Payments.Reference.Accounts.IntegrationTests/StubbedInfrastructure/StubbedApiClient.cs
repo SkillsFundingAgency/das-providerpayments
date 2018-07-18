@@ -21,6 +21,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
             throw new NotImplementedException();
         }
 
+        public Task<PagedApiResponseViewModel<AccountLegalEntityViewModel>> GetPageOfAccountLegalEntities(int pageNumber = 1, int pageSize = 1000)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<PagedApiResponseViewModel<AccountWithBalanceViewModel>> GetPageOfAccounts(int pageNumber = 1, int pageSize = 1000, DateTime? toDate = null)
         {
             var skip = (pageNumber - 1) * pageSize;
@@ -50,6 +55,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
         }
 
         Task<T> IAccountApiClient.GetResource<T>(string uri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<StatisticsViewModel> GetStatistics()
         {
             throw new NotImplementedException();
         }
