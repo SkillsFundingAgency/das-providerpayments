@@ -28,9 +28,12 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
 
                 var response = _mediator.Send(new GetPageOfAgreementsQueryRequest { PageNumber = pageNumber });
 
+                if (!response.IsValid)
+                {
+                    throw response.Exception;
+                }
 
 
-                
 
                 _logger.Info($"Finished processing {pageNumber}. More pages = {response.HasMorePages}");
                 numberOfAgreements += response.Items.Length;

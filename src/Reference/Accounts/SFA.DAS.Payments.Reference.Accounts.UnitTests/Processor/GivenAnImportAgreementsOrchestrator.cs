@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture.NUnit3;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using NUnit.Framework;
@@ -40,6 +42,27 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 1)), Times.Once);
                 mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 2)), Times.Once);
                 mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 3)), Times.Once);
+            }
+
+            [Test, AccountsAutoData]
+            public void AndExceptionReadingPages_ThenThrowsException(
+                GetPageOfAgreementsQueryResponse errorResponse,
+                string errorMessage,
+                [Frozen] Mock<IMediator> mockMediator,
+                ImportAgreementsOrchestrator sut)
+            {
+                errorResponse.IsValid = false;
+                errorResponse.Exception = new InvalidOperationException(errorMessage);
+                errorResponse.HasMorePages = false; // needed to stop infinite loop lol
+                mockMediator
+                    .Setup(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .Returns(errorResponse);
+
+                Action act = sut.ImportAccounts;
+
+                act.Should()
+                    .Throw<InvalidOperationException>()
+                    .WithMessage(errorMessage);
             }
 
             [Test, Ignore("todo")]
