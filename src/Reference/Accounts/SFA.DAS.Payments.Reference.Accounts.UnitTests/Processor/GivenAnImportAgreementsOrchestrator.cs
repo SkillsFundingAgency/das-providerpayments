@@ -5,6 +5,7 @@ using MediatR;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
+using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 {
@@ -36,6 +37,9 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
                 mockMediator.Verify(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()), 
                     Times.Exactly(getPageOfAgreementsResponses.Count));
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 1)), Times.Once);
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 2)), Times.Once);
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 3)), Times.Once);
             }
 
             [Test, Ignore("todo")]
@@ -49,14 +53,6 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             {
 
             }
-        }
-    }
-
-    public class ImportAgreementsOrchestrator
-    {
-        public void ImportAccounts()
-        {
-            
         }
     }
 }

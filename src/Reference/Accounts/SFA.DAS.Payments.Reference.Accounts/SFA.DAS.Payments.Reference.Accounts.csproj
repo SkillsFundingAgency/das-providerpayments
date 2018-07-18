@@ -100,6 +100,7 @@
     <Compile Include="Processor\ApiProcessor.cs" />
     <Compile Include="Processor\ImportAccountsOrchestrator.cs" />
     <Compile Include="Processor\IImportAccountsOrchestrator.cs" />
+    <Compile Include="Processor\ImportAgreementsOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

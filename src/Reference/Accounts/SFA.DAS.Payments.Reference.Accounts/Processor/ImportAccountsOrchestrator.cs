@@ -21,7 +21,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
 
         public void ImportAccounts()
         {
-            _logger.Info("Started Accounts API Processor.");
+            _logger.Info("Started importing accounts.");
 
             var correlationDate = DateTime.Today;
             var pageNumber = 1;
@@ -55,7 +55,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
                 AccountRead = numberOfAccounts,
                 CompletedSuccessfully = true
             });
-            _logger.Info("Finished Accounts API Processor.");
+            _logger.Info("Finished importing accounts.");
         }
     }
 }
