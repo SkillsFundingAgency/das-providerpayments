@@ -6,7 +6,8 @@ using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Application.AddAuditCommand.AddAuditCommandHandler
 {
-    class WhenHandling
+    [TestFixture]
+    class GivenAnAddAuditCommandHandler
     {
         private Mock<IAuditRepository> _auditRepository;
         private Accounts.Application.AddAuditCommand.AddAuditCommandHandler _handler;
