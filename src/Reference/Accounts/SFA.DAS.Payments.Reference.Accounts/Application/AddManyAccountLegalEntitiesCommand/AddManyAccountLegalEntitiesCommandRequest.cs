@@ -2,9 +2,9 @@
 using MediatR;
 using SFA.DAS.EAS.Account.Api.Types;
 
-namespace SFA.DAS.Payments.Reference.Accounts.Application.AddManyAgreementsCommand
+namespace SFA.DAS.Payments.Reference.Accounts.Application.AddManyAccountLegalEntitiesCommand
 {
-    public class AddManyAgreementsCommandRequest : IRequest
+    public class AddManyAccountLegalEntitiesCommandRequest : IRequest
     {
         public IEnumerable<AccountLegalEntityViewModel> AccountLegalEntityViewModels { get; set; }
     }

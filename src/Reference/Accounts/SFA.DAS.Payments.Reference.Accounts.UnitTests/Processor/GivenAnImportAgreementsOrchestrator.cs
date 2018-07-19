@@ -7,7 +7,7 @@ using MediatR;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
-using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAgreementsCommand;
+using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAccountLegalEntitiesCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 using SFA.DAS.Payments.Reference.Accounts.Processor;
 
@@ -87,7 +87,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
                 sut.ImportAccounts();
 
-                mockMediator.Verify(mediator => mediator.Send(It.IsAny<AddManyAgreementsCommandRequest>()), 
+                mockMediator.Verify(mediator => mediator.Send(It.IsAny<AddManyAccountLegalEntitiesCommandRequest>()), 
                     Times.Exactly(getPageOfAgreementsResponses.Count));
             }
 

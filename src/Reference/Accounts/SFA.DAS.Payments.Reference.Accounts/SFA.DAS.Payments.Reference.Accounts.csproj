@@ -76,7 +76,7 @@
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
     <Compile Include="Application\AddAuditCommand\AuditType.cs" />
-    <Compile Include="Application\AddManyAgreementsCommand\AddManyAgreementsCommandRequest.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandRequest.cs" />
     <Compile Include="Application\GetPageOfAgreementsQuery\GetPageOfAgreementsQueryHandler.cs" />
