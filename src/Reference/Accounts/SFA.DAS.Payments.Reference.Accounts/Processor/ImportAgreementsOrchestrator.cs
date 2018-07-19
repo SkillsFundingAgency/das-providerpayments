@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using NLog;
+using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAgreementsCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Processor
@@ -33,6 +34,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
                     throw response.Exception;
                 }
 
+                _mediator.Send(new AddManyAgreementsCommandRequest {AccountLegalEntityViewModels = response.Items});
 
 
                 _logger.Info($"Finished processing {pageNumber}. More pages = {response.HasMorePages}");
