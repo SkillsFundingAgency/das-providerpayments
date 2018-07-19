@@ -120,7 +120,7 @@
     <Compile Include="ImportAccountsTask\WhenExecuted.cs" />
     <Compile Include="Processor\GivenAnImportAccountsOrchestrator.cs" />
     <Compile Include="Processor\GivenAnApiProcessor.cs" />
-    <Compile Include="Processor\GivenAnImportAgreementsOrchestrator.cs" />
+    <Compile Include="Processor\GivenAnImportAccountLegalEntitiesOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

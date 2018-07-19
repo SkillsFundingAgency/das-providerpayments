@@ -14,7 +14,7 @@ using SFA.DAS.Payments.Reference.Accounts.Processor;
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 {
     [TestFixture]
-    public class GivenAnImportAgreementsOrchestrator
+    public class GivenAnImportAccountLegalEntitiesOrchestrator
     {
         [TestFixture]
         public class WhenCallingImportAgreements
@@ -23,7 +23,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldRetrieveAllPages(
                 List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
-                ImportAgreementsOrchestrator sut)
+                ImportAccountLegalEntitiesOrchestrator sut)
             {
                 getPageOfAgreementsResponses.ForEach(response =>
                 {
@@ -51,7 +51,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 GetPageOfAgreementsQueryResponse errorResponse,
                 string errorMessage,
                 [Frozen] Mock<IMediator> mockMediator,
-                ImportAgreementsOrchestrator sut)
+                ImportAccountLegalEntitiesOrchestrator sut)
             {
                 errorResponse.IsValid = false;
                 errorResponse.Exception = new InvalidOperationException(errorMessage);
@@ -71,7 +71,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldBatchSaveEachPage(
                 List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
-                ImportAgreementsOrchestrator sut)
+                ImportAccountLegalEntitiesOrchestrator sut)
             {
                 getPageOfAgreementsResponses.ForEach(response =>
                 {
@@ -95,7 +95,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
             public void ThenItShouldWriteAnAuditRecord(
                 List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
-                ImportAgreementsOrchestrator sut)
+                ImportAccountLegalEntitiesOrchestrator sut)
             {
                 var numberOfRecords = 0;
                 getPageOfAgreementsResponses.ForEach(response =>

@@ -7,12 +7,12 @@ using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
-    public class ImportAgreementsOrchestrator
+    public class ImportAccountLegalEntitiesOrchestrator
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
 
-        public ImportAgreementsOrchestrator(IMediator mediator, ILogger logger)
+        public ImportAccountLegalEntitiesOrchestrator(IMediator mediator, ILogger logger)
         {
             _mediator = mediator;
             _logger = logger;
