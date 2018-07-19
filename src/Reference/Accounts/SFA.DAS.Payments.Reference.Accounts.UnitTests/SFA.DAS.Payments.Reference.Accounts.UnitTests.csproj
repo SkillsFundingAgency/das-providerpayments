@@ -113,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountsAutoDataAttribute.cs" />
-    <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler\WhenHandling.cs" />
+    <Compile Include="Application\AddAuditCommand\GivenAnAddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\GivenAnAddAuditCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler\WhenHandlingRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler\WhenHandlingRequest.cs" />
