@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using NLog;
+using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAgreementsCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 
@@ -41,6 +43,14 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
                 pageNumber++;
                 hasMorePages = response.HasMorePages;
             }
+
+            _mediator.Send(new AddAuditCommandRequest
+            {
+                CorrelationDate = DateTime.Today,
+                AccountsRead = numberOfAgreements,
+                CompletedSuccessfully = true,
+                AuditType = AuditType.AccountLegalEntity
+            });
 
             _logger.Info("Finished importing agreements.");
         }

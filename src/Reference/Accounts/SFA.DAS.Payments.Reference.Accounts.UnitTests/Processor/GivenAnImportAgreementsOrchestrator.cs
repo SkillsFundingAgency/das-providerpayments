@@ -6,6 +6,7 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAgreementsCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 using SFA.DAS.Payments.Reference.Accounts.Processor;
@@ -19,7 +20,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
         public class WhenCallingImportAgreements
         {
             [Test, AccountsAutoData]
-            public void ThenItShouldReadAllPages(
+            public void ThenItShouldRetrieveAllPages(
                 List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
                 ImportAgreementsOrchestrator sut)
@@ -90,10 +91,32 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     Times.Exactly(getPageOfAgreementsResponses.Count));
             }
 
-            [Test, Ignore("todo")]
-            public void ThenItShouldWriteAnAuditRecordAtEndOfProcess()
+            [Test, AccountsAutoData]
+            public void ThenItShouldWriteAnAuditRecord(
+                List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
+                [Frozen] Mock<IMediator> mockMediator,
+                ImportAgreementsOrchestrator sut)
             {
+                var numberOfRecords = 0;
+                getPageOfAgreementsResponses.ForEach(response =>
+                {
+                    response.IsValid = true;
+                    response.HasMorePages = true;
+                    numberOfRecords += response.Items.Length;
+                });
+                getPageOfAgreementsResponses.Last().HasMorePages = false;
+                mockMediator
+                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .Returns(getPageOfAgreementsResponses[0])
+                    .Returns(getPageOfAgreementsResponses[1])
+                    .Returns(getPageOfAgreementsResponses[2]);
 
+                sut.ImportAccounts();
+
+                mockMediator.Verify(m => m.Send(It.Is<AddAuditCommandRequest>(r =>
+                    r.AccountsRead == numberOfRecords &&
+                    r.CorrelationDate >= DateTime.Today &&
+                    r.AuditType == AuditType.AccountLegalEntity)), Times.Once());
             }
         }
     }

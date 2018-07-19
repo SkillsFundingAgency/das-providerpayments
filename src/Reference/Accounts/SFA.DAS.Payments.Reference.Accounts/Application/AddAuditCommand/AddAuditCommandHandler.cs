@@ -1,7 +1,5 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data;
-using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand
 {
