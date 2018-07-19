@@ -36,7 +36,6 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
 
                 _mediator.Send(new AddManyAgreementsCommandRequest {AccountLegalEntityViewModels = response.Items});
 
-
                 _logger.Info($"Finished processing {pageNumber}. More pages = {response.HasMorePages}");
                 numberOfAgreements += response.Items.Length;
                 pageNumber++;

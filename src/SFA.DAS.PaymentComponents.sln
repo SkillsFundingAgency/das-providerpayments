@@ -562,6 +562,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MigrationScripts", "Migrati
 	ProjectSection(SolutionItems) = preProject
 		Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql = Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql
 		Reference\Accounts\Deploy\sql\MigrationScripts\002_Reference.Deds.AccountLegalEntity.Initial.sql = Reference\Accounts\Deploy\sql\MigrationScripts\002_Reference.Deds.AccountLegalEntity.Initial.sql
+		Reference\Accounts\Deploy\sql\MigrationScripts\003_DEDS.dbo.DasAccountsAudit_Add_AuditType.sql = Reference\Accounts\Deploy\sql\MigrationScripts\003_DEDS.dbo.DasAccountsAudit_Add_AuditType.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{8E6FE549-CD8E-4B8C-80F3-504F28BDD180}"
