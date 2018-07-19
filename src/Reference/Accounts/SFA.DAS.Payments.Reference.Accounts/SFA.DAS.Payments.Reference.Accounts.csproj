@@ -76,6 +76,8 @@
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
     <Compile Include="Application\AddAuditCommand\AuditType.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AccountLegalEntityViewModelExtensions.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandHandler.cs" />
     <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandRequest.cs" />
@@ -87,7 +89,9 @@
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AccountLegalEntityEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\AuditEntity.cs" />
+    <Compile Include="Infrastructure\Data\IAccountLegalEntityRepository.cs" />
     <Compile Include="Processor\IApiProcessor.cs" />
     <Compile Include="ImportAccountsTask.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />

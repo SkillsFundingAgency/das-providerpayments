@@ -115,6 +115,8 @@
     <Compile Include="AccountsAutoDataAttribute.cs" />
     <Compile Include="Application\AddAuditCommand\GivenAnAddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\GivenAnAddAuditCommandRequest.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\GivenAnAddManyAccountLegalEntitiesCommandHandler.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\GivenAnAccountLegalEntityViewModel.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler\WhenHandlingRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler\WhenHandlingRequest.cs" />
     <Compile Include="ImportAccountsTask\WhenExecuted.cs" />

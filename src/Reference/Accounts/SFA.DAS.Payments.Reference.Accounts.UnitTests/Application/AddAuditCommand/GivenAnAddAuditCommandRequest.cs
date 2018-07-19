@@ -8,7 +8,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Application.AddAuditComm
     public class GivenAnAddAuditCommandRequest
     {
         [TestFixture]
-        public class AndCallingToAuditEntity
+        public class WhenCallingToAuditEntity
         {
             [Test, AccountsAutoData]
             public void ThenMapsReadDateTime(AddAuditCommandRequest sut) =>
