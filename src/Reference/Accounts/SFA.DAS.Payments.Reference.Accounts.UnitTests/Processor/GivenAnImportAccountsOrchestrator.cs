@@ -149,7 +149,10 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 _sut.ImportAccounts();
 
                 // Assert
-                _mediator.Verify(m => m.Send(It.Is<AddAuditCommandRequest>(r => r.AccountRead == 2 && r.CorrelationDate >= DateTime.Today)), Times.Once());
+                _mediator.Verify(m => m.Send(It.Is<AddAuditCommandRequest>(r => 
+                    r.AccountsRead == 2 && 
+                    r.CorrelationDate >= DateTime.Today && 
+                    r.AuditType == AuditType.Account)), Times.Once());
             }
         }
     }

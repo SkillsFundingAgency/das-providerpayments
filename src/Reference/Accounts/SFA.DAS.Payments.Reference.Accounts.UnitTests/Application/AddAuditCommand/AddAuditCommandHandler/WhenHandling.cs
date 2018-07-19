@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data;
+using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Application.AddAuditCommand.AddAuditCommandHandler
 {
@@ -25,13 +26,17 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Application.AddAuditComm
             var request = new Accounts.Application.AddAuditCommand.AddAuditCommandRequest
             {
                 CorrelationDate = new DateTime(2017, 4, 1),
-                AccountRead = 1234,
+                AccountsRead = 1234,
                 CompletedSuccessfully = true
             };
             _handler.Handle(request);
 
             // Assert
-            _auditRepository.Verify(r => r.CreateAudit(request.CorrelationDate, request.AccountRead, request.CompletedSuccessfully));
+            _auditRepository.Verify(r => r.CreateAudit(It.Is<AuditEntity>(entity => 
+                entity.ReadDateTime == request.CorrelationDate &&
+                entity.AccountsRead == request.AccountsRead &&
+                entity.CompletedSuccessfully == request.CompletedSuccessfully &&
+                entity.AuditType == (short)request.AuditType)));
         }
     }
 }

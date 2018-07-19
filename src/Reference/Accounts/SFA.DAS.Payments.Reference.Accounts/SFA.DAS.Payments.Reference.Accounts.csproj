@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
+    <Compile Include="Application\AddAuditCommand\AuditType.cs" />
     <Compile Include="Application\AddManyAgreementsCommand\AddManyAgreementsCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandRequest.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AuditEntity.cs" />
     <Compile Include="Processor\IApiProcessor.cs" />
     <Compile Include="ImportAccountsTask.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />

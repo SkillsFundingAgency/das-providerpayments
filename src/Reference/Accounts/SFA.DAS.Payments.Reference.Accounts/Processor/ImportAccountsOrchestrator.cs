@@ -52,7 +52,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
             _mediator.Send(new AddAuditCommandRequest
             {
                 CorrelationDate = correlationDate,
-                AccountRead = numberOfAccounts,
+                AccountsRead = numberOfAccounts,
                 CompletedSuccessfully = true
             });
             _logger.Info("Finished importing accounts.");
