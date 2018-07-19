@@ -68,7 +68,7 @@ GO
 	
 CREATE TABLE [dbo].[AccountLegalEntity](
 	[Id] BIGINT NOT NULL PRIMARY KEY,
-	[AccountLegalEntityPublicHashedId] CHAR(6) NOT NULL, 
+	[PublicHashedId] CHAR(6) NOT NULL, 
 	[AccountId] BIGINT NOT NULL,
 	[LegalEntityId] BIGINT NOT NULL
 )
