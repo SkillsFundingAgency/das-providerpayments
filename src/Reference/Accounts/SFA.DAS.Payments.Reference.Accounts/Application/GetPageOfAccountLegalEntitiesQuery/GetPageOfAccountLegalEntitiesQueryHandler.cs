@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using SFA.DAS.EAS.Account.Api.Client;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountLegalEntitiesQuery
@@ -6,7 +7,6 @@ namespace SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountLegalE
     public class GetPageOfAccountLegalEntitiesQueryHandler : 
         IRequestHandler<GetPageOfAccountLegalEntitiesQueryRequest, GetPageOfAccountLegalEntitiesQueryResponse>
     {
-        private const int PageSize = 1000;
         private readonly IAccountApiClient _accountApiClient;
 
         public GetPageOfAccountLegalEntitiesQueryHandler(IAccountApiClient accountApiClient)
@@ -16,18 +16,29 @@ namespace SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountLegalE
 
         public GetPageOfAccountLegalEntitiesQueryResponse Handle(GetPageOfAccountLegalEntitiesQueryRequest message)
         {
-            var pagedApiResponse = AsyncHelpers.RunSync(async () =>
+            try
             {
-                var result = await _accountApiClient.GetPageOfAccountLegalEntities(message.PageNumber, PageSize);
-                return result;
-            });
+                var pagedApiResponse = AsyncHelpers.RunSync(async () =>
+                    {
+                        var result = await _accountApiClient.GetPageOfAccountLegalEntities(message.PageNumber);
+                        return result;
+                    });
 
-            return new GetPageOfAccountLegalEntitiesQueryResponse
+                return new GetPageOfAccountLegalEntitiesQueryResponse
+                {
+                    IsValid = true,
+                    HasMorePages = pagedApiResponse.Page < pagedApiResponse.TotalPages,
+                    Items = pagedApiResponse.Data.ToArray()
+                };
+            }
+            catch (Exception ex)
             {
-                /*IsValid = true,
-                HasMorePages = pageOfAccounts.Page < pageOfAccounts.TotalPages,*/
-                Items = pagedApiResponse.Data.ToArray()
-            };
+                return new GetPageOfAccountLegalEntitiesQueryResponse
+                {
+                    IsValid = false,
+                    Exception = ex
+                };
+            }
         }
     }
 }
