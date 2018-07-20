@@ -93,13 +93,13 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
-        protected void ExecuteBatch<T>(T[] batch, string destination)
+        protected void ExecuteBatch<T>(IEnumerable<T> batch, string destination)
         {
             var columns = typeof(T).GetProperties().ToDictionary(p => p.Name, p => p.Name);
             ExecuteBatch(batch, destination, columns);
         }
 
-        protected void ExecuteBatch<T>(T[] batch, string destination, IDictionary<string, string> columns)
+        protected void ExecuteBatch<T>(IEnumerable<T> batch, string destination, IDictionary<string, string> columns)
         {
             using (var bcp = new SqlBulkCopy(_connectionString))
             {

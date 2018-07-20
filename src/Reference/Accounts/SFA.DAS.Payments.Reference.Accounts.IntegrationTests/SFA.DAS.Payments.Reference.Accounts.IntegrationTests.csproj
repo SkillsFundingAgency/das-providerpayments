@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataHelpers\AccountDataHelper.cs" />
+    <Compile Include="DataHelpers\AccountLegalEntityDataHelper.cs" />
     <Compile Include="DataHelpers\AuditDataHelper.cs" />
     <Compile Include="DataHelpers\DatabaseHelper.cs" />
     <Compile Include="DataHelpers\Entities\AuditEntity.cs" />
