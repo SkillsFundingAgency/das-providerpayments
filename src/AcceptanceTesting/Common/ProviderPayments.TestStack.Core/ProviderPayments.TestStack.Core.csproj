@@ -104,6 +104,7 @@
     <Compile Include="Workflow\RunTransientSqlScriptsTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CleanupEasSubmissionDeds.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CleanupPeriodEndDedsTask.cs" />
+    <Compile Include="Workflow\Summarisation\Tasks\CopyDataToTransientTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndDataToDedsTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\CopyPeriodEndReferenceDataTask.cs" />
     <Compile Include="Workflow\Summarisation\Tasks\DataLockEventsPeriodEndTask.cs" />

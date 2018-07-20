@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -95,7 +96,11 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
 
         protected void ExecuteBatch<T>(T[] batch, string destination)
         {
-            var columns = typeof(T).GetProperties().ToDictionary(p => p.Name, p => p.Name);
+            var columns = typeof(T)
+                .GetProperties()
+                .Where(info => !info.IsDefined(typeof(NotMappedAttribute), false))
+                .ToDictionary(p => p.Name, p => p.Name);
+
             ExecuteBatch(batch, destination, columns);
         }
 

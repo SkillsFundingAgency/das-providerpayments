@@ -11,6 +11,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.Summarisation
             SetTasks(new WorkflowTask[]
             {
                 new SetCollectionPeriodTask(logger),
+                new CopyDataToTransientTask(logger),
                 new CopyPeriodEndReferenceDataTask(logger),
                 new DataLockPeriodEndTask(logger),
                 new DataLockEventsPeriodEndTask(logger),

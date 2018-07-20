@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using StructureMap;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
@@ -24,16 +27,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<ContextWrapper>().Use(contextWrapper);
 
             // TODO: Fix so can be registered with convention
-            For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
-            For<IProviderRepository>().Use<DcfsProviderRepository>();
-            For<IEarningRepository>().Use<DcfsEarningRepository>();
-            For<IRequiredPaymentRepository>().Use<DcfsRequiredPaymentRepository>();
+            For<ICollectionPeriodRepository>().Use<CollectionPeriodRepository>();
+            For<IProviderRepository>().Use<ProviderRepository>();
+            For<IRequiredPaymentRepository>().Use<RequiredPaymentRepository>();
+            For<ICommitmentRepository>().Use<CommitmentRepository>();
+            For<IDatalockRepository>().Use<DatalockRepository>();
+            For<INonPayableEarningRepository>().Use<NonPayableEarningRepository>();
+            For<IRequiredPaymentsHistoryRepository>().Use<RequiredPaymentsHistoryRepository>();
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 
             For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => GetInstance(ctx, t));
             For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => GetAllInstances(ctx, t));
             For<IMediator>().Use<Mediator>();
+
+            For<ICalculatePaymentsDue>().Use<PaymentsDueCalculationService>();
+            For<IDetermineWhichEarningsShouldBePaid>().Use<DetermineWhichEarningsShouldBePaidService>();
+            For<IRawEarningsRepository>().Use<RawEarningsRepository>();
+            For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

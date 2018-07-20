@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="CS.Common.External">
       <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
@@ -48,7 +51,11 @@
     <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap.AutoFactory, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.AutoFactory.1.0.1\lib\net45\StructureMap.AutoFactory.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,50 +65,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\CollectionPeriods\CollectionPeriod.cs" />
-    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
-    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
-    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
-    <Compile Include="Application\Earnings\EarningTypes.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryRequest.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryResponse.cs" />
-    <Compile Include="Application\Earnings\InvalidEarningTypeException.cs" />
-    <Compile Include="Application\Earnings\PeriodEarning.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
-    <Compile Include="Application\Providers\Provider.cs" />
-    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler.cs" />
-    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandRequest.cs" />
-    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandResponse.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryRequest.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryResponse.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryRequest.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryResponse.cs" />
-    <Compile Include="Application\RequiredPayments\RequiredPayment.cs" />
-    <Compile Include="Infrastructure\Data\Entities\HistoricalRequiredPaymentEntity.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsEarningRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsRequiredPaymentRepository.cs" />
+    <Compile Include="Domain\DatalockOutput.cs" />
+    <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
+    <Compile Include="Domain\IHoldCourseInformation.cs" />
+    <Compile Include="Domain\PaymentFailureType.cs" />
+    <Compile Include="Dto\EarningValidationResult.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Services\DatalockValidationService.cs" />
+    <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
+    <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
+    <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
+    <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
+    <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
+    <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
+    <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="Services\PaymentsDueCalculationService.cs" />
+    <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
+    <Compile Include="Services\Extensions\CourseExtensions.cs" />
+    <Compile Include="Services\Extensions\EarningsExtensions.cs" />
+    <Compile Include="Services\SortProviderDataIntoLearnerDataService.cs" />
+    <Compile Include="Domain\FundingDue.cs" />
+    <Compile Include="Domain\IHoldCommitmentInformation.cs" />
+    <Compile Include="Domain\PaymentGroup.cs" />
+    <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
+    <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
+    <Compile Include="Infrastructure\Data\Entities\DatalockOutputEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\NonPayableEarning.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RawEarningForMathsOrEnglish.cs" />
+    <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DatalockRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\CollectionPeriodRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\EarningEntity.cs" />
     <Compile Include="DependencyResolution\PaymentsDueRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Domain\RequiredPayment.cs" />
     <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
-    <Compile Include="Infrastructure\Data\IEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
-    <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RawEarning.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\NonPayableEarningRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RawEarningsRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
+    <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
+    <Compile Include="Services\LearnerProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Dto\PaymentsDueResult.cs" />
+    <Compile Include="Services\ProviderProcessor.cs" />
+    <Compile Include="Dto\LearnerData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -120,6 +138,7 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

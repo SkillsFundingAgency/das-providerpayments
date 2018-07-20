@@ -47,7 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests
                     RunSqlScript(@"4_PeriodEnd.Deds.PaymentsDue_FundingLienType_varchar100.sql", dedsConnection);
                     RunSqlScript(@"6_PeriodEnd.Deds.PaymentsDue.Add_APIIndexes.sql", dedsConnection);
 
-                    RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", transientConnection);

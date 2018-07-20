@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MediatR;
 using NLog;
 
@@ -93,13 +94,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
                         if (levyAllocation == 0)
                         {
-                            _logger.Info($"No mode levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
+                            _logger.Info($"No more levy in the account to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
                             accountHasFundsForLevy = false;
                             break;
                         }
 
                         MakeLevyPayment(commitment, period, paymentDue, levyAllocation);
-
                     }
 
                     _logger.Info($"Finished processing commitment {commitment.Id} for account {account.Id}");
@@ -194,8 +194,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
         private decimal MakeLevyRefund(Commitment commitment, CollectionPeriod period, PaymentDue paymentDue)
         {
             _logger.Info($"Making a levy refund payment of {paymentDue.AmountDue} for delivery month/year {paymentDue.DeliveryMonth} / {paymentDue.DeliveryYear}, to pay for {paymentDue.TransactionType} on {paymentDue.LearnerRefNumber} / {paymentDue.AimSequenceNumber} / {paymentDue.Ukprn}");
-            decimal amountToRefund = 0;
-
+            
             var historyPaymentsResponse = _mediator.Send(new GetLevyPaymentsHistoryQueryRequest
             {
                 DeliveryYear = paymentDue.DeliveryYear,
@@ -219,7 +218,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             var totalLevyPaidInPeriod = historyPayments.Where(x => x.FundingSource == FundingSource.Levy).Sum(x => x.Amount);
             var percentagePaidByLevyInPeriod = totalLevyPaidInPeriod / totalAmountPaidInPeriod;
 
-            amountToRefund = paymentDue.AmountDue * percentagePaidByLevyInPeriod; // historyPayments.Items.Sum(x => x.Amount) * -1;
+            var amountToRefund = paymentDue.AmountDue * percentagePaidByLevyInPeriod;
             if (amountToRefund < 0)
             {
                 _mediator.Send(new ProcessPaymentCommandRequest
@@ -241,6 +240,5 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
             return amountToRefund;
         }
-
     }
 }

@@ -1,4 +1,6 @@
-rmdir /S /Q "C:\Temp\PaymentsAt\Components"
+del /q /s /f "C:\Temp\PaymentsAt\Components\*"
+rmdir /S /Q "C:\Temp\PaymentsAt\Components\"
+sleep 1
 mkdir "C:\Temp\PaymentsAt\Components"
 REM call RunBuildComponents.bat "Debug"
 

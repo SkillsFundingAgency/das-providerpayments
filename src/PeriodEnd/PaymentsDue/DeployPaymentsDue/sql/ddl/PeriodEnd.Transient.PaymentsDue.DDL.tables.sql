@@ -15,7 +15,7 @@ GO
 
 CREATE TABLE PaymentsDue.TaskLog
 (
-	[TaskLogId] uniqueidentifier NOT NULL DEFAULT(NEWID()),
+	[TaskLogId] bigint identity(1,1) NOT NULL,
 	[DateTime] datetime NOT NULL DEFAULT(GETDATE()),
 	[Level] nvarchar(10) NOT NULL,
 	[Logger] nvarchar(512) NOT NULL,
@@ -53,6 +53,9 @@ CREATE TABLE PaymentsDue.RequiredPayments
 	ApprenticeshipContractType int,
 	DeliveryMonth int,
 	DeliveryYear int,
+	CollectionPeriodName varchar(8) NOT NULL,
+	CollectionPeriodMonth int NOT NULL,
+	CollectionPeriodYear int NOT NULL,
 	TransactionType int,
 	AmountDue decimal(15,5),
 	SfaContributionPercentage decimal(15,5),
@@ -70,4 +73,55 @@ CREATE NONCLUSTERED INDEX [IX_PaymentsDue_TransactionType_UseLevy_Commitment_Que
 ON [PaymentsDue].[RequiredPayments] ([CommitmentId],[UseLevyBalance],[TransactionType])
 GO
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- NonPayableEarnings
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='NonPayableEarnings' AND [schema_id] = SCHEMA_ID('PaymentsDue'))
+BEGIN
+	DROP TABLE PaymentsDue.NonPayableEarnings
+END
+GO
+
+CREATE TABLE PaymentsDue.NonPayableEarnings
+(
+	Id uniqueidentifier DEFAULT(NEWID()),
+	CommitmentId bigint,
+	CommitmentVersionId varchar(25),
+	AccountId bigint,
+	AccountVersionId varchar(50),
+	Uln bigint,
+	LearnRefNumber varchar(12) NOT NULL,
+	AimSeqNumber int,
+	Ukprn bigint,
+	IlrSubmissionDateTime datetime,
+	PriceEpisodeIdentifier varchar(25) NULL,
+	StandardCode bigint,
+	ProgrammeType int,
+	FrameworkCode int,
+	PathwayCode int,
+	ApprenticeshipContractType int,
+	DeliveryMonth int,
+	DeliveryYear int,
+	CollectionPeriodName varchar(8) NOT NULL,
+	CollectionPeriodMonth int,
+	CollectionPeriodYear int,
+	TransactionType int,
+	AmountDue decimal(15,5),
+	SfaContributionPercentage decimal(15,5),
+	FundingLineType varchar(100),
+	UseLevyBalance bit ,
+	LearnAimRef varchar(8) NOT NULL,
+	LearningStartDate datetime,
+	PaymentFailureMessage varchar(1000) NOT NULL,
+	PaymentFailureReason int NOT NULL,
+)
+GO
+
+CREATE INDEX IX_PaymentsDueNonPayableEarnings_Vw_PaymentsDue ON PaymentsDue.NonPayableEarnings (Id, UseLevyBalance, TransactionType, AccountId)
+
+
+CREATE NONCLUSTERED INDEX [IX_PaymentsDue_NonPayableEarnings_TransactionType_UseLevy_Commitment_Query]
+ON [PaymentsDue].[NonPayableEarnings] ([CommitmentId],[UseLevyBalance],[TransactionType])
+GO
 

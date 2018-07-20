@@ -105,6 +105,10 @@
       <Link>DbSetupScripts\ExternalComponents\Levy\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql">
+      <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployManualAdjustments\sql\ddl\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql">
       <Link>DbSetupScripts\DDL\PeriodEnd.Deds.ManualAdjustments.ddl.procs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -127,10 +131,6 @@
     </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql">
       <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
-      <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
