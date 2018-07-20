@@ -31,11 +31,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests
                     transientConnection.RunSqlScript(@"ExternalComponents\\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\CoInvested\\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql");
-                    transientConnection.RunSqlScript(@"ExternalComponents\\CoInvested\\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\Levy\\PeriodEnd.Transient.LevyPayments.ddl.tables.sql");
-                    transientConnection.RunSqlScript(@"ExternalComponents\\Levy\\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\Levy\\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql");
                     transientConnection.RunSqlScript(@"ExternalComponents\\PaymentsDue\\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql");
+                    transientConnection.RunSqlScript(@"ExternalComponents\\Refunds\\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql");
+
                     transientConnection.RunSqlScript(@"DDL\\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql");
 
                     // Component scripts

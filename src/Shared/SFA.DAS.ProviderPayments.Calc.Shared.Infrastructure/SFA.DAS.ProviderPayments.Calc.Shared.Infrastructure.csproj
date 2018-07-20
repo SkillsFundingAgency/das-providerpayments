@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</RootNamespace>
     <AssemblyName>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,7 @@
       <HintPath>..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Entities\PaymentEntity.cs" />
+    <Compile Include="Data\Entities\ProviderEntity.cs" />
+    <Compile Include="Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Data\IRequiredPaymentRepository.cs" />
+    <Compile Include="Data\IProviderRepository.cs" />
+    <Compile Include="Data\IDasAccountRepository.cs" />
+    <Compile Include="Data\IPaymentRepository.cs" />
+    <Compile Include="Data\Repositories\DasAccountRepository.cs" />
+    <Compile Include="Data\Repositories\PaymentRepository.cs" />
+    <Compile Include="Data\Repositories\ProviderRepository.cs" />
+    <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +68,6 @@
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

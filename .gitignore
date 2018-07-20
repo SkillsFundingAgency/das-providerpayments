@@ -269,12 +269,7 @@ paket-files/
 /Build.fsx
 /DefaultTargets.fsx
 /RunBuild.bat
-/src/PeriodEnd/Deploycoinvestedpayments
-/src/PeriodEnd/DeployLevyPayments
-/src/PeriodEnd/Deploymanualadjustments
-/src/PeriodEnd/Deploypaymentsdue
-/src/PeriodEnd/Deployprovideradjustments
-/src/PeriodEnd/DeployTransferPayments
+/src/PeriodEnd/Deploy*/
 
 /src/SharedPipelineComponents/Datalock/Deploy/Component
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/Component
@@ -283,6 +278,9 @@ paket-files/
 
 
 /src/AcceptanceTesting/**/*.feature.cs
+
+
+# Earnings calculation files that we change for AcceptanceTesting, but don't want to persist.
 
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
 

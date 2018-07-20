@@ -254,21 +254,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
             }
         }
 
-        internal static void PopulatePaymentsHistory()
-        {
-            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql");
-
-            var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var command in commands)
-            {
-                Execute(command);
-            }
-
-        }
-
-
-
         private static void Execute(string command, object param = null)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.ConnectionString))
