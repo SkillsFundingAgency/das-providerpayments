@@ -13,6 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
             CleanDeds();
             CleanTransient();
         }
+
         internal static void CleanDeds()
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.DedsConnectionString))
@@ -20,6 +21,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("TRUNCATE TABLE Adjustments.ManualAdjustments");
             }
         }
+
         internal static void CleanTransient()
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -37,15 +39,13 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.Execute("TRUNCATE TABLE PaymentsDue.RequiredPayments");
                 connection.Execute("TRUNCATE TABLE PaymentsDue.TaskLog");
 
-                connection.Execute("TRUNCATE TABLE Reference.CoInvestedPaymentsHistory");
+                connection.Execute("TRUNCATE TABLE Reference.PaymentsHistory");
                 connection.Execute("TRUNCATE TABLE Reference.CollectionPeriods");
                 connection.Execute("TRUNCATE TABLE Reference.DasAccounts");
-                connection.Execute("TRUNCATE TABLE Reference.LevyPaymentsHistory");
                 connection.Execute("TRUNCATE TABLE Reference.RequiredPaymentsHistory");
             }
         }
-
-
+        
         internal static void CopyDataToTransient()
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -53,7 +53,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 connection.RunSqlScript("DML\\01 PeriodEnd.Adjustments.Populate.ManualAdjustments.sql");
             }
         }
-
 
         internal static void WriteOpenCollectionPeriod(string name, int month, int year)
         {
@@ -67,7 +66,6 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
             }
         }
 
-
         internal static void WriteEmployerAccount(long accountId, decimal balance)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -79,6 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                                    new { accountId, balance });
             }
         }
+
         internal static decimal GetEmployerAccountBalance(long accountId)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -90,8 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                                                  new { accountId }).SingleOrDefault();
             }
         }
-
-
+        
         internal static void WriteAdjustment(ManualAdjustmentEntity adjustment)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.DedsConnectionString))
@@ -106,12 +104,11 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                return connection.QuerySingle<ManualAdjustmentEntity>("Select * from Adjustments.ManualAdjustments Where RequiredPaymentIdToReverse = @requiredPaymentIdToReverse" ,
+                return connection.QuerySingle<ManualAdjustmentEntity>("Select * from Adjustments.ManualAdjustments Where RequiredPaymentIdToReverse = @requiredPaymentIdToReverse",
                     new { requiredPaymentIdToReverse });
             }
         }
-
-
+        
         internal static void WriteRequiredPayment(RequiredPaymentEntity requiredPayment)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -127,6 +124,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                     requiredPayment);
             }
         }
+
         internal static RequiredPaymentEntity[] GetRequiredPayments()
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -134,6 +132,7 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
                 return connection.Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments").ToArray();
             }
         }
+
         internal static RequiredPaymentEntity[] GetHistoryRequiredPayments()
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
@@ -143,49 +142,64 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         }
 
 
-        internal static void WritePayment(PaymentEntity payment,RequiredPaymentEntity requiredPayment)
+        internal static void WritePayment(PaymentEntity payment, RequiredPaymentEntity requiredPayment)
         {
-            
-        
-            if (payment.CommitmentId.HasValue && payment.CommitmentId.Value>0 )
+            using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
-                {
-                    connection.Execute($"INSERT INTO Reference.LevyPaymentsHistory (RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
-                                       $"FundingSource, TransactionType, Amount, CommitmentId)" +
-                                        "VALUES (@RequiredPaymentId, @DeliveryMonth, @DeliveryYear, " +
-                                       $"@FundingSource, @TransactionType, @Amount, @CommitmentId)",
-                        payment);
-                }
-            }
-            if (payment.FundingSource!= 1)
-            {
-                using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
-                {
 
-                    connection.Execute($"INSERT INTO Reference.CoInvestedPaymentsHistory (RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,CommitmentId) " +
-                   "VALUES (@RequiredPaymentId,@DeliveryMonth,@DeliveryYear,@FundingSource,@TransactionType,@Amount,@ULN,@Ukprn,@AimSeqNumber,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode,@CommitmentId)",
-                   new
-                   {
-                       RequiredPaymentId = payment.RequiredPaymentId,
-                       DeliveryMonth = payment.DeliveryMonth,
-                       DeliveryYear = payment.DeliveryYear,
-                       FundingSource = payment.FundingSource,
-                       TransactionType = payment.TransactionType,
-                       Amount = payment.Amount,
-                       ULN = requiredPayment.Uln,
-                       Ukprn = requiredPayment.Ukprn,
-                       AimSeqNumber = requiredPayment.AimSeqNumber,
-                       StandardCode = requiredPayment.StandardCode,
-                       ProgrammeType = requiredPayment.ProgrammeType,
-                       FrameworkCode = requiredPayment.FrameworkCode,
-                       PathwayCode = requiredPayment.PathwayCode,
-                       CommitmentId = requiredPayment.CommitmentId
-                       
-                   });
-                }
+               connection.Execute($"INSERT INTO Reference.PaymentsHistory " +
+                    $"(PaymentId, " +
+                    $"RequiredPaymentId, " +
+                    $"DeliveryMonth, " +
+                    $"DeliveryYear, " +
+                    $"CollectionPeriodName, " +
+                    $"CollectionPeriodYear, " +
+                    $"CollectionPeriodMonth, " +
+                    $"FundingSource, " +
+                    $"TransactionType, " +
+                    $"Amount, " +
+                    $"ApprenticeshipContractType, " +
+                    $"Ukprn, " +
+                    $"AccountId, " +
+                    $"LearnRefNumber, " +
+                    $"FundingLineType) " +
+                     "VALUES ('" +
+                    Guid.NewGuid() + "', " +
+                    "@RequiredPaymentId, " +
+                    "@DeliveryMonth, " +
+                    "@DeliveryYear, " +
+                    "@CollectionPeriodName, " +
+                    "@CollectionPeriodYear, " +
+                    "@CollectionPeriodMonth, " +
+                    "@FundingSource, " +
+                    "@TransactionType, " +
+                    "@Amount, " +
+                    "@ApprenticeshipContractType, " +
+                    "@Ukprn, " +
+                    "@AccountId, " +
+                    "@LearnRefNumber, " +
+                    "@FundingLineType" +
+                    ")",
+                     new
+                     {
+                         payment.RequiredPaymentId,
+                         payment.DeliveryMonth,
+                         payment.DeliveryYear,
+                         payment.FundingSource,
+                         payment.TransactionType,
+                         payment.Amount,
+                         requiredPayment.Ukprn,
+                         requiredPayment.CollectionPeriodMonth,
+                         requiredPayment.CollectionPeriodYear,
+                         requiredPayment.CollectionPeriodName,
+                         requiredPayment.ApprenticeshipContractType,
+                         requiredPayment.AccountId,
+                         requiredPayment.LearnRefNumber,
+                         requiredPayment.FundingLineType,
+                     });
             }
         }
+
         internal static PaymentEntity[] GetPayments()
         {
             const string columns = "PaymentId, RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
@@ -200,23 +214,20 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.IntegrationTests.TestC
         internal static PaymentEntity[] GetHistoricalPayments()
         {
             const string columns = " RequiredPaymentId, DeliveryMonth, DeliveryYear, " +
-                                   " FundingSource, TransactionType, Amount,CommitmentId";
+                                   " FundingSource, TransactionType, Amount";
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                return connection.Query<PaymentEntity>($"SELECT {columns} FROM Reference.LevyPaymentsHistory " +
-                                                       $"UNION " +
-                                                       $"SELECT {columns} FROM Reference.CoInvestedPaymentsHistory ").ToArray();
+                return connection.Query<PaymentEntity>($"SELECT {columns} FROM Reference.PaymentsHistory").ToArray();
             }
         }
 
         internal static CoInvestedPaymentHistoryEntity[] GetHistoricalCoInvestedPayments()
         {
-            const string columns = " RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,ULN,Ukprn,AimSeqNumber,StandardCode,ProgrammeType,FrameworkCode,PathwayCode";
+            const string columns = " RequiredPaymentId,DeliveryMonth,DeliveryYear,FundingSource,TransactionType,Amount,Ukprn";
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {
-                return connection.Query<CoInvestedPaymentHistoryEntity>($"SELECT {columns} FROM Reference.CoInvestedPaymentsHistory ").ToArray();
+                return connection.Query<CoInvestedPaymentHistoryEntity>($"SELECT {columns} FROM Reference.PaymentsHistory ").ToArray();
             }
         }
-
     }
 }

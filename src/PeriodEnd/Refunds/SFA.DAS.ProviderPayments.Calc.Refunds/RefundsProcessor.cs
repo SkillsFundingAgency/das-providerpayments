@@ -49,8 +49,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Refunds
             }
 
             _logger.Info("Finished Refunds Processor.");
-
-
         }
     }
 }
