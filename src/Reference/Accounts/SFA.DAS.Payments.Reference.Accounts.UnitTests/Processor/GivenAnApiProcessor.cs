@@ -21,7 +21,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 mockAccountsOrchestrator.Verify(orchestrator => orchestrator.ImportAccounts(), Times.Once);
             }
 
-            [Test, AccountsAutoData, Ignore("for now")]
+            [Test, AccountsAutoData]
             public void ThenItImportsAgreements(
                 [Frozen] Mock<IImportAccountLegalEntitiesOrchestrator> mockAgreementsOrchestrator,
                 ApiProcessor sut

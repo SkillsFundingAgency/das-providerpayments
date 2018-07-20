@@ -24,7 +24,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
             _logger.Info("Started Accounts API Processor.");
 
             _importAccountsOrchestrator.ImportAccounts();
-            //_importAccountLegalEntitiesOrchestrator.ImportAccountLegalEntities();
+            _importAccountLegalEntitiesOrchestrator.ImportAccountLegalEntities();
 
             _logger.Info("Finished Accounts API Processor.");
         }
