@@ -3,7 +3,7 @@ using MediatR;
 using NLog;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAccountLegalEntitiesCommand;
-using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
+using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountLegalEntitiesQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
@@ -29,7 +29,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
             {
                 _logger.Info($"Starting to process page {pageNumber}");
 
-                var response = _mediator.Send(new GetPageOfAgreementsQueryRequest { PageNumber = pageNumber });
+                var response = _mediator.Send(new GetPageOfAccountLegalEntitiesQueryRequest { PageNumber = pageNumber });
 
                 if (!response.IsValid)
                 {

@@ -82,9 +82,9 @@
     <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandRequest.cs" />
-    <Compile Include="Application\GetPageOfAgreementsQuery\GetPageOfAgreementsQueryHandler.cs" />
-    <Compile Include="Application\GetPageOfAgreementsQuery\GetPageOfAgreementsQueryRequest.cs" />
-    <Compile Include="Application\GetPageOfAgreementsQuery\GetPageOfAgreementsQueryResponse.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryHandler.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryRequest.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryResponse.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />

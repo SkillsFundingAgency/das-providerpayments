@@ -8,7 +8,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddManyAccountLegalEntitiesCommand;
-using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
+using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountLegalEntitiesQuery;
 using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
@@ -21,7 +21,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
         {
             [Test, AccountsAutoData]
             public void ThenItShouldRetrieveAllPages(
-                List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
+                List<GetPageOfAccountLegalEntitiesQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
                 ImportAccountLegalEntitiesOrchestrator sut)
             {
@@ -32,23 +32,23 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 });
                 getPageOfAgreementsResponses.Last().HasMorePages = false;
                 mockMediator
-                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAccountLegalEntitiesQueryRequest>()))
                     .Returns(getPageOfAgreementsResponses[0])
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
 
                 sut.ImportAccountLegalEntities();
 
-                mockMediator.Verify(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()), 
+                mockMediator.Verify(mediator => mediator.Send(It.IsAny<GetPageOfAccountLegalEntitiesQueryRequest>()), 
                     Times.Exactly(getPageOfAgreementsResponses.Count));
-                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 1)), Times.Once);
-                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 2)), Times.Once);
-                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAgreementsQueryRequest>(r => r.PageNumber == 3)), Times.Once);
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAccountLegalEntitiesQueryRequest>(r => r.PageNumber == 1)), Times.Once);
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAccountLegalEntitiesQueryRequest>(r => r.PageNumber == 2)), Times.Once);
+                mockMediator.Verify(m => m.Send(It.Is<GetPageOfAccountLegalEntitiesQueryRequest>(r => r.PageNumber == 3)), Times.Once);
             }
 
             [Test, AccountsAutoData]
             public void AndExceptionReadingPages_ThenThrowsException(
-                GetPageOfAgreementsQueryResponse errorResponse,
+                GetPageOfAccountLegalEntitiesQueryResponse errorResponse,
                 string errorMessage,
                 [Frozen] Mock<IMediator> mockMediator,
                 ImportAccountLegalEntitiesOrchestrator sut)
@@ -57,7 +57,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 errorResponse.Exception = new InvalidOperationException(errorMessage);
                 errorResponse.HasMorePages = false; // needed to stop infinite loop lol
                 mockMediator
-                    .Setup(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .Setup(mediator => mediator.Send(It.IsAny<GetPageOfAccountLegalEntitiesQueryRequest>()))
                     .Returns(errorResponse);
 
                 Action act = sut.ImportAccountLegalEntities;
@@ -69,7 +69,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
             [Test, AccountsAutoData]
             public void ThenItShouldBatchSaveEachPage(
-                List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
+                List<GetPageOfAccountLegalEntitiesQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
                 ImportAccountLegalEntitiesOrchestrator sut)
             {
@@ -80,7 +80,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 });
                 getPageOfAgreementsResponses.Last().HasMorePages = false;
                 mockMediator
-                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAccountLegalEntitiesQueryRequest>()))
                     .Returns(getPageOfAgreementsResponses[0])
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
@@ -93,7 +93,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
             [Test, AccountsAutoData]
             public void ThenItShouldWriteAnAuditRecord(
-                List<GetPageOfAgreementsQueryResponse> getPageOfAgreementsResponses,
+                List<GetPageOfAccountLegalEntitiesQueryResponse> getPageOfAgreementsResponses,
                 [Frozen] Mock<IMediator> mockMediator,
                 ImportAccountLegalEntitiesOrchestrator sut)
             {
@@ -106,7 +106,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                 });
                 getPageOfAgreementsResponses.Last().HasMorePages = false;
                 mockMediator
-                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
+                    .SetupSequence(mediator => mediator.Send(It.IsAny<GetPageOfAccountLegalEntitiesQueryRequest>()))
                     .Returns(getPageOfAgreementsResponses[0])
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
