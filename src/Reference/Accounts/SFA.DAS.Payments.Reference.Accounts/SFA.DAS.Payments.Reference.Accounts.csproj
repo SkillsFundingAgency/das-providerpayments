@@ -107,6 +107,7 @@
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="PassThroughProcessor.cs" />
     <Compile Include="Processor\ApiProcessor.cs" />
+    <Compile Include="Processor\IImportAccountLegalEntitiesOrchestrator.cs" />
     <Compile Include="Processor\ImportAccountsOrchestrator.cs" />
     <Compile Include="Processor\IImportAccountsOrchestrator.cs" />
     <Compile Include="Processor\ImportAccountLegalEntitiesOrchestrator.cs" />

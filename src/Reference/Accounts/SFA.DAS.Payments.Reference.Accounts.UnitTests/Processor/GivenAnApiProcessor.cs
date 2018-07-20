@@ -1,6 +1,5 @@
 ﻿using AutoFixture.NUnit3;
 using Moq;
-using NLog;
 using NUnit.Framework;
 using SFA.DAS.Payments.Reference.Accounts.Processor;
 
@@ -24,18 +23,13 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
 
             [Test, AccountsAutoData, Ignore("for now")]
             public void ThenItImportsAgreements(
-                [Frozen] Mock<IImportAgreementsOrchestrator> mockAgreementsOrchestrator,
+                [Frozen] Mock<IImportAccountLegalEntitiesOrchestrator> mockAgreementsOrchestrator,
                 ApiProcessor sut
             )
             {
                 sut.Process();
-                mockAgreementsOrchestrator.Verify(orchestrator => orchestrator.ImportAgreements(), Times.Once);
+                mockAgreementsOrchestrator.Verify(orchestrator => orchestrator.ImportAccountLegalEntities(), Times.Once);
             }
         }
-    }
-
-    public interface IImportAgreementsOrchestrator
-    {
-        void ImportAgreements();
     }
 }

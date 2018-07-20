@@ -7,7 +7,7 @@ using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAgreementsQuery;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
-    public class ImportAccountLegalEntitiesOrchestrator
+    public class ImportAccountLegalEntitiesOrchestrator : IImportAccountLegalEntitiesOrchestrator
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
@@ -18,9 +18,9 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
             _logger = logger;
         }
 
-        public void ImportAccounts()
+        public void ImportAccountLegalEntities()
         {
-            _logger.Info("Started importing agreements.");
+            _logger.Info("Started importing account-legal-entities.");
 
             var pageNumber = 1;
             var hasMorePages = true;
@@ -52,7 +52,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
                 AuditType = AuditType.AccountLegalEntity
             });
 
-            _logger.Info("Finished importing agreements.");
+            _logger.Info("Finished importing account-legal-entities.");
         }
     }
 }

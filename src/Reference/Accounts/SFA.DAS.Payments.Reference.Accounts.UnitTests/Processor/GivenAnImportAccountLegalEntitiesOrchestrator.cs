@@ -37,7 +37,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
 
-                sut.ImportAccounts();
+                sut.ImportAccountLegalEntities();
 
                 mockMediator.Verify(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()), 
                     Times.Exactly(getPageOfAgreementsResponses.Count));
@@ -60,7 +60,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     .Setup(mediator => mediator.Send(It.IsAny<GetPageOfAgreementsQueryRequest>()))
                     .Returns(errorResponse);
 
-                Action act = sut.ImportAccounts;
+                Action act = sut.ImportAccountLegalEntities;
 
                 act.Should()
                     .Throw<InvalidOperationException>()
@@ -85,7 +85,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
 
-                sut.ImportAccounts();
+                sut.ImportAccountLegalEntities();
 
                 mockMediator.Verify(mediator => mediator.Send(It.IsAny<AddManyAccountLegalEntitiesCommandRequest>()), 
                     Times.Exactly(getPageOfAgreementsResponses.Count));
@@ -111,7 +111,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.Processor
                     .Returns(getPageOfAgreementsResponses[1])
                     .Returns(getPageOfAgreementsResponses[2]);
 
-                sut.ImportAccounts();
+                sut.ImportAccountLegalEntities();
 
                 mockMediator.Verify(m => m.Send(It.Is<AddAuditCommandRequest>(r =>
                     r.AccountsRead == numberOfRecords &&
