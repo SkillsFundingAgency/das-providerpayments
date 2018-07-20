@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Dapper;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
@@ -16,12 +13,37 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
 
         public IList<Commitment> GetProviderCommitments(long ukprn)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("ukprn", ukprn, DbType.Int64);
+            const string sql = @"
+                    SELECT  
+                        ULN,
+                        Ukprn, 
+                        CommitmentId, 
+                        C.VersionId [CommitmentVersionId],
+                        C.AccountId, 
+                        A.VersionId [AccountVersionId],
+                        StartDate,
+                        EndDate,
+                        AgreedCost,
+                        StandardCode,
+                        ProgrammeType,
+                        FrameworkCode,
+                        PathwayCode,
+                        PaymentStatus,
+                        Priority,
+                        EffectiveFrom,
+                        EffectiveTo,
+                        LegalEntityName,
+                        TransferSendingEmployerAccountId,
+                        TransferApprovalDate,
+                        A.IsLevyPayer
+                        
+                    FROM Reference.DasCommitments C
+                    LEFT JOIN Reference.DasAccounts A
+                    ON C.AccountId = A.AccountId
+                    WHERE Ukprn = @ukprn
+                ";
 
-            return QueryByProc<Commitment>("DataLock.GetCommitmentsForProvider",
-                parameters,
-                600).ToList();
+            return Query<Commitment>(sql, new {ukprn});
         }
     }
 
