@@ -83,9 +83,9 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
@@ -109,10 +109,6 @@
     </Content>
     <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.LevyPayments.ddl.views.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
@@ -145,10 +141,6 @@
     </Content>
     <Content Include="..\DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployLevyPayments\sql\dml\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployLevyPayments\sql\Migration Scripts\1_LevyPayments.deds.Add_Indexes.sql">

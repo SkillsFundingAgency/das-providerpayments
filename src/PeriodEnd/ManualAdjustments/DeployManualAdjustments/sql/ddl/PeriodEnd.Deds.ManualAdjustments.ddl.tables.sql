@@ -20,3 +20,5 @@ CREATE TABLE Adjustments.ManualAdjustments
     DateUploaded datetime NOT NULL DEFAULT(GETDATE()),
     RequiredPaymentIdForReversal uniqueidentifier NULL,
 )
+
+CREATE INDEX IX_Adjustments_ManualAdjustments_RequiredPaymentIdForReversal ON Adjustments.ManualAdjustments (RequiredPaymentIdForReversal)

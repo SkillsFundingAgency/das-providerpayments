@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.DCFS.Extensions;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
@@ -19,7 +19,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             "03 PeriodEnd.Populate.Reference.Commitments.dml.sql",
             "04 PeriodEnd.Populate.Reference.Accounts.dml.sql",
             "05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql",
-            "06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql",
             "07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql",
             "08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql",
             "09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql",
@@ -572,7 +571,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 }, false);
         }
 
-        internal static void AddPaymentForNonDas(RequiredPaymentEntity requiredPayment)
+        internal static void AddPaymentForNonDas(RequiredPayment requiredPayment)
         {
 
             Execute("INSERT INTO PaymentsDue.RequiredPayments "
@@ -675,9 +674,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
         }
 
 
-        internal static RequiredPaymentEntity[] GetRequiredPaymentsForProvider(long ukprn)
+        internal static RequiredPayment[] GetRequiredPaymentsForProvider(long ukprn)
         {
-            return Query<RequiredPaymentEntity>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
+            return Query<RequiredPayment>("SELECT * FROM PaymentsDue.RequiredPayments WHERE Ukprn = @Ukprn ORDER BY DeliveryYear, DeliveryMonth", new { ukprn });
         }
 
 
@@ -750,7 +749,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             Execute("TRUNCATE TABLE Rulebase.AEC_LearningDelivery_Period", null, false);
         }
 
-        private static void Execute(string command, object param = null, bool inTransient = true)
+        internal static void Execute(string command, object param = null, bool inTransient = true)
         {
             var connectionString = inTransient
                 ? GlobalTestContext.Instance.TransientConnectionString
@@ -769,7 +768,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             }
         }
 
-        private static T[] Query<T>(string command, object param = null)
+        internal static T[] Query<T>(string command, object param = null)
         {
             using (var connection = new SqlConnection(GlobalTestContext.Instance.TransientConnectionString))
             {

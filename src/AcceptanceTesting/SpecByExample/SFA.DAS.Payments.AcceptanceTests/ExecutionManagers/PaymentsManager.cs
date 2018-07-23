@@ -1,11 +1,7 @@
 ﻿using Dapper;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Refactoring.ExecutionManagers
 {
@@ -115,7 +111,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Refactoring.ExecutionManagers
                         ContractType = isDas ? 1 : 2,
                         UseLevyBalance = isDas ? 1 : 0,
                         SfaContributionPercentage = 0.90 ,
-                        FundingLineType = isDas? "19 + Apprenticeship(From May 2017) Levy Contract" : "19 + Apprenticeship(From May 2017) Non-Levy Contract",
+                        FundingLineType = isDas? "19+ Apprenticeship (From May 2017) Levy Contract" : "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
                         LearnAimRef = String.IsNullOrEmpty(learningDetails.LearnAimRef) ? "ZPROG001" : learningDetails.LearnAimRef,
                         StartDate = learningDetails.StartDate,
                         AimSequenceNumber = learningDetails.AimSequenceNumber == 0 ? 1 : learningDetails.AimSequenceNumber,

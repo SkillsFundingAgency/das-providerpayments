@@ -36,7 +36,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.DataCollectors
         {
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
-                var query = @"SELECT rp.Ukprn, rp.Uln, rp.LearnRefNumber, p.DeliveryMonth, p.DeliveryYear, 
+                var query = @"SELECT rp.Ukprn, rp.Uln, rp.LearnRefNumber, rp.DeliveryMonth, rp.DeliveryYear, 
                                      p.CollectionPeriodMonth, p.CollectionPeriodYear, 
                                      p.FundingSource, p.TransactionType, p.Amount ,
                                      rp.ApprenticeshipContractType, rp.AccountId

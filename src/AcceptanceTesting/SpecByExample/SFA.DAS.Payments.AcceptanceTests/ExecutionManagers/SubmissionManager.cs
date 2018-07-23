@@ -47,7 +47,12 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                     )
                         continue;
 
-                    var submissionDetails = new ProviderSubmissionDetails{ LearnerDetails = submission.IlrLearnerDetails.ToArray(), ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider, Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider) };
+                    var submissionDetails = new ProviderSubmissionDetails
+                    {
+                        LearnerDetails = submission.IlrLearnerDetails.ToArray(),
+                        ProviderId = submission.IlrLearnerDetails.FirstOrDefault()?.Provider,
+                        Ukprn = lookupContext.AddOrGetUkprn(submission.IlrLearnerDetails.FirstOrDefault()?.Provider)
+                    };
 
                     SetupDisadvantagedPostcodeUplift(submissionDetails);
                     BuildAndSubmitIlr(submissionDetails, period, lookupContext, submission.ContractTypes, submission.EmploymentStatus,

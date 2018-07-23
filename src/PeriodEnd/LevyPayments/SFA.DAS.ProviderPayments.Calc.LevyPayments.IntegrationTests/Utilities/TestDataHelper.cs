@@ -96,16 +96,23 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 learnerRefNumber = Guid.NewGuid().ToString("N").Substring(0, 12);
             }
 
+            var collectionPeriodMonth = Query<int>("SELECT Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+            var collectionPeriodYear = Query<int>("SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+            var rName = Query<string>("SELECT Collection_Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+            var academicYear = (collectionPeriodMonth >= 8) ? $"{collectionPeriodYear.ToString().Substring(2)}{(collectionPeriodYear + 1).ToString().Substring(2)}" :
+                $"{(collectionPeriodYear + 1).ToString().Substring(2)}{(collectionPeriodYear + 2).ToString().Substring(2)}";
+            var collectionPeriodName = $"{academicYear}-{rName}";
+
             if (deliveryMonth == 0)
             {
-                deliveryMonth = Query<int>("SELECT Period FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+                deliveryMonth = collectionPeriodMonth;
             }
 
             if (deliveryYear == 0)
             {
-                deliveryYear = Query<int>("SELECT Calendar_Year FROM LevyPayments.vw_CollectionPeriods WHERE Collection_Open = 1").Single();
+                deliveryYear = collectionPeriodYear;
             }
-
+            
             Execute("INSERT INTO PaymentsDue.RequiredPayments ("
                     + "Id,"
                     + "CommitmentId,"
@@ -118,7 +125,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                     + "DeliveryYear,"
                     + "TransactionType,"
                     + "AmountDue,"
-                    + "SfaContributionPercentage, FundingLineType, UseLevyBalance)"
+                    + "SfaContributionPercentage, " +
+                    "FundingLineType, " +
+                    "UseLevyBalance," +
+                    "CollectionPeriodYear, " +
+                    "CollectionPeriodMonth, " +
+                    "CollectionPeriodName)"
                   + "SELECT "
                   + "NEWID(), "
                   + "CommitmentId,"
@@ -131,10 +143,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "@deliveryYear, "
                   + "@transactionType, "
                   + "@amountDue, "
-                + "  8, 'f', 1 "
+                + "  8, 'f', 1, " +
+                    "@collectionPeriodYear, " +
+                    "@collectionPeriodMonth, " +
+                    "@collectionPeriodName "
                   + "FROM dbo.DasCommitments "
                   + "WHERE CommitmentId = @commitmentId",
-                new { commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear });
+                new
+                {
+                    commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear,
+                    collectionPeriodYear, collectionPeriodMonth, collectionPeriodName
+                });
         }
 
         internal static void AddPaymentHistoryForCommitment(long commitmentId)
@@ -234,21 +253,6 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 }
             }
         }
-
-        internal static void PopulatePaymentsHistory()
-        {
-            var sql = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}\Utilities\Sql\Copy Reference Data\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql");
-
-            var commands = ReplaceSqlTokens(sql).Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var command in commands)
-            {
-                Execute(command);
-            }
-
-        }
-
-
 
         private static void Execute(string command, object param = null)
         {

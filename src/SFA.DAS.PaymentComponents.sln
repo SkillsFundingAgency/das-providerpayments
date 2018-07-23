@@ -94,7 +94,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{E9E97DA8-052
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.sprocs.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql
-		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
 	EndProjectSection
@@ -103,7 +102,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{AC7E72A7-C7F
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
-		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\03 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql
 		PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql = PeriodEnd\CoInvestedPayments\DeployCoInvestedPayments\sql\dml\PeriodEnd.CoInvestedPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
@@ -267,7 +265,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{7CD65BC9-1D3
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.sprocs.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.LevyPayments.ddl.views.sql
-		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
@@ -280,7 +277,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{98332D8D-4F0
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
-		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\05 PeriodEnd.Populate.Reference.PaymentsHistory.dml.sql
 		PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql = PeriodEnd\LevyPayments\DeployLevyPayments\sql\dml\PeriodEnd.LevyPayments.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
@@ -307,6 +303,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{CCCA0E9C-1426-4E59-B673-C9FC5565D5A4}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{61493CCE-0228-4120-9BBA-5078CE8C29C0}"
@@ -314,12 +311,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{3CD867A5-C0AA-4654-B4BD-E488BD05B60E}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.Reference.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql
 	EndProjectSection
@@ -330,23 +328,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{D560F146-839
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\05 PeriodEnd.PaymentsDue.Populate.Reference.ApprenticeshipEarnings.dml.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\06 PeriodEnd.PaymentsDue.Populate.Reference.RequiredPaymentsHistory.dml.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\07 PeriodEnd.PaymentsDue.PreRun.Staging.CollectionPeriods.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\08 PeriodEnd.PaymentsDue.PreRun.Staging.NonDasTransactionTypes.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\09 PeriodEnd.PaymentsDue.PreRun.Staging.LearnerPriceEpisodePerPeriod.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\10 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarningsRequiringPayments.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\11 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\12 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings1.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\13 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings2.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\14 PeriodEnd.PaymentsDue.PreRun.Staging.ApprenticeshipEarnings3.sql
-		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\15 PeriodEnd.PaymentsDue.PreRun.Staging.PopulateEarningsWithoutPayments.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\dml\PeriodEnd.PaymentsDue.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{FA54BBF3-280A-495D-BF4E-30F742309858}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_PeriodEnd.Deds.PaymentsDue.Rework.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\0035_PeriodEnd.Deds.PaymentsDue.Rework.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\1_PeriodEnd.Deds.PaymentsDue.Change_CommitmentVersionId_Type.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\2_PeriodEnd.Deds.PaymentsDue.Add_Columns.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\MigrationScripts\3_PeriodEnd.Deds.PaymentsDue_Update_data_aimRef_startdate.sql
@@ -595,6 +583,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests", "PeriodEnd\TransferPayments\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests\SFA.DAS.ProviderPayments.Calc.TransferPayments.IntegrationTests.csproj", "{120A310C-CA9D-4546-83E9-92664E139AF1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0E02732D-353C-4E25-B16C-8CFE6433513C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj", "{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refunds", "Refunds", "{A64464EE-85C2-423F-A9CC-E90BDDC225BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{AA7DA1DB-783A-4495-9A37-EF0AAC84C208}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToDedsMapping.xml = PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToDedsMapping.xml
+		PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToTransientMapping.xml = PeriodEnd\Refunds\DeployRefunds\copy mappings\DasRefundsCopyToTransientMapping.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{FF9ECFCB-F09F-464A-B823-5C570CF3F030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.csproj", "{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Refunds.IntegrationTests.csproj", "{57848254-B55A-4699-AD69-FC0959CE031F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests", "PeriodEnd\Refunds\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests\SFA.DAS.ProviderPayments.Calc.Refunds.UnitTests.csproj", "{D21F43C1-44B5-4C4A-A85C-675213B2354D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests\SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.csproj", "{8C24276E-C915-4324-B491-96A3987ABFDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{F73CA3DB-2842-4382-9DDB-A56810694090}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql = PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{704E27F1-F639-4F3C-A397-08620474A859}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql = PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -785,6 +806,26 @@ Global
 		{120A310C-CA9D-4546-83E9-92664E139AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120A310C-CA9D-4546-83E9-92664E139AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120A310C-CA9D-4546-83E9-92664E139AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57848254-B55A-4699-AD69-FC0959CE031F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C24276E-C915-4324-B491-96A3987ABFDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -914,6 +955,16 @@ Global
 		{861C358B-6086-4EF8-9A72-B2A3F5D4F7C1} = {4C562D21-00B4-421F-9359-6C2B3675B306}
 		{DC0D2659-A9F3-48AC-AD7A-29153B7E4BA6} = {4C562D21-00B4-421F-9359-6C2B3675B306}
 		{120A310C-CA9D-4546-83E9-92664E139AF1} = {4C562D21-00B4-421F-9359-6C2B3675B306}
+		{034C2D76-3CA3-4E61-B74C-C8315F90CDF6} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
+		{A64464EE-85C2-423F-A9CC-E90BDDC225BA} = {5C29E856-81C8-47CC-A5CB-DADA36EF9DED}
+		{AA7DA1DB-783A-4495-9A37-EF0AAC84C208} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{FF9ECFCB-F09F-464A-B823-5C570CF3F030} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{5A70CDF5-BA96-4045-BB1D-65270F2FEF08} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{57848254-B55A-4699-AD69-FC0959CE031F} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{D21F43C1-44B5-4C4A-A85C-675213B2354D} = {A64464EE-85C2-423F-A9CC-E90BDDC225BA}
+		{8C24276E-C915-4324-B491-96A3987ABFDB} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
+		{F73CA3DB-2842-4382-9DDB-A56810694090} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
+		{704E27F1-F639-4F3C-A397-08620474A859} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}

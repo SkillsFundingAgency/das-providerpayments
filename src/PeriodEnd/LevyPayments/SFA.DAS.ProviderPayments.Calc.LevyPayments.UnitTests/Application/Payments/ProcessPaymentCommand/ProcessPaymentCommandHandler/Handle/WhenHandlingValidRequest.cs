@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
 
             _paymentRepository = new Mock<IPaymentRepository>();
 
-            _handler = new LevyPayments.Application.Payments.ProcessPaymentCommand.ProcessPaymentCommandHandler(_paymentRepository.Object);
+            _handler = new LevyPayments.Application.Payments.ProcessPaymentCommand.ProcessPaymentCommandHandler(_paymentRepository.Object, null);
         }
 
         [Test]
