@@ -35,6 +35,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
             JOIN [DataLock].[PriceEpisodeMatch] M 
 	            ON M.PriceEpisodeIdentifier = PM.PriceEpisodeIdentifier 
 	            AND M.UkPrn = PM.UkPrn
+                AND M.LearnRefNumber = PM.LearnRefNumber
+                AND M.CommitmentId = PM.CommitmentId
             WHERE PM.Ukprn = @ukprn
 			";
 
