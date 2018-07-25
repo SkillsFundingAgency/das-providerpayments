@@ -530,6 +530,7 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
           
 
 Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentive payment in the commitment transfer month - and the ILR transfer happens at an earlier point than the commitment  changes 
+# The incentives are not paid for november as there is a failing datalock for november and the month is ignored
  
         Given The learner is programme only DAS
         And the employer 1 has a levy balance > agreed price for all months
@@ -557,10 +558,10 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
         Then the earnings and payments break down for provider a is as follows:
             | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
             | Provider Earned Total               | 500   | 500   | 500   | 1500  | 500   | 500   |
-            | Provider Earned from SFA            | 500   | 500   | 500   | 1000  | 0     | 0     |
+            | Provider Earned from SFA            | 500   | 500   | 500   | 0     | 0     | 0     |
             | Provider Earned from Employer 1     | 0     | 0     | 0     | 0     | 0     | 0     |
             | Provider Earned from Employer 2     | 0     | 0     | 0     | 0     | 0     | 0     |
-            | Provider Paid by SFA                | 0     | 500   | 500   | 500   | 1000  | 0     |
+            | Provider Paid by SFA                | 0     | 500   | 500   | 500   | 0     | 0     |
             | Payment due from employer 1         | 0     | 0     | 0     | 0     | 0     | 0     |
             | Payment due from employer 2         | 0     | 0     | 0     | 0     | 0     | 0     |
             | Employer 1 Levy account debited     | 0     | 500   | 500   | 500   | 0     | 0     |
@@ -568,16 +569,16 @@ Scenario: 1 learner aged 16-18, levy available, changes employer, earns incentiv
             | SFA Levy employer budget            | 500   | 500   | 500   | 0     | 0     | 0     |
             | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | 0     |
             | SFA non-Levy co-funding budget      | 0     | 0     | 0     | 0     | 0     | 0     |
-            | SFA Levy additional payments budget | 0     | 0     | 0     | 1000  | 0     | 0     |
+            | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | 0     |
             
          And the transaction types for the payments for provider a are:
             | Payment type               | 09/17 | 10/17 | 11/17 | 12/17 | 01/18 |
             | On-program                 | 500   | 500   | 500   | 0     | 0     |
             | Completion                 | 0     | 0     | 0     | 0     | 0     |
             | Balancing                  | 0     | 0     | 0     | 0     | 0     |
-            | Employer 1 16-18 incentive | 0     | 0     | 0     | 500   | 0     |
+            | Employer 1 16-18 incentive | 0     | 0     | 0     | 0     | 0     |
             | Employer 2 16-18 incentive | 0     | 0     | 0     | 0     | 0     |
-            | Provider 16-18 incentive   | 0     | 0     | 0     | 500   | 0     |
+            | Provider 16-18 incentive   | 0     | 0     | 0     | 0     | 0     |
 
 
 @LearnerChangesEmployerGapInCommitments

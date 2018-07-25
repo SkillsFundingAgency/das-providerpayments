@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests</RootNamespace>
     <AssemblyName>SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoFixture, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\AutoFixture.4.2.1\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.AutoMoq, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\AutoFixture.AutoMoq.4.2.1\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.NUnit3, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\AutoFixture.NUnit3.4.2.1\lib\net452\AutoFixture.NUnit3.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.92.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\ClosedXML.0.92.1\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="CS.Common.External">
       <HintPath>..\..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
@@ -39,8 +52,23 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember.Signed, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FastMember.Signed.1.3.0\lib\net45\FastMember.Signed.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
@@ -54,36 +82,109 @@
     <Reference Include="nunit.framework, Version=3.8.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NUnit.3.8.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.AutoFactory, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\StructureMap.AutoFactory.1.0.1\lib\net45\StructureMap.AutoFactory.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Earnings\GetProviderEarningsQuery\GetProviderEarningsQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\AddRequiredPaymentsCommand\AddRequiredPaymentsCommandHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryQuery\GetPaymentHistoryQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\RequiredPayments\GetPaymentHistoryWhereNoEarningQuery\GetPaymentHistoryWhereNoEarningQueryHandler\WhenHandling.cs" />
     <Compile Include="ContextMother.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingInvalidScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidNonDasScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenario.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingValidScenarioBase.cs" />
+    <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\Incentives\GivenADetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\MathsAndEnglish\GivenADetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\OnProg\GivenADetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="ServiceTests\GivenACalculator\ThatIsUsedForMultipleCalculations.cs" />
+    <Compile Include="ServiceTests\GivenACalculator\WithBothPastPaymentsAndEarnings.cs" />
+    <Compile Include="ServiceTests\GivenACalculator\WithNoPastPayments.cs" />
+    <Compile Include="ServiceTests\GivenACalculator\WithOnlyPastPayments.cs" />
+    <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct1LearnerChangesPrice.cs" />
+    <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct1LearnerWithADatalockThatFailsInR03.cs" />
+    <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct1LearnerChangesPriceAndADatalockOccurs.cs" />
+    <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct2LearnerWithPartialRefund.cs" />
+    <Compile Include="ScenarioTesting\PaymentsDueCalculatorTests\GivenAnAct1LearnerWithChangingDatalock.cs" />
+    <Compile Include="DomainTests\MatchSetTests\GivenAMatchSet.cs" />
+    <Compile Include="ExtensionTests\GivenACommitment.cs" />
+    <Compile Include="ExtensionTests\GivenAnEntityThatHoldsCourseInformation.cs" />
+    <Compile Include="ExtensionTests\GivenARawEarning.cs" />
+    <Compile Include="GivenASortProviderDataIntoLearnerData.cs" />
+    <Compile Include="GivenAPaymentsDueProcessor.cs" />
+    <Compile Include="GivenAProviderProcessor.cs" />
+    <Compile Include="Ioc\GivenAPaymentsDueRegistry.cs" />
     <Compile Include="PaymentsDueTask\WhenExecutingWithInvalidContext.cs" />
-    <Compile Include="PaymentsDueTask\WhenExecutingWithValidContext.cs" />
+    <Compile Include="ScenarioTesting\GivenALearnerWithAWithdrawnCommitment.cs" />
+    <Compile Include="ScenarioTesting\GivenALearnerWithAPausedCommitment.cs" />
+    <Compile Include="ScenarioTesting\GivenALearnerWithTwoCommitments.cs" />
+    <Compile Include="ScenarioTesting\GivenAnAct1Learner\WithWithdrawnCommitment\AndPeriodsRemovedFromTheIlr.cs" />
+    <Compile Include="ScenarioTesting\GivenAnAct1Learner\WithWithdrawnCommitment\WithMultipleWithdrawnCommitmentsAndOneActive.cs" />
+    <Compile Include="ScenarioTesting\ScenarioTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sandbox.cs" />
+    <Compile Include="ServiceTests\GivenADatalockValidationService\WithDuplicateDatalockOutput.cs" />
+    <Compile Include="ServiceTests\GivenADatalockValidationService\WithMissingCommitments.cs" />
+    <Compile Include="ServiceTests\GivenADatalockValidationService\WithNonPayableDatalocks.cs" />
+    <Compile Include="ServiceTests\GivenADatalockValidationService\WithValidationErrors.cs" />
+    <Compile Include="Utilities\Extensions\DeliveryPeriods.cs" />
+    <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
+    <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
-    <Compile Include="PaymentsDueProcessor\WhenProcessingLearningStateDateChange.cs" />
+    <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
+    <Compile Include="Utilities\ReadOnlyClassManipulation\WriteToDatalockOutput.cs" />
+    <Compile Include="Utilities\SetupAttributes\SetupEarningsAndPastPayments.cs" />
+    <Compile Include="Utilities\TestDataLoader\TestData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="ScenarioData\SfaContributionPercentageZero.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\Act1MathsEnglish.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\Act1MathsEnglishWIthNoOnprogInYear.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\MathsEnglishWIthNoOnprogInYear.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\OverlappingDatalocks.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\SecondIncentivePaidWithOnprog.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\IncentivePaidButNotOnprog.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\DuplicateDatalocks.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\LearnerWithMultipleWithdrawnCommitmentAndOneActiveCommitment.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScenarioData\LearnerWithWithdrawnCommitmentAndRemovedPeriodsInTheIlr.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
@@ -102,7 +203,12 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Application\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ScenarioData\Test Data Query.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

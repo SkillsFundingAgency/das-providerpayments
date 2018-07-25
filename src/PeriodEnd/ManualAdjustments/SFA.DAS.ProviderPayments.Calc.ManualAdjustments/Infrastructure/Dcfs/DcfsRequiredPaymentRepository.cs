@@ -28,10 +28,12 @@ namespace SFA.DAS.ProviderPayments.Calc.ManualAdjustments.Infrastructure.Dcfs
         {
             Execute($"INSERT INTO {CurrentSource} (Id,CommitmentId,CommitmentVersionId,AccountId,AccountVersionId,Uln,LearnRefNumber," +
                     $"AimSeqNumber,Ukprn,IlrSubmissionDateTime,PriceEpisodeIdentifier,StandardCode,ProgrammeType,FrameworkCode,PathwayCode," +
-                    $"ApprenticeshipContractType,DeliveryMonth,DeliveryYear,TransactionType,AmountDue,SfaContributionPercentage,FundingLineType,UseLevyBalance,LearnAimRef,LearningStartDate) " +
+                    $"ApprenticeshipContractType,DeliveryMonth,DeliveryYear,TransactionType,AmountDue,SfaContributionPercentage,FundingLineType,UseLevyBalance,LearnAimRef,LearningStartDate, " +
+                    $"CollectionPeriodYear, CollectionPeriodMonth, CollectionPeriodName) " +
                     $"VALUES  (@Id,@CommitmentId,@CommitmentVersionId,@AccountId,@AccountVersionId,@Uln,@LearnRefNumber," +
                     $"@AimSeqNumber,@Ukprn,@IlrSubmissionDateTime,@PriceEpisodeIdentifier,@StandardCode,@ProgrammeType,@FrameworkCode,@PathwayCode," +
-                    $"@ApprenticeshipContractType,@DeliveryMonth,@DeliveryYear,@TransactionType,@AmountDue,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance,@LearnAimRef,@LearningStartDate)",
+                    $"@ApprenticeshipContractType,@DeliveryMonth,@DeliveryYear,@TransactionType,@AmountDue,@SfaContributionPercentage,@FundingLineType,@UseLevyBalance,@LearnAimRef,@LearningStartDate, " +
+                    $"@CollectionPeriodYear, @CollectionPeriodMonth, @CollectionPeriodName)",
                 requiredPayment);
         }
 

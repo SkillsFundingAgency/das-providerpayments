@@ -67,3 +67,5 @@ CREATE TABLE PaymentsDue.Earnings
 	EndpointAssessorId varchar(7) NULL
 )
 END
+
+

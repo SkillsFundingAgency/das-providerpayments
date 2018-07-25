@@ -28,19 +28,17 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
 
                     RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
-
-
+                    
                     RunSqlScript(@"PeriodEnd.Transient.PaymentsDue.DDL.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.LevyPayments.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql", connection);
                     
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
-                    RunSqlScript(@"PeriodEnd.Transient.PaymentsHistory.ddl.tables.sql", connection);
+
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
-
-
+                    
                     // Component scripts
                     RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection);
                     RunSqlScript(@"PeriodEnd.Transient.TransferPayments.DDL.tables.sql", connection);
@@ -55,8 +53,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     connection.Close();
                 }
             }
-
-
+            
             using (var connection = new SqlConnection(GlobalTestContext.Instance.DedsConnectionString))
             {
                 connection.Open();
@@ -69,7 +66,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Deds.PaymentsDue.DDL.tables.sql", connection);
                     RunSqlScript(@"DasAccounts.Transient.ddl.sql", connection);
                     RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
-
                 }
                 finally
                 {
@@ -77,6 +73,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 }
             }
         }
+
         private void RunSqlScript(string fileName, SqlConnection connection)
         {
             var path = Path.Combine(GlobalTestContext.Instance.AssemblyDirectory, "DbSetupScripts", fileName);
@@ -87,6 +84,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                 connection.Execute(command);
             }
         }
+
         private string ReplaceSqlTokens(string sql)
         {
             return sql.Replace("${ILR_Current.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
@@ -96,7 +94,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                       .Replace("${ILR_Summarisation.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${ILR_Deds.FQ}", GlobalTestContext.Instance.BracketedDatabaseName)
                       .Replace("${DAS_PeriodEnd.FQ}", GlobalTestContext.Instance.BracketedDatabaseName);
-
         }
     }
 }

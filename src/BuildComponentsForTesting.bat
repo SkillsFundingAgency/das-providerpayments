@@ -1,4 +1,6 @@
-rmdir /S /Q "C:\Temp\PaymentsAt\Components"
+del /q /s /f "C:\Temp\PaymentsAt\Components\*"
+rmdir /S /Q "C:\Temp\PaymentsAt\Components\"
+sleep 1
 mkdir "C:\Temp\PaymentsAt\Components"
 REM call RunBuildComponents.bat "Debug"
 
@@ -16,6 +18,7 @@ xcopy "PeriodEnd\DeployPaymentsDue" "C:\Temp\PaymentsAT\Components\PaymentsDue-1
 xcopy "PeriodEnd\DeployPeriodEndScripts" "C:\Temp\PaymentsAT\Components\PeriodEndScripts-1.0.0.0\" /S /Y
 xcopy "PeriodEnd\DeployProviderAdjustments" "C:\Temp\PaymentsAT\Components\ProviderAdjustmentsCalculator-1.0.0.0\" /S /Y
 xcopy "PeriodEnd\DeployTransferPayments" "C:\Temp\PaymentsAT\Components\TransferPaymentsCalculator-1.0.0.0\" /S /Y
+xcopy "PeriodEnd\DeployRefunds" "C:\Temp\PaymentsAT\Components\Refunds-1.0.0.0\" /S /Y
 
 
 

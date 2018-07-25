@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CS.Common.SqlBulkCopyCat;
 using CS.Common.SqlBulkCopyCat.Model.Config.Builder;
 using ProviderPayments.TestStack.Core.Context;
@@ -27,7 +28,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
         {
             foreach (var component in _componentTypes)
             {
-                RunForComponent(component, context);
+                try
+                {
+                    RunForComponent(component, context);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"while processing {component} in copy data task");
+                }
             }
         }
 
@@ -50,7 +58,14 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 config.DestinationConnectionString = _copyDirection == DataCopyDirection.TransientToDeds ? context.DedsDatabaseConnectionString : context.TransientConnectionString;
 
                 var copyCat = new CopyCat(config);
-                copyCat.Copy();
+                try
+                {
+                    copyCat.Copy();
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"while copying data for {mapping}");
+                }
             }
         }
 

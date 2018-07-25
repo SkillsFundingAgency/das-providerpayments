@@ -58,7 +58,7 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName],
 		[TransferSendingEmployerAccountId],
-	[TransferApprovalDate]
+		[TransferApprovalDate]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
     GROUP BY [CommitmentId],
         [Uln],

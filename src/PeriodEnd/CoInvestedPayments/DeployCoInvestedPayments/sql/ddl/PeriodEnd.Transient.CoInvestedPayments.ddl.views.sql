@@ -42,7 +42,9 @@ AS
 		rp.DeliveryMonth,
 		rp.DeliveryYear,
 		rp.TransactionType,
-		(rp.AmountDue - COALESCE(lp.Amount, 0.00) - COALESCE(tp.Amount, 0.00)) AS AmountDue,
+		(rp.AmountDue - 
+			(SELECT COALESCE(SUM(Amount), 0) FROM TransferPayments.Payments WHERE RequiredPaymentId = rp.Id) - 
+			(SELECT COALESCE(SUM(Amount), 0) FROM LevyPayments.Payments WHERE RequiredPaymentId = rp.Id)) AS AmountDue,
 		rp.SfaContributionPercentage,
 		rp.AimSeqNumber As AimSequenceNumber,
 		rp.StandardCode,
@@ -50,9 +52,9 @@ AS
 		rp.FrameworkCode,
 		rp.PathwayCode
 	FROM PaymentsDue.RequiredPayments rp
-		LEFT JOIN LevyPayments.Payments lp ON rp.Id = lp.RequiredPaymentId
-		LEFT JOIN TransferPayments.Payments tp ON rp.Id = tp.RequiredPaymentId
-	WHERE (rp.AmountDue - COALESCE(lp.Amount, 0.00) - COALESCE(tp.Amount, 0.00)) <> 0
+	WHERE (rp.AmountDue - 
+		(SELECT COALESCE(SUM(Amount), 0) FROM TransferPayments.Payments WHERE RequiredPaymentId = rp.Id) - 
+		(SELECT COALESCE(SUM(Amount), 0) FROM LevyPayments.Payments WHERE RequiredPaymentId = rp.Id)) > 0
 	AND rp.Id NOT In (Select RequiredPaymentIdForReversal from Adjustments.ManualAdjustments)	
 GO
 

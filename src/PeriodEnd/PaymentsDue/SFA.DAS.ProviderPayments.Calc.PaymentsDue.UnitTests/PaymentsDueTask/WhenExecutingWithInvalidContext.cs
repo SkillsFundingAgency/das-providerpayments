@@ -5,7 +5,7 @@ using NLog;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.PaymentsDueTask
 {

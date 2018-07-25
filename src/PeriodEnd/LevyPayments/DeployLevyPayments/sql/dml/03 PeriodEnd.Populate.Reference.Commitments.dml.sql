@@ -25,7 +25,16 @@ BEGIN
 END
 GO
 
-TRUNCATE TABLE [Reference].[DasCommitments]
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DasCommitments'
+AND i.name = 'IX_DasCommitments_CommitmentId')
+BEGIN
+	DROP INDEX IX_DasCommitments_CommitmentId ON Reference.DasCommitments
+END
+GO
+
+DELETE FROM [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]
@@ -70,9 +79,7 @@ INSERT INTO [Reference].[DasCommitments]
         [LegalEntityName],
 		[TransferSendingEmployerAccountId],
 		[TransferApprovalDate]
-
 GO
-
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])
 GO
@@ -80,4 +87,8 @@ GO
 CREATE INDEX [IDX_Commitments_AccountId] ON Reference.DasCommitments (AccountId, CommitmentId, VersionId)
 GO
 
-CREATE INDEX ix_dascommitments_uln ON Reference.DasCommitments (Uln)
+CREATE INDEX IX_DasCommitments_Uln ON Reference.DasCommitments (Uln)
+GO
+
+CREATE INDEX IX_DasCommitments_CommitmentId ON Reference.DasCommitments (CommitmentId, VersionId)
+GO
