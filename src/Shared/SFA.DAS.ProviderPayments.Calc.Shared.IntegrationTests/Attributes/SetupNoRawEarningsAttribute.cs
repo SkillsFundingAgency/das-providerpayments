@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -13,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             RawEarningsDataHelper.Truncate();
 
-            PaymentsDueTestContext.RawEarnings = new List<RawEarning>();
+            SharedTestContext.RawEarnings = new List<RawEarning>();
 
             base.BeforeTest(test);
         }

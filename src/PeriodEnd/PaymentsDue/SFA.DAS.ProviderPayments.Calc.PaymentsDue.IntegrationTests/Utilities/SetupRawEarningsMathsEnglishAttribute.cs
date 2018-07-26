@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 
         public override void BeforeTest(ITest test)
         {
-            RawEarningsDataHelper.Truncate();
+            RawEarningsMathsEnglishDataHelper.Truncate();
 
             var fixture = new Fixture();
 

@@ -83,7 +83,6 @@
     <Compile Include="Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Infrastructure\GivenANonPayableEarningRepository.cs" />
     <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
-    <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,18 +92,15 @@
     <Compile Include="Utilities\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
     <Compile Include="Utilities\NonPayableEarningsDataHelper.cs" />
     <Compile Include="Utilities\RawEarningsMathsEnglishDataHelper.cs" />
-    <Compile Include="Utilities\RawEarningsDataHelper.cs" />
     <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
     <Compile Include="Utilities\SetupNoNonPayableEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
-    <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Utilities\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Utilities\SetupRequiredPayments.cs" />
     <Compile Include="Utilities\SetupRequiredPaymentsHistoryAttribute.cs" />
     <Compile Include="Utilities\SetupNoRequiredPaymentsHistoryAttribute.cs" />
     <Compile Include="Utilities\SetupRawEarningsMathsEnglishAttribute.cs" />
-    <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupUkprnAttribute.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
@@ -224,9 +220,17 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{f30af0ba-650b-448f-8942-42dd3717b593}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.PaymentsDue\SFA.DAS.ProviderPayments.Calc.PaymentsDue.csproj">
       <Project>{7ea464ec-6eda-45d9-be48-47e8afdaa853}</Project>

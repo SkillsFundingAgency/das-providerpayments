@@ -5,6 +5,8 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
 {
@@ -29,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenItReturnsAnEmptyList()
                 {
                     Setup();
-                    var result = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    var result = _sut.GetAllForProvider(SharedTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
             }
@@ -48,10 +50,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualRawEarnings = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    _actualRawEarnings = _sut.GetAllForProvider(SharedTestContext.Ukprn);
 
-                    _expectedRawEarnings = PaymentsDueTestContext.RawEarnings
-                        .Where(earning => earning.Ukprn == PaymentsDueTestContext.Ukprn).ToList();
+                    _expectedRawEarnings = SharedTestContext.RawEarnings
+                        .Where(earning => earning.Ukprn == SharedTestContext.Ukprn).ToList();
                 }
 
                 [Test]
