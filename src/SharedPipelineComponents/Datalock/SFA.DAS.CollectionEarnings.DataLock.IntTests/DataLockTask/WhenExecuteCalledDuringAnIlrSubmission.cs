@@ -5,13 +5,13 @@ using CS.Common.External.Interfaces;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Context;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
 {

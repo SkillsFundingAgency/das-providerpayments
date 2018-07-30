@@ -70,8 +70,6 @@
     <Compile Include="CopyToDeds\WhenCleaningUpDuringAnIlrSubmission.cs" />
     <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrPeriodEnd.cs" />
@@ -96,6 +94,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.CollectionEarnings.DataLock.UnitTests\SFA.DAS.CollectionEarnings.DataLock.UnitTests.csproj">
       <Project>{79593ef5-9f58-4e91-be67-c5d20ee0dbc0}</Project>

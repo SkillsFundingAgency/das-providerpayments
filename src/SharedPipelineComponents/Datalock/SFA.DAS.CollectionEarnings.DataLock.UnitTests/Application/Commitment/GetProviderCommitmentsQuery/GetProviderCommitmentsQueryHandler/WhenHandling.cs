@@ -2,9 +2,10 @@
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Commitment.GetProviderCommitmentsQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.Commitment.GetProviderCommitmentsQuery.GetProviderCommitmentsQueryHandler
 {

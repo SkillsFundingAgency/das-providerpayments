@@ -107,7 +107,6 @@
     <Compile Include="Dto\DatalockLearnerParameters.cs" />
     <Compile Include="Dto\DatalockProviderParameters.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeEntity.cs" />
@@ -128,13 +127,11 @@
     <Compile Include="Infrastructure\Data\IIncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DasAccountRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository.cs" />
-    <Compile Include="Infrastructure\Data\ICommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\IPriceEpisodeRepository.cs" />
     <Compile Include="Infrastructure\Data\IValidationErrorRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository.cs" />

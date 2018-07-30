@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\SetupAccountIdAttribute.cs" />
+    <Compile Include="Attributes\SetupCommitmentsAttribute.cs" />
     <Compile Include="Attributes\SetupDasAccountsAttribute.cs" />
     <Compile Include="Attributes\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Attributes\SetupRawEarningsAttribute.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
+    <Compile Include="Helpers\CommitmentsDataHelper.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
     <Compile Include="Helpers\PaymentDataHelper.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="SharedTestContext.cs" />
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
+    <Compile Include="Tests\Infrastructure\GivenACommitmentsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />
@@ -133,6 +136,10 @@
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

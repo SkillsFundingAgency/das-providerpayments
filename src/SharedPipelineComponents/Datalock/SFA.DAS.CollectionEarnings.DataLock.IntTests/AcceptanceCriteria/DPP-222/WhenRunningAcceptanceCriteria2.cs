@@ -9,6 +9,7 @@ using SFA.DAS.Payments.DCFS.Context;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Context;
 using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.AcceptanceCriteria
 {

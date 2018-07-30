@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
     public class CommitmentEntity
     {
         public long CommitmentId { get; set; }
+        [StringLength(25)]
         public string VersionId { get; set; }
 
         public long Uln { get; set; }
@@ -19,6 +21,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities
         public int? PathwayCode { get; set; }
 
         public int PaymentStatus { get; set; }
+
+        [StringLength(50)]
         public string PaymentStatusDescription { get; set; }
 
         public int Priority { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MediatR;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.Commitment.GetProviderCommitmentsQuery
 {
