@@ -46,7 +46,9 @@ CREATE TABLE [dbo].[DasCommitments](
 	[EffectiveToDate] [date] NULL,
 	[LegalEntityName] [nvarchar](100) NULL,
 	[TransferSendingEmployerAccountId] bigint null,
-	[TransferApprovalDate] datetime null
+	[TransferApprovalDate] datetime null,
+	[PausedOnDate] datetime null,
+	[StoppedOnDate] datetime null,
 	PRIMARY KEY CLUSTERED 
 	(
 		[CommitmentId] ASC,
@@ -117,5 +119,7 @@ CREATE TABLE [dbo].[DasCommitmentsHistory](
 	[LegalEntityName] [nvarchar](100) NULL,
 	[EventDateTime] datetime NOT NULL default getDate(),
 	[TransferSendingEmployerAccountId] bigint null,
-	[TransferApprovalDate] datetime null
+	[TransferApprovalDate] datetime null,
+	[PausedOnDate] datetime null,
+	[StoppedOnDate] datetime null
 )
