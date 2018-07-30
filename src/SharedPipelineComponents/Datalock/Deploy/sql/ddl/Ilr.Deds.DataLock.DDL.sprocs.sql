@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='DataLock')
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='DataLock')
 BEGIN
     EXEC('CREATE SCHEMA DataLock')
 END

@@ -1,4 +1,4 @@
-﻿CREATE TABLE Lars.FrameworkAims
+CREATE TABLE Lars.FrameworkAims
 (
 	FworkCode				int				NOT NULL,
 	ProgType				int				NOT NULL,

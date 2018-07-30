@@ -1,4 +1,4 @@
-﻿--Rulebase schema
+--Rulebase schema
 
 if not exists(select schema_id from sys.schemas where name='Rulebase')
 	exec('create schema Rulebase')

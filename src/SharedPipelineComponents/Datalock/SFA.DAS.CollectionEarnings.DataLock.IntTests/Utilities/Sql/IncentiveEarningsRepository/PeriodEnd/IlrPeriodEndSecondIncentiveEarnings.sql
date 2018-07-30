@@ -1,4 +1,4 @@
-﻿
+
 
 INSERT [Reference].[ApprenticeshipPriceEpisode_Period] 
 ([UKPRN],[LearnRefNumber], [PriceEpisodeIdentifier], [Period],  [PriceEpisodeFirstEmp1618Pay], [PriceEpisodeSecondEmp1618Pay]) 

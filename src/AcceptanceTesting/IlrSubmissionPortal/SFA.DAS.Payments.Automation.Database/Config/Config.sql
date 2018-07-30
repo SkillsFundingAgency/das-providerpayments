@@ -1,1 +1,1 @@
-﻿CREATE SCHEMA Config
+CREATE SCHEMA Config

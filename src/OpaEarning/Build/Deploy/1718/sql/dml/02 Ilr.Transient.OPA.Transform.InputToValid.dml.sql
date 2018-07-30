@@ -1,1 +1,1 @@
-﻿EXEC [dbo].[TransformInputToValid]
+EXEC [dbo].[TransformInputToValid]

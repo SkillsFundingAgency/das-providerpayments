@@ -1,4 +1,4 @@
-﻿declare @ukprn bigint = 100
+declare @ukprn bigint = 100
 declare @learnRefNumber varchar(12) = '123'
 declare @uln bigint = (SELECT TOP(1)ULN FROM PaymentsDue.RequiredPayments WHERE UKPRN = @UKPRN AND LearnRefNumber = @LearnRefNumber)
 
