@@ -126,6 +126,10 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
