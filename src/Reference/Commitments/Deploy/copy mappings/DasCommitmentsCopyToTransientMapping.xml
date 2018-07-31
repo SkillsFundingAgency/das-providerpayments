@@ -98,8 +98,8 @@
           <Destination>PausedOnDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>StoppedOnDate</Source>
-          <Destination>StoppedOnDate</Destination>
+          <Source>WithdrawnOnDate</Source>
+          <Destination>WithdrawnOnDate</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
