@@ -76,7 +76,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.Application.AddOrUpdateCommitme
             var result = false;
             foreach (var commitment in commitments)
             {
-                var sameCommitmentExists = _commitmentRepository.CommitmentExists(commitment);
+                var sameCommitmentExists = _commitmentRepository.CommitmentExistsAndDetailsAreIdentical(commitment);
                 if (!sameCommitmentExists)
                 {
                     result = true;

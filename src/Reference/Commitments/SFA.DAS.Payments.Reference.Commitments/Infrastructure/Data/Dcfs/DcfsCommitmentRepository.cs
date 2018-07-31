@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Payments.DCFS.Context;
+﻿using System;
+using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
@@ -115,9 +116,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
         {
         }
 
-        public bool CommitmentExists(CommitmentEntity commitment)
+        public bool CommitmentExistsAndDetailsAreIdentical(CommitmentEntity commitment)
         {
-            var effectiveToClause = commitment.EffectiveToDate == null ? " EffectiveToDate Is Null " : $" EffectiveToDate = '{commitment.EffectiveToDate.Value.ToString("yyyy-MM-dd")}' ";
             var selectCommand = @"SELECT CommitmentId 
                                                         FROM dbo.DasCommitments 
                                                         WHERE  CommitmentId = @CommitmentId 
@@ -135,9 +135,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                         AND PaymentStatus = @PaymentStatus
                                                         AND EffectiveFromDate = @EffectiveFromDate
                                                         AND LegalEntityName = @LegalEntityName 
-                                                        AND TransferSendingEmployerAccountId = @TransferSendingEmployerAccountId
-                                                        AND TransferApprovalDate = @TransferApprovalDate
-                                                        AND" + effectiveToClause;
+                                                        AND ISNULL(TransferSendingEmployerAccountId, 0) = ISNULL(@TransferSendingEmployerAccountId, 0)
+                                                        AND " + CreateCompareDateSqlClause("TransferApprovalDate", commitment.TransferApprovalDate) + 
+                                                        "AND " + CreateCompareDateSqlClause("EffectiveToDate", commitment.EffectiveToDate);
 
             var result = QuerySingle<int>(selectCommand, commitment);
             return result != 0;
@@ -167,5 +167,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
         {
             Execute(DeleteCommand, new { commitmentId });
         }
+
+        private static string CreateCompareDateSqlClause(string fieldname, DateTime? date) =>
+            date == null ? $" {fieldname} Is Null " : $" {fieldname} = '{date.Value.ToString("yyyy-MM-dd")}' ";
+
     }
 }

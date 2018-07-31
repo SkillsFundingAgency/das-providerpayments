@@ -162,14 +162,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
             _commitmentRepository.Setup(r => r.GetById(1))
                 .Returns(commitment);
 
-            _commitmentRepository.Setup(r => r.CommitmentExists(It.IsAny<CommitmentEntity>()))
+            _commitmentRepository.Setup(r => r.CommitmentExistsAndDetailsAreIdentical(It.IsAny<CommitmentEntity>()))
                 .Returns(true);
 
             // Act
             _handler.Handle(newRequest);
 
             // Assert
-            _commitmentRepository.Verify(r => r.CommitmentExists(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Once);
+            _commitmentRepository.Verify(r => r.CommitmentExistsAndDetailsAreIdentical(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Once);
 
             _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Never);
 

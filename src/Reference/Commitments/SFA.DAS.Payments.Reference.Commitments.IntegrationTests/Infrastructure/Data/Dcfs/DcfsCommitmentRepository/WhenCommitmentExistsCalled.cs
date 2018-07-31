@@ -54,7 +54,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
         {
 
             // Act
-            var result = _repository.CommitmentExists(_commitment);
+            var result = _repository.CommitmentExistsAndDetailsAreIdentical(_commitment);
 
             // Assert
             Assert.IsNotNull(result);
@@ -68,7 +68,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
         {
             _commitment.EffectiveToDate = new DateTime(2020, 10, 10);
             // Act
-            var result = _repository.CommitmentExists(_commitment);
+            var result = _repository.CommitmentExistsAndDetailsAreIdentical(_commitment);
 
             // Assert
             Assert.IsNotNull(result);
