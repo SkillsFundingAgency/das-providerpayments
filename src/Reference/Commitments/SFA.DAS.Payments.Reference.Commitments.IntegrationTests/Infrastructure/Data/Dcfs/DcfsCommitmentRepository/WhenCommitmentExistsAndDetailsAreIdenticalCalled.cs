@@ -7,7 +7,7 @@ using System;
 
 namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure.Data.Dcfs.DcfsCommitmentRepository
 {
-    public class WhenCommitmentExistsCalled
+    public class WhenCommitmentExistsAndDetailsAreIdenticalCalled
     {
         private ICommitmentRepository _repository;
 
@@ -56,8 +56,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
             // Assert
             Assert.IsNotNull(result);
             Assert.IsFalse(result);
-
-
         }
 
         private CommitmentEntity CreateCommitmentEntity()
