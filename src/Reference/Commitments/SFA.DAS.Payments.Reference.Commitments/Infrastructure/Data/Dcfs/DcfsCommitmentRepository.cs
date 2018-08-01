@@ -137,7 +137,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                         AND LegalEntityName = @LegalEntityName 
                                                         AND ISNULL(TransferSendingEmployerAccountId, 0) = ISNULL(@TransferSendingEmployerAccountId, 0)
                                                         AND " + CreateCompareDateSqlClause("TransferApprovalDate", commitment.TransferApprovalDate) + 
-                                                        "AND " + CreateCompareDateSqlClause("EffectiveToDate", commitment.EffectiveToDate);
+                                                        "AND " + CreateCompareDateSqlClause("EffectiveToDate", commitment.EffectiveToDate) +
+                                                        "AND " + CreateCompareDateSqlClause("PausedOnDate", commitment.PausedOnDate) +
+                                                        "AND " + CreateCompareDateSqlClause("WithdrawnOnDate", commitment.WithdrawnOnDate);
 
             var result = QuerySingle<int>(selectCommand, commitment);
             return result != 0;
