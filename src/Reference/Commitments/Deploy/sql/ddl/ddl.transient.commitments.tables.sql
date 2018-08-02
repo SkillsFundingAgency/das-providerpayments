@@ -121,5 +121,5 @@ CREATE TABLE [dbo].[DasCommitmentsHistory](
 	[TransferSendingEmployerAccountId] bigint null,
 	[TransferApprovalDate] datetime null,
 	[PausedOnDate] datetime null,
-	[StoppedOnDate] datetime null
+	[WithdrawnOnDate] datetime null
 )
