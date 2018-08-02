@@ -82,7 +82,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
-    <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository\WhenCommitmentExistsCalled.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository\WhenCommitmentExistsAndDetailsAreIdenticalCalled.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository\WhenDeleteIsCalled.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository\WhenGetByIdCalled.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsCommitmentRepository\WhenInsertHistoryIsCalled.cs" />
