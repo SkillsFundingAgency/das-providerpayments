@@ -10,6 +10,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
     public class StubbedApiClient : IAccountApiClient
     {
         internal static List<AccountWithBalanceViewModel> Accounts { get; } = new List<AccountWithBalanceViewModel>();
+        internal static List<AccountLegalEntityViewModel> AccountLegalEntities { get; } = new List<AccountLegalEntityViewModel>();
 
         public Task<AccountDetailViewModel> GetAccount(string hashedAccountId)
         {
@@ -19,6 +20,19 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
         public Task<AccountDetailViewModel> GetAccount(long accountId)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<PagedApiResponseViewModel<AccountLegalEntityViewModel>> GetPageOfAccountLegalEntities(int pageNumber = 1, int pageSize = 1000)
+        {
+            var skip = (pageNumber - 1) * pageSize;
+            var accounts = AccountLegalEntities.Skip(skip).Take(pageSize).ToList();
+            var result = new PagedApiResponseViewModel<AccountLegalEntityViewModel>
+            {
+                Page = pageNumber,
+                TotalPages = (int)Math.Ceiling(Accounts.Count / (float)pageSize),
+                Data = accounts
+            };
+            return Task.FromResult(result);
         }
 
         public Task<PagedApiResponseViewModel<AccountWithBalanceViewModel>> GetPageOfAccounts(int pageNumber = 1, int pageSize = 1000, DateTime? toDate = null)
@@ -50,6 +64,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.StubbedInfrastruc
         }
 
         Task<T> IAccountApiClient.GetResource<T>(string uri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<StatisticsViewModel> GetStatistics()
         {
             throw new NotImplementedException();
         }

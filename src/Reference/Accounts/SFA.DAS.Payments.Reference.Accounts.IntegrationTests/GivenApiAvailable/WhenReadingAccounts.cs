@@ -22,7 +22,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
         }
 
         [Test]
-        public void ThenItShouldAddAcountsThatDoNotExist()
+        public void ThenItShouldAddAccountsThatDoNotExist()
         {
             // Arrange
             var accountId = DateTime.Now.Ticks;
@@ -113,12 +113,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             _task.Execute(_context);
 
             // Assert
-            var audit = AuditDataHelper.GetLatestAuditRecord();
+            var audit = AuditDataHelper.GetLatestAccountAuditRecord();
             Assert.IsNotNull(audit);
             Assert.AreEqual(DateTime.Today, audit.ReadDateTime);
             Assert.AreEqual(1, audit.AccountsRead);
             Assert.IsTrue(audit.CompletedSuccessfully);
-            
         }
     }
 }
