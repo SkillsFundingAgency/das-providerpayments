@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Entities\CommitmentEntity.cs" />
+    <Compile Include="Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\ProviderEntity.cs" />
     <Compile Include="Data\Entities\RawEarning.cs" />

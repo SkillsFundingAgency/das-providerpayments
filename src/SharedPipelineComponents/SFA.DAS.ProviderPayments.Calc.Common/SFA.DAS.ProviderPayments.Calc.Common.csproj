@@ -58,6 +58,8 @@
     <Compile Include="Context\PaymentsInvalidContextException.cs" />
     <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DateTimeProvider.cs" />
+    <Compile Include="Services\IDateTimeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

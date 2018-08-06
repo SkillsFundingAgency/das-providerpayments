@@ -81,16 +81,8 @@
     <Compile Include="Application\Provider\Provider.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandHandler.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandRequest.cs" />
-    <Compile Include="DataLockPassThroughProcessor.cs" />
     <Compile Include="DataLockProcessor.cs" />
-    <Compile Include="DataLockTask.cs" />
-    <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PriceEpisodeEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\ValidationErrorEntity.cs" />
     <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryHandler.cs" />
     <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryRequest.cs" />
     <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryResponse.cs" />
@@ -99,28 +91,11 @@
     <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryResponse.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandHandler.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandRequest.cs" />
-    <Compile Include="Infrastructure\Data\IDasAccountRepository.cs" />
-    <Compile Include="Infrastructure\Data\IPriceEpisodeMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\IPriceEpisodePeriodMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\IIncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DasAccountRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository.cs" />
-    <Compile Include="Infrastructure\Data\IPriceEpisodeRepository.cs" />
-    <Compile Include="Infrastructure\Data\IValidationErrorRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository.cs" />
-    <Compile Include="Infrastructure\DependencyResolution\DataLockRegistry.cs" />
-    <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
     <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
-    <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
-    <Compile Include="Utilities\Providers\IDateTimeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -150,6 +125,7 @@
     <Folder Include="Dependencies\" />
     <Folder Include="Domain\" />
     <Folder Include="Services\" />
+    <Folder Include="Utilities\Providers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

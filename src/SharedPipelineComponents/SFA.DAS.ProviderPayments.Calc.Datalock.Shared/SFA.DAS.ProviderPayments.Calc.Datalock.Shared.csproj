@@ -46,6 +46,14 @@
     <Compile Include="Domain\PriceEpisode.cs" />
     <Compile Include="Dto\DatalockLearnerParameters.cs" />
     <Compile Include="Dto\DatalockProviderParameters.cs" />
+    <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PriceEpisodeEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ValidationErrorEntity.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\DatalockRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository.cs" />
     <Compile Include="Matcher\DataLockErrorCodes.cs" />
     <Compile Include="Matcher\MatchingSteps\FrameworkMatchHandler.cs" />
     <Compile Include="Matcher\IMatcher.cs" />
