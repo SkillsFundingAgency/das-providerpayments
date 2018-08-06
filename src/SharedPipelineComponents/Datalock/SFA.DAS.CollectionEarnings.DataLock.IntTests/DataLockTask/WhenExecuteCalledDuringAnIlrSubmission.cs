@@ -36,7 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.DataLockTask
                 {
                     {ContextPropertyKeys.TransientDatabaseConnectionString, _transientConnectionString},
                     {ContextPropertyKeys.LogLevel, "Trace"},
-                    { DataLockContextPropertyKeys.YearOfCollection, "1617" }
+                    { DataLockContextPropertyKeys.YearOfCollection, "1718" }
                 }
             };
         }

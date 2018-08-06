@@ -4,5 +4,7 @@
     {
         public const string TransientDatabaseConnectionString = "TransientDatabaseConnectionString";
         public const string LogLevel = "LogLevel";
+        public const string YearOfCollection = "YearOfCollection";
+        public const string CommandTimeout = "CommandTimeout";
     }
 }

@@ -87,8 +87,8 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
                 connection.Open();
                 try
                 {
-                    connection.Execute(command, param, 
-                        commandType:CommandType.StoredProcedure,
+                    connection.Execute(command, param,
+                        commandType: CommandType.StoredProcedure,
                         commandTimeout: timeout);
                 }
                 finally
@@ -98,7 +98,7 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             }
         }
 
-        protected void ExecuteBatch<T>(T[] batch, string destination)
+        protected void ExecuteBatch<T>(IEnumerable<T> batch, string destination)
         {
             var columns = typeof(T)
                 .GetProperties()
@@ -108,7 +108,7 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
             ExecuteBatch(batch, destination, columns);
         }
 
-        protected void ExecuteBatch<T>(T[] batch, string destination, IDictionary<string, string> columns)
+        protected void ExecuteBatch<T>(IEnumerable<T> batch, string destination, IDictionary<string, string> columns)
         {
             using (var bcp = new SqlBulkCopy(_connectionString))
             {

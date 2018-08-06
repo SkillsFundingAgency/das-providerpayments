@@ -1,4 +1,6 @@
-﻿using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+﻿using System.Collections.Generic;
+using SFA.DAS.Payments.DCFS.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
@@ -16,6 +18,19 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
                 ";
 
             Execute(sql, new {accountId, balance});
+        }
+
+        public IEnumerable<DasAccounEntity> GetDasAccounts()
+        {
+            const string sql = @"
+                    SELECT 
+                        AccountId,
+                        IsLevyPayer
+                    FROM
+                        Reference.DasAccounts
+                ";
+
+            return Query<DasAccounEntity>(sql);
         }
     }
 }

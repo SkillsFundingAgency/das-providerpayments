@@ -59,40 +59,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Commitment\Commitment.cs" />
-    <Compile Include="Application\DasAccount\DasAccount.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryRequest.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryResponse.cs" />
-    <Compile Include="Application\DataLock\DataLockErrorCodes.cs" />
-    <Compile Include="Application\DataLock\Matcher\IMatcher.cs" />
-    <Compile Include="Application\DataLock\Matcher\LevyPayerFlagMatcher.cs" />
-    <Compile Include="Application\DataLock\Matcher\MatcherFactory.cs" />
-    <Compile Include="Application\DataLock\MatchResult.cs" />
     <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler.cs" />
     <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryRequest.cs" />
     <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryResponse.cs" />
-    <Compile Include="Application\DataLock\Matcher\FrameworkMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\MatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\MultipleMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\PathwayMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\PriceMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\ProgrammeMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\StandardMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
-    <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\UlnMatchHandler.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryRequest.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryResponse.cs" />
-    <Compile Include="Application\Earnings\IncentiveEarnings.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandHandler.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandRequest.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\PriceEpisodePeriodMatch.cs" />
     <Compile Include="Application\ValidationError\ValidationError.cs" />
     <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandHandler.cs" />
     <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandRequest.cs" />
-    <Compile Include="Application\PriceEpisode\PriceEpisode.cs" />
     <Compile Include="Application\PriceEpisodeMatch\PriceEpisodeMatch.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryRequest.cs" />
@@ -100,12 +81,9 @@
     <Compile Include="Application\Provider\Provider.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandHandler.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandRequest.cs" />
-    <Compile Include="Context\DataLockContextPropertyKeys.cs" />
     <Compile Include="DataLockPassThroughProcessor.cs" />
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
-    <Compile Include="Dto\DatalockLearnerParameters.cs" />
-    <Compile Include="Dto\DatalockProviderParameters.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
@@ -137,7 +115,6 @@
     <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository.cs" />
     <Compile Include="Infrastructure\DependencyResolution\DataLockRegistry.cs" />
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="DataLockException.cs" />
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
@@ -163,8 +140,13 @@
       <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Datalock.Shared\SFA.DAS.ProviderPayments.Calc.Datalock.Shared.csproj">
+      <Project>{1cca9f0a-5237-4d39-a918-c2aa2b2ab165}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Datalock.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Context\" />
     <Folder Include="Dependencies\" />
     <Folder Include="Domain\" />
     <Folder Include="Services\" />

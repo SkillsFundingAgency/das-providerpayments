@@ -28,7 +28,8 @@ FROM
 		ape.PriceEpisodeContractType
 	FROM
 		${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
-		INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] p ON p.Ukprn = ape.Ukprn
+		INNER JOIN ${DS_SILR1718_Collection.databasename}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] p 
+			ON p.Ukprn = ape.Ukprn
 			AND p.LearnRefNumber = ape.LearnRefNumber
 			AND p.PriceEpisodeIdentifier = ape.PriceEpisodeIdentifier
 	WHERE

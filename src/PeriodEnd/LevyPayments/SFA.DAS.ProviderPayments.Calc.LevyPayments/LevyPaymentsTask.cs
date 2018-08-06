@@ -36,12 +36,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
 
         protected override bool IsValidContext(ContextWrapper contextWrapper)
         {
-            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(PaymentsContextPropertyKeys.YearOfCollection)))
+            if (string.IsNullOrEmpty(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection)))
             {
                 throw new PaymentsInvalidContextException(PaymentsInvalidContextException.ContextPropertiesNoYearOfCollectionMessage);
             }
 
-            return IsValidYearOfCollection(contextWrapper.GetPropertyValue(PaymentsContextPropertyKeys.YearOfCollection))
+            return IsValidYearOfCollection(contextWrapper.GetPropertyValue(ContextPropertyKeys.YearOfCollection))
                    && base.IsValidContext(contextWrapper);
         }
 
