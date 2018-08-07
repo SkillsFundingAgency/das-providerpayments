@@ -3,9 +3,10 @@ using System.Linq;
 using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.RawEarnings
 {
     public class SetupRawEarningsMathsEnglishAttribute : TestActionAttribute
     {
@@ -20,12 +21,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
             var earnings = fixture.Build<RawEarningForMathsOrEnglish>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
-                        .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
+                        .First(ukprn => ukprn != SharedTestContext.Ukprn))
                 .CreateMany(3)
                 .ToList();
 
             var earningsMatchingUkprn = fixture.Build<RawEarningForMathsOrEnglish>()
-                .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
+                .With(earning => earning.Ukprn, SharedTestContext.Ukprn)
                 .CreateMany(3)
                 .ToList();
 
@@ -37,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 RawEarningsMathsEnglishDataHelper.CreateRawEarningMathsEnglish(rawEarning);
             }
 
-            PaymentsDueTestContext.RawEarningsMathsEnglish = earnings;
+            SharedTestContext.RawEarningsMathsEnglish = earnings;
             
             base.BeforeTest(test);
         }

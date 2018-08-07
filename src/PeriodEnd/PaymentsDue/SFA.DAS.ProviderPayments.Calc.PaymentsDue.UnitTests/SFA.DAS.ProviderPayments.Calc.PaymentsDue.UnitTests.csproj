@@ -195,6 +195,14 @@
       <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{c43b8b7e-fef3-4c37-8eeb-5175b2cbeb79}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.PaymentsDue\SFA.DAS.ProviderPayments.Calc.PaymentsDue.csproj">
       <Project>{7ea464ec-6eda-45d9-be48-47e8afdaa853}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.PaymentsDue</Name>

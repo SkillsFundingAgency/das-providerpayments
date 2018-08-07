@@ -127,6 +127,7 @@
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DasAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\EarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />

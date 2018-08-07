@@ -2,11 +2,12 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.RawEarnings;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
+namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
     [TestFixture, SetupUkprn]
     public class GivenARawEarningsMathsEnglishRepository
@@ -29,7 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public void ThenItReturnsAnEmptyList()
                 {
                     Setup();
-                    var result = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    var result = _sut.GetAllForProvider(SharedTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
             }
@@ -48,10 +49,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualRawEarningsMathsEnglish = _sut.GetAllForProvider(PaymentsDueTestContext.Ukprn);
+                    _actualRawEarningsMathsEnglish = _sut.GetAllForProvider(SharedTestContext.Ukprn);
 
-                    _expectedRawEarningsMathsEnglish = PaymentsDueTestContext.RawEarningsMathsEnglish
-                        .Where(earning => earning.Ukprn == PaymentsDueTestContext.Ukprn).ToList();
+                    _expectedRawEarningsMathsEnglish = SharedTestContext.RawEarningsMathsEnglish
+                        .Where(earning => earning.Ukprn == SharedTestContext.Ukprn).ToList();
                 }
 
                 [Test]

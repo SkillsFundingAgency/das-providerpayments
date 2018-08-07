@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\ProviderEntity.cs" />
+    <Compile Include="Data\Entities\RawEarning.cs" />
+    <Compile Include="Data\Entities\RawEarningForMathsOrEnglish.cs" />
     <Compile Include="Data\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Data\IProviderRepository.cs" />
@@ -55,6 +57,8 @@
     <Compile Include="Data\Repositories\DasAccountRepository.cs" />
     <Compile Include="Data\Repositories\PaymentRepository.cs" />
     <Compile Include="Data\Repositories\ProviderRepository.cs" />
+    <Compile Include="Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
+    <Compile Include="Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +70,10 @@
     <ProjectReference Include="..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{c43b8b7e-fef3-4c37-8eeb-5175b2cbeb79}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

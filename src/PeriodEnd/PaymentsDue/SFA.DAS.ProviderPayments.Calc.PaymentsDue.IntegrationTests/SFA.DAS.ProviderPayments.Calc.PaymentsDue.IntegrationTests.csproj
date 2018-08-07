@@ -82,8 +82,6 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Infrastructure\GivenANonPayableEarningRepository.cs" />
-    <Compile Include="Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
-    <Compile Include="Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,19 +90,13 @@
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
     <Compile Include="Utilities\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
     <Compile Include="Utilities\NonPayableEarningsDataHelper.cs" />
-    <Compile Include="Utilities\RawEarningsMathsEnglishDataHelper.cs" />
-    <Compile Include="Utilities\RawEarningsDataHelper.cs" />
     <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
     <Compile Include="Utilities\SetupNoNonPayableEarningsAttribute.cs" />
-    <Compile Include="Utilities\SetupNoRawEarningsMathsEnglishAttribute.cs" />
-    <Compile Include="Utilities\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Utilities\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Utilities\SetupRequiredPayments.cs" />
     <Compile Include="Utilities\SetupRequiredPaymentsHistoryAttribute.cs" />
     <Compile Include="Utilities\SetupNoRequiredPaymentsHistoryAttribute.cs" />
-    <Compile Include="Utilities\SetupRawEarningsMathsEnglishAttribute.cs" />
-    <Compile Include="Utilities\SetupRawEarningsAttribute.cs" />
     <Compile Include="Utilities\SetupUkprnAttribute.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
   </ItemGroup>
@@ -143,10 +135,6 @@
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">

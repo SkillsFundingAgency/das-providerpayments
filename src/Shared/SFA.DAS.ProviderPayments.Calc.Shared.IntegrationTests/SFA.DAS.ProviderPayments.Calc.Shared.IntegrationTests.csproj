@@ -79,6 +79,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsAttribute.cs" />
+    <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsMathsEnglishAttribute.cs" />
+    <Compile Include="Attributes\RawEarnings\SetupRawEarningsAttribute.cs" />
+    <Compile Include="Attributes\RawEarnings\SetupRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Attributes\SetupAccountIdAttribute.cs" />
     <Compile Include="Attributes\SetupDasAccountsAttribute.cs" />
     <Compile Include="Attributes\SetupRequiredPaymentsRepositoryAttribute.cs" />
@@ -91,12 +95,16 @@
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
     <Compile Include="Helpers\PaymentDataHelper.cs" />
+    <Compile Include="Helpers\RawEarningsDataHelper.cs" />
+    <Compile Include="Helpers\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="SharedTestContext.cs" />
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
+    <Compile Include="Tests\Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
+    <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARequiredPaymentsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAProvidersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +129,10 @@
     <Content Include="..\..\periodend\paymentsdue\deploypaymentsdue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>

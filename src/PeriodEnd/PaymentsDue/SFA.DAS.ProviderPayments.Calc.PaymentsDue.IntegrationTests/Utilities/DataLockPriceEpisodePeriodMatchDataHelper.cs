@@ -38,6 +38,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                         FROM Datalock.PriceEpisodeMatch
                         WHERE PriceEpisodeIdentifier = @PriceEpisodeIdentifier
                         AND Ukprn = @Ukprn
+                        AND LearnRefNumber = @LearnRefNumber
+                        AND CommitmentId = @CommitmentId
                     )
                     INSERT INTO Datalock.PriceEpisodeMatch
                     (UKPRN, PriceEpisodeIdentifier, LearnRefNumber, AimSeqNumber, CommitmentId, IsSuccess)

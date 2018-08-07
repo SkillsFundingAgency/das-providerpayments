@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.Payments;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
     public class RawEarning : IHoldCourseInformation
     {

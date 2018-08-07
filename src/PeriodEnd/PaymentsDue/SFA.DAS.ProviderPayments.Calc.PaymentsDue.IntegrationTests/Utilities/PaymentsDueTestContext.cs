@@ -15,16 +15,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         public static long Ukprn { get; set; }
 
         /// <summary>
-        /// Populated by applying the <see cref="SetupRawEarningsAttribute"/> to the test
-        /// </summary>
-        public static List<RawEarning> RawEarnings { get; set; }
-
-        /// <summary>
-        /// Populated by applying the <see cref="SetupRawEarningsMathsEnglishAttribute"/> to the test
-        /// </summary>
-        public static List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; }
-
-        /// <summary>
         /// Populated by applying the <see cref="SetupRequiredPaymentsHistoryAttribute"/> to the test
         /// </summary>
         public static List<RequiredPayment> RequiredPaymentsHistory { get; set; }

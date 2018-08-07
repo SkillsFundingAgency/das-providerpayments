@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
+﻿namespace SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.Payments
 {
     public interface IHoldCourseInformation
     {

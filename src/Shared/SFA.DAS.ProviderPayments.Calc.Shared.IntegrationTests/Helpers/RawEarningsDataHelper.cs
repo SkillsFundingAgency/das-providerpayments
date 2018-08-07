@@ -1,7 +1,6 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
+﻿using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
     internal static class RawEarningsDataHelper
     {
