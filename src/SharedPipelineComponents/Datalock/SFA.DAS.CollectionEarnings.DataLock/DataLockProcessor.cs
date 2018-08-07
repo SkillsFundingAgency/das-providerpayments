@@ -16,6 +16,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18Incentiv
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.Services;
 
 namespace SFA.DAS.CollectionEarnings.DataLock
 {
@@ -23,21 +24,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
-        private ICommitmentRepository _commitmentRepository;
+        private readonly ICommitmentRepository _commitmentRepository;
+        private readonly IValidateDatalocks _datalockValidationService;
 
         public DataLockProcessor(
             ILogger logger, 
             IMediator mediator, 
-            ICommitmentRepository commitmentRepository)
+            ICommitmentRepository commitmentRepository, 
+            IValidateDatalocks datalockValidationService)
         {
             _logger = logger;
             _mediator = mediator;
             _commitmentRepository = commitmentRepository;
-        }
-
-        protected DataLockProcessor(ICommitmentRepository commitmentRepository)
-        {
-            _commitmentRepository = commitmentRepository;
+            _datalockValidationService = datalockValidationService;
         }
 
         public virtual void Process()

@@ -304,12 +304,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappi
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToDedsMapping.xml
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueCopyToTransientMapping.xml
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueILRCopyToTransientMapping.xml = PeriodEnd\PaymentsDue\DeployPaymentsDue\copy mappings\DasPaymentsDueILRCopyToTransientMapping.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{61493CCE-0228-4120-9BBA-5078CE8C29C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{3CD867A5-C0AA-4654-B4BD-E488BD05B60E}"
 	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Bulk.PaymentsDue.DDL.Views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Bulk.PaymentsDue.DDL.Views.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.views.sql
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql
@@ -617,6 +619,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.Interfaces", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj", "{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{8D9ADD39-530F-48BA-A80D-CB97DFF14622}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\PeriodId_Property.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\PeriodId_Property.sql
+		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\teardown.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\teardown.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -972,6 +980,7 @@ Global
 		{F73CA3DB-2842-4382-9DDB-A56810694090} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
 		{704E27F1-F639-4F3C-A397-08620474A859} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
 		{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
+		{8D9ADD39-530F-48BA-A80D-CB97DFF14622} = {61493CCE-0228-4120-9BBA-5078CE8C29C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}

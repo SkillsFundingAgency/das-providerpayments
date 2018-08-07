@@ -4,16 +4,16 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
 {
-    interface IValidateDatalocks
+    public interface IValidateDatalocks
     {
         
     }
 
-    class DatalockValidationService : IValidateDatalocks
+    public class DatalockValidationService : IValidateDatalocks
     {
     }
 
-    class DatalockValidationResult
+    public class DatalockValidationResult
     {
         public IEnumerable<ValidationErrorEntity> ValidationErrors { get; set; }
         public IEnumerable<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; set; }
