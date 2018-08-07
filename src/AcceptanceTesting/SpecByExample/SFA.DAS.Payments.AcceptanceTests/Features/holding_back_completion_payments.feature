@@ -14,6 +14,10 @@ Scenario: AC1 - 1 learner, levy, co-funding has been used and provider data show
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
 		| learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       |                 | continuing        |
 
+    And an ILR file is submitted for period R01 with the following data:
+        | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
+		| learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       |                 | continuing        |
+
 	When an ILR file is submitted for period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
         | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 720                   |
@@ -45,3 +49,4 @@ Scenario: AC1 - 1 learner, levy, co-funding has been used and provider data show
 #Completion payment workings:
 #£9000 x 0.20 = £1,800
 #£1800 x 0.90 (for co-funded) = £1620 = SFA, & £180 Employer contribution.
+
