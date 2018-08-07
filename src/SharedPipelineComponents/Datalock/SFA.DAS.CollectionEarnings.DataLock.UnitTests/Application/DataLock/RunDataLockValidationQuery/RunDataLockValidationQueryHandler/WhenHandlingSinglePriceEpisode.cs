@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery;
@@ -7,6 +8,7 @@ using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using PaymentStatus = SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums.PaymentStatus;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.RunDataLockValidationQuery.RunDataLockValidationQueryHandler
@@ -88,11 +90,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(new DateTime(2018, 7, 31))
                     .Build()
             };
 
@@ -163,11 +164,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(new DateTime(2018, 7, 31))
                     .Build()
             };
 
@@ -239,11 +239,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(new DateTime(2018, 7, 31))
                     .Build()
             };
 
@@ -314,11 +313,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2018, 1, 1))
-                    .WithEndDate(new DateTime(2018, 7, 31))
                     .Build()
             };
 
@@ -386,11 +384,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2018, 1, 1))
-                    .WithEndDate(new DateTime(2018, 7, 31))
                     .Build()
             };
 
@@ -447,11 +444,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(priceEpisodeEndDate)
                     .Build()
             };
 
@@ -491,11 +487,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(startDate)
-                    .WithEndDate(endDate)
                     .Build()
             };
 
@@ -539,11 +534,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(startDate)
-                    .WithEndDate(endDate)
                     .Build()
             };
 
@@ -583,11 +577,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(startDate)
-                    .WithEndDate(endDate)
                     .Build()
             };
 
@@ -627,11 +620,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Run
                     .Build()
             };
 
-            var priceEpisodes = new[]
+            var priceEpisodes = new List<RawEarning>
             {
                 new PriceEpisodeBuilder()
                     .WithStartDate(new DateTime(2017, 8, 1))
-                    .WithEndDate(new DateTime(2017, 09, 17))
                     .Build()
             };
 

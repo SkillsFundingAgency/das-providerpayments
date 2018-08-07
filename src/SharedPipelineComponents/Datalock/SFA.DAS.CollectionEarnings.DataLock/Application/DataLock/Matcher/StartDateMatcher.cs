@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -8,16 +9,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public StartDateMatcher(MatchHandler nextMatchHandler):
             base(nextMatchHandler)
-        {
-
-        }
+        {}
        
-        public override  MatchResult Match(List<CommitmentEntity> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override  MatchResult Match(List<CommitmentEntity> commitments, RawEarning priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments.Where(c => priceEpisode.StartDate >= c.StartDate
-                                                            && priceEpisode.StartDate < c.EndDate
-                                                            && priceEpisode.StartDate >= c.EffectiveFrom 
-                                                            && (c.EffectiveTo == null || priceEpisode.StartDate <= c.EffectiveTo)).ToList();
+            var commitmentsToMatch = commitments.Where(c => priceEpisode.EpisodeStartDate >= c.StartDate
+                                                            && priceEpisode.EpisodeStartDate < c.EndDate
+                                                            && priceEpisode.EpisodeStartDate >= c.EffectiveFrom 
+                                                            && (c.EffectiveTo == null || priceEpisode.EpisodeStartDate <= c.EffectiveTo)).ToList();
 
             if (!commitmentsToMatch.Any())
             {

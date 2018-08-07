@@ -133,6 +133,18 @@
           <Source>ApprenticeshipContractType</Source>
           <Destination>ApprenticeshipContractType</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>FirstIncentiveCensusDate</Source>
+          <Destination>FirstIncentiveCensusDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>SecondIncentiveCensusDate</Source>
+          <Destination>SecondIncentiveCensusDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AgreedPrice</Source>
+          <Destination>AgreedPrice</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

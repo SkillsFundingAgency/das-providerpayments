@@ -79,5 +79,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public int DeliveryYear { get; set; }
 
         public bool UseLevyBalance { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? FirstIncentiveCensusDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? SecondIncentiveCensusDate { get; set; }
+
+        public decimal AgreedPrice { get; set; }
     }
 }

@@ -1,43 +1,40 @@
 ﻿using System;
-using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
 {
-    public class PriceEpisodeBuilder : IBuilder<PriceEpisode>
+    public class PriceEpisodeBuilder : IBuilder<RawEarning>
     {
         private long _ukprn = 10007459;
         private string _learnRefNumber = "Lrn001";
-        private long? _uln = 1000000019;
+        private long _uln = 1000000019;
         private string _niNumber = "AB123456C";
-        private long? _aimSeqNumber = 1;
-        private long? _standardCode;
-        private long? _programmeType = 20;
-        private long? _frameworkCode = 550;
-        private long? _pwayCode = 6;
-        private long? _negotiatedPrice = 15000;
+        private int _aimSeqNumber = 1;
+        private int? _standardCode;
+        private int? _programmeType = 20;
+        private int? _frameworkCode = 550;
+        private int? _pwayCode = 6;
+        private decimal _negotiatedPrice = 15000;
         private DateTime _startDate = new DateTime(2016, 9, 1);
-        private DateTime _endDate = new DateTime(2018, 12, 31);
         private DateTime? _firstIncentiveThreshholdDate = null;
         private DateTime? _secondIncentiveThreshholdDate = null;
 
-        public PriceEpisode Build()
+        public RawEarning Build()
         {
-            return new PriceEpisode
+            return new RawEarning
             {
                 Ukprn = _ukprn,
-                LearnerReferenceNumber = _learnRefNumber,
+                LearnRefNumber = _learnRefNumber,
                 Uln = _uln,
-                NiNumber = _niNumber,
-                AimSequenceNumber = _aimSeqNumber,
-                StandardCode = _standardCode,
-                ProgrammeType = _programmeType,
-                FrameworkCode = _frameworkCode,
-                PathwayCode = _pwayCode,
-                NegotiatedPrice = _negotiatedPrice,
-                StartDate = _startDate,
-                EndDate = _endDate,
-                FirstAdditionalPaymentThresholdDate=_firstIncentiveThreshholdDate,
-                SecondAdditionalPaymentThresholdDate=_secondIncentiveThreshholdDate
+                AimSeqNumber = _aimSeqNumber,
+                StandardCode = _standardCode ?? 0,
+                ProgrammeType = _programmeType ?? 0,
+                FrameworkCode = _frameworkCode ?? 0,
+                PathwayCode = _pwayCode ?? 0,
+                AgreedPrice = _negotiatedPrice,
+                EpisodeStartDate = _startDate,
+                FirstIncentiveCensusDate= _firstIncentiveThreshholdDate,
+                SecondIncentiveCensusDate= _secondIncentiveThreshholdDate
             };
         }
 
@@ -55,7 +52,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
             return this;
         }
 
-        public PriceEpisodeBuilder WithUln(long? uln)
+        public PriceEpisodeBuilder WithUln(long uln)
         {
             _uln = uln;
 
@@ -69,42 +66,42 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
             return this;
         }
 
-        public PriceEpisodeBuilder WithAimSeqNumber(long? aimseqNumber)
+        public PriceEpisodeBuilder WithAimSeqNumber(int aimseqNumber)
         {
             _aimSeqNumber = aimseqNumber;
 
             return this;
         }
 
-        public PriceEpisodeBuilder WithStandardCode(long? standardCode)
+        public PriceEpisodeBuilder WithStandardCode(int? standardCode)
         {
             _standardCode = standardCode;
 
             return this;
         }
 
-        public PriceEpisodeBuilder WithProgrammeType(long? programmeType)
+        public PriceEpisodeBuilder WithProgrammeType(int? programmeType)
         {
             _programmeType = programmeType;
 
             return this;
         }
 
-        public PriceEpisodeBuilder WithFrameworkCode(long? frameworkCode)
+        public PriceEpisodeBuilder WithFrameworkCode(int? frameworkCode)
         {
             _frameworkCode = frameworkCode;
 
             return this;
         }
 
-        public PriceEpisodeBuilder WithPathwayCode(long? pathwayCode)
+        public PriceEpisodeBuilder WithPathwayCode(int? pathwayCode)
         {
             _pwayCode = pathwayCode;
 
             return this;
         }
 
-        public PriceEpisodeBuilder WithNegotiatedPrice(long? negotiatedPrice)
+        public PriceEpisodeBuilder WithNegotiatedPrice(decimal negotiatedPrice)
         {
             _negotiatedPrice = negotiatedPrice;
 
@@ -114,13 +111,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         public PriceEpisodeBuilder WithStartDate(DateTime learnStartDate)
         {
             _startDate = learnStartDate;
-
-            return this;
-        }
-
-        public PriceEpisodeBuilder WithEndDate(DateTime endDate)
-        {
-            _endDate = endDate;
 
             return this;
         }

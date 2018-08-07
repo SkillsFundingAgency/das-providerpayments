@@ -8,6 +8,9 @@ using SFA.DAS.CollectionEarnings.DataLock.Tools.Providers;
 using StructureMap;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
+using DasAccountRepository = SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories.DasAccountRepository;
+using ProviderRepository = SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories.ProviderRepository;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolution
 {
@@ -35,6 +38,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
             For<IDateTimeProvider>().Use<DateTimeProvider>();
             For<IDasAccountRepository>().Use<DasAccountRepository>();
             For<IIncentiveEarningsRepository>().Use<IncentiveEarningsRepository>();
+            For<IRawEarningsRepository>().Use<RawEarningsRepository>();
 
             For<IValidateDatalocks>().Use<DatalockValidationService>();
 

@@ -91,7 +91,6 @@
     <Compile Include="Application\ValidationError\ValidationError.cs" />
     <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandHandler.cs" />
     <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandRequest.cs" />
-    <Compile Include="Application\PriceEpisode\PriceEpisode.cs" />
     <Compile Include="Application\PriceEpisodeMatch\PriceEpisodeMatch.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryRequest.cs" />
@@ -111,9 +110,6 @@
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ValidationErrorEntity.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryHandler.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryRequest.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryResponse.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandHandler.cs" />
     <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandRequest.cs" />
     <Compile Include="Infrastructure\Data\IDasAccountRepository.cs" />

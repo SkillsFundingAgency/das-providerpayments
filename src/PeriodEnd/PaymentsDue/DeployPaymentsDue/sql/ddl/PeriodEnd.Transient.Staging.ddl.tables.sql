@@ -47,7 +47,10 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ApprenticeshipContractType int
+	ApprenticeshipContractType int,
+	FirstIncentiveCensusDate date,
+	SecondIncentiveCensusDate date,
+	AgreedPrice decimal(15,5)
 )
 GO
 

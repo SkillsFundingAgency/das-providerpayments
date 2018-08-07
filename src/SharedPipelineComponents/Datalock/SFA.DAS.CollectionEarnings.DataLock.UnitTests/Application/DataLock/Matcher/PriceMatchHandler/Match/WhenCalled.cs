@@ -5,6 +5,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Matcher.PriceMatchHandler.Match
 {
@@ -21,7 +22,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             _nextMatcher
                 .Setup(m => m.Match(It.IsAny<List<CommitmentEntity>>(),
-                    It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
+                    It.IsAny<RawEarning>(),
                      It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                     It.IsAny<MatchResult>()))
                 .Returns(new MatchResult { ErrorCodes = new List<string>() });
@@ -96,7 +97,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             _nextMatcher.Verify(
                   m =>
                       m.Match(It.IsAny<List<CommitmentEntity>>(),
-                          It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
+                          It.IsAny<RawEarning>(),
                            It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                           It.IsAny<MatchResult>()),
                   Times.Once());

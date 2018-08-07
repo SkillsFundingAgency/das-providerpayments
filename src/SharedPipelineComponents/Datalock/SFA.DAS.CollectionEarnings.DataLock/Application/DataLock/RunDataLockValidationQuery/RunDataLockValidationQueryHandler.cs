@@ -12,6 +12,7 @@ using SFA.DAS.Payments.DCFS.Domain;
 using System.Diagnostics;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery
 {
@@ -55,8 +56,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                                         validationErrors.Add(new ValidationError.ValidationError
                                         {
                                             Ukprn = priceEpisode.Ukprn,
-                                            LearnerReferenceNumber = priceEpisode.LearnerReferenceNumber,
-                                            AimSequenceNumber = priceEpisode.AimSequenceNumber,
+                                            LearnerReferenceNumber = priceEpisode.LearnRefNumber,
+                                            AimSequenceNumber = priceEpisode.AimSeqNumber,
                                             RuleId = errorCode,
                                             PriceEpisodeIdentifier = priceEpisode.PriceEpisodeIdentifier
                                         }));
@@ -72,8 +73,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                                 priceEpisodeMatches.Add(new PriceEpisodeMatch.PriceEpisodeMatch
                                 {
                                     Ukprn = priceEpisode.Ukprn,
-                                    LearnerReferenceNumber = priceEpisode.LearnerReferenceNumber,
-                                    AimSequenceNumber = priceEpisode.AimSequenceNumber ?? -1,
+                                    LearnerReferenceNumber = priceEpisode.LearnRefNumber,
+                                    AimSequenceNumber = priceEpisode.AimSeqNumber,
                                     CommitmentId = commitmentId,
                                     PriceEpisodeIdentifier = priceEpisode.PriceEpisodeIdentifier,
                                     IsSuccess = isSuccess
@@ -132,62 +133,63 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 .ToArray();
         }
 
-        private List<IncentiveEarnings> GetIncentiveEarningsForPriceEpisode(IEnumerable<IncentiveEarnings> incentiveEarnings, PriceEpisode.PriceEpisode priceEpisode)
+        private List<IncentiveEarnings> GetIncentiveEarningsForPriceEpisode(IEnumerable<IncentiveEarnings> incentiveEarnings, RawEarning priceEpisode)
         {
-            var earnings = incentiveEarnings.Where(x => x.LearnRefNumber == priceEpisode.LearnerReferenceNumber && x.PriceEpisodeIdentifier == priceEpisode.PriceEpisodeIdentifier).ToList();
+            var earnings = incentiveEarnings.Where(x => x.LearnRefNumber == priceEpisode.LearnRefNumber && x.PriceEpisodeIdentifier == priceEpisode.PriceEpisodeIdentifier).ToList();
             return earnings;
         }
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] GetPriceEpisodePeriodMatches(
-                                                    PriceEpisode.PriceEpisode priceEpisode, 
+                                                    RawEarning priceEpisode, 
                                                     CommitmentEntity[] commitments,
                                                     IEnumerable<IncentiveEarnings> incentiveEarnings)
         {
             var periodMatches = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
-            var period = CalculateFirstPeriodForThePriceEpisode(priceEpisode);
-            var censusDate = CalculateFirstCensusDateForThePriceEpisode(priceEpisode);
+            //var period = CalculateFirstPeriodForThePriceEpisode(priceEpisode);
+            //var censusDate = CalculateFirstCensusDateForThePriceEpisode(priceEpisode);
 
-            while (censusDate <= priceEpisode.EndDate && period <= 12)
-            {
-                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, censusDate,incentiveEarnings));
-                censusDate = censusDate.AddMonths(1).LastDayOfMonth();
-                period++;
-            }
+            // TODO: ? fix this??
+            //while (censusDate <= priceEpisode.EndDate && period <= 12)
+            //{
+            //    periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, censusDate,incentiveEarnings));
+            //    censusDate = censusDate.AddMonths(1).LastDayOfMonth();
+            //    period++;
+            //}
 
-            if (period <= 12 && priceEpisode.EndDate != priceEpisode.EndDate.LastDayOfMonth())
-            {
-                periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, priceEpisode.EndDate, incentiveEarnings));
-            }
+            //if (period <= 12 && priceEpisode.EndDate != priceEpisode.EndDate.LastDayOfMonth())
+            //{
+            //    periodMatches.AddRange(BuildPriceEpisodePeriodMatch(priceEpisode, commitments, period, priceEpisode.EndDate, incentiveEarnings));
+            //}
 
             return periodMatches.ToArray();
         }
 
       
+        // TODO: Not sure these will be relevant, so not fixing them just yet
 
+        //private DateTime CalculateFirstCensusDateForThePriceEpisode(RawEarning priceEpisode)
+        //{
+        //    var firstCensusDateAfterYearOfCollectionStart = _dateTimeProvider.YearOfCollectionStart.LastDayOfMonth();
+        //    var firstCensusDateAfterLearningStart = priceEpisode.StartDate.LastDayOfMonth();
 
-        private DateTime CalculateFirstCensusDateForThePriceEpisode(PriceEpisode.PriceEpisode priceEpisode)
-        {
-            var firstCensusDateAfterYearOfCollectionStart = _dateTimeProvider.YearOfCollectionStart.LastDayOfMonth();
-            var firstCensusDateAfterLearningStart = priceEpisode.StartDate.LastDayOfMonth();
+        //    return firstCensusDateAfterYearOfCollectionStart < firstCensusDateAfterLearningStart
+        //        ? firstCensusDateAfterLearningStart
+        //        : firstCensusDateAfterYearOfCollectionStart;
+        //}
 
-            return firstCensusDateAfterYearOfCollectionStart < firstCensusDateAfterLearningStart
-                ? firstCensusDateAfterLearningStart
-                : firstCensusDateAfterYearOfCollectionStart;
-        }
+        //private int CalculateFirstPeriodForThePriceEpisode(RawEarning priceEpisode)
+        //{
+        //    var firstDayAfterYearOfCollectionStart = _dateTimeProvider.YearOfCollectionStart.FirstDayOfMonth();
 
-        private int CalculateFirstPeriodForThePriceEpisode(PriceEpisode.PriceEpisode priceEpisode)
-        {
-            var firstDayAfterYearOfCollectionStart = _dateTimeProvider.YearOfCollectionStart.FirstDayOfMonth();
+        //    var period = priceEpisode.StartDate.Month - firstDayAfterYearOfCollectionStart.Month
+        //                 + 12 * (priceEpisode.StartDate.Year - firstDayAfterYearOfCollectionStart.Year)
+        //                 + 1;
 
-            var period = priceEpisode.StartDate.Month - firstDayAfterYearOfCollectionStart.Month
-                         + 12 * (priceEpisode.StartDate.Year - firstDayAfterYearOfCollectionStart.Year)
-                         + 1;
-
-            return period <= 0
-                ? 1
-                : period;
-        }
+        //    return period <= 0
+        //        ? 1
+        //        : period;
+        //}
 
         private CommitmentEntity GetMatchingCommitment(DateTime date, CommitmentEntity[] commitments)
         {
@@ -215,7 +217,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         }
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] BuildPriceEpisodePeriodMatch(
-                                                        PriceEpisode.PriceEpisode priceEpisode,
+                                                        RawEarning priceEpisode,
                                                         CommitmentEntity[] commitments, 
                                                         int period, 
                                                         DateTime periodDate,
@@ -231,18 +233,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
 
 
-            if (priceEpisode.FirstAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x=> x.Period == period && x.First16To18EmployerIncentive !=0))
+            if (priceEpisode.FirstIncentiveCensusDate.HasValue && incentiveEarnings.Any(x=> x.Period == period && x.First16To18EmployerIncentive !=0))
             {
-                matchingCommitment = GetMatchingCommitment(priceEpisode.FirstAdditionalPaymentThresholdDate.Value, commitments);
+                matchingCommitment = GetMatchingCommitment(priceEpisode.FirstIncentiveCensusDate.Value, commitments);
                 if (matchingCommitment != null)
                 {
                     priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatchFor16To18Payments(priceEpisode, matchingCommitment, period, periodDate,TransactionTypesFlag.FirstEmployerProviderIncentives));
                 }
             }
 
-            if (priceEpisode.SecondAdditionalPaymentThresholdDate.HasValue && incentiveEarnings.Any(x => x.Period == period && x.Second16To18EmployerIncentive != 0))
+            if (priceEpisode.SecondIncentiveCensusDate.HasValue && incentiveEarnings.Any(x => x.Period == period && x.Second16To18EmployerIncentive != 0))
             {
-                matchingCommitment = GetMatchingCommitment(priceEpisode.SecondAdditionalPaymentThresholdDate.Value, commitments);
+                matchingCommitment = GetMatchingCommitment(priceEpisode.SecondIncentiveCensusDate.Value, commitments);
                 if (matchingCommitment != null)
                 {
                     priceEpisodePeriodMacthes.Add(GetPriceEpisodePeriodMatchFor16To18Payments(priceEpisode, matchingCommitment, period, periodDate,TransactionTypesFlag.SecondEmployerProviderIncentives));
@@ -256,7 +258,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
       
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatchFor16To18Payments(
-                                            PriceEpisode.PriceEpisode priceEpisode,
+                                            RawEarning priceEpisode,
                                             CommitmentEntity commitment,
                                             int period, 
                                             DateTime periodDate,
@@ -264,7 +266,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
         {
 
             var isPayable = commitment.PaymentStatus == (int)PaymentStatus.Active || commitment.PaymentStatus == (int)PaymentStatus.Completed;
-            var threshholdDate = transactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives ? priceEpisode.FirstAdditionalPaymentThresholdDate : priceEpisode.SecondAdditionalPaymentThresholdDate;
+            var threshholdDate = transactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives ? priceEpisode.FirstIncentiveCensusDate : priceEpisode.SecondIncentiveCensusDate;
 
             var incentivePayable = IsIncentivePayable(threshholdDate, commitment, periodDate);
             return GetPriceEpisodePeriodMatch(priceEpisode, commitment, period, transactionTypesFlag, isPayable && incentivePayable);
@@ -291,14 +293,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
         }
 
-        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatch(PriceEpisode.PriceEpisode priceEpisode, CommitmentEntity commitment, int period, TransactionTypesFlag transactionTypesFlag, bool payable)
+        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatch(RawEarning priceEpisode, CommitmentEntity commitment, int period, TransactionTypesFlag transactionTypesFlag, bool payable)
         {
             return new PriceEpisodePeriodMatch.PriceEpisodePeriodMatch
             {
                 Ukprn = priceEpisode.Ukprn,
                 PriceEpisodeIdentifier = priceEpisode.PriceEpisodeIdentifier,
-                LearnerReferenceNumber = priceEpisode.LearnerReferenceNumber,
-                AimSequenceNumber = priceEpisode.AimSequenceNumber ?? -1,
+                LearnerReferenceNumber = priceEpisode.LearnRefNumber,
+                AimSequenceNumber = priceEpisode.AimSeqNumber,
                 CommitmentId = commitment.CommitmentId,
                 CommitmentVersionId = commitment.VersionId,
                 Period = period,
@@ -307,6 +309,5 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 
             };
         }
-
     }
 }

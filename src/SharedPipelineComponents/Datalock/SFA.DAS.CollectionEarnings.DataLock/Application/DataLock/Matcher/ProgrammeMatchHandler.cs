@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -8,9 +9,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public ProgrammeMatchHandler(MatchHandler nextMatchHandler):
             base(nextMatchHandler)
-        {
+        {}
 
-        }
         public override bool StopOnError
         {
             get
@@ -18,15 +18,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 return false;
             }
         }
-        public override MatchResult Match(List<CommitmentEntity> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override MatchResult Match(List<CommitmentEntity> commitments, RawEarning priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
-            if (!priceEpisode.StandardCode.HasValue)
+            if (priceEpisode.StandardCode == 0)
             {
                 var commitmentsToMatch = commitments.Where(c => c.ProgrammeType.HasValue &&
-                                                                priceEpisode.ProgrammeType.HasValue &&
-                                                                c.ProgrammeType.Value == priceEpisode.ProgrammeType.Value)
+                                                                priceEpisode.ProgrammeType != 0 &&
+                                                                c.ProgrammeType.Value == priceEpisode.ProgrammeType)
                     .ToList();
 
                 if (!commitmentsToMatch.Any())

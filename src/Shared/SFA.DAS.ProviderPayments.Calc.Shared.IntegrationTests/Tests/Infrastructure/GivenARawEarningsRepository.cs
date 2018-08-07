@@ -183,6 +183,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 [Test]
                 public void ThenActIsSetCorrectly() =>
                     _actualRawEarnings[0].ApprenticeshipContractType.Should().Be(_expectedRawEarnings[0].ApprenticeshipContractType);
+
+                [Test]
+                public void ThenFirstIncentiveCensusDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].FirstIncentiveCensusDate.Should().Be(_expectedRawEarnings[0].FirstIncentiveCensusDate?.Date);
+
+                [Test]
+                public void ThenSecondIncentiveCensusDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].SecondIncentiveCensusDate.Should().Be(_expectedRawEarnings[0].SecondIncentiveCensusDate?.Date);
             }
         }
     }
