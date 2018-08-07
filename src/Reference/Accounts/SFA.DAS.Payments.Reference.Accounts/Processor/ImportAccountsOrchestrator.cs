@@ -1,30 +1,27 @@
-﻿using System;
+using System;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddAuditCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.AddOrUpdateAccountCommand;
 using SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery;
 
-namespace SFA.DAS.Payments.Reference.Accounts
+namespace SFA.DAS.Payments.Reference.Accounts.Processor
 {
-    public class ApiProcessor
+    public class ImportAccountsOrchestrator : IImportAccountsOrchestrator
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
 
-        public ApiProcessor(IMediator mediator, ILogger logger)
+        public ImportAccountsOrchestrator(IMediator mediator, ILogger logger)
         {
             _mediator = mediator;
             _logger = logger;
         }
-        protected ApiProcessor()
-        {
-            // For mocking
-        }
 
-        public virtual void Process()
+
+        public void ImportAccounts()
         {
-            _logger.Info("Started Accounts API Processor.");
+            _logger.Info("Started importing accounts.");
 
             var correlationDate = DateTime.Today;
             var pageNumber = 1;
@@ -55,10 +52,10 @@ namespace SFA.DAS.Payments.Reference.Accounts
             _mediator.Send(new AddAuditCommandRequest
             {
                 CorrelationDate = correlationDate,
-                AccountRead = numberOfAccounts,
+                AccountsRead = numberOfAccounts,
                 CompletedSuccessfully = true
             });
-            _logger.Info("Finished Accounts API Processor.");
+            _logger.Info("Finished importing accounts.");
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using SFA.DAS.Payments.DCFS.Context;
+﻿using SFA.DAS.Payments.DCFS.Context;
+using SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Dcfs
 {
@@ -10,11 +10,22 @@ namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Dcfs
         {
         }
 
-        public void CreateAudit(DateTime readDate, long accountsRead, bool completedSuccessfully)
+        public void CreateAudit(AuditEntity entity)
         {
-            Execute("INSERT INTO DasAccountsAudit (ReadDateTime,AccountsRead,CompletedSuccessfully) " +
-                    "VALUES (@readDate,@accountsRead,@completedSuccessfully)",
-                new {readDate, accountsRead, completedSuccessfully});
+            const string command = @"
+                INSERT INTO DasAccountsAudit (
+                    ReadDateTime
+                    ,AccountsRead
+                    ,CompletedSuccessfully
+                    ,AuditType
+                ) VALUES (
+                    @ReadDateTime
+                    ,@AccountsRead
+                    ,@CompletedSuccessfully
+                    ,@AuditType
+                );";
+
+            Execute(command, entity);
         }
     }
 }
