@@ -120,6 +120,8 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 VersionId = apprenticeshipEvent.Id,
                 Priority = apprenticeshipEvent.PaymentOrder,
                 PaymentStatus = paymentStatus,
+                PausedOnDate = apprenticeshipEvent.PausedOnDate,
+                WithdrawnOnDate = apprenticeshipEvent.StoppedOnDate,
                 LegalEntityName = apprenticeshipEvent.LegalEntityName,
                 TransferSendingEmployerAccountId = apprenticeshipEvent.TransferSenderId,
                 TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn
