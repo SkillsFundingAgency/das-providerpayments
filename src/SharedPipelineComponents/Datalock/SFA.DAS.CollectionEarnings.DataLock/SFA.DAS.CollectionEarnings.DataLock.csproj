@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Commitment\Commitment.cs" />
     <Compile Include="Application\DasAccount\DasAccount.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryRequest.cs" />
@@ -112,9 +111,6 @@
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ValidationErrorEntity.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryHandler.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryRequest.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryResponse.cs" />
     <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryHandler.cs" />
     <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryRequest.cs" />
     <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryResponse.cs" />
@@ -142,6 +138,7 @@
     <Compile Include="DataLockException.cs" />
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DatalockValidationService.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
     <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
@@ -161,6 +158,13 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

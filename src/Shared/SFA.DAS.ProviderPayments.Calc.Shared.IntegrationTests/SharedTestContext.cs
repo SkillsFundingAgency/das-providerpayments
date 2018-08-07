@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.RawEarnings;
@@ -32,5 +34,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
         /// Populated by applying the <see cref="SetupRawEarningsMathsEnglishAttribute"/> to the test
         /// </summary>
         public static List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; }
+
+        /// <summary>
+        /// Populated by applying the <see cref="SetupDataLockPriceEpisodePeriodMatchesAttribute"/> to the test
+        /// </summary>
+        public static List<DatalockOutputEntity> DataLockPriceEpisodePeriodMatches { get; set; }
     }
 }

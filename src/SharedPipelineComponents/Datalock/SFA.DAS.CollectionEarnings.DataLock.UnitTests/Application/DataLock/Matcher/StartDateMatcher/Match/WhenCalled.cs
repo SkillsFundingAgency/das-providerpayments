@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Matcher.StartDateMatcher.Match
 {
@@ -37,7 +38,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             _nextMatcher = new Mock<CollectionEarnings.DataLock.Application.DataLock.Matcher.MatchHandler>(null);
 
             _nextMatcher
-                .Setup(m => m.Match(It.IsAny<List<CollectionEarnings.DataLock.Application.Commitment.Commitment>>(), It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
+                .Setup(m => m.Match(It.IsAny<List<CommitmentEntity>>(), It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
                 It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(), It.IsAny<MatchResult>()))
                 .Returns(new MatchResult { ErrorCodes = new List<string>() });
         
@@ -48,7 +49,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenNextMatcherInChainIsExecutedForMatchingDataProvided(DateTime commitmentStartDate, DateTime commitmentEffectiveFromDate, DateTime learnerStartDate)
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder()
                     .WithStartDate(commitmentStartDate)
@@ -73,7 +74,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenErrorCodeReturnedForMismatchingDataProvided(DateTime commitmentStartDate, DateTime commitmentEffectiveFromDate, DateTime learnerStartDate)
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder()
                     .WithStartDate(commitmentStartDate)
@@ -97,7 +98,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenNextHanderShouldNotBeCalled(DateTime commitmentStartDate, DateTime commitmentEffectiveFromDate, DateTime learnerStartDate)
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder()
                     .WithStartDate(commitmentStartDate)
@@ -118,7 +119,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             _nextMatcher.Verify(
                         m =>
-                            m.Match(It.Is<List<CollectionEarnings.DataLock.Application.Commitment.Commitment>>(x => x[0].Equals(commitments[0])),
+                            m.Match(It.Is<List<CommitmentEntity>>(x => x[0].Equals(commitments[0])),
                                 It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>()
                                 , It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),It.IsAny<MatchResult>()),
                         Times.Never());

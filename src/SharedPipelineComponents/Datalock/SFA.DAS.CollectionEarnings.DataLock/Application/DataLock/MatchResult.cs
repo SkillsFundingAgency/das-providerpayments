@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock
 {
@@ -6,6 +7,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock
     {
    
         public List<string> ErrorCodes { get; set; } = new List<string>();
-        public Commitment.Commitment[] Commitments { get; set; } 
+        public CommitmentEntity[] Commitments { get; set; } 
     }
 }

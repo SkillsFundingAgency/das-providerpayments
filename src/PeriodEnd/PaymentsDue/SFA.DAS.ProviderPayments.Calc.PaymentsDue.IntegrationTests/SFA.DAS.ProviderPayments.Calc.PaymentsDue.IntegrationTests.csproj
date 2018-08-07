@@ -80,7 +80,6 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
-    <Compile Include="Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Infrastructure\GivenANonPayableEarningRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\GivenARequiredPaymentsHistoryRepository.cs" />
@@ -88,12 +87,9 @@
     <Compile Include="Utilities\ExternalContextStub.cs" />
     <Compile Include="Utilities\RequiredPaymentsDataHelper.cs" />
     <Compile Include="Utilities\PaymentsDueTestContext.cs" />
-    <Compile Include="Utilities\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
     <Compile Include="Utilities\NonPayableEarningsDataHelper.cs" />
     <Compile Include="Utilities\RequiredPaymentsHistoryDataHelper.cs" />
     <Compile Include="Utilities\SetupNoNonPayableEarningsAttribute.cs" />
-    <Compile Include="Utilities\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
-    <Compile Include="Utilities\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Utilities\SetupRequiredPayments.cs" />
     <Compile Include="Utilities\SetupRequiredPaymentsHistoryAttribute.cs" />
     <Compile Include="Utilities\SetupNoRequiredPaymentsHistoryAttribute.cs" />

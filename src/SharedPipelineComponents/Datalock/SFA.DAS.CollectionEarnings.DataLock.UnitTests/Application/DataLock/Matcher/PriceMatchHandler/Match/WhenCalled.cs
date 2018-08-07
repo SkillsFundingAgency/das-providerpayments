@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Matcher.PriceMatchHandler.Match
 {
@@ -19,7 +20,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             _nextMatcher = new Mock<CollectionEarnings.DataLock.Application.DataLock.Matcher.MatchHandler>(null);
 
             _nextMatcher
-                .Setup(m => m.Match(It.IsAny<List<CollectionEarnings.DataLock.Application.Commitment.Commitment>>(),
+                .Setup(m => m.Match(It.IsAny<List<CommitmentEntity>>(),
                     It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
                      It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                     It.IsAny<MatchResult>()))
@@ -30,7 +31,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenNextMatcherInChainIsExecutedForMatchingDataProvided()
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder().Build(),
                 new CommitmentBuilder().WithAgreedCost(999).Build()
@@ -53,7 +54,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenErrorCodeReturnedForMismatchingDataProvided()
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder().WithAgreedCost(998).Build(),
                 new CommitmentBuilder().WithAgreedCost(999).Build()
@@ -78,7 +79,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
         public void ThenNextHanderShouldBeCalled()
         {
             // Arrange
-            var commitments = new List<CollectionEarnings.DataLock.Application.Commitment.Commitment>
+            var commitments = new List<CommitmentEntity>
             {
                 new CommitmentBuilder().WithAgreedCost(998).Build(),
                 new CommitmentBuilder().WithAgreedCost(999).Build()
@@ -94,7 +95,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             // Assert
             _nextMatcher.Verify(
                   m =>
-                      m.Match(It.IsAny<List<CollectionEarnings.DataLock.Application.Commitment.Commitment>>(),
+                      m.Match(It.IsAny<List<CommitmentEntity>>(),
                           It.IsAny<CollectionEarnings.DataLock.Application.PriceEpisode.PriceEpisode>(),
                            It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                           It.IsAny<MatchResult>()),

@@ -7,6 +7,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories;
 using SFA.DAS.CollectionEarnings.DataLock.Tools.Providers;
 using StructureMap;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
+using SFA.DAS.CollectionEarnings.DataLock.Services;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolution
 {
@@ -35,6 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
             For<IDasAccountRepository>().Use<DasAccountRepository>();
             For<IIncentiveEarningsRepository>().Use<IncentiveEarningsRepository>();
 
+            For<IValidateDatalocks>().Use<DatalockValidationService>();
 
             For<IMatcher>().Use(() => MatcherFactory.CreateMatcher());
 

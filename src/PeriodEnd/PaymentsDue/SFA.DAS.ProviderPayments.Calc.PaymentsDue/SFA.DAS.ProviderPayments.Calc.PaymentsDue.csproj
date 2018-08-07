@@ -74,7 +74,6 @@
     <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
-    <Compile Include="Infrastructure\Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
     <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
@@ -88,11 +87,9 @@
     <Compile Include="Domain\PaymentGroup.cs" />
     <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
-    <Compile Include="Infrastructure\Data\Entities\DatalockOutputEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarning.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DatalockRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />

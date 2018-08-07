@@ -5,6 +5,8 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
 {
@@ -30,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 {
                     Setup();
                     var result =
-                        _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn);
+                        _sut.GetDatalockOutputForProvider(SharedTestContext.Ukprn);
                     result.Should().BeEmpty();
                 }
             }
@@ -50,10 +52,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
                 public new void Setup()
                 {
                     base.Setup();
-                    _actualDataLocks = _sut.GetDatalockOutputForProvider(PaymentsDueTestContext.Ukprn);
+                    _actualDataLocks = _sut.GetDatalockOutputForProvider(SharedTestContext.Ukprn);
 
-                    _expectedDataLocks = PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches
-                        .Where(entity => entity.Ukprn == PaymentsDueTestContext.Ukprn)
+                    _expectedDataLocks = SharedTestContext.DataLockPriceEpisodePeriodMatches
+                        .Where(entity => entity.Ukprn == SharedTestContext.Ukprn)
                         .OrderBy(entity => entity.PriceEpisodeIdentifier)
                         .ThenBy(x => x.LearnRefNumber)      // there's a sorted index on the table
                         .ToList();

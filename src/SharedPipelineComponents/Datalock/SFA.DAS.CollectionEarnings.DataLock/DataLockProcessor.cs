@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using MediatR;
 using NLog;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Commitment;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Commitment.GetProviderCommitmentsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode;
 using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisode.GetProviderPriceEpisodesQuery;
@@ -14,6 +14,8 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock
 {
@@ -21,15 +23,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private ICommitmentRepository _commitmentRepository;
 
-        public DataLockProcessor(ILogger logger, IMediator mediator)
+        public DataLockProcessor(
+            ILogger logger, 
+            IMediator mediator, 
+            ICommitmentRepository commitmentRepository)
         {
             _logger = logger;
             _mediator = mediator;
+            _commitmentRepository = commitmentRepository;
         }
 
-        protected DataLockProcessor()
+        protected DataLockProcessor(ICommitmentRepository commitmentRepository)
         {
+            _commitmentRepository = commitmentRepository;
         }
 
         public virtual void Process()
@@ -98,22 +106,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         }
 
 
-        private Commitment[] ReturnProviderCommitmentsOrThrow(long ukprn)
+        private IEnumerable<CommitmentEntity> ReturnProviderCommitmentsOrThrow(long ukprn)
         {
             _logger.Info($"Reading commitments for provider with ukprn {ukprn}.");
 
-            var commitments =
-                _mediator.Send(new GetProviderCommitmentsQueryRequest
-                {
-                    Ukprn = ukprn
-                });
+            var commitments = _commitmentRepository.GetProviderCommitments(ukprn);
 
-            if (!commitments.IsValid)
-            {
-                throw new DataLockException(DataLockException.ErrorReadingCommitmentsMessage, commitments.Exception);
-            }
-
-            return commitments.Items;
+            return commitments;
         }
 
         private GetProviderPriceEpisodesQueryResponse ReturnValidGetProviderPriceEpisodesQueryResponseOrThrow(long ukprn)
@@ -155,7 +154,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         }
 
         private RunDataLockValidationQueryResponse ReturnDataLockValidationResultOrThrow(
-                                                Commitment[] commitments,
+                                                IEnumerable<CommitmentEntity> commitments,
                                                 PriceEpisode[] priceEpisodes,
                                                 DasAccount[] dasAccounts,
                                                 IncentiveEarnings[] incentiveEarnings)

@@ -1,5 +1,5 @@
 ﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {

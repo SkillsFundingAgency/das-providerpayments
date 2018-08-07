@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities;
@@ -36,7 +37,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
 
             // Assert
             Assert.IsNotNull(commitments);
-            Assert.AreEqual(0, commitments.Length);
+            Assert.AreEqual(0, commitments.Count());
         }
 
         [Test]
@@ -51,7 +52,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(0, response.Length);
+            Assert.AreEqual(0, response.Count());
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(1, response.Length);
+            Assert.AreEqual(1, response.Count());
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(2, response.Length);
+            Assert.AreEqual(2, response.Count());
         }
 
         [Test]
@@ -116,8 +117,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Infrastructure.Da
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(1, response.Length);
-            Assert.AreEqual("1-004", response[0].VersionId);
+            Assert.AreEqual(1, response.Count());
+            Assert.AreEqual("1-004", response.First().VersionId);
         }
     }
 }

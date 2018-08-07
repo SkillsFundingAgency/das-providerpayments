@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using SFA.DAS.Payments.DCFS.Domain;
 using System.Diagnostics;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery
 {
@@ -111,7 +112,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
         }
 
-        private Commitment.Commitment[] GetMatchingFutureVersionsForTheLatestMatchedCommitmentVersion(IEnumerable<Commitment.Commitment> commitments, Commitment.Commitment matchedCommitment)
+        private CommitmentEntity[] GetMatchingFutureVersionsForTheLatestMatchedCommitmentVersion(IEnumerable<CommitmentEntity> commitments, CommitmentEntity matchedCommitment)
         {
             return commitments
                 .Where(
@@ -120,7 +121,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                         c.Ukprn == matchedCommitment.Ukprn &&
                         c.Uln == matchedCommitment.Uln &&
                         c.StartDate == matchedCommitment.StartDate &&
-                        c.NegotiatedPrice == matchedCommitment.NegotiatedPrice &&
+                        c.AgreedCost == matchedCommitment.AgreedCost &&
                         c.StandardCode == matchedCommitment.StandardCode &&
                         c.ProgrammeType == matchedCommitment.ProgrammeType &&
                         c.FrameworkCode == matchedCommitment.FrameworkCode &&
@@ -139,7 +140,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] GetPriceEpisodePeriodMatches(
                                                     PriceEpisode.PriceEpisode priceEpisode, 
-                                                    Commitment.Commitment[] commitments,
+                                                    CommitmentEntity[] commitments,
                                                     IEnumerable<IncentiveEarnings> incentiveEarnings)
         {
             var periodMatches = new List<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
@@ -188,7 +189,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                 : period;
         }
 
-        private Commitment.Commitment GetMatchingCommitment(DateTime date, Commitment.Commitment[] commitments)
+        private CommitmentEntity GetMatchingCommitment(DateTime date, CommitmentEntity[] commitments)
         {
             var matchingCommitment = commitments
                     .Where(
@@ -215,7 +216,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] BuildPriceEpisodePeriodMatch(
                                                         PriceEpisode.PriceEpisode priceEpisode,
-                                                        Commitment.Commitment[] commitments, 
+                                                        CommitmentEntity[] commitments, 
                                                         int period, 
                                                         DateTime periodDate,
                                                         IEnumerable<IncentiveEarnings> incentiveEarnings)
@@ -256,7 +257,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
 
         private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatchFor16To18Payments(
                                             PriceEpisode.PriceEpisode priceEpisode,
-                                             Commitment.Commitment commitment,
+                                            CommitmentEntity commitment,
                                             int period, 
                                             DateTime periodDate,
                                             TransactionTypesFlag transactionTypesFlag)
@@ -273,7 +274,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
       
 
 
-        private bool IsIncentivePayable(DateTime? threshholdDate, Commitment.Commitment commitment, DateTime censusDate)
+        private bool IsIncentivePayable(DateTime? threshholdDate, CommitmentEntity commitment, DateTime censusDate)
         {
             if (!threshholdDate.HasValue)
                 return false;
@@ -290,7 +291,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             }
         }
 
-        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatch(PriceEpisode.PriceEpisode priceEpisode, Commitment.Commitment commitment, int period, TransactionTypesFlag transactionTypesFlag, bool payable)
+        private PriceEpisodePeriodMatch.PriceEpisodePeriodMatch GetPriceEpisodePeriodMatch(PriceEpisode.PriceEpisode priceEpisode, CommitmentEntity commitment, int period, TransactionTypesFlag transactionTypesFlag, bool payable)
         {
             return new PriceEpisodePeriodMatch.PriceEpisodePeriodMatch
             {

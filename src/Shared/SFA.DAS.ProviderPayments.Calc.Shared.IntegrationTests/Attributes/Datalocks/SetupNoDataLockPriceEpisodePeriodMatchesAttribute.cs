@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -13,7 +14,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
         {
             DataLockPriceEpisodePeriodMatchDataHelper.Truncate();
 
-            PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches = new List<DatalockOutputEntity>();
+            SharedTestContext.DataLockPriceEpisodePeriodMatches = new List<DatalockOutputEntity>();
 
             base.BeforeTest(test);
         }

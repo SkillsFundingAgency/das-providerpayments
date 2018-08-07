@@ -79,6 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
+    <Compile Include="Attributes\Datalocks\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupRawEarningsAttribute.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
+    <Compile Include="Tests\Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />
@@ -137,6 +141,10 @@
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.DataLock.DDL.Tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

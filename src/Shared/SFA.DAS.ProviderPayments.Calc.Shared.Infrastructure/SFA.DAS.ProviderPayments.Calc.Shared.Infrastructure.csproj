@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Entities\DatalockOutputEntity.cs" />
+    <Compile Include="Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\ProviderEntity.cs" />
     <Compile Include="Data\Entities\RawEarning.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Data\IDasAccountRepository.cs" />
     <Compile Include="Data\IPaymentRepository.cs" />
     <Compile Include="Data\Repositories\DasAccountRepository.cs" />
+    <Compile Include="Data\Repositories\DatalockRepository.cs" />
     <Compile Include="Data\Repositories\PaymentRepository.cs" />
     <Compile Include="Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Data\Repositories\RawEarningsMathsEnglishRepository.cs" />

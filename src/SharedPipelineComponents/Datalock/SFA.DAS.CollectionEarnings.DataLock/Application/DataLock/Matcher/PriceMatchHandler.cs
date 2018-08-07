@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -17,12 +18,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 return false;
             }
         }
-        public override MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override MatchResult Match(List<CommitmentEntity> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
             var commitmentsToMatch = commitments.Where(c => priceEpisode.NegotiatedPrice.HasValue &&
-                                                            (long) c.NegotiatedPrice == priceEpisode.NegotiatedPrice.Value).ToList();
+                                                            (long) c.AgreedCost == priceEpisode.NegotiatedPrice.Value).ToList();
 
             if (!commitmentsToMatch.Any())
             {

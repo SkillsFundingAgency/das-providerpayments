@@ -3,6 +3,7 @@ using AutoFixture;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
 {
@@ -20,13 +21,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
             var dataLocks = fixture.Build<DatalockOutputEntity>()
                 .With(earning => earning.Ukprn, 
                     fixture.Create<Generator<long>>()
-                        .First(ukprn => ukprn != PaymentsDueTestContext.Ukprn))
+                        .First(ukprn => ukprn != SharedTestContext.Ukprn))
                 .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
 
             var dataLocksMatchingUkprn = fixture.Build<DatalockOutputEntity>()
-                .With(earning => earning.Ukprn, PaymentsDueTestContext.Ukprn)
+                .With(earning => earning.Ukprn, SharedTestContext.Ukprn)
                 .With(x => x.PriceEpisodeIdentifier, priceEpisodeIdentifier)
                 .CreateMany(3)
                 .ToList();
@@ -38,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities
                 DataLockPriceEpisodePeriodMatchDataHelper.CreateEntity(dataLock);
             }
 
-            PaymentsDueTestContext.DataLockPriceEpisodePeriodMatches = dataLocks;
+            SharedTestContext.DataLockPriceEpisodePeriodMatches = dataLocks;
             
             base.BeforeTest(test);
         }
