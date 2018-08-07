@@ -10,7 +10,7 @@ Scenario: AC1 - 1 learner, levy, co-funding has been used and provider data show
         | ULN       | start date | end date   | agreed price | status |
         | learner a | 01/06/2017 | 01/06/2018 | 9000         | active |
 
-    When an ILR file is submitted for the first time on 01/06/2017 with the following data:
+    When an ILR file is submitted in 2017 for period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
 		| learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       |                 | continuing        |
 

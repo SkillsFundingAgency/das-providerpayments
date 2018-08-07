@@ -99,6 +99,37 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }
         }
 
+        public static string GetStringDateFromPeriodAndYear(string period, int year)
+        {
+            if (string.IsNullOrEmpty(period))
+                return null;
+
+            if (year < 2000 || year >= 2100)
+                return null;
+
+            string shortYear = year.ToString().Substring(2, 2); 
+
+            switch (period.ToUpper())
+            {
+                case "R01": return "08/" + shortYear;
+                case "R02": return "09/" + shortYear;
+                case "R03": return "10/" + shortYear;
+                case "R04": return "11/" + shortYear;
+                case "R05": return "12/" + shortYear;
+                case "R06": return "01/" + shortYear;
+                case "R07": return "02/" + shortYear;
+                case "R08": return "03/" + shortYear;
+                case "R09": return "04/" + shortYear;
+                case "R10": return "05/" + shortYear;
+                case "R11": return "06/" + shortYear;
+                case "R12": return "07/" + shortYear;
+                case "R13": return "09/" + shortYear;
+                case "R14": return "10/" + shortYear;
+                default: return null;
+            }
+        }
+
+
         public static string GetStringDateFromLongPeriod(string longPeriod)
         {
             return GetStringDateFromPeriod(longPeriod.Substring(5));
