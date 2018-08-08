@@ -6,7 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
     public class ProviderRepository : DcfsRepository, IProviderRepository
     {
-
         public ProviderRepository(string connectionString)
             : base(connectionString)
         {
@@ -16,6 +15,5 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         {
             return Query<ProviderEntity>("SELECT UKPRN, IlrSubmissionDateTime FROM Reference.Providers");
         }
-
     }
 }

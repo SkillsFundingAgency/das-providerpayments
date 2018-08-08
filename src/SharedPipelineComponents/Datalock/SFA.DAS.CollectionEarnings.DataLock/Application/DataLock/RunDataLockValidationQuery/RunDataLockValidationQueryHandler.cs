@@ -33,7 +33,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
             try
             {
 
-                var validationErrors = new ConcurrentBag<ValidationError.ValidationError>();
+                var validationErrors = new ConcurrentBag<DatalockValidationError>();
                 var priceEpisodeMatches = new ConcurrentBag<PriceEpisodeMatch.PriceEpisodeMatch>();
                 var priceEpisodePeriodMatches = new ConcurrentBag<PriceEpisodePeriodMatch.PriceEpisodePeriodMatch>();
 
@@ -53,11 +53,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                         {
                             matchResult.ErrorCodes.ForEach(
                                 errorCode =>
-                                        validationErrors.Add(new ValidationError.ValidationError
+                                        validationErrors.Add(new DatalockValidationError
                                         {
                                             Ukprn = priceEpisode.Ukprn,
-                                            LearnerReferenceNumber = priceEpisode.LearnRefNumber,
-                                            AimSequenceNumber = priceEpisode.AimSeqNumber,
+                                            LearnRefNumber = priceEpisode.LearnRefNumber,
+                                            AimSeqNumber = priceEpisode.AimSeqNumber,
                                             RuleId = errorCode,
                                             PriceEpisodeIdentifier = priceEpisode.PriceEpisodeIdentifier
                                         }));

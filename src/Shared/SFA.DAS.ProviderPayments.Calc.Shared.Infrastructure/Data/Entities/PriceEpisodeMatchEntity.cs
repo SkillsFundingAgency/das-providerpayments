@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities
+﻿namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
     public class PriceEpisodeMatchEntity
     {
@@ -8,6 +8,5 @@
         public long AimSeqNumber { get; set; }
         public long CommitmentId { get; set; }
         public bool IsSuccess { get; set; }
-
     }
 }

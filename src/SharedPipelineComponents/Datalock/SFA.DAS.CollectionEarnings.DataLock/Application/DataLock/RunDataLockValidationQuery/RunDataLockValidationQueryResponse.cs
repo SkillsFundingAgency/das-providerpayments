@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using SFA.DAS.Payments.DCFS.Application;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery
 {
     public class RunDataLockValidationQueryResponse : Response
     {
-        public ValidationError.ValidationError[] ValidationErrors { get; set; }
+        public DatalockValidationError[] ValidationErrors { get; set; }
         public PriceEpisodeMatch.PriceEpisodeMatch[] PriceEpisodeMatches { get; set; }
         public PriceEpisodePeriodMatch.PriceEpisodePeriodMatch[] PriceEpisodePeriodMatches { get; set; }
 

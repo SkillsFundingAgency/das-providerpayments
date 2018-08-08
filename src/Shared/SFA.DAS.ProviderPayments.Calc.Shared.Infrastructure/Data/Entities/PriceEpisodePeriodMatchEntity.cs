@@ -1,6 +1,6 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities
+namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
     public class PriceEpisodePeriodMatchEntity
     {

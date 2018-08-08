@@ -1,21 +1,29 @@
 ﻿using System.Collections.Generic;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
 {
     public interface IValidateDatalocks
     {
-        
+        DatalockValidationResult Validate(ProviderCommitments providerCommitments, List<RawEarning> priceEpisodes, IEnumerable<DasAccount> accounts);
     }
 
     public class DatalockValidationService : IValidateDatalocks
     {
+        public DatalockValidationResult Validate(
+            ProviderCommitments providerCommitments, 
+            List<RawEarning> priceEpisodes, 
+            IEnumerable<DasAccount> accounts)
+        {
+            return new DatalockValidationResult();
+        }
     }
 
     public class DatalockValidationResult
     {
-        public IEnumerable<ValidationErrorEntity> ValidationErrors { get; set; }
+        public IEnumerable<DatalockValidationError> ValidationErrors { get; set; }
         public IEnumerable<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; set; }
         public IEnumerable<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; set; }
         public IEnumerable<DatalockOutputEntity> DatalockOutputEntities { get; set; }

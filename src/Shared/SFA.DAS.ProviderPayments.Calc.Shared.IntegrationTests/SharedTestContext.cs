@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.RawEarnings;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 

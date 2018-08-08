@@ -2,13 +2,12 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Utilities;
-using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastructure
+namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
     [TestFixture, SetupUkprn]
     public class GivenADataLockPriceEpisodePeriodMatchesRepository

@@ -31,7 +31,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
             // TODO: Fix so can be registered with convention
             For<ICommitmentRepository>().Use<CommitmentRepository>();
             For<IPriceEpisodeRepository>().Use<PriceEpisodeRepository>();
-            For<IValidationErrorRepository>().Use<ValidationErrorRepository>();
+            For<IDatalockRepository>().Use<DatalockRepository>();
             For<IPriceEpisodeMatchRepository>().Use<PriceEpisodeMatchRepository>();
             For<IProviderRepository>().Use<ProviderRepository>();
             For<IPriceEpisodePeriodMatchRepository>().Use<PriceEpisodePeriodMatchRepository>();

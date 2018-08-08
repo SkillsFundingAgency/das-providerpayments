@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories
+namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 {
     public interface IDatalockRepository
     {
         List<DatalockOutputEntity> GetDatalockOutputForProvider(long ukprn);
         List<DatalockValidationError> GetValidationErrorsForProvider(long ukprn);
+
+        void WriteValidationErrors(IEnumerable<DatalockValidationError> entities);
+        void WritePriceEpisodeMatches(IEnumerable<PriceEpisodeMatchEntity> entities);
+        void WritePriceEpisodePeriodMatches(IEnumerable<PriceEpisodePeriodMatchEntity> entities);
+        void WriteDatalockOutput(IEnumerable<DatalockOutputEntity> entities);
     }
 
     public class DatalockRepository: DcfsRepository, IDatalockRepository
@@ -16,6 +21,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         public DatalockRepository(string connectionString) : base(connectionString)
         {
         }
+
+        private const string PriceEpisodeMatchDestination = "DataLock.PriceEpisodeMatch";
+        private const string PriceEpisodePeriodMatchDestination = "DataLock.PriceEpisodePeriodMatch";
+        private const string ValidationErrorDestination = "DataLock.ValidationError";
+        private const string DatalockOutputDestination = "DataLock.Output";
 
         public List<DatalockOutputEntity> GetDatalockOutputForProvider(long ukprn)
         {
@@ -63,6 +73,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
                 .ToList();
 
             return result;
+        }
+
+        public void WriteValidationErrors(IEnumerable<DatalockValidationError> entities)
+        {
+            ExecuteBatch(entities, ValidationErrorDestination);
+        }
+
+        public void WritePriceEpisodeMatches(IEnumerable<PriceEpisodeMatchEntity> entities)
+        {
+            ExecuteBatch(entities, PriceEpisodeMatchDestination);
+        }
+
+        public void WritePriceEpisodePeriodMatches(IEnumerable<PriceEpisodePeriodMatchEntity> entities)
+        {
+            ExecuteBatch(entities, PriceEpisodePeriodMatchDestination);
+        }
+
+        public void WriteDatalockOutput(IEnumerable<DatalockOutputEntity> entities)
+        {
+            //ExecuteBatch(entities, DatalockOutputDestination);
         }
     }
 }

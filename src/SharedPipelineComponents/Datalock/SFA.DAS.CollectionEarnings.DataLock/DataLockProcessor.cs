@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using MediatR;
 using NLog;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodeMatch.AddPriceEpisodeMatchesCommand;
-using SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatch.AddPriceEpisodePeriodMatchesCommand;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Provider.GetProvidersQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Application.ValidationError.AddValidationErrorsCommand;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
@@ -27,19 +24,22 @@ namespace SFA.DAS.CollectionEarnings.DataLock
         private readonly ICommitmentRepository _commitmentRepository;
         private readonly IValidateDatalocks _datalockValidationService;
         private readonly IRawEarningsRepository _rawEarningsRepository;
+        private readonly IDatalockRepository _datalockRepository;
 
         public DataLockProcessor(
             ILogger logger, 
             IMediator mediator, 
             ICommitmentRepository commitmentRepository, 
             IValidateDatalocks datalockValidationService, 
-            IRawEarningsRepository rawEarningsRepository)
+            IRawEarningsRepository rawEarningsRepository, 
+            IDatalockRepository datalockRepository)
         {
             _logger = logger;
             _mediator = mediator;
             _commitmentRepository = commitmentRepository;
             _datalockValidationService = datalockValidationService;
             _rawEarningsRepository = rawEarningsRepository;
+            _datalockRepository = datalockRepository;
         }
 
         public virtual void Process()
@@ -49,7 +49,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
             var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 
-            var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow();
+            var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow().Items;
 
             if (providersQueryResponse.HasAnyItems())
             {
@@ -58,16 +58,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     _logger.Info($"Performing Data Lock Validation for provider with ukprn {provider.Ukprn}.");
 
                     var commitments = CommitmentsForProvider(provider.Ukprn);
-                    var priceEpisodes = EarningsForProvider(provider.Ukprn);
-                    var incentiveEarnings = ReturnValidGetIncentiveEarningsQueryResponseOrThrow(provider.Ukprn);
+                    var providerCommitments = new ProviderCommitments(commitments);
 
+                    var priceEpisodes = EarningsForProvider(provider.Ukprn);
+                    
                     if (priceEpisodes.Count > 0)
                     {
-                        var dataLockValidationResult = ReturnDataLockValidationResultOrThrow(commitments, priceEpisodes, dasAccountsQueryResponse.Items, incentiveEarnings.Items);
+                        var dataLockValidationResult = _datalockValidationService.Validate(providerCommitments,
+                            priceEpisodes, dasAccountsQueryResponse);
 
-                        WriteDataLockValidationErrorsOrThrow(dataLockValidationResult);
-                        WriteDataLockPriceEpisodeMatches(dataLockValidationResult);
-                        WriteDataLockPriceEpisodePeriodMatches(dataLockValidationResult);
+                        _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
+                        _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
+                        _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult.PriceEpisodePeriodMatches);
+                        _datalockRepository.WriteDatalockOutput(dataLockValidationResult.DatalockOutputEntities);
                     }
                     else
                     {
@@ -169,72 +172,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             }
 
             return dataLockValidationResult;
-        }
-
-        private void WriteDataLockValidationErrorsOrThrow(RunDataLockValidationQueryResponse dataLockValidationResponse)
-        {
-            if (dataLockValidationResponse.HasAnyValidationErrors())
-            {
-                _logger.Info("Started writing Data Lock Validation Errors.");
-
-                try
-                {
-                    _mediator.Send(new AddValidationErrorsCommandRequest
-                    {
-                        ValidationErrors = dataLockValidationResponse.ValidationErrors
-                    });
-                }
-                catch (Exception ex)
-                {
-                    throw new DataLockException(DataLockException.ErrorWritingDataLockValidationErrorsMessage, ex);
-                }
-
-                _logger.Info("Finished writing Data Lock Validation Errors.");
-            }
-        }
-
-        private void WriteDataLockPriceEpisodeMatches(RunDataLockValidationQueryResponse dataLockValidationResponse)
-        {
-            if (dataLockValidationResponse.HasAnyPriceEpisodeMatches())
-            {
-                _logger.Info("Started writing price episode matches.");
-
-                try
-                {
-                    _mediator.Send(new AddPriceEpisodeMatchesCommandRequest
-                    {
-                        PriceEpisodeMatches = dataLockValidationResponse.PriceEpisodeMatches
-                    });
-                }
-                catch (Exception ex)
-                {
-                    throw new DataLockException(DataLockException.ErrorWritingPriceEpisodeMatchesMessage, ex);
-                }
-
-                _logger.Info("Finished writing price episode matches.");
-            }
-        }
-
-        private void WriteDataLockPriceEpisodePeriodMatches(RunDataLockValidationQueryResponse dataLockValidationResponse)
-        {
-            if (dataLockValidationResponse.HasAnyPriceEpisodePeriodMatches())
-            {
-                _logger.Info("Started writing price episode period matches.");
-
-                try
-                {
-                    _mediator.Send(new AddPriceEpisodePeriodMatchesCommandRequest
-                    {
-                        PriceEpisodePeriodMatches = dataLockValidationResponse.PriceEpisodePeriodMatches
-                    });
-                }
-                catch (Exception ex)
-                {
-                    throw new DataLockException(DataLockException.ErrorWritingPriceEpisodePeriodMatchesMessage, ex);
-                }
-
-                _logger.Info("Finished writing price episode period matches.");
-            }
         }
     }
 }
