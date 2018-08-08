@@ -33,6 +33,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
                 VersionId = 222,
                 Priority = 5,
                 PaymentStatus = PaymentStatus.Active,
+                PausedOnDate = DateTime.Today.AddDays(-11),
+                WithdrawnOnDate = DateTime.Today.AddDays(-1),
                 LegalEntityName = "ACME Ltd.",
                 PriceEpisodes = new List<PriceEpisode>() {
                     new PriceEpisode {
@@ -58,7 +60,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
             _handler.Handle(_request);
 
             // Assert
-            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, _request))), Times.Once);
+            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, _request))), Times.Once);
         }
 
         [Test]
@@ -111,7 +113,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
 
             // Assert
 
-            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Exactly(2));
+            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, newRequest))), Times.Exactly(2));
             
 
 
@@ -162,38 +164,43 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
             _commitmentRepository.Setup(r => r.GetById(1))
                 .Returns(commitment);
 
-            _commitmentRepository.Setup(r => r.CommitmentExists(It.IsAny<CommitmentEntity>()))
+            _commitmentRepository.Setup(r => r.CommitmentExistsAndDetailsAreIdentical(It.IsAny<CommitmentEntity>()))
                 .Returns(true);
 
             // Act
             _handler.Handle(newRequest);
 
             // Assert
-            _commitmentRepository.Verify(r => r.CommitmentExists(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Once);
+            _commitmentRepository.Verify(r => r.CommitmentExistsAndDetailsAreIdentical(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, newRequest))), Times.Once);
 
-            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => IsEntityForRequest(e, newRequest))), Times.Never);
+            _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, newRequest))), Times.Never);
 
             _commitmentRepository.Verify(r => r.Update(It.Is<CommitmentEntity>(e => e.EffectiveToDate == newRequest.PriceEpisodes[0].EffectiveFromDate.AddDays(-1))), Times.Never);
         }
 
-        private bool IsEntityForRequest(CommitmentEntity commitmentEntity, AddOrUpdateCommitmentCommandRequest request)
+        private bool DidEntityGetMappedCorrectlyFromRequest(CommitmentEntity commitmentEntity, AddOrUpdateCommitmentCommandRequest request)
         {
             var result = false;
             result = commitmentEntity.CommitmentId == request.CommitmentId
-                   && commitmentEntity.Uln == request.Uln
-                   && commitmentEntity.Ukprn == request.Ukprn
-                   && commitmentEntity.AccountId == request.AccountId
-                   && commitmentEntity.StartDate == request.StartDate
-                   && commitmentEntity.EndDate == request.EndDate
-                   && commitmentEntity.StandardCode == request.StandardCode
-                   && commitmentEntity.FrameworkCode == request.FrameworkCode
-                   && commitmentEntity.ProgrammeType == request.ProgrammeType
-                   && commitmentEntity.PathwayCode == request.PathwayCode
-                   && commitmentEntity.Priority == request.Priority
-                   && commitmentEntity.VersionId.Split('-')[0] == request.VersionId.ToString()
-                   && commitmentEntity.PaymentStatus == (int)request.PaymentStatus
-                   && commitmentEntity.PaymentStatusDescription == request.PaymentStatus.ToString()
-                   && commitmentEntity.LegalEntityName == request.LegalEntityName;
+                     && commitmentEntity.Uln == request.Uln
+                     && commitmentEntity.Ukprn == request.Ukprn
+                     && commitmentEntity.AccountId == request.AccountId
+                     && commitmentEntity.StartDate == request.StartDate
+                     && commitmentEntity.EndDate == request.EndDate
+                     && commitmentEntity.StandardCode == request.StandardCode
+                     && commitmentEntity.FrameworkCode == request.FrameworkCode
+                     && commitmentEntity.ProgrammeType == request.ProgrammeType
+                     && commitmentEntity.PathwayCode == request.PathwayCode
+                     && commitmentEntity.Priority == request.Priority
+                     && commitmentEntity.VersionId.Split('-')[0] == request.VersionId.ToString()
+                     && commitmentEntity.PaymentStatus == (int) request.PaymentStatus
+                     && commitmentEntity.PausedOnDate == request.PausedOnDate
+                     && commitmentEntity.WithdrawnOnDate == request.WithdrawnOnDate
+                     && commitmentEntity.PaymentStatusDescription == request.PaymentStatus.ToString()
+                     && commitmentEntity.LegalEntityName == request.LegalEntityName
+                     && commitmentEntity.TransferSendingEmployerAccountId == request.TransferSendingEmployerAccountId
+                     && commitmentEntity.TransferApprovalDate == request.TransferApprovalDate;
+
             if (result)
             {
                 List<PriceEpisode> priceEpisodes = request.PriceEpisodes;
