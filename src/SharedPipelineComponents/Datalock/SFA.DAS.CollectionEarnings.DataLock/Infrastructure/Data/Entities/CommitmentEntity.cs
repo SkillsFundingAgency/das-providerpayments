@@ -29,5 +29,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities
         public long? TransferSendingEmployerAccountId { get; set; }
 
         public DateTime? TransferApprovalDate { get; set; }
+
+        public DateTime? WithdrawnOnDate { get; set; }
+        public DateTime? PausedOnDate { get; set; }
     }
 }

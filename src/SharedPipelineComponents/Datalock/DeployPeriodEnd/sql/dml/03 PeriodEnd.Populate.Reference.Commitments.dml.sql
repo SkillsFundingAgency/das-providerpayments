@@ -38,9 +38,33 @@ DELETE FROM [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]
+		(
+			[CommitmentId],
+			[VersionId],
+			[Uln],
+			[Ukprn],
+			[AccountId],
+			[StartDate],
+			[EndDate],
+			[AgreedCost],
+			[StandardCode],
+			[ProgrammeType],
+			[FrameworkCode],
+			[PathwayCode],
+			[PaymentStatus],
+			[PaymentStatusDescription],
+			[Priority],
+			[EffectiveFromDate],
+			[EffectiveToDate],
+			[LegalEntityName],
+			[TransferSendingEmployerAccountId],
+			[TransferApprovalDate],
+			[PausedOnDate],
+			[WithdrawnOnDate]
+		)
     SELECT
         [CommitmentId],
-        MAX([VersionId]) [VersionId],
+        [VersionId],
         [Uln],
         [Ukprn],
         [AccountId],
@@ -58,27 +82,10 @@ INSERT INTO [Reference].[DasCommitments]
         [EffectiveToDate],
         [LegalEntityName],
 		[TransferSendingEmployerAccountId],
-		[TransferApprovalDate]
+		[TransferApprovalDate],
+		[PausedOnDate],
+		[WithdrawnOnDate]
     FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
-    GROUP BY [CommitmentId],
-        [Uln],
-        [Ukprn],
-        [AccountId],
-        [StartDate],
-        [EndDate],
-        [AgreedCost],
-        [StandardCode],
-        [ProgrammeType],
-        [FrameworkCode],
-        [PathwayCode],
-        [PaymentStatus],
-        [PaymentStatusDescription],
-        [Priority],
-        [EffectiveFromDate],
-        [EffectiveToDate],
-        [LegalEntityName],
-		[TransferSendingEmployerAccountId],
-		[TransferApprovalDate]
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])
