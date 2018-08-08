@@ -6,12 +6,13 @@ using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.Payments.Reference.Accounts.Context;
+using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
 {
     public class WhenExecuted
     {
-        private Mock<Accounts.ApiProcessor> _processor;
+        private Mock<IApiProcessor> _processor;
         private Mock<IDependencyResolver> _dependencyResolver;
         private Accounts.ImportAccountsTask _task;
         private Mock<IExternalContext> _context;
@@ -35,10 +36,10 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
                     { KnownContextKeys.AccountsApiTenant, "http://ad.test" }
                 });
 
-            _processor = new Mock<Accounts.ApiProcessor>();
+            _processor = new Mock<IApiProcessor>();
 
             _dependencyResolver = new Mock<IDependencyResolver>();
-            _dependencyResolver.Setup(r => r.GetInstance<Accounts.ApiProcessor>())
+            _dependencyResolver.Setup(r => r.GetInstance<IApiProcessor>())
                 .Returns(_processor.Object);
 
             _task = new Accounts.ImportAccountsTask(_dependencyResolver.Object);
@@ -51,7 +52,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.UnitTests.ImportAccountsTask
             _task.Execute(_context.Object);
 
             // Assert
-            _dependencyResolver.Verify(r => r.Init(typeof(Accounts.ApiProcessor), It.Is<ContextWrapper>(cw => cw.Context == _context.Object)), Times.Once);
+            _dependencyResolver.Verify(r => r.Init(typeof(ApiProcessor), It.Is<ContextWrapper>(cw => cw.Context == _context.Object)), Times.Once);
         }
 
         [Test]

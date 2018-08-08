@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using MediatR;
 using SFA.DAS.EAS.Account.Api.Client;
-using SFA.DAS.EAS.Account.Api.Types;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery
 {
     public class GetPageOfAccountsQueryHandler : IRequestHandler<GetPageOfAccountsQueryRequest, GetPageOfAccountsQueryResponse>
     {
+        private const int PageSize = 1000;
         private readonly IAccountApiClient _accountApiClient;
 
         public GetPageOfAccountsQueryHandler(IAccountApiClient accountApiClient)
@@ -21,7 +20,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Application.GetPageOfAccountsQuery
             {
                 var pageOfAccounts = AsyncHelpers.RunSync(async () =>
                 {
-                    var result = await _accountApiClient.GetPageOfAccounts(message.PageNumber, 1000, message.CorrelationDate);
+                    var result = await _accountApiClient.GetPageOfAccounts(message.PageNumber, PageSize, message.CorrelationDate);
                     return result;
                 });
 

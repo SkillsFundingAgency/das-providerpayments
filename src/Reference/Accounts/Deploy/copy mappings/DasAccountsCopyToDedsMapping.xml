@@ -60,6 +60,33 @@
           <Source>CompletedSuccessfully</Source>
           <Destination>CompletedSuccessfully</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>AuditType</Source>
+          <Destination>AuditType</Destination>
+        </ColumnMapping>
+      </ColumnMappings>
+    </TableMapping>
+    <TableMapping>
+      <Source>[dbo].[AccountLegalEntity]</Source>
+      <Destination>[dbo].[AccountLegalEntity]</Destination>
+      <Ordinal>3</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>Id</Source>
+          <Destination>Id</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PublicHashedId</Source>
+          <Destination>PublicHashedId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountId</Source>
+          <Destination>AccountId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LegalEntityId</Source>
+          <Destination>LegalEntityId</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>

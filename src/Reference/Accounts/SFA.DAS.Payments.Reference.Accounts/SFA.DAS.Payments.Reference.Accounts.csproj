@@ -42,11 +42,11 @@
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=3.16.0.14, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.16.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=3.18.0.2306, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.18.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.Platform, Version=3.16.0.14, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.16.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.Platform, Version=3.18.0.2306, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.18.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -55,15 +55,16 @@
       <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SFA.DAS.EAS.Account.Api.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Account.Api.Client.1.3.32\lib\net45\SFA.DAS.EAS.Account.Api.Client.dll</HintPath>
+      <HintPath>..\..\..\..\packages\SFA.DAS.Account.Api.Client.1.3.944\lib\net45\SFA.DAS.EAS.Account.Api.Client.dll</HintPath>
     </Reference>
     <Reference Include="SFA.DAS.EAS.Account.Api.Types, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\SFA.DAS.Account.Api.Types.1.3.32\lib\net45\SFA.DAS.EAS.Account.Api.Types.dll</HintPath>
+      <HintPath>..\..\..\..\packages\SFA.DAS.Account.Api.Types.1.3.944\lib\net45\SFA.DAS.EAS.Account.Api.Types.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,16 +74,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiProcessor.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandHandler.cs" />
     <Compile Include="Application\AddAuditCommand\AddAuditCommandRequest.cs" />
+    <Compile Include="Application\AddAuditCommand\AuditType.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AccountLegalEntityViewModelExtensions.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandHandler.cs" />
+    <Compile Include="Application\AddManyAccountLegalEntitiesCommand\AddManyAccountLegalEntitiesCommandRequest.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandHandler.cs" />
     <Compile Include="Application\AddOrUpdateAccountCommand\AddOrUpdateAccountCommandRequest.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryHandler.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryRequest.cs" />
+    <Compile Include="Application\GetPageOfAccountLegalEntitiesQuery\GetPageOfAccountLegalEntitiesQueryResponse.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryHandler.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryRequest.cs" />
     <Compile Include="Application\GetPageOfAccountsQuery\GetPageOfAccountsQueryResponse.cs" />
     <Compile Include="AsyncHelpers.cs" />
     <Compile Include="Context\KnownContextKeys.cs" />
+    <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountLegalEntityRepository.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AccountLegalEntityEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\AuditEntity.cs" />
+    <Compile Include="Infrastructure\Data\IAccountLegalEntityRepository.cs" />
+    <Compile Include="Processor\IApiProcessor.cs" />
     <Compile Include="ImportAccountsTask.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Dcfs\DcfsAuditRepository.cs" />
@@ -94,6 +106,11 @@
     <Compile Include="Infrastructure\DependencyResolution\ApiClientFactory.cs" />
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="PassThroughProcessor.cs" />
+    <Compile Include="Processor\ApiProcessor.cs" />
+    <Compile Include="Processor\IImportAccountLegalEntitiesOrchestrator.cs" />
+    <Compile Include="Processor\ImportAccountsOrchestrator.cs" />
+    <Compile Include="Processor\IImportAccountsOrchestrator.cs" />
+    <Compile Include="Processor\ImportAccountLegalEntitiesOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +127,7 @@
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

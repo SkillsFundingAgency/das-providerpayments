@@ -63,6 +63,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingType = TrainingTypes.Standard,
                     TrainingId = "1000",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
+                    PausedOnDate = DateTime.Today,
                     PriceHistory =new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2017,10,10),
@@ -84,6 +85,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingType = TrainingTypes.Framework,
                     TrainingId = "2000-2001-2002",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
+                    StoppedOnDate = DateTime.Today,
                     PriceHistory = new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2019, 9, 1),
@@ -249,6 +251,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
             // Arrange
             _apprenticeshipEventViews = new[] { _apprenticeshipEventViews[0] };
             _apprenticeshipEventViews[0].LearnerId = learnerId;
+            _apprenticeshipEventViews[0].PausedOnDate = DateTime.Today;
 
             // Act
             _processor.Process();
@@ -299,7 +302,9 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                                      @event.LegalEntityName == command.LegalEntityName &&
                                      ((List<PriceHistory>)@event.PriceHistory)[0].EffectiveFrom == command.PriceEpisodes[0].EffectiveFromDate &&
                                      ((List<PriceHistory>)@event.PriceHistory)[0].EffectiveTo == command.PriceEpisodes[0].EffectiveToDate &&
-                                     @event.Id == command.VersionId;
+                                     @event.Id == command.VersionId && 
+                                     @event.PausedOnDate == command.PausedOnDate &&
+                                     @event.StoppedOnDate == command.WithdrawnOnDate;
 
       
             
