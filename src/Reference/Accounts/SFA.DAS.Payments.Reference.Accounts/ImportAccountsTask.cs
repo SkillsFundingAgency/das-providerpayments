@@ -3,12 +3,13 @@ using SFA.DAS.Payments.DCFS.Context;
 using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 using SFA.DAS.Payments.Reference.Accounts.Context;
 using SFA.DAS.Payments.Reference.Accounts.Infrastructure.DependencyResolution;
+using SFA.DAS.Payments.Reference.Accounts.Processor;
 
 namespace SFA.DAS.Payments.Reference.Accounts
 {
     public class ImportAccountsTask : DcfsTask
     {
-        private IDependencyResolver _dependencyResolver;
+        private readonly IDependencyResolver _dependencyResolver;
         private const string AccountsSchema = "dbo";
 
         public ImportAccountsTask() 
@@ -27,7 +28,7 @@ namespace SFA.DAS.Payments.Reference.Accounts
         {
             _dependencyResolver.Init(typeof(ApiProcessor), context);
 
-            var processor = _dependencyResolver.GetInstance<ApiProcessor>();
+            var processor = _dependencyResolver.GetInstance<IApiProcessor>();
 
             processor.Process();
         }

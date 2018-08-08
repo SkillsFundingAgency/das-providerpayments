@@ -52,6 +52,25 @@ GO
 CREATE TABLE [dbo].[DasAccountsAudit](
 	[ReadDateTime] datetime NOT NULL,
 	[AccountsRead] bigint NOT NULL,
+	[AuditType] tinyint NOT NULL,
 	[CompletedSuccessfully] bit
 )
 GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- AccountLegalEntity
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='AccountLegalEntity' AND [schema_id] = SCHEMA_ID('dbo'))
+BEGIN
+	DROP TABLE [dbo].[AccountLegalEntity]
+END
+GO
+	
+CREATE TABLE [dbo].[AccountLegalEntity](
+	[Id] BIGINT NOT NULL PRIMARY KEY,
+	[PublicHashedId] CHAR(6) NOT NULL, 
+	[AccountId] BIGINT NOT NULL,
+	[LegalEntityId] BIGINT NOT NULL
+)
+GO
+

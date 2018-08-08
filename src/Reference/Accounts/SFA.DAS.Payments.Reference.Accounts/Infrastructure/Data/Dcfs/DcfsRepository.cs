@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 
@@ -13,14 +14,14 @@ namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Dcfs
             _connectionString = connectionString;
         }
 
-        protected T[] Query<T>(string command, object param = null)
+        protected IEnumerable<T> Query<T>(string command, object param = null)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 try
                 {
-                    return connection.Query<T>(command, param).ToArray();
+                    return connection.Query<T>(command, param);
                 }
                 finally
                 {
@@ -28,6 +29,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.Data.Dcfs
                 }
             }
         }
+
         protected T QuerySingle<T>(string command, object param = null)
         {
             var resultset = Query<T>(command, param);

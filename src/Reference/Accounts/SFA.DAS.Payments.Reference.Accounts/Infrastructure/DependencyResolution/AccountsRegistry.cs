@@ -5,7 +5,6 @@ using MediatR;
 using NLog;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.Payments.DCFS.Context;
-using SFA.DAS.Payments.Reference.Accounts.Context;
 using StructureMap;
 
 namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.DependencyResolution
@@ -21,11 +20,6 @@ namespace SFA.DAS.Payments.Reference.Accounts.Infrastructure.DependencyResolutio
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
 
-            //For<AccountApiConfiguration>().Use(new AccountApiConfiguration
-            //{
-            //    ApiBaseUrl = contextWrapper.GetPropertyValue(KnownContextKeys.AccountsApiBaseUrl),
-            //    //ClientToken = contextWrapper.GetPropertyValue(KnownContextKeys.AccountsApiClientToken)
-            //});
             For<IAccountApiClient>().Use(() => ApiClientFactory.Instance.CreateClient(contextWrapper.Context));
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
