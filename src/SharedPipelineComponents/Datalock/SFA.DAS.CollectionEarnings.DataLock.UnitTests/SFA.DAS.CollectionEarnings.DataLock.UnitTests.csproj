@@ -88,11 +88,8 @@
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler\WhenHandlingSinglePriceEpisode.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandHandler\WhenHandling.cs" />
-    <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandHandler\WhenHandling.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandHandler\WhenHandling.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithInvalidContext.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithValidContext.cs" />
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForKnownProperty.cs" />
@@ -100,8 +97,6 @@
     <Compile Include="Context\ContextWrapper\GetPropertyValue\WhenCalledForUnknownProperty.cs" />
     <Compile Include="DataLockTask\WhenExecutingWithInvalidContext.cs" />
     <Compile Include="DataLockTask\WhenExecutingWithValidContext.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandHandler\WhenHandling.cs" />
-    <Compile Include="DependencyResolution\TaskDependencyResolverTests\WhenInitialising.cs" />
     <Compile Include="Logging\LoggingConfigurationTests\WhenConfiguringLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Application\DasAccountBuilder.cs" />

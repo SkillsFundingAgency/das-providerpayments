@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MediatR;
 using NLog;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockValidationQuery;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Provider.GetProvidersQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount.GetDasAccountsQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings.Get16To18IncentiveEarningsQuery;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
@@ -127,51 +122,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             var earnings = _rawEarningsRepository.GetAllForProvider(ukprn);
 
             return earnings;
-        }
-
-
-        private Get16To18IncentiveEarningsQueryResponse ReturnValidGetIncentiveEarningsQueryResponseOrThrow(long ukprn)
-        {
-            _logger.Info($"Reading incentive earnings for provider with ukprn {ukprn}.");
-
-            var response = _mediator.Send(new Get16To18IncentiveEarningsQueryRequest
-            {
-                Ukprn = ukprn
-            });
-
-            if (!response.IsValid)
-            {
-                throw new DataLockException(DataLockException.ErrorReadingPriceEpisodesMessage, response.Exception);
-            }
-            
-            return response;
-        }
-
-        private RunDataLockValidationQueryResponse ReturnDataLockValidationResultOrThrow(
-                                                IEnumerable<CommitmentEntity> commitments,
-                                                List<RawEarning> priceEpisodes,
-                                                DasAccount[] dasAccounts,
-                                                IncentiveEarnings[] incentiveEarnings)
-        {
-            _logger.Info("Started Data Lock Validation.");
-
-            var dataLockValidationResult =
-                _mediator.Send(new RunDataLockValidationQueryRequest
-                {
-                    Commitments = commitments,
-                    PriceEpisodes = priceEpisodes,
-                    DasAccounts = dasAccounts,
-                    IncentiveEarnings = incentiveEarnings
-                });
-
-            _logger.Info("Finished Data Lock Validation.");
-
-            if (!dataLockValidationResult.IsValid)
-            {
-                throw new DataLockException(DataLockException.ErrorPerformingDataLockMessage, dataLockValidationResult.Exception);
-            }
-
-            return dataLockValidationResult;
         }
     }
 }
