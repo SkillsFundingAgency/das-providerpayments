@@ -93,6 +93,14 @@
           <Source>TransferApprovalDate</Source>
           <Destination>TransferApprovalDate</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>PausedOnDate</Source>
+          <Destination>PausedOnDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>WithdrawnOnDate</Source>
+          <Destination>WithdrawnOnDate</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

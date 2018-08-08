@@ -427,6 +427,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0010_AlterColumns.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql
+		Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql = Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql
 	EndProjectSection
