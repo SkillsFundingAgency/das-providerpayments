@@ -10,15 +10,15 @@ Scenario: AC1 - 1 learner, levy, co-funding has been used and provider data show
         | ULN       | start date | end date   | agreed price | status |
         | learner a | 01/06/2017 | 01/06/2018 | 9000         | active |
 
-    When an ILR file is submitted in 2017 for period R11 with the following data:
+    When an ILR file is submitted for academic year 1617 in period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
 		| learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       |                 | continuing        |
 
-    And an ILR file is submitted for period R01 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R01 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
 		| learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       |                 | continuing        |
 
-	When an ILR file is submitted for period R11 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
         | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 720                   |
 
@@ -54,15 +54,15 @@ Scenario: AC2 - 1 learner, non levy, non-Das, co-funding has been used and provi
 
 	Given the apprenticeship funding band maximum is 9000 
 
-    When an ILR file is submitted in 2017 for period R11 with the following data:
+    When an ILR file is submitted for academic year 1617 in period R11 with the following data:
         | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | 
         | learner a | programme only non-DAS | 9000         | 06/06/2017 | 08/06/2018       | 	              | continuing        |
 
-    And an ILR file is submitted for period R01 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R01 with the following data:
         | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | 
         | learner a | programme only non-DAS | 9000         | 06/06/2017 | 08/06/2018       | 	              | continuing        |
 
-	And an ILR file is submitted for period R11 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R11 with the following data:
         | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
         | learner a | programme only non-DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 720					  |
                                                                          
@@ -105,15 +105,15 @@ Scenario: AC3 - 1 learner, levy, co-funding has been used and provider data show
         | ULN       | start date | end date   | agreed price | status |
         | learner a | 01/06/2017 | 01/06/2018 | 9000         | active |
 
-    When an ILR file is submitted in 2017 for period R11 with the following data:
+    When an ILR file is submitted for academic year 1617 in period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
         | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 	              | continuing        |
 
-	And an ILR file is submitted for period R01 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R01 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status |
         | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 	              | continuing        |
 
-	And an ILR file is submitted for period R11 with the following data:
+    And an ILR file is submitted for academic year 1718 in period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
         | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 599					  |
 
