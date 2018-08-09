@@ -75,6 +75,18 @@
       <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.tables.sql">
+      <Link>DbSetupScripts\ddl.deds.commitments.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql">
+      <Link>DbSetupScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql">
+      <Link>DbSetupScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -154,9 +166,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\DasCommitments.Deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">

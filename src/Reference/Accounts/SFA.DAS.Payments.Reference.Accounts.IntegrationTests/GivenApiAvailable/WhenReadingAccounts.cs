@@ -11,11 +11,17 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
         private ImportAccountsTask _task;
         private IntegrationTaskContext _context;
 
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            AccountDataHelper.ClearAccounts();
+        }
+
         [SetUp]
         public void Arrange()
         {
             StubbedApiClient.Accounts.Clear();
-
+            
             _task = new ImportAccountsTask();
 
             _context = new IntegrationTaskContext();

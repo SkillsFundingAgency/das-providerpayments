@@ -82,10 +82,8 @@
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository\WhenGetProviderPriceEpisodesCalledDuringAnIlrSubmission.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository\WhenGetAllProvidersCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository\WhenGetAllProvidersCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorsCalledDuringAnIlrPeriodEnd.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorsCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorCalledDuringAnIlrSubmission.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
@@ -96,6 +94,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.CollectionEarnings.DataLock.UnitTests\SFA.DAS.CollectionEarnings.DataLock.UnitTests.csproj">
       <Project>{79593ef5-9f58-4e91-be67-c5d20ee0dbc0}</Project>
@@ -118,13 +120,29 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.tables.sql">
+      <Link>DbSetupScripts\ddl.deds.accounts.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql">
       <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.tables.sql">
+      <Link>DbSetupScripts\ddl.deds.commitments.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql">
       <Link>DbSetupScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql">
+      <Link>DbSetupScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql">
+      <Link>DbSetupScripts\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.sprocs.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
@@ -265,9 +283,6 @@
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql">
       <Link>DbSetupScripts\3_Ilr.Deds.DataLock.Tables.Index.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbSetupScripts\DasCommitments.deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DbSetupScripts\Ilr.Deds.DDL.sql">

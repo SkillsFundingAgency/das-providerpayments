@@ -5,6 +5,7 @@ using System.Linq;
 using Dapper;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 {
@@ -95,7 +96,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 
         internal static void AddCommitment(CommitmentEntity commitment)
         {
-            AddCommitment(GlobalTestContext.Instance.SubmissionConnectionString, commitment);
+            AddCommitment(GlobalTestContext.Instance.SubmissionDedsConnectionString, commitment);
         }
 
         internal static void PeriodEndAddCommitment(CommitmentEntity commitment)
@@ -107,7 +108,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
         {
             Execute(connectionString,
                 @"INSERT INTO [dbo].[DasCommitments] (
-                        CommitmentId, 
+                        CommitmentId,
                         VersionId,
                         Uln, 
                         Ukprn, 
@@ -125,10 +126,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         EffectiveFromDate,
                         EffectiveToDate,
 	                    TransferSendingEmployerAccountId,
-	                    TransferApprovalDate
+	                    TransferApprovalDate,
+                        WithdrawnOnDate,
+                        PausedOnDate
                     ) VALUES (
-                        @CommitmentId, 
-                        @VersionId, 
+                        @CommitmentId,
+                        @VersionId,
                         @Uln, 
                         @Ukprn, 
                         @AccountId, 
@@ -142,33 +145,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
                         @Priority,
                         @PaymentStatus,
                         @PaymentStatusDescription,
-                        @EffectiveFromDate,
-                        @EffectiveToDate,
+                        @EffectiveFrom,
+                        @EffectiveTo,
 	                    @TransferSendingEmployerAccountId,
-	                    @TransferApprovalDate
-                    )",
-                new
-                {
-                    CommitmentId = commitment.CommitmentId,
-                    VersionId = commitment.VersionId,
-                    Uln = commitment.Uln,
-                    Ukprn = commitment.Ukprn,
-                    AccountId = commitment.AccountId,
-                    StartDate = commitment.StartDate,
-                    EndDate = commitment.EndDate,
-                    AgreedCost = commitment.AgreedCost,
-                    StandardCode = commitment.StandardCode,
-                    ProgrammeType = commitment.StandardCode.HasValue ? (int?)null : commitment.ProgrammeType,
-                    FrameworkCode = commitment.StandardCode.HasValue ? (int?)null : commitment.FrameworkCode,
-                    PathwayCode = commitment.StandardCode.HasValue ? (int?)null : commitment.PathwayCode,
-                    PaymentStatus = commitment.PaymentStatus,
-                    PaymentStatusDescription = commitment.PaymentStatusDescription,
-                    EffectiveFromDate = commitment.EffectiveFrom,
-                    EffectiveToDate = commitment.EffectiveTo,
-                    Priority  = commitment.Priority,
-                    TransferSendingEmployerAccountId = commitment.TransferSendingEmployerAccountId,
-                    TransferApprovalDate = commitment.TransferApprovalDate
-                });
+	                    @TransferApprovalDate,
+                        @WithdrawnOnDate,
+                        @PausedOnDate
+                    )", commitment);
         }
 
         internal static void AddDasAccount(DasAccount account)
@@ -364,7 +347,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             return Query<PriceEpisodePeriodMatchEntity>(connectionString, "SELECT * FROM [DataLock].[PriceEpisodePeriodMatch] WHERE Period=@period",new { period});
         }
 
-        internal static ValidationErrorEntity[] GetValidationErrors(bool inDeds = false)
+        internal static DatalockValidationError[] GetValidationErrors(bool inDeds = false)
         {
             var connectionString = inDeds
                 ? GlobalTestContext.Instance.SubmissionDedsConnectionString
@@ -373,7 +356,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             return GetValidationErrors(connectionString);
         }
 
-        internal static ValidationErrorEntity[] PeriodEndGetValidationErrors(bool inDeds = false)
+        internal static DatalockValidationError[] PeriodEndGetValidationErrors(bool inDeds = false)
         {
             var connectionString = inDeds
                 ? GlobalTestContext.Instance.PeriodEndDedsConnectionString
@@ -382,9 +365,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
             return GetValidationErrors(connectionString);
         }
 
-        private static ValidationErrorEntity[] GetValidationErrors(string connectionString)
+        private static DatalockValidationError[] GetValidationErrors(string connectionString)
         {
-            return Query<ValidationErrorEntity>(connectionString, "SELECT * FROM [DataLock].[ValidationError]");
+            return Query<DatalockValidationError>(connectionString, "SELECT * FROM [DataLock].[ValidationError]");
         }
 
         internal static void ExecuteScript(string script, bool inDeds = false)
