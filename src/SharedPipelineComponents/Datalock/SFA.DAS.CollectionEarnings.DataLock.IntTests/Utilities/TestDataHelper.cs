@@ -101,7 +101,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 
         internal static void PeriodEndAddCommitment(CommitmentEntity commitment)
         {
-            AddCommitment(GlobalTestContext.Instance.PeriodEndConnectionString, commitment);
+            AddCommitment(GlobalTestContext.Instance.PeriodEndDedsConnectionString, commitment);
         }
 
         private static void AddCommitment(string connectionString, CommitmentEntity commitment)
@@ -408,7 +408,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 
                 ExecuteScript(
                     GlobalTestContext.Instance.SubmissionConnectionString,
-                    GlobalTestContext.Instance.BracketedSubmissionDatabaseName,
+                    GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName,
                     GlobalTestContext.Instance.LinkedServerName,
                     sql);
             }
@@ -422,7 +422,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests.Utilities
 
                 ExecuteScript(
                     GlobalTestContext.Instance.PeriodEndConnectionString,
-                    GlobalTestContext.Instance.BracketedPeriodEndDatabaseName,
+                    GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName,
                     GlobalTestContext.Instance.LinkedServerName,
                     sql);
             }

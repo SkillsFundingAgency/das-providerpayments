@@ -64,8 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcceptanceCriteria\DPP-222\WhenRunningAcceptanceCriteria1.cs" />
-    <Compile Include="AcceptanceCriteria\DPP-222\WhenRunningAcceptanceCriteria2.cs" />
     <Compile Include="CopyToDeds\WhenCleaningUpDuringAnIlrPeriodEnd.cs" />
     <Compile Include="CopyToDeds\WhenCleaningUpDuringAnIlrSubmission.cs" />
     <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrPeriodEnd.cs" />
@@ -117,71 +115,71 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\Common\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Accounts\Deploy\sql\ddl\ddl.deds.accounts.tables.sql">
-      <Link>DbSetupScripts\ddl.deds.accounts.tables.sql</Link>
+      <Link>DbSetupScripts\Deds\ddl.deds.accounts.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Accounts\Deploy\sql\MigrationScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql">
-      <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
+      <Link>DbSetupScripts\Deds\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Commitments\Deploy\sql\ddl\ddl.deds.commitments.tables.sql">
-      <Link>DbSetupScripts\ddl.deds.commitments.tables.sql</Link>
+      <Link>DbSetupScripts\Deds\ddl.deds.commitments.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql">
-      <Link>DbSetupScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql</Link>
+      <Link>DbSetupScripts\Deds\0013_ddl.deds.dbo.commitments.add_transferfields.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql">
-      <Link>DbSetupScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql</Link>
+      <Link>DbSetupScripts\Deds\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql">
-      <Link>DbSetupScripts\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
+      <Link>DbSetupScripts\Deds\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.sprocs.sql">
-      <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
+      <Link>DbSetupScripts\Deds\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.Tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Deds.DataLock.DDL.Tables.sql</Link>
+      <Link>DbSetupScripts\Deds\PeriodEnd.Deds.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Procs.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.DataLock.DDL.Procs.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.DataLock.DDL.Procs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.DataLock.DDL.Tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.DDL.Views.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.DataLock.DDL.Views.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.DataLock.DDL.Views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
@@ -213,48 +211,48 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql">
-      <Link>DbSetupScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
+      <Link>DbSetupScripts\Deds\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql">
-      <Link>DbSetupScripts\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
+      <Link>DbSetupScripts\Deds\2_PeriodEnd.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql">
-      <Link>DbSetupScripts\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql</Link>
+      <Link>DbSetupScripts\Deds\3_PeriodEnd.Deds.DataLock.Tables.Add_Indexes.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql">
-      <Link>DbSetupScripts\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql</Link>
+      <Link>DbSetupScripts\Deds\4_PeriodEnd.Deds.DataLock.Tables.Add_new_column.sql</Link>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.sprocs.sql">
-      <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.sprocs.sql</Link>
+      <Link>DbSetupScripts\Deds\Ilr.Deds.DataLock.DDL.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Deds.DataLock.DDL.Tables.sql">
-      <Link>DbSetupScripts\Ilr.Deds.DataLock.DDL.Tables.sql</Link>
+      <Link>DbSetupScripts\Deds\Ilr.Deds.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Procs.sql">
-      <Link>DbSetupScripts\Ilr.Transient.DataLock.DDL.Procs.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.DataLock.DDL.Procs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Tables.sql">
-      <Link>DbSetupScripts\Ilr.Transient.DataLock.DDL.Tables.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.DataLock.DDL.Tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.DataLock.DDL.Views.sql">
-      <Link>DbSetupScripts\Ilr.Transient.DataLock.DDL.Views.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.DataLock.DDL.Views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql">
-      <Link>DbSetupScripts\Ilr.Transient.Reference.Accounts.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Reference.Accounts.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql">
-      <Link>DbSetupScripts\Ilr.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Reference.Commitments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql">
@@ -274,36 +272,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql">
-      <Link>DbSetupScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
+      <Link>DbSetupScripts\Deds\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql">
-      <Link>DbSetupScripts\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
+      <Link>DbSetupScripts\Deds\2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\3_Ilr.Deds.DataLock.Tables.Index.sql">
-      <Link>DbSetupScripts\3_Ilr.Deds.DataLock.Tables.Index.sql</Link>
+      <Link>DbSetupScripts\Deds\3_Ilr.Deds.DataLock.Tables.Index.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Deds.DDL.sql">
+    <Content Include="DbSetupScripts\Deds\Ilr.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Deds.Earnings.DDL.Tables.sql">
+    <Content Include="DbSetupScripts\Deds\Ilr.Deds.Earnings.DDL.Tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Transient.DDL.sql">
+    <Content Include="DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Ilr.Transient.Earnings.DDL.Tables.sql">
+    <Content Include="DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Earnings.DDL.Tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DbSetupScripts\Summarisation.Deds.DDL.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\DPP-222\IlrAcceptanceCriteria2.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\DPP-222\IlrAcceptanceCriteria1.sql">
+    <Content Include="DbSetupScripts\Deds\Summarisation.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndFirstIncentiveEarnings.sql">
