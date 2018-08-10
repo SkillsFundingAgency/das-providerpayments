@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             {
                 sut.Process(provider);
 
-                providerDataSorter.Verify(builder => builder.Sort(provider.Ukprn), Times.Once);
+                providerDataSorter.Verify(builder => builder.CreateLearnerDataForProvider(provider.Ukprn), Times.Once);
             }
 
             [Test, PaymentsDueAutoData]
@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 )
             {
                 providerDataSorter
-                    .Setup(builder => builder.Sort(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 for (var i = 0; i < learnerParameters.Count; i++)

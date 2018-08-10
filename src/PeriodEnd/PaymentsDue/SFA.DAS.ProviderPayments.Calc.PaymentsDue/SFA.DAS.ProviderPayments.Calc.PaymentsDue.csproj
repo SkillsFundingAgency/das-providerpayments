@@ -65,13 +65,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\CompletionPaymentEvidenceState.cs" />
     <Compile Include="Domain\DatalockOutput.cs" />
     <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
     <Compile Include="Domain\IHoldCourseInformation.cs" />
     <Compile Include="Domain\PaymentFailureType.cs" />
+    <Compile Include="Domain\CompletionPaymentGroup.cs" />
+    <Compile Include="Domain\CompletionPaymentEvidence.cs" />
     <Compile Include="Dto\EarningValidationResult.cs" />
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Services\CompletionPaymentService.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
+    <Compile Include="Services\Dependencies\ICompletionPaymentService.cs" />
     <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
@@ -136,6 +141,10 @@
     <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

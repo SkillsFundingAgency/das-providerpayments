@@ -4,6 +4,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
@@ -15,6 +16,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly IDatalockRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
+        private readonly ICompletionPaymentService _completionPaymentService;
+        private readonly IPaymentRepository _paymentRepository;
 
         private Dictionary<string, LearnerData> _learnerProcessParameters;
         private Dictionary<long, string> _ulnToLearnerRefNumber;
@@ -25,7 +28,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository,
             IDatalockRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository,
-            ICollectionPeriodRepository collectionPeriodRepository)
+            ICollectionPeriodRepository collectionPeriodRepository,
+            ICompletionPaymentService completionPaymentService,
+            IPaymentRepository paymentRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
             _rawEarningsMathsEnglishRepository = rawEarningsMathsEnglishRepository;
@@ -33,6 +38,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _dataLockRepository = dataLockRepository;
             _commitmentsRepository = commitmentsRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
+            _completionPaymentService = completionPaymentService;
+            _paymentRepository = paymentRepository;
+        }
+
+        public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
+        {
+            var learners = Sort(ukprn);
+ 
+            foreach (var learner in learners)
+            {
+                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalPayments, learner.RawEarnings, _collectionPeriodRepository.GetCurrentCollectionPeriod());
+            }
+            return learners;
         }
 
         public List<LearnerData> Sort(long ukprn)
@@ -59,9 +77,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
+            foreach (var paymentEntity in _paymentRepository.GetAllHistoricPaymentsForProvider(ukprn))
+            {
+                GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalPayments.Add(paymentEntity);
+            }
+
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
+                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalRequiredPayments.Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn))

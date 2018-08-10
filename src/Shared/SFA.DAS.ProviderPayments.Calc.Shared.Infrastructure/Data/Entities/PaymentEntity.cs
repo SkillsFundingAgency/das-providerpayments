@@ -22,6 +22,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
             TransactionType = payment.TransactionType;
         }
 
+        public string LearnRefNumber { get; set; }
+
         [Range(2017, 2020)]
         public int DeliveryYear { get; set; }
 

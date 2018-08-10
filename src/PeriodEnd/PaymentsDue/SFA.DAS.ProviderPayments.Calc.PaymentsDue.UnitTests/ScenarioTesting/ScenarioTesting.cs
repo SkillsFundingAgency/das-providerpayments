@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             parameters.Commitments.AddRange(testData.Commitments);
             parameters.DataLocks.AddRange(testData.DatalockOutputs);
             parameters.DatalockValidationErrors.AddRange(testData.DatalockValidationErrors);
-            parameters.HistoricalPayments.AddRange(testData.PastPayments);
+            parameters.HistoricalRequiredPayments.AddRange(testData.PastPayments);
             parameters.RawEarningsMathsEnglish.AddRange(testData.RawEarningsForMathsOrEnglish);
 
             collectionPeriod.AcademicYear = "1718";
