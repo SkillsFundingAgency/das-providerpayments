@@ -95,6 +95,7 @@
     <Compile Include="DataLockPassThroughProcessor.cs" />
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
+    <Compile Include="Domain\Commitment.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
