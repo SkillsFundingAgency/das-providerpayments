@@ -84,27 +84,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CopyToDeds\WhenCleaningUpDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="CopyToDeds\WhenCleaningUpDuringAnIlrSubmission.cs" />
-    <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="DataLockTask\WhenExecuteCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository\WhenGetProviderCommitmentsCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository\WhenGet16To18IncentiveEarningsCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository\WhenAddPriceEpisodeMatchesCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository\WhenAddPriceEpisodePeriodMatchesCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository\WhenAddPriceEpisodePeriodMatchesCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository\WhenGetProviderPriceEpisodesCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository\WhenGetProviderPriceEpisodesCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ProviderRepository\WhenGetAllProvidersCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ProviderRepository\WhenGetAllProvidersCalledDuringAnIlrSubmission.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorsCalledDuringAnIlrPeriodEnd.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository\WhenAddValidationErrorsCalledDuringAnIlrSubmission.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="GlobalTestContext.cs" />
     <Compile Include="GlobalTestContextSetupException.cs" />
+    <Compile Include="Infrastructure\Data\Repositories\Temp.cs" />
     <Compile Include="Utilities\TestDataHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -226,10 +209,6 @@
       <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql">
-      <Link>Utilities\Sql\Deds Cleanup\PeriodEnd.DataLock.Cleanup.Deds.DML.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql">
       <Link>DbSetupScripts\Deds\1_PeriodEnd.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
     </Content>
@@ -287,10 +266,6 @@
       <Link>Utilities\Sql\Copy Reference Data\03 ilr.Populate.Reference.Accounts.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Deploy\sql\dml\Ilr.DataLock.Cleanup.Deds.DML.sql">
-      <Link>Utilities\Sql\Deds Cleanup\Ilr.DataLock.Cleanup.Deds.DML.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql">
       <Link>DbSetupScripts\Deds\1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -318,21 +293,6 @@
     <Content Include="DbSetupScripts\Deds\Summarisation.Deds.DDL.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndFirstIncentiveEarnings.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\PeriodEnd\IlrPeriodEndSecondIncentiveEarnings.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionSecondIncentiveEarnings.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroSecondIncentiveEarnings.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionZeroFirstIncentiveEarnings.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Utilities\Sql\IlrSubmissionLearnerChangesProvider.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -340,9 +300,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMatchFound.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Sql\IncentiveEarningsRepository\Submission\IlrSubmissionFirstIncentiveEarnings.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Sql\IlrSubmissionMultipleMatches.sql">
