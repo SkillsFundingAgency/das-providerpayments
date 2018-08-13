@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         {
             rhs.PathwayCode = lhs.PathwayCode;
             rhs.StandardCode = lhs.StandardCode;
-            rhs.FrameworkCode = lhs.FrameworkCode * 2;
+            rhs.FrameworkCode = lhs.FrameworkCode + 2;
             rhs.ProgrammeType = lhs.ProgrammeType;
             rhs.ApprenticeshipContractType = lhs.ApprenticeshipContractType;
 
