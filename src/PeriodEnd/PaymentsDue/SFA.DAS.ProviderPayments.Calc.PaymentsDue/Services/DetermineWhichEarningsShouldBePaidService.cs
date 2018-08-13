@@ -164,7 +164,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                         if (datalocksForFlag.Count == 1)
                         {
-                            if (transactionTypesFlag == (int) TransactionType.Completion && completionPaymentEvidence !=null && HoldBackCompletionPayment(completionPaymentEvidence))
+                            if (transactionTypesFlag == (int) TransactionType.Completion && HoldBackCompletionPayment(completionPaymentEvidence))
                             {
                                 MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
                                     $"Held back Completion Payment price episode: {priceEpisode} in period: {periodGroup.Key}. Reason {completionPaymentEvidence}",
