@@ -14,10 +14,16 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
         [TestFixture]
         public class WithOneCommitment
         {
+            /// <summary>
+            /// Start Date 2018-09-01 --
+            /// End Date 2020-01-01
+            /// </summary>
             List<CommitmentEntity> SetupCommitments(CommitmentEntity commitment)
             {
                 commitment.StartDate = new DateTime(2018, 09, 01);
                 commitment.EndDate = new DateTime(2020, 01, 01);
+                commitment.WithdrawnOnDate = null;
+                commitment.PausedOnDate = null;
                 return new List<CommitmentEntity> { commitment };
             }
 
@@ -53,6 +59,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
         [TestFixture]
         public class WithTwoCommitmentVersions
         {
+            /// <summary>
+            /// <para>
+            /// Commitment1 Effective From 2018-09-01 --
+            /// Effective To 2018-11-01
+            /// </para>
+            /// <para>
+            /// Commitment2 Effective From 2018-11-02 --
+            /// Effective To End --
+            /// End Date 2020-01-01
+            /// </para>
+            /// </summary>
             List<CommitmentEntity> SetupCommitments(CommitmentEntity commitment1, CommitmentEntity commitment2)
             {
                 commitment2.CommitmentId = commitment1.CommitmentId;
@@ -61,11 +78,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment1.EndDate = new DateTime(2020, 01, 01);
                 commitment1.EffectiveFrom = new DateTime(2018, 09, 01);
                 commitment1.EffectiveTo = new DateTime(2018, 11, 01);
+                commitment1.WithdrawnOnDate = null;
+                commitment1.PausedOnDate = null;
 
                 commitment2.StartDate = commitment1.StartDate;
                 commitment2.EndDate = commitment1.EndDate;
                 commitment2.EffectiveFrom = new DateTime(2018, 11, 02);
                 commitment2.EffectiveTo = null;
+                commitment2.WithdrawnOnDate = null;
+                commitment2.PausedOnDate = null;
 
                 return new List<CommitmentEntity> { commitment1, commitment2 };
             }
@@ -86,7 +107,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             }
 
             [Test, AutoMoqData]
-            public void AndADateAfterTheFirstVersionAndBeforeTheSecondVersionReturnsTheFirstVersion(
+            public void AndADateDuringTheFirstVersionReturnsTheFirstVersion(
                 CommitmentEntity commitment1,
                 CommitmentEntity commitment2,
                 long uln
@@ -102,7 +123,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             }
 
             [Test, AutoMoqData]
-            public void AndADateAfterTheSecondVersionReturnsTheSecondVersion(
+            public void AndADateDuringTheSecondVersionReturnsTheSecondVersion(
                 CommitmentEntity commitment1,
                 CommitmentEntity commitment2,
                 long uln
@@ -116,19 +137,49 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 actual.Should().AllBeEquivalentTo(commitment2);
                 actual.Should().HaveCount(1);
             }
+
+            [Test, AutoMoqData]
+            public void AndADateAfterTheSecondVersionEndDateReturnsTheSecondVersion(
+                CommitmentEntity commitment1,
+                CommitmentEntity commitment2,
+                long uln
+            )
+            {
+                var commitments = SetupCommitments(commitment1, commitment2);
+
+                var sut = new LearnerCommitments(uln, commitments);
+
+                var actual = sut.CommitmentsForDate(new DateTime(2020, 02, 01));
+                actual.Should().AllBeEquivalentTo(commitment2);
+                actual.Should().HaveCount(1);
+            }
         }
 
         [TestFixture]
         public class WithTwoCommitmentWithDifferentIds
         {
+            /// <summary>
+            /// <para>
+            /// Commitment1 Start Date 2018-09-01 --
+            /// Withdrawn Date 2018-11-01
+            /// End Date 2020-01-01
+            /// </para>
+            /// <para>
+            /// Commitment2 Start Date 2018-11-02 --
+            /// End Date 2020-01-01
+            /// </para>
+            /// </summary>
             List<CommitmentEntity> SetupCommitments(CommitmentEntity commitment1, CommitmentEntity commitment2)
             {
                 commitment1.StartDate = new DateTime(2018, 09, 01);
+                commitment1.EndDate = new DateTime(2020, 01, 01);
                 commitment1.WithdrawnOnDate = new DateTime(2018, 11, 01);
-                commitment1.EndDate = commitment1.WithdrawnOnDate.Value;
+                commitment1.PausedOnDate = null;
 
                 commitment2.StartDate = new DateTime(2018, 11, 02);
                 commitment2.EndDate = new DateTime(2020, 01, 01);
+                commitment2.WithdrawnOnDate = null;
+                commitment2.PausedOnDate = null;
 
                 return new List<CommitmentEntity> { commitment1, commitment2 };
             }
@@ -149,7 +200,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             }
 
             [Test, AutoMoqData]
-            public void AndADateAfterTheFirstCommitmentAndBeforeTheSecondCommitmentReturnsTheFirstCommitment(
+            public void AndADateDuringTheFirstCommitmentReturnsTheFirstCommitment(
                 CommitmentEntity commitment1,
                 CommitmentEntity commitment2,
                 long uln
@@ -165,7 +216,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             }
 
             [Test, AutoMoqData]
-            public void AndADateAfterTheSecondCommitmentReturnsTheSecondCommitment(
+            public void AndADateDuringTheSecondCommitmentReturnsTheSecondCommitment(
                 CommitmentEntity commitment1,
                 CommitmentEntity commitment2,
                 long uln
@@ -184,18 +235,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             public class AndTheCommitmentsHaveOverlappingDates
             {
                 /// <summary>
-                /// Commitment1: 2018-09-01 -> 2018-11-20
-                /// Commitment2: 2018-11-10 -> 2020-01-01
+                /// <para>Commitment1: 2018-09-01 -> 2018-11-20</para>
+                /// <para>Commitment2: 2018-11-10 -> 2020-01-01</para>
                 /// </summary>
                 List<CommitmentEntity> SetupCommitments(CommitmentEntity commitment1, CommitmentEntity commitment2)
                 {
                     commitment1.StartDate = new DateTime(2018, 09, 01);
+                    commitment1.EndDate = new DateTime(2020, 01, 01);
                     commitment1.WithdrawnOnDate = new DateTime(2018, 11, 20);
-                    commitment1.EndDate = commitment1.WithdrawnOnDate.Value;
-
+                    commitment1.PausedOnDate = null;
+                    
                     commitment2.StartDate = new DateTime(2018, 11, 10);
                     commitment2.EndDate = new DateTime(2020, 01, 01);
-
+                    commitment2.WithdrawnOnDate = null;
+                    commitment2.PausedOnDate = null;
+                    
                     return new List<CommitmentEntity> { commitment1, commitment2 };
                 }
 
@@ -280,25 +334,42 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             [TestFixture]
             public class AndTheSecondCommitmentHavingTwoVersions
             {
+
+                /// <summary>
+                /// <para>Commitment1: 2018-09-01 -> 2018-11-20</para>
+                /// <para>Commitment2: 2018-11-10 -> 2020-01-01 --
+                /// Effective From 2018-11-02 --
+                /// Effective To 2019-01-01
+                /// </para>
+                /// <para>Commitment3: 2018-11-10 -> 2020-01-01 --
+                /// Effective From 2019-01-00 --
+                /// Effective To End
+                /// </para>
+                /// </summary>
                 List<CommitmentEntity> SetupCommitments(
                     CommitmentEntity commitment1,
                     CommitmentEntity commitment2,
                     CommitmentEntity commitment3)
                 {
                     commitment1.StartDate = new DateTime(2018, 09, 01);
+                    commitment1.EndDate = new DateTime(2020-01-01);
                     commitment1.WithdrawnOnDate = new DateTime(2018, 11, 01);
-                    commitment1.EndDate = commitment1.WithdrawnOnDate.Value;
+                    commitment1.PausedOnDate = null;
 
                     commitment2.StartDate = new DateTime(2018, 11, 02);
                     commitment2.EndDate = new DateTime(2020, 01, 01);
                     commitment2.EffectiveFrom = new DateTime(2018, 11, 02);
                     commitment2.EffectiveTo = new DateTime(2019, 01, 01);
+                    commitment2.WithdrawnOnDate = null;
+                    commitment2.PausedOnDate = null;
 
                     commitment3.CommitmentId = commitment2.CommitmentId;
                     commitment3.StartDate = commitment2.StartDate;
                     commitment3.EndDate = commitment2.EndDate;
                     commitment3.EffectiveFrom = new DateTime(2019, 01, 01);
                     commitment3.EffectiveTo = null;
+                    commitment3.WithdrawnOnDate = null;
+                    commitment3.PausedOnDate = null;
 
                     return new List<CommitmentEntity> { commitment1, commitment2, commitment3 };
                 }
@@ -320,7 +391,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 }
 
                 [Test, AutoMoqData]
-                public void AndADateAfterTheFirstCommitmentAndBeforeTheSecondCommitmentReturnsTheFirstCommitment(
+                public void AndADateDuringTheFirstCommitmentReturnsTheFirstCommitment(
                     CommitmentEntity commitment1,
                     CommitmentEntity commitment2,
                     CommitmentEntity commitment3,
@@ -337,7 +408,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 }
 
                 [Test, AutoMoqData]
-                public void AndADateAfterTheSecondCommitmentReturnsTheSecondCommitment(
+                public void AndADateAfterTheSecondCommitmentStartDateReturnsTheSecondCommitment(
                     CommitmentEntity commitment1,
                     CommitmentEntity commitment2,
                     CommitmentEntity commitment3,
@@ -357,7 +428,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 public class AndTheDateIsForTheCommitmentWithTwoVersions : AndTheSecondCommitmentHavingTwoVersions
                 {
                     [Test, AutoMoqData]
-                    public void AndADateAfterTheFirstVersionAndBeforeTheSecondVersionReturnsTheFirstVersion(
+                    public void AndADateDuringTheFirstVersionReturnsTheFirstVersion(
                         CommitmentEntity commitment1,
                         CommitmentEntity commitment2,
                         CommitmentEntity commitment3,
@@ -374,7 +445,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     }
 
                     [Test, AutoMoqData]
-                    public void AndADateAfterTheSecondVersionReturnsTheSecondVersion(
+                    public void AndADateAfterTheSecondVersionStartDateReturnsTheSecondVersion(
                         CommitmentEntity commitment1,
                         CommitmentEntity commitment2,
                         CommitmentEntity commitment3,

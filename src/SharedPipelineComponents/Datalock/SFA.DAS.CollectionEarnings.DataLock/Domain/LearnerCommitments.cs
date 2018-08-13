@@ -20,6 +20,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
                 if (commitmentList.Count == 1)
                 {
+                    // No 'versions'
                     commitmentList[0].EffectiveStartDate = commitmentList[0].StartDate;
                     commitmentList[0].EffectiveEndDate = commitmentList[0].EndDate;
                 }
@@ -29,6 +30,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                     {
                         commitment.EffectiveStartDate = commitment.EffectiveFrom;
                         commitment.EffectiveEndDate = commitment.EffectiveTo;
+                    }
+                }
+
+                foreach (var commitment in commitmentList)
+                {
+                    if (commitment.WithdrawnOnDate.HasValue)
+                    {
+                        commitment.EffectiveEndDate = commitment.WithdrawnOnDate;
                     }
                 }
             }
