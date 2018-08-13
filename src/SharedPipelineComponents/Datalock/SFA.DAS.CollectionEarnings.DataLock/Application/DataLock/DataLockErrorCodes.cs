@@ -13,7 +13,5 @@
         public const string EarlierStartDate = "DLOCK_09";
         public const string NotPayable = "DLOCK_10";
         public const string NotLevyPayer = "DLOCK_11";
-
     }
-
 }

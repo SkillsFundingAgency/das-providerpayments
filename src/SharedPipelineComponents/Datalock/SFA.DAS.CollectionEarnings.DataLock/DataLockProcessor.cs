@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using NLog;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Provider.GetProvidersQuery;
@@ -59,8 +60,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     
                     if (priceEpisodes.Count > 0)
                     {
-                        var dataLockValidationResult = _datalockValidationService.Validate(providerCommitments,
-                            priceEpisodes, dasAccountsQueryResponse);
+                        var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(providerCommitments,
+                            priceEpisodes, dasAccountsQueryResponse.ToList());
 
                         _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
                         _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
