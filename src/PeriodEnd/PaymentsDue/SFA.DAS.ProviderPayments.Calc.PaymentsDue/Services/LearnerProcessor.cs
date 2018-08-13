@@ -38,7 +38,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 parameters.RawEarningsMathsEnglish, 
                 parameters.CompletionPaymentEvidence);
 
-
             var paymentsDue = _paymentsDueCalc.Calculate(validationResult.Earnings,
                 validationResult.PeriodsToIgnore,
                 parameters.HistoricalRequiredPayments);

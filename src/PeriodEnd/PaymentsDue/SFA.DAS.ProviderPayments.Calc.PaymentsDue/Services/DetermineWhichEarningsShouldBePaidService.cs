@@ -164,21 +164,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                         if (datalocksForFlag.Count == 1)
                         {
-                            string reason;
-                            if (transactionTypesFlag == (int) TransactionType.Completion && HoldBackCompletionPayment(completionPaymentEvidence, out reason))
-                            {
-                                MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
-                                    $"Held back Completion Payment price episode: {priceEpisode} in period: {periodGroup.Key}. Reason {reason}",
-                                    PaymentFailureType.HeldBackCompletionPayment);
-                            }
-                            else
-                            {
-                                // We have 1 datalock and a commitment
-                                MarkNonZeroTransactionTypesAsPayable(
-                                    periodEarningsForPriceEpisode,
-                                    datalocksForFlag.Single(),
-                                    transactionTypesFlag);
-                            }
+                            // We have 1 datalock and a commitment
+                            MarkNonZeroTransactionTypesAsPayable(
+                                periodEarningsForPriceEpisode,
+                                datalocksForFlag.Single(),
+                                completionPaymentEvidence,
+                                transactionTypesFlag);
                         }
                     }
                 }
@@ -289,8 +280,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private void MarkNonZeroTransactionTypesAsPayable(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
+            CompletionPaymentEvidence completionPaymentEvidence = null,
             int datalockType = -1)
         {
+            string reasonToHoldBack = "";
+            bool holdBack = false;
+            if(completionPaymentEvidence != null)
+            {
+                holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
+            }
+
             foreach (var rawEarning in earnings)
             {
                 if (rawEarning.ApprenticeshipContractType == 1 &&
@@ -299,9 +298,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     rawEarning.UseLevyBalance = true;
                 }
 
+                if (rawEarning.TransactionType02 > 0 && holdBack)
+                {
+                    MarkCompletionPaymentsAsHeldBackAndNonPayable(rawEarning, reasonToHoldBack, commitment);
+                    rawEarning.TransactionType02 = 0;
+                }
+
                 AddFundingDue(rawEarning, commitment, datalockType);
             }
         }
+
+        private void MarkCompletionPaymentsAsHeldBackAndNonPayable(
+            RawEarning rawEarning,
+            string reason,
+            IHoldCommitmentInformation commitment = null)
+        {
+            var nonPayableEarning = new NonPayableEarning(rawEarning);
+            nonPayableEarning.TransactionType = (int)TransactionType.Completion;
+
+            // Doing this to prevent a huge switch statement
+            nonPayableEarning.AmountDue = rawEarning.TransactionType02;
+            commitment?.CopyCommitmentInformationTo(nonPayableEarning);
+
+            nonPayableEarning.PaymentFailureMessage = reason;
+            nonPayableEarning.PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment;
+            NonPayableEarnings.Add(nonPayableEarning);
+        }
+
 
         private void MarkNonZeroTransactionTypesAsNonPayable(
             IEnumerable<RawEarning> earnings,
@@ -314,6 +337,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 AddNonpayableFundingDue(rawEarning, reason, paymentFailureReason, commitment);
             }
         }
+
 
         private static bool IgnoreTransactionType(int datalockType, int transactionType)
         {
@@ -359,6 +383,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     continue;
                 }
+
+
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = transactionType;
 
