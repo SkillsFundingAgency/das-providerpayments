@@ -39,12 +39,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var runOne = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(), 
+                new CompletionPaymentEvidence(0,CompletionPaymentEvidenceState.Checkable,0));
 
             var runTwo = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(),
+                new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.Checkable, 0));
 
             runOne.Earnings.ShouldAllBeEquivalentTo(runTwo.Earnings, options => options.Excluding(x => x.Id));
             runOne.NonPayableEarnings.ShouldAllBeEquivalentTo(runTwo.NonPayableEarnings);

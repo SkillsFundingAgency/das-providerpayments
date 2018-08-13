@@ -143,6 +143,7 @@
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithMissingCommitments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithNonPayableDatalocks.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithValidationErrors.cs" />
+    <Compile Include="Utilities\Helpers\CompletionPaymentsEvidenceHelper.cs" />
     <Compile Include="Utilities\Extensions\DeliveryPeriods.cs" />
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />

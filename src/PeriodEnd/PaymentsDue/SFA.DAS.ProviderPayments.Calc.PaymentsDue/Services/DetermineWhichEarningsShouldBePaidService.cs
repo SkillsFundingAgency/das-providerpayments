@@ -52,7 +52,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             List<DatalockOutput> datalockOutput,
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
-            CompletionPaymentEvidence completionPaymentEvidence = null)
+            CompletionPaymentEvidence completionPaymentEvidence)
         {
             PayableEarnings = new List<FundingDue>();
             PeriodsToIgnore = new HashSet<int>();
