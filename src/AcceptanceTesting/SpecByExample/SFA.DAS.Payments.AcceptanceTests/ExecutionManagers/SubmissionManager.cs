@@ -335,7 +335,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var learner = new Learner
             {
                 LearnRefNumber= learnerDetails[0].LearnerReference,
-                DateOfBirth = GetDateOfBirthBasedOnLearnerType(learnerDetails[0].LearnerType),
+                DateOfBirth = GetDateOfBirthBasedOnLearnerType(learnerDetails[0].LearnerType, learnerDetails[0].StartDate),
                 LearningDeliveries = deliveries,
                 EmploymentStatuses = employmentStatuses.Any() ? employmentStatuses : null
             };
@@ -583,17 +583,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return false;
         }
 
-        private static DateTime GetDateOfBirthBasedOnLearnerType(LearnerType learnerType)
+        private static DateTime GetDateOfBirthBasedOnLearnerType(LearnerType learnerType, DateTime startDate)
         {
             if (learnerType == LearnerType.ProgrammeOnlyDas1618 || learnerType == LearnerType.ProgrammeOnlyNonDas1618)
             {
-                return DateTime.Today.AddYears(-17);
+                return startDate.AddYears(-17);
             }
             if (learnerType == LearnerType.ProgrammeOnlyDas1924 || learnerType == LearnerType.ProgrammeOnlyNonDas1924)
             {
-                return DateTime.Today.AddYears(-20);
+                return startDate.AddYears(-20);
             }
-            return DateTime.Today.AddYears(-25);
+            return startDate.AddYears(-25);
         }
 
         private class LoggingStatusWatcher : StatusWatcherBase
