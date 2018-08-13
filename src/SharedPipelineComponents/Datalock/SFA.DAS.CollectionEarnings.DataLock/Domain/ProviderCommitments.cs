@@ -9,8 +9,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
     public class ProviderCommitments
     {
         private Dictionary<long, LearnerCommitments> CommitmentsByLearner { get; } = new Dictionary<long, LearnerCommitments>();
-
-
+        
         public ProviderCommitments(IEnumerable<CommitmentEntity> commitments)
         {
             if (commitments == null)

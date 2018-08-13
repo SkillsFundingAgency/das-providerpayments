@@ -9,7 +9,7 @@ using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenALearnerCommitments
 {
     [TestFixture]
-    public class CallingCommitmentsForDate
+    public class WhenCallingCommitmentsForDate
     {
         [TestFixture]
         public class WithOneCommitment

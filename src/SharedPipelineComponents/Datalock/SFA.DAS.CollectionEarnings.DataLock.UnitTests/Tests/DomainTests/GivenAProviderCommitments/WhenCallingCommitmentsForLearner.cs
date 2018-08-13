@@ -11,7 +11,7 @@ using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenAProviderCommitments
 {
     [TestFixture]
-    public class CallingCommitmentsForLearner
+    public class WhenCallingCommitmentsForLearner
     {
         [TestFixture]
         public class WithNoLearners

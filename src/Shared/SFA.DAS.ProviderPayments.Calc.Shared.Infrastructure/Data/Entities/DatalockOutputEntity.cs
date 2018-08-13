@@ -20,6 +20,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public int TransactionType { get; set; }
         [Range(1, 3)]
         public int TransactionTypesFlag { get; set; }
+
+        public bool PayOnprog { get; set; }
+        public bool PayFirst16To18Incentive { get; set; }
+        public bool PaySecond16To18Incentive { get; set; }
     }
 }
 

@@ -17,6 +17,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             List<RawEarning> priceEpisodes, 
             IEnumerable<DasAccount> accounts)
         {
+            foreach (var uln in providerCommitments.AllUlns())
+            {
+                var learner = providerCommitments.CommitmentsForLearner(uln);
+            }
+
             return new DatalockValidationResult();
         }
     }
