@@ -164,10 +164,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                         if (datalocksForFlag.Count == 1)
                         {
-                            if (transactionTypesFlag == (int) TransactionType.Completion && HoldBackCompletionPayment(completionPaymentEvidence))
+                            string reason;
+                            if (transactionTypesFlag == (int) TransactionType.Completion && HoldBackCompletionPayment(completionPaymentEvidence, out reason))
                             {
                                 MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
-                                    $"Held back Completion Payment price episode: {priceEpisode} in period: {periodGroup.Key}. Reason {completionPaymentEvidence}",
+                                    $"Held back Completion Payment price episode: {priceEpisode} in period: {periodGroup.Key}. Reason {reason}",
                                     PaymentFailureType.HeldBackCompletionPayment);
                             }
                             else
@@ -184,17 +185,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
         }
 
-        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence) =>
-        (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr ||
-         !completionPaymentEvidence.HasEnoughEmployerPayments);
-        
+        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
+        {
+            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
+            {
+                reason = "Error on PMR records in ILR";
+                return true;
+            }
 
-        /// <summary>
-        /// Matches maths and english earnings to on-prog earnings
-        ///     If there are on-prog earnings, if they are payable then pay
-        ///     the maths and english earnings that match them, otherwise not
-        /// </summary>
-        private void MatchMathsAndEnglishToOnProg()
+            if (Decimal.Round(completionPaymentEvidence.TotalIlrEmployerPayment) <
+                Decimal.Round(completionPaymentEvidence.TotalHistoricEmployerPayment))
+            {
+                reason = "Historic Evidence does not show enough employer payments were made";
+                return true;
+            }
+
+            reason = "";
+            return false;
+        }
+
+
+    /// <summary>
+    /// Matches maths and english earnings to on-prog earnings
+    ///     If there are on-prog earnings, if they are payable then pay
+    ///     the maths and english earnings that match them, otherwise not
+    /// </summary>
+    private void MatchMathsAndEnglishToOnProg()
         {
             // 450 learners with no on-prog - 200 of which are from one provider
             //  not sure what to do...

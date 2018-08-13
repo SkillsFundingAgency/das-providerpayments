@@ -13,6 +13,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public decimal TotalIlrEmployerPayment { get; }
         public CompletionPaymentEvidenceState State { get; }
         public decimal TotalHistoricEmployerPayment { get; }
-        public bool HasEnoughEmployerPayments => (Decimal.Round(TotalIlrEmployerPayment) >= Decimal.Round(TotalHistoricEmployerPayment));
     }
 }
