@@ -35,14 +35,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var validationResult = _determinePayableEarnings.DeterminePayableEarnings(
                 processedDatalocks,
                 parameters.RawEarnings,
-                parameters.RawEarningsMathsEnglish);
+                parameters.RawEarningsMathsEnglish, 
+                parameters.CompletionPaymentEvidence);
 
-            //if (parameters.CompletionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr ||
-            //    !parameters.CompletionPaymentEvidence.HasEnoughEmployerPayments)
-            //{
-            //    // remove RawEarnings
-
-            //}
 
             var paymentsDue = _paymentsDueCalc.Calculate(validationResult.Earnings,
                 validationResult.PeriodsToIgnore,

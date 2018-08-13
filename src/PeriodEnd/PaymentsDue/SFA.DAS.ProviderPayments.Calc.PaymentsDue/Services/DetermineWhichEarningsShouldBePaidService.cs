@@ -51,7 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public EarningValidationResult DeterminePayableEarnings(
             List<DatalockOutput> datalockOutput,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            CompletionPaymentEvidence completionPaymentEvidence = null)
         {
             PayableEarnings = new List<FundingDue>();
             PeriodsToIgnore = new HashSet<int>();
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             // The reason for this method is to put each raw earning into a payable or non-payable pot
 
-            ValidateEarnings();
+            ValidateEarnings(completionPaymentEvidence);
             MatchMathsAndEnglishToOnProg();
 
             return new EarningValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
@@ -100,7 +101,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                    priceEpisodeStartDate < _firstDayOfNextAcademicYear;
         }
 
-        private void ValidateEarnings()
+        private void ValidateEarnings(CompletionPaymentEvidence completionPaymentEvidence)
         {
             if (RawEarnings.All(x => x.ApprenticeshipContractType == 2))
             {
@@ -163,16 +164,30 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                         if (datalocksForFlag.Count == 1)
                         {
-                            // We have 1 datalock and a commitment
-                            MarkNonZeroTransactionTypesAsPayable(
-                                periodEarningsForPriceEpisode, 
-                                datalocksForFlag.Single(), 
-                                transactionTypesFlag);
+                            if (transactionTypesFlag == (int) TransactionType.Completion && completionPaymentEvidence !=null && HoldBackCompletionPayment(completionPaymentEvidence))
+                            {
+                                MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
+                                    $"Held back Completion Payment price episode: {priceEpisode} in period: {periodGroup.Key}. Reason {completionPaymentEvidence}",
+                                    PaymentFailureType.HeldBackCompletionPayment);
+                            }
+                            else
+                            {
+                                // We have 1 datalock and a commitment
+                                MarkNonZeroTransactionTypesAsPayable(
+                                    periodEarningsForPriceEpisode,
+                                    datalocksForFlag.Single(),
+                                    transactionTypesFlag);
+                            }
                         }
                     }
                 }
             }
         }
+
+        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence) =>
+        (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr ||
+         !completionPaymentEvidence.HasEnoughEmployerPayments);
+        
 
         /// <summary>
         /// Matches maths and english earnings to on-prog earnings

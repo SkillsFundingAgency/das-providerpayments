@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
+﻿namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
     /// <summary>
     /// Value object for determining whether two completion payments should be
     /// </summary>
-    public sealed class CompletionPaymentGroup : IEquatable<CompletionPaymentGroup>
+    public sealed class CompletionPaymentGroup : BaseEquatableGroup<CompletionPaymentGroup>
     {
         public CompletionPaymentGroup(decimal priceEpisodeCumulativePmrs,
             int priceEpisodeCompExemCode)
@@ -23,45 +21,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 var hash = 17;
                 hash = 31 * hash + PriceEpisodeCumulativePmrs.GetHashCode();
                 hash = 31 * hash + PriceEpisodeCompExemCode.GetHashCode();
-
                 return hash;
             }
         }
 
-        public static bool operator ==(CompletionPaymentGroup left, CompletionPaymentGroup right)
+        public override bool Equals(CompletionPaymentGroup test)
         {
-            if (ReferenceEquals(left, right))
-            {
+            if (base.Equals(test))
                 return true;
-            }
 
-            if (ReferenceEquals(left, null))
-            {
+            if (test == null)
                 return false;
-            }
-            if (ReferenceEquals(right, null))
-            {
-                return false;
-            }
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(CompletionPaymentGroup left, CompletionPaymentGroup right)
-        {
-            return !(left == right);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as PaymentGroup;
-            return other != null && Equals(other);
-        }
-
-        public bool Equals(CompletionPaymentGroup test)
-        {
-            if (ReferenceEquals(null, test)) return false;
-            if (ReferenceEquals(this, test)) return true;
 
             return PriceEpisodeCumulativePmrs == test.PriceEpisodeCumulativePmrs &&
                    PriceEpisodeCompExemCode == test.PriceEpisodeCompExemCode;
