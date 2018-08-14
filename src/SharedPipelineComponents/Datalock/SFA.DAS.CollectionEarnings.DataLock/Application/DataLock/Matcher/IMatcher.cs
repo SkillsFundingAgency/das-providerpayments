@@ -6,6 +6,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
    public interface IMatcher
     {
-        MatchResult Match(List<CommitmentEntity> commitments, RawEarning priceEpisode, List<DasAccount.DasAccount> dasAccounts);
+        MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts);
     }
 }

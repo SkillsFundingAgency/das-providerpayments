@@ -95,8 +95,12 @@
     <Compile Include="DataLockPassThroughProcessor.cs" />
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
+    <Compile Include="Domain\Commitment.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
+    <Compile Include="Domain\PriceEpisodeGroup.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
+    <Compile Include="Domain\ProviderEarnings.cs" />
+    <Compile Include="Exceptions\LearnerNotFoundException.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />

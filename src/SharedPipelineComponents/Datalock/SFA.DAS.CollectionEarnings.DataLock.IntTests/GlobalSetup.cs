@@ -29,18 +29,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 	                        EXEC master.dbo.sp_addlinkedserver @server = N'{GlobalTestContext.Instance.LinkedServerName}', @srvproduct = '', @provider = N'SQLNCLI', @datasrc = @@SERVERNAME;");
                     
                     // Pre-req scripts
-                    RunSqlScript(@"Ilr.Transient.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Ilr.Transient.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.Staging.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/Common/PeriodEnd.Transient.Staging.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                     // Component scripts
-                    RunSqlScript(@"Ilr.Transient.Reference.Commitments.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Ilr.Transient.Reference.Accounts.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Reference.Commitments.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Reference.Accounts.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
-                    RunSqlScript(@"Ilr.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Ilr.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Ilr.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                 }
                 catch (Exception ex)
@@ -59,22 +59,22 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 
                 try
                 {
-                    RunSqlScript(@"Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
 
-                    RunSqlScript(@"ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"001_ddl.deds.commitments.tables.change_versionId.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"0013_ddl.deds.dbo.commitments.add_transferfields.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/001_ddl.deds.commitments.tables.change_versionId.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/0013_ddl.deds.dbo.commitments.add_transferfields.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
 
-                    RunSqlScript(@"ddl.deds.accounts.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/ddl.deds.accounts.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
 
                     // Component scripts
-                    RunSqlScript(@"Ilr.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"Ilr.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
-                    RunSqlScript(@"3_Ilr.Deds.DataLock.Tables.Index.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/Ilr.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/Ilr.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/1_Ilr.Deds.DataLock.Tables.Change_Column_Types.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/2_Ilr.Deds.DataLock.Tables.Change_version_id_type.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/3_Ilr.Deds.DataLock.Tables.Index.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
                 }
                 finally
                 {
@@ -92,19 +92,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 try
                 {
                     // Pre-req scripts
-                    RunSqlScript(@"PeriodEnd.Transient.Staging.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/Common/PeriodEnd.Transient.Staging.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
 
                     // Component scripts
-                    RunSqlScript(@"PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
 
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
 
-                    RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.DataLock.DDL.Views.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
+                    RunSqlScript(@"Transient/PeriodEnd/PeriodEnd.Transient.DataLock.DDL.Procs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDatabaseName);
                 }
                 finally
                 {
@@ -118,24 +118,24 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 
                 try
                 {
-                    RunSqlScript(@"Ilr.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
-                    RunSqlScript(@"Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/Ilr.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
 
-                    RunSqlScript(@"ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
 
-                    RunSqlScript(@"001_ddl.deds.commitments.tables.change_versionId.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
-                    RunSqlScript(@"0013_ddl.deds.dbo.commitments.add_transferfields.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
-                    RunSqlScript(@"0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/001_ddl.deds.commitments.tables.change_versionId.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/0013_ddl.deds.dbo.commitments.add_transferfields.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
                     
-                    RunSqlScript(@"Ilr.Deds.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/Ilr.Deds.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
 
-                    RunSqlScript(@"ddl.deds.accounts.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
-                    RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/ddl.deds.accounts.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
 
 
                     // Component scripts
-                    RunSqlScript(@"PeriodEnd.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
-                    RunSqlScript(@"PeriodEnd.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/PeriodEnd.Deds.DataLock.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/PeriodEnd.Deds.DataLock.DDL.sprocs.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
                 }
                 finally
                 {

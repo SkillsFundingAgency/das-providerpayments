@@ -11,15 +11,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             base(nextMatchHandler)
         {}
 
-        public override bool StopOnError
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool StopOnError { get { return false; } }
 
-        public override MatchResult Match(List<CommitmentEntity> commitments, RawEarning priceEpisode, List<DasAccount.DasAccount> dasAccounts,  MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts,  MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
             if (priceEpisode.StandardCode == 0)

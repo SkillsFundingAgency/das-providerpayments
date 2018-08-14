@@ -13,6 +13,7 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission
                 new ExportIlrFileTask(logger),
                 new ShredIlrTask(logger),
                 new SetCollectionPeriodTask(logger), 
+                new CopyDataToTransientTask(logger), 
                 new CopyValidLearnerDataTask(logger),
                 new CopyIlrReferenceDataTask(logger),
                 new CalculateEarningsTask(logger),
