@@ -4,6 +4,9 @@
     {
         Checkable,
         ErrorOnIlr,
-        EmployerExemption
+        ExemptRedundancy,
+        ExemptOwnDelivery,
+        ExemptOtherReason
+
     }
 }

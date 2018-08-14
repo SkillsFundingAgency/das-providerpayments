@@ -10,11 +10,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         }
         public CompletionPaymentEvidence(decimal totalIlrEmployerPayment, CompletionPaymentEvidenceState state, decimal totalHistoricEmployerPayment)
         {
-            TotalIlrEmployerPayment = totalIlrEmployerPayment;
+            IlrEvidenceEmployerPayment = totalIlrEmployerPayment;
             State = state;
             TotalHistoricEmployerPayment = totalHistoricEmployerPayment;
         }
-        public decimal TotalIlrEmployerPayment { get; }
+        public decimal IlrEvidenceEmployerPayment { get; }
         public CompletionPaymentEvidenceState State { get; }
         public decimal TotalHistoricEmployerPayment { get; }
     }

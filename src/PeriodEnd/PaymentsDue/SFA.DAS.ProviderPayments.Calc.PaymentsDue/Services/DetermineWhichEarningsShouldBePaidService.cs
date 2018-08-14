@@ -313,7 +313,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
-            if (Decimal.Round(completionPaymentEvidence.TotalIlrEmployerPayment) <
+            if (Decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <
                 Decimal.Round(completionPaymentEvidence.TotalHistoricEmployerPayment))
             {
                 reason = "Historic Evidence does not show enough employer payments were made";
