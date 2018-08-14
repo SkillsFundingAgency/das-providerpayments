@@ -53,7 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return learners;
         }
 
-        public List<LearnerData> Sort(long ukprn)
+        private List<LearnerData> Sort(long ukprn)
         {
             ResetLearnerResultsList();
             

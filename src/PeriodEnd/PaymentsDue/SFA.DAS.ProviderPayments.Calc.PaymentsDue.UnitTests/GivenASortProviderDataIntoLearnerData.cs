@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -121,7 +121,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetAllForProvider(ukprn))
                 .Returns(historicalRequiredPayments);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -147,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetAllHistoricPaymentsForProvider(ukprn))
                 .Returns(historicalPayments);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -168,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetDatalockOutputForProvider(ukprn))
                 .Returns(dataLocks);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -190,7 +190,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(repository => repository.GetValidationErrorsForProvider(ukprn))
                 .Returns(dataLockErrors);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -243,7 +243,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
             
             learners.Count.Should().Be(3);
 
@@ -304,7 +304,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
@@ -347,7 +347,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 .Setup(x => x.GetAllCollectionPeriods())
                 .Returns(CollectionPeriods);
 
-            var learners = sut.Sort(ukprn);
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].RawEarnings.ForEach(x => x.DeliveryMonth.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Month));
