@@ -43,11 +43,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
             }
         }
 
-        public IReadOnlyList<CommitmentEntity> CommitmentsForDate(DateTime date)
+        public IReadOnlyList<CommitmentEntity> ActiveCommitmentsForDate(DateTime date)
         {
             return Commitments.Where(x => x.EffectiveStartDate < date &&
                                           (x.EffectiveEndDate == null ||
                                           x.EffectiveEndDate > date))
+                .ToList();
+        }
+
+        public IReadOnlyList<CommitmentEntity> NonActiveCommitmentsForDate(DateTime date)
+        {
+            return Commitments.Where(x => x.EffectiveStartDate < date &&
+                                          (x.WithdrawnOnDate.HasValue ||
+                                          x.PausedOnDate.HasValue))
                 .ToList();
         }
     }

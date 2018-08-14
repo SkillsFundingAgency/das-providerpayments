@@ -113,7 +113,8 @@
     <Compile Include="DataLockTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Logging\LoggingConfigurationTests\WhenConfiguringLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingCommitmentsForDate.cs" />
+    <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingNonActiveCommitmentsForDate.cs" />
+    <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingAllUlns.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingEarningsForLearner.cs" />

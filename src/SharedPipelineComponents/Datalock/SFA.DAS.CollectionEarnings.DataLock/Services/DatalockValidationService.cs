@@ -5,6 +5,9 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
@@ -45,23 +48,23 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     if (earning.HasNonIncentiveEarnings())
                     {
                         var onProgCensusDate = CalculateOnProgCensusDate(earning);
-                        var commitments = allCommitments.CommitmentsForDate(onProgCensusDate).ToList();
+                        var commitments = allCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
                         var datamatchResult = _datalockMatcher.Match(commitments, earning, accounts);
-                        result += datamatchResult;
+                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.AllLearning);
                     }
 
                     if (earning.HasFirstIncentive())
                     {
-                        var commitmentsForFirstIncentive = allCommitments.CommitmentsForDate(earning.FirstIncentiveCensusDate.Value);
+                        var commitmentsForFirstIncentive = allCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value);
                         var datamatchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning, accounts);
-                        result += datamatchResult;
+                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.FirstEmployerProviderIncentives);
                     }
 
                     if (earning.HasSecondIncentive())
                     {
-                        var commitmentsForSecondIncentive = allCommitments.CommitmentsForDate(earning.SecondIncentiveCensusDate.Value);
+                        var commitmentsForSecondIncentive = allCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value);
                         var datamatchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning, accounts);
-                        result += datamatchResult;
+                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives);
                     }
                 }
             }
@@ -98,47 +101,57 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         }
     }
 
-    public static class EarningExtensions
-    {
-        public static bool HasFirstIncentive(this RawEarning earning)
-        {
-            return (earning.TransactionType04 > 0 || earning.TransactionType05 > 0) && 
-                   earning.FirstIncentiveCensusDate.HasValue;
-        }
-
-        public static bool HasSecondIncentive(this RawEarning earning)
-        {
-            return (earning.TransactionType06 > 0 || earning.TransactionType07 > 0) &&
-                   earning.SecondIncentiveCensusDate.HasValue;
-        }
-
-        public static bool HasNonIncentiveEarnings(this RawEarning earning)
-        {
-            return (earning.TransactionType01 > 0 ||
-                    earning.TransactionType02 > 0 ||
-                    earning.TransactionType03 > 0 ||
-                    earning.TransactionType08 > 0 ||
-                    earning.TransactionType09 > 0 ||
-                    earning.TransactionType10 > 0 ||
-                    earning.TransactionType11 > 0 ||
-                    earning.TransactionType12 > 0 ||
-                    earning.TransactionType13 > 0 ||
-                    earning.TransactionType14 > 0 ||
-                    earning.TransactionType15 > 0
-                );
-        }
-    }
-
     public class DatalockValidationResult
     {
-        public IEnumerable<DatalockValidationError> ValidationErrors { get; set; }
-        public IEnumerable<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; set; }
-        public IEnumerable<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; set; }
-        public IEnumerable<DatalockOutputEntity> DatalockOutputEntities { get; set; }
+        public List<DatalockValidationError> ValidationErrors { get; set; } = new List<DatalockValidationError>();
+        public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; set; } = new List<PriceEpisodePeriodMatchEntity>();
+        public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; set; } = new List<PriceEpisodeMatchEntity>();
+        public List<DatalockOutputEntity> DatalockOutputEntities { get; set; } = new List<DatalockOutputEntity>();
 
-        public static DatalockValidationResult operator + (DatalockValidationResult lhs, MatchResult rhs)
+        public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {
-            return lhs;
+            PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
+            {
+                AimSeqNumber = earning.AimSeqNumber,
+                CommitmentId = commitment.CommitmentId,
+                IsSuccess = true,
+                LearnRefNumber = earning.LearnRefNumber,
+                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                Ukprn = earning.Ukprn,
+            });
+
+            var payable = false;
+            if (errors.Count > 0)
+            {
+                foreach (var error in errors)
+                {
+                    ValidationErrors.Add(new DatalockValidationError
+                    {
+                        LearnRefNumber = earning.LearnRefNumber,
+                        AimSeqNumber = earning.AimSeqNumber,
+                        PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                        RuleId = error,
+                        Ukprn = earning.Ukprn,
+                    });
+                }
+            }
+            else
+            {
+                payable = true;
+            }
+
+            PriceEpisodePeriodMatches.Add(new PriceEpisodePeriodMatchEntity
+            {
+                AimSeqNumber = earning.AimSeqNumber,
+                CommitmentId = commitment.CommitmentId,
+                LearnRefNumber = earning.LearnRefNumber,
+                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                Period = earning.Period,
+                TransactionTypesFlag = paymentType,
+                Payable = payable,
+                Ukprn = earning.Ukprn,
+                VersionId = commitment.VersionId,
+            });
         }
     }
 }

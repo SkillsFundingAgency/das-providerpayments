@@ -127,6 +127,7 @@
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
+    <Compile Include="Domain\Extensions\EarningExtensions.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
     <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />

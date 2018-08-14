@@ -71,7 +71,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
 
                         var learner = sut.CommitmentsForLearner(uln);
 
-                        var actual = learner.CommitmentsForDate(new DateTime(2018, 01, 01));
+                        var actual = learner.ActiveCommitmentsForDate(new DateTime(2018, 01, 01));
                         actual.Should().AllBeEquivalentTo(commitment);
                     }
                 }
@@ -113,7 +113,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
 
                         var learner = sut.CommitmentsForLearner(uln);
 
-                        var actual = learner.CommitmentsForDate(new DateTime(2018, 01, 01));
+                        var actual = learner.ActiveCommitmentsForDate(new DateTime(2018, 01, 01));
                         actual.Should().BeEquivalentTo(commitments);
                     }
                 }
@@ -149,7 +149,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
 
                         var learner = sut.CommitmentsForLearner(learner1Uln);
 
-                        var actual = learner.CommitmentsForDate(new DateTime(2018, 01, 01));
+                        var actual = learner.ActiveCommitmentsForDate(new DateTime(2018, 01, 01));
                         actual.Should().BeEquivalentTo(commitmentsForLearner1);
                         actual.Should().NotBeEquivalentTo(commitmentsForLearner2);
                         actual.Should().NotBeEquivalentTo(commitmentsForLearner3);

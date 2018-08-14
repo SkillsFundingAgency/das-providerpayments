@@ -21,7 +21,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
             foreach (var sortedCommitment in sortedCommitments)
             {
-                var learnerCommitments = new LearnerCommitments(sortedCommitment.Key, sortedCommitment);
+                var learnerCommitments = new LearnerCommitments(sortedCommitment.Key, sortedCommitment.ToList());
                 CommitmentsByLearner.Add(sortedCommitment.Key, learnerCommitments);
             }
         }
