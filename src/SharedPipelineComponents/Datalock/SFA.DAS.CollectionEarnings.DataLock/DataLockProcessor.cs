@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using MediatR;
 using NLog;
@@ -46,6 +47,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 
             var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow().Items;
+            var dasAccountIdsThatHaveNonPayableFlagSet = ImmutableHashSet
+                .Create<long>(dasAccountsQueryResponse
+                    .Where(x => x.IsLevyPayer == false)
+                    .Select(x => x.AccountId)
+                    .ToArray());
 
             if (providersQueryResponse.HasAnyItems())
             {
@@ -61,7 +67,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     if (priceEpisodes.Count > 0)
                     {
                         var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(providerCommitments,
-                            priceEpisodes, dasAccountsQueryResponse.ToList());
+                            priceEpisodes, dasAccountIdsThatHaveNonPayableFlagSet);
 
                         _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
                         _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);

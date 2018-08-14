@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
@@ -14,7 +14,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 {
     public interface IValidateDatalocks
     {
-        DatalockValidationResult ValidateDatalockForProvider(ProviderCommitments providerCommitments, List<RawEarning> providerEarnings, List<DasAccount> accounts);
+        DatalockValidationResult ValidateDatalockForProvider(
+            ProviderCommitments providerCommitments, 
+            List<RawEarning> providerEarnings, 
+            ImmutableHashSet<long> accountsWithNonPayableFlagSet);
     }
 
     public class DatalockValidationService : IValidateDatalocks
@@ -28,13 +31,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
         public DatalockValidationResult ValidateDatalockForProvider(
             ProviderCommitments providerCommitments, 
-            List<RawEarning> providerEarnings, 
-            List<DasAccount> accounts)
+            List<RawEarning> providerEarnings,
+            ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
             var earningsByLearner = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
             
-            var result = new DatalockValidationResult();
+            var result = new DatalockValidationResult(accountsWithNonPayableFlagSet);
 
             foreach (var uln in providerCommitments.AllUlns())
             {
@@ -49,22 +52,22 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     {
                         var onProgCensusDate = CalculateOnProgCensusDate(earning);
                         var commitments = allCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
-                        var datamatchResult = _datalockMatcher.Match(commitments, earning, accounts);
-                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.AllLearning);
+                        var matchResult = _datalockMatcher.Match(commitments, earning);
+                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning, commitments);
                     }
 
                     if (earning.HasFirstIncentive())
                     {
-                        var commitmentsForFirstIncentive = allCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value);
-                        var datamatchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning, accounts);
-                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.FirstEmployerProviderIncentives);
+                        var commitmentsForFirstIncentive = allCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
+                        var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning);
+                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive);
                     }
 
                     if (earning.HasSecondIncentive())
                     {
-                        var commitmentsForSecondIncentive = allCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value);
-                        var datamatchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning, accounts);
-                        result.AddResult(earning, datamatchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives);
+                        var commitmentsForSecondIncentive = allCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
+                        var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning);
+                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive);
                     }
                 }
             }
@@ -103,10 +106,36 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
     public class DatalockValidationResult
     {
-        public List<DatalockValidationError> ValidationErrors { get; set; } = new List<DatalockValidationError>();
-        public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; set; } = new List<PriceEpisodePeriodMatchEntity>();
-        public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; set; } = new List<PriceEpisodeMatchEntity>();
-        public List<DatalockOutputEntity> DatalockOutputEntities { get; set; } = new List<DatalockOutputEntity>();
+        public List<DatalockValidationError> ValidationErrors { get; } = new List<DatalockValidationError>();
+        public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; } = new List<PriceEpisodePeriodMatchEntity>();
+        public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
+        public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
+        private readonly ImmutableHashSet<long> _accountsWithNonPayableFlagSet;
+
+        public DatalockValidationResult(ImmutableHashSet<long> accountsWithNonPayableFlagSet)
+        {
+            _accountsWithNonPayableFlagSet = accountsWithNonPayableFlagSet;
+        }
+        
+        public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
+            List<CommitmentEntity> commitments)
+        {
+            if (commitments.Any(x => _accountsWithNonPayableFlagSet.Contains(x.AccountId)))
+            {
+                errors.Add(DataLockErrorCodes.NotLevyPayer);
+            }
+
+            if (commitments.Count > 1 && paymentType == TransactionTypesFlag.AllLearning)
+            {
+                errors.Add(DataLockErrorCodes.MultipleMatches);
+            }
+            else if (commitments.Count == 0)
+            {
+                return;
+            }
+
+            AddResult(earning, errors, paymentType, commitments.First());
+        }
 
         public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {

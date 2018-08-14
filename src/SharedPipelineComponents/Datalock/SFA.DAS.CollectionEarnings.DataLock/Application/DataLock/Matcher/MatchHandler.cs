@@ -15,18 +15,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             NextMatchHandler = nextMatchHandler;
         }
 
-        public MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts)
+        public MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode)
         {
-            return Match(commitments, priceEpisode,dasAccounts, new MatchResult() );
+            return Match(commitments, priceEpisode, new MatchResult() );
         }
 
-        public abstract MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts, MatchResult matchResult);
+        public abstract MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult);
 
-        protected MatchResult ExecuteNextHandler(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        protected MatchResult ExecuteNextHandler(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {
             return NextMatchHandler == null || (StopOnError && matchResult.ErrorCodes.Count > 0)
                 ? matchResult
-                : NextMatchHandler.Match(commitments, priceEpisode, dasAccounts, matchResult);
+                : NextMatchHandler.Match(commitments, priceEpisode, matchResult);
         }
     }
 }

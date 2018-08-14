@@ -13,7 +13,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 
         public override bool StopOnError { get { return false; } }
 
-        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts,  MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
             if (priceEpisode.StandardCode == 0)
@@ -32,7 +32,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 }
             }
 
-            return ExecuteNextHandler(commitments, priceEpisode,dasAccounts,matchResult);
+            return ExecuteNextHandler(commitments, priceEpisode, matchResult);
         }
     }
 }

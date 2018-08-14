@@ -11,7 +11,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             base(nextMatchHandler)
         {}
        
-        public override  MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, IReadOnlyList<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override  MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {
             var commitmentsToMatch = commitments.Where(c => priceEpisode.EpisodeStartDate >= c.StartDate
                                                             && priceEpisode.EpisodeStartDate < c.EndDate
@@ -28,7 +28,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitmentsToMatch.ToArray();
             }
 
-            return ExecuteNextHandler(commitmentsToMatch, priceEpisode,dasAccounts,matchResult);
+            return ExecuteNextHandler(commitmentsToMatch, priceEpisode,matchResult);
         }
     }
 }

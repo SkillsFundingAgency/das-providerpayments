@@ -47,7 +47,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.RunDataLockVa
                         var priceEpisode = priceEpisodes[x];
 
                         // Execute the matching chain
-                        var matchResult = _initialHandler.Match(message.Commitments.ToList(), priceEpisode, message.DasAccounts.ToList());
+                        var matchResult = _initialHandler.Match(message.Commitments.ToList(), priceEpisode);
 
                         if (matchResult.ErrorCodes.Count > 0)
                         {
