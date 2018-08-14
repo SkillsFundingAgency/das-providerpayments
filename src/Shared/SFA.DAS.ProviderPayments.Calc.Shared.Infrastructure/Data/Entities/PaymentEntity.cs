@@ -24,6 +24,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         }
 
         [NotMapped]
+        public long Ukprn { get; set; }
+
+        [NotMapped]
+        [StringLength(12)]
         public string LearnRefNumber { get; set; }
 
         [Range(2017, 2020)]

@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Attributes\SetupAccountIdAttribute.cs" />
     <Compile Include="Attributes\SetupDasAccountsAttribute.cs" />
+    <Compile Include="Attributes\SetupPaymentsHistoryRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupRequiredPaymentsRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupProviderRepositoryAttribute.cs" />
     <Compile Include="Attributes\SetupUkprnAttribute.cs" />
@@ -120,6 +121,10 @@
     </Content>
     <Content Include="..\..\periodend\paymentsdue\deploypaymentsdue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
