@@ -114,7 +114,7 @@ Scenario: AC3 - 1 learner, levy, co-funding has been used and provider data show
 
     When an ILR file is submitted for academic year 1718 in period R11 with the following data:
         | ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
-        | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 120					  |
+        | learner a | programme only DAS | 9000         | 06/06/2017 | 08/06/2018       | 18/06/2018      | completed         | 719					  |
 
     Then the provider earnings and payments break down as follows:
         | Type                                    | 06/17 | 07/17 | 08/17 | ... | 05/18 | 06/18 | 07/18 |

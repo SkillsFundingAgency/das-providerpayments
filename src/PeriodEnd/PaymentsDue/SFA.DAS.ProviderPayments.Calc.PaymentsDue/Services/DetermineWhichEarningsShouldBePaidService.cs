@@ -176,26 +176,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
         }
 
-        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
-        {
-            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
-            {
-                reason = "Error on PMR records in ILR";
-                return true;
-            }
-
-            if (Decimal.Round(completionPaymentEvidence.TotalIlrEmployerPayment) <
-                Decimal.Round(completionPaymentEvidence.TotalHistoricEmployerPayment))
-            {
-                reason = "Historic Evidence does not show enough employer payments were made";
-                return true;
-            }
-
-            reason = "";
-            return false;
-        }
-
-
     /// <summary>
     /// Matches maths and english earnings to on-prog earnings
     ///     If there are on-prog earnings, if they are payable then pay
@@ -325,6 +305,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             NonPayableEarnings.Add(nonPayableEarning);
         }
 
+        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
+        {
+            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
+            {
+                reason = "Error on PMR records in ILR";
+                return true;
+            }
+
+            if (Decimal.Round(completionPaymentEvidence.TotalIlrEmployerPayment) <
+                Decimal.Round(completionPaymentEvidence.TotalHistoricEmployerPayment))
+            {
+                reason = "Historic Evidence does not show enough employer payments were made";
+                return true;
+            }
+
+            reason = "";
+            return false;
+        }
 
         private void MarkNonZeroTransactionTypesAsNonPayable(
             IEnumerable<RawEarning> earnings,
