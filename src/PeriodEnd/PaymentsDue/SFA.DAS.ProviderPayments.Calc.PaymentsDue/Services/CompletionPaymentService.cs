@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     class CompletionPaymentService : ICompletionPaymentService
     {
-        public CompletionPaymentEvidence CreateCompletionPaymentEvidence(List<PaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings, CollectionPeriodEntity collectionPeriod)
+        public CompletionPaymentEvidence CreateCompletionPaymentEvidence(List<PaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings)
         {
             var iLrCompletionPayments = learnerRawEarnings.Where(x=>x.PriceEpisodeCumulativePmrs != 0).GroupBy(x => new CompletionPaymentGroup(x.PriceEpisodeCumulativePmrs, x.PriceEpisodeCompExemCode)).ToList();
             if (iLrCompletionPayments.Count > 1)

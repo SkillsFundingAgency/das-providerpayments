@@ -9,7 +9,10 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 {
@@ -100,30 +103,55 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         }
 
         [Test, PaymentsDueAutoData]
-        public void ThenItCreatesASingleNewLearnerForAllHistoricalPaymentsWithLearnerRefNumberButNoUln(
+        public void ThenItCreatesASingleNewLearnerForAllHistoricalRequiredPaymentsWithLearnerRefNumberButNoUln(
             long ukprn,
             string learnRefNumber,
             long uln,
-            List<RequiredPayment> historicalPayments,
-            [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalPaymentsRepository,
+            List<RequiredPayment> historicalRequiredPayments,
+            [Frozen] Mock<IRequiredPaymentsHistoryRepository> mockHistoricalRequiredPaymentsRepository,
             SortProviderDataIntoLearnerDataService sut)
         {
-            historicalPayments.ForEach(entity =>
+            historicalRequiredPayments.ForEach(entity =>
             {
                 entity.LearnRefNumber = learnRefNumber;
                 entity.Uln = uln;
             });
 
-            mockHistoricalPaymentsRepository
+            mockHistoricalRequiredPaymentsRepository
                 .Setup(repository => repository.GetAllForProvider(ukprn))
-                .Returns(historicalPayments);
+                .Returns(historicalRequiredPayments);
 
             var learners = sut.Sort(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().Be(uln);
-            learners[0].HistoricalRequiredPayments.ShouldAllBeEquivalentTo(historicalPayments);
+            learners[0].HistoricalRequiredPayments.ShouldAllBeEquivalentTo(historicalRequiredPayments);
+        }
+
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesASingleNewLearnerForAllHistoricalPaymentsWithLearnerRefNumber(
+            long ukprn,
+            string learnRefNumber,
+            long uln,
+            List<PaymentEntity> historicalPayments,
+            [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
+            SortProviderDataIntoLearnerDataService sut)
+        {
+            historicalPayments.ForEach(entity =>
+            {
+                entity.LearnRefNumber = learnRefNumber;
+            });
+
+            mockHistoricalPaymentsRepository
+                .Setup(repository => repository.GetAllHistoricPaymentsForProvider(ukprn))
+                .Returns(historicalPayments);
+
+            var learners = sut.Sort(ukprn);
+
+            learners.Count.Should().Be(1);
+            learners[0].LearnRefNumber.Should().Be(learnRefNumber);
+            learners[0].HistoricalPayments.ShouldAllBeEquivalentTo(historicalPayments);
         }
 
         [Test, PaymentsDueAutoData]
@@ -147,6 +175,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners[0].Uln.Should().BeNull();
             learners[0].DataLocks.ShouldAllBeEquivalentTo(dataLocks);
         }
+
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesASingleNewLearnerForAllDataLockValidationErrorsWithLearnerRefNumberButNoUln(
+            long ukprn,
+            string learnRefNumber,
+            List<DatalockValidationError> dataLockErrors,
+            [Frozen] Mock<IDatalockRepository> mockDataLockRepository,
+            SortProviderDataIntoLearnerDataService sut)
+        {
+            dataLockErrors.ForEach(entity => entity.LearnRefNumber = learnRefNumber);
+
+            mockDataLockRepository
+                .Setup(repository => repository.GetValidationErrorsForProvider(ukprn))
+                .Returns(dataLockErrors);
+
+            var learners = sut.Sort(ukprn);
+
+            learners.Count.Should().Be(1);
+            learners[0].LearnRefNumber.Should().Be(learnRefNumber);
+            learners[0].Uln.Should().BeNull();
+            learners[0].DatalockValidationErrors.ShouldAllBeEquivalentTo(dataLockErrors);
+        }
+
 
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesThreeNewLearnerProcessParametersInstancesWithAllDataMappingButOnlyTwoCommitmentRecords(
@@ -304,5 +355,48 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryMonth.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Month));
             learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryYear.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Year));
         }
+
+
+        [Test, PaymentsDueAutoData]
+        public void ThenItCreatesThreeNewLearnerProcessParametersInstancesWithEarningsAndHistoricPayments(
+                long ukprn,
+                string[] learnRefNumbers,
+                long[] ulns,
+                List<RawEarning> rawEarnings,
+                [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
+                List<PaymentEntity> historicalPayments,
+                [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
+                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+                CompletionPaymentEvidence completionPaymentEvidence,
+                [Frozen] Mock<ICompletionPaymentService> mockCompletionPaymentService,
+                SortProviderDataIntoLearnerDataService sut)
+        {
+
+            // Arrange data so each maps to the Uln or LearnerRefNumber
+            for (var i = 0; i <= 2; i++)
+            {
+                rawEarnings[i].LearnRefNumber = learnRefNumbers[i];
+                rawEarnings[i].Uln = ulns[i];
+                historicalPayments[i].LearnRefNumber = learnRefNumbers[i];
+            }
+
+            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
+            mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllHistoricPaymentsForProvider(ukprn))
+                .Returns(historicalPayments);
+            mockCompletionPaymentService
+                .Setup(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<PaymentEntity>>(),
+                    It.IsAny<List<RawEarning>>())).Returns(completionPaymentEvidence);
+            collectionPeriodRepository
+                .Setup(x => x.GetAllCollectionPeriods())
+                .Returns(CollectionPeriods);
+
+            var learners = sut.CreateLearnerDataForProvider(ukprn);
+
+            learners.Count.Should().Be(3);
+            mockCompletionPaymentService.Verify(x=>x.CreateCompletionPaymentEvidence(It.IsAny<List<PaymentEntity>>(), It.IsAny<List<RawEarning>>()), Times.Exactly(3));
+
+
+        }
+
     }
 }

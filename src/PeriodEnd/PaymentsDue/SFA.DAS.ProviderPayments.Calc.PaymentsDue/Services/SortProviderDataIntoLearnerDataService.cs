@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
  
             foreach (var learner in learners)
             {
-                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalPayments, learner.RawEarnings, _collectionPeriodRepository.GetCurrentCollectionPeriod());
+                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalPayments, learner.RawEarnings);
             }
             return learners;
         }

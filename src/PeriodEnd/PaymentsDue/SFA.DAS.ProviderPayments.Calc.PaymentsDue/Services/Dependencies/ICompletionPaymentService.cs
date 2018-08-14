@@ -7,6 +7,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface ICompletionPaymentService
     {
-        CompletionPaymentEvidence CreateCompletionPaymentEvidence(List<PaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings, CollectionPeriodEntity collectionPeriod);
+        CompletionPaymentEvidence CreateCompletionPaymentEvidence(List<PaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings);
     }
 }
