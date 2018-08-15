@@ -23,7 +23,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             _nextMatcher
                 .Setup(m => m.Match(It.IsAny<List<CommitmentEntity>>(),
                     It.IsAny<RawEarning>(),
-                     It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                     It.IsAny<MatchResult>()))
                 .Returns(new MatchResult { ErrorCodes = new List<string>() });
         }
@@ -44,7 +43,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
 
             // Assert
@@ -68,7 +67,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
 
             // Assert
@@ -91,14 +90,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
             // Assert
             _nextMatcher.Verify(
                   m =>
                       m.Match(It.IsAny<List<CommitmentEntity>>(),
                           It.IsAny<RawEarning>(),
-                           It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                           It.IsAny<MatchResult>()),
                   Times.Once());
 

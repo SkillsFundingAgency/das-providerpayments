@@ -3,7 +3,6 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -22,11 +21,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
             _nextMatcher
                 .Setup(m => m.Match(It.IsAny<List<CommitmentEntity>>(), 
                     It.IsAny<RawEarning>(),
-                     It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),
                     It.IsAny<MatchResult>()))
                 .Returns(new MatchResult { ErrorCodes = new List<string>() });
-
-
         }
 
         [Test]
@@ -45,14 +41,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             _matcher = new CollectionEarnings.DataLock.Application.DataLock.Matcher.ProgrammeMatchHandler(null);
 
-            var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
 
             // Assert
             Assert.IsEmpty(matchResult.ErrorCodes);
-       
         }
 
         [Test]
@@ -71,12 +65,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
 
             // Assert
             Assert.IsTrue(matchResult.ErrorCodes.Contains(DataLockErrorCodes.MismatchingProgramme));
-            
         }
 
         [Test]
@@ -93,15 +86,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Mat
 
             var priceEpisode = new PriceEpisodeBuilder().Build();
 
-            var accounts = new List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount> { new DasAccountBuilder().Build() };
             // Act
-            var matchResult = _matcher.Match(commitments, priceEpisode, accounts);
+            var matchResult = _matcher.Match(commitments, priceEpisode);
 
             _nextMatcher.Verify(
                          m =>
                              m.Match(It.Is<List<CommitmentEntity>>(x => x[0].Equals(commitments[0])),
                                  It.IsAny<RawEarning>(),
-                                  It.IsAny<List<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>>(),It.IsAny<MatchResult>()),
+                                 It.IsAny<MatchResult>()),
                          Times.Once());
         }
     }
