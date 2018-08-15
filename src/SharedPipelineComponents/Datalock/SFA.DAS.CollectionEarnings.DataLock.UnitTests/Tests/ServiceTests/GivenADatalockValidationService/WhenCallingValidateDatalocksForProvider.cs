@@ -324,6 +324,289 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             }
         }
 
+        [TestFixture]
+        public class WithMultipleEarnings
+        {
+            [TestFixture]
+            public class WithAValidCommitment
+            {
+                [Test, AutoMoqData]
+                public void ThenThereAreThreePayablePeriodMatches(
+                    List<RawEarning> earnings,
+                    CommitmentEntity commitment
+                    )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
 
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().OnlyContain(x => x.Payable);
+                    actual.PriceEpisodePeriodMatches.Should().HaveCount(3);
+                }
+
+                [Test, AutoMoqData]
+                public void ThenThereAreNoValidationErrors(
+                    List<RawEarning> earnings,
+                    CommitmentEntity commitment
+                )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.ValidationErrors.Should().BeEmpty();
+                }
+
+                [Test, AutoMoqData]
+                public void ThenThereAreThreeMatches(
+                    List<RawEarning> earnings,
+                    CommitmentEntity commitment
+                )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodeMatches.Should().OnlyContain(x => x.IsSuccess);
+                    actual.PriceEpisodePeriodMatches.Should().HaveCount(3);
+                }
+            }
+
+            [TestFixture]
+            public class WithNoCommitments
+            {
+                [Test, AutoMoqData]
+                public void ThenThereAreNoPeriodMatches(
+                    List<RawEarning> earnings
+                )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    var accounts = CreateNonPayableAccountsList();
+                    var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().BeEmpty();
+                }
+
+                [Test, AutoMoqData]
+                public void ThenThereAreNoValidationErrors(
+                    List<RawEarning> earnings
+                )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    var accounts = CreateNonPayableAccountsList();
+                    var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.ValidationErrors.Should().BeEmpty();
+                }
+
+                [Test, AutoMoqData]
+                public void ThenThereAreNoMatches(
+                    List<RawEarning> earnings
+                )
+                {
+                    earnings[0].Period = 1;
+                    earnings[1].Period = 2;
+                    earnings[2].Period = 3;
+                    var accounts = CreateNonPayableAccountsList();
+                    var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodeMatches.Should().BeEmpty();
+                }
+            }
+
+            [TestFixture]
+            public class WithAWithdrawnCommitment
+            {
+                [TestFixture]
+                public class ThatWasWithdrawnBeforeThirdEarning
+                {
+                    [Test, AutoMoqData]
+                    public void ThenThereAreTwoPeriodMatches(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodePeriodMatches.Should().OnlyContain(x => x.Payable);
+                        actual.PriceEpisodePeriodMatches.Should().HaveCount(2);
+                    }
+
+                    [Test, AutoMoqData]
+                    public void ThenThereAreNoValidationErrors(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.ValidationErrors.Should().BeEmpty();
+                    }
+
+                    [Test, AutoMoqData]
+                    public void ThenThereAreTwoMatches(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodeMatches.Should().HaveCount(2);
+                        actual.PriceEpisodeMatches.Should().OnlyContain(x => x.IsSuccess);
+                    }
+                }
+
+                [TestFixture]
+                public class ThatWasWithdrawnAfterTheEarnings
+                {
+                    [Test, AutoMoqData]
+                    public void ThenThereIsAPeriodMatches(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodePeriodMatches.Should().OnlyContain(x => x.Payable);
+                        actual.PriceEpisodePeriodMatches.Should().HaveCount(3);
+                    }
+
+                    [Test, AutoMoqData]
+                    public void ThenThereAreNoValidationErrors(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.ValidationErrors.Should().BeEmpty();
+                    }
+
+                    [Test, AutoMoqData]
+                    public void ThenThereIsAMatch(
+                        List<RawEarning> earnings,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        earnings[0].Period = 1;
+                        earnings[1].Period = 2;
+                        earnings[2].Period = 3;
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodeMatches.Should().OnlyContain(x => x.IsSuccess);
+                        actual.PriceEpisodeMatches.Should().HaveCount(3);
+                    }
+                }
+            }
+
+            [TestFixture]
+            public class WithAPausedCommitment
+            {
+
+            }
+        }
     }
 }
