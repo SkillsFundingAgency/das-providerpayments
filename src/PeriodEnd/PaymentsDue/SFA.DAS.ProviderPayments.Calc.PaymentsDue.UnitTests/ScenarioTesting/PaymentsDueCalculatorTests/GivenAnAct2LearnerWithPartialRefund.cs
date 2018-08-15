@@ -132,8 +132,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 DetermineWhichEarningsShouldBePaidService datalock,
                 PaymentsDueCalculationService sut,
-                DatalockValidationService datalockValidator,
-                CompletionPaymentEvidence completionPaymentEvidence)
+                DatalockValidationService datalockValidator)
             {
                 _earnings[0].TransactionType01 = 750;
                 _earnings[1].TransactionType01 = 750;
@@ -155,7 +154,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                     .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
                 var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
-                    _earnings.Take(4).ToList(), _mathsAndEnglishEarnings, completionPaymentEvidence);
+                    _earnings.Take(4).ToList(), _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
                 var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(5).ToList());
 
