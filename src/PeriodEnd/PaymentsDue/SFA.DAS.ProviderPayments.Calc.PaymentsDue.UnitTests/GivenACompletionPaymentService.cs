@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
