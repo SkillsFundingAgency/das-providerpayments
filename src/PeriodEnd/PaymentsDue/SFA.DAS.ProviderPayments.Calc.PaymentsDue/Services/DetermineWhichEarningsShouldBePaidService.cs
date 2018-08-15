@@ -105,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             if (RawEarnings.All(x => x.ApprenticeshipContractType == 2))
             {
-                MarkNonZeroTransactionTypesAsPayable(RawEarnings);
+                MarkNonZeroTransactionTypesAsPayable(RawEarnings, null, completionPaymentEvidence);
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == 2))
                 {
-                    MarkNonZeroTransactionTypesAsPayable(earningsForPeriod);
+                    MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, null, completionPaymentEvidence);
                     continue;
                 }
 
@@ -311,6 +311,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 reason = "Error on PMR records in ILR";
                 return true;
+            }
+
+            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptRedundancy ||
+                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOwnDelivery ||
+                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOtherReason)
+            {
+                reason = "";
+                return false;
             }
 
             if (Decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <

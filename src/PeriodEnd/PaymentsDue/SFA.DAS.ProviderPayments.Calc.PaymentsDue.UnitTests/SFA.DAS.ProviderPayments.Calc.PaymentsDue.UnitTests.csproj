@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
+    <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\CompletionPayments\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\Incentives\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\MathsAndEnglish\GivenADetermineWhichEarningsShouldBePaidService.cs" />
