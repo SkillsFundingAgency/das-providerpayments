@@ -17,23 +17,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
         {
             matchResult.Commitments = commitments.ToArray();
 
-            if (priceEpisode.StandardCode == 0)
+            var commitmentsToMatch = commitments.Where(c => c.ProgrammeType.HasValue &&
+                                                            priceEpisode.ProgrammeType != 0 &&
+                                                            c.ProgrammeType.Value == priceEpisode.ProgrammeType)
+                .ToList();
+
+            if (!commitmentsToMatch.Any())
             {
-                var commitmentsToMatch = commitments.Where(c => c.ProgrammeType.HasValue &&
-                                                                priceEpisode.ProgrammeType != 0 &&
-                                                                c.ProgrammeType.Value == priceEpisode.ProgrammeType)
-                    .ToList();
-
-                if (!commitmentsToMatch.Any())
-                {
-                    matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingProgramme);
-                }
-                else
-                {
-                    matchResult.Commitments = commitmentsToMatch.ToArray();
-                }
+                matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingProgramme);
             }
-
+            else
+            {
+                matchResult.Commitments = commitmentsToMatch.ToArray();
+            }
+        
             return ExecuteNextHandler(commitments, priceEpisode, matchResult);
         }
     }

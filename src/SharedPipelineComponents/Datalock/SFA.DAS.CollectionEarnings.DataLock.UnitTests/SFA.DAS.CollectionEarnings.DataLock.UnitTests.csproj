@@ -98,10 +98,8 @@
     <Compile Include="Application\DataLock\Matcher\PriceMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\ProgrammeMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\StandardMatchHandler\Match\WhenCalled.cs" />
-    <Compile Include="Application\DataLock\Matcher\StartDateMatcher\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler\Match\WhenCalled.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler\WhenHandlingSinglePriceEpisode.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />

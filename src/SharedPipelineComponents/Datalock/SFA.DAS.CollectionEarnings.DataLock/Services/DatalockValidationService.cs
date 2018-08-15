@@ -89,10 +89,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         private void CheckForEarlierStartDate(RawEarning earning, List<CommitmentEntity> commitments, TransactionTypesFlag paymentType, DatalockValidationResult result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning);
-            if (matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
+            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
             {
-                result.AddResult(earning, new List<string> {DataLockErrorCodes.EarlierStartDate}, paymentType,
-                    matchResult.Commitments.First());
+                var commitment = commitments.First();
+                if (commitment.WithdrawnOnDate.HasValue)
+                {
+                    result.AddResult(earning, new List<string> { DataLockErrorCodes.EmployerStopped }, paymentType,
+                        matchResult.Commitments.First());
+                }
+                else
+                {
+                    result.AddResult(earning, new List<string> { DataLockErrorCodes.EarlierStartDate }, paymentType,
+                        matchResult.Commitments.First());
+                }
             }
         }
 
@@ -142,6 +151,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         public bool AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
             List<CommitmentEntity> commitments)
         {
+            if (commitments.Any(x => x.PausedOnDate.HasValue))
+            {
+                errors.Add(DataLockErrorCodes.EmployerPaused);
+            }
+
             if (commitments.Any(x => _accountsWithNonPayableFlagSet.Contains(x.AccountId)))
             {
                 errors.Add(DataLockErrorCodes.NotLevyPayer);
@@ -151,6 +165,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 errors.Add(DataLockErrorCodes.MultipleMatches);
             }
+
             else if (commitments.Count == 0)
             {
                 return false;
@@ -167,14 +182,22 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 foreach (var error in errors)
                 {
-                    ValidationErrors.Add(new DatalockValidationError
+                    if (ValidationErrors.FirstOrDefault(x =>
+                            x.LearnRefNumber == earning.LearnRefNumber &&
+                            x.AimSeqNumber == earning.AimSeqNumber &&
+                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
+                            x.RuleId == error &&
+                            x.Ukprn == earning.Ukprn) == null)
                     {
-                        LearnRefNumber = earning.LearnRefNumber,
-                        AimSeqNumber = earning.AimSeqNumber,
-                        PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                        RuleId = error,
-                        Ukprn = earning.Ukprn,
-                    });
+                        ValidationErrors.Add(new DatalockValidationError
+                        {
+                            LearnRefNumber = earning.LearnRefNumber,
+                            AimSeqNumber = earning.AimSeqNumber,
+                            PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                            RuleId = error,
+                            Ukprn = earning.Ukprn,
+                        });
+                    }
                 }
             }
             else
@@ -196,7 +219,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             });
 
             if (PriceEpisodeMatches.FirstOrDefault(x =>
-                    x.AimSeqNumber == earning.AimSeqNumber &&
+                    x.IsSuccess == payable &&
                     x.CommitmentId == commitment.CommitmentId &&
                     x.LearnRefNumber == earning.LearnRefNumber &&
                     x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
@@ -204,9 +227,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
                 {
-                    AimSeqNumber = earning.AimSeqNumber,
                     CommitmentId = commitment.CommitmentId,
-                    IsSuccess = true,
+                    IsSuccess = payable,
                     LearnRefNumber = earning.LearnRefNumber,
                     PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                     Ukprn = earning.Ukprn,

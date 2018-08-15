@@ -79,7 +79,6 @@
     <Compile Include="Application\DataLock\Matcher\PriceMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\ProgrammeMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\StandardMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler.cs" />
     <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler.cs" />

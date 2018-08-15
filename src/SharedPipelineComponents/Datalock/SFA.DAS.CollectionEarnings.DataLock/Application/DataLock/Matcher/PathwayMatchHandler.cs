@@ -16,22 +16,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
         public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
-            if (priceEpisode.StandardCode == 0)
+            var commitmentsToMatch = commitments.Where(c => c.PathwayCode.HasValue &&
+                                                            priceEpisode.PathwayCode > 0 &&
+                                                            c.PathwayCode.Value == priceEpisode.PathwayCode).ToList();
+
+            if (!commitmentsToMatch.Any())
             {
-                var commitmentsToMatch = commitments.Where(c => c.PathwayCode.HasValue &&
-                                                                priceEpisode.PathwayCode > 0 &&
-                                                                c.PathwayCode.Value == priceEpisode.PathwayCode).ToList();
-
-                if (!commitmentsToMatch.Any())
-                {
-                    matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingPathway);
-                }
-                else
-                {
-                    matchResult.Commitments = commitmentsToMatch.ToArray();
-                }
+                matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingPathway);
             }
-
+            else
+            {
+                matchResult.Commitments = commitmentsToMatch.ToArray();
+            }
+        
             return ExecuteNextHandler(commitments, priceEpisode, matchResult);
         }
     }
