@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
 
         [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(2)]
-        public void IfEarningsAreAct2AndEvidenceIsCanPayPayCompletionPayment(
+        public void IfEarningsAreAct2AndEvidenceIsCanPayThenPayCompletionPayment(
             DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
@@ -57,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
 
         [Test, PaymentsDueAutoData]
         [SetupMatchingEarningsAndPastPayments(1)]
-        public void IfEarningsAreAct1AndEvidenceIsCanPayPayCompletionPayment(
+        public void IfEarningsAreAct1AndEvidenceIsCanPayThenPayCompletionPayment(
             DetermineWhichEarningsShouldBePaidService sut)
         {
             var actual = sut.DeterminePayableEarnings(
