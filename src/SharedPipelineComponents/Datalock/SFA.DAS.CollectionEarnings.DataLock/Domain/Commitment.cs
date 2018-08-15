@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 {
+    [DebuggerDisplay("Effective Start: {EffectiveStartDate} -> Effective End Date: {EffectiveEndDate}")]
     class Commitment : CommitmentEntity
     {
         public Commitment(CommitmentEntity entity)

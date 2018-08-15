@@ -8,10 +8,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
     public class LearnerCommitments
     {
         private List<Commitment> Commitments { get; }
+        public List<CommitmentEntity> AllCommitments { get; }
 
         public LearnerCommitments(long key, IEnumerable<CommitmentEntity> commitments)
         {
-            Commitments = new List<Commitment>(commitments.Select(x => new Commitment(x)));
+            AllCommitments = commitments.ToList();
+            Commitments = new List<Commitment>(AllCommitments.Select(x => new Commitment(x)));
             var commitmentsById = Commitments.ToLookup(x => x.CommitmentId);
 
             foreach (var commitmentsForId in commitmentsById)

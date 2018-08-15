@@ -74,6 +74,9 @@
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -116,6 +119,7 @@
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingAllUlns.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingEarningsForLearner.cs" />
+    <Compile Include="Tests\ServiceTests\GivenADatalockValidationService\WhenCallingValidateDatalocksForProvider.cs" />
     <Compile Include="Utilities\Application\DasAccountBuilder.cs" />
     <Compile Include="Utilities\Application\CommitmentBuilder.cs" />
     <Compile Include="Utilities\Application\IncentiveEarningsBuilder.cs" />

@@ -43,7 +43,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 processedLearners.Add(uln);
 
-                var allCommitments = providerCommitments.CommitmentsForLearner(uln);
+                var learnerCommitments = providerCommitments.CommitmentsForLearner(uln);
                 var earnings = earningsByLearner.EarningsForLearner(uln);
 
                 foreach (var earning in earnings)
@@ -51,28 +51,49 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     if (earning.HasNonIncentiveEarnings())
                     {
                         var onProgCensusDate = CalculateOnProgCensusDate(earning);
-                        var commitments = allCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
+                        var commitments = learnerCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
                         var matchResult = _datalockMatcher.Match(commitments, earning);
-                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning, commitments);
+                        if (!result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
+                            commitments))
+                        {
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.AllLearning, result);
+                        };
                     }
 
                     if (earning.HasFirstIncentive())
                     {
-                        var commitmentsForFirstIncentive = allCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
+                        var commitmentsForFirstIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
                         var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning);
-                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive);
+                        if (!result.AddResult(earning, matchResult.ErrorCodes,
+                            TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive))
+                        {
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.FirstEmployerProviderIncentives, result);
+                        }
                     }
 
                     if (earning.HasSecondIncentive())
                     {
-                        var commitmentsForSecondIncentive = allCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
+                        var commitmentsForSecondIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
                         var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning);
-                        result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive);
+                        if(!result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive))
+                        {
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.SecondEmployerProviderIncentives, result);
+                        };
                     }
                 }
             }
 
             return result;
+        }
+
+        private void CheckForEarlierStartDate(RawEarning earning, List<CommitmentEntity> commitments, TransactionTypesFlag paymentType, DatalockValidationResult result)
+        {
+            var matchResult = _datalockMatcher.Match(commitments, earning);
+            if (matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
+            {
+                result.AddResult(earning, new List<string> {DataLockErrorCodes.EarlierStartDate}, paymentType,
+                    matchResult.Commitments.First());
+            }
         }
 
         private DateTime CalculateOnProgCensusDate(RawEarning earning)
@@ -96,7 +117,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
         private int YearFromPeriod(int period, DateTime episodeStartDate)
         {
-            if (episodeStartDate.Month >= 8)
+            var month = MonthFromPeriod(period);
+            if (month >= 8)
             {
                 return episodeStartDate.Year;
             }
@@ -117,7 +139,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             _accountsWithNonPayableFlagSet = accountsWithNonPayableFlagSet;
         }
         
-        public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
+        public bool AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
             List<CommitmentEntity> commitments)
         {
             if (commitments.Any(x => _accountsWithNonPayableFlagSet.Contains(x.AccountId)))
@@ -131,24 +153,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             }
             else if (commitments.Count == 0)
             {
-                return;
+                return false;
             }
 
             AddResult(earning, errors, paymentType, commitments.First());
+            return true;
         }
 
         public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {
-            PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
-            {
-                AimSeqNumber = earning.AimSeqNumber,
-                CommitmentId = commitment.CommitmentId,
-                IsSuccess = true,
-                LearnRefNumber = earning.LearnRefNumber,
-                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                Ukprn = earning.Ukprn,
-            });
-
             var payable = false;
             if (errors.Count > 0)
             {
@@ -181,6 +194,24 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 Ukprn = earning.Ukprn,
                 VersionId = commitment.VersionId,
             });
+
+            if (PriceEpisodeMatches.FirstOrDefault(x =>
+                    x.AimSeqNumber == earning.AimSeqNumber &&
+                    x.CommitmentId == commitment.CommitmentId &&
+                    x.LearnRefNumber == earning.LearnRefNumber &&
+                    x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
+                    x.Ukprn == earning.Ukprn) == null)
+            {
+                PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
+                {
+                    AimSeqNumber = earning.AimSeqNumber,
+                    CommitmentId = commitment.CommitmentId,
+                    IsSuccess = true,
+                    LearnRefNumber = earning.LearnRefNumber,
+                    PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                    Ukprn = earning.Ukprn,
+                });
+            }
         }
     }
 }

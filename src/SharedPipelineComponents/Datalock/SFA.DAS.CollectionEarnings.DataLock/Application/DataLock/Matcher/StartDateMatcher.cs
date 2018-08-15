@@ -13,6 +13,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
        
         public override  MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {
+            return ExecuteNextHandler(commitments, priceEpisode, matchResult);
+
             var commitmentsToMatch = commitments.Where(c => priceEpisode.EpisodeStartDate >= c.StartDate
                                                             && priceEpisode.EpisodeStartDate < c.EndDate
                                                             && priceEpisode.EpisodeStartDate >= c.EffectiveFrom 
