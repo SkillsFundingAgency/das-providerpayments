@@ -103,7 +103,6 @@ Scenario:822-AC01- Levy apprentice, provider changes aim sequence numbers in ILR
 @CourseOrAimrefChanges
 # Failing because datalock is not picking up correct commitments to use in the match handlers. 
 # always has first ver of commitment even if there is a subsequent ver that it should be reading.
-@ignore
 Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after payments have already occurred
 
         Given The learner is programme only DAS
@@ -252,7 +251,6 @@ Scenario:852-AC02 Levy apprentice, changes aim reference for English/maths aims 
 @CourseOrAimrefChanges
 # Failing because datalock is not picking up correct commitments to use in the match handlers. 
 # always has first ver of commitment even if there is a subsequent ver that it should be reading.
-@ignore
 Scenario:852-AC04- Levy apprentice, provider changes course details from standard to framework and adds maths/english in ILR after payments have already occurred
 
         Given The learner is programme only DAS

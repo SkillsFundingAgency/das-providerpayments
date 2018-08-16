@@ -63,15 +63,15 @@ SELECT
 	,[APE].[PriceEpisodeSecondAdditionalPaymentThresholdDate] [SecondIncentiveCensusDate]
 	,[APE].[PriceEpisodeTotalTnpPrice] [AgreedPrice]
 FROM [Period],
-	[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] [APEP]
-INNER JOIN [Rulebase].[AEC_ApprenticeshipPriceEpisode] [APE]
+	${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] [APEP]
+INNER JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] [APE]
     ON [APEP].[UKPRN] = [APE].[UKPRN]
     AND [APEP].[LearnRefNumber] = [APE].[LearnRefNumber]
     AND [APEP].[PriceEpisodeIdentifier] = [APE].[PriceEpisodeIdentifier]
-JOIN [Valid].[Learner] L
+JOIN ${ILR_Deds.FQ}.[Valid].[Learner] L
 	ON [L].[UKPRN] = [APEP].[Ukprn]
 	AND [L].[LearnRefNumber] = [APEP].[LearnRefNumber]
-JOIN [Valid].[LearningDelivery] LD
+JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] LD
 	ON [LD].[UKPRN] = [APEP].[Ukprn]
 	AND [LD].[LearnRefNumber] = [APEP].[LearnRefNumber]
 	AND [LD].[AimSeqNumber] = [APE].[PriceEpisodeAimSeqNumber]
@@ -142,12 +142,12 @@ select
     ,COALESCE([LearnSuppFundCash], 0) [TransactionType15]
     ,CASE WHEN [LDP].[LearnDelContType] = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 FROM [Period],
-	[Rulebase].[AEC_LearningDelivery_Period] LDP
-INNER JOIN [Valid].[LearningDelivery] LD
+	${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery_Period] LDP
+INNER JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] LD
     ON [LD].[UKPRN] = [LDP].[UKPRN]
     AND [LD].[LearnRefNumber] = [LDP].[LearnRefNumber]
     AND [LD].[AimSeqNumber] = [LDP].[AimSeqNumber]
-JOIN [Valid].[Learner] L
+JOIN ${ILR_Deds.FQ}.[Valid].[Learner] L
 	ON [L].[UKPRN] = [LD].[Ukprn]
 	AND [L].[LearnRefNumber] = [LD].[LearnRefNumber]
 WHERE (
@@ -185,12 +185,12 @@ SELECT
 	,[PriceEpisodeInstalmentValue] [Instalment]
 	,[PriceEpisodeCumulativePMRs] [EmployerPayments]
 	,[EPAOrgID] [EndpointAssessorId]
-FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode] APE
-INNER JOIN [Valid].[LearningDelivery] LD
+FROM ${ILR_Deds.FQ}.[Rulebase].[AEC_ApprenticeshipPriceEpisode] APE
+INNER JOIN ${ILR_Deds.FQ}.[Valid].[LearningDelivery] LD
 	ON [APE].[UKPRN] = [LD].[UKPRN]
 	AND [APE].[LearnRefNumber] = [LD].[LearnRefNumber]
 	AND [APE].[PriceEpisodeAimSeqNumber] = [LD].[AimSeqNumber]
-INNER JOIN [Rulebase].[AEC_LearningDelivery] RLD
+INNER JOIN ${ILR_Deds.FQ}.[Rulebase].[AEC_LearningDelivery] RLD
 	ON [APE].[UKPRN] = [RLD].[UKPRN]
 	AND [APE].[LearnRefNumber] = [RLD].[LearnRefNumber]
 	AND [APE].[PriceEpisodeAimSeqNumber] = [RLD].[AimSeqNumber]
