@@ -18,6 +18,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 
         private void SetupSubmissionDatabases()
         {
+            ///////////////////////////////////////////////////////////////////////////////////
+            ////////            SUBMISSION TRANSIENT
+            ///////////////////////////////////////////////////////////////////////////////////
             using (var connection = new SqlConnection(GlobalTestContext.Instance.SubmissionConnectionString))
             {
                 connection.Open();
@@ -53,6 +56,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 }
             }
 
+            ///////////////////////////////////////////////////////////////////////////////////
+            ////////            SUBMISSION DEDS
+            ///////////////////////////////////////////////////////////////////////////////////
             using (var connection = new SqlConnection(GlobalTestContext.Instance.SubmissionDedsConnectionString))
             {
                 connection.Open();
@@ -60,6 +66,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 try
                 {
                     RunSqlScript(@"Deds/Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
+                    RunSqlScript(@"Deds/0013_Ilr.Deds.Datalock.Tables.add_validation_error_by_period.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
 
                     RunSqlScript(@"Deds/ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
                     RunSqlScript(@"Deds/001_ddl.deds.commitments.tables.change_versionId.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
@@ -85,6 +92,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
 
         private void SetupPeriodEndDatabase()
         {
+            ///////////////////////////////////////////////////////////////////////////////////
+            ////////            PERIOD END TRANSIENT
+            ///////////////////////////////////////////////////////////////////////////////////
             using (var connection = new SqlConnection(GlobalTestContext.Instance.PeriodEndConnectionString))
             {
                 connection.Open();
@@ -112,6 +122,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 }
             }
 
+            ///////////////////////////////////////////////////////////////////////////////////
+            ////////            PERIOD END DEDS
+            ///////////////////////////////////////////////////////////////////////////////////
             using (var connection = new SqlConnection(GlobalTestContext.Instance.PeriodEndDedsConnectionString))
             {
                 connection.Open();
@@ -120,6 +133,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                 {
                     RunSqlScript(@"Deds/Ilr.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
                     RunSqlScript(@"Deds/Summarisation.Deds.DDL.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
+                    RunSqlScript(@"Deds/0013_PeriodEnd.Deds.Datalock.Tables.add_validation_error_by_period.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDedsDatabaseName);
 
                     RunSqlScript(@"Deds/ddl.deds.commitments.tables.sql", connection, GlobalTestContext.Instance.BracketedPeriodEndDedsDatabaseName);
 

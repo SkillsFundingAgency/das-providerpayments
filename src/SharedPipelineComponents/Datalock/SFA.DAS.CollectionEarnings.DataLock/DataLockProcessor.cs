@@ -48,7 +48,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
             var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow().Items;
             var dasAccountIdsThatHaveNonPayableFlagSet = ImmutableHashSet
-                .Create<long>(dasAccountsQueryResponse
+                .Create(dasAccountsQueryResponse
                     .Where(x => x.IsLevyPayer == false)
                     .Select(x => x.AccountId)
                     .ToArray());
