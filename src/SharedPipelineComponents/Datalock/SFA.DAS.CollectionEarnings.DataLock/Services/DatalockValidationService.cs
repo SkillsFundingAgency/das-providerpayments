@@ -173,7 +173,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     public class DatalockValidationResult
     {
         public List<DatalockValidationError> ValidationErrors { get; } = new List<DatalockValidationError>();
-        public List<DatalockValidationErrorByPeriod> ValidationErrorsbYPeriod { get; } = new List<DatalockValidationErrorByPeriod>();
+        public List<DatalockValidationErrorByPeriod> ValidationErrorsByPeriod { get; } = new List<DatalockValidationErrorByPeriod>();
         public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; } = new List<PriceEpisodePeriodMatchEntity>();
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
@@ -208,7 +208,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         });
                     }
 
-                    if (ValidationErrorsbYPeriod.FirstOrDefault(x =>
+                    if (ValidationErrorsByPeriod.FirstOrDefault(x =>
                             x.LearnRefNumber == earning.LearnRefNumber &&
                             x.AimSeqNumber == earning.AimSeqNumber &&
                             x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
@@ -216,7 +216,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                             x.Period == earning.Period &&
                             x.Ukprn == earning.Ukprn) == null)
                     {
-                        ValidationErrorsbYPeriod.Add(new DatalockValidationErrorByPeriod()
+                        ValidationErrorsByPeriod.Add(new DatalockValidationErrorByPeriod()
                         {
                             LearnRefNumber = earning.LearnRefNumber,
                             AimSeqNumber = earning.AimSeqNumber,

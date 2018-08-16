@@ -73,6 +73,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                         _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
                         _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult.PriceEpisodePeriodMatches);
                         _datalockRepository.WriteDatalockOutput(dataLockValidationResult.DatalockOutputEntities);
+                        _datalockRepository.WriteValidationErrorsByPeriod(dataLockValidationResult.ValidationErrorsByPeriod);
                     }
                     else
                     {
