@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
@@ -995,7 +996,33 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         return commitments;
                     }
 
+                    [Test, AutoMoqData]
+                    public void TwoPricesReturnsSixPayablePeriodMatches(
+                        CommitmentEntity commitment
+                    )
+                    {
+                        var fixture = new Fixture();
+                        var earnings = fixture.CreateMany<RawEarning>(6).ToList();
 
+                        var commitments = Setup(commitment, earnings);
+
+                        commitments[1].AgreedCost = 1500;
+                        earnings[3].AgreedPrice = 1500;
+                        earnings[4].AgreedPrice = 1500;
+                        earnings[5].AgreedPrice = 1500;
+                        for (var i = 0; i < 6; i++)
+                        {
+                            earnings[i].Period = i + 1;
+                        }
+                        var providerCommitments = new ProviderCommitments(commitments);
+                        var accounts = CreateNonPayableAccountsList();
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(6);
+                    }
                 }
 
                 [TestFixture]
@@ -1014,7 +1041,37 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
                         SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate2);
 
+                        commitment.EndDate = startDate1.AddMonths(3);
+
                         return commitments;
+                    }
+
+                    [Test, AutoMoqData]
+                    public void TwoPricesReturnsSixPayablePeriodMatches(
+                        CommitmentEntity commitment
+                    )
+                    {
+                        var fixture = new Fixture();
+                        var earnings = fixture.CreateMany<RawEarning>(6).ToList();
+
+                        var commitments = Setup(commitment, earnings);
+
+                        commitments[1].AgreedCost = 1500;
+                        earnings[3].AgreedPrice = 1500;
+                        earnings[4].AgreedPrice = 1500;
+                        earnings[5].AgreedPrice = 1500;
+                        for (var i = 0; i < 6; i++)
+                        {
+                            earnings[i].Period = i + 1;
+                        }
+                        var providerCommitments = new ProviderCommitments(commitments);
+                        var accounts = CreateNonPayableAccountsList();
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(6);
                     }
                 }
 
@@ -1025,15 +1082,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     {
                         var commitment2 = commitment.Clone();
                         commitment2.CommitmentId += 1;
-                        var commitment3 = commitment.Clone();
+                        var commitment3 = commitment2.Clone();
                         var commitments = new List<CommitmentEntity> { commitment, commitment2, commitment3 };
 
                         var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
-                        var startDate2 = startDate1.AddMonths(4).AddDays(1);
+                        var startDate2 = startDate1.AddMonths(2).AddDays(1);
 
                         SetupEarningForCommitment(commitment, earnings.Take(2), startDate1);
                         SetupEarningForCommitment(commitment2, earnings.Skip(2), startDate2);
                         SetupEarningForCommitment(commitment3, earnings.Skip(4), startDate2);
+
+                        commitment.EndDate = startDate1.AddMonths(2);
 
                         commitment2.EffectiveFrom = startDate2;
                         commitment2.EffectiveTo = startDate2.AddMonths(2);
@@ -1041,6 +1100,36 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         commitment3.EffectiveTo = null;
 
                         return commitments;
+                    }
+
+                    [Test, AutoMoqData]
+                    public void ThreePricesReturnsSixPayablePeriodMatches(
+                        CommitmentEntity commitment
+                    )
+                    {
+                        var fixture = new Fixture();
+                        var earnings = fixture.CreateMany<RawEarning>(6).ToList();
+
+                        var commitments = Setup(commitment, earnings);
+
+                        commitments[1].AgreedCost = 1500;
+                        commitments[2].AgreedCost = 2000;
+                        earnings[2].AgreedPrice = 1500;
+                        earnings[3].AgreedPrice = 1500;
+                        earnings[4].AgreedPrice = 2000;
+                        earnings[5].AgreedPrice = 2000;
+                        for (var i = 0; i < 6; i++)
+                        {
+                            earnings[i].Period = i + 1;
+                        }
+                        var providerCommitments = new ProviderCommitments(commitments);
+                        var accounts = CreateNonPayableAccountsList();
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(6);
                     }
                 }
             }
