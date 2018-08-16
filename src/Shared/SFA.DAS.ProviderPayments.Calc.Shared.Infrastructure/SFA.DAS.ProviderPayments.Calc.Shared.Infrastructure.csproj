@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Entities\DatalockOutputEntity.cs" />
+    <Compile Include="Data\Entities\DatalockValidationErrorByPeriod.cs" />
     <Compile Include="Data\Entities\DatalockValidationError.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\PriceEpisodeMatchEntity.cs" />

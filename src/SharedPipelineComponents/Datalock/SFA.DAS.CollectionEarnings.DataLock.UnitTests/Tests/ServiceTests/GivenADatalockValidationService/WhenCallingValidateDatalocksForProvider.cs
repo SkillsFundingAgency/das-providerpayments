@@ -10,6 +10,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService
@@ -98,6 +99,84 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 }
 
                 [Test, AutoMoqData]
+                public void ShouldNotContainAFirst16To18Incentive(
+                    RawEarning earning,
+                    CommitmentEntity commitment
+                )
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives);
+                }
+
+                [Test, AutoMoqData]
+                public void ShouldNotContainASecond16To18Incentive(
+                    RawEarning earning,
+                    CommitmentEntity commitment
+                )
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
+                }
+
+                [Test, AutoMoqData]
+                public void WithAFirst16To18IncentiveThenThereIsAPayablePeriodMatch(
+                    RawEarning earning,
+                    CommitmentEntity commitment
+                )
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    earning.FirstIncentiveCensusDate = commitment.StartDate.AddDays(15);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives);
+                }
+
+                [Test, AutoMoqData]
+                public void WithASecond16To18IncentiveThenThereIsAPayablePeriodMatch(
+                    RawEarning earning,
+                    CommitmentEntity commitment
+                )
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    earning.SecondIncentiveCensusDate = commitment.StartDate.AddDays(15);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
+                }
+
+                [Test, AutoMoqData]
                 public void ThenThereAreNoValidationErrors(
                     RawEarning earning,
                     CommitmentEntity commitment
@@ -133,6 +212,29 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodeMatches.Should().Contain(x => x.IsSuccess);
+                }
+
+                [TestFixture]
+                public class AndANonLevyAccount
+                {
+                    [Test, AutoMoqData]
+                    public void ThenThereIsADLOCK_11(
+                        RawEarning earning,
+                        CommitmentEntity commitment
+                    )
+                    {
+                        var earnings = new List<RawEarning> { earning };
+                        AssociateEarningsWithCommitment(earnings, commitment);
+                        var accounts = CreateNonPayableAccountsList(commitment.AccountId);
+                        var commitments = new List<CommitmentEntity> { commitment };
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.NotLevyPayer);
+                    }
                 }
             }
 
@@ -346,6 +448,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -366,6 +469,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -387,6 +491,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -411,6 +516,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
+                        commitment.PaymentStatus = 3;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -433,6 +539,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
+                        commitment.PaymentStatus = 3;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -455,6 +562,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
+                        commitment.PaymentStatus = 3;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -618,6 +726,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -640,6 +749,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -663,6 +773,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -679,7 +790,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 public class ThatWasWithdrawnAfterTheEarnings
                 {
                     [Test, AutoMoqData]
-                    public void ThenThereIsAPeriodMatches(
+                    public void ThenThereIsAPeriodMatch(
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -689,6 +800,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -712,6 +824,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -734,6 +847,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
+                        commitment.PaymentStatus = 3;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -762,6 +876,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
+                    commitment.PaymentStatus = 2;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -784,6 +899,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
+                    commitment.PaymentStatus = 2;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -807,6 +923,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
+                    commitment.PaymentStatus = 2;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -823,10 +940,109 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
         [TestFixture]
         public class WithMultipleCommitments
         {
+            /// <summary>
+            /// 6 earnings for these tests, split evenly between the commitments
+            /// </summary>
             [TestFixture]
             public class AndMultipleEarnings
             {
+                protected void SetupEarningForCommitment(CommitmentEntity commitment, IEnumerable<RawEarning> earnings, DateTime commitmentStartDate)
+                {
+                    commitment.StartDate = commitmentStartDate;
+                    var learnRefNumber = earnings.First().LearnRefNumber;
+                    var aimSequenceNumber = earnings.First().AimSeqNumber;
+                    foreach (var earning in earnings)
+                    {
+                        earning.ProgrammeType = commitment.ProgrammeType ?? 0;
+                        earning.StandardCode = (int)commitment.StandardCode;
+                        earning.PathwayCode = commitment.PathwayCode ?? 0;
+                        earning.FrameworkCode = commitment.FrameworkCode ?? 0;
+                        earning.AgreedPrice = commitment.AgreedCost;
+                        earning.Uln = commitment.Uln;
+                        earning.Ukprn = commitment.Ukprn;
+                        earning.FirstIncentiveCensusDate = null;
+                        earning.SecondIncentiveCensusDate = null;
+                        earning.LearnRefNumber = learnRefNumber;
+                        earning.AimSeqNumber = aimSequenceNumber;
 
+                        earning.EpisodeStartDate = commitment.StartDate.AddDays(5);
+                        earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
+                        commitment.EndDate = commitment.StartDate.AddYears(2);
+                        commitment.WithdrawnOnDate = null;
+                        commitment.PausedOnDate = null;
+                        commitment.PaymentStatus = 1;
+                    }
+                }
+
+                [TestFixture]
+                public class WithTwoCommitmentVersions : AndMultipleEarnings
+                {
+                    List<CommitmentEntity> Setup(CommitmentEntity commitment, List<RawEarning> earnings)
+                    {
+                        var commitment2 = commitment.Clone();
+                        var commitments = new List<CommitmentEntity> {commitment, commitment2};
+
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
+
+                        SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
+                        SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate1);
+
+                        commitment.EffectiveFrom = startDate1;
+                        commitment.EffectiveTo = startDate1.AddMonths(3);
+                        commitment2.EffectiveFrom = startDate1.AddMonths(3).AddDays(1);
+                        commitment2.EffectiveTo = null;
+
+                        return commitments;
+                    }
+
+
+                }
+
+                [TestFixture]
+                public class WithTwoCommitmentIds : AndMultipleEarnings
+                {
+                    List<CommitmentEntity> Setup(CommitmentEntity commitment, List<RawEarning> earnings)
+                    {
+                        var commitment2 = commitment.Clone();
+                        commitment2.CommitmentId += 1;
+
+                        var commitments = new List<CommitmentEntity> { commitment, commitment2 };
+
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
+                        var startDate2 = startDate1.AddMonths(3).AddDays(1);
+
+                        SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
+                        SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate2);
+
+                        return commitments;
+                    }
+                }
+
+                [TestFixture]
+                public class WithOneCommitmentFollowedByTwoVersions : AndMultipleEarnings
+                {
+                    List<CommitmentEntity> Setup(CommitmentEntity commitment, List<RawEarning> earnings)
+                    {
+                        var commitment2 = commitment.Clone();
+                        commitment2.CommitmentId += 1;
+                        var commitment3 = commitment.Clone();
+                        var commitments = new List<CommitmentEntity> { commitment, commitment2, commitment3 };
+
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
+                        var startDate2 = startDate1.AddMonths(4).AddDays(1);
+
+                        SetupEarningForCommitment(commitment, earnings.Take(2), startDate1);
+                        SetupEarningForCommitment(commitment2, earnings.Skip(2), startDate2);
+                        SetupEarningForCommitment(commitment3, earnings.Skip(4), startDate2);
+
+                        commitment2.EffectiveFrom = startDate2;
+                        commitment2.EffectiveTo = startDate2.AddMonths(2);
+                        commitment3.EffectiveFrom = startDate2.AddMonths(2).AddDays(1);
+                        commitment3.EffectiveTo = null;
+
+                        return commitments;
+                    }
+                }
             }
         }
     }

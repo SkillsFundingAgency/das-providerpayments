@@ -70,9 +70,6 @@
     <Compile Include="Application\DataLock\Matcher\IMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\MatcherFactory.cs" />
     <Compile Include="Application\DataLock\MatchResult.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryRequest.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryResponse.cs" />
     <Compile Include="Application\DataLock\Matcher\FrameworkMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\MatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\PathwayMatchHandler.cs" />

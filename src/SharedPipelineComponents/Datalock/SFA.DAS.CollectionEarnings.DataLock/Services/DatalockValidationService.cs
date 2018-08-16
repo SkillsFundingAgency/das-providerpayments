@@ -53,32 +53,42 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         var onProgCensusDate = CalculateOnProgCensusDate(earning);
                         var commitments = learnerCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
                         var matchResult = _datalockMatcher.Match(commitments, earning);
-                        if (!result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
-                            commitments))
+                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
+                            commitments, result, accountsWithNonPayableFlagSet))
                         {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.AllLearning, result);
-                        };
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
+                                TransactionTypesFlag.AllLearning, result);
+                        }
                     }
 
                     if (earning.HasFirstIncentive())
                     {
+                        // Checked for null above
+                        // ReSharper disable once PossibleInvalidOperationException
                         var commitmentsForFirstIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
                         var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning);
-                        if (!result.AddResult(earning, matchResult.ErrorCodes,
-                            TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive))
+                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes,
+                            TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive, result,
+                            accountsWithNonPayableFlagSet))
                         {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.FirstEmployerProviderIncentives, result);
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
+                                TransactionTypesFlag.FirstEmployerProviderIncentives, result);
                         }
                     }
 
                     if (earning.HasSecondIncentive())
                     {
+                        // Checked for null above
+                        // ReSharper disable once PossibleInvalidOperationException
                         var commitmentsForSecondIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
                         var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning);
-                        if(!result.AddResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive))
+                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes,
+                            TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive,
+                            result, accountsWithNonPayableFlagSet))
                         {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments, TransactionTypesFlag.SecondEmployerProviderIncentives, result);
-                        };
+                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
+                                TransactionTypesFlag.SecondEmployerProviderIncentives, result);
+                        }
                     }
                 }
             }
@@ -86,20 +96,45 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             return result;
         }
 
+        public bool ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
+            List<CommitmentEntity> commitments, DatalockValidationResult result, ImmutableHashSet<long> accountsWithNonPayableFlagSet)
+        {
+            if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
+            {
+                errors.Add(DataLockErrorCodes.EmployerPaused);
+            }
+
+            if (commitments.Any(x => accountsWithNonPayableFlagSet.Contains(x.AccountId)))
+            {
+                errors.Add(DataLockErrorCodes.NotLevyPayer);
+            }
+
+            if (commitments.Count > 1 && paymentType == TransactionTypesFlag.AllLearning)
+            {
+                errors.Add(DataLockErrorCodes.MultipleMatches);
+            }
+            else if (commitments.Count == 0)
+            {
+                return false;
+            }
+
+            result.AddDistinctRecords(earning, errors, paymentType, commitments.First());
+            return true;
+        }
+
         private void CheckForEarlierStartDate(RawEarning earning, List<CommitmentEntity> commitments, TransactionTypesFlag paymentType, DatalockValidationResult result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning);
             if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
             {
-                var commitment = commitments.First();
-                if (commitment.WithdrawnOnDate.HasValue)
+                if (commitments.Any(x => x.WithdrawnOnDate.HasValue || x.PaymentStatus == 2))
                 {
-                    result.AddResult(earning, new List<string> { DataLockErrorCodes.EmployerStopped }, paymentType,
+                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerStopped }, paymentType,
                         matchResult.Commitments.First());
                 }
                 else
                 {
-                    result.AddResult(earning, new List<string> { DataLockErrorCodes.EarlierStartDate }, paymentType,
+                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EarlierStartDate }, paymentType,
                         matchResult.Commitments.First());
                 }
             }
@@ -138,6 +173,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     public class DatalockValidationResult
     {
         public List<DatalockValidationError> ValidationErrors { get; } = new List<DatalockValidationError>();
+        public List<DatalockValidationErrorByPeriod> ValidationErrorsbYPeriod { get; } = new List<DatalockValidationErrorByPeriod>();
         public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; } = new List<PriceEpisodePeriodMatchEntity>();
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
@@ -148,34 +184,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             _accountsWithNonPayableFlagSet = accountsWithNonPayableFlagSet;
         }
         
-        public bool AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
-            List<CommitmentEntity> commitments)
-        {
-            if (commitments.Any(x => x.PausedOnDate.HasValue))
-            {
-                errors.Add(DataLockErrorCodes.EmployerPaused);
-            }
-
-            if (commitments.Any(x => _accountsWithNonPayableFlagSet.Contains(x.AccountId)))
-            {
-                errors.Add(DataLockErrorCodes.NotLevyPayer);
-            }
-
-            if (commitments.Count > 1 && paymentType == TransactionTypesFlag.AllLearning)
-            {
-                errors.Add(DataLockErrorCodes.MultipleMatches);
-            }
-
-            else if (commitments.Count == 0)
-            {
-                return false;
-            }
-
-            AddResult(earning, errors, paymentType, commitments.First());
-            return true;
-        }
-
-        public void AddResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
+        public void AddDistinctRecords(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {
             var payable = false;
             if (errors.Count > 0)
@@ -196,6 +205,25 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                             PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                             RuleId = error,
                             Ukprn = earning.Ukprn,
+                        });
+                    }
+
+                    if (ValidationErrorsbYPeriod.FirstOrDefault(x =>
+                            x.LearnRefNumber == earning.LearnRefNumber &&
+                            x.AimSeqNumber == earning.AimSeqNumber &&
+                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
+                            x.RuleId == error &&
+                            x.Period == earning.Period &&
+                            x.Ukprn == earning.Ukprn) == null)
+                    {
+                        ValidationErrorsbYPeriod.Add(new DatalockValidationErrorByPeriod()
+                        {
+                            LearnRefNumber = earning.LearnRefNumber,
+                            AimSeqNumber = earning.AimSeqNumber,
+                            PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
+                            RuleId = error,
+                            Ukprn = earning.Ukprn,
+                            Period = earning.Period,
                         });
                     }
                 }

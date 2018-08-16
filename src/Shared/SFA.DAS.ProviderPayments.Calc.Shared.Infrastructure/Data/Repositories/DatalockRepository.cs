@@ -11,6 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         List<DatalockValidationError> GetValidationErrorsForProvider(long ukprn);
 
         void WriteValidationErrors(IEnumerable<DatalockValidationError> entities);
+        void WriteValidationErrorsByPeriod(IEnumerable<DatalockValidationErrorByPeriod> entities);
         void WritePriceEpisodeMatches(IEnumerable<PriceEpisodeMatchEntity> entities);
         void WritePriceEpisodePeriodMatches(IEnumerable<PriceEpisodePeriodMatchEntity> entities);
         void WriteDatalockOutput(IEnumerable<DatalockOutputEntity> entities);
@@ -25,6 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         private const string PriceEpisodeMatchDestination = "DataLock.PriceEpisodeMatch";
         private const string PriceEpisodePeriodMatchDestination = "DataLock.PriceEpisodePeriodMatch";
         private const string ValidationErrorDestination = "DataLock.ValidationError";
+        private const string ValidationErrorByPeriodDestination = "DataLock.ValidationErrorByPeriod";
         private const string DatalockOutputDestination = "DataLock.Output";
 
         public List<DatalockOutputEntity> GetDatalockOutputForProvider(long ukprn)
@@ -78,6 +80,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         public void WriteValidationErrors(IEnumerable<DatalockValidationError> entities)
         {
             ExecuteBatch(entities, ValidationErrorDestination);
+        }
+
+        public void WriteValidationErrorsByPeriod(IEnumerable<DatalockValidationErrorByPeriod> entities)
+        {
+            ExecuteBatch(entities, ValidationErrorByPeriodDestination);
         }
 
         public void WritePriceEpisodeMatches(IEnumerable<PriceEpisodeMatchEntity> entities)

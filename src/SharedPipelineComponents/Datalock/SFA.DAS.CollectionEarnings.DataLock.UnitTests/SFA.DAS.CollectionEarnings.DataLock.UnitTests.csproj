@@ -92,7 +92,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\DataLock\Matcher\FrameworkMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\PathwayMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\PriceMatchHandler\Match\WhenCalled.cs" />
