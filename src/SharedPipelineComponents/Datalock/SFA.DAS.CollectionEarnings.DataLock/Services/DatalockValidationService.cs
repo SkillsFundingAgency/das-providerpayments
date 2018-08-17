@@ -99,11 +99,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         public bool ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
             List<CommitmentEntity> commitments, DatalockValidationResult result, ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
-            if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
-            {
-                errors.Add(DataLockErrorCodes.EmployerPaused);
-            }
-
             if (commitments.Any(x => accountsWithNonPayableFlagSet.Contains(x.AccountId)))
             {
                 errors.Add(DataLockErrorCodes.NotLevyPayer);
@@ -127,9 +122,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             var matchResult = _datalockMatcher.Match(commitments, earning);
             if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
             {
-                if (commitments.Any(x => x.WithdrawnOnDate.HasValue || x.PaymentStatus == 2))
+                if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
+                {
+                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
+                        matchResult.Commitments.First());
+                }
+                else if (commitments.Any(x => x.WithdrawnOnDate.HasValue || x.PaymentStatus == 3))
                 {
                     result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerStopped }, paymentType,
+                        matchResult.Commitments.First());
+                }
+                else if (commitments.All(x => x.StartDate < earning.EpisodeStartDate))
+                {
+                    result.AddDistinctRecords(earning, new List<string>(), paymentType,
                         matchResult.Commitments.First());
                 }
                 else
@@ -196,7 +201,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                             x.AimSeqNumber == earning.AimSeqNumber &&
                             x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
                             x.RuleId == error &&
-                            x.Ukprn == earning.Ukprn) == null)
+                            x.Ukprn == earning.Ukprn) == null &&
+                        PriceEpisodePeriodMatches.FirstOrDefault(x => 
+                            x.AimSeqNumber == earning.AimSeqNumber &&
+                            x.LearnRefNumber == earning.LearnRefNumber &&
+                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
+                            x.Ukprn == earning.Ukprn && 
+                            x.CommitmentId == commitment.CommitmentId &&
+                            x.Period == earning.Period &&
+                            x.TransactionTypesFlag == paymentType &&
+                            x.Payable &&
+                            x.VersionId == commitment.VersionId) == null)
                     {
                         ValidationErrors.Add(new DatalockValidationError
                         {
@@ -245,6 +260,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 Ukprn = earning.Ukprn,
                 VersionId = commitment.VersionId,
             });
+
+            if (payable)
+            {
+                var validationErrorsToRemove = ValidationErrors.Where(x =>
+                        x.Ukprn == earning.Ukprn &&
+                        x.LearnRefNumber == earning.LearnRefNumber &&
+                        x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier)
+                    .ToList();
+
+                foreach (var validationError in validationErrorsToRemove)
+                {
+                    ValidationErrors.Remove(validationError);
+                }
+            }
 
             if (PriceEpisodeMatches.FirstOrDefault(x =>
                     x.IsSuccess == payable &&

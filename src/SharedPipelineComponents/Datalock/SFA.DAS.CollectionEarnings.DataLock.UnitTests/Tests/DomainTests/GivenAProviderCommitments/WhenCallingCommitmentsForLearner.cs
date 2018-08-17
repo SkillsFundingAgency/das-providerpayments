@@ -34,6 +34,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment.StartDate = new DateTime(2017, 08, 01);
                 commitment.EndDate = new DateTime(2020, 01, 01);
                 commitment.WithdrawnOnDate = null;
+                commitment.PaymentStatus = 1;
             }
         }
 

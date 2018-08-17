@@ -172,6 +172,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{A239066C-AB6
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Accounts.ddl.tables.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql
 		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Reference.Commitments.ddl.tables.sql
+		SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Staging.DDL.Views.sql = SharedPipelineComponents\Datalock\Deploy\sql\ddl\Ilr.Transient.Staging.DDL.Views.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{F3FEA2F4-2BD8-444F-8FA8-3B361982D18B}"

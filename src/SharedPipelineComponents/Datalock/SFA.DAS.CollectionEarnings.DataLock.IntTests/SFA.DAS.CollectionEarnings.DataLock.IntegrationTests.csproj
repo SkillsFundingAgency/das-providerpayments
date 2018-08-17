@@ -258,6 +258,9 @@
       <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Reference.Commitments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Deploy\sql\ddl\Ilr.Transient.Staging.DDL.Views.sql">
+      <Link>DbSetupScripts\Transient\IlrSubmission\Ilr.Transient.Staging.DDL.Views.sql</Link>
+    </Content>
     <Content Include="..\Deploy\sql\dml\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\01 Ilr.Populate.Reference.CollectionPeriods.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

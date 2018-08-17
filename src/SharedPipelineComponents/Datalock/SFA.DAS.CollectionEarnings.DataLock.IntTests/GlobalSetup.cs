@@ -34,7 +34,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.IntegrationTests
                     // Pre-req scripts
                     RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.DDL.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
                     RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Earnings.DDL.Tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
-                    RunSqlScript(@"Transient/Common/PeriodEnd.Transient.Staging.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
+                    RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Staging.ddl.views.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);
 
                     // Component scripts
                     RunSqlScript(@"Transient/IlrSubmission/Ilr.Transient.Reference.Commitments.ddl.tables.sql", connection, GlobalTestContext.Instance.BracketedSubmissionDatabaseName);

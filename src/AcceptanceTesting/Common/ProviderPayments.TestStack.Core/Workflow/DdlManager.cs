@@ -30,6 +30,8 @@ namespace ProviderPayments.TestStack.Core.Workflow
             "PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql",
             "ddl.transient.commitments.tables.sql",
             "ddl.transient.accounts.tables.sql",
+            "Ilr.Transient.Staging.DDL.Views.sql",
+            "PeriodEnd.Transient.Staging.ddl.tables.sql",
 
             "OPA.Transient.Earnings.ddl.tables.sql",
             "OPA.Transient.Input.ddl.tables.sql",

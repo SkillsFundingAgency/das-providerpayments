@@ -213,9 +213,26 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 effectiveFrom = startDate;
             }
 
+            if (frameworkCode > 0)
+            {
+                standardCode = 0;
+            }
+
             if (standardCode > 0)
             {
                 programmeType = 25;
+            }
+
+            DateTime? withdrawnOnDate = null;
+            if (status == CommitmentPaymentStatus.Cancelled)
+            {
+                withdrawnOnDate = effectiveTo;
+            }
+
+            DateTime? pausedOnDate = null;
+            if (status == CommitmentPaymentStatus.Paused)
+            {
+                pausedOnDate = effectiveTo;
             }
 
             return new CommitmentReferenceData
@@ -239,7 +256,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 ProgrammeType = programmeType,
                 PathwayCode = pathwayCode,
                 TransferSendingEmployerAccountId = sendingEmployerAccountId,
-                TransferApprovalDate = transferApprovalDate
+                TransferApprovalDate = transferApprovalDate,
+                WithdrawnOnDate = withdrawnOnDate,
+                PausedOnDate = pausedOnDate,
             };
         }
 
@@ -276,8 +295,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int ProgrammeTypeIndex { get; set; } = -1;
             public int PathwayCodeIndex { get; set; } = -1;
             public int TransferApprovalDateIndex { get; set; } = -1;
-
-
         }
     }
 }

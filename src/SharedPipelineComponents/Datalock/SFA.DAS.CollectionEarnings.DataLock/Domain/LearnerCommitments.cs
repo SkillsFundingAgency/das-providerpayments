@@ -48,8 +48,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         public IReadOnlyList<CommitmentEntity> ActiveCommitmentsForDate(DateTime date)
         {
             return Commitments.Where(x => x.EffectiveStartDate < date &&
+
                                           (x.EffectiveEndDate == null ||
-                                          x.EffectiveEndDate > date))
+                                          x.EffectiveEndDate > date) &&
+
+                                          (x.PaymentStatus == 1 || 
+                                              (x.PaymentStatus == 3 &&
+                                               x.WithdrawnOnDate > date)))
                 .ToList();
         }
 

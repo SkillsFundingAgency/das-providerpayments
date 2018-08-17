@@ -150,7 +150,7 @@
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
-      <Source>[DataLock].[ValidationErrorByPeriod]</Source>
+      <Source>[DataLock].[vw_ValidationErrorByPeriod]</Source>
       <Destination>[DataLock].[ValidationErrorByPeriod]</Destination>
       <Ordinal>4</Ordinal>
       <ColumnMappings>
