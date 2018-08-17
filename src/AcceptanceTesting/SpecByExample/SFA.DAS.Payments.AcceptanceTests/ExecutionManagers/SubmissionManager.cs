@@ -135,6 +135,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var latestDate = latestActualDate.HasValue && latestActualDate > latestPlannedDate ? latestActualDate : latestPlannedDate;
             if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
                 latestDate = lastAssertionPeriodDate.Value.AddMonths(1).AddDays(-1);
+            if (firstSubmissionDate.HasValue && firstSubmissionDate > latestDate)
+                latestDate = firstSubmissionDate.Value.AddMonths(1).AddDays(-1);
+
 
             var date = earliestDate;
             while (date <= latestDate)
@@ -148,6 +151,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 periods.Add($"{date.Month:00}/{date.Year - 2000}");
                 date = date.AddMonths(1);
             }
+
+
+
 
             var minExplicitSubmissionPeriod = ilrLearnerDetails.Min(x => PeriodNameHelper.GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));
             var maxExplicitSubmissionPeriod = ilrLearnerDetails.Max(x => PeriodNameHelper.GetDateFromPeriodName(x.SubmissionPeriod, earliestDate));

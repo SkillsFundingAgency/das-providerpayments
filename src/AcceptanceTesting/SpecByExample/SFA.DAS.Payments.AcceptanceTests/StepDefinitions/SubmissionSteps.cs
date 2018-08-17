@@ -43,6 +43,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
         {
             var submission = new Submission() { SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriodAndAcademicYear(period, year) };
             IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
+            submission.FirstSubmissionDate = PeriodNameHelper.GetSubmissionDateFromPeriodAndAcademicYear(period, year);
+
             MultipleSubmissionsContext.Add(submission);
         }
 
