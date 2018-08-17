@@ -34,5 +34,18 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
 
             return Query<PaymentEntity>(sql, new {ukprn});
         }
+
+        public IEnumerable<LearnerSummaryPaymentEntity> GetHistoricEmployerOnProgrammePaymentsForProvider(long ukprn)
+        {
+            const string sql = @"
+            SELECT 
+                LearnRefNumber
+                ,SUM(Amount) As Amount
+            FROM Reference.PaymentsHistory
+            WHERE Ukprn = @ukprn AND FundingSource = 3 AND TransactionType = 1
+            GROUP BY LearnRefNumber" ;
+
+            return Query<LearnerSummaryPaymentEntity>(sql, new { ukprn });
+        }
     }
 }
