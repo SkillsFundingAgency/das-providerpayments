@@ -213,6 +213,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 effectiveFrom = startDate;
             }
 
+            if (standardCode > 0)
+            {
+                programmeType = 25;
+            }
+
             return new CommitmentReferenceData
             {
                 EmployerAccountId = employerAccountId,
@@ -230,9 +235,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 EffectiveTo = effectiveTo,
                 Status = status,
                 StandardCode = standardCode,
-                FrameworkCode = frameworkCode == 0 ? 0 : frameworkCode,
-                ProgrammeType = programmeType == 0 ? 0 : programmeType,
-                PathwayCode = pathwayCode == 0 ? 0 : pathwayCode,
+                FrameworkCode = frameworkCode,
+                ProgrammeType = programmeType,
+                PathwayCode = pathwayCode,
                 TransferSendingEmployerAccountId = sendingEmployerAccountId,
                 TransferApprovalDate = transferApprovalDate
             };

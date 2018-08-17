@@ -15,12 +15,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             NextMatchHandler = nextMatchHandler;
         }
 
-        public MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode)
+        public MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning)
         {
-            return Match(commitments, priceEpisode, new MatchResult() );
+            return Match(commitments, earning, new MatchResult() );
         }
 
-        public abstract MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult);
+        public abstract MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult);
 
         protected MatchResult ExecuteNextHandler(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
         {

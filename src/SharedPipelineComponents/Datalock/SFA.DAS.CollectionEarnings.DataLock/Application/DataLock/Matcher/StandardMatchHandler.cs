@@ -14,26 +14,29 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
         }
         public override bool StopOnError { get { return false; } }
 
-        public override  MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
+        public override  MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
-            if (priceEpisode.StandardCode > 0)
+            var hasStandardCode = earning.StandardCode > 0 ||
+                                  commitments.Any(x => x.StandardCode.HasValue && x.StandardCode > 0);
+
+            if (hasStandardCode)
             {
                 var commitmentsToMatch = commitments.Where(c => c.StandardCode.HasValue &&
-                                                                c.StandardCode.Value == priceEpisode.StandardCode).ToList();
+                                                                c.StandardCode.Value == earning.StandardCode).ToList();
 
                 if (!commitmentsToMatch.Any())
                 {
-                   matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingStandard);
+                    matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingStandard);
                 }
                 else
                 {
                     matchResult.Commitments = commitmentsToMatch.ToArray();
                 }
             }
-
-            return ExecuteNextHandler(commitments, priceEpisode,matchResult);
+            
+            return ExecuteNextHandler(commitments, earning,matchResult);
         }
     }
 }

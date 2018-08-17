@@ -13,25 +13,35 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             base(nextMatchHandler)
         {}
 
-        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
-            var commitmentsToMatch = commitments.Where(c => c.FrameworkCode.HasValue &&
-                                                            priceEpisode.FrameworkCode != 0 &&
-                                                            c.FrameworkCode.Value == priceEpisode.FrameworkCode)
-                .ToList();
+            var hasFrameworkCode = earning.FrameworkCode > 0 || 
+                                   commitments.Any(x => x.FrameworkCode.HasValue && x.FrameworkCode > 0);
 
-            if (!commitmentsToMatch.Any())
+            if (hasFrameworkCode)
             {
-                matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingFramework);
+                var commitmentsToMatch = commitments.Where(c => c.FrameworkCode.HasValue &&
+                                                                earning.FrameworkCode != 0 &&
+                                                                c.FrameworkCode.Value == earning.FrameworkCode)
+                    .ToList();
+
+                if (!commitmentsToMatch.Any())
+                {
+                    matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingFramework);
+                }
+                else
+                {
+                    matchResult.Commitments = commitmentsToMatch.ToArray();
+                }
             }
             else
             {
-                matchResult.Commitments = commitmentsToMatch.ToArray();
+                matchResult.Commitments = commitments.ToArray();
             }
             
-            return ExecuteNextHandler(commitments, priceEpisode, matchResult);
+            return ExecuteNextHandler(commitments, earning, matchResult);
         }
     }
 }

@@ -12,9 +12,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 base(nextMatchHandler)
         {}
       
-        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments.Where(c => c.Ukprn == priceEpisode.Ukprn).ToList();
+            var commitmentsToMatch = commitments.Where(c => c.Ukprn == earning.Ukprn).ToList();
 
             if (!commitmentsToMatch.Any())
             {
@@ -26,7 +26,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitmentsToMatch.ToArray();
             }
 
-            return ExecuteNextHandler(commitmentsToMatch, priceEpisode, matchResult);
+            return ExecuteNextHandler(commitmentsToMatch, earning, matchResult);
         }
     }
 }
