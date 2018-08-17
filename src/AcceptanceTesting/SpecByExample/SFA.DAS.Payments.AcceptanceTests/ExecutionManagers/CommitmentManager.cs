@@ -16,30 +16,39 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
             {
                 connection.Execute("INSERT INTO dbo.DasCommitments " +
-                                   "(CommitmentId, VersionId, Uln, Ukprn, AccountId, StartDate, EndDate, AgreedCost, StandardCode, ProgrammeType, FrameworkCode, PathwayCode, PaymentStatus, PaymentStatusDescription, Priority, EffectiveFromDate, EffectiveToDate, TransferSendingEmployerAccountId, TransferApprovalDate) " +
+                                   "(CommitmentId, VersionId, Uln, Ukprn, AccountId, StartDate, EndDate, AgreedCost, " +
+                                   "StandardCode, ProgrammeType, FrameworkCode, PathwayCode, PaymentStatus, PaymentStatusDescription, " +
+                                   "Priority, EffectiveFromDate, EffectiveToDate, TransferSendingEmployerAccountId, " +
+                                   "TransferApprovalDate, WithdrawnOnDate, PausedOnDate) " +
                                    "VALUES" +
-                                   "(@CommitmentId, @VersionId, @Uln, @Ukprn, @AccountId, @StartDate, @EndDate, @AgreedCost, @StandardCode, @ProgrammeType, @FrameworkCode, @PathwayCode, @PaymentStatus, @PaymentStatusDescription, @Priority, @EffectiveFromDate, @EffectiveToDate, @TransferSendingEmployerAccountId, @TransferApprovalDate)",
+                                   "(@CommitmentId, @VersionId, @Uln, @Ukprn, @AccountId, @StartDate, @EndDate, " +
+                                   "@AgreedCost, @StandardCode, @ProgrammeType, @FrameworkCode, @PathwayCode, " +
+                                   "@PaymentStatus, @PaymentStatusDescription, @Priority, @EffectiveFromDate, " +
+                                   "@EffectiveToDate, @TransferSendingEmployerAccountId, @TransferApprovalDate," +
+                                   "@WithdrawnOnDate, @PausedOnDate)",
                                    new
                                    {
-                                       CommitmentId = commitment.CommitmentId,
-                                       VersionId = commitment.VersionId,
-                                       Uln = commitment.Uln,
-                                       Ukprn = commitment.Ukprn,
+                                       commitment.CommitmentId,
+                                       commitment.VersionId,
+                                       commitment.Uln,
+                                       commitment.Ukprn,
                                        AccountId = commitment.EmployerAccountId,
-                                       StartDate = commitment.StartDate,
-                                       EndDate = commitment.EndDate,
+                                       commitment.StartDate,
+                                       commitment.EndDate,
                                        AgreedCost = commitment.AgreedPrice,
-                                       StandardCode = commitment.StandardCode,
-                                       ProgrammeType = commitment.ProgrammeType,
-                                       FrameworkCode = commitment.FrameworkCode,
-                                       PathwayCode = commitment.PathwayCode,
+                                       commitment.StandardCode,
+                                       commitment.ProgrammeType,
+                                       commitment.FrameworkCode,
+                                       commitment.PathwayCode,
                                        PaymentStatus = (int)commitment.Status,
                                        PaymentStatusDescription = commitment.Status.ToString(),
-                                       Priority = commitment.Priority,
+                                       commitment.Priority,
                                        EffectiveFromDate = commitment.EffectiveFrom,
                                        EffectiveToDate = commitment.EffectiveTo,
-                                       TransferSendingEmployerAccountId = commitment.TransferSendingEmployerAccountId,
-                                       TransferApprovalDate =  commitment.TransferApprovalDate
+                                       commitment.TransferSendingEmployerAccountId,
+                                       commitment.TransferApprovalDate,
+                                       commitment.WithdrawnOnDate,
+                                       commitment.PausedOnDate,
                                    });
             }
         }

@@ -120,7 +120,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         private void CheckForEarlierStartDate(RawEarning earning, List<CommitmentEntity> commitments, TransactionTypesFlag paymentType, DatalockValidationResult result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning);
-            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any())
+            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.Ukprn == earning.Ukprn))
             {
                 if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
                 {
@@ -167,11 +167,22 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         private int YearFromPeriod(int period, DateTime episodeStartDate)
         {
             var month = MonthFromPeriod(period);
-            if (month >= 8)
+            var startOfAcademicYear = StartOfAcademicYearFromEpisodeStartDate(episodeStartDate);
+            if (month < 8)
             {
-                return episodeStartDate.Year;
+                return startOfAcademicYear.Year + 1;
             }
-            return episodeStartDate.Year + 1;
+            return startOfAcademicYear.Year;
+        }
+
+        private DateTime StartOfAcademicYearFromEpisodeStartDate(DateTime episodeStartDate)
+        {
+            var month = episodeStartDate.Month;
+            if (month < 8)
+            {
+                return new DateTime(episodeStartDate.Year - 1, 8, 1);
+            }
+            return new DateTime(episodeStartDate.Year, 8, 1);
         }
     }
 

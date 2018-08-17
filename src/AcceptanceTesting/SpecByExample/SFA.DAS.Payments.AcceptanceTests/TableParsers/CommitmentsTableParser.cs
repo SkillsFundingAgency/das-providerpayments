@@ -89,6 +89,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "transfer approval date":
                         structure.TransferApprovalDateIndex = c;
                         break;
+                    case "withdrawn on":
+                        structure.WithdrawnOnDate = c;
+                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in commitments table: {header}");
                 }
@@ -109,13 +112,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             return structure;
         }
 
-        private static CommitmentReferenceData ParseCommitmentsTableRow(TableRow row, CommitmentsTableColumnStructure structure, int rowIndex, LookupContext lookupContext)
+        private static CommitmentReferenceData ParseCommitmentsTableRow(TableRow row,
+            CommitmentsTableColumnStructure structure, int rowIndex, LookupContext lookupContext)
         {
             var learnerId = row[structure.UlnIndex];
             var uln = lookupContext.AddOrGetUln(learnerId);
             var providerId = structure.ProviderIndex > -1 ? row[structure.ProviderIndex] : Defaults.ProviderId;
             var ukprn = lookupContext.AddOrGetUkprn(providerId);
-            var status = (CommitmentPaymentStatus) row.ReadRowColumnValue(structure.StatusIndex, "status", Defaults.CommitmentStatus).ToEnumByDescription(typeof(CommitmentPaymentStatus));
+            var status = (CommitmentPaymentStatus) row
+                .ReadRowColumnValue(structure.StatusIndex, "status", Defaults.CommitmentStatus)
+                .ToEnumByDescription(typeof(CommitmentPaymentStatus));
 
             int priority = Defaults.CommitmentPriority;
             if (structure.PriorityIndex > -1 && !int.TryParse(row[structure.PriorityIndex], out priority))
@@ -123,20 +129,25 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 throw new ArgumentException($"'{row[structure.PriorityIndex]}' is not a valid priority");
             }
 
-            var sendingEmployerAccountId = (int?)null;
+            var sendingEmployerAccountId = (int?) null;
             if (structure.EmployerPayingForTrainingIndex > -1)
             {
                 var nonNullableSendingEmployerId = 0;
-                if (row[structure.EmployerPayingForTrainingIndex].Length < 10 || !int.TryParse(row[structure.EmployerPayingForTrainingIndex].Substring(9),
+                if (row[structure.EmployerPayingForTrainingIndex].Length < 10 || !int.TryParse(
+                        row[structure.EmployerPayingForTrainingIndex].Substring(9),
                         out nonNullableSendingEmployerId))
                 {
-                    throw new ArgumentException($"'{row[structure.EmployerPayingForTrainingIndex]}' is not a valid employer reference");
+                    throw new ArgumentException(
+                        $"'{row[structure.EmployerPayingForTrainingIndex]}' is not a valid employer reference");
                 }
+
                 sendingEmployerAccountId = nonNullableSendingEmployerId;
             }
 
             var employerAccountId = Defaults.EmployerAccountId;
-            if (structure.EmployerIndex > -1 && (row[structure.EmployerIndex].Length < 10 || !int.TryParse(row[structure.EmployerIndex].Substring(9), out employerAccountId)))
+            if (structure.EmployerIndex > -1 && (row[structure.EmployerIndex].Length < 10 ||
+                                                 !int.TryParse(row[structure.EmployerIndex].Substring(9),
+                                                     out employerAccountId)))
             {
                 throw new ArgumentException($"'{row[structure.EmployerIndex]}' is not a valid employer reference");
             }
@@ -182,7 +193,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
 
             DateTime? effectiveFrom = null;
-            if (structure.EffectiveFromIndex > -1 && !TryParseNullableDateTime(row[structure.EffectiveFromIndex], out effectiveFrom))
+            if (structure.EffectiveFromIndex > -1 &&
+                !TryParseNullableDateTime(row[structure.EffectiveFromIndex], out effectiveFrom))
             {
                 throw new ArgumentException($"'{row[structure.EffectiveFromIndex]}' is not a valid effective from");
             }
@@ -192,21 +204,43 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             {
                 effectiveTo = null;
             }
-            else if (structure.EffectiveToIndex > -1 && !TryParseNullableDateTime(row[structure.EffectiveToIndex], out effectiveTo))
+            else if (structure.EffectiveToIndex > -1 &&
+                     !TryParseNullableDateTime(row[structure.EffectiveToIndex], out effectiveTo))
             {
                 throw new ArgumentException($"'{row[structure.EffectiveToIndex]}' is not a valid effective to");
             }
 
             DateTime? transferApprovalDate = null;
-            if (structure.TransferApprovalDateIndex > -1 && !TryParseNullableDateTime(row[structure.TransferApprovalDateIndex], out transferApprovalDate))
+            if (structure.TransferApprovalDateIndex > -1 &&
+                !TryParseNullableDateTime(row[structure.TransferApprovalDateIndex], out transferApprovalDate))
             {
-                throw new ArgumentException($"'{row[structure.TransferApprovalDateIndex]}' is not a valid effective from");
+                throw new ArgumentException(
+                    $"'{row[structure.TransferApprovalDateIndex]}' is not a valid effective from");
             }
 
-            var standardCode = row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
+            var standardCode =
+                row.ReadRowColumnValue<long>(structure.StandardCodeIndex, "standard code", Defaults.StandardCode);
             var frameworkCode = row.ReadRowColumnValue<int>(structure.FrameworkCodeIndex, "framework code");
             var programmeType = row.ReadRowColumnValue<int>(structure.ProgrammeTypeIndex, "programme type");
             var pathwayCode = row.ReadRowColumnValue<int>(structure.PathwayCodeIndex, "pathway code");
+
+            DateTime? withdrawnOnDate = null;
+            if (structure.WithdrawnOnDate > -1 &&
+                !string.IsNullOrEmpty(row[structure.WithdrawnOnDate]) &&
+                !TryParseNullableDateTime(row[structure.WithdrawnOnDate], out withdrawnOnDate))
+            {
+                throw new ArgumentException($"'{row[structure.WithdrawnOnDate]}' is not a valid withdrawn on date");
+            }
+
+            if (status == CommitmentPaymentStatus.Cancelled && withdrawnOnDate == null)
+            {
+                throw new ArgumentException($"Please supply a withdrawn on date for a cancelled commitment");
+            }
+
+            if (withdrawnOnDate != null && status != CommitmentPaymentStatus.Cancelled)
+            {
+                throw new ArgumentException("There is a withdrawn on date but the commitment is not cancelled");
+            }
 
             if (effectiveFrom == null)
             {
@@ -223,16 +257,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 programmeType = 25;
             }
 
-            DateTime? withdrawnOnDate = null;
-            if (status == CommitmentPaymentStatus.Cancelled)
-            {
-                withdrawnOnDate = effectiveTo;
-            }
-
             DateTime? pausedOnDate = null;
             if (status == CommitmentPaymentStatus.Paused)
             {
-                pausedOnDate = effectiveTo;
+                pausedOnDate = effectiveFrom;
             }
 
             return new CommitmentReferenceData
@@ -295,6 +323,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             public int ProgrammeTypeIndex { get; set; } = -1;
             public int PathwayCodeIndex { get; set; } = -1;
             public int TransferApprovalDateIndex { get; set; } = -1;
+            public int WithdrawnOnDate { get; set; } = -1;
         }
     }
 }
