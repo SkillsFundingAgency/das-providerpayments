@@ -35,16 +35,18 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.DataHelpers
             DateTime? effectiveToDate = null,
             long? transferSendingEmployerAccountId = null,
             DateTime? transferApprovalDate = null,
+            DateTime? pausedOnDate = null,
+            DateTime? withdrawnOnDate = null,
             string legalEntityName = "ACME Ltd.",
             string tableName = "dbo.DasCommitments")
         {
             effectiveFromDate = effectiveFromDate ?? startDate;
 
             DatabaseHelper.Execute("INSERT INTO " + tableName +
-                                   "(CommitmentId,versionId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,PaymentStatus,PaymentStatusDescription,Priority,EffectiveFromDate,EffectiveToDate,LegalEntityName, TransferSendingEmployerAccountId, TransferApprovalDate) " +
+                                   "(CommitmentId,versionId,AccountId,Uln,Ukprn,StartDate,EndDate,AgreedCost,StandardCode,ProgrammeType,FrameworkCode,PathwayCode,PaymentStatus,PaymentStatusDescription,Priority,EffectiveFromDate,EffectiveToDate,LegalEntityName, TransferSendingEmployerAccountId, TransferApprovalDate, PausedOnDate, WithdrawnOnDate) " +
                                    "VALUES " +
-                                   "(@id,@versionId, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, @paymentStatus, @paymentStatusDescription, @priority,@EffectiveFromDate,@EffectiveToDate,@LegalEntityName, @TransferSendingEmployerAccountId, @TransferApprovalDate)",
-                new { id, versionId, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority, paymentStatus, paymentStatusDescription, effectiveFromDate,effectiveToDate,legalEntityName, transferSendingEmployerAccountId, transferApprovalDate});
+                                   "(@id,@versionId, @accountId, @uln, @ukprn, @startDate, @endDate, @agreedCost, @standardCode, @programmeType, @frameworkCode, @pathwayCode, @paymentStatus, @paymentStatusDescription, @priority,@EffectiveFromDate,@EffectiveToDate,@LegalEntityName, @TransferSendingEmployerAccountId, @TransferApprovalDate, @PausedOnDate, @WithdrawnOnDate)",
+                new { id, versionId, accountId, uln, ukprn, startDate, endDate, agreedCost, standardCode, programmeType, frameworkCode, pathwayCode, priority, paymentStatus, paymentStatusDescription, effectiveFromDate,effectiveToDate,legalEntityName, transferSendingEmployerAccountId, transferApprovalDate, pausedOnDate, withdrawnOnDate });
         }
 
         internal static void Clean()

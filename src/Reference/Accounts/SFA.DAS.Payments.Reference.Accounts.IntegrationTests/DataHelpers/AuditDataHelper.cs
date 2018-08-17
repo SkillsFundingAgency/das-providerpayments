@@ -4,9 +4,24 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.DataHelpers
 {
     internal static class AuditDataHelper
     {
-        internal static AuditEntity GetLatestAuditRecord()
+        internal static AuditEntity GetLatestAccountAuditRecord()
         {
-            return DatabaseHelper.QuerySingle<AuditEntity>("SELECT TOP 1 * FROM DasAccountsAudit ORDER BY ReadDateTime DESC");
+            const string query = @"
+                SELECT TOP 1 * 
+                FROM DasAccountsAudit 
+                WHERE AuditType = 0
+                ORDER BY ReadDateTime DESC";
+            return DatabaseHelper.QuerySingle<AuditEntity>(query);
+        }
+
+        internal static AuditEntity GetLatestAccountLegalEntityAuditRecord()
+        {
+            const string query = @"
+                SELECT TOP 1 * 
+                FROM DasAccountsAudit 
+                WHERE AuditType = 1
+                ORDER BY ReadDateTime DESC";
+            return DatabaseHelper.QuerySingle<AuditEntity>(query);
         }
     }
 }
