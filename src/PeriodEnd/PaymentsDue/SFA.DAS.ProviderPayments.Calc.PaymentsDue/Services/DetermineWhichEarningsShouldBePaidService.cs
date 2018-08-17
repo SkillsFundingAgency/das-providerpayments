@@ -263,8 +263,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             CompletionPaymentEvidence completionPaymentEvidence = null,
             int datalockType = -1)
         {
-            string reasonToHoldBack = "";
-            bool holdBack = false;
+            var reasonToHoldBack = "";
+            var holdBack = false;
             if(completionPaymentEvidence != null)
             {
                 holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
@@ -322,7 +322,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
 
             if (Decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <
-                Decimal.Round(completionPaymentEvidence.TotalHistoricEmployerPayment))
+                Decimal.Floor(completionPaymentEvidence.TotalHistoricEmployerPayment))
             {
                 reason = "Historic Evidence does not show enough employer payments were made";
                 return true;
