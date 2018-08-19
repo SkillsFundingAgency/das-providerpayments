@@ -34,6 +34,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
         public DateTime EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
+        public bool IsVersioned { get; set; }
     }
 }
 

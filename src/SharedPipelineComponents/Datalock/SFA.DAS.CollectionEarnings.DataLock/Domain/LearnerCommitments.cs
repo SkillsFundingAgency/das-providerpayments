@@ -30,6 +30,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                     {
                         commitment.EffectiveStartDate = commitment.EffectiveFrom;
                         commitment.EffectiveEndDate = commitment.EffectiveTo;
+                        commitment.IsVersioned = true;
                     }
                 }
 
