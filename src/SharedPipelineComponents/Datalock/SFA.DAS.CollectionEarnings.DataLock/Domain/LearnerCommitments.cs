@@ -42,7 +42,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 }
             }
 
-            var lastCommitment = Commitments.OrderByDescending(x => x.EffectiveStartDate).FirstOrDefault();
+            var lastCommitment = Commitments
+                .OrderByDescending(x => x.EffectiveStartDate)
+                .ThenByDescending(x => x.CommitmentId)
+                .FirstOrDefault();
             if (lastCommitment != null)
             {
                 lastCommitment.EffectiveEndDate = null;
@@ -51,14 +54,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
         public IReadOnlyList<Commitment> ActiveCommitmentsForDate(DateTime date)
         {
-            return Commitments.Where(x => x.EffectiveStartDate < date &&
+            return Commitments.Where(x => x.EffectiveStartDate <= date &&
 
                                           (x.EffectiveEndDate == null ||
-                                          x.EffectiveEndDate > date) &&
+                                          x.EffectiveEndDate >= date) &&
 
                                           (x.PaymentStatus == 1 || 
                                               (x.PaymentStatus == 3 &&
-                                               x.WithdrawnOnDate > date)))
+                                               x.WithdrawnOnDate >= date)))
                 .ToList();
         }
 

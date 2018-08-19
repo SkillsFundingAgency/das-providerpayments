@@ -9,7 +9,7 @@ Feature: Commitment effective dates apply correctly in data collections processi
 		Given the following commitments exist:
 			| commitment Id | version Id | Employer   | Provider   | ULN       | start date | end date   | agreed price | effective from | effective to |
 			| 1             | 1-001      | employer 0 | provider a | learner a | 01/05/2017 | 01/05/2018 | 7500        | 01/05/2017      | 31/05/2017   |
-			| 1             | 2-001      | employer 0 | provider a | learner a | 01/01/2017 | 01/05/2018 | 15000       | 01/06/2017      |              |
+			| 1             | 2-001      | employer 0 | provider a | learner a | 01/05/2017 | 01/05/2018 | 15000       | 01/06/2017      |              |
 
 		When an ILR file is submitted with the following data:
 			| ULN       | learner type       | start date | planned end date | completion status | Total training price 1 | Total training price 1 effective date | Total training price 2 | Total training price 2 effective date |
