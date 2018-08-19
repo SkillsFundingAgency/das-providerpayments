@@ -119,7 +119,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             }
             else 
             {
-                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.First());
+                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.Last());
             }
         }
 

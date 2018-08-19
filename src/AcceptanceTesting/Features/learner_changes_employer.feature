@@ -111,8 +111,8 @@ Feature: Provider earnings and payments where a learner changes employers
             | employer 1 | DAS     | 03/08/2017                |
             | employer 2 | Non DAS | 03/11/2017                |
         And the following commitments exist on 03/12/2017:
-            | Employer   | commitment Id | version Id | ULN       | start date | end date   | agreed price | status | effective from | effective to | withdrawn on |
-            | employer 1 | 1             | 1-001      | learner a | 03/08/2017 | 04/08/2018 | 15000        | active | 03/08/2017     | 02/11/2017   | 03/11/2017   |
+            | Employer   | commitment Id | version Id | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | employer 1 | 1             | 1-001      | learner a | 03/08/2017 | 04/08/2018 | 15000        | Cancelled | 03/08/2017     | 02/11/2017   | 03/11/2017   |
         When an ILR file is submitted on 03/12/2017 with the following data:
             | ULN       | start date | planned end date | actual end date | completion status | Total training price | Total training price effective date | Total assessment price | Total assessment price effective date | Residual training price | Residual training price effective date | Residual assessment price | Residual assessment price effective date |
             | learner a | 03/08/2017 | 04/08/2018       |                 | continuing        | 12000                | 03/08/2017                          | 3000                   | 03/08/2017                            | 4500                    | 03/11/2017                             | 1125                      | 03/11/2017                               |
