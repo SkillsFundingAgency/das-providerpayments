@@ -1,10 +1,11 @@
 ﻿using System;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
 {
-    public class CommitmentBuilder : IBuilder<CommitmentEntity>
+    public class CommitmentBuilder : IBuilder<Commitment>
     {
         private long _commitmentId = 1;
         private string _versionId = "1-001";
@@ -23,9 +24,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         private DateTime _effectiveFrom = new DateTime(2016, 9, 1);
         private DateTime? _effectiveTo;
 
-        public CommitmentEntity Build()
+        public Commitment Build()
         {
-            return new CommitmentEntity
+            var entity = new CommitmentEntity
             {
                 CommitmentId = _commitmentId,
                 VersionId = _versionId,
@@ -44,6 +45,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
                 EffectiveFrom = _effectiveFrom,
                 EffectiveTo = _effectiveTo
             };
+            return new Commitment(entity);
         }
 
         public CommitmentBuilder WithCommitmentId(long commitmentId)

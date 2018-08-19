@@ -6,10 +6,9 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
-    public class PriceMatchHandler : MatchHandler
+    class StartDateMatcher : MatchHandler
     {
-        public PriceMatchHandler(MatchHandler nextMatchHandler):
-            base(nextMatchHandler)
+        public StartDateMatcher(MatchHandler nextMatchHandler) : base(nextMatchHandler)
         {}
 
         public override bool StopOnError { get { return false; } }
@@ -18,15 +17,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             DateTime censusDate,
             MatchResult matchResult)
         {
-            matchResult.Commitments = commitments.ToArray();
-            // TODO!
-            var commitmentsToMatch = commitments.Where(c => c.AgreedCost == earning.AgreedPrice).ToList();
+            var commitmentsToMatch = commitments.Where(c => c.EffectiveStartDate <= earning.EpisodeStartDate).ToList();
 
             if (!commitmentsToMatch.Any())
             {
-               matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingPrice);
+                matchResult.ErrorCodes.Add(DataLockErrorCodes.EarlierStartDate);
+                matchResult.Commitments = commitments.ToArray();
             }
-        
             else
             {
                 matchResult.Commitments = commitmentsToMatch.ToArray();

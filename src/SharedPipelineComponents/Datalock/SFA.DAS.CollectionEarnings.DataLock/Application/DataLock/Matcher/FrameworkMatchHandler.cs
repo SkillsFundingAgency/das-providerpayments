@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
@@ -13,7 +14,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             base(nextMatchHandler)
         {}
 
-        public override MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate, MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
@@ -41,7 +43,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitments.ToArray();
             }
             
-            return ExecuteNextHandler(commitments, earning, matchResult);
+            return ExecuteNextHandler(commitments, earning, censusDate, matchResult);
         }
     }
 }

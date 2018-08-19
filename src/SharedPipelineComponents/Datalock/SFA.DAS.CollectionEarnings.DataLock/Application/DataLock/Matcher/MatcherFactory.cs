@@ -10,7 +10,10 @@
                         new FrameworkMatchHandler(
                             new PathwayMatchHandler(
                                 new ProgrammeMatchHandler(
-                                    new PriceMatchHandler(null)))))));
+                                    new PriceMatchHandler(
+                                        new StartDateMatcher(
+                                            new WithdrawnCommitmentMatcher(
+                                                new PausedCommitmentMatcher(null))))))))));
         }
     }
 }

@@ -47,15 +47,15 @@ Scenario:AC2- Payment for a 16-18 DAS learner, levy available, incentives not pa
         | On-program               |       |       |       |       |       | ... |       |       |
         | Employer 16-18 incentive |       |       |       |       |       | ... |       |       |
         | Provider 16-18 incentive |       |       |       |       |       | ... |       |       |
-      
+# The price episode starting 8/18 is valid, as it has started after the commitment start date so incentives will be paid
     And the provider earnings and payments break down as follows:
         | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 08/18 | 09/18 |
         | Provider Earned Total               | 1000  | 1000  | 1000  | 2000  | 1000  | ... | 1000  | 0     |
-        | Provider Paid by SFA                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
+        | Provider Paid by SFA                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 1000  |
         | Levy account debited                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy employer budget            | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-        | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
+        | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | ... | 1000  | 0     |
      
 @_Minimum_Acceptance_
 Scenario:AC3-Learner finishes on time, earns on-programme and completion payments. Assumes 12 month apprenticeship and learner completes after 10 months.
@@ -1108,7 +1108,7 @@ Scenario:658-AC01 DAS learner, takes an English qualification that has a planned
 	And the following commitments exist:
 		| commitment Id | version Id | ULN       | start date | end date   | agreed price | status    | effective from | effective to |
 		| 1             | 1-001      | learner a | 01/08/2017 | 01/08/2018 | 15000        | active    | 01/08/2017     | 10/06/2018   |
-		| 1             | 2-001      | learner a | 01/08/2017 | 01/08/2018 | 14000        | cancelled | 11/06/2018     |              |
+		| 1             | 2-001      | learner a | 01/08/2017 | 01/08/2018 | 14000        | active    | 11/06/2018     |              |
 	When an ILR file is submitted with the following data:
 		| ULN       | learner type       | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |
 		| learner a | programme only DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               |

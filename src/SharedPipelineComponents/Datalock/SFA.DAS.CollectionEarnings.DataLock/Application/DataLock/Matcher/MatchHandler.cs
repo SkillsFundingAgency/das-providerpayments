@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+﻿using System;
+using System.Collections.Generic;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
@@ -15,18 +16,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             NextMatchHandler = nextMatchHandler;
         }
 
-        public MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning)
+        public MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning, DateTime censusDate)
         {
-            return Match(commitments, earning, new MatchResult() );
+            return Match(commitments, earning, censusDate, new MatchResult() );
         }
 
-        public abstract MatchResult Match(IReadOnlyList<CommitmentEntity> commitments, RawEarning earning, MatchResult matchResult);
+        public abstract MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate, MatchResult matchResult);
 
-        protected MatchResult ExecuteNextHandler(IReadOnlyList<CommitmentEntity> commitments, RawEarning priceEpisode, MatchResult matchResult)
+        protected MatchResult ExecuteNextHandler(IReadOnlyList<Commitment> commitments, RawEarning priceEpisode,
+            DateTime censusDate, MatchResult matchResult)
         {
             return NextMatchHandler == null || (StopOnError && matchResult.ErrorCodes.Count > 0)
                 ? matchResult
-                : NextMatchHandler.Match(commitments, priceEpisode, matchResult);
+                : NextMatchHandler.Match(commitments, priceEpisode, censusDate, matchResult);
         }
     }
 }

@@ -986,7 +986,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
 
                         SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
-                        SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate1);
+                        SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate1.AddMonths(3).AddDays(1));
 
                         commitment.EffectiveFrom = startDate1;
                         commitment.EffectiveTo = startDate1.AddMonths(3);
@@ -1090,7 +1090,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                         SetupEarningForCommitment(commitment, earnings.Take(2), startDate1);
                         SetupEarningForCommitment(commitment2, earnings.Skip(2), startDate2);
-                        SetupEarningForCommitment(commitment3, earnings.Skip(4), startDate2);
+                        SetupEarningForCommitment(commitment3, earnings.Skip(4), startDate2.AddMonths(2).AddDays(1));
 
                         commitment.EndDate = startDate1.AddMonths(2);
 

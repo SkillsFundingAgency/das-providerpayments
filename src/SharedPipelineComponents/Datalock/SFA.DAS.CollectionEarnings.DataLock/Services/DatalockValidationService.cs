@@ -52,13 +52,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     {
                         var onProgCensusDate = CalculateOnProgCensusDate(earning);
                         var commitments = learnerCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
-                        var matchResult = _datalockMatcher.Match(commitments, earning);
-                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
-                            commitments, result, accountsWithNonPayableFlagSet))
-                        {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
-                                TransactionTypesFlag.AllLearning, result);
-                        }
+                        var matchResult = _datalockMatcher.Match(commitments, earning, onProgCensusDate);
+                        ValidateInitialResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
+                            commitments, result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, onProgCensusDate);
                     }
 
                     if (earning.HasFirstIncentive())
@@ -66,14 +62,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         // Checked for null above
                         // ReSharper disable once PossibleInvalidOperationException
                         var commitmentsForFirstIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
-                        var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning);
-                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes,
+                        var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning, earning.FirstIncentiveCensusDate.Value);
+                        ValidateInitialResult(earning, matchResult.ErrorCodes,
                             TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive, result,
-                            accountsWithNonPayableFlagSet))
-                        {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
-                                TransactionTypesFlag.FirstEmployerProviderIncentives, result);
-                        }
+                            accountsWithNonPayableFlagSet, learnerCommitments.Commitments, earning.FirstIncentiveCensusDate.Value);
                     }
 
                     if (earning.HasSecondIncentive())
@@ -81,14 +73,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         // Checked for null above
                         // ReSharper disable once PossibleInvalidOperationException
                         var commitmentsForSecondIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
-                        var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning);
-                        if (!ValidateInitialResult(earning, matchResult.ErrorCodes,
+                        var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning, earning.SecondIncentiveCensusDate.Value);
+                        ValidateInitialResult(earning, matchResult.ErrorCodes,
                             TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive,
-                            result, accountsWithNonPayableFlagSet))
-                        {
-                            CheckForEarlierStartDate(earning, learnerCommitments.AllCommitments,
-                                TransactionTypesFlag.SecondEmployerProviderIncentives, result);
-                        }
+                            result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, earning.SecondIncentiveCensusDate.Value);
                     }
                 }
             }
@@ -96,8 +84,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             return result;
         }
 
-        public bool ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
-            List<CommitmentEntity> commitments, DatalockValidationResult result, ImmutableHashSet<long> accountsWithNonPayableFlagSet)
+        public void ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
+            List<Commitment> commitments, DatalockValidationResult result, ImmutableHashSet<long> accountsWithNonPayableFlagSet,
+            List<Commitment> allCommitments, DateTime censusDate)
         {
             if (commitments.Any(x => accountsWithNonPayableFlagSet.Contains(x.AccountId)))
             {
@@ -110,16 +99,16 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             }
             else if (commitments.Count == 0)
             {
-                return false;
+                CheckForEarlierStartDate(earning, allCommitments, censusDate, paymentType, result);
+                return;
             }
 
             result.AddDistinctRecords(earning, errors, paymentType, commitments.First());
-            return true;
         }
 
-        private void CheckForEarlierStartDate(RawEarning earning, List<CommitmentEntity> commitments, TransactionTypesFlag paymentType, DatalockValidationResult result)
+        private void CheckForEarlierStartDate(RawEarning earning, List<Commitment> commitments, DateTime censusDate, TransactionTypesFlag paymentType, DatalockValidationResult result)
         {
-            var matchResult = _datalockMatcher.Match(commitments, earning);
+            var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
             if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.Ukprn == earning.Ukprn))
             {
                 if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
@@ -127,21 +116,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
                         matchResult.Commitments.First());
                 }
-                else if (commitments.Any(x => x.WithdrawnOnDate.HasValue || x.PaymentStatus == 3))
-                {
-                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerStopped }, paymentType,
-                        matchResult.Commitments.First());
-                }
-                else if (commitments.All(x => x.StartDate < earning.EpisodeStartDate))
-                {
-                    result.AddDistinctRecords(earning, new List<string>(), paymentType,
-                        matchResult.Commitments.First());
-                }
-                else
-                {
-                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EarlierStartDate }, paymentType,
-                        matchResult.Commitments.First());
-                }
+            }
+            else 
+            {
+                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.First());
             }
         }
 

@@ -7,13 +7,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 {
     public class LearnerCommitments
     {
-        private List<Commitment> Commitments { get; }
-        public List<CommitmentEntity> AllCommitments { get; }
-
+        public List<Commitment> Commitments { get; }
+        
         public LearnerCommitments(long key, IEnumerable<CommitmentEntity> commitments)
         {
-            AllCommitments = commitments.ToList();
-            Commitments = new List<Commitment>(AllCommitments.Select(x => new Commitment(x)));
+            Commitments = new List<Commitment>(commitments.Select(x => new Commitment(x)));
             var commitmentsById = Commitments.ToLookup(x => x.CommitmentId);
 
             foreach (var commitmentsForId in commitmentsById)
@@ -43,9 +41,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                     }
                 }
             }
+
+            var lastCommitment = Commitments.OrderByDescending(x => x.EffectiveStartDate).FirstOrDefault();
+            if (lastCommitment != null)
+            {
+                lastCommitment.EffectiveEndDate = null;
+            }
         }
 
-        public IReadOnlyList<CommitmentEntity> ActiveCommitmentsForDate(DateTime date)
+        public IReadOnlyList<Commitment> ActiveCommitmentsForDate(DateTime date)
         {
             return Commitments.Where(x => x.EffectiveStartDate < date &&
 

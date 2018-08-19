@@ -323,7 +323,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 }
 
                 [Test, AutoMoqData]
-                public void AndADateAfterTheTheEndDate(
+                public void AndADateAfterTheTheEndDateReturnsTheLatestCommitment(
                     CommitmentEntity commitment1,
                     CommitmentEntity commitment2,
                     long uln
@@ -334,7 +334,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     var sut = new LearnerCommitments(uln, commitments);
 
                     var actual = sut.ActiveCommitmentsForDate(new DateTime(2020, 12, 15));
-                    actual.Should().BeEmpty();
+                    actual.Should().AllBeEquivalentTo(commitment2);
+                    actual.Should().HaveCount(1);
                 }
             }
 
