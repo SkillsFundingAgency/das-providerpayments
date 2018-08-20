@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
  
             foreach (var learner in learners)
             {
-                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalPayments, learner.RawEarnings);
+                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalEmployerPayments, learner.RawEarnings);
             }
             return learners;
         }
@@ -77,9 +77,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
-            foreach (var paymentEntity in _paymentRepository.GetAllHistoricPaymentsForProvider(ukprn))
+            foreach (var paymentEntity in _paymentRepository.GetHistoricEmployerPaymentsForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalPayments.Add(paymentEntity);
+                GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalEmployerPayments.Add(paymentEntity);
             }
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))

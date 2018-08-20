@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
@@ -17,6 +18,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public string LearnRefNumber { get; set; }
 
         public decimal Amount { get; set; }
+
+        public TransactionType TransactionType { get; set; }
 
     }
 }
