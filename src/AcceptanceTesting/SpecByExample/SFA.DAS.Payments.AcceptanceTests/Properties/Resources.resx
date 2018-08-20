@@ -119,15 +119,15 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ddl_AT_deds_tables" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ddl.AT.deds.tables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\ddl.AT.deds.tables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="EAS_Deds_PaymentTypes_dml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EAS.Deds.PaymentTypes.dml.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ilr_deds" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ilr.deds.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\ilr.deds.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="PeriodEnd_Deds_ProviderAdjustments_ddl_tables" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+    <value>..\Resources\PeriodEnd.Deds.ProviderAdjustments.ddl.tables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
