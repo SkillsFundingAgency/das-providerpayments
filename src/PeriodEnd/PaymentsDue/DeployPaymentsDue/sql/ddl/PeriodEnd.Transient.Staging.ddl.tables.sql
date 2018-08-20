@@ -48,7 +48,6 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
 	ApprenticeshipContractType int,
-	PriceEpisodeTotalPMRs decimal(12,5),
 	PriceEpisodeCumulativePMRs decimal(12,5),
 	PriceEpisodeCompExemCode int,
 )
