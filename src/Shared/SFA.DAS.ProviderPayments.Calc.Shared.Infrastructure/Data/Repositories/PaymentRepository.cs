@@ -15,24 +15,18 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
             ExecuteBatch(payments.ToArray(), $"{schema.ToString()}.Payments");
         }
 
-        public IEnumerable<PaymentEntity> GetAllHistoricPaymentsForProvider(long ukprn)
+        public IEnumerable<LearnerSummaryPaymentEntity> GetHistoricEmployerPaymentsEachRoundedDownForProvider(long ukprn)
         {
             const string sql = @"
             SELECT 
-                [LearnRefNumber]
-                ,[DeliveryMonth]
-                ,[DeliveryYear]
-                ,[Amount]
-                ,[RequiredPaymentId]
-                ,[CollectionPeriodName]
-                ,[CollectionPeriodMonth]
-                ,[CollectionPeriodYear]
-                ,[FundingSource]
-                ,[TransactionType]
+                LearnRefNumber,
+                TransactionType,
+                SUM(FLOOR(Amount)) As Amount
             FROM Reference.PaymentsHistory
-            WHERE Ukprn = @ukprn";
+            WHERE Ukprn = @ukprn AND FundingSource = 3
+            GROUP BY LearnRefNumber, TransactionType" ;
 
-            return Query<PaymentEntity>(sql, new {ukprn});
+            return Query<LearnerSummaryPaymentEntity>(sql, new { ukprn });
         }
     }
 }

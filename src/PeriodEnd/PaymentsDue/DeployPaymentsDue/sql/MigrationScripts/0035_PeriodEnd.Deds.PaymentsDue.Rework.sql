@@ -109,7 +109,6 @@ SELECT
 	0 [TransactionType14],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
     CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType],
-	APE.PriceEpisodeTotalPMRs,
 	APE.PriceEpisodeCumulativePMRs,
 	APE.PriceEpisodeCompExemCode
 FROM [Period],

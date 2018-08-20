@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesACompletionPaymentEvidenceWhenThereIsNoEarningsOrHistory(
             CompletionPaymentService sut)
         {
-            var result = sut.CreateCompletionPaymentEvidence(new List<PaymentEntity>(), new List<RawEarning>());
+            var result = sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), new List<RawEarning>());
 
             result.State.Should().Be(CompletionPaymentEvidenceState.Checkable);
             result.TotalHistoricEmployerPayment.Should().Be(0);
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             int pmrExempCode, 
             CompletionPaymentEvidenceState expectedState,
             List<RawEarning> rawEarnings,
-            List<PaymentEntity> paymentHistory,
+            List<LearnerSummaryPaymentEntity> paymentHistory,
             CompletionPaymentService sut)
         {
             rawEarnings.ForEach(x =>
@@ -48,7 +48,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             paymentHistory.ForEach(x =>
             {
                 x.TransactionType = TransactionType.Learning;
-                x.FundingSource = FundingSource.CoInvestedEmployer;
                 x.Amount = 9;
             });
 
@@ -62,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         [Test, PaymentsDueInlineAutoData()]
         public void ThenItCreatesAnInvalidCompletionPaymentEvidenceFromEarningsAndPaymentHistory(
             List<RawEarning> rawEarnings,
-            List<PaymentEntity> paymentHistory,
+            List<LearnerSummaryPaymentEntity> paymentHistory,
             CompletionPaymentService sut)
         {
             rawEarnings.ForEach(x =>
@@ -90,7 +89,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItThrowsArgumentExceptionWhenNoEarnings(
             CompletionPaymentService sut)
         {
-            Action test = () => sut.CreateCompletionPaymentEvidence(new List<PaymentEntity>(), null);
+            Action test = () => sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), null);
 
             test.ShouldThrow<ArgumentException>().And.Message.Should().ContainEquivalentOf("learnerRawEarnings");
         }
