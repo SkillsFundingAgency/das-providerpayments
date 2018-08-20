@@ -4,6 +4,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -134,24 +135,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             long ukprn,
             string learnRefNumber,
             long uln,
-            List<PaymentEntity> historicalPayments,
+            List<LearnerSummaryPaymentEntity> historicalPayments,
             [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
             SortProviderDataIntoLearnerDataService sut)
         {
             historicalPayments.ForEach(entity =>
             {
                 entity.LearnRefNumber = learnRefNumber;
+                entity.TransactionType = TransactionType.Learning;
             });
 
             mockHistoricalPaymentsRepository
-                .Setup(repository => repository.GetAllHistoricPaymentsForProvider(ukprn))
+                .Setup(repository => repository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
                 .Returns(historicalPayments);
 
             var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
-            learners[0].HistoricalPayments.ShouldAllBeEquivalentTo(historicalPayments);
+            learners[0].HistoricalEmployerPayments.ShouldAllBeEquivalentTo(historicalPayments);
         }
 
         [Test, PaymentsDueAutoData]
@@ -364,7 +366,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 long[] ulns,
                 List<RawEarning> rawEarnings,
                 [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-                List<PaymentEntity> historicalPayments,
+                List<LearnerSummaryPaymentEntity> historicalPayments,
                 [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 CompletionPaymentEvidence completionPaymentEvidence,
@@ -381,10 +383,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             }
 
             mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
-            mockHistoricalPaymentsRepository.Setup(repository => repository.GetAllHistoricPaymentsForProvider(ukprn))
+            mockHistoricalPaymentsRepository.Setup(repository => repository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
                 .Returns(historicalPayments);
             mockCompletionPaymentService
-                .Setup(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<PaymentEntity>>(),
+                .Setup(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<LearnerSummaryPaymentEntity>>(),
                     It.IsAny<List<RawEarning>>())).Returns(completionPaymentEvidence);
             collectionPeriodRepository
                 .Setup(x => x.GetAllCollectionPeriods())
@@ -393,7 +395,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             var learners = sut.CreateLearnerDataForProvider(ukprn);
 
             learners.Count.Should().Be(3);
-            mockCompletionPaymentService.Verify(x=>x.CreateCompletionPaymentEvidence(It.IsAny<List<PaymentEntity>>(), It.IsAny<List<RawEarning>>()), Times.Exactly(3));
+            mockCompletionPaymentService.Verify(x=>x.CreateCompletionPaymentEvidence(It.IsAny<List<LearnerSummaryPaymentEntity>>(), It.IsAny<List<RawEarning>>()), Times.Exactly(3));
 
 
         }
