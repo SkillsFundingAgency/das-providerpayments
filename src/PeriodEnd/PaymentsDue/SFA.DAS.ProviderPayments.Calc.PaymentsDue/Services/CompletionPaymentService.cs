@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter.Xml;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -12,7 +11,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class CompletionPaymentService : ICompletionPaymentService
     {
-        public CompletionPaymentEvidence CreateCompletionPaymentEvidence(List<PaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings)
+        public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
+            List<LearnerSummaryPaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings)
         {
             if (learnerHistoricalPayments == null) throw new ArgumentException(nameof(learnerHistoricalPayments));
             if (learnerRawEarnings == null) throw new ArgumentException(nameof(learnerRawEarnings));
@@ -22,8 +22,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0);
 
             decimal totalEmployerPayments = learnerHistoricalPayments.Where(x =>
-                    x.TransactionType == TransactionType.Learning &&
-                    x.FundingSource == FundingSource.CoInvestedEmployer)
+                    x.TransactionType == TransactionType.Learning)
                 .Sum(x => x.Amount);
 
             var completionPayment = iLrCompletionPayments.FirstOrDefault();

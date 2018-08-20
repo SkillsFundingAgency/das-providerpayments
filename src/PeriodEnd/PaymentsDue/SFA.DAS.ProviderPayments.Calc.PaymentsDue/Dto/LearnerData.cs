@@ -21,6 +21,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
         public List<RequiredPayment> HistoricalRequiredPayments { get; } = new List<RequiredPayment>();
         public List<Commitment> Commitments { get; } = new List<Commitment>();
         public List<DatalockValidationError> DatalockValidationErrors { get; set; } = new List<DatalockValidationError>();
-        public List<PaymentEntity> HistoricalPayments { get; } = new List<PaymentEntity>();
+        public List<LearnerSummaryPaymentEntity> HistoricalEmployerPayments { get; } = new List<LearnerSummaryPaymentEntity>();
     }
 }
