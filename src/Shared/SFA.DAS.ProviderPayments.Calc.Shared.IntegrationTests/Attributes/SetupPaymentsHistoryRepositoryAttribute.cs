@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoFixture;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
@@ -24,11 +27,30 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes
 
             var fixture = new Fixture();
 
-            var payments = fixture.Build<PaymentEntity>()
-                .With(x => x.Ukprn, _idToSearchFor)
-                .CreateMany(3)
-                .ToList();
+            var payments = new List<PaymentEntity>();
+            for (var i = 0; i <= 2; i++)
+            {
+                var userPayments = fixture.Build<PaymentEntity>()
+                    .With(x => x.Ukprn, _idToSearchFor)
+                    .With(x => x.LearnRefNumber, "L" + i)
+                    .With(x => x.FundingSource, FundingSource.CoInvestedEmployer)
+                    .With(x => x.TransactionType, TransactionType.Learning)
+                    .With(x => x.Amount, 100)
+                    .CreateMany(3)
+                    .ToList();
 
+                var nonMatchingPayments = fixture.Build<PaymentEntity>()
+                    .With(x => x.Ukprn, _idToSearchFor)
+                    .With(x => x.LearnRefNumber, "L" + i)
+                    .With(x => x.FundingSource, FundingSource.CoInvestedSfa)
+                    .With(x => x.TransactionType, TransactionType.Learning)
+                    .With(x => x.Amount, 100)
+                    .CreateMany(3)
+                    .ToList();
+                payments.AddRange(userPayments);
+                payments.AddRange(nonMatchingPayments);
+
+            }
 
             foreach (var payment in payments)
             {
