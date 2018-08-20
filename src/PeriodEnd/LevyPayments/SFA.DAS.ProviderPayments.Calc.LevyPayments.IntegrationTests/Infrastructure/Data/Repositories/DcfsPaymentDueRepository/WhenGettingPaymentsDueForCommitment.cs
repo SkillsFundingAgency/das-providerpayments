@@ -20,6 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
         public void Arrange()
         {
             TestDataHelper.Clean();
+            TestDataHelper.CopyReferenceData();
 
             _repository = new LevyPayments.Infrastructure.Data.Repositories.DcfsPaymentDueRepository(GlobalTestContext.Instance.ConnectionString);
         }
