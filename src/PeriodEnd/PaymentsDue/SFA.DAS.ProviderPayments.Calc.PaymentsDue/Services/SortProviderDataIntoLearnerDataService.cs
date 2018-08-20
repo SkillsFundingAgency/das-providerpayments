@@ -76,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 learnerResults.GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
-            foreach (var paymentEntity in _paymentRepository.GetHistoricEmployerPaymentsForProvider(ukprn))
+            foreach (var paymentEntity in _paymentRepository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
             {
                 learnerResults.GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalEmployerPayments.Add(paymentEntity);
             }

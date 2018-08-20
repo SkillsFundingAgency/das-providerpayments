@@ -6,7 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data
     public interface IPaymentRepository
     {
         void AddMany(List<PaymentEntity> payments, PaymentSchema schema);
-        IEnumerable<LearnerSummaryPaymentEntity> GetHistoricEmployerPaymentsForProvider(long ukprn);
+        IEnumerable<LearnerSummaryPaymentEntity> GetHistoricEmployerPaymentsEachRoundedDownForProvider(long ukprn);
     }
 
     public enum PaymentSchema
