@@ -93,6 +93,7 @@ AS
 SELECT
 	rp.Id,
 	rp.CommitmentId,
+	rp.CommitmentVersionId,
 	rp.LearnRefNumber,
 	rp.AimSeqNumber,
 	rp.Ukprn,

@@ -32,7 +32,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Accounts.GetNex
                 {
                     Id = accountEntity.Id.ToString(),
                     Name = accountEntity.Name,
-                    Commitments = commitmentEntities.Select(e => new Commitment { Id = e.Id }).ToArray()
+                    Commitments = commitmentEntities.Select(e => new Commitment { Id = e.Id, VersionId = e.VersionId}).ToArray()
                 }
             };
         }

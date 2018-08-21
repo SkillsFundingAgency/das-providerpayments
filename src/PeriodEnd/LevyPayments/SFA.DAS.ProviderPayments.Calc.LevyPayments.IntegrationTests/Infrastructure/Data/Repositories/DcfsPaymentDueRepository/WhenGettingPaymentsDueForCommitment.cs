@@ -20,6 +20,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
         public void Arrange()
         {
             TestDataHelper.Clean();
+            TestDataHelper.CopyReferenceData();
 
             _repository = new LevyPayments.Infrastructure.Data.Repositories.DcfsPaymentDueRepository(GlobalTestContext.Instance.ConnectionString);
         }
@@ -32,15 +33,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
+            var versionId = "1-001";
+
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
 
             foreach (var paymentDue in PaymentsDue)
             {
-                TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: paymentDue[0], deliveryYear: paymentDue[1]);
+                TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: paymentDue[0], deliveryYear: paymentDue[1], commitmentVersionId:versionId);
             }
 
             // Act
-            var payments = _repository.GetPaymentsDueForCommitment(commitmentId,false);
+            var payments = _repository.GetPaymentsDueForCommitment(commitmentId, versionId, false);
 
             // Assert
             Assert.IsNotNull(payments);
@@ -65,15 +68,17 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
         {
             // Arrange
             var accountId = 1;
+            var versionId = "1-001";
+
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
+            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
 
-            TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: 5, deliveryYear: 2017, transactionType: transactionType);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: 5, deliveryYear: 2017, transactionType: transactionType, commitmentVersionId: versionId);
 
             // Act
-            var payments = _repository.GetPaymentsDueForCommitment(commitmentId,false);
+            var payments = _repository.GetPaymentsDueForCommitment(commitmentId, versionId, false);
 
             // Assert
             Assert.IsNotNull(payments);

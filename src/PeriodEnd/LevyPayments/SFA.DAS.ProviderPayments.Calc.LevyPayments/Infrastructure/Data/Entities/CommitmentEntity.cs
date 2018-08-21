@@ -3,5 +3,6 @@
     public class CommitmentEntity
     {
         public long Id { get; set; }
+        public string VersionId { get; set; }
     }
 }

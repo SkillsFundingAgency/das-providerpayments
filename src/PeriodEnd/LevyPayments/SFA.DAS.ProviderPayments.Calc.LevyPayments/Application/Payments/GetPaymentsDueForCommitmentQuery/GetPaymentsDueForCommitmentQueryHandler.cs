@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPay
         {
             try
             {
-                var paymentsDue = _paymentDueRepository.GetPaymentsDueForCommitment(message.CommitmentId,message.RefundPayments);
+                var paymentsDue = _paymentDueRepository.GetPaymentsDueForCommitment(message.CommitmentId, message.CommitmentVersionId, message.RefundPayments);
 
                 return new GetPaymentsDueForCommitmentQueryResponse
                 {
@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments.GetPay
                         {
                             Id = p.Id,
                             CommitmentId = p.CommitmentId,
+                            CommitmentVersionId = p.CommitmentVersionId,
                             LearnerRefNumber = p.LearnRefNumber,
                             AimSequenceNumber = p.AimSeqNumber,
                             Ukprn = p.Ukprn,

@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                                            int? frameworkCode = null,
                                            int? pathwayCode = null,
                                            int priority = 1,
-                                           long versionId = 1)
+                                           string versionId = "1")
         {
             var minStartDate = new DateTime(2017, 4, 1);
 
@@ -89,7 +89,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                                                         TransactionType transactionType = TransactionType.Learning,
                                                         decimal amountDue = 1000.00m,
                                                         int deliveryMonth = 0,
-                                                        int deliveryYear = 0)
+                                                        int deliveryYear = 0,
+                                                        string commitmentVersionId = "a")
         {
             if (string.IsNullOrEmpty(learnerRefNumber))
             {
@@ -134,7 +135,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "SELECT "
                   + "NEWID(), "
                   + "CommitmentId,"
-                  + "'a', 456, 'c', 123, "
+                  + "@CommitmentVersionId, 456, 'c', 123, "
                   + "@learnerRefNumber, "
                   + "@aimSequenceNumber, "
                   + "Ukprn, "
@@ -151,7 +152,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                   + "WHERE CommitmentId = @commitmentId",
                 new
                 {
-                    commitmentId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear,
+                    commitmentId, commitmentVersionId, learnerRefNumber, aimSequenceNumber, transactionType, amountDue, deliveryMonth, deliveryYear,
                     collectionPeriodYear, collectionPeriodMonth, collectionPeriodName
                 });
         }
@@ -234,9 +235,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
                 ");
         }
 
-        internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId)
+        internal static PaymentEntity[] GetPaymentsForCommitment(long commitmentId, string commitmentVersionId)
         {
-            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId)", new { commitmentId });
+            return Query<PaymentEntity>("SELECT * FROM LevyPayments.Payments WHERE RequiredPaymentId IN (SELECT Id FROM PaymentsDue.RequiredPayments WHERE CommitmentId = @commitmentId AND CommitmentVersionId = @CommitmentVersionId)", new { commitmentId, commitmentVersionId });
         }
 
         internal static void CopyReferenceData()
