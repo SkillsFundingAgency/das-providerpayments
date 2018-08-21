@@ -15,42 +15,35 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         private DatalockRepository _sut;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void BuildSut()
         {
             _sut = new DatalockRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
 
-        [TestFixture, SetupNoDatalocks]
-        public class AndThereAreNoDatalocksForProvider : GivenADatalockRepository
+        [TestFixture]
+        public class WhenCallingGetDatalockOutputForProvider : GivenADatalockRepository
         {
-            [TestFixture]
-            public class WhenCallingGetAllForProvider : AndThereAreNoDatalocksForProvider
+            [TestFixture, SetupNoDatalocks]
+            public class AndThereAreNoDatalocksForProvider : WhenCallingGetDatalockOutputForProvider
             {
                 [Test]
                 public void ThenItReturnsAnEmptyList()
                 {
-                    Setup();
                     var result =
                         _sut.GetDatalockOutputForProvider(SharedTestContext.Ukprn);
                     result.Should().BeEmpty();
-                }
+                    }
             }
-        }
 
-
-        [TestFixture, SetupDatalocks]
-        public class AndThereAreSomeDatalocksForProvider : GivenADatalockRepository
-        {
-            [TestFixture]
-            public class WhenCallingGetAllForProvider : AndThereAreSomeDatalocksForProvider
+            [TestFixture, SetupDatalocks]
+            public class AndThereAreSomeDatalocksForProvider : WhenCallingGetDatalockOutputForProvider
             {
                 private List<DatalockOutputEntity> _actualDataLocks;
                 private List<DatalockOutputEntity> _expectedDataLocks;
 
                 [SetUp]
-                public new void Setup()
+                public void Setup()
                 {
-                    base.Setup();
                     _actualDataLocks = _sut.GetDatalockOutputForProvider(SharedTestContext.Ukprn);
 
                     _expectedDataLocks = SharedTestContext.DataLockPriceEpisodePeriodMatches
@@ -108,6 +101,70 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 [Test]
                 public void ThenTransactionTypesFlagIsSetCorrectly() =>
                     _actualDataLocks[0].TransactionTypesFlag.Should().Be(_expectedDataLocks[0].TransactionTypesFlag);
+            }
+        }
+
+        [TestFixture]
+        public class WhenCallingGetValidationErrorsForProvider : GivenADatalockRepository
+        {
+            [TestFixture, SetupNoValidationErrors]
+            public class AndThereAreNoValidationErrorsForProvider : WhenCallingGetValidationErrorsForProvider
+            {
+                [Test]
+                public void ThenItReturnsAnEmptyList()
+                {
+                    var result =
+                        _sut.GetValidationErrorsForProvider(SharedTestContext.Ukprn);
+                    result.Should().BeEmpty();
+                }
+            }
+
+            [TestFixture, SetupValidationErrors]
+            public class AndThereAreValidationErrorsForProvider : WhenCallingGetValidationErrorsForProvider
+            {
+                private List<DatalockValidationError> _actualValidationErrors;
+                private List<DatalockValidationError> _expectedValidationErrors;
+
+                [SetUp]
+                public void Setup()
+                {
+                    _actualValidationErrors = _sut.GetValidationErrorsForProvider(SharedTestContext.Ukprn);
+
+                    _expectedValidationErrors = SharedTestContext.DatalockValidationErrors
+                        .Where(entity => entity.Ukprn == SharedTestContext.Ukprn)
+                        .OrderBy(entity => entity.PriceEpisodeIdentifier)
+                        .ThenBy(x => x.LearnRefNumber)      // there's a sorted index on the table
+                        .ToList();
+                }
+
+                [Test]
+                public void ThenItRetrievesExpectedCount()
+                {
+                    if (_expectedValidationErrors.Count < 1)
+                        Assert.Fail("Not enough earnings to test");
+
+                    _actualValidationErrors.Count.Should().Be(_expectedValidationErrors.Count);
+                }
+
+                [Test]
+                public void ThenUkprnIsSetCorrectly() =>
+                    _actualValidationErrors[0].Ukprn.Should().Be(_expectedValidationErrors[0].Ukprn);
+
+                [Test]
+                public void ThenPriceEpisodeIdentifierIsSetCorrectly() =>
+                    _actualValidationErrors[0].PriceEpisodeIdentifier.Should().Be(_expectedValidationErrors[0].PriceEpisodeIdentifier);
+
+                [Test]
+                public void ThenLearnRefNumberIsSetCorrectly() =>
+                    _actualValidationErrors[0].LearnRefNumber.Should().Be(_expectedValidationErrors[0].LearnRefNumber);
+
+                [Test]
+                public void ThenAimSeqNumberIsSetCorrectly() =>
+                    _actualValidationErrors[0].AimSeqNumber.Should().Be(_expectedValidationErrors[0].AimSeqNumber);
+
+                [Test]
+                public void ThenRuleIdIsSetCorrectly() =>
+                    _actualValidationErrors[0].RuleId.Should().Be(_expectedValidationErrors[0].RuleId);
             }
         }
     }

@@ -79,6 +79,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\Datalocks\SetupNoValidationErrorsAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupValidationErrorsAttribute.cs" />
     <Compile Include="Helpers\DatalockDataHelper.cs" />
     <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
+    <Compile Include="Helpers\DatalockValidationErrorDataHelper.cs" />
     <Compile Include="Helpers\PaymentDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsMathsEnglishDataHelper.cs" />

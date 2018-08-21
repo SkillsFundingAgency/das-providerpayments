@@ -38,5 +38,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
         /// Populated by applying the <see cref="SetupDatalocksAttribute"/> to the test
         /// </summary>
         public static List<DatalockOutputEntity> DataLockPriceEpisodePeriodMatches { get; set; }
+
+        /// <summary>
+        /// Populated by applying the <see cref="SetupDatalockValidationErrorsAttribute"/> to the test
+        /// </summary>
+        public static List<DatalockValidationError> DatalockValidationErrors { get; set; }
     }
 }
