@@ -21,9 +21,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             {
                 if (c.IsVersioned)
                 {
-                    return c.EffectiveFrom <= earning.EpisodeStartDate;
+                    return c.EffectiveFrom <= earning.EpisodeEffectiveTnpStartDate;
                 }
-                return c.StartDate <= earning.EpisodeStartDate;
+                return c.StartDate <= earning.EpisodeEffectiveTnpStartDate;
             }).ToList();
 
             if (!commitmentsToMatch.Any())

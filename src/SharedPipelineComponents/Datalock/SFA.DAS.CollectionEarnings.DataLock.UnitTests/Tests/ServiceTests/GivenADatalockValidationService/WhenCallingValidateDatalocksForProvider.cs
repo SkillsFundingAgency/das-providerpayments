@@ -61,6 +61,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 earning.AimSeqNumber = aimSequenceNumber;
                 
                 earning.EpisodeStartDate = commitment.StartDate.AddDays(5);
+                earning.EpisodeEffectiveTnpStartDate = earning.EpisodeStartDate;
                 earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
                 commitment.EndDate = commitment.StartDate.AddYears(2);
                 commitment.WithdrawnOnDate = null;
@@ -967,6 +968,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earning.AimSeqNumber = aimSequenceNumber;
 
                         earning.EpisodeStartDate = commitment.StartDate.AddDays(5);
+                        earning.EpisodeEffectiveTnpStartDate = earning.EpisodeStartDate;
                         earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
                         commitment.EndDate = commitment.StartDate.AddYears(2);
                         commitment.WithdrawnOnDate = null;

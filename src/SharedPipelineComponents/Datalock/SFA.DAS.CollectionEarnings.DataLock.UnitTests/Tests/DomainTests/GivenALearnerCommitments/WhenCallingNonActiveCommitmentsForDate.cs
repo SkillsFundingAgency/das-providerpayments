@@ -336,7 +336,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
 
                 /// <summary>
                 /// <para>Commitment1: 2018-09-01 -> 2020-01-01 --
-                /// Withdrawn on: 2018-11-20</para>
+                /// stop effective from: 2018-11-20</para>
                 /// 
                 /// <para>Commitment2: 2018-11-10 -> 2020-01-01 --
                 /// Effective From 2018-11-02 --

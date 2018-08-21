@@ -5,7 +5,7 @@ Feature: Apprentice changes provider scenarios
         And levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1          | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 04/03/2018   | 05/03/2018   |
             | 2             | 1          | provider b | learner a | 01/06/2018 | 01/11/2018 | 4500         | active    | 06/06/2018     |              |              |
         
@@ -48,7 +48,7 @@ Feature: Apprentice changes provider scenarios
         And levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 04/03/2018   | 05/03/2018   |
             | 2             | 1-001      | provider b | learner a | 05/03/2018 | 01/08/2018 | 4500         | active    | 05/03/2018     |              |              |
         When the providers submit the following ILR files:
@@ -87,7 +87,7 @@ Feature: Apprentice changes provider scenarios
         And levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 04/03/2018   | 05/03/2018   |
             | 2             | 1-001      | provider b | learner a | 05/03/2018 | 01/08/2018 | 4500         | active    | 05/03/2018     |              |              |
         When the providers submit the following ILR files:
@@ -126,7 +126,7 @@ Feature: Apprentice changes provider scenarios
         And levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 04/03/2018   | 05/03/2018   |
             | 2             | 1-001      | provider b | learner a | 05/03/2018 | 01/08/2018 | 4500         | active    | 05/03/2018     |              |              |
         When the providers submit the following ILR files:
@@ -165,7 +165,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
         Given levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 14/11/2017   | 15/11/2017   |
             | 2             | 1-001      | provider b | learner a | 15/11/2017 | 01/08/2018 | 5625         | active    | 15/11/2017     |              |              |
             
@@ -225,7 +225,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
         Given levy balance > agreed price for all months
 		And the apprenticeship funding band maximum is 15000
         And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 14/11/2017   | 15/11/2017   |
             | 2             | 1-001      | provider b | learner a | 15/11/2017 | 01/08/2018 | 5625         | active    | 15/11/2017     |              |              |
             
@@ -289,7 +289,7 @@ Scenario: 1 learner aged 16-18, levy available, changes provider, earns incentiv
     Given levy balance > agreed price for all months
 	And the apprenticeship funding band maximum is 15000
     And the following commitments exist:
-            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | withdrawn on |
+            | commitment Id | version Id | Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
             | 1             | 1-001      | provider a | learner a | 01/08/2017 | 01/08/2018 | 7500         | cancelled | 01/08/2017     | 14/11/2017   | 15/11/2017   |
             | 2             | 1-001      | provider b | learner a | 15/11/2017 | 01/08/2018 | 5625         | active    | 15/11/2017     |              |              |
             

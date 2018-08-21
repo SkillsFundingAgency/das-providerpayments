@@ -89,7 +89,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "transfer approval date":
                         structure.TransferApprovalDateIndex = c;
                         break;
-                    case "withdrawn on":
+                    case "stop effective from":
                         structure.WithdrawnOnDate = c;
                         break;
                     default:
@@ -229,17 +229,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 !string.IsNullOrEmpty(row[structure.WithdrawnOnDate]) &&
                 !TryParseNullableDateTime(row[structure.WithdrawnOnDate], out withdrawnOnDate))
             {
-                throw new ArgumentException($"'{row[structure.WithdrawnOnDate]}' is not a valid withdrawn on date");
+                throw new ArgumentException($"'{row[structure.WithdrawnOnDate]}' is not a valid stop effective from date");
             }
 
             if (status == CommitmentPaymentStatus.Cancelled && withdrawnOnDate == null)
             {
-                throw new ArgumentException($"Please supply a withdrawn on date for a cancelled commitment");
+                throw new ArgumentException($"Please supply a stop effective from date for a cancelled commitment");
             }
 
             if (withdrawnOnDate != null && status != CommitmentPaymentStatus.Cancelled)
             {
-                throw new ArgumentException("There is a withdrawn on date but the commitment is not cancelled");
+                throw new ArgumentException("There is a stop effective from date but the commitment is not cancelled");
             }
 
             if (effectiveFrom == null)
