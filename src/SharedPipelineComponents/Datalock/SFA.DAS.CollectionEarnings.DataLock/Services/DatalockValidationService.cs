@@ -50,38 +50,54 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 {
                     if (earning.HasNonIncentiveEarnings())
                     {
-                        var onProgCensusDate = CalculateOnProgCensusDate(earning);
-                        var commitments = learnerCommitments.ActiveCommitmentsForDate(onProgCensusDate).ToList();
-                        var matchResult = _datalockMatcher.Match(commitments, earning, onProgCensusDate);
-                        ValidateInitialResult(earning, matchResult.ErrorCodes, TransactionTypesFlag.AllLearning,
-                            commitments, result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, onProgCensusDate);
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning, 
+                            learnerCommitments, result, TransactionTypesFlag.AllLearning);
                     }
 
                     if (earning.HasFirstIncentive())
                     {
-                        // Checked for null above
-                        // ReSharper disable once PossibleInvalidOperationException
-                        var commitmentsForFirstIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.FirstIncentiveCensusDate.Value).ToList();
-                        var matchResult = _datalockMatcher.Match(commitmentsForFirstIncentive, earning, earning.FirstIncentiveCensusDate.Value);
-                        ValidateInitialResult(earning, matchResult.ErrorCodes,
-                            TransactionTypesFlag.FirstEmployerProviderIncentives, commitmentsForFirstIncentive, result,
-                            accountsWithNonPayableFlagSet, learnerCommitments.Commitments, earning.FirstIncentiveCensusDate.Value);
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
+                            learnerCommitments, result, TransactionTypesFlag.FirstEmployerProviderIncentives);
                     }
 
                     if (earning.HasSecondIncentive())
                     {
-                        // Checked for null above
-                        // ReSharper disable once PossibleInvalidOperationException
-                        var commitmentsForSecondIncentive = learnerCommitments.ActiveCommitmentsForDate(earning.SecondIncentiveCensusDate.Value).ToList();
-                        var matchResult = _datalockMatcher.Match(commitmentsForSecondIncentive, earning, earning.SecondIncentiveCensusDate.Value);
-                        ValidateInitialResult(earning, matchResult.ErrorCodes,
-                            TransactionTypesFlag.SecondEmployerProviderIncentives, commitmentsForSecondIncentive,
-                            result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, earning.SecondIncentiveCensusDate.Value);
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
+                            learnerCommitments, result, TransactionTypesFlag.SecondEmployerProviderIncentives);
                     }
                 }
             }
 
             return result;
+        }
+
+        private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,
+            LearnerCommitments learnerCommitments, DatalockValidationResult result, TransactionTypesFlag earningType)
+        {
+            var censusDate = CalculateCensusDate(earning, earningType);
+            var commitments = learnerCommitments.ActiveCommitmentsForDate(censusDate).ToList();
+            var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
+            ValidateInitialResult(earning, matchResult.ErrorCodes, earningType,
+                commitments, result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, censusDate);
+        }
+
+        private DateTime CalculateCensusDate(RawEarning earning, TransactionTypesFlag earningType)
+        {
+            var date = new DateTime(1900, 01, 01);
+            switch (earningType)
+            {
+                case TransactionTypesFlag.AllLearning:
+                    date = CalculateOnProgCensusDate(earning);
+                    break;
+                case TransactionTypesFlag.FirstEmployerProviderIncentives:
+                    date = earning.FirstIncentiveCensusDate ?? new DateTime(1900,01,01);
+                    break;
+                case TransactionTypesFlag.SecondEmployerProviderIncentives:
+                    date = earning.SecondIncentiveCensusDate ?? new DateTime(1900, 01, 01);
+                    break;
+            }
+
+            return date;
         }
 
         public void ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
