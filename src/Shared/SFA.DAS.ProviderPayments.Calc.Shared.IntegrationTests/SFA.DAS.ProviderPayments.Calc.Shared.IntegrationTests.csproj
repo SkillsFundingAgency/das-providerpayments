@@ -79,9 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
-    <Compile Include="Attributes\Datalocks\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
-    <Compile Include="Attributes\Datalocks\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
+    <Compile Include="Helpers\DatalockDataHelper.cs" />
+    <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupRawEarningsAttribute.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
-    <Compile Include="Tests\Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
+    <Compile Include="Tests\Infrastructure\GivenADatalockRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />

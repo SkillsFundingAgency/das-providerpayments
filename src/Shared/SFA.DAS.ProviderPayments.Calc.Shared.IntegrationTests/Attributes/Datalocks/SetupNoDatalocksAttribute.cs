@@ -6,13 +6,13 @@ using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks
 {
-    public class SetupNoDataLockPriceEpisodePeriodMatchesAttribute : TestActionAttribute
+    public class SetupNoDatalocksAttribute : TestActionAttribute
     {
         public override ActionTargets Targets { get; } = ActionTargets.Suite;
 
         public override void BeforeTest(ITest test)
         {
-            DataLockPriceEpisodePeriodMatchDataHelper.Truncate();
+            DatalockDataHelper.Truncate();
 
             SharedTestContext.DataLockPriceEpisodePeriodMatches = new List<DatalockOutputEntity>();
 

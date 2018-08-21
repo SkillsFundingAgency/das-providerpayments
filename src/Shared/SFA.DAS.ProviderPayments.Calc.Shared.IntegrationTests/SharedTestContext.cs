@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
         public static List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; set; }
 
         /// <summary>
-        /// Populated by applying the <see cref="SetupDataLockPriceEpisodePeriodMatchesAttribute"/> to the test
+        /// Populated by applying the <see cref="SetupDatalocksAttribute"/> to the test
         /// </summary>
         public static List<DatalockOutputEntity> DataLockPriceEpisodePeriodMatches { get; set; }
     }

@@ -10,7 +10,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
     [TestFixture, SetupUkprn]
-    public class GivenADataLockPriceEpisodePeriodMatchesRepository
+    public class GivenADatalockRepository
     {
         private DatalockRepository _sut;
 
@@ -20,11 +20,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             _sut = new DatalockRepository(GlobalTestContext.Instance.TransientConnectionString);
         }
 
-        [TestFixture, SetupNoDataLockPriceEpisodePeriodMatches]
-        public class AndThereAreNoDataLocksForProvider : GivenADataLockPriceEpisodePeriodMatchesRepository
+        [TestFixture, SetupNoDatalocks]
+        public class AndThereAreNoDatalocksForProvider : GivenADatalockRepository
         {
             [TestFixture]
-            public class WhenCallingGetAllForProvider : AndThereAreNoDataLocksForProvider
+            public class WhenCallingGetAllForProvider : AndThereAreNoDatalocksForProvider
             {
                 [Test]
                 public void ThenItReturnsAnEmptyList()
@@ -38,11 +38,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
         }
 
 
-        [TestFixture, SetupDataLockPriceEpisodePeriodMatches]
-        public class AndThereAreSomeDataLocksForProvider : GivenADataLockPriceEpisodePeriodMatchesRepository
+        [TestFixture, SetupDatalocks]
+        public class AndThereAreSomeDatalocksForProvider : GivenADatalockRepository
         {
             [TestFixture]
-            public class WhenCallingGetAllForProvider : AndThereAreSomeDataLocksForProvider
+            public class WhenCallingGetAllForProvider : AndThereAreSomeDatalocksForProvider
             {
                 private List<DatalockOutputEntity> _actualDataLocks;
                 private List<DatalockOutputEntity> _expectedDataLocks;
