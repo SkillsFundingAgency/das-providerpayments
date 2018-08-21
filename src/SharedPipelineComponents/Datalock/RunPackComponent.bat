@@ -8,7 +8,7 @@ if not exist "Deploy\test-results" ( md "Deploy\test-results" )
 
 xcopy SFA.DAS.CollectionEarnings.DataLock\bin\%BuildConfig%\*.dll Deploy\component\
 xcopy SFA.DAS.CollectionEarnings.DataLock\bin\%BuildConfig%\*.pdb Deploy\component\
-xcopy ..\..\Shared\SQL\* DeployPeriodEnd\SQL\ /e
+xcopy ..\..\Shared\SQL\* DeployPeriodEnd\SQL\ /e /y
 xcopy "..\..\TestResult*.SFA.DAS.CollectionEarnings.DataLock.xml" Deploy\test-results\
 
 if exist "DeployPeriodEnd\component" ( rd /s /q "DeployPeriodEnd\component" )
@@ -19,7 +19,7 @@ if not exist "DeployPeriodEnd\test-results" ( md "DeployPeriodEnd\test-results" 
 
 xcopy SFA.DAS.CollectionEarnings.DataLock\bin\%BuildConfig%\*.dll DeployPeriodEnd\component\
 xcopy SFA.DAS.CollectionEarnings.DataLock\bin\%BuildConfig%\*.pdb DeployPeriodEnd\component\
-xcopy ..\..\Shared\SQL\* DeployPeriodEnd\SQL\ /e
+xcopy ..\..\Shared\SQL\* DeployPeriodEnd\SQL\ /e /y
 xcopy ..\..\TestResult*.SFA.DAS.CollectionEarnings.DataLock.xml DeployPeriodEnd\test-results\
 xcopy ..\..\TestResult*.DCFS*.xml Deploy\test-results\
 
