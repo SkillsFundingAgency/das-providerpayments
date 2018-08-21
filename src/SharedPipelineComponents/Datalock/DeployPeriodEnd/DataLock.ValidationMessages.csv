@@ -10,3 +10,5 @@ DLOCK_08,E,Multiple matching records found in the employer digital account
 DLOCK_09,E,The start date for this negotiated price is before the corresponding price start date in the employer digital account
 DLOCK_10,E,The employer has stopped payments for this apprentice
 DLOCK_11,E,The employer is not currently a levy payer
+DLOCK_12,W,The matching record found in the employer digital account has been stopped
+DLOCK_13,W,The matching record found in the employer digital account has been paused

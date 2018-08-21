@@ -30,14 +30,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
 
             // TODO: Fix so can be registered with convention
             For<ICommitmentRepository>().Use<CommitmentRepository>();
-            For<IPriceEpisodeRepository>().Use<PriceEpisodeRepository>();
             For<IDatalockRepository>().Use<DatalockRepository>();
             For<IPriceEpisodeMatchRepository>().Use<PriceEpisodeMatchRepository>();
             For<IProviderRepository>().Use<ProviderRepository>();
             For<IPriceEpisodePeriodMatchRepository>().Use<PriceEpisodePeriodMatchRepository>();
             For<IDateTimeProvider>().Use<DateTimeProvider>();
             For<IDasAccountRepository>().Use<DasAccountRepository>();
-            For<IIncentiveEarningsRepository>().Use<IncentiveEarningsRepository>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
 
             For<IValidateDatalocks>().Use<DatalockValidationService>();

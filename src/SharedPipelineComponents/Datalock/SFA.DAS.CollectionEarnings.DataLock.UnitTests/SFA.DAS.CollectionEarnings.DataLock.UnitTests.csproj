@@ -99,7 +99,6 @@
     <Compile Include="Application\DataLock\Matcher\StandardMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler\Match\WhenCalled.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler\Match\WhenCalled.cs" />
-    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler\WhenHandling.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler\WhenHandling.cs" />
     <Compile Include="Context\ContextWrapper\ContextWrapper\WhenCalledWithInvalidContext.cs" />
@@ -119,7 +118,6 @@
     <Compile Include="Tests\ServiceTests\GivenADatalockValidationService\WhenCallingValidateDatalocksForProvider.cs" />
     <Compile Include="Utilities\Application\DasAccountBuilder.cs" />
     <Compile Include="Utilities\Application\CommitmentBuilder.cs" />
-    <Compile Include="Utilities\Application\IncentiveEarningsBuilder.cs" />
     <Compile Include="Utilities\Application\PriceEpisodeBuilder.cs" />
     <Compile Include="Utilities\Attributes\AutoMoqData.cs" />
     <Compile Include="Utilities\Entities\CommitmentEntityBuilder.cs" />

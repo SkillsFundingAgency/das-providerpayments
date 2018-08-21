@@ -47,15 +47,14 @@ Scenario:AC2- Payment for a 16-18 DAS learner, levy available, incentives not pa
         | On-program               |       |       |       |       |       | ... |       |       |
         | Employer 16-18 incentive |       |       |       |       |       | ... |       |       |
         | Provider 16-18 incentive |       |       |       |       |       | ... |       |       |
-# The price episode starting 8/18 is valid, as it has started after the commitment start date so incentives will be paid
     And the provider earnings and payments break down as follows:
         | Type                                | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 08/18 | 09/18 |
         | Provider Earned Total               | 1000  | 1000  | 1000  | 2000  | 1000  | ... | 1000  | 0     |
-        | Provider Paid by SFA                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 1000  |
+        | Provider Paid by SFA                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | Levy account debited                | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy employer budget            | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
         | SFA Levy co-funding budget          | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
-        | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | ... | 1000  | 0     |
+        | SFA Levy additional payments budget | 0     | 0     | 0     | 0     | 0     | ... | 0     | 0     |
      
 @_Minimum_Acceptance_
 Scenario:AC3-Learner finishes on time, earns on-programme and completion payments. Assumes 12 month apprenticeship and learner completes after 10 months.

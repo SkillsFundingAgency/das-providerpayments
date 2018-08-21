@@ -7,8 +7,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
     {
         private const string PriceEpisodePeriodMatchDestination = "DataLock.PriceEpisodePeriodMatch";
 
-        private const string DeleteExtraPriceEpisodePeriodMatchesProc = "DataLock.DeleteExtraPriceEpisodeperiodMatches";
-
         public PriceEpisodePeriodMatchRepository(string connectionString)
             : base(connectionString)
         {
@@ -18,6 +16,5 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
         {
             ExecuteBatch(priceEpisodePeriodMatches, PriceEpisodePeriodMatchDestination);
         }
-
     }
 }

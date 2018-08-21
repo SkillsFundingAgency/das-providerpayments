@@ -112,6 +112,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings - Period End"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Period End", "Sql - Period End", "{CD7678D2-DA8F-4A52-AC68-2AC887ADC2CE}"
 	ProjectSection(SolutionItems) = preProject
+		SharedPipelineComponents\Datalock\DeployPeriodEnd\DataLock.ValidationMessages.csv = SharedPipelineComponents\Datalock\DeployPeriodEnd\DataLock.ValidationMessages.csv
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\Readme.txt = SharedPipelineComponents\Datalock\DeployPeriodEnd\Readme.txt
 	EndProjectSection
 EndProject
@@ -122,6 +123,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings - Ilr Submiss
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql - Ilr Submission", "Sql - Ilr Submission", "{3DB42E5E-B5B2-4174-A6AF-1799DE89E484}"
 	ProjectSection(SolutionItems) = preProject
+		SharedPipelineComponents\Datalock\Deploy\DataLock.ValidationMessages.csv = SharedPipelineComponents\Datalock\Deploy\DataLock.ValidationMessages.csv
 		SharedPipelineComponents\Datalock\Deploy\Readme.txt = SharedPipelineComponents\Datalock\Deploy\Readme.txt
 	EndProjectSection
 EndProject
@@ -145,8 +147,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{2D1EEBA0-85B
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
-		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql
-		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql
 		SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql = SharedPipelineComponents\Datalock\DeployPeriodEnd\sql\dml\PeriodEnd.DataLock.Cleanup.Deds.DML.sql
 	EndProjectSection
 EndProject

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.CollectionEarnings.DataLock.Exceptions;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
@@ -31,7 +30,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
             {
                 return EarningsByLearner[uln];
             }
-            throw new LearnerNotFoundException();
+            return new List<RawEarning>();
         }
 
         public IEnumerable<long> AllUlns()

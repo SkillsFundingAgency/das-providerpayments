@@ -64,21 +64,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
                     var priceEpisodes = EarningsForProvider(provider.Ukprn);
                     
-                    if (priceEpisodes.Count > 0)
-                    {
-                        var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(providerCommitments,
-                            priceEpisodes, dasAccountIdsThatHaveNonPayableFlagSet);
+                    var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(providerCommitments,
+                        priceEpisodes, dasAccountIdsThatHaveNonPayableFlagSet);
 
-                        _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
-                        _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
-                        _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult.PriceEpisodePeriodMatches);
-                        _datalockRepository.WriteDatalockOutput(dataLockValidationResult.DatalockOutputEntities);
-                        _datalockRepository.WriteValidationErrorsByPeriod(dataLockValidationResult.ValidationErrorsByPeriod);
-                    }
-                    else
-                    {
-                        _logger.Info("No price episodes found.");
-                    }
+                    _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
+                    _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
+                    _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult.PriceEpisodePeriodMatches);
+                    _datalockRepository.WriteDatalockOutput(dataLockValidationResult.DatalockOutputEntities);
+                    _datalockRepository.WriteValidationErrorsByPeriod(dataLockValidationResult.ValidationErrorsByPeriod);
                 }
             }
             else
@@ -123,11 +116,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             return commitments;
         }
 
-        private List<RawEarning> EarningsForProvider(long ukprn)
+        private IEnumerable<RawEarning> EarningsForProvider(long ukprn)
         {
             _logger.Info($"Reading price episodes for provider with ukprn {ukprn}.");
 
-            var earnings = _rawEarningsRepository.GetAllForProvider(ukprn);
+            var earnings = _rawEarningsRepository.GetAllAct1ForProvider(ukprn);
 
             return earnings;
         }

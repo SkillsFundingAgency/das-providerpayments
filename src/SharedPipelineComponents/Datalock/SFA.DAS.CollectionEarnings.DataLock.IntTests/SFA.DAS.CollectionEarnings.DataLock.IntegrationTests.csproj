@@ -205,10 +205,6 @@
       <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\07 PeriodEnd.DataLock.Populate.Reference.ApprenticeshipPriceEpisode_Period.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\0013_PeriodEnd.Deds.Datalock.Tables.add_validation_error_by_period.sql">
       <Link>DbSetupScripts\Deds\0013_PeriodEnd.Deds.Datalock.Tables.add_validation_error_by_period.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

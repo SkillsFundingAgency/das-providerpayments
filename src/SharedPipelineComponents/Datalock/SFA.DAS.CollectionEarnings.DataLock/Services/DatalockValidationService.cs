@@ -16,7 +16,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     {
         DatalockValidationResult ValidateDatalockForProvider(
             ProviderCommitments providerCommitments, 
-            List<RawEarning> providerEarnings, 
+            IEnumerable<RawEarning> providerEarnings, 
             ImmutableHashSet<long> accountsWithNonPayableFlagSet);
     }
 
@@ -31,13 +31,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
         public DatalockValidationResult ValidateDatalockForProvider(
             ProviderCommitments providerCommitments, 
-            List<RawEarning> providerEarnings,
+            IEnumerable<RawEarning> providerEarnings,
             ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
             var earningsByLearner = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
             
-            var result = new DatalockValidationResult(accountsWithNonPayableFlagSet);
+            var result = new DatalockValidationResult();
 
             foreach (var uln in providerCommitments.AllUlns())
             {
@@ -171,12 +171,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; } = new List<PriceEpisodePeriodMatchEntity>();
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
-        private readonly ImmutableHashSet<long> _accountsWithNonPayableFlagSet;
-
-        public DatalockValidationResult(ImmutableHashSet<long> accountsWithNonPayableFlagSet)
-        {
-            _accountsWithNonPayableFlagSet = accountsWithNonPayableFlagSet;
-        }
         
         public void AddDistinctRecords(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {

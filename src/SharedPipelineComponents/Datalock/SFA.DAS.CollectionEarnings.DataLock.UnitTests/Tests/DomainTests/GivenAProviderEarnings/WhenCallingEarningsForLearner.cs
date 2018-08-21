@@ -45,7 +45,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             public class WhenCallingWithUnknownUln
             {
                 [Test, AutoMoqData]
-                public void AnExceptionIsThrown(
+                public void AnEmptyListIsReturned(
                     List<RawEarning> earnings,
                     long uln1,
                     long uln2
@@ -54,9 +54,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     AssociateLearnerWithEarnings(earnings, uln1);
                     var sut = new ProviderEarnings(earnings);
 
-                    var actual = sut.Invoking(_ => _.EarningsForLearner(uln2));
+                    var actual = sut.EarningsForLearner(uln2);
 
-                    actual.Should().Throw<LearnerNotFoundException>();
+                    actual.Should().BeEmpty();
                 }
             }
         }
