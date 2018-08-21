@@ -101,6 +101,38 @@
       <Link>DbSetupScripts\001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Deds.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -113,41 +145,9 @@
       <Link>DbSetupScripts\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Reference.PaymentsDue.DDL.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPaymentsDue\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPaymentsDue\sql\MigrationScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql">
       <Link>DbSetupScripts\0033_PeriodEnd.Deds.PaymentsDue.Add_TransferAllowance.sql</Link>

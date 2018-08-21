@@ -146,6 +146,38 @@
       <Link>DbSetupScripts\Deds\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
+      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Deds.DataLock.DDL.sprocs.sql">
       <Link>DbSetupScripts\Deds\PeriodEnd.Deds.DataLock.DDL.sprocs.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -168,42 +200,6 @@
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql">
       <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.DataLock.Reference.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
-      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql">
-      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
-      <Link>DbSetupScripts\Transient\PeriodEnd\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\03 PeriodEnd.Populate.Reference.Commitments.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\03 PeriodEnd.Populate.Reference.Commitments.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\04 PeriodEnd.Populate.Reference.Accounts.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\04 PeriodEnd.Populate.Reference.Accounts.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployPeriodEnd\sql\dml\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\05 PeriodEnd.DataLock.Populate.Reference.DataLockPriceEpisode.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployPeriodEnd\sql\MigrationScripts\0013_PeriodEnd.Deds.Datalock.Tables.add_validation_error_by_period.sql">
@@ -268,7 +264,7 @@
     </Content>
     <Content Include="..\Deploy\sql\dml\03 ilr.Populate.Reference.Accounts.dml.sql">
       <Link>Utilities\Sql\Copy Reference Data\03 ilr.Populate.Reference.Accounts.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\0013_Ilr.Deds.Datalock.Tables.add_validation_error_by_period.sql">
       <Link>DbSetupScripts\Deds\0013_Ilr.Deds.Datalock.Tables.add_validation_error_by_period.sql</Link>

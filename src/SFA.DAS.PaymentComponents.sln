@@ -630,6 +630,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{8D9ADD39
 		PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\teardown.sql = PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\Other\teardown.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{0F5431BD-6504-4066-A3B6-DB6CFF7D303F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDL", "DDL", "{CC905139-8609-4F48-9077-29751C9791FC}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\SQL\DDL\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql = Shared\SQL\DDL\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
+		Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql = Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+		Shared\SQL\DDL\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql = Shared\SQL\DDL\PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
+		Shared\SQL\DDL\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql = Shared\SQL\DDL\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{8FCA0DC9-AF6C-4699-AA15-D437393153F3}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\SQL\DML\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = Shared\SQL\DML\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+		Shared\SQL\DML\02 PeriodEnd.Populate.Reference.Providers.dml.sql = Shared\SQL\DML\02 PeriodEnd.Populate.Reference.Providers.dml.sql
+		Shared\SQL\DML\03 PeriodEnd.Populate.Reference.Commitments.dml.sql = Shared\SQL\DML\03 PeriodEnd.Populate.Reference.Commitments.dml.sql
+		Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -985,6 +1003,9 @@ Global
 		{704E27F1-F639-4F3C-A397-08620474A859} = {FF9ECFCB-F09F-464A-B823-5C570CF3F030}
 		{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
 		{8D9ADD39-530F-48BA-A80D-CB97DFF14622} = {61493CCE-0228-4120-9BBA-5078CE8C29C0}
+		{0F5431BD-6504-4066-A3B6-DB6CFF7D303F} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
+		{CC905139-8609-4F48-9077-29751C9791FC} = {0F5431BD-6504-4066-A3B6-DB6CFF7D303F}
+		{8FCA0DC9-AF6C-4699-AA15-D437393153F3} = {0F5431BD-6504-4066-A3B6-DB6CFF7D303F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}
