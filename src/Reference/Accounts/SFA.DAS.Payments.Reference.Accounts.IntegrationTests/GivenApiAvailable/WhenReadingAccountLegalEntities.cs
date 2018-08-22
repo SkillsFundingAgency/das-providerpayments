@@ -19,6 +19,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
         {
             AccountLegalEntityDataHelper.Truncate();
             models.ForEach(model => model.AccountLegalEntityPublicHashedId = model.AccountLegalEntityPublicHashedId.Substring(0,6));
+            StubbedApiClient.Accounts.Clear();
             StubbedApiClient.AccountLegalEntities.Clear();
             StubbedApiClient.AccountLegalEntities.AddRange(models);
 
@@ -34,7 +35,9 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             ImportAccountsTask sut)
         {
             AccountLegalEntityDataHelper.Truncate();
+            AuditDataHelper.Truncate();
             models.ForEach(model => model.AccountLegalEntityPublicHashedId = model.AccountLegalEntityPublicHashedId.Substring(0, 6));
+            StubbedApiClient.Accounts.Clear();
             StubbedApiClient.AccountLegalEntities.Clear();
             StubbedApiClient.AccountLegalEntities.AddRange(models);
 

@@ -11,16 +11,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
         private ImportAccountsTask _task;
         private IntegrationTaskContext _context;
 
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            AccountDataHelper.ClearAccounts();
-        }
-
         [SetUp]
         public void Arrange()
         {
             StubbedApiClient.Accounts.Clear();
+            StubbedApiClient.AccountLegalEntities.Clear();
             
             _task = new ImportAccountsTask();
 
@@ -62,7 +57,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
 
 
         [Test]
-        public void ThenItShouldUpdateAccountsTheDoExist()
+        public void ThenItShouldUpdateAccountsThatDoExist()
         {
             // Arrange
             var accountId = DateTime.Now.Ticks;
@@ -105,6 +100,8 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.GivenApiAvailable
             var name = Guid.NewGuid().ToString();
             const decimal balance = 98765.3232m;
             const decimal transferAllowance = 12345m;
+
+            AuditDataHelper.Truncate();
 
             StubbedApiClient.Accounts.Add(new AccountWithBalanceViewModel
             {
