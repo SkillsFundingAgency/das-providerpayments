@@ -2,7 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
-    public static class DasAccountDataHelper
+    internal static class DasAccountDataHelper
     {
         internal static IEnumerable<DasAccountEntity> GetAll( )
         {

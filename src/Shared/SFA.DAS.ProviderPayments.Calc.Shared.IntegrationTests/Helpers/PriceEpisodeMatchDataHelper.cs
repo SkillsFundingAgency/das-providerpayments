@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
             TestDataHelper.Execute(sql);
         }
 
-        public static IEnumerable<PriceEpisodeMatchEntity> GetAll()
+        internal static IEnumerable<PriceEpisodeMatchEntity> GetAll()
         {
             const string sql = @"
             SELECT *

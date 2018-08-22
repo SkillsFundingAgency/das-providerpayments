@@ -40,6 +40,5 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
                 }
             }
         }
-
     }
 }

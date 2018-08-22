@@ -11,7 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
             TestDataHelper.Execute(sql);
         }
 
-        public static void CreateEntity(DatalockValidationError validationError)
+        internal static void CreateEntity(DatalockValidationError validationError)
         {
             const string sql = @"
             INSERT INTO [DataLock].[ValidationError] (
@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
             TestDataHelper.Execute(sql, validationError);
         }
 
-        public static IEnumerable<DatalockValidationError> GetAll()
+        internal static IEnumerable<DatalockValidationError> GetAll()
         {
             const string sql = @"
             SELECT *

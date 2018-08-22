@@ -347,5 +347,86 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 _actualEntities[0].IsSuccess
                     .Should().Be(_expectedEntities[0].IsSuccess);
         }
+
+        [TestFixture]
+        public class WhenCallingWritePriceEpisodePeriodMatches : GivenADatalockRepository
+        {
+            private List<PriceEpisodePeriodMatchEntity> _expectedEntities;
+            private List<PriceEpisodePeriodMatchEntity> _actualEntities;
+
+            [SetUp]
+            public void Setup()
+            {
+                _expectedEntities = new Fixture()
+                    .Build<PriceEpisodePeriodMatchEntity>()
+                    .CreateMany()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+
+                PriceEpisodePeriodMatchDataHelper.Truncate();
+
+                _sut.WritePriceEpisodePeriodMatches(_expectedEntities);
+
+                _actualEntities = PriceEpisodePeriodMatchDataHelper
+                    .GetAll()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+            }
+
+            [Test]
+            public void ThenItSavesTheExpectedNumberOfEntities() =>
+                _actualEntities.Count
+                    .Should().Be(_expectedEntities.Count);
+
+            [Test]
+            public void ThenItSetsUkprn() =>
+                _actualEntities[0].Ukprn
+                    .Should().Be(_expectedEntities[0].Ukprn);
+
+            [Test]
+            public void ThenItSetsAimSeqNumber() =>
+                _actualEntities[0].AimSeqNumber
+                    .Should().Be(_expectedEntities[0].AimSeqNumber);
+
+            [Test]
+            public void ThenItSetsLearnRefNumber() =>
+                _actualEntities[0].LearnRefNumber
+                    .Should().Be(_expectedEntities[0].LearnRefNumber);
+
+            [Test]
+            public void ThenItSetsPriceEpisodeIdentifier() =>
+                _actualEntities[0].PriceEpisodeIdentifier
+                    .Should().Be(_expectedEntities[0].PriceEpisodeIdentifier);
+
+            [Test]
+            public void ThenItSetsCommitmentId() =>
+                _actualEntities[0].CommitmentId
+                    .Should().Be(_expectedEntities[0].CommitmentId);
+
+            [Test]
+            public void ThenItSetsPeriod() =>
+                _actualEntities[0].Period
+                    .Should().Be(_expectedEntities[0].Period);
+
+            [Test]
+            public void ThenItSetsPayable() =>
+                _actualEntities[0].Payable
+                    .Should().Be(_expectedEntities[0].Payable);
+
+            [Test]
+            public void ThenItSetsVersionId() =>
+                _actualEntities[0].VersionId
+                    .Should().Be(_expectedEntities[0].VersionId);
+
+            [Test]
+            public void ThenItSetsTransactionType() =>
+                _actualEntities[0].TransactionType
+                    .Should().Be(_expectedEntities[0].TransactionType);
+
+            [Test]
+            public void ThenItSetsTransactionTypesFlag() =>
+                _actualEntities[0].TransactionTypesFlag
+                    .Should().Be(_expectedEntities[0].TransactionTypesFlag);
+        }
     }
 }
