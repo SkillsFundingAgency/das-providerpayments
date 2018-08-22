@@ -89,7 +89,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                 {
                     var periodsToSubmitTo = new List<string>
                     {
-                        CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).AddMonths(2).ToString("MM/yy")
+                        CommitmentsContext.Commitments.Max(x => x.EffectiveFrom).ToString("MM/yy")
                     };
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails,
