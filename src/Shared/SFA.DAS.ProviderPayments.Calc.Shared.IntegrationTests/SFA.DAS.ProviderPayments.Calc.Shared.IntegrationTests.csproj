@@ -102,8 +102,10 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
+    <Compile Include="Helpers\DatalockValidationErrorByPeriodDataHelper.cs" />
     <Compile Include="Helpers\DatalockValidationErrorDataHelper.cs" />
     <Compile Include="Helpers\PaymentDataHelper.cs" />
+    <Compile Include="Helpers\PriceEpisodeMatchDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />

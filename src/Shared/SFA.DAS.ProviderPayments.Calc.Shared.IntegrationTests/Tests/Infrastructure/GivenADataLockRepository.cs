@@ -201,6 +201,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                     .Should().Be(_expectedEntities.Count);
 
             [Test]
+            public void ThenItSetsUkprn() =>
+                _actualEntities[0].Ukprn
+                    .Should().Be(_expectedEntities[0].Ukprn);
+
+            [Test]
             public void ThenItSetsAimSeqNumber() =>
                 _actualEntities[0].AimSeqNumber
                     .Should().Be(_expectedEntities[0].AimSeqNumber);
@@ -219,6 +224,128 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             public void ThenItSetsRuleId() =>
                 _actualEntities[0].RuleId
                     .Should().Be(_expectedEntities[0].RuleId);
+        }
+
+        [TestFixture]
+        public class WhenCallingWriteValidationErrorsByPeriod : GivenADatalockRepository
+        {
+            private List<DatalockValidationErrorByPeriod> _expectedEntities;
+            private List<DatalockValidationErrorByPeriod> _actualEntities;
+
+            [SetUp]
+            public void Setup()
+            {
+                _expectedEntities = new Fixture()
+                    .Build<DatalockValidationErrorByPeriod>()
+                    .CreateMany()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+
+                DatalockValidationErrorByPeriodDataHelper.Truncate();
+
+                _sut.WriteValidationErrorsByPeriod(_expectedEntities);
+
+                _actualEntities = DatalockValidationErrorByPeriodDataHelper
+                    .GetAll()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+            }
+
+            [Test]
+            public void ThenItSavesTheExpectedNumberOfEntities() =>
+                _actualEntities.Count
+                    .Should().Be(_expectedEntities.Count);
+
+            [Test]
+            public void ThenItSetsUkprn() =>
+                _actualEntities[0].Ukprn
+                    .Should().Be(_expectedEntities[0].Ukprn);
+
+            [Test]
+            public void ThenItSetsAimSeqNumber() =>
+                _actualEntities[0].AimSeqNumber
+                    .Should().Be(_expectedEntities[0].AimSeqNumber);
+
+            [Test]
+            public void ThenItSetsLearnRefNumber() =>
+                _actualEntities[0].LearnRefNumber
+                    .Should().Be(_expectedEntities[0].LearnRefNumber);
+
+            [Test]
+            public void ThenItSetsPriceEpisodeIdentifier() =>
+                _actualEntities[0].PriceEpisodeIdentifier
+                    .Should().Be(_expectedEntities[0].PriceEpisodeIdentifier);
+
+            [Test]
+            public void ThenItSetsRuleId() =>
+                _actualEntities[0].RuleId
+                    .Should().Be(_expectedEntities[0].RuleId);
+
+            [Test]
+            public void ThenItSetsPeriod() =>
+                _actualEntities[0].Period
+                    .Should().Be(_expectedEntities[0].Period);
+        }
+
+        [TestFixture]
+        public class WhenCallingWritePriceEpisodeMatches : GivenADatalockRepository
+        {
+            private List<PriceEpisodeMatchEntity> _expectedEntities;
+            private List<PriceEpisodeMatchEntity> _actualEntities;
+
+            [SetUp]
+            public void Setup()
+            {
+                _expectedEntities = new Fixture()
+                    .Build<PriceEpisodeMatchEntity>()
+                    .CreateMany()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+
+                PriceEpisodeMatchDataHelper.Truncate();
+
+                _sut.WritePriceEpisodeMatches(_expectedEntities);
+
+                _actualEntities = PriceEpisodeMatchDataHelper
+                    .GetAll()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+            }
+
+            [Test]
+            public void ThenItSavesTheExpectedNumberOfEntities() =>
+                _actualEntities.Count
+                    .Should().Be(_expectedEntities.Count);
+
+            [Test]
+            public void ThenItSetsUkprn() =>
+                _actualEntities[0].Ukprn
+                    .Should().Be(_expectedEntities[0].Ukprn);
+
+            [Test]
+            public void ThenItSetsAimSeqNumber() =>
+                _actualEntities[0].AimSeqNumber
+                    .Should().Be(_expectedEntities[0].AimSeqNumber);
+
+            [Test]
+            public void ThenItSetsLearnRefNumber() =>
+                _actualEntities[0].LearnRefNumber
+                    .Should().Be(_expectedEntities[0].LearnRefNumber);
+
+            [Test]
+            public void ThenItSetsPriceEpisodeIdentifier() =>
+                _actualEntities[0].PriceEpisodeIdentifier
+                    .Should().Be(_expectedEntities[0].PriceEpisodeIdentifier);
+
+            [Test]
+            public void ThenItSetsCommitmentId() =>
+                _actualEntities[0].CommitmentId
+                    .Should().Be(_expectedEntities[0].CommitmentId);
+
+            [Test]
+            public void ThenItSetsIsSuccess() =>
+                _actualEntities[0].IsSuccess
+                    .Should().Be(_expectedEntities[0].IsSuccess);
         }
     }
 }
