@@ -201,11 +201,24 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                     .Should().Be(_expectedEntities.Count);
 
             [Test]
-            public void ThenItSetsUkprn() =>
-                _actualEntities[0].Ukprn
-                    .Should().Be(_expectedEntities[0].Ukprn);
+            public void ThenItSetsAimSeqNumber() =>
+                _actualEntities[0].AimSeqNumber
+                    .Should().Be(_expectedEntities[0].AimSeqNumber);
 
-            //todo other fields here
+            [Test]
+            public void ThenItSetsLearnRefNumber() =>
+                _actualEntities[0].LearnRefNumber
+                    .Should().Be(_expectedEntities[0].LearnRefNumber);
+
+            [Test]
+            public void ThenItSetsPriceEpisodeIdentifier() =>
+                _actualEntities[0].PriceEpisodeIdentifier
+                    .Should().Be(_expectedEntities[0].PriceEpisodeIdentifier);
+
+            [Test]
+            public void ThenItSetsRuleId() =>
+                _actualEntities[0].RuleId
+                    .Should().Be(_expectedEntities[0].RuleId);
         }
     }
 }
