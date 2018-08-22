@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks;
+using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastructure
 {
@@ -166,6 +168,44 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 public void ThenRuleIdIsSetCorrectly() =>
                     _actualValidationErrors[0].RuleId.Should().Be(_expectedValidationErrors[0].RuleId);
             }
+        }
+
+        [TestFixture]
+        public class WhenCallingWriteValidationErrors : GivenADatalockRepository
+        {
+            private List<DatalockValidationError> _expectedEntities;
+            private List<DatalockValidationError> _actualEntities;
+
+            [SetUp]
+            public void Setup()
+            {
+                _expectedEntities = new Fixture()
+                    .Build<DatalockValidationError>()
+                    .CreateMany()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+
+                DatalockValidationErrorDataHelper.Truncate();
+
+                _sut.WriteValidationErrors(_expectedEntities);
+
+                _actualEntities = DatalockValidationErrorDataHelper
+                    .GetAll()
+                    .OrderBy(entity => entity.Ukprn)
+                    .ToList();
+            }
+
+            [Test]
+            public void ThenItSavesTheExpectedNumberOfEntities() =>
+                _actualEntities.Count
+                    .Should().Be(_expectedEntities.Count);
+
+            [Test]
+            public void ThenItSetsUkprn() =>
+                _actualEntities[0].Ukprn
+                    .Should().Be(_expectedEntities[0].Ukprn);
+
+            //todo other fields here
         }
     }
 }

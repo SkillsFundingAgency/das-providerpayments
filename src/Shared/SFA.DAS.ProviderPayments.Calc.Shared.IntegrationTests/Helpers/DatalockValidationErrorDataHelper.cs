@@ -1,4 +1,5 @@
-﻿using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+﻿using System.Collections.Generic;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
@@ -28,6 +29,16 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
             );";
 
             TestDataHelper.Execute(sql, validationError);
+        }
+
+        public static IEnumerable<DatalockValidationError> GetAll()
+        {
+            const string sql = @"
+            SELECT *
+            FROM [DataLock].[ValidationError];
+            ";
+
+            return TestDataHelper.Query<DatalockValidationError>(sql);
         }
     }
 }
