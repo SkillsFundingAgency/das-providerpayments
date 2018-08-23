@@ -57,7 +57,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (commitmentDictionary.ContainsKey(datalockOutputEntity.CommitmentId))
                 {
-                    var commitment = commitmentDictionary[datalockOutputEntity.CommitmentId];
+                    var commitment = commitments.FirstOrDefault(x => x.CommitmentId == datalockOutputEntity.CommitmentId &&
+                                                                     x.CommitmentVersionId == datalockOutputEntity.VersionId);
+                    if (commitment == null)
+                    {
+                        commitment = commitmentDictionary[datalockOutputEntity.CommitmentId];
+                    }
                     var processedValueObject = new DatalockOutput(datalockOutputEntity, commitment);
                     output.Add(processedValueObject);
                 }
