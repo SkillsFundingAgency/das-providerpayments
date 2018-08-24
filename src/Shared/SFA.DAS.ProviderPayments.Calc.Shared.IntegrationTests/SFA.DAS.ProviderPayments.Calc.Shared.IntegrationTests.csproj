@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoFixture, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\AutoFixture.4.2.1\lib\net452\AutoFixture.dll</HintPath>
+    <Reference Include="AutoFixture, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoFixture.4.5.0\lib\net452\AutoFixture.dll</HintPath>
     </Reference>
     <Reference Include="AutoFixture.AutoMoq, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\AutoFixture.AutoMoq.4.2.1\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
@@ -45,6 +45,9 @@
     </Reference>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
     </Reference>
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
@@ -79,9 +82,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\DataLockPriceEpisodePeriodMatchDataHelper.cs" />
-    <Compile Include="Attributes\Datalocks\SetupDataLockPriceEpisodePeriodMatchesAttribute.cs" />
-    <Compile Include="Attributes\Datalocks\SetupNoDataLockPriceEpisodePeriodMatchesAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupNoValidationErrorsAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupValidationErrorsAttribute.cs" />
+    <Compile Include="Helpers\DatalockDataHelper.cs" />
+    <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
+    <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupNoRawEarningsMathsEnglishAttribute.cs" />
     <Compile Include="Attributes\RawEarnings\SetupRawEarningsAttribute.cs" />
@@ -97,7 +102,11 @@
     <Compile Include="GlobalTestContextSetupException.cs" />
     <Compile Include="Helpers\DasAccountDataHelper.cs" />
     <Compile Include="Helpers\DasAccountEntity.cs" />
+    <Compile Include="Helpers\DatalockValidationErrorByPeriodDataHelper.cs" />
+    <Compile Include="Helpers\DatalockValidationErrorDataHelper.cs" />
     <Compile Include="Helpers\PaymentDataHelper.cs" />
+    <Compile Include="Helpers\PriceEpisodeMatchDataHelper.cs" />
+    <Compile Include="Helpers\PriceEpisodePeriodMatchDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsDataHelper.cs" />
     <Compile Include="Helpers\RawEarningsMathsEnglishDataHelper.cs" />
     <Compile Include="Helpers\TestDataHelper.cs" />
@@ -105,7 +114,7 @@
     <Compile Include="SpecimenBuilders\KnownAccountIdBuilder.cs" />
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
-    <Compile Include="Tests\Infrastructure\GivenADataLockPriceEpisodePeriodMatchesRepository.cs" />
+    <Compile Include="Tests\Infrastructure\GivenADatalockRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />
