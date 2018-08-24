@@ -7,13 +7,13 @@ using SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datalocks
 {
-    public class SetupDataLockPriceEpisodePeriodMatchesAttribute : TestActionAttribute
+    public class SetupDatalocksAttribute : TestActionAttribute
     {
         public override ActionTargets Targets { get; } = ActionTargets.Suite;
 
         public override void BeforeTest(ITest test)
         {
-            DataLockPriceEpisodePeriodMatchDataHelper.Truncate();
+            DatalockDataHelper.Truncate();
 
             var fixture = new Fixture();
             var priceEpisodeIdentifier = $"{fixture.Create<string>().Substring(0, 5)}-01/03/2018";
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Attributes.Datal
 
             foreach (var dataLock in dataLocks)
             {
-                DataLockPriceEpisodePeriodMatchDataHelper.CreateEntity(dataLock);
+                DatalockDataHelper.CreateEntity(dataLock);
             }
 
             SharedTestContext.DataLockPriceEpisodePeriodMatches = dataLocks;
