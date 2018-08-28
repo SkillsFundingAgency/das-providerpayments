@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Reference')
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Reference')
 BEGIN
 	EXEC('CREATE SCHEMA Reference')
 END

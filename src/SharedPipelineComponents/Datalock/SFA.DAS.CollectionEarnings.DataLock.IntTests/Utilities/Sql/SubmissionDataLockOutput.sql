@@ -1,4 +1,4 @@
-﻿-- ValidationError
+-- ValidationError
 INSERT INTO ${ILR_Deds.FQ}.[DataLock].[ValidationError] (
 	[Ukprn], 
 	[LearnRefNumber], 

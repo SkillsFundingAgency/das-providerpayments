@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS (SELECT [schema_id] FROM sys.schemas WHERE name='Payments')
+IF NOT EXISTS (SELECT [schema_id] FROM sys.schemas WHERE name='Payments')
 	BEGIN
 		EXEC('CREATE SCHEMA Payments')
 	END

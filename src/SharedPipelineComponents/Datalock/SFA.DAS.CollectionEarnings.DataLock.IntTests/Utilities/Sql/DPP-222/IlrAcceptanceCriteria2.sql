@@ -1,4 +1,4 @@
-﻿-- Learning provider
+-- Learning provider
 INSERT [Valid].[LearningProvider] ([UKPRN]) VALUES (10007459)
 INSERT [Input].[LearningProvider] ([LearningProvider_Id], [UKPRN]) VALUES (1, 10007459)
 

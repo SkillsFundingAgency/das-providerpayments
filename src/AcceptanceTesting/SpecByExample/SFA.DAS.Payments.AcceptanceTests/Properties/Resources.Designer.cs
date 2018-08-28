@@ -61,17 +61,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IF NOT EXISTS (SELECT [schema_id] FROM sys.schemas WHERE [name] = &apos;AT&apos;)
+        ///   Looks up a localized string similar to if not exists(select 1 from sys.servers where name = &apos;SELF&apos;)
+        ///	EXEC master.dbo.sp_addlinkedserver @server = N&apos;SELF&apos;, @srvproduct = &apos;&apos;, @provider = N&apos;SQLNCLI&apos;, @datasrc = @@SERVERNAME;
+        ///							
+        ///IF NOT EXISTS (SELECT [schema_id] FROM sys.schemas WHERE [name] = &apos;AT&apos;)
         ///	BEGIN
         ///		EXEC(&apos;CREATE SCHEMA AT&apos;)
         ///	END
         ///GO
         ///----------------------------------------------------------------------------------------------------------------------------
         ///-- TestRuns
-        ///----------------------------------------------------------------------------------------------------------------------------
-        ///IF NOT EXISTS (SELECT [object_id] FROM sys.tables WHERE [name] = &apos;TestRuns&apos; AND [schema_id] = SCHEMA_ID(&apos;AT&apos;))
-        ///	BEGIN
-        ///		CREATE [rest of string was truncated]&quot;;.
+        ///------------------------------------------------------------ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ddl_AT_deds_tables {
             get {
@@ -99,7 +99,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
         ///	BEGIN
         ///		CREATE TABLE [dbo].[FileDetails](
         ///			[ID] [int] IDENTITY(1,1) NOT NULL,
-        ///			[UKPRN] [int] NOT NULL,
+        ///			[UKPRN] [bigint] NOT NULL,
         ///			[Filename] [nvarchar](50) NULL,
         ///			[FileSizeKb] [bigint] NULL,
         ///			[TotalLearnersSubmitted] [int] NULL,
@@ -107,7 +107,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Properties {
         ///			[TotalInvalidLearnersSubmitted] [int] NULL,
         ///			[TotalErrorCount] [int] NULL,
         ///			[TotalWarningCount] [int] NULL,
-        ///			[SubmittedTi [rest of string was truncated]&quot;;.
+        ///			[Submitte [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ilr_deds {
             get {

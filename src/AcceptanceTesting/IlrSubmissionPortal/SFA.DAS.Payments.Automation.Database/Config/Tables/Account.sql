@@ -1,4 +1,4 @@
-﻿CREATE TABLE Config.Account
+CREATE TABLE Config.Account
 (
 	Id				bigint			PRIMARY KEY IDENTITY(1,1),
 	EmailAddress	varchar(255)	NOT NULL UNIQUE,

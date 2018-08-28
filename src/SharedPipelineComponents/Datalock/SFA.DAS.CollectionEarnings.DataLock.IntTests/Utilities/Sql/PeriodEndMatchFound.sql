@@ -1,4 +1,4 @@
-﻿-- Learning provider
+-- Learning provider
 INSERT [Valid].[LearningProvider] ([UKPRN]) VALUES (10007459)
 INSERT [dbo].[FileDetails] ([UKPRN],[SubmittedTime]) VALUES (10007459, GETDATE())
 

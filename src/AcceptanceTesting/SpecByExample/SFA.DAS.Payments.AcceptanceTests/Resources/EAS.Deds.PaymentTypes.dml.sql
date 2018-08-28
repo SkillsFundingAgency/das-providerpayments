@@ -1,4 +1,4 @@
-﻿INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (2, N'Excess Learning Support: 16-18 Apprenticeships', 0)
+INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (2, N'Excess Learning Support: 16-18 Apprenticeships', 0)
 GO
 INSERT [dbo].[Payment_Types] ([Payment_Id], [PaymentName], [FM36]) VALUES (3, N'Exceptional Learning Support: 16-18 Apprenticeships', 0)
 GO

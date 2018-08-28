@@ -1,4 +1,4 @@
-﻿if object_id('[Rulebase].[AEC_Get_Cases]','p') is not null
+if object_id('[Rulebase].[AEC_Get_Cases]','p') is not null
 	drop procedure [Rulebase].[AEC_Get_Cases]
 go
 
