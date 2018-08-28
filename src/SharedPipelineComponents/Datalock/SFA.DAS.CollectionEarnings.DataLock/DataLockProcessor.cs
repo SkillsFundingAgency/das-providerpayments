@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using MediatR;
 using NLog;
 using SFA.DAS.CollectionEarnings.DataLock.Application.Provider.GetProvidersQuery;
@@ -55,7 +56,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
             if (providersQueryResponse.HasAnyItems())
             {
-                foreach (var provider in providersQueryResponse.Items)
+                Parallel.ForEach(providersQueryResponse.Items, provider =>
                 {
                     _logger.Info($"Performing Data Lock Validation for provider with ukprn {provider.Ukprn}.");
 
@@ -63,16 +64,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock
                     var providerCommitments = new ProviderCommitments(commitments);
 
                     var priceEpisodes = EarningsForProvider(provider.Ukprn);
-                    
-                    var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(providerCommitments,
+
+                    var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(
+                        providerCommitments,
                         priceEpisodes, dasAccountIdsThatHaveNonPayableFlagSet);
 
                     _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
                     _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
-                    _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult.PriceEpisodePeriodMatches);
+                    _datalockRepository.WritePriceEpisodePeriodMatches(dataLockValidationResult
+                        .PriceEpisodePeriodMatches);
                     _datalockRepository.WriteDatalockOutput(dataLockValidationResult.DatalockOutputEntities);
-                    _datalockRepository.WriteValidationErrorsByPeriod(dataLockValidationResult.ValidationErrorsByPeriod);
-                }
+                    _datalockRepository.WriteValidationErrorsByPeriod(dataLockValidationResult
+                        .ValidationErrorsByPeriod);
+                });
             }
             else
             {

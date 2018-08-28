@@ -2,7 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
-    internal static class DataLockPriceEpisodePeriodMatchDataHelper
+    internal static class DatalockDataHelper
     {
         internal static void CreateEntity(DatalockOutputEntity entity)
         {
