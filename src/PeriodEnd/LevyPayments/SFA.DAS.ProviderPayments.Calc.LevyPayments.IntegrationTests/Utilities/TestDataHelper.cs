@@ -40,7 +40,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Tools
         }
 
         internal static void AddCommitment(long id,
-                                           string accountId,
+                                           long accountId,
                                            long uln = 0L,
                                            long ukprn = 0L,
                                            DateTime startDate = default(DateTime),

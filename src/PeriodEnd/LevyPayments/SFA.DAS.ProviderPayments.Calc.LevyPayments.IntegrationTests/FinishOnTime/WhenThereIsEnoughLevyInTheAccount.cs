@@ -34,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 
@@ -60,7 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 
@@ -91,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 

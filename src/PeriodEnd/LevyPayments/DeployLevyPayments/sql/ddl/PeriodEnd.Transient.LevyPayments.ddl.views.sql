@@ -29,35 +29,6 @@ AND (stat.HasBeenProcessed IS NULL OR stat.HasBeenProcessed = 0)
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- Account commitments
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS (SELECT [object_id] FROM sys.views WHERE [name] = 'vw_AccountCommitments' and [schema_id] = SCHEMA_ID('LevyPayments'))
-	BEGIN
-		DROP VIEW LevyPayments.vw_AccountCommitments
-	END
-GO
-
-CREATE VIEW LevyPayments.vw_AccountCommitments
-AS
-SELECT
-	[CommitmentId],
-	[Uln],
-	[Ukprn],
-	[AccountId],
-	[StartDate],
-	[EndDate],
-	[AgreedCost],
-	[StandardCode],
-	[ProgrammeType],
-	[FrameworkCode],
-	[PathwayCode],
-	[Priority],
-	[VersionId],
-	RANK() OVER (PARTITION BY [CommitmentId] ORDER BY [VersionId] DESC) AS [Rank]
-FROM Reference.DasCommitments
-GO
-
------------------------------------------------------------------------------------------------------------------------------------------------
 -- vw_CollectionPeriods
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_CollectionPeriods' AND [schema_id] = SCHEMA_ID('LevyPayments'))

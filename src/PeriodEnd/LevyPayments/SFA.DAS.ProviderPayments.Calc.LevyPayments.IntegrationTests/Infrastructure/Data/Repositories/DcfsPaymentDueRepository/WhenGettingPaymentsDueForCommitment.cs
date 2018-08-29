@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             var commitmentId = 1;
             var versionId = "1-001";
 
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             foreach (var paymentDue in PaymentsDue)
             {
@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.Infrastruc
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString(), versionId: versionId);
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.AddPaymentDueForCommitment(commitmentId, deliveryMonth: 5, deliveryYear: 2017, transactionType: transactionType, commitmentVersionId: versionId);
 

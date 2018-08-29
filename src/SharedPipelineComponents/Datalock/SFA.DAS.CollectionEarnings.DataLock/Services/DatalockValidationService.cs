@@ -92,10 +92,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     date = CalculateOnProgCensusDate(earning);
                     break;
                 case TransactionTypesFlag.FirstEmployerProviderIncentives:
-                    date = earning.FirstIncentiveCensusDate ?? new DateTime(1900,01,01);
+                    date = earning.FirstIncentiveCensusDate ?? date;
                     break;
                 case TransactionTypesFlag.SecondEmployerProviderIncentives:
-                    date = earning.SecondIncentiveCensusDate ?? new DateTime(1900, 01, 01);
+                    date = earning.SecondIncentiveCensusDate ?? date;
                     break;
             }
 
