@@ -35,7 +35,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 08, 01));
                 actual.Should().BeEmpty();
@@ -49,7 +49,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 10, 01));
                 actual.Should().AllBeEquivalentTo(commitment);
@@ -100,7 +100,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 08, 01));
                 actual.Should().BeEmpty();
@@ -115,7 +115,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 10, 01));
                 actual.Should().BeEmpty();
@@ -130,7 +130,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 12, 01));
                 actual.Should().BeEmpty();
@@ -145,7 +145,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2020, 02, 01));
                 actual.Should().BeEmpty();
@@ -190,7 +190,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 08, 01));
                 actual.Should().BeEmpty();
@@ -205,7 +205,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 10, 01));
                 actual.Should().AllBeEquivalentTo(commitment1);
@@ -221,7 +221,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var commitments = SetupCommitments(commitment1, commitment2);
 
-                var sut = new LearnerCommitments(uln, commitments);
+                var sut = new LearnerCommitments(commitments);
 
                 var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 12, 01));
                 actual.Should().AllBeEquivalentTo(commitment1);
@@ -259,7 +259,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 11, 15));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -275,7 +275,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 09, 15));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -291,7 +291,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 07, 15));
                     actual.Should().BeEmpty();
@@ -306,7 +306,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 12, 15));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -322,7 +322,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2020, 12, 15));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -385,7 +385,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2, commitment3);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 08, 01));
                     actual.Should().BeEmpty();
@@ -401,7 +401,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2, commitment3);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 10, 01));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -418,7 +418,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 {
                     var commitments = SetupCommitments(commitment1, commitment2, commitment3);
 
-                    var sut = new LearnerCommitments(uln, commitments);
+                    var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.NonActiveCommitmentsForDate(new DateTime(2019, 03, 01));
                     actual.Should().AllBeEquivalentTo(commitment1);
@@ -438,7 +438,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     {
                         var commitments = SetupCommitments(commitment1, commitment2, commitment3);
 
-                        var sut = new LearnerCommitments(uln, commitments);
+                        var sut = new LearnerCommitments(commitments);
 
                         var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 12, 01));
                         actual.Should().AllBeEquivalentTo(commitment1);
@@ -454,7 +454,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     {
                         var commitments = SetupCommitments(commitment1, commitment2, commitment3);
 
-                        var sut = new LearnerCommitments(uln, commitments);
+                        var sut = new LearnerCommitments(commitments);
 
                         var actual = sut.NonActiveCommitmentsForDate(new DateTime(2019, 02, 01));
                         actual.Should().AllBeEquivalentTo(commitment1);

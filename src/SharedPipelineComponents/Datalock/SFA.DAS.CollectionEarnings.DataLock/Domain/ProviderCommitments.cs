@@ -20,7 +20,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
             foreach (var sortedCommitment in sortedCommitments)
             {
-                var learnerCommitments = new LearnerCommitments(sortedCommitment.Key, sortedCommitment.ToList());
+                var learnerCommitments = new LearnerCommitments(sortedCommitment.ToList());
                 CommitmentsByLearner.Add(sortedCommitment.Key, learnerCommitments);
             }
         }
@@ -29,7 +29,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         {
             if (!CommitmentsByLearner.ContainsKey(uln))
             {
-                CommitmentsByLearner.Add(uln, new LearnerCommitments(uln, new List<CommitmentEntity>()));
+                CommitmentsByLearner.Add(uln, new LearnerCommitments(new List<CommitmentEntity>()));
             }
             return CommitmentsByLearner[uln];
         }
