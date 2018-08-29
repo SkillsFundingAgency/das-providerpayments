@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.CollectionEarnings.DataLock.Exceptions;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
@@ -28,11 +27,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
         public LearnerCommitments CommitmentsForLearner(long uln)
         {
-            if (CommitmentsByLearner.ContainsKey(uln))
+            if (!CommitmentsByLearner.ContainsKey(uln))
             {
-                return CommitmentsByLearner[uln];
+                CommitmentsByLearner.Add(uln, new LearnerCommitments(uln, new List<CommitmentEntity>()));
             }
-            throw new LearnerNotFoundException();
+            return CommitmentsByLearner[uln];
         }
 
         public IEnumerable<long> AllUlns()

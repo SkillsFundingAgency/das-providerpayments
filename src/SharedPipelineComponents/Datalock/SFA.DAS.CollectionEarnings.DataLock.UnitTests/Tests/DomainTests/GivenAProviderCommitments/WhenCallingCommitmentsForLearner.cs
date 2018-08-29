@@ -21,9 +21,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
             {
                 var sut = new ProviderCommitments(new List<CommitmentEntity>());
 
-                var actual =  sut.Invoking(_ => _.CommitmentsForLearner(0));
+                var actual =  sut.CommitmentsForLearner(0);
 
-                actual.Should().Throw<LearnerNotFoundException>();
+                actual.Commitments.Should().BeEmpty();
             }
         }
 
@@ -90,9 +90,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                         
                         var sut = new ProviderCommitments(new List<CommitmentEntity>());
 
-                        var actual = sut.Invoking(_ => _.CommitmentsForLearner(otherUln));
+                        var actual = sut.CommitmentsForLearner(otherUln);
 
-                        actual.Should().Throw<LearnerNotFoundException>();
+                        actual.Commitments.Should().BeEmpty();
                     }
                 }
             }

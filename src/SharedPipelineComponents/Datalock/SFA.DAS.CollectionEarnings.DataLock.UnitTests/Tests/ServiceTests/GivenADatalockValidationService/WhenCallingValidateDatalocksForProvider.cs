@@ -259,7 +259,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 }
 
                 [Test, AutoMoqData]
-                public void ThenThereAreNoValidationErrors(
+                public void ThenThereIsADLOCK_02ValidationError(
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
@@ -270,7 +270,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.ValidationErrors.Should().BeEmpty();
+                    actual.ValidationErrors.Should().HaveCount(1);
+                    actual.ValidationErrors.Should().OnlyContain(x => x.RuleId == DataLockErrorCodes.MismatchingUln);
                 }
 
                 [Test, AutoMoqData]
@@ -689,7 +690,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.ValidationErrors.Should().BeEmpty();
+                    actual.ValidationErrors.Should().HaveCount(3);
                 }
 
                 [Test, AutoMoqData]

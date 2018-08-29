@@ -34,19 +34,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             IEnumerable<RawEarning> providerEarnings,
             ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
-            var earningsByLearner = new ProviderEarnings(providerEarnings);
+            var earnings = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
             
             var result = new DatalockValidationResult();
 
-            foreach (var uln in providerCommitments.AllUlns())
+            var learners = earnings.AllUlns();
+
+            foreach (var uln in learners)
             {
                 processedLearners.Add(uln);
 
                 var learnerCommitments = providerCommitments.CommitmentsForLearner(uln);
-                var earnings = earningsByLearner.EarningsForLearner(uln);
+                var learnerEarnings = earnings.EarningsForLearner(uln);
 
-                foreach (var earning in earnings)
+                foreach (var earning in learnerEarnings)
                 {
                     if (earning.HasNonIncentiveEarnings())
                     {
@@ -133,9 +135,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         matchResult.Commitments.First());
                 }
             }
-            else 
+            else
             {
-                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.Last());
+                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
             }
         }
 
@@ -245,6 +247,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             else
             {
                 payable = true;
+            }
+
+            if (commitment == null)
+            {
+                return;
             }
 
             PriceEpisodePeriodMatches.Add(new PriceEpisodePeriodMatchEntity
