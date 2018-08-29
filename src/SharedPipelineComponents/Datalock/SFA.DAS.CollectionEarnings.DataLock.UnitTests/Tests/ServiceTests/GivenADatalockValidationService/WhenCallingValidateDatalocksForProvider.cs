@@ -66,7 +66,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 commitment.EndDate = commitment.StartDate.AddYears(2);
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
-                commitment.PaymentStatus = 1;
+                commitment.PaymentStatus = (int)PaymentStatus.Active;
             }
         }
 
@@ -259,7 +259,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 }
 
                 [Test, AutoMoqData]
-                public void ThenThereAreNoValidationErrors(
+                public void ThenThereIsADLOCK_02ValidationError(
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
@@ -270,7 +270,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.ValidationErrors.Should().BeEmpty();
+                    actual.ValidationErrors.Should().HaveCount(1);
+                    actual.ValidationErrors.Should().OnlyContain(x => x.RuleId == DataLockErrorCodes.MismatchingUln);
                 }
 
                 [Test, AutoMoqData]
@@ -450,7 +451,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -471,7 +472,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -493,7 +494,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -518,7 +519,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -541,7 +542,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -564,7 +565,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var earnings = new List<RawEarning> { earning };
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(1);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         earning.Period = 1;
 
                         var accounts = CreateNonPayableAccountsList();
@@ -689,7 +690,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.ValidationErrors.Should().BeEmpty();
+                    actual.ValidationErrors.Should().HaveCount(3);
                 }
 
                 [Test, AutoMoqData]
@@ -728,7 +729,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -751,7 +752,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -775,7 +776,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(2);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -802,7 +803,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -826,7 +827,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -849,7 +850,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earnings[2].Period = 3;
                         AssociateEarningsWithCommitment(earnings, commitment);
                         commitment.WithdrawnOnDate = commitment.StartDate.AddMonths(3);
-                        commitment.PaymentStatus = 3;
+                        commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
@@ -878,7 +879,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
-                    commitment.PaymentStatus = 2;
+                    commitment.PaymentStatus = (int)PaymentStatus.Paused;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -901,7 +902,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
-                    commitment.PaymentStatus = 2;
+                    commitment.PaymentStatus = (int)PaymentStatus.Paused;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -925,7 +926,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     AssociateEarningsWithCommitment(earnings, commitment);
                     commitment.PausedOnDate = commitment.StartDate.AddMonths(2);
-                    commitment.PaymentStatus = 2;
+                    commitment.PaymentStatus = (int)PaymentStatus.Paused;
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
@@ -973,7 +974,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         commitment.EndDate = commitment.StartDate.AddYears(2);
                         commitment.WithdrawnOnDate = null;
                         commitment.PausedOnDate = null;
-                        commitment.PaymentStatus = 1;
+                        commitment.PaymentStatus = (int)PaymentStatus.Active;
                     }
                 }
 

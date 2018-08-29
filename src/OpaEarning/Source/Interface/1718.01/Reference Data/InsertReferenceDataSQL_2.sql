@@ -1,4 +1,4 @@
-﻿truncate table [Reference].[EFA_PostcodeDisadvantage]
+truncate table [Reference].[EFA_PostcodeDisadvantage]
 	insert into
 		[Reference].[EFA_PostcodeDisadvantage]
 	select distinct

@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS (
+IF NOT EXISTS (
 SELECT null FROM sys.columns c 
 	INNER JOIN sys.tables t 
 		ON c.object_id = t.object_id

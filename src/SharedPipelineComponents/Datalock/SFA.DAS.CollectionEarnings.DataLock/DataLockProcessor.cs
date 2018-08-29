@@ -47,12 +47,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
             var providersQueryResponse = ReturnValidGetProvidersQueryResponseOrThrow();
 
-            var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow().Items;
-            var dasAccountIdsThatHaveNonPayableFlagSet = ImmutableHashSet
-                .Create(dasAccountsQueryResponse
-                    .Where(x => x.IsLevyPayer == false)
-                    .Select(x => x.AccountId)
-                    .ToArray());
+            var accountIdsThatHaveNonPayableFlagSet = AccountIdsThatHaveNonPayableFlagSet();
 
             if (providersQueryResponse.HasAnyItems())
             {
@@ -67,7 +62,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
                     var dataLockValidationResult = _datalockValidationService.ValidateDatalockForProvider(
                         providerCommitments,
-                        priceEpisodes, dasAccountIdsThatHaveNonPayableFlagSet);
+                        priceEpisodes, accountIdsThatHaveNonPayableFlagSet);
 
                     _datalockRepository.WriteValidationErrors(dataLockValidationResult.ValidationErrors);
                     _datalockRepository.WritePriceEpisodeMatches(dataLockValidationResult.PriceEpisodeMatches);
@@ -84,6 +79,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock
             }
 
             _logger.Info("Finished Data Lock Processor.");
+        }
+
+        private ImmutableHashSet<long> AccountIdsThatHaveNonPayableFlagSet()
+        {
+            var dasAccountsQueryResponse = ReturnValidGetDasAccountsQueryResponseOrThrow().Items;
+            var dasAccountIdsThatHaveNonPayableFlagSet = ImmutableHashSet
+                .Create(dasAccountsQueryResponse
+                    .Where(x => x.IsLevyPayer == false)
+                    .Select(x => x.AccountId)
+                    .ToArray());
+            return dasAccountIdsThatHaveNonPayableFlagSet;
         }
 
         private GetProvidersQueryResponse ReturnValidGetProvidersQueryResponseOrThrow()

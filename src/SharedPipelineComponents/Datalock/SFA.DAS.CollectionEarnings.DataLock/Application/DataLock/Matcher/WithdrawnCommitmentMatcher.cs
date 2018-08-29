@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
@@ -18,7 +19,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             DateTime censusDate, MatchResult matchResult)
         {
             var withdrawnCommitments = commitments
-                .Where(x => x.PaymentStatus == 3 || x.WithdrawnOnDate.HasValue)
+                .Where(x => x.PaymentStatus == (int)PaymentStatus.Cancelled || x.WithdrawnOnDate.HasValue)
                 .ToList();
             var activeWithdrawnCommitments = withdrawnCommitments
                 .Where(x => x.WithdrawnOnDate > censusDate)

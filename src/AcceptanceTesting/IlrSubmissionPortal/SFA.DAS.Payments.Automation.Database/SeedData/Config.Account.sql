@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS(SELECT Id FROM Config.Account WHERE EmailAddress = 'dev@dev.local')
+IF NOT EXISTS(SELECT Id FROM Config.Account WHERE EmailAddress = 'dev@dev.local')
 	BEGIN
 		INSERT INTO Config.Account
 		(EmailAddress, PasswordHash, Salt, IsActive)

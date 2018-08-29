@@ -6,6 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Entitie
     {
         public Guid Id { get; set; }
         public long CommitmentId { get; set; }
+        public string CommitmentVersionId { get; set; }
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
         public long Ukprn { get; set; }

@@ -1,4 +1,4 @@
-﻿CREATE TABLE Lars.StandardAims
+CREATE TABLE Lars.StandardAims
 (
 	StandardCode			int				NOT NULL,
 	LearnAimRef				varchar(8)		NOT NULL,

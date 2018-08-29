@@ -1,8 +1,7 @@
-﻿using System;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
+﻿using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application
 {
     public class DasAccountBuilder : IBuilder<CollectionEarnings.DataLock.Application.DasAccount.DasAccount>
     {

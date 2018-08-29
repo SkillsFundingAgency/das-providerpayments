@@ -6,7 +6,7 @@ using Dapper;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
+namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Utilities
 {
     internal static class TestDataHelper
     {
@@ -14,7 +14,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
         {
             "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
             "02 PeriodEnd.Populate.Reference.Providers.dml.sql"
-
         };
 
         private static readonly Random Random = new Random();
@@ -141,8 +140,6 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools
 
         internal static void AddRequiredPaymentForReversal(string requiredPaymentId)
         {
-            
-            
                 Execute("Insert Into [Adjustments].[ManualAdjustments]" +
                                 "([RequiredPaymentIdToReverse]" +
                                 ",[ReasonForReversal]" +

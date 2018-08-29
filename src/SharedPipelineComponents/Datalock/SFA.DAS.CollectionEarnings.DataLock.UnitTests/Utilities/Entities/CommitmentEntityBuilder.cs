@@ -1,8 +1,9 @@
 ﻿using System;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
+using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities
 {
     public class CommitmentEntityBuilder : IBuilder<CommitmentEntity>
     {

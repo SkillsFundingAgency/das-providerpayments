@@ -1,4 +1,4 @@
-﻿CREATE SCHEMA Reference
+CREATE SCHEMA Reference
 GO
 CREATE SCHEMA TestStack
 GO
