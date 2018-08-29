@@ -1,4 +1,4 @@
-﻿-- filename starts with a ~ to ensure this alter table script runs *after* the table creation script
+-- filename starts with a ~ to ensure this alter table script runs *after* the table creation script
 
 IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'GivenNames' AND [object_id] = OBJECT_ID('Submissions.LastSeenVersion'))
   BEGIN

@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Earnings')
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Earnings')
 BEGIN
 	EXEC('CREATE SCHEMA Earnings')
 END

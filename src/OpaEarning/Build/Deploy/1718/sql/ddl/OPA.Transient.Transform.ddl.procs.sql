@@ -1,4 +1,4 @@
-﻿if object_id ('[dbo].[TransformInputToValid_AppFinRecord]','p') is not null
+if object_id ('[dbo].[TransformInputToValid_AppFinRecord]','p') is not null
 	exec ('drop procedure [dbo].[TransformInputToValid_AppFinRecord]')
 GO
  

@@ -1,4 +1,4 @@
-﻿-- ValidationError
+-- ValidationError
 INSERT INTO ${DAS_PeriodEnd.FQ}.[DataLock].[ValidationError] (
 	[Ukprn], 
 	[LearnRefNumber], 

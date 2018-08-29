@@ -1,4 +1,4 @@
-﻿
+
 CREATE PROCEDURE [Learners].[GetNextUln]
 	@LearnRefNumber nvarchar(12),
 	@ScenarioName nvarchar(max),

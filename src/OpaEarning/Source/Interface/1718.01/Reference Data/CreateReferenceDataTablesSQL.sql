@@ -1,4 +1,4 @@
-﻿if not exists(select schema_id from sys.schemas where name='Reference')	
+if not exists(select schema_id from sys.schemas where name='Reference')	
 	exec('create schema [Reference]')
 go
 

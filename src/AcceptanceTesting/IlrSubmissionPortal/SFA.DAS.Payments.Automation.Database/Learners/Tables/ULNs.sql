@@ -1,4 +1,4 @@
-﻿
+
 CREATE TABLE [Learners].[ULNs](
 	[Id]	BIGINT identity,
 	[ULN] [bigint] NOT NULL,

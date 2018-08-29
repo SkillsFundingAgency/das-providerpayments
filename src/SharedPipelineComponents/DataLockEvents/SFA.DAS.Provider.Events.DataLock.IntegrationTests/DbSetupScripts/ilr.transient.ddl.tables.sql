@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Valid')
+IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='Valid')
 BEGIN
 	EXEC('CREATE SCHEMA Valid')
 END
