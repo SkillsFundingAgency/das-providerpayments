@@ -12,6 +12,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application
         private string _versionId = "1-001";
         private long _uln = 1000000019;
         private long _ukprn = 10007459;
+        private long _providerUkprn = 10007459;
         private long _accountId = 1;
         private DateTime _startDate = new DateTime(2016, 9, 1);
         private DateTime _endDate = new DateTime(2018, 12, 31);
@@ -44,7 +45,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application
                 PaymentStatus = _paymentStatus,
                 PaymentStatusDescription = _paymentStatusDescription,
                 EffectiveFrom = _effectiveFrom,
-                EffectiveTo = _effectiveTo
+                EffectiveTo = _effectiveTo,
+                ProviderUkprn = _providerUkprn,
             };
             return new Commitment(entity);
         }
@@ -66,13 +68,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application
         public CommitmentBuilder WithUln(long uln)
         {
             _uln = uln;
-
+            
             return this;
         }
 
         public CommitmentBuilder Withukprn(long ukprn)
         {
             _ukprn = ukprn;
+            
+            return this;
+        }
+
+        public CommitmentBuilder WithProviderUkprn(long ukprn)
+        {
+            _providerUkprn = ukprn;
 
             return this;
         }
