@@ -24,11 +24,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
             }
         }
 
-        public static void ParseAdditionalCommitmentsIntoContext(CommitmentsContext context, Table commitments, LookupContext lookupContext, DateTime submissionDate)
+        public static void ParseAdditionalCommitmentsIntoContext(CommitmentsContext context, Table commitments, LookupContext lookupContext, string submissionPeriod)
         {
             if (commitments.Rows.Count < 1)
             {
-                throw new ArgumentOutOfRangeException("additinal commitments table must have at least 1 row");
+                throw new ArgumentOutOfRangeException("Additional commitments table must have at least 1 row");
             }
 
             var additionalCommitments = new List<CommitmentReferenceData>(); 
@@ -38,12 +38,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 additionalCommitments.Add(ParseCommitmentsTableRow(row, structure, context.Commitments.Count, lookupContext));
             }
 
-
-            context.AdditionalCommitmentsToBeSubmittedOn.Add(submissionDate, additionalCommitments);
-
+            context.AdditionalCommitmentsToBeSubmittedOn.Add(submissionPeriod, additionalCommitments);
         }
-
-
 
         private static CommitmentsTableColumnStructure ParseCommitmentsTableStructure(Table commitments)
         {

@@ -17,7 +17,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
-        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts, DateTime lastAssertionPeriodDate)
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts, DateTime lastAssertionPeriodDate, CommitmentsContext commitmentsContext)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -37,6 +37,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
                 EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
+
+                AddTheAdditionalCommitmentsForThisPeriod(commitmentsContext, period);
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
@@ -76,6 +78,21 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             multipleSubmissionsContext.TransferResults = TransfersDataCollector.CollectAllTransfers();
 
             return results;
+        }
+
+        private static void AddTheAdditionalCommitmentsForThisPeriod(CommitmentsContext commitmentsContext, string period)
+        {
+            if (commitmentsContext.AdditionalCommitmentsToBeSubmittedOn.ContainsKey(period))
+            {
+                var commitments = commitmentsContext.AdditionalCommitmentsToBeSubmittedOn[period];
+
+                foreach (var commitment in commitments)
+                {
+                    CommitmentManager.AddCommitment(commitment);
+                }
+
+                commitmentsContext.Commitments.AddRange(commitments);
+            }
         }
 
         [Obsolete("Superceeded by SubmitMultipleIlrAndRunMonthEndAndCollateResults()")]
