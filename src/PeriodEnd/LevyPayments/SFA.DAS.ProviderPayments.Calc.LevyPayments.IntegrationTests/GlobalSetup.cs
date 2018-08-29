@@ -29,6 +29,8 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"ddl.Deds.commitments.tables.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
                     RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection);
+
+                    RunSqlScript(@"001_ddl.DEDS.commitments.tables.change_versionid.sql", connection);
                     RunSqlScript(@"0013_ddl.DEDS.dbo.commitments.add_transferfields.sql", connection);
                     RunSqlScript(@"0014_ddl.DEDS.dbo.commitments.add_stop_pause_fields.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
