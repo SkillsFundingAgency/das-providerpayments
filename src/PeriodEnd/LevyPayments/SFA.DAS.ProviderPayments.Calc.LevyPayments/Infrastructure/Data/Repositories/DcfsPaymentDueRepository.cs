@@ -9,6 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
 
         private const string DuePaymentsColumns = "Id," +
                                                   "CommitmentId," +
+                                                  "CommitmentVersionId," +
                                                   "LearnRefNumber," +
                                                   "AimSeqNumber," +
                                                   "Ukprn," +
@@ -18,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
                                                   "AmountDue";
         private const string SelectDuePayments = "SELECT " + DuePaymentsColumns + " FROM " + DuePaymentsSource;
         private const string OrderByCaluseDuePaymentsForCommitment = " ORDER BY DeliveryYear, DeliveryMonth ASC";
-        private const string WhereClausePaymentsForCommitment = " WHERE CommitmentId = @CommitmentId  " + 
+        private const string WhereClausePaymentsForCommitment = " WHERE CommitmentId = @CommitmentId AND CommitmentVersionId = @CommitmentVersionId " + 
                                                                 " AND ((@refundPayments = 1 AND AmountDue <0) OR (@refundPayments = 0 AND AmountDue > 0) )";
 
         private const string SelectDuePaymentsForCommitment = SelectDuePayments + WhereClausePaymentsForCommitment + OrderByCaluseDuePaymentsForCommitment;
@@ -28,9 +29,9 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Infrastructure.Data.Reposit
         {
         }
 
-        public PaymentDueEntity[] GetPaymentsDueForCommitment(long commitmentId,bool refundPayments)
+        public PaymentDueEntity[] GetPaymentsDueForCommitment(long commitmentId, string commitmentVersionId, bool refundPayments)
         {
-            return Query<PaymentDueEntity>(SelectDuePaymentsForCommitment, new {commitmentId, refundPayments });
+            return Query<PaymentDueEntity>(SelectDuePaymentsForCommitment, new {commitmentId, commitmentVersionId, refundPayments });
         }
     }
 }
