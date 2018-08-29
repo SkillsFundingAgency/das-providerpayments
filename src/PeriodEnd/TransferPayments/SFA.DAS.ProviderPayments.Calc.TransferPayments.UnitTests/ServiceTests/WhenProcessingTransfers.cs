@@ -159,7 +159,7 @@ namespace SFA.DAS.ProviderPayments.Calc.TransferPayments.UnitTests.ServiceTests
                 [TestFixture]
                 public class WithBalanceHigherThanTheTransferBalance
                 {
-                    [Test, TransfersAutoData]
+                    [Test, TransfersAutoData, Retry(2)]
                     public void ThenLessThanThreePaymentSetsAreCreated(
                         LevyTransferService sut,
                         List<RequiredTransferPayment> requiredPayments,
