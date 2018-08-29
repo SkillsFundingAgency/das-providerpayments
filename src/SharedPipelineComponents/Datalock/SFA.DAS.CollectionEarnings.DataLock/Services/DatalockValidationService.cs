@@ -129,7 +129,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
             if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.Ukprn == earning.Ukprn))
             {
-                if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == 2))
+                if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == (int)PaymentStatus.Paused))
                 {
                     result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
                         matchResult.Commitments.First());

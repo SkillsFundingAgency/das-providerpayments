@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 {
@@ -60,8 +61,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                                           (x.EffectiveEndDate == null ||
                                           x.EffectiveEndDate >= date) &&
 
-                                          (x.PaymentStatus == 1 || 
-                                              (x.PaymentStatus == 3 &&
+                                          (x.PaymentStatus == (int)PaymentStatus.Active || 
+                                              (x.PaymentStatus == (int)PaymentStatus.Cancelled &&
                                                x.WithdrawnOnDate >= date)))
                 .ToList();
         }

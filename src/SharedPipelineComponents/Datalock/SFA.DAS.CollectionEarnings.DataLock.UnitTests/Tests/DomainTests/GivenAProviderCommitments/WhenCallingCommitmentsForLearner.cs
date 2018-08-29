@@ -7,6 +7,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Exceptions;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenAProviderCommitments
 {
@@ -34,7 +35,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment.StartDate = new DateTime(2017, 08, 01);
                 commitment.EndDate = new DateTime(2020, 01, 01);
                 commitment.WithdrawnOnDate = null;
-                commitment.PaymentStatus = 1;
+                commitment.PaymentStatus = (int)PaymentStatus.Active;
             }
         }
 

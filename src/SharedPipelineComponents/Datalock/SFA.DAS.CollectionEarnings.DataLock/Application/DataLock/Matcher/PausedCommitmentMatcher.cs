@@ -12,8 +12,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
         {}
 
         public override bool StopOnError { get { return false; } }
-
-
+        
         public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
             DateTime censusDate, MatchResult matchResult)
         {

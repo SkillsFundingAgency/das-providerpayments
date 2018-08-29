@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenALearnerCommitments
 {
@@ -24,7 +25,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment.EndDate = new DateTime(2020, 01, 01);
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
-                commitment.PaymentStatus = 1;
+                commitment.PaymentStatus = (int)PaymentStatus.Active;
                 return new List<CommitmentEntity> { commitment };
             }
 
@@ -81,7 +82,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment1.EffectiveTo = new DateTime(2018, 11, 01);
                 commitment1.WithdrawnOnDate = null;
                 commitment1.PausedOnDate = null;
-                commitment1.PaymentStatus = 1;
+                commitment1.PaymentStatus = (int)PaymentStatus.Active;
 
                 commitment2.StartDate = commitment1.StartDate;
                 commitment2.EndDate = commitment1.EndDate;
@@ -89,7 +90,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment2.EffectiveTo = null;
                 commitment2.WithdrawnOnDate = null;
                 commitment2.PausedOnDate = null;
-                commitment2.PaymentStatus = 1;
+                commitment2.PaymentStatus = (int)PaymentStatus.Active;
 
                 return new List<CommitmentEntity> { commitment1, commitment2 };
             }
@@ -178,13 +179,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 commitment1.EndDate = new DateTime(2020, 01, 01);
                 commitment1.WithdrawnOnDate = new DateTime(2018, 11, 01);
                 commitment1.PausedOnDate = null;
-                commitment1.PaymentStatus = 3;
+                commitment1.PaymentStatus = (int)PaymentStatus.Cancelled;
 
                 commitment2.StartDate = new DateTime(2018, 11, 02);
                 commitment2.EndDate = new DateTime(2020, 01, 01);
                 commitment2.WithdrawnOnDate = null;
                 commitment2.PausedOnDate = null;
-                commitment2.PaymentStatus = 1;
+                commitment2.PaymentStatus = (int)PaymentStatus.Active;
 
                 return new List<CommitmentEntity> { commitment1, commitment2 };
             }
@@ -249,13 +250,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     commitment1.EndDate = new DateTime(2020, 01, 01);
                     commitment1.WithdrawnOnDate = new DateTime(2018, 11, 20);
                     commitment1.PausedOnDate = null;
-                    commitment1.PaymentStatus = 3;
+                    commitment1.PaymentStatus = (int)PaymentStatus.Cancelled;
                     
                     commitment2.StartDate = new DateTime(2018, 11, 10);
                     commitment2.EndDate = new DateTime(2020, 01, 01);
                     commitment2.WithdrawnOnDate = null;
                     commitment2.PausedOnDate = null;
-                    commitment2.PaymentStatus = 1;
+                    commitment2.PaymentStatus = (int)PaymentStatus.Active;
                     
                     return new List<CommitmentEntity> { commitment1, commitment2 };
                 }
@@ -363,7 +364,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     commitment1.EndDate = new DateTime(2020, 01, 01);
                     commitment1.WithdrawnOnDate = new DateTime(2018, 11, 01);
                     commitment1.PausedOnDate = null;
-                    commitment1.PaymentStatus = 3;
+                    commitment1.PaymentStatus = (int)PaymentStatus.Cancelled;
 
                     commitment2.StartDate = new DateTime(2018, 11, 02);
                     commitment2.EndDate = new DateTime(2020, 01, 01);
@@ -371,7 +372,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     commitment2.EffectiveTo = new DateTime(2019, 01, 01);
                     commitment2.WithdrawnOnDate = null;
                     commitment2.PausedOnDate = null;
-                    commitment2.PaymentStatus = 1;
+                    commitment2.PaymentStatus = (int)PaymentStatus.Active;
 
                     commitment3.CommitmentId = commitment2.CommitmentId;
                     commitment3.StartDate = commitment2.StartDate;
@@ -380,7 +381,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     commitment3.EffectiveTo = null;
                     commitment3.WithdrawnOnDate = null;
                     commitment3.PausedOnDate = null;
-                    commitment3.PaymentStatus = 1;
+                    commitment3.PaymentStatus = (int)PaymentStatus.Active;
 
                     return new List<CommitmentEntity> { commitment1, commitment2, commitment3 };
                 }
