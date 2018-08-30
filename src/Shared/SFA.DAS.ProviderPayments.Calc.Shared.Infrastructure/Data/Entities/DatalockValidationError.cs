@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.Payments;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
-    public class DatalockValidationError
+    public class DatalockValidationError : IIdentifyCommitments
     {
         public long Ukprn { get; set; }
         [StringLength(12)]
