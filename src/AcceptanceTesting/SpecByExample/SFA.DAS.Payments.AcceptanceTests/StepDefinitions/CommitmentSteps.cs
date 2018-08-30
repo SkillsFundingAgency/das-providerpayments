@@ -26,10 +26,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
-        [Given("the following commitments are added for academic year (.*) in period (.*)")]
+        [Given("the following commitments exist for academic year (.*) in period (.*):")]
         public void GivenCommitmentsExistForLearners(string year, string period, Table commitments)
         {
-            var submissionPeriod = PeriodNameHelper.GetStringDateFromPeriodAndAcademicYear(year, period);
+            var submissionPeriod = PeriodNameHelper.GetStringDateFromPeriodAndAcademicYear(period, year);
             CommitmentsTableParser.ParseAdditionalCommitmentsIntoContext(CommitmentsContext, commitments, LookupContext, submissionPeriod);
         }
 

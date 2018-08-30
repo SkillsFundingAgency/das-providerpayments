@@ -107,10 +107,14 @@ Scenario:852-AC01- Levy apprentice, provider changes course details in ILR after
         And levy balance > agreed price for all months
         And the apprenticeship funding band maximum is 9000
 
-         And the following commitments exist:
-			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | effective from | effective to | stop effective from |
-			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 401            | 2              | 1            | 9000         | Cancelled | 01/08/2017     | 30/09/2017   | 01/10/2017   |
-			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 404            | 2              | 1            | 9000         | Active    | 01/10/2017     |              |              |
+         And the following commitments exist for academic year 1718 in period R01:
+			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status |
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 401            | 2              | 1            | 9000         | Active |
+
+         And the following commitments exist for academic year 1718 in period R03:
+			| commitment Id | version Id | ULN       | start date | end date   | framework code | programme type | pathway code | agreed price | status    | stop effective from |
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | 401            | 2              | 1            | 9000         | Cancelled | 01/08/2017          |
+			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 404            | 2              | 1            | 9000         | Active    |                     |
         
         When an ILR file is submitted for period R01 with the following data:
 			| ULN       | learner type       | agreed price | start date | planned end date | actual end date | completion status | aim type         | aim sequence number | aim rate | framework code | programme type | pathway code |
@@ -255,9 +259,14 @@ Scenario:852-AC04- Levy apprentice, provider changes course details from standar
         And the apprenticeship funding band maximum is 9000
 
         And the following commitments exist:
-			| commitment Id | version Id | ULN       | start date | end date   | framework code | standard code | programme type | pathway code | agreed price | status    | effective from | effective to | stop effective from |
-			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 |                | 50            | 25             |              | 9000         | Cancelled | 01/08/2017     | 30/09/2017   | 01/10/2017   |
-			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            |               | 2              | 1            | 9000         | Active    | 02/10/2017     |              |              |
+			| commitment Id | version Id | ULN       | start date | end date   | framework code | standard code | programme type | pathway code | agreed price | status | 
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 |                | 50            | 25             |              | 9000         | Active | 
+
+        And the following commitments exist for academic year 1718 in period R03:
+			| commitment Id | version Id | ULN       | start date | end date   | framework code | standard code | programme type | pathway code | agreed price | status    | stop effective from |
+			| 1             | 1          | learner a | 01/08/2017 | 01/08/2018 |                | 50            | 25             |              | 9000         | Cancelled | 01/08/2017          |
+			| 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | 403            |               | 2              | 1            | 9000         | Active    |                     |
+
 			
         When an ILR file is submitted for period R01 with the following data:
             | ULN       | learner type       | aim sequence number | aim type         | aim rate | agreed price | start date | planned end date | actual end date | completion status | standard code | programme type | pathway code |

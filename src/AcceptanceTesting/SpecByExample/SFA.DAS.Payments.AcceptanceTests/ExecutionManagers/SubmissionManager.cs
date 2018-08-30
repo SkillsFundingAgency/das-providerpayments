@@ -38,7 +38,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
                 EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
 
-                AddTheAdditionalCommitmentsForThisPeriod(commitmentsContext, period);
+                ReplaceCommitmentsWithNewPeriodCommitments(commitmentsContext, period);
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
@@ -80,18 +80,19 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return results;
         }
 
-        private static void AddTheAdditionalCommitmentsForThisPeriod(CommitmentsContext commitmentsContext, string period)
+        private static void ReplaceCommitmentsWithNewPeriodCommitments(CommitmentsContext commitmentsContext, string period)
         {
-            if (commitmentsContext.AdditionalCommitmentsToBeSubmittedOn.ContainsKey(period))
+            if (commitmentsContext.CommitmentsForPeriod.ContainsKey(period))
             {
-                var commitments = commitmentsContext.AdditionalCommitmentsToBeSubmittedOn[period];
+                var commitments = commitmentsContext.CommitmentsForPeriod[period];
 
+                CommitmentManager.DeleteCommitments();
                 foreach (var commitment in commitments)
                 {
                     CommitmentManager.AddCommitment(commitment);
                 }
-
-                commitmentsContext.Commitments.AddRange(commitments);
+                commitmentsContext.Commitments = commitments;
+                commitmentsContext.CommitmentsForPeriod.Remove(period);
             }
         }
 
@@ -104,6 +105,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             List<ContractTypeReferenceData> contractTypes,
             List<EmploymentStatusReferenceData> employmentStatus,
             List<LearningSupportReferenceData> learningSupportStatus,
+            CommitmentsContext commitmentsContext,
             List<string> periodsToSubmitTo = null,
             DateTime? lastAssertionPeriodDate = null)
         {
@@ -119,6 +121,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employers, period);
+
+                ReplaceCommitmentsWithNewPeriodCommitments(commitmentsContext, period);
 
                 foreach (var providerDetails in providerLearners)
                 {

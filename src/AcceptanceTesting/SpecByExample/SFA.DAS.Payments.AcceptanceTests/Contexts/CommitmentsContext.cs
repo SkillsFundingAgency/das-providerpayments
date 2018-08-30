@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Contexts
@@ -9,11 +8,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         public CommitmentsContext()
         {
             Commitments = new List<CommitmentReferenceData>();
-            AdditionalCommitmentsToBeSubmittedOn = new Dictionary<string, List<CommitmentReferenceData>>();
+            CommitmentsForPeriod = new Dictionary<string, List<CommitmentReferenceData>>();
         }
         public List<CommitmentReferenceData> Commitments { get; set; }
 
-        public Dictionary<string, List<CommitmentReferenceData>> AdditionalCommitmentsToBeSubmittedOn { get; }
+        public Dictionary<string, List<CommitmentReferenceData>> CommitmentsForPeriod { get; }
 
     }
 }

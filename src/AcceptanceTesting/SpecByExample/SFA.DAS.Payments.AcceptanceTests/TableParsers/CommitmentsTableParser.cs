@@ -38,7 +38,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 additionalCommitments.Add(ParseCommitmentsTableRow(row, structure, context.Commitments.Count, lookupContext));
             }
 
-            context.AdditionalCommitmentsToBeSubmittedOn.Add(submissionPeriod, additionalCommitments);
+            context.CommitmentsForPeriod.Add(submissionPeriod, additionalCommitments);
         }
 
         private static CommitmentsTableColumnStructure ParseCommitmentsTableStructure(Table commitments)
