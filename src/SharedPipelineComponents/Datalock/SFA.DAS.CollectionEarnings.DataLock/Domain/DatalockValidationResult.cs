@@ -22,8 +22,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
             {
                 foreach (var error in errors)
                 {
-                    if (ValidationErrors.DoesNotContainMatch(earning, error) &&
-                        PriceEpisodePeriodMatches.DoesNotContainMatch(earning, commitment, paymentType))
+                    if (ValidationErrors.DoesNotAlreadyContainEarningForThisError(earning, error) &&
+                        PriceEpisodePeriodMatches.DoesNotContainEarningForCommitmentAndPaymentType(earning, commitment, paymentType))
                     {
                         ValidationErrors.Add(new DatalockValidationError
                         {
@@ -35,7 +35,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                         });
                     }
 
-                    if (ValidationErrorsByPeriod.DoesNotContainMatch(earning, error))
+                    if (ValidationErrorsByPeriod.DoesNotAlreadyContainEarningForThisError(earning, error))
                     {
                         ValidationErrorsByPeriod.Add(new DatalockValidationErrorByPeriod()
                         {
@@ -86,7 +86,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 }
             }
 
-            if (PriceEpisodeMatches.DoesNotContainMatch(earning, commitment, payable))
+            if (PriceEpisodeMatches.DoesNotAlreadyContainEarningForCommitment(earning, commitment, payable))
             {
                 PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
                 {

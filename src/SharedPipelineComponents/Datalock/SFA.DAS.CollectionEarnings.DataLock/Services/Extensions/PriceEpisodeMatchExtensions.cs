@@ -19,7 +19,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
             return source.CommitmentId == rhs.CommitmentId;
         }
 
-        public static bool DoesNotContainMatch(this List<PriceEpisodeMatchEntity> source,
+        public static bool DoesNotAlreadyContainEarningForCommitment(this List<PriceEpisodeMatchEntity> source,
             RawEarning earning,
             CommitmentEntity commitment,
             bool payable)

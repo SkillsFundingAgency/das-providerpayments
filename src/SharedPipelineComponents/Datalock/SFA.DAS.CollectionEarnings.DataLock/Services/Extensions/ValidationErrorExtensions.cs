@@ -15,7 +15,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
                    source.Ukprn == rhs.Ukprn;
         }
 
-        public static bool DoesNotContainMatch(this List<DatalockValidationError> source, IIdentifyCommitments earning, string error)
+        public static bool DoesNotAlreadyContainEarningForThisError(this List<DatalockValidationError> source, IIdentifyCommitments earning, string error)
         {
             if (source.FirstOrDefault(x => x.IsEqualTo(earning) && x.RuleId == error) == null)
             {
@@ -25,7 +25,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
             return false;
         }
 
-        public static bool DoesNotContainMatch(this List<DatalockValidationErrorByPeriod> source, 
+        public static bool DoesNotAlreadyContainEarningForThisError(this List<DatalockValidationErrorByPeriod> source, 
             RawEarning earning, 
             string error)
         {

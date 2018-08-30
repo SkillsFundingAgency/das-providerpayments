@@ -23,7 +23,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
                    source.VersionId == rhs.VersionId;
         }
 
-        public static bool DoesNotContainMatch(this List<PriceEpisodePeriodMatchEntity> source, 
+        public static bool DoesNotContainEarningForCommitmentAndPaymentType(this List<PriceEpisodePeriodMatchEntity> source, 
             RawEarning earning, 
             CommitmentEntity commitment, 
             TransactionTypesFlag paymentType)
