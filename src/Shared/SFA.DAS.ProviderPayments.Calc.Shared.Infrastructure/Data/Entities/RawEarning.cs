@@ -5,7 +5,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.Payments;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {
-    public class RawEarning : IHoldCourseInformation
+    public class RawEarning : IHoldCourseInformation, IIdentifyCommitments
     {
         public long Ukprn { get; set; }
 
