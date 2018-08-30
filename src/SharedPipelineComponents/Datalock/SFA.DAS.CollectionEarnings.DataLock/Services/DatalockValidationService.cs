@@ -6,7 +6,6 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -121,7 +120,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 return;
             }
 
-            result.AddDistinctRecords(earning, errors, paymentType, commitments.First());
+            result.Add(earning, errors, paymentType, commitments.First());
         }
 
         private void CheckForEarlierStartDate(RawEarning earning, List<Commitment> commitments, DateTime censusDate, TransactionTypesFlag paymentType, DatalockValidationResult result)
@@ -131,13 +130,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == (int)PaymentStatus.Paused))
                 {
-                    result.AddDistinctRecords(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
+                    result.Add(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
                         matchResult.Commitments.First());
                 }
             }
             else
             {
-                result.AddDistinctRecords(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
+                result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
             }
         }
 
@@ -179,124 +178,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 return new DateTime(episodeStartDate.Year - 1, 8, 1);
             }
             return new DateTime(episodeStartDate.Year, 8, 1);
-        }
-    }
-
-    public class DatalockValidationResult
-    {
-        public List<DatalockValidationError> ValidationErrors { get; } = new List<DatalockValidationError>();
-        public List<DatalockValidationErrorByPeriod> ValidationErrorsByPeriod { get; } = new List<DatalockValidationErrorByPeriod>();
-        public List<PriceEpisodePeriodMatchEntity> PriceEpisodePeriodMatches { get; } = new List<PriceEpisodePeriodMatchEntity>();
-        public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
-        public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
-        
-        public void AddDistinctRecords(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
-        {
-            var payable = false;
-            if (errors.Count > 0)
-            {
-                foreach (var error in errors)
-                {
-                    if (ValidationErrors.FirstOrDefault(x =>
-                            x.LearnRefNumber == earning.LearnRefNumber &&
-                            x.AimSeqNumber == earning.AimSeqNumber &&
-                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
-                            x.RuleId == error &&
-                            x.Ukprn == earning.Ukprn) == null &&
-                        PriceEpisodePeriodMatches.FirstOrDefault(x => 
-                            x.AimSeqNumber == earning.AimSeqNumber &&
-                            x.LearnRefNumber == earning.LearnRefNumber &&
-                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
-                            x.Ukprn == earning.Ukprn && 
-                            x.CommitmentId == commitment.CommitmentId &&
-                            x.Period == earning.Period &&
-                            x.TransactionTypesFlag == paymentType &&
-                            x.Payable &&
-                            x.VersionId == commitment.VersionId) == null)
-                    {
-                        ValidationErrors.Add(new DatalockValidationError
-                        {
-                            LearnRefNumber = earning.LearnRefNumber,
-                            AimSeqNumber = earning.AimSeqNumber,
-                            PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                            RuleId = error,
-                            Ukprn = earning.Ukprn,
-                        });
-                    }
-
-                    if (ValidationErrorsByPeriod.FirstOrDefault(x =>
-                            x.LearnRefNumber == earning.LearnRefNumber &&
-                            x.AimSeqNumber == earning.AimSeqNumber &&
-                            x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
-                            x.RuleId == error &&
-                            x.Period == earning.Period &&
-                            x.Ukprn == earning.Ukprn) == null)
-                    {
-                        ValidationErrorsByPeriod.Add(new DatalockValidationErrorByPeriod()
-                        {
-                            LearnRefNumber = earning.LearnRefNumber,
-                            AimSeqNumber = earning.AimSeqNumber,
-                            PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                            RuleId = error,
-                            Ukprn = earning.Ukprn,
-                            Period = earning.Period,
-                        });
-                    }
-                }
-            }
-            else
-            {
-                payable = true;
-            }
-
-            if (commitment == null)
-            {
-                return;
-            }
-
-            PriceEpisodePeriodMatches.Add(new PriceEpisodePeriodMatchEntity
-            {
-                AimSeqNumber = earning.AimSeqNumber,
-                CommitmentId = commitment.CommitmentId,
-                LearnRefNumber = earning.LearnRefNumber,
-                PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                Period = earning.Period,
-                TransactionTypesFlag = paymentType,
-                Payable = payable,
-                Ukprn = earning.Ukprn,
-                VersionId = commitment.VersionId,
-            });
-
-            if (payable)
-            {
-                var validationErrorsToRemove = ValidationErrors.Where(x =>
-                        x.Ukprn == earning.Ukprn &&
-                        x.LearnRefNumber == earning.LearnRefNumber &&
-                        x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier)
-                    .ToList();
-
-                foreach (var validationError in validationErrorsToRemove)
-                {
-                    ValidationErrors.Remove(validationError);
-                }
-            }
-
-            if (PriceEpisodeMatches.FirstOrDefault(x =>
-                    x.IsSuccess == payable &&
-                    x.CommitmentId == commitment.CommitmentId &&
-                    x.LearnRefNumber == earning.LearnRefNumber &&
-                    x.PriceEpisodeIdentifier == earning.PriceEpisodeIdentifier &&
-                    x.Ukprn == earning.Ukprn) == null)
-            {
-                PriceEpisodeMatches.Add(new PriceEpisodeMatchEntity
-                {
-                    CommitmentId = commitment.CommitmentId,
-                    IsSuccess = payable,
-                    LearnRefNumber = earning.LearnRefNumber,
-                    PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
-                    Ukprn = earning.Ukprn,
-                });
-            }
         }
     }
 }

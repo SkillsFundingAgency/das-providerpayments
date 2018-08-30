@@ -92,6 +92,7 @@
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
     <Compile Include="Domain\Commitment.cs" />
+    <Compile Include="Domain\DatalockValidationResult.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
     <Compile Include="Domain\PriceEpisodeGroup.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
     <Compile Include="Domain\Extensions\EarningExtensions.cs" />
+    <Compile Include="Services\Extensions\PriceEpisodeMatchExtensions.cs" />
+    <Compile Include="Services\Extensions\PriceEpisodePeriodMatchExtensions.cs" />
+    <Compile Include="Services\Extensions\ValidationErrorExtensions.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
     <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
@@ -141,6 +145,10 @@
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
