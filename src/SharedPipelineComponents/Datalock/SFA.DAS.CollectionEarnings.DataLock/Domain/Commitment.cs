@@ -30,6 +30,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
             TransferApprovalDate = entity.TransferApprovalDate;
             WithdrawnOnDate = entity.WithdrawnOnDate;
             PausedOnDate = entity.PausedOnDate;
+            ProviderUkprn = entity.ProviderUkprn;
         }
 
         public DateTime EffectiveStartDate { get; set; }

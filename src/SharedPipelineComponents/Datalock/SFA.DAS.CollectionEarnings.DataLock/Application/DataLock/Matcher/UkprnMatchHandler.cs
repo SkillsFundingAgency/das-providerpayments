@@ -14,10 +14,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
         {}
       
         public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
-            DateTime censusDate,
-            MatchResult matchResult)
+            DateTime censusDate, MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments.Where(c => c.Ukprn == earning.Ukprn).ToList();
+            var commitmentsToMatch = commitments.Where(c => c.ProviderUkprn == c.Ukprn).ToList();
 
             if (!commitmentsToMatch.Any())
             {

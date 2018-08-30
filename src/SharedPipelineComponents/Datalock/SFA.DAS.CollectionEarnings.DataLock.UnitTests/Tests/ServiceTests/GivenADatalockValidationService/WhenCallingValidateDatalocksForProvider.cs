@@ -67,6 +67,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
                 commitment.PaymentStatus = (int)PaymentStatus.Active;
+                commitment.ProviderUkprn = commitment.Ukprn;
             }
         }
 
@@ -293,6 +294,25 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             [TestFixture]
             public class WithAnInvalidCommitment
             {
+                [Test, AutoMoqData]
+                public void MismatchedUkprnReturnsDLOCK_01(
+                    RawEarning earning,
+                    CommitmentEntity commitment)
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    commitment.ProviderUkprn += 1;
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingUkprn);
+                }
+
                 [Test, AutoMoqData]
                 public void MismatchedProgrammeTypeReturnsDLOCK_05(
                     RawEarning earning,
@@ -975,6 +995,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         commitment.WithdrawnOnDate = null;
                         commitment.PausedOnDate = null;
                         commitment.PaymentStatus = (int)PaymentStatus.Active;
+                        commitment.ProviderUkprn = commitment.Ukprn;
                     }
                 }
 

@@ -127,7 +127,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         private void CheckForEarlierStartDate(RawEarning earning, List<Commitment> commitments, DateTime censusDate, TransactionTypesFlag paymentType, DatalockValidationResult result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
-            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.Ukprn == earning.Ukprn))
+            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.ProviderUkprn == earning.Ukprn))
             {
                 if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == (int)PaymentStatus.Paused))
                 {
