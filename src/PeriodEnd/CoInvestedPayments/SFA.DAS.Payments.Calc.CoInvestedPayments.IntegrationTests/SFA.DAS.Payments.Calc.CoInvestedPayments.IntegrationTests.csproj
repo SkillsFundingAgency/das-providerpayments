@@ -115,6 +115,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DML\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
+      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\TransferPayments\DeployTransferPayments\sql\ddl\PeriodEnd.Transient.TransferPayments.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.TransferPayments.DDL.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -129,22 +145,6 @@
     </Content>
     <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.CoInvestedPayments.ddl.views.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Providers.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployCoInvestedPayments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DeployCoInvestedPayments\sql\dml\02 PeriodEnd.Populate.Reference.Providers.dml.sql">
-      <Link>Utilities\Sql\Copy Reference Data\02 PeriodEnd.Populate.Reference.Providers.dml.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployCoInvestedPayments\sql\Migration Scripts\1_CoInvestedPayments.deds.Add_Indexes.sql">

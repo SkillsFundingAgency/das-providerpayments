@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data
 {
     public interface IRequiredPaymentRepository
     {
-        void AddRequiredPayments(List<RequiredPayment> payments);
+        void AddMany(List<RequiredPayment> payments);
     }
 }

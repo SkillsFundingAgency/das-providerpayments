@@ -1,4 +1,4 @@
-﻿
+
 IF EXISTS(SELECT 1 FROM sys.columns 
           WHERE Name = N'HistoricEmpIdEndWithinYear'
           AND Object_ID = Object_ID(N'dbo.AEC_EarningHistory'))

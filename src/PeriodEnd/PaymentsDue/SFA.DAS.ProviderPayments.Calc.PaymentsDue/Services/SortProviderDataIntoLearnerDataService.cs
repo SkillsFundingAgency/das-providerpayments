@@ -5,10 +5,11 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class SortProviderDataIntoLearnerDataService : ISortProviderDataIntoLearnerData
+    public class SortProviderDataIntoLearnerDataService : ICorrelateLearnerData
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
@@ -43,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
         {
-            var learners = Sort(ukprn);
+            var learners = Correlate(ukprn);
  
             foreach (var learner in learners)
             {
@@ -52,7 +53,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return learners;
         }
 
-        private List<LearnerData> Sort(long ukprn)
+        private List<LearnerData> Correlate(long ukprn)
         {
             var learnerResults = new SortLearnerResults();
             

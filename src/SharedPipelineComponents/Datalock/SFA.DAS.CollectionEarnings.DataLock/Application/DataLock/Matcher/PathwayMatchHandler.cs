@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -7,37 +10,32 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public PathwayMatchHandler(MatchHandler nextMatchHandler):
             base(nextMatchHandler)
-        {
+        {}
 
-        }
-        public override bool StopOnError
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool StopOnError { get { return false; } }
 
-        public override MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts,  MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate,
+            MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
-            if (!priceEpisode.StandardCode.HasValue)
+
+            var hasPathwayCode = earning.PathwayCode > 0 ||
+                                 commitments.Any(x => x.PathwayCode.HasValue && x.PathwayCode > 0);
+
+            if (hasPathwayCode)
             {
                 var commitmentsToMatch = commitments.Where(c => c.PathwayCode.HasValue &&
-                                                                priceEpisode.PathwayCode.HasValue &&
-                                                                c.PathwayCode.Value == priceEpisode.PathwayCode.Value).ToList();
+                                                                earning.PathwayCode > 0 &&
+                                                                c.PathwayCode.Value == earning.PathwayCode).ToList();
 
                 if (!commitmentsToMatch.Any())
                 {
                     matchResult.ErrorCodes.Add(DataLockErrorCodes.MismatchingPathway);
                 }
-                else
-                {
-                    matchResult.Commitments = commitmentsToMatch.ToArray();
-                }
             }
-
-            return ExecuteNextHandler(commitments, priceEpisode,dasAccounts,matchResult);
+            
+            return ExecuteNextHandler(commitments, earning, censusDate, matchResult);
         }
     }
 }

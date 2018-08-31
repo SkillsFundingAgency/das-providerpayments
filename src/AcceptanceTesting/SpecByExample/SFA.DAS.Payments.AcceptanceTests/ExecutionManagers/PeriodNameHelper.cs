@@ -137,10 +137,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             switch (period.ToUpper())
             {
                 case "R01": return new DateTime(firstHalf, 8, 1);
-                case "R02": return new DateTime(firstHalf, 9, 1); 
-                case "R03": return new DateTime(firstHalf, 10, 1); 
-                case "R04": return new DateTime(firstHalf, 11, 1); 
-                case "R05": return new DateTime(firstHalf, 12, 1); 
+                case "R02": return new DateTime(firstHalf, 9, 1);
+                case "R03": return new DateTime(firstHalf, 10, 1);
+                case "R04": return new DateTime(firstHalf, 11, 1);
+                case "R05": return new DateTime(firstHalf, 12, 1);
                 case "R06": return new DateTime(secondHalf, 1, 1);
                 case "R07": return new DateTime(secondHalf, 2, 1);
                 case "R08": return new DateTime(secondHalf, 3, 1);

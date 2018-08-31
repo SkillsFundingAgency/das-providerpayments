@@ -14,5 +14,10 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.DataHelpers
         {
             return DatabaseHelper.QuerySingle<AccountEntity>("SELECT * FROM DasAccounts WHERE AccountId=@id", new { id });
         }
+
+        public static void ClearAccounts()
+        {
+            DatabaseHelper.Execute("TRUNCATE TABLE DasAccounts; TRUNCATE TABLE AccountLegalEntity;");
+        }
     }
 }

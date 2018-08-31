@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -7,25 +10,24 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public ProgrammeMatchHandler(MatchHandler nextMatchHandler):
             base(nextMatchHandler)
-        {
+        {}
 
-        }
-        public override bool StopOnError
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override bool StopOnError { get { return false; } }
+        
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate,
+            MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
 
-            if (!priceEpisode.StandardCode.HasValue)
+            var hasProgrammeType = earning.ProgrammeType > 0 ||
+                                   commitments.Any(x => x.ProgrammeType.HasValue && x.ProgrammeType > 0);
+
+            if (hasProgrammeType)
             {
                 var commitmentsToMatch = commitments.Where(c => c.ProgrammeType.HasValue &&
-                                                                priceEpisode.ProgrammeType.HasValue &&
-                                                                c.ProgrammeType.Value == priceEpisode.ProgrammeType.Value)
+                                                                earning.ProgrammeType != 0 &&
+                                                                c.ProgrammeType.Value == earning.ProgrammeType)
                     .ToList();
 
                 if (!commitmentsToMatch.Any())
@@ -38,7 +40,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 }
             }
 
-            return ExecuteNextHandler(commitments, priceEpisode,dasAccounts, matchResult);
+            return ExecuteNextHandler(commitments, earning, censusDate, matchResult);
         }
     }
 }

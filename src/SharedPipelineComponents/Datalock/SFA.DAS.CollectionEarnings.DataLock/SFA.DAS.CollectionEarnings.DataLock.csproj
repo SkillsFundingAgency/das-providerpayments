@@ -49,6 +49,9 @@
       <HintPath>..\..\..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Collections.Immutable.1.5.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
@@ -59,88 +62,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Commitment\Commitment.cs" />
     <Compile Include="Application\DasAccount\DasAccount.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryRequest.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryResponse.cs" />
     <Compile Include="Application\DataLock\DataLockErrorCodes.cs" />
     <Compile Include="Application\DataLock\Matcher\IMatcher.cs" />
-    <Compile Include="Application\DataLock\Matcher\LevyPayerFlagMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\MatcherFactory.cs" />
+    <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
+    <Compile Include="Application\DataLock\Matcher\PausedCommitmentMatcher.cs" />
+    <Compile Include="Application\DataLock\Matcher\WithdrawnCommitmentMatcher.cs" />
     <Compile Include="Application\DataLock\MatchResult.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryHandler.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryRequest.cs" />
-    <Compile Include="Application\DataLock\RunDataLockValidationQuery\RunDataLockValidationQueryResponse.cs" />
     <Compile Include="Application\DataLock\Matcher\FrameworkMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\MatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\MultipleMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\PathwayMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\PriceMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\ProgrammeMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\StandardMatchHandler.cs" />
-    <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\UkprnMatchHandler.cs" />
     <Compile Include="Application\DataLock\Matcher\UlnMatchHandler.cs" />
-    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryHandler.cs" />
-    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryRequest.cs" />
-    <Compile Include="Application\Earnings\Get16To18IncentiveEarningsQuery\Get16To18IncentiveEarningsQueryResponse.cs" />
-    <Compile Include="Application\Earnings\IncentiveEarnings.cs" />
-    <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandHandler.cs" />
-    <Compile Include="Application\PriceEpisodePeriodMatch\AddPriceEpisodePeriodMatchesCommand\AddPriceEpisodePeriodMatchesCommandRequest.cs" />
     <Compile Include="Application\PriceEpisodePeriodMatch\PriceEpisodePeriodMatch.cs" />
-    <Compile Include="Application\ValidationError\ValidationError.cs" />
-    <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandHandler.cs" />
-    <Compile Include="Application\PriceEpisodeMatch\AddPriceEpisodeMatchesCommand\AddPriceEpisodeMatchesCommandRequest.cs" />
-    <Compile Include="Application\PriceEpisode\PriceEpisode.cs" />
     <Compile Include="Application\PriceEpisodeMatch\PriceEpisodeMatch.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryHandler.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryRequest.cs" />
     <Compile Include="Application\Provider\GetProvidersQuery\GetProvidersQueryResponse.cs" />
     <Compile Include="Application\Provider\Provider.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandHandler.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorsCommand\AddValidationErrorsCommandRequest.cs" />
     <Compile Include="Context\DataLockContextPropertyKeys.cs" />
     <Compile Include="DataLockPassThroughProcessor.cs" />
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
+    <Compile Include="Domain\Commitment.cs" />
+    <Compile Include="Domain\DatalockValidationResult.cs" />
+    <Compile Include="Domain\LearnerCommitments.cs" />
+    <Compile Include="Domain\PriceEpisodeGroup.cs" />
+    <Compile Include="Domain\ProviderCommitments.cs" />
+    <Compile Include="Domain\ProviderEarnings.cs" />
+    <Compile Include="Exceptions\LearnerNotFoundException.cs" />
     <Compile Include="Infrastructure\Data\Entities\DasAccountEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\CommitmentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\IncentiveEarningsEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PriceEpisodeMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PriceEpisodeEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\ValidationErrorEntity.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryHandler.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryRequest.cs" />
-    <Compile Include="Application\Commitment\GetProviderCommitmentsQuery\GetProviderCommitmentsQueryResponse.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryHandler.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryRequest.cs" />
-    <Compile Include="Application\PriceEpisode\GetProviderPriceEpisodesQuery\GetProviderPriceEpisodesQueryResponse.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandHandler.cs" />
-    <Compile Include="Application\ValidationError\AddValidationErrorCommand\AddValidationErrorCommandRequest.cs" />
     <Compile Include="Infrastructure\Data\IDasAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\IPriceEpisodeMatchRepository.cs" />
     <Compile Include="Infrastructure\Data\IPriceEpisodePeriodMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\IIncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DasAccountRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\CommitmentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodePeriodMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\IncentiveEarningsRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\ProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeMatchRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\PriceEpisodeRepository.cs" />
     <Compile Include="Infrastructure\Data\ICommitmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\IPriceEpisodeRepository.cs" />
-    <Compile Include="Infrastructure\Data\IValidationErrorRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\ValidationErrorRepository.cs" />
     <Compile Include="Infrastructure\DependencyResolution\DataLockRegistry.cs" />
     <Compile Include="Infrastructure\DependencyResolution\TaskDependencyResolver.cs" />
     <Compile Include="DataLockException.cs" />
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DatalockValidationService.cs" />
+    <Compile Include="Domain\Extensions\EarningExtensions.cs" />
+    <Compile Include="Services\Extensions\PriceEpisodeMatchExtensions.cs" />
+    <Compile Include="Services\Extensions\PriceEpisodePeriodMatchExtensions.cs" />
+    <Compile Include="Services\Extensions\ValidationErrorExtensions.cs" />
     <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
     <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
@@ -160,7 +142,16 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
+      <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

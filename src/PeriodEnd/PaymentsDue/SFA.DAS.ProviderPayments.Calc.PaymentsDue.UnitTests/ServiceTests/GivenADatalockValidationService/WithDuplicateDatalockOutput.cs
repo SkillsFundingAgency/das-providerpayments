@@ -6,6 +6,7 @@ using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.GivenADatalockValidationService
 {
@@ -40,7 +41,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             RawDatalocks[2] = RawDatalocks[0];
             RawDatalocks[3] = RawDatalocks[0];
 
-            var actual = sut.ProcessDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
+            var actual = sut.GetSuccessfulDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
 
             actual.Should().HaveCount(7);
         }

@@ -27,8 +27,8 @@ Feature: Employer stops payments on a commitment
         Given levy balance > agreed price for all months
         And the following commitments exist:
             | commitment Id | version Id | ULN       | start date | end date   | status | agreed price | effective from | effective to |
-            | 1             | 1          | learner a | 01/09/2017 | 08/09/2018 | active | 15000        | 01/09/2017     | 31/08/2017   |
-            | 1             | 2          | learner a | 01/09/2017 | 08/09/2018 | paused | 15000        | 01/09/2017     |              |
+            | 1             | 1          | learner a | 01/09/2017 | 08/09/2018 | active | 15000        | 01/09/2017     | 02/09/2017   |
+            | 1             | 2          | learner a | 01/09/2017 | 08/09/2018 | paused | 15000        | 02/09/2017     |              |
         When an ILR file is submitted for the first time on 28/12/17 with the following data:
             | ULN       | agreed price | learner type       | start date | planned end date | completion status |
             | learner a | 15000        | programme only DAS | 01/09/2017 | 08/09/2018       | continuing        |

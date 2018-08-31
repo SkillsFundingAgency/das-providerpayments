@@ -1,4 +1,4 @@
-﻿IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payment_Types' AND [schema_id] = SCHEMA_ID('dbo'))
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='Payment_Types' AND [schema_id] = SCHEMA_ID('dbo'))
 BEGIN
 	DROP TABLE [dbo].[Payment_Types]
 END

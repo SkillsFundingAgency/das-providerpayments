@@ -8,6 +8,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.Application.Payments
     {
         public Guid Id { get; set; }
         public long CommitmentId { get; set; }
+        public string CommitmentVersionId { get; set; }
         public string LearnerRefNumber { get; set; }
         public int AimSequenceNumber { get; set; }
         public long Ukprn { get; set; }

@@ -7,6 +7,10 @@ using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories;
 using SFA.DAS.CollectionEarnings.DataLock.Tools.Providers;
 using StructureMap;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
+using SFA.DAS.CollectionEarnings.DataLock.Services;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
+using DasAccountRepository = SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories.DasAccountRepository;
+using ProviderRepository = SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories.ProviderRepository;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolution
 {
@@ -26,15 +30,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolutio
 
             // TODO: Fix so can be registered with convention
             For<ICommitmentRepository>().Use<CommitmentRepository>();
-            For<IPriceEpisodeRepository>().Use<PriceEpisodeRepository>();
-            For<IValidationErrorRepository>().Use<ValidationErrorRepository>();
+            For<IDatalockRepository>().Use<DatalockRepository>();
             For<IPriceEpisodeMatchRepository>().Use<PriceEpisodeMatchRepository>();
             For<IProviderRepository>().Use<ProviderRepository>();
             For<IPriceEpisodePeriodMatchRepository>().Use<PriceEpisodePeriodMatchRepository>();
             For<IDateTimeProvider>().Use<DateTimeProvider>();
             For<IDasAccountRepository>().Use<DasAccountRepository>();
-            For<IIncentiveEarningsRepository>().Use<IncentiveEarningsRepository>();
+            For<IRawEarningsRepository>().Use<RawEarningsRepository>();
 
+            For<IValidateDatalocks>().Use<DatalockValidationService>();
 
             For<IMatcher>().Use(() => MatcherFactory.CreateMatcher());
 

@@ -34,6 +34,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 connection.Execute("TRUNCATE TABLE DataLock.PriceEpisodeMatch");
                 connection.Execute("TRUNCATE TABLE DataLock.PriceEpisodePeriodMatch");
                 connection.Execute("TRUNCATE TABLE DataLock.ValidationError");
+                connection.Execute("TRUNCATE TABLE Datalock.ValidationErrorByPeriod");
 
                 connection.Execute("DELETE FROM dbo.AEC_EarningHistory");
                 connection.Execute("DELETE FROM dbo.Collection_Period_Mapping");

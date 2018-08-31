@@ -1,2 +1,2 @@
-﻿CREATE SCHEMA Learners
+CREATE SCHEMA Learners
 

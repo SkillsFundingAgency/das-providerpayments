@@ -1,4 +1,4 @@
-﻿if schema_id('Version_001') is null 
+if schema_id('Version_001') is null 
 	exec sp_executesql N'create schema [Version_001]'
 GO
 if object_id('[dbo].[AEC_EarningHistory]','u') is not null

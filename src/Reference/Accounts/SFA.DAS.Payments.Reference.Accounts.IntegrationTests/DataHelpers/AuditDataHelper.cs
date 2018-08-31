@@ -23,5 +23,11 @@ namespace SFA.DAS.Payments.Reference.Accounts.IntegrationTests.DataHelpers
                 ORDER BY ReadDateTime DESC";
             return DatabaseHelper.QuerySingle<AuditEntity>(query);
         }
+
+        internal static void Truncate()
+        {
+            const string command = "TRUNCATE TABLE DasAccountsAudit";
+            DatabaseHelper.Execute(command);
+        }
     }
 }

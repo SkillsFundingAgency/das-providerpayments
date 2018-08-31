@@ -11,9 +11,8 @@
         public const string MismatchingPrice = "DLOCK_07";
         public const string MultipleMatches = "DLOCK_08";
         public const string EarlierStartDate = "DLOCK_09";
-        public const string NotPayable = "DLOCK_10";
+        public const string EmployerStopped = "DLOCK_10";
         public const string NotLevyPayer = "DLOCK_11";
-
+        public const string EmployerPaused = "DLOCK_12";
     }
-
 }

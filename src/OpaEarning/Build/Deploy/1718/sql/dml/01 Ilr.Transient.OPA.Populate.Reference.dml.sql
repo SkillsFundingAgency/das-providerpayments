@@ -1,4 +1,4 @@
-﻿DELETE FROM [Reference].[LARS_ApprenticeshipFunding]
+DELETE FROM [Reference].[LARS_ApprenticeshipFunding]
 GO
 
 DELETE FROM [Reference].[LARS_Current_Version]

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Tools;
 using System.Linq;
+using SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.Utilities;
 using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests.FinishOnTime

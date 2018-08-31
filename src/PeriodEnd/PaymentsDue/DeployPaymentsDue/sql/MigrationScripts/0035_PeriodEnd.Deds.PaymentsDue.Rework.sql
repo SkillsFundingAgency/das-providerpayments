@@ -1,4 +1,4 @@
-﻿ -----------------------------------------------------------------------------------------------------------------------------------------------
+ -----------------------------------------------------------------------------------------------------------------------------------------------
 -- TABLES
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -108,7 +108,10 @@ SELECT
 	0 [TransactionType13],
 	0 [TransactionType14],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
-    CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType],
+    CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
+	,[APE].[PriceEpisodeFirstAdditionalPaymentThresholdDate] [FirstIncentiveCensusDate]
+	,[APE].[PriceEpisodeSecondAdditionalPaymentThresholdDate] [SecondIncentiveCensusDate]
+	,[APE].[PriceEpisodeTotalTnpPrice] [AgreedPrice]
 	APE.PriceEpisodeCumulativePMRs,
 	APE.PriceEpisodeCompExemCode
 FROM [Period],

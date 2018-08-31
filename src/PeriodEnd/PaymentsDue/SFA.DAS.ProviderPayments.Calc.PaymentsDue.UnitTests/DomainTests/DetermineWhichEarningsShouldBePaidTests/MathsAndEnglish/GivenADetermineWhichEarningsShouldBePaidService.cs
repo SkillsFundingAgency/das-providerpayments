@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Helpers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.DetermineWhichEarningsShouldBePaidTests.MathsAndEnglish
 {
@@ -37,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishWithNoPayableOnprogNotPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -48,11 +50,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().BeEmpty();
+            actual.PayableEarnings.Should().BeEmpty();
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishWithNoPayableOnprogNotPaidForAct2(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -63,11 +65,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>(),
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().BeEmpty();
+            actual.PayableEarnings.Should().BeEmpty();
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishWithPayableOnProgPaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -76,11 +78,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().HaveCount(24); // M/E as well as onprog * 12
+            actual.PayableEarnings.Should().HaveCount(24); // M/E as well as onprog * 12
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishAct2WithNoOtherEarningsArePaid(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -92,11 +94,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning> {blankEarning},
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(1)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.Levy)]
         public void MathsEnglishAct1WithNoOtherEarningsArePaidWhenMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -108,11 +110,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>{blankEarning}, 
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().HaveCount(12);
+            actual.PayableEarnings.Should().HaveCount(12);
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void MathsEnglishAct2WithNoOtherEarningsAreNotPaidWhenNoMatchingDatalock(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -121,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 new List<RawEarning>(),
                 _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            actual.Earnings.Should().HaveCount(0);
+            actual.PayableEarnings.Should().HaveCount(0);
         }
     }
 }

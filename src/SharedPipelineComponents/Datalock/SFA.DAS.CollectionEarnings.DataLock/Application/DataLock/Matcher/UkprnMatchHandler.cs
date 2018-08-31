@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -8,13 +11,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public UkprnMatchHandler(MatchHandler nextMatchHandler) :
                 base(nextMatchHandler)
-        {
-
-        }
+        {}
       
-        public override MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate, MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments.Where(c => c.Ukprn == priceEpisode.Ukprn).ToList();
+            var commitmentsToMatch = commitments.Where(c => c.ProviderUkprn == c.Ukprn).ToList();
 
             if (!commitmentsToMatch.Any())
             {
@@ -26,7 +28,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitmentsToMatch.ToArray();
             }
 
-            return ExecuteNextHandler(commitmentsToMatch, priceEpisode,dasAccounts, matchResult);
+            return ExecuteNextHandler(commitmentsToMatch, earning, censusDate, matchResult);
         }
     }
 }

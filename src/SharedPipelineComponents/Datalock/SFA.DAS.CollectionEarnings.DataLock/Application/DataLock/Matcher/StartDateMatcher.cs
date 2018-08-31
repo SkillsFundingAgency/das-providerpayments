@@ -1,22 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
-    public class StartDateMatcher : MatchHandler
+    class StartDateMatcher : MatchHandler
     {
-        public StartDateMatcher(MatchHandler nextMatchHandler):
-            base(nextMatchHandler)
-        {
+        public StartDateMatcher(MatchHandler nextMatchHandler) : base(nextMatchHandler)
+        {}
 
-        }
-       
-        public override  MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override bool StopOnError { get { return false; } }
+
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate,
+            MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments.Where(c => priceEpisode.StartDate >= c.StartDate
-                                                            && priceEpisode.StartDate < c.EndDate
-                                                            && priceEpisode.StartDate >= c.EffectiveFrom 
-                                                            && (c.EffectiveTo == null || priceEpisode.StartDate <= c.EffectiveTo)).ToList();
+            var commitmentsToMatch = commitments.Where(c =>
+            {
+                if (c.IsVersioned)
+                {
+                    return c.EffectiveFrom <= earning.EpisodeEffectiveTnpStartDate;
+                }
+                return c.StartDate <= earning.EpisodeEffectiveTnpStartDate;
+            }).ToList();
 
             if (!commitmentsToMatch.Any())
             {
@@ -28,7 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitmentsToMatch.ToArray();
             }
 
-            return ExecuteNextHandler(commitmentsToMatch, priceEpisode,dasAccounts,matchResult);
+            return ExecuteNextHandler(commitments, earning, censusDate, matchResult);
         }
     }
 }

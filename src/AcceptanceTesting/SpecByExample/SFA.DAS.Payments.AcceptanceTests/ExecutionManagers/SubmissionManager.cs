@@ -17,7 +17,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
         private const short FamCodeActDasValue = 1;
         private const short FamCodeActNonDasValue = 2;
 
-        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts, DateTime lastAssertionPeriodDate)
+        internal static List<LearnerResults> SubmitMultipleIlrAndRunMonthEndAndCollateResults(SubmissionContext multipleSubmissionsContext, LookupContext lookupContext, List<EmployerAccountReferenceData> employerAccounts, DateTime lastAssertionPeriodDate, CommitmentsContext commitmentsContext)
         {
             var results = new List<LearnerResults>();
             if (TestEnvironment.ValidateSpecsOnly)
@@ -37,6 +37,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employerAccounts, period);
                 EmployerAccountManager.UpdateTransferAllowancesForPeriod(employerAccounts, period);
+
+                ReplaceCommitmentsWithNewPeriodCommitments(commitmentsContext, period);
 
                 foreach (var submission in multipleSubmissionsContext.Submissions)
                 {
@@ -78,6 +80,22 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return results;
         }
 
+        private static void ReplaceCommitmentsWithNewPeriodCommitments(CommitmentsContext commitmentsContext, string period)
+        {
+            if (commitmentsContext.CommitmentsForPeriod.ContainsKey(period))
+            {
+                var commitments = commitmentsContext.CommitmentsForPeriod[period];
+
+                CommitmentManager.DeleteCommitments();
+                foreach (var commitment in commitments)
+                {
+                    CommitmentManager.AddCommitment(commitment);
+                }
+                commitmentsContext.Commitments = commitments;
+                commitmentsContext.CommitmentsForPeriod.Remove(period);
+            }
+        }
+
         [Obsolete("Superceeded by SubmitMultipleIlrAndRunMonthEndAndCollateResults()")]
         internal static List<LearnerResults> SubmitIlrAndRunMonthEndAndCollateResults(
             List<IlrLearnerReferenceData> ilrLearnerDetails,
@@ -87,6 +105,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             List<ContractTypeReferenceData> contractTypes,
             List<EmploymentStatusReferenceData> employmentStatus,
             List<LearningSupportReferenceData> learningSupportStatus,
+            CommitmentsContext commitmentsContext,
             List<string> periodsToSubmitTo = null,
             DateTime? lastAssertionPeriodDate = null)
         {
@@ -102,6 +121,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 SetEnvironmentToPeriod(period);
                 EmployerAccountManager.UpdateAccountBalancesForPeriod(employers, period);
+
+                ReplaceCommitmentsWithNewPeriodCommitments(commitmentsContext, period);
 
                 foreach (var providerDetails in providerLearners)
                 {

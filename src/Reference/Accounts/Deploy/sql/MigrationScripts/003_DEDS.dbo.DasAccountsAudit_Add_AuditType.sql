@@ -1,4 +1,4 @@
-﻿ 
+ 
 IF NOT EXISTS (
 SELECT null FROM sys.columns c 
 	INNER JOIN sys.tables t 

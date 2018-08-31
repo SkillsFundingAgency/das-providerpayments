@@ -34,8 +34,7 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql", connection);
                     
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
-                    RunSqlScript(@"PeriodEnd.Transient.Reference.Providers.ddl.tables.sql", connection);
-
+                    
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
                     

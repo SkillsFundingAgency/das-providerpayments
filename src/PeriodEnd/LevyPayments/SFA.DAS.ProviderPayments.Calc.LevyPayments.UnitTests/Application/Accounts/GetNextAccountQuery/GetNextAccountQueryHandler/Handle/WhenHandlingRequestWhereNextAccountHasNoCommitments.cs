@@ -66,7 +66,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
         public void ThenTheAccountShouldHaveAnEmptyCommitmentList(CommitmentEntity[] commitments)
         {
             // Arrange
-            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId.ToString()))
+            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
                 .Returns(commitments);
 
             // Act

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
@@ -34,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             int frameworkCode,
             int programmeType,
             int pathwayCode,
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             int transactionType,
             decimal sfaContributionPercentage,
             string learnAimRef,
@@ -140,7 +141,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             int frameworkCode,
             int programmeType,
             int pathwayCode,
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             int transactionType,
             decimal sfaContributionPercentage,
             string learnAimRef,
@@ -189,7 +190,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             int frameworkCode,
             int programmeType,
             int pathwayCode,
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             int transactionType,
             decimal sfaContributionPercentage,
             string learnAimRef,
@@ -254,7 +255,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
                 int frameworkCode,
                 int programmeType,
                 int pathwayCode,
-                int apprenticeshipContractType,
+                ApprenticeshipContractType apprenticeshipContractType,
                 int transactionType,
                 decimal sfaContributionPercentage,
                 string learnAimRef,

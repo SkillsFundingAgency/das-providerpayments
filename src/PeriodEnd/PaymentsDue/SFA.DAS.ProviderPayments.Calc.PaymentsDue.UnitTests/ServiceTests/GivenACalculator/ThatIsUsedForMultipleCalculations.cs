@@ -18,12 +18,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         {
             var runOne = sut.Calculate(
                 earnings,
-                new List<int>(), 
+                new HashSet<int>(), 
                 new List<RequiredPayment>());
 
             var runTwo = sut.Calculate(
                 earnings,
-                new List<int>(),
+                new HashSet<int>(),
                 new List<RequiredPayment>());
 
             runOne.ShouldAllBeEquivalentTo(runTwo, options => options.Excluding(x => x.Id));

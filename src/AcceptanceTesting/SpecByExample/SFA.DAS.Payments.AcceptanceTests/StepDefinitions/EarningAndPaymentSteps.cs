@@ -78,7 +78,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: providerBreakdown.PeriodDates.Max()));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, CommitmentsContext, 
+                        lastAssertionPeriodDate: providerBreakdown.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
@@ -99,7 +100,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             EarningAndPaymentTableParser.ParseEarningsAndPaymentsTableIntoContext(providerBreakdown, earningAndPayments);
 
             PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitMultipleIlrAndRunMonthEndAndCollateResults(MultipleSubmissionsContext, LookupContext,
-                EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max()));
+                EmployerAccountContext.EmployerAccounts, providerBreakdown.PeriodDates.Max(), CommitmentsContext));
 
             PeriodContext.TransferResults = MultipleSubmissionsContext.TransferResults;
 
@@ -124,7 +125,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus, lastAssertionPeriodDate: EarningsAndPaymentsContext.PeriodDates.Max()));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, CommitmentsContext,
+                        lastAssertionPeriodDate: EarningsAndPaymentsContext.PeriodDates.Max()));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }
@@ -142,7 +144,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                     PeriodContext.PeriodResults.AddRange(SubmissionManager.SubmitIlrAndRunMonthEndAndCollateResults(
                         submission.IlrLearnerDetails, submission.FirstSubmissionDate,
                         LookupContext, EmployerAccountContext.EmployerAccounts, submission.ContractTypes,
-                        submission.EmploymentStatus, submission.LearningSupportStatus));
+                        submission.EmploymentStatus, submission.LearningSupportStatus, CommitmentsContext));
                     submission.HaveSubmissionsBeenDone = true;
                 }
             }

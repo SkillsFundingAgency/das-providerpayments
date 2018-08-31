@@ -37,6 +37,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests
                     RunSqlScript(@"PeriodEnd.Transient.Refunds.ddl.tables.sql", transientConnection);
                     RunSqlScript(@"PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql", transientConnection);
 
+                    RunSqlScript(@"PeriodEnd.Transient.Staging.ddl.tables.sql", transientConnection);
+                    RunSqlScript(@"PeriodEnd.Transient.Datalock.ddl.tables.sql", transientConnection);
                 }
                 finally
                 {
