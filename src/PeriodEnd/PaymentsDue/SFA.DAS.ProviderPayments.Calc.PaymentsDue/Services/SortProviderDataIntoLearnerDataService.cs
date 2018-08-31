@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class SortProviderDataIntoLearnerDataService : ISortProviderDataIntoLearnerData
+    public class SortProviderDataIntoLearnerDataService : ICorrelateLearnerData
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _collectionPeriodRepository = collectionPeriodRepository;
         }
 
-        public List<LearnerData> Sort(long ukprn)
+        public List<LearnerData> Correlate(long ukprn)
         {
             ResetLearnerResultsList();
             

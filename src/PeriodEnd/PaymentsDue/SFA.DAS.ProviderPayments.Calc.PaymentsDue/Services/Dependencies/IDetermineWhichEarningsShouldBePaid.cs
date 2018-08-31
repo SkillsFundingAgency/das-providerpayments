@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
     public interface IDetermineWhichEarningsShouldBePaid
     {
         EarningValidationResult DeterminePayableEarnings(
-            List<DatalockOutput> datalockOutput, 
+            List<DatalockOutput> successfulDatalocks, 
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings);
     }

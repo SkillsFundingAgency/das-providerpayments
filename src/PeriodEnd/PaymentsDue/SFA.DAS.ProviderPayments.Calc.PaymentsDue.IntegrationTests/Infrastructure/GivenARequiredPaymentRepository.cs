@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 RequiredPaymentsDataHelper.Truncate();
 
-                _sut.AddRequiredPayments(_expectedEntities);
+                _sut.AddMany(_expectedEntities);
 
                 _actualEntities = RequiredPaymentsDataHelper.GetAll();
             }
@@ -218,7 +218,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Infrastruct
 
                 RequiredPaymentsDataHelper.Truncate();
 
-                _sut.AddRequiredPayments(_expectedEntities);
+                _sut.AddMany(_expectedEntities);
 
                 _actualEntities = RequiredPaymentsDataHelper.GetAll();
             }

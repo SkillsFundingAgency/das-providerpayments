@@ -45,6 +45,11 @@
     <Compile Include="Payments\IIdentifyCommitments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
+      <Project>{6C00CE90-9AC7-48DF-B15D-20F312B8F9E4}</Project>
+      <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
