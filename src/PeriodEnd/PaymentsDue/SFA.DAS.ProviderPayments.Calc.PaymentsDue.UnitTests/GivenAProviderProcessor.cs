@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             {
                 sut.Process(provider);
 
-                providerDataSorter.Verify(builder => builder.Correlate(provider.Ukprn), Times.Once);
+                providerDataSorter.Verify(builder => builder.CreateLearnerDataForProvider(provider.Ukprn), Times.Once);
             }
 
             [Test, PaymentsDueAutoData]
@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 )
             {
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 for (var i = 0; i < learnerParameters.Count; i++)
@@ -75,7 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var expectedNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
@@ -102,7 +102,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var expectedPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
@@ -129,7 +129,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
@@ -161,7 +161,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualNonPayableEarnings = new List<NonPayableEarning>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockCollectionPeriodRepository
@@ -199,7 +199,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockLearnerProcessor
@@ -231,7 +231,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 var actualPayableEarnings = new List<RequiredPayment>();
 
                 providerDataSorter
-                    .Setup(builder => builder.Correlate(provider.Ukprn))
+                    .Setup(builder => builder.CreateLearnerDataForProvider(provider.Ukprn))
                     .Returns(learnerParameters);
 
                 mockCollectionPeriodRepository

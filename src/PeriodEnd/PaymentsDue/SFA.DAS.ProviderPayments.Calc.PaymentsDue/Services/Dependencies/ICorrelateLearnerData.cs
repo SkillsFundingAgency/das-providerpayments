@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface ICorrelateLearnerData
     {
-        List<LearnerData> Correlate(long ukprn);
+        List<LearnerData> CreateLearnerDataForProvider(long ukprn);
     }
 }

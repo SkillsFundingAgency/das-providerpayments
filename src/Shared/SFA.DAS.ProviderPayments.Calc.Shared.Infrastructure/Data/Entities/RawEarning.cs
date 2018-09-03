@@ -72,6 +72,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public decimal TransactionType14 { get; set; }
         public decimal TransactionType15 { get; set; }
 
+        public decimal PriceEpisodeCumulativePmrs { get; set; }
+        public int PriceEpisodeCompExemCode { get; set; }
+
         [NotMapped]
         public int DeliveryMonth { get; set; }
 
@@ -87,5 +90,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public DateTime? SecondIncentiveCensusDate { get; set; }
 
         public decimal AgreedPrice { get; set; }
+
+
+
     }
 }
