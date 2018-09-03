@@ -156,6 +156,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var latestDate = latestActualDate.HasValue && latestActualDate > latestPlannedDate ? latestActualDate : latestPlannedDate;
             if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
                 latestDate = lastAssertionPeriodDate.Value.AddMonths(1).AddDays(-1);
+            if (firstSubmissionDate.HasValue && firstSubmissionDate > latestDate)
+                latestDate = firstSubmissionDate.Value.AddMonths(1).AddDays(-1);
 
             var date = earliestDate;
             while (date <= latestDate)
@@ -310,7 +312,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 .Where(x => x.StartDate <= endOfPeriod)
                 .Select(x =>
                 {
-                    var financialRecords = BuildLearningDeliveryFinancials(x);
+                    var financialRecords = BuildLearningDeliveryFinancials(x, endOfPeriod);
 
                     return new LearningDelivery
                     {
@@ -369,7 +371,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return learner;
         }
 
-        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData)
+        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData, DateTime endOfPeriod)
         {
             var agreedTrainingPrice = learnerReferenceData.FrameworkCode > 0 ? learnerReferenceData.AgreedPrice :
                                      (int)Math.Floor(learnerReferenceData.AgreedPrice * 0.8m);
@@ -488,6 +490,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                         Date = learnerReferenceData.StartDate
                     });
                 }
+            }
+
+            if (learnerReferenceData.EmployerContribution > 0)
+            {
+                financialRecords.Add(new FinancialRecord
+                {
+                    Code = 1,
+                    Type = "PMR",
+                    Amount = learnerReferenceData.EmployerContribution,
+                    Date = endOfPeriod.Date
+                });
             }
 
             return financialRecords.ToArray();

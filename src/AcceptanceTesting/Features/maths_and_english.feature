@@ -11,10 +11,10 @@ Scenario: DPP-597a Non DAS Learner, taking single level 2 aim, fails, retakes be
 Given the apprenticeship funding band maximum is 15000
 	
 	When an ILR file is submitted with the following data:
-		  | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | completion status | restart indicator | aim type         |
-		  | learner a | 19-24 programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | NO                | programme        |
-		  | learner a | 19-24 programme only non-DAS | 471          | 06/08/2017 | 08/06/2018       | 08/05/2018      | withdrawn         | NO                | maths or english |
-		  | learner a | 19-24 programme only non-DAS | 471          | 09/06/2018 | 08/06/2019       | 08/06/2019      | continuing        | YES               | maths or english |
+		  | ULN       | learner type                 | agreed price | start date | planned end date | actual end date | completion status | restart indicator | aim type         | employer contribution |
+		  | learner a | 19-24 programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | NO                | programme        | 1200                  |
+		  | learner a | 19-24 programme only non-DAS | 471          | 06/08/2017 | 08/06/2018       | 08/05/2018      | withdrawn         | NO                | maths or english | 1200                  |
+		  | learner a | 19-24 programme only non-DAS | 471          | 09/06/2018 | 08/06/2019       | 08/06/2019      | continuing        | YES               | maths or english | 1200                  |
 		  
 
     Then the provider earnings and payments break down as follows:

@@ -46,5 +46,6 @@
         public int FundingAdjustmentForPriorLearningIndex { get; set; } = -1;
         public int OtherFundingAdjustmentIndex { get; set; } = -1;
         public int SubmissionPeriod { get; set; } = -1;
+        public int EmployerContributionIndex { get; set; } = -1;
     }
 }
