@@ -65,6 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\BaseEquatableGroup.cs" />
+    <Compile Include="Domain\CompletionPaymentEvidence.cs" />
+    <Compile Include="Domain\CompletionPaymentEvidenceState.cs" />
+    <Compile Include="Domain\CompletionPaymentGroup.cs" />
     <Compile Include="Domain\DatalockOutput.cs" />
     <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentFailureType.cs" />
