@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>(), CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            var completionPayments = actual.Earnings.Where(x=>x.TransactionType == 2);
+            var completionPayments = actual.PayableEarnings.Where(x=>x.TransactionType == 2);
             completionPayments.Should().HaveCount(1);
             completionPayments.First().AmountDue.Should().Be(1000);
         }
@@ -63,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>(), CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            var completionPayments = actual.Earnings.Where(x => x.TransactionType == 2);
+            var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(1);
             completionPayments.First().AmountDue.Should().Be(1000);
         }
