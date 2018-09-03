@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Attributes\Datalocks\SetupNoValidationErrorsAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupValidationErrorsAttribute.cs" />
+    <Compile Include="Attributes\SetupPaymentsHistoryRepositoryAttribute.cs" />
     <Compile Include="Helpers\DatalockDataHelper.cs" />
     <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
@@ -127,6 +128,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\PeriodEnd\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
