@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             var paymentsDue = _paymentsDueCalculator.Calculate(earnings.PayableEarnings,
                 earnings.PeriodsToIgnore,
-                parameters.HistoricalPayments);
+                parameters.HistoricalRequiredPayments);
             var results = new PaymentsDueResult(paymentsDue, earnings.NonPayableEarnings);
             
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");

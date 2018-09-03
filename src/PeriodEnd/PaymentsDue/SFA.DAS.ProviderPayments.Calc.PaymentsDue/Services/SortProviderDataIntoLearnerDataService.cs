@@ -59,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
+                learnerResults.GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalRequiredPayments.Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn))
