@@ -1,4 +1,5 @@
 ﻿using NLog;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
@@ -34,11 +35,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var validationResult = _determinePayableEarnings.DeterminePayableEarnings(
                 processedDatalocks,
                 parameters.RawEarnings,
-                parameters.RawEarningsMathsEnglish);
+                parameters.RawEarningsMathsEnglish, 
+                parameters.CompletionPaymentEvidence);
 
             var paymentsDue = _paymentsDueCalc.Calculate(validationResult.Earnings,
                 validationResult.PeriodsToIgnore,
-                parameters.HistoricalPayments);
+                parameters.HistoricalRequiredPayments);
             var results = new PaymentsDueResult(paymentsDue, validationResult.NonPayableEarnings);
             
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");

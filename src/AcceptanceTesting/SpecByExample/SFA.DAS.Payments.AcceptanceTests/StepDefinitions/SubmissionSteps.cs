@@ -38,6 +38,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             MultipleSubmissionsContext.Add(submission);
         }
 
+        [When(@"an ILR file is submitted for academic year (.*) in period (.*) with the following data:")]
+        public void WhenAnIlrFileIsSubmittedInYearForPeriod(string year, string period, Table ilrDetails)
+        {
+            var submission = new Submission() { SubmissionPeriod = PeriodNameHelper.GetStringDateFromPeriodAndAcademicYear(period, year) };
+            IlrTableParser.ParseIlrTableIntoSubmission(submission, ilrDetails, LookupContext);
+            submission.FirstSubmissionDate = PeriodNameHelper.GetSubmissionDateFromPeriodAndAcademicYear(period, year);
+
+            MultipleSubmissionsContext.Add(submission);
+        }
+
         [When("the providers submit the following ILR files:")] //Duplicate?
         public void WhenMultipleIlrFilesAreSubmitted(Table ilrDetails)
         {

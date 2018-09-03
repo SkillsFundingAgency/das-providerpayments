@@ -276,6 +276,7 @@ namespace IlrGenerator
                     FindFinancialRecordElement(financialRecord, "TBFinAmount", "AFinAmount").Value =
                         delivery.FinancialRecords[0].Amount.ToString(CurrencyFormat);
                     FindFinancialRecordElement(financialRecord, "TBFinCode", "AFinCode").Value = delivery.FinancialRecords[0].Code.ToString();
+                    FindFinancialRecordElement(financialRecord, "TBFinType", "AFinType").Value = delivery.FinancialRecords[0].Type;
 
                     for (var x = 1; x < delivery.FinancialRecords.Length; x++)
                     {
@@ -287,6 +288,8 @@ namespace IlrGenerator
                             delivery.FinancialRecords[x].Amount.ToString(CurrencyFormat);
                         FindFinancialRecordElement(newFinancialRecord, "TBFinCode", "AFinCode").Value =
                             delivery.FinancialRecords[x].Code.ToString();
+                        FindFinancialRecordElement(newFinancialRecord, "TBFinType", "AFinType").Value =
+                            delivery.FinancialRecords[x].Type;
 
                         financialRecord.AddAfterSelf(newFinancialRecord);
                     }

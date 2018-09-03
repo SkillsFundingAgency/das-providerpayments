@@ -51,7 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public EarningValidationResult DeterminePayableEarnings(
             List<DatalockOutput> datalockOutput,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            CompletionPaymentEvidence completionPaymentEvidence)
         {
             PayableEarnings = new List<FundingDue>();
             PeriodsToIgnore = new HashSet<int>();
@@ -67,7 +68,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             // The reason for this method is to put each raw earning into a payable or non-payable pot
 
-            ValidateEarnings();
+            ValidateEarnings(completionPaymentEvidence);
             MatchMathsAndEnglishToOnProg();
 
             return new EarningValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
@@ -100,11 +101,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                    priceEpisodeStartDate < _firstDayOfNextAcademicYear;
         }
 
-        private void ValidateEarnings()
+        private void ValidateEarnings(CompletionPaymentEvidence completionPaymentEvidence)
         {
             if (RawEarnings.All(x => x.ApprenticeshipContractType == 2))
             {
-                MarkNonZeroTransactionTypesAsPayable(RawEarnings);
+                MarkNonZeroTransactionTypesAsPayable(RawEarnings, null, completionPaymentEvidence);
                 return;
             }
 
@@ -121,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == 2))
                 {
-                    MarkNonZeroTransactionTypesAsPayable(earningsForPeriod);
+                    MarkNonZeroTransactionTypesAsPayable(earningsForPeriod, null, completionPaymentEvidence);
                     continue;
                 }
 
@@ -165,8 +166,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         {
                             // We have 1 datalock and a commitment
                             MarkNonZeroTransactionTypesAsPayable(
-                                periodEarningsForPriceEpisode, 
-                                datalocksForFlag.Single(), 
+                                periodEarningsForPriceEpisode,
+                                datalocksForFlag.Single(),
+                                completionPaymentEvidence,
                                 transactionTypesFlag);
                         }
                     }
@@ -174,12 +176,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
         }
 
-        /// <summary>
-        /// Matches maths and english earnings to on-prog earnings
-        ///     If there are on-prog earnings, if they are payable then pay
-        ///     the maths and english earnings that match them, otherwise not
-        /// </summary>
-        private void MatchMathsAndEnglishToOnProg()
+    /// <summary>
+    /// Matches maths and english earnings to on-prog earnings
+    ///     If there are on-prog earnings, if they are payable then pay
+    ///     the maths and english earnings that match them, otherwise not
+    /// </summary>
+    private void MatchMathsAndEnglishToOnProg()
         {
             // 450 learners with no on-prog - 200 of which are from one provider
             //  not sure what to do...
@@ -258,8 +260,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private void MarkNonZeroTransactionTypesAsPayable(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
+            CompletionPaymentEvidence completionPaymentEvidence = null,
             int datalockType = -1)
         {
+            var reasonToHoldBack = "";
+            var holdBack = false;
+            if(completionPaymentEvidence != null)
+            {
+                holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
+            }
+
             foreach (var rawEarning in earnings)
             {
                 if (rawEarning.ApprenticeshipContractType == 1 &&
@@ -268,8 +278,58 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     rawEarning.UseLevyBalance = true;
                 }
 
+                if (rawEarning.TransactionType02 > 0 && holdBack)
+                {
+                    MarkCompletionPaymentsAsHeldBackAndNonPayable(rawEarning, reasonToHoldBack, commitment);
+                    rawEarning.TransactionType02 = 0;
+                }
+
                 AddFundingDue(rawEarning, commitment, datalockType);
             }
+        }
+
+        private void MarkCompletionPaymentsAsHeldBackAndNonPayable(
+            RawEarning rawEarning,
+            string reason,
+            IHoldCommitmentInformation commitment = null)
+        {
+            var nonPayableEarning = new NonPayableEarning(rawEarning);
+            nonPayableEarning.TransactionType = (int)TransactionType.Completion;
+
+            // Doing this to prevent a huge switch statement
+            nonPayableEarning.AmountDue = rawEarning.TransactionType02;
+            commitment?.CopyCommitmentInformationTo(nonPayableEarning);
+
+            nonPayableEarning.PaymentFailureMessage = reason;
+            nonPayableEarning.PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment;
+            NonPayableEarnings.Add(nonPayableEarning);
+        }
+
+        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
+        {
+            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
+            {
+                reason = "Error on PMR records in ILR";
+                return true;
+            }
+
+            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptRedundancy ||
+                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOwnDelivery ||
+                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOtherReason)
+            {
+                reason = "";
+                return false;
+            }
+
+            if (Decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <
+                Decimal.Floor(completionPaymentEvidence.TotalHistoricEmployerPayment))
+            {
+                reason = "Historic Evidence does not show enough employer payments were made";
+                return true;
+            }
+
+            reason = "";
+            return false;
         }
 
         private void MarkNonZeroTransactionTypesAsNonPayable(
@@ -283,6 +343,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 AddNonpayableFundingDue(rawEarning, reason, paymentFailureReason, commitment);
             }
         }
+
 
         private static bool IgnoreTransactionType(int datalockType, int transactionType)
         {
@@ -328,6 +389,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     continue;
                 }
+
+
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = transactionType;
 

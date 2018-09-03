@@ -37,9 +37,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
-            var learnersParams = _parametersBuilder.Sort(provider.Ukprn);
+            var learnersParams = _parametersBuilder.CreateLearnerDataForProvider(provider.Ukprn);
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
-            
+
             var allNonPayablesForProvider = new List<NonPayableEarning>();
             var allPayablesForProvider = new List<RequiredPayment>();
 
