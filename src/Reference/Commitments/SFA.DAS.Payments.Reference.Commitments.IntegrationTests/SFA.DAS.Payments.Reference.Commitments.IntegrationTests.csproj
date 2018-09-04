@@ -112,6 +112,9 @@
     <Content Include="..\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql">
       <Link>DbSetupScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql</Link>
     </Content>
+    <Content Include="..\Deploy\sql\MigrationScripts\0015_ddl.deds.dbo.commitments.add_AccountLegalEntityPublicHashedId_field.sql">
+      <Link>DbSetupScripts\0015_ddl.deds.dbo.commitments.add_AccountLegalEntityPublicHashedId_field.sql</Link>
+    </Content>
     <Content Include="..\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql">
       <Link>DbSetupScripts\001_ddl.deds.commitments.tables.change_versionId.sql</Link>
     </Content>
