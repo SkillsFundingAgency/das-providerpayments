@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
@@ -42,6 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var output = new HashSet<DatalockOutput>();
 
             var invalidPriceEpisodeIdentifiers = datalockValidationErrors
+                .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
                 .Select(x => x.PriceEpisodeIdentifier)
                 .ToList();
 

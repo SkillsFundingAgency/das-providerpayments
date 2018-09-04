@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock
+﻿namespace SFA.DAS.ProviderPayments.Calc.Common.Domain
 {
     public class DataLockErrorCodes
     {

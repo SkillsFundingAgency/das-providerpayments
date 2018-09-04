@@ -5,13 +5,13 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService
@@ -63,6 +63,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 earning.EpisodeStartDate = commitment.StartDate.AddDays(5);
                 earning.EpisodeEffectiveTnpStartDate = earning.EpisodeStartDate;
                 earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
+                earning.EndDate = null;
+
                 commitment.EndDate = commitment.StartDate.AddYears(2);
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
@@ -991,6 +993,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earning.EpisodeStartDate = commitment.StartDate.AddDays(5);
                         earning.EpisodeEffectiveTnpStartDate = earning.EpisodeStartDate;
                         earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
+                        earning.EndDate = null;
+
                         commitment.EndDate = commitment.StartDate.AddYears(2);
                         commitment.WithdrawnOnDate = null;
                         commitment.PausedOnDate = null;
@@ -1014,6 +1018,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                         commitment.EffectiveFrom = startDate1;
                         commitment.EffectiveTo = startDate1.AddMonths(3);
+                        earnings[0].EndDate = null;
+                        earnings[1].EndDate = null;
+                        earnings[2].EndDate = null;
+
                         commitment2.EffectiveFrom = startDate1.AddMonths(3).AddDays(1);
                         commitment2.EffectiveTo = null;
 

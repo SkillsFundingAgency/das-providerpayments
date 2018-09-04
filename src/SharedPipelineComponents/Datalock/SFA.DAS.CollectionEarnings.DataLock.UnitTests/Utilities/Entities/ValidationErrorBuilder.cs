@@ -1,8 +1,8 @@
-﻿using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+﻿using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities
 {
     public class ValidationErrorBuilder : IBuilder<DatalockValidationError>
     {
