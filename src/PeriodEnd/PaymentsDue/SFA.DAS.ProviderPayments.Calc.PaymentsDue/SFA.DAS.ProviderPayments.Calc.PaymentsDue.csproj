@@ -72,6 +72,7 @@
     <Compile Include="Domain\DatalockOutput.cs" />
     <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentFailureType.cs" />
+    <Compile Include="Dto\EarningValidationResult2.cs" />
     <Compile Include="Dto\EarningValidationResult.cs" />
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="Services\CompletionPaymentService.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
     <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="Services\BuildEarningValidationResult.cs" />
     <Compile Include="Services\Extensions\DatalockExtensions.cs" />
     <Compile Include="Services\PaymentsDueCalculationService.cs" />
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
