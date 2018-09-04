@@ -6,9 +6,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
 {
     public class EarningValidationResult
     {
-        public EarningValidationResult()
-        {}
-
         public List<FundingDue> PayableEarnings { get; set; } = new List<FundingDue>();
         public List<NonPayableEarning> NonPayableEarnings { get; set; } = new List<NonPayableEarning>();
         public HashSet<int> PeriodsToIgnore { get; set; } = new HashSet<int>();

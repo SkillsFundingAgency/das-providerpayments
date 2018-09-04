@@ -20,14 +20,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             earningValidationResult = new EarningValidationResult();
         }
 
-        //public BuildEarningValidationResult(
-        //    List<FundingDue> earnings,
-        //    List<NonPayableEarning> nonPayableEarnings,
-        //    List<int> periodsToIgnore = null)
-        //{
-        //    earningValidationResult = new EarningValidationResult2(earnings, nonPayableEarnings, periodsToIgnore);
-        //}
-
         public EarningValidationResult CreatEarningValidationResult() => earningValidationResult;
 
         public void AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
