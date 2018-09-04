@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
+    <Compile Include="DomainTests\CompletionPayments\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\Incentives\GivenADetermineWhichEarningsShouldBePaidService.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
+    <Compile Include="Utilities\Helper\CompletionPaymentsEvidenceHelper.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
     <Compile Include="Utilities\ReadOnlyClassManipulation\WriteToDatalockOutput.cs" />
     <Compile Include="Utilities\SetupAttributes\SetupEarningsAndPastPayments.cs" />

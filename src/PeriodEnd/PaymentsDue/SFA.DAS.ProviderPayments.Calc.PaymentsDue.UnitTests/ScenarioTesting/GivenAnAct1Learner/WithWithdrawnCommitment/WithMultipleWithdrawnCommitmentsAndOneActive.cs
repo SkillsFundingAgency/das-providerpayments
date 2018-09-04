@@ -7,6 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Helpers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.GivenAnAct1Learner.WithWithdrawnCommitment
@@ -34,7 +35,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
             var datalockResult = datalock.DeterminePayableEarnings(
                 datalockOutput,
                 parameters.RawEarnings,
-                parameters.RawEarningsForMathsOrEnglish);
+                parameters.RawEarningsForMathsOrEnglish, 
+                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
 

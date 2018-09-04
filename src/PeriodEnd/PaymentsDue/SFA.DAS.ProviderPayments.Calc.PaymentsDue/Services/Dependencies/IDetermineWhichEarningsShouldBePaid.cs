@@ -11,6 +11,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
         EarningValidationResult DeterminePayableEarnings(
             List<DatalockOutput> successfulDatalocks, 
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings);
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            CompletionPaymentEvidence completionPaymentEvidence);
     }
 }

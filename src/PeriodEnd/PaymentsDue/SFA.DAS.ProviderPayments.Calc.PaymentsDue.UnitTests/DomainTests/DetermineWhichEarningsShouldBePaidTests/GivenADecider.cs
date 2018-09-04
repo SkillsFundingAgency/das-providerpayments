@@ -7,6 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Helpers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -41,12 +42,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var runOne = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(),
+                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
             var runTwo = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(),
+                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
             runOne.PayableEarnings.ShouldAllBeEquivalentTo(runTwo.PayableEarnings, options => options.Excluding(x => x.Id));
             runOne.NonPayableEarnings.ShouldAllBeEquivalentTo(runTwo.NonPayableEarnings);

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FastMember;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -25,9 +27,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public void AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
+            CompletionPaymentEvidence completionPaymentEvidence = null,
             int datalockType = -1)
         {
+
+            var reasonToHoldBack = "";
+            var holdBack = false;
+            if (completionPaymentEvidence != null)
+            {
+                holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
+            }
+
             var payables = GetFundingDueForNonZeroTransactionTypes(earnings, commitment, datalockType);
+
+            if (holdBack)
+            {
+                var nonPaybles = payables.Where(x => x.TransactionType == (int) TransactionType.Completion).Select(x=>
+                {
+                    var nonPay = new NonPayableEarning(x);
+                    nonPay.PaymentFailureMessage = reasonToHoldBack;
+                    nonPay.PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment;
+                    return nonPay;
+                });
+
+                earningValidationResult.AddNonPayableEarnings(nonPaybles);
+                payables = payables.Where(x => x.TransactionType != (int)TransactionType.Completion).ToList();
+            }
+
             earningValidationResult.AddPayableEarnings(payables);
         }
 
@@ -163,7 +189,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             return false;
         }
-
 
         private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
         {

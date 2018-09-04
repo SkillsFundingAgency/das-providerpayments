@@ -34,7 +34,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var earnings = _determinePayableEarnings.DeterminePayableEarnings(
                 successfulDatalocks,
                 parameters.RawEarnings,
-                parameters.RawEarningsMathsEnglish);
+                parameters.RawEarningsMathsEnglish,
+                parameters.CompletionPaymentEvidence);
 
             var paymentsDue = _paymentsDueCalculator.Calculate(earnings.PayableEarnings,
                 earnings.PeriodsToIgnore,
