@@ -167,8 +167,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         private static bool IgnoreTransactionType(int datalockType, int transactionType)
         {
+            if (datalockType == 1 && (transactionType == 2 ||
+                                      transactionType == 4 ||
+                                      transactionType == 5 ||
+                                      transactionType == 6 ||
+                                      transactionType == 7
+                ))
+            {
+                return true;
+            }
 
-            // TODO: These should be enums i think
             if (datalockType == 2 && (transactionType != 4 && transactionType != 5))
             {
                 return true;
@@ -179,10 +187,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
-            if (datalockType == 1 && (transactionType == 4 ||
-                                      transactionType == 5 ||
-                                      transactionType == 6 ||
-                                      transactionType == 7))
+            if (datalockType == 4 && (transactionType != 2))
             {
                 return true;
             }

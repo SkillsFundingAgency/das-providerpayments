@@ -26,6 +26,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             CommitmentVersionId = commitment.CommitmentVersionId;
         }
 
+        public DatalockOutput(DatalockOutput entity, int transactionTypesFlag)
+        {
+            Ukprn = entity.Ukprn;
+            PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier;
+            LearnRefNumber = entity.LearnRefNumber ?? string.Empty;
+            CommitmentId = entity.CommitmentId;
+            Period = entity.Period;
+            Payable = entity.Payable;
+            TransactionTypesFlag = transactionTypesFlag;
+            AccountId = entity.AccountId;
+            AccountVersionId = entity.AccountVersionId;
+            CommitmentVersionId = entity.CommitmentVersionId;
+        }
+
+
         public long Ukprn { get; }
         [StringLength(25)]
         public string PriceEpisodeIdentifier { get; }

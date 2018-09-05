@@ -36,6 +36,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             _earnings[11].TransactionType02 = 1000;
 
             _datalockOutput = earningsDictionary["DatalockOutput"] as List<DatalockOutput>;
+            _datalockOutput.Add(new DatalockOutput(_datalockOutput[11], 4));
+
         }
 
         [Test, PaymentsDueAutoData]

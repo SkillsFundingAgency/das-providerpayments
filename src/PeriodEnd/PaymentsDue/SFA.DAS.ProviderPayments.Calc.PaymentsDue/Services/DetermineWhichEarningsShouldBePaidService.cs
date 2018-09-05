@@ -149,7 +149,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    for (var transactionTypesFlag = 1; transactionTypesFlag < 4; transactionTypesFlag++)
+                    for (var transactionTypesFlag = 1; transactionTypesFlag < 5; transactionTypesFlag++)
                     {
                         var datalocksForFlag = datalocks
                             .Where(x => x.TransactionTypesFlag == transactionTypesFlag)
