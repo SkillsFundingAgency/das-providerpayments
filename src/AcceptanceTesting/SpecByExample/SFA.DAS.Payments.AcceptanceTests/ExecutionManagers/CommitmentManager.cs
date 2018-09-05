@@ -52,5 +52,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                                    });
             }
         }
+        internal static void DeleteCommitments()
+        {
+            if (TestEnvironment.ValidateSpecsOnly)
+            {
+                return;
+            }
+
+            using (var connection = new SqlConnection(TestEnvironment.Variables.DedsDatabaseConnectionString))
+            {
+                connection.Execute("TRUNCATE TABLE dbo.DasCommitments");
+            }
+        }
     }
 }

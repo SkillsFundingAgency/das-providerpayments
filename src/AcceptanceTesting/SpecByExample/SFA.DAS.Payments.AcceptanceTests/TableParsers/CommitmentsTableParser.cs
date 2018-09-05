@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.AcceptanceTests.Contexts;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
@@ -22,7 +23,24 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 context.Commitments.Add(ParseCommitmentsTableRow(row, structure, context.Commitments.Count, lookupContext));
             }
         }
-        
+
+        public static void ParseAdditionalCommitmentsIntoContext(CommitmentsContext context, Table commitments, LookupContext lookupContext, string submissionPeriod)
+        {
+            if (commitments.Rows.Count < 1)
+            {
+                throw new ArgumentOutOfRangeException("Additional commitments table must have at least 1 row");
+            }
+
+            var additionalCommitments = new List<CommitmentReferenceData>(); 
+            var structure = ParseCommitmentsTableStructure(commitments);
+            foreach (var row in commitments.Rows)
+            {
+                additionalCommitments.Add(ParseCommitmentsTableRow(row, structure, context.Commitments.Count, lookupContext));
+            }
+
+            context.CommitmentsForPeriod.Add(submissionPeriod, additionalCommitments);
+        }
+
         private static CommitmentsTableColumnStructure ParseCommitmentsTableStructure(Table commitments)
         {
             var structure = new CommitmentsTableColumnStructure();
