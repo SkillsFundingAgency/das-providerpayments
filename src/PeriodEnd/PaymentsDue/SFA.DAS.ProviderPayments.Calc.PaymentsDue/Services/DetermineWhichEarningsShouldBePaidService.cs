@@ -205,12 +205,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     return CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(RawEarningsForMathsOrEnglish, rawEarnings);
                 }
-                return CreateMathsAndEnglishEarningValidationResultWhereThereIsADataLockAndMatchingOnProgCourses(RawEarningsForMathsOrEnglish, rawEarnings, datalockOutput);
+                return CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(RawEarningsForMathsOrEnglish, rawEarnings, datalockOutput);
             }
-            return CreateMathAndEnglishEarningValidationResultForMatchingOnProgCourse(resultSoFar, RawEarningsForMathsOrEnglish);
+            return CreateMathAndEnglishEarningValidationResultForLevyLearner(resultSoFar, RawEarningsForMathsOrEnglish);
         }
 
-        private static EarningValidationResult CreateMathAndEnglishEarningValidationResultForMatchingOnProgCourse(
+        private static EarningValidationResult CreateMathAndEnglishEarningValidationResultForLevyLearner(
             EarningValidationResult resultSoFar, List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish)
         {
             var builder = new BuildEarningValidationResult();
@@ -238,7 +238,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return builder.CreatEarningValidationResult();
         }
 
-        private static EarningValidationResult CreateMathsAndEnglishEarningValidationResultWhereThereIsADataLockAndMatchingOnProgCourses(
+        private static EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
             List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
         {
             var builder = new BuildEarningValidationResult();
