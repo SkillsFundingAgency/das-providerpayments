@@ -59,6 +59,7 @@ CREATE TABLE Staging.RawEarnings (
 	FirstIncentiveCensusDate date,
 	SecondIncentiveCensusDate date,
 	AgreedPrice decimal(15,5),
+	EndDate date
 	PriceEpisodeCumulativePMRs decimal(12,5),
 	PriceEpisodeCompExemCode int,
 )

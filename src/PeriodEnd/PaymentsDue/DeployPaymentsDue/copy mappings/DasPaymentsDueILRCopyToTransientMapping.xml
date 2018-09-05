@@ -146,6 +146,10 @@
           <Destination>AgreedPrice</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>EndDate</Source>
+          <Destination>EndDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>PriceEpisodeCumulativePMRs</Source>
           <Destination>PriceEpisodeCumulativePMRs</Destination>
         </ColumnMapping>

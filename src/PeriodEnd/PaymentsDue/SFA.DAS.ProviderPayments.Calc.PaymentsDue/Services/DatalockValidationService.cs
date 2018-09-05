@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
@@ -27,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             var output = new HashSet<DatalockOutput>();
 
-            var invalidPriceEpisodeIdentifiers = GetPriceEpisodeIdentifiersFromDataLockValidationErrors(datalockValidationErrors)
+            var invalidPriceEpisodeIdentifiers = GetPriceEpisodeIdentifiersFromDataLockValidationErrorsExcludingEmployerStoppedDataLocks(datalockValidationErrors)
                 .ToList();
 
             foreach (var datalockOutputEntity in datalocks)
@@ -65,9 +66,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return output.ToList();
         }
 
-        private static IEnumerable<string> GetPriceEpisodeIdentifiersFromDataLockValidationErrors(List<DatalockValidationError> datalockValidationErrors)
+        private static IEnumerable<string> GetPriceEpisodeIdentifiersFromDataLockValidationErrorsExcludingEmployerStoppedDataLocks(List<DatalockValidationError> datalockValidationErrors)
         {
             return datalockValidationErrors
+                .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
                 .Select(x => x.PriceEpisodeIdentifier);
         }
 

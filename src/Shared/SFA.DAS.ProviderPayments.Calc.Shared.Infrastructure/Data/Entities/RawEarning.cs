@@ -91,7 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 
         public decimal AgreedPrice { get; set; }
 
-
-
+        [DataType(DataType.Date)]
+        public DateTime? EndDate { get; set; }
     }
 }
