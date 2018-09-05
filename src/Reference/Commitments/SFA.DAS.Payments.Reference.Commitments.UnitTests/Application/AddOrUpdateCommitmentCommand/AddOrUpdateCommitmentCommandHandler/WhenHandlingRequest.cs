@@ -180,8 +180,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
 
         private bool DidEntityGetMappedCorrectlyFromRequest(CommitmentEntity commitmentEntity, AddOrUpdateCommitmentCommandRequest request)
         {
-            var result = false;
-            result = commitmentEntity.CommitmentId == request.CommitmentId
+            var result = commitmentEntity.CommitmentId == request.CommitmentId
                      && commitmentEntity.Uln == request.Uln
                      && commitmentEntity.Ukprn == request.Ukprn
                      && commitmentEntity.AccountId == request.AccountId
@@ -199,7 +198,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
                      && commitmentEntity.PaymentStatusDescription == request.PaymentStatus.ToString()
                      && commitmentEntity.LegalEntityName == request.LegalEntityName
                      && commitmentEntity.TransferSendingEmployerAccountId == request.TransferSendingEmployerAccountId
-                     && commitmentEntity.TransferApprovalDate == request.TransferApprovalDate;
+                     && commitmentEntity.TransferApprovalDate == request.TransferApprovalDate
+                     && commitmentEntity.AccountLegalEntityPublicHashedId == request.AccountLegalEntityPublicHashedId;
 
             if (result)
             {

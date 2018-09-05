@@ -145,7 +145,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                         AND " + CreateCompareDateSqlClause("TransferApprovalDate", commitment.TransferApprovalDate) + 
                                                         "AND " + CreateCompareDateSqlClause("EffectiveToDate", commitment.EffectiveToDate) +
                                                         "AND " + CreateCompareDateSqlClause("PausedOnDate", commitment.PausedOnDate) +
-                                                        "AND " + CreateCompareDateSqlClause("WithdrawnOnDate", commitment.WithdrawnOnDate);
+                                                        "AND " + CreateCompareDateSqlClause("WithdrawnOnDate", commitment.WithdrawnOnDate) +
+                                                        "AND AccountLegalEntityPublicHashedId = @AccountLegalEntityPublicHashedId";
 
             var result = QuerySingle<int>(selectCommand, commitment);
             return result != 0;
