@@ -10,6 +10,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -461,6 +462,94 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             [TestFixture]
             public class WithAWithdrawnCommitment
             {
+                [TestFixture]
+                public class ThatWasWithdrawnBeforeTheOnProgCensusDate
+                {
+                    [TestFixture]
+                    public class AndAfterTheCourseEndDate
+                    {
+                        [Test, AutoMoqData]
+                        public void ThenThereIsAPeriodMatchForTheCompletionPayment(
+                            RawEarning earning,
+                            CommitmentEntity commitment
+                        )
+                        {
+                            var earnings = new List<RawEarning> { earning };
+                            AssociateEarningsWithCommitment(earnings, commitment);
+                            commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                            commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
+                            earning.EndDate = commitment.StartDate;
+                            earning.ResetEarnings();
+                            earning.TransactionType02 = new Fixture().Create<decimal>();
+
+                            var accounts = CreateNonPayableAccountsList();
+                            var commitments = new List<CommitmentEntity> { commitment };
+                            var providerCommitments = new ProviderCommitments(commitments);
+
+                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                            var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                            actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(1);
+                        }
+                    }
+
+                    [TestFixture]
+                    public class AndBeforeTheCourseEndDate
+                    {
+                        [Test, AutoMoqData]
+                        public void ThenThereIsNoPeriodMatchForTheCompletionPayment(
+                            RawEarning earning,
+                            CommitmentEntity commitment
+                        )
+                        {
+                            var earnings = new List<RawEarning> { earning };
+                            AssociateEarningsWithCommitment(earnings, commitment);
+                            commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                            commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
+                            earning.EndDate = commitment.StartDate.AddDays(10);
+                            earning.ResetEarnings();
+                            earning.TransactionType02 = new Fixture().Create<decimal>();
+
+                            var accounts = CreateNonPayableAccountsList();
+                            var commitments = new List<CommitmentEntity> { commitment };
+                            var providerCommitments = new ProviderCommitments(commitments);
+
+                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                            var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                            actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(0);
+                        }
+
+                        [Test, AutoMoqData]
+                        public void ThenThereIsADLOCK_10(
+                            RawEarning earning,
+                            CommitmentEntity commitment
+                        )
+                        {
+                            var earnings = new List<RawEarning> { earning };
+                            AssociateEarningsWithCommitment(earnings, commitment);
+                            commitment.WithdrawnOnDate = commitment.StartDate.AddDays(2);
+                            commitment.PaymentStatus = (int)PaymentStatus.Cancelled;
+                            earning.EndDate = commitment.StartDate.AddDays(10);
+                            earning.ResetEarnings();
+                            earning.TransactionType02 = new Fixture().Create<decimal>();
+
+                            var accounts = CreateNonPayableAccountsList();
+                            var commitments = new List<CommitmentEntity> { commitment };
+                            var providerCommitments = new ProviderCommitments(commitments);
+
+                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                            var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                            actual.ValidationErrors
+                                .Where(x => x.RuleId == DataLockErrorCodes.EmployerStopped)
+                                .Should().HaveCount(1);
+                        }
+                    }
+                }
                 [TestFixture]
                 public class ThatWasWithdrawnBeforeTheEarning
                 {
