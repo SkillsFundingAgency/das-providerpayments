@@ -125,6 +125,7 @@
     <Compile Include="Utilities\Entities\IncentiveEarningsEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodeEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodePeriodMatchEntityBuilder.cs" />
+    <Compile Include="Utilities\Extensions\RawEarningTestExtensions.cs" />
     <Compile Include="Utilities\IBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodeMatchEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\ValidationErrorBuilder.cs" />
