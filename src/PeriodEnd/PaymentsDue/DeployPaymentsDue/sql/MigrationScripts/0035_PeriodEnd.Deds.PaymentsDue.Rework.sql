@@ -112,6 +112,7 @@ SELECT
 	,[APE].[PriceEpisodeFirstAdditionalPaymentThresholdDate] [FirstIncentiveCensusDate]
 	,[APE].[PriceEpisodeSecondAdditionalPaymentThresholdDate] [SecondIncentiveCensusDate]
 	,[APE].[PriceEpisodeTotalTnpPrice] [AgreedPrice]
+	,[APE].[PriceEpisodeActualEndDate] [EndDate]
 FROM [Period],
 	${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode_Period APEP
 INNER JOIN ${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode APE

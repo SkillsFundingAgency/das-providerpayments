@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
@@ -55,6 +55,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                             learnerCommitments, result, TransactionTypesFlag.AllLearning);
                     }
 
+                    if (earning.HasCompletionPayment())
+                    {
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
+                            learnerCommitments, result, TransactionTypesFlag.Completion);
+                    }
+
                     if (earning.HasFirstIncentive())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
@@ -95,6 +101,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     break;
                 case TransactionTypesFlag.SecondEmployerProviderIncentives:
                     date = earning.SecondIncentiveCensusDate ?? date;
+                    break;
+                case TransactionTypesFlag.Completion:
+                    date = earning.EndDate ?? date;
                     break;
             }
 
