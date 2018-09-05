@@ -66,7 +66,6 @@
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryHandler.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryRequest.cs" />
     <Compile Include="Application\DasAccount\GetDasAccountsQuery\GetDasAccountsQueryResponse.cs" />
-    <Compile Include="Application\DataLock\DataLockErrorCodes.cs" />
     <Compile Include="Application\DataLock\Matcher\IMatcher.cs" />
     <Compile Include="Application\DataLock\Matcher\MatcherFactory.cs" />
     <Compile Include="Application\DataLock\Matcher\StartDateMatcher.cs" />
@@ -149,6 +148,10 @@
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
       <Project>{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

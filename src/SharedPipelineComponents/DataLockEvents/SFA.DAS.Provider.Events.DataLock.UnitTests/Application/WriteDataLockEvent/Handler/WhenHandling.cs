@@ -7,7 +7,7 @@ using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities;
 
-namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.WriteDataLockEvent.WriteDataLockEventCommandHandler
+namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.WriteDataLockEvent.Handler
 {
     public class WhenHandling
     {

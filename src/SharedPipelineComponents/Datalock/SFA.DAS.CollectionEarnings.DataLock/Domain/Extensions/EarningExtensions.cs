@@ -6,14 +6,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
     {
         public static bool HasFirstIncentive(this RawEarning earning)
         {
-            return (earning.TransactionType04 > 0 || earning.TransactionType05 > 0) && 
+            return (earning.TransactionType04 != 0 || earning.TransactionType05 != 0) && 
                    earning.FirstIncentiveCensusDate.HasValue;
         }
 
         public static bool HasSecondIncentive(this RawEarning earning)
         {
-            return (earning.TransactionType06 > 0 || earning.TransactionType07 > 0) &&
+            return (earning.TransactionType06 != 0 || earning.TransactionType07 != 0) &&
                    earning.SecondIncentiveCensusDate.HasValue;
+        }
+
+        public static bool HasCompletionPayment(this RawEarning earning)
+        {
+            return (earning.TransactionType02 != 0 && 
+                    earning.EndDate.HasValue);
         }
 
         public static bool HasNonIncentiveEarnings(this RawEarning earning)
@@ -30,7 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
                     (
                         earning.Period == 1 &&
                         !earning.HasFirstIncentive() &&
-                        !earning.HasSecondIncentive()
+                        !earning.HasSecondIncentive() 
                     )
                 );
         }

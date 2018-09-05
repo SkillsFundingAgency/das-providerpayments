@@ -6,6 +6,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Application.DataLock.Matcher.FrameworkMatchHandler.Match

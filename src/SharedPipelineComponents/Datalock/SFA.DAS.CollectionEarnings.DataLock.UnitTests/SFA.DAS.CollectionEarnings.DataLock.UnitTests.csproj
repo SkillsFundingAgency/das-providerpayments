@@ -125,6 +125,7 @@
     <Compile Include="Utilities\Entities\IncentiveEarningsEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodeEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodePeriodMatchEntityBuilder.cs" />
+    <Compile Include="Utilities\Extensions\RawEarningTestExtensions.cs" />
     <Compile Include="Utilities\IBuilder.cs" />
     <Compile Include="Utilities\Entities\PriceEpisodeMatchEntityBuilder.cs" />
     <Compile Include="Utilities\Entities\ValidationErrorBuilder.cs" />
@@ -149,6 +150,10 @@
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.CollectionEarnings.DataLock\SFA.DAS.CollectionEarnings.DataLock.csproj">
       <Project>{e0b60d5b-969c-4c05-a636-27788cd19be0}</Project>

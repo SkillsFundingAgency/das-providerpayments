@@ -20,9 +20,9 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         public List<RawEarning> GetAllForProvider(long ukprn)
         {
             const string sql = @"
-            SELECT *
-            FROM Staging.RawEarnings
-            WHERE Ukprn = @ukprn
+                SELECT *
+                FROM Staging.RawEarnings
+                WHERE Ukprn = @ukprn
             ";
 
             var result = Query<RawEarning>(sql, new {ukprn})
@@ -34,10 +34,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories
         public IEnumerable<RawEarning> GetAllAct1ForProvider(long ukprn)
         {
             const string sql = @"
-            SELECT *
-            FROM Staging.RawEarnings
-            WHERE Ukprn = @ukprn
-            AND [ApprenticeshipContractType] = 1
+                SELECT *
+                FROM Staging.RawEarnings
+                WHERE Ukprn = @ukprn
+                AND [ApprenticeshipContractType] = 1
             ";
 
             var result = Query<RawEarning>(sql, new { ukprn })
