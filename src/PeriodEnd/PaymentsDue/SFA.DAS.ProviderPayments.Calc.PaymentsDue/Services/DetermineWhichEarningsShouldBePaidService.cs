@@ -148,10 +148,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    for (var transactionTypesFlag = 1; transactionTypesFlag < 5; transactionTypesFlag++)
+                    for (var censusType = 1; censusType < 5; censusType++)
                     {
                         var datalocksForFlag = datalocks
-                            .Where(x => x.TransactionTypesFlag == transactionTypesFlag)
+                            .Where(x => x.TransactionTypesFlag == censusType)
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
@@ -170,12 +170,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                                 periodEarningsForPriceEpisode, 
                                 datalocksForFlag.Single(),
                                 completionPaymentEvidence,
-                                transactionTypesFlag);
+                                censusType);
                         }
                     }
                 }
             }
-
             return result;
         }
 
@@ -256,7 +255,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(matchingMathsAndEnglish, datalock);
                 }
             }
-
             return result;
         }
 
