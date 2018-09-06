@@ -26,10 +26,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
+        private EarningValidationService _earningValidationService;
 
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
+            _earningValidationService = new EarningValidationService();
         }
 
         /// <summary>
@@ -103,18 +105,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         private EarningValidationResult CreateEarningValidationResultForOnProg(List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput, CompletionPaymentEvidence completionPaymentEvidence)
         {
-            var builder = new BuildEarningValidationResult();
-
             if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(rawEarnings, null, completionPaymentEvidence);
-                return builder.CreatEarningValidationResult();
+                return _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(rawEarnings, null, completionPaymentEvidence);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
             //  period
             // If there are earnings and 0 successful datalocks, then ignore the period
-
+            var result = new EarningValidationResult();
             var earningsByPeriod = rawEarnings.ToLookup(x => x.Period);
             foreach (var periodGroup in earningsByPeriod.OrderBy(x => x.Key))
             {
@@ -124,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
                 {
-                    builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(earningsForPeriod);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(earningsForPeriod);
                     continue;
                 }
 
@@ -140,10 +139,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     if (datalocks.Count == 0)
                     {
-                        builder.AddNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
+                        result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
                             $"Could not find a matching datalock for price episode: {priceEpisode} in period: {periodGroup.Key}",
                             PaymentFailureType.CouldNotFindSuccessfulDatalock);
-                        builder.AddPeriodToIgnore(periodGroup.Key);
+                        result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
                         continue;
                     }
 
@@ -156,18 +155,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
-                            builder.AddNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
+                            result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
                                 $"Multiple matching datalocks for price episode: {priceEpisode} in period: {periodGroup.Key}",
                                 PaymentFailureType.MultipleMatchingSuccessfulDatalocks,
                                 datalocksForFlag.First());
-                            builder.AddPeriodToIgnore(periodGroup.Key);
+                            result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
                             continue;
                         }
 
                         if (datalocksForFlag.Count == 1)
                         {
                             // We have 1 datalock and a commitment
-                            builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                            result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
                                 periodEarningsForPriceEpisode, 
                                 datalocksForFlag.Single(),
                                 completionPaymentEvidence,
@@ -177,7 +176,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
             }
 
-            return builder.CreatEarningValidationResult();
+            return result;
         }
 
         /// <summary>
@@ -210,10 +209,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return CreateMathAndEnglishEarningValidationResultForLevyLearner(resultSoFar, RawEarningsForMathsOrEnglish);
         }
 
-        private static EarningValidationResult CreateMathAndEnglishEarningValidationResultForLevyLearner(
+        private EarningValidationResult CreateMathAndEnglishEarningValidationResultForLevyLearner(
             EarningValidationResult resultSoFar, List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish)
         {
-            var builder = new BuildEarningValidationResult();
+            var result = new EarningValidationResult();
             // Find a matching payment with the same course information
             foreach (var mathsOrEnglishEarning in rawEarningsForMathsOrEnglish)
             {
@@ -224,24 +223,24 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
-                    builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
                         new List<RawEarning> {mathsOrEnglishEarning}, matchingOnProg);
                 }
                 else
                 {
-                    builder.AddNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> {mathsOrEnglishEarning},
+                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> {mathsOrEnglishEarning},
                         "No matching payable earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
             }
 
-            return builder.CreatEarningValidationResult();
+            return result;
         }
 
-        private static EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
+        private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
             List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
         {
-            var builder = new BuildEarningValidationResult();
+            var result = new EarningValidationResult();
             foreach (var rawEarning in rawEarnings)
             {
                 // Do we have a datalock??
@@ -254,16 +253,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
                         .ToList();
                     matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
-                    builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(matchingMathsAndEnglish, datalock);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(matchingMathsAndEnglish, datalock);
                 }
             }
 
-            return builder.CreatEarningValidationResult();
+            return result;
         }
 
-        private static EarningValidationResult CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings)
+        private EarningValidationResult CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings)
         {
-            var builder = new BuildEarningValidationResult();
+            var result = new EarningValidationResult();
             foreach (var rawEarningForMathsOrEnglish in rawEarningsForMathsOrEnglish)
             {
                 var matchingEarning = rawEarnings.FirstOrDefault(x =>
@@ -271,19 +270,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingEarning != null)
                 {
                     rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
-                    builder.AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
                         new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish});
                 }
                 else
                 {
-                    builder.AddNonPayableEarningsForNonZeroTransactionTypes(
+                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(
                         new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish},
                         "No on-prog earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
             }
 
-            return builder.CreatEarningValidationResult();
+            return result;
         }
     }
 }

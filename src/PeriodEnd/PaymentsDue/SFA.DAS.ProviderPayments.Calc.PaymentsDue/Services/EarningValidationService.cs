@@ -10,27 +10,18 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class BuildEarningValidationResult 
+    public class EarningValidationService 
     {
-
         private static readonly List<int> OnProgTransactionTypes = new List<int> { 1, 2, 3 };
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
-        private EarningValidationResult earningValidationResult;
 
-        public BuildEarningValidationResult()
-        {
-            earningValidationResult = new EarningValidationResult();
-        }
-
-        public EarningValidationResult CreatEarningValidationResult() => earningValidationResult;
-
-        public void AddPayableEarningsButHoldBackCompletionPaymentIfNecessary(
+        public EarningValidationResult CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
             CompletionPaymentEvidence completionPaymentEvidence = null,
-            int datalockType = -1)
+            int cenususType = -1)
         {
-
+            var earningValidationResult = new EarningValidationResult();
             var reasonToHoldBack = "";
             var holdBack = false;
             if (completionPaymentEvidence != null)
@@ -38,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
             }
 
-            var payables = GetFundingDueForNonZeroTransactionTypes(earnings, commitment, datalockType);
+            var payables = GetFundingDueForNonZeroTransactionTypes(earnings, commitment, cenususType);
 
             if (holdBack)
             {
@@ -55,21 +46,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
 
             earningValidationResult.AddPayableEarnings(payables);
+            return earningValidationResult;
         }
 
-        public void AddNonPayableEarningsForNonZeroTransactionTypes(
+        public EarningValidationResult CreateNonPayableEarningsForNonZeroTransactionTypes(
             IEnumerable<RawEarning> earnings,
             string reason,
             PaymentFailureType paymentFailureReason,
             IHoldCommitmentInformation commitment = null)
         {
             var nonPayables = GetNonPayableEarningsForNonZeroTransactionTypes(earnings, reason, paymentFailureReason, commitment);
+            var earningValidationResult = new EarningValidationResult();
             earningValidationResult.AddNonPayableEarnings(nonPayables);
+            return earningValidationResult;
         }
 
-        public void AddPeriodToIgnore(int periods)
+        public EarningValidationResult AddPeriodToIgnore(int periods)
         {
+            var earningValidationResult = new EarningValidationResult();
             earningValidationResult.PeriodsToIgnore.Add(periods);
+            return earningValidationResult;
         }
 
         private List<FundingDue> GetFundingDueForNonZeroTransactionTypes(
@@ -103,12 +99,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<FundingDue> GetPayableEarnings(
             RawEarning rawEarnings,
             IHoldCommitmentInformation commitmentInformation = null,
-            int datalockType = -1)
+            int censusType = -1)
         {
             var payableEarnings = new List<FundingDue>();
             for (var transactionType = 1; transactionType <= 15; transactionType++)
             {
-                if (datalockType != -1 && IgnoreTransactionType(datalockType, transactionType))
+                if (IgnoreTransactionTypeForASpecficCensusType(censusType, transactionType))
                 {
                     continue;
                 }
@@ -165,9 +161,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return nonPayableEarnings;
         }
 
-        private static bool IgnoreTransactionType(int datalockType, int transactionType)
+        private static bool IgnoreTransactionTypeForASpecficCensusType(int censusType, int transactionType)
         {
-            if (datalockType == 1 && (transactionType == 2 ||
+            // TODO These all need to be enums
+            if (censusType == -1)
+            {
+                return false;
+            }
+
+            if (censusType == 1 && (transactionType == 2 ||
                                       transactionType == 4 ||
                                       transactionType == 5 ||
                                       transactionType == 6 ||
@@ -177,17 +179,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
-            if (datalockType == 2 && (transactionType != 4 && transactionType != 5))
+            if (censusType == 2 && (transactionType != 4 && transactionType != 5))
             {
                 return true;
             }
 
-            if (datalockType == 3 && (transactionType != 6 && transactionType != 7))
+            if (censusType == 3 && (transactionType != 6 && transactionType != 7))
             {
                 return true;
             }
 
-            if (datalockType == 4 && (transactionType != 2))
+            if (censusType == 4 && (transactionType != 2))
             {
                 return true;
             }
