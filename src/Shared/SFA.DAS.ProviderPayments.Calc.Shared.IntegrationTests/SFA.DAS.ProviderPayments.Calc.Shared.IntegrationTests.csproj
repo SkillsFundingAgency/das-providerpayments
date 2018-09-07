@@ -128,10 +128,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\PeriodEnd\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
-      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\PeriodEnd\ManualAdjustments\DeployManualAdjustments\sql\ddl\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.ManualAdjustments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -143,6 +139,9 @@
     <Content Include="..\..\PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
     </Content>
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>
