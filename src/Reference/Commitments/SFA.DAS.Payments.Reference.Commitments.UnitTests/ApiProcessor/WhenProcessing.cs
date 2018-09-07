@@ -63,6 +63,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingId = "1000",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
                     PausedOnDate = DateTime.Today,
+                    AccountLegalEntityPublicHashedId = "A1B1C1",
                     PriceHistory =new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2017,10,10),
@@ -85,6 +86,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingId = "2000-2001-2002",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
                     StoppedOnDate = DateTime.Today,
+                    AccountLegalEntityPublicHashedId = "A2B2C2",
                     PriceHistory = new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2019, 9, 1),
@@ -305,10 +307,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                                      @event.PausedOnDate == command.PausedOnDate &&
                                      @event.StoppedOnDate == command.WithdrawnOnDate &&
                                      @event.AccountLegalEntityPublicHashedId == command.AccountLegalEntityPublicHashedId;
-
-      
             
-                if (@event.TrainingType == TrainingTypes.Framework)
+            if (@event.TrainingType == TrainingTypes.Framework)
             {
                 var parts = @event.TrainingId.Split('-');
                 eventEqualsCommand = eventEqualsCommand &&
