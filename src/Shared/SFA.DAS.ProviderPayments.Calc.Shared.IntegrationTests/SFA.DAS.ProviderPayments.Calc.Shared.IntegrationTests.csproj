@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="Attributes\Datalocks\SetupNoValidationErrorsAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupValidationErrorsAttribute.cs" />
-    <Compile Include="Attributes\SetupPaymentsHistoryRepositoryAttribute.cs" />
     <Compile Include="Helpers\DatalockDataHelper.cs" />
     <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
@@ -116,7 +115,6 @@
     <Compile Include="SpecimenBuilders\UnknownAccountIdBuilder.cs" />
     <Compile Include="Tests\Infrastructure\GivenADasAccountRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenADatalockRepository.cs" />
-    <Compile Include="Tests\Infrastructure\GivenAPaymentRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARawEarningsRepository.cs" />
     <Compile Include="Tests\Infrastructure\GivenARequiredPaymentsRepository.cs" />
