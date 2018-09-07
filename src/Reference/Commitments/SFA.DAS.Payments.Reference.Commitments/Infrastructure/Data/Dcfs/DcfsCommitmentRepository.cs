@@ -25,11 +25,14 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                         Priority,
                                                         PaymentStatus,
                                                         PaymentStatusDescription,
+                                                        PausedOnDate,
+                                                        WithdrawnOnDate,
                                                         EffectiveFromDate,
                                                         EffectiveToDate,
                                                         LegalEntityName,
                                                         TransferSendingEmployerAccountId,
-                                                        TransferApprovalDate 
+                                                        TransferApprovalDate,
+                                                        AccountLegalEntityPublicHashedId
                                                     FROM dbo.DasCommitments 
                                                     WHERE CommitmentId = @commitmentId 
                                                     ORDER BY VersionId DESC ";
@@ -56,7 +59,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                     EffectiveToDate,
                                                     LegalEntityName,
                                                     TransferSendingEmployerAccountId,
-                                                    TransferApprovalDate
+                                                    TransferApprovalDate,
+                                                    AccountLegalEntityPublicHashedId
                                                 )
                                                 VALUES
                                                 (
@@ -81,7 +85,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                     @EffectiveToDate,
                                                     @LegalEntityName,
                                                     @TransferSendingEmployerAccountId,
-                                                    @TransferApprovalDate
+                                                    @TransferApprovalDate,
+                                                    @AccountLegalEntityPublicHashedId
                                                 )";
 
         private const string UpdateCommand = @" UPDATE dbo.DasCommitments
@@ -106,7 +111,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.Infrastructure.Data.Dcfs
                                                     EffectiveToDate = @EffectiveToDate,
                                                     LegalEntityName = @LegalEntityName,
                                                     TransferSendingEmployerAccountId = @TransferSendingEmployerAccountId,
-                                                    TransferApprovalDate = @TransferApprovalDate
+                                                    TransferApprovalDate = @TransferApprovalDate,
+,                                                   AccountLegalEntityPublicHashedId = @AccountLegalEntityPublicHashedId
                                                 WHERE CommitmentId = @commitmentId  
                                                 AND VersionId = @VersionId ";
 
