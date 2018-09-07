@@ -36,7 +36,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
                 PausedOnDate = DateTime.Today.AddDays(-11),
                 WithdrawnOnDate = DateTime.Today.AddDays(-1),
                 LegalEntityName = "ACME Ltd.",
-                PriceEpisodes = new List<PriceEpisode>() {
+                AccountLegalEntityPublicHashedId = "A1B1C1",
+                PriceEpisodes = new List<PriceEpisode> {
                     new PriceEpisode {
                         AgreedPrice=12345,
                         EffectiveFromDate= new DateTime(2017, 4, 1)
@@ -114,9 +115,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
             // Assert
 
             _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, newRequest))), Times.Exactly(2));
-            
-
-
         }
 
         [Test]
@@ -203,7 +201,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
 
             if (result)
             {
-                List<PriceEpisode> priceEpisodes = request.PriceEpisodes;
                 result = request.PriceEpisodes.Any(x => x.AgreedPrice == commitmentEntity.AgreedCost) &&
                           request.PriceEpisodes.Any(x => x.EffectiveFromDate == commitmentEntity.EffectiveFromDate) &&
                           request.PriceEpisodes.Any(x => x.EffectiveToDate == commitmentEntity.EffectiveToDate);
