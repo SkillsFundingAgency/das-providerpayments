@@ -367,7 +367,7 @@ namespace IlrGenerator
                     FindElement(newNonActFamElement, "LearnDelFAMCode").Value = famRecord.Code;
                     FindElement(newNonActFamElement, "LearnDelFAMType").Value = famRecord.FamType;
 
-                    if (!famRecord.FamType.Equals("RES", StringComparison.InvariantCultureIgnoreCase))
+                    if (!famRecord.FamType.Equals("RES", StringComparison.InvariantCultureIgnoreCase) && !famRecord.FamType.Equals("LDM", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var famDateFrom = CreateElement("LearnDelFAMDateFrom", famRecord.From.ToString(DateFormat));
                         var dateTo = GetFamToDate(famRecord.To, delivery.ActualEndDate);
@@ -376,10 +376,8 @@ namespace IlrGenerator
                             var famDateTo = CreateElement("LearnDelFAMDateTo", dateTo.Value.ToString(DateFormat));
                             FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateTo);
                         }
-                        
                         FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateFrom);
                     }
-
                     learnerNonActFamElement.AddAfterSelf(newNonActFamElement);
                 }
             }
