@@ -23,7 +23,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 .Where(x => x.PaymentStatus == (int)PaymentStatus.Cancelled || x.WithdrawnOnDate.HasValue)
                 .ToList();
             var activeWithdrawnCommitments = withdrawnCommitments
-                .Where(x => x.WithdrawnOnDate > censusDate)
+                .Where(x => x.WithdrawnOnDate >= censusDate)
                 .ToList();
 
             if (withdrawnCommitments.Any() && !activeWithdrawnCommitments.Any())
