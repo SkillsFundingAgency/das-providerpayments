@@ -95,6 +95,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                     LearnRefNumber = earning.LearnRefNumber,
                     PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                     Ukprn = earning.Ukprn,
+                    AimSeqNumber = earning.AimSeqNumber,
                 });
             }
         }
