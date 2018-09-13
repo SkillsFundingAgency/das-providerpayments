@@ -9,6 +9,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Helpers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
@@ -41,8 +42,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             parameters.Commitments.AddRange(testData.Commitments);
             parameters.DataLocks.AddRange(testData.DatalockOutputs);
             parameters.DatalockValidationErrors.AddRange(testData.DatalockValidationErrors);
-            parameters.HistoricalPayments.AddRange(testData.PastPayments);
+            parameters.HistoricalRequiredPayments.AddRange(testData.PastPayments);
             parameters.RawEarningsMathsEnglish.AddRange(testData.RawEarningsForMathsOrEnglish);
+            parameters.CompletionPaymentEvidence = CompletionPaymentsEvidenceHelper.CreateCanPayEvidence();
 
             collectionPeriod.AcademicYear = "1718";
             collectionPeriodRepository.Setup(x => x.GetCurrentCollectionPeriod())

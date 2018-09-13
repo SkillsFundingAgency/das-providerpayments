@@ -8,7 +8,13 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using StructureMap;
+using IProviderRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.IProviderRepository;
+using IRequiredPaymentRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.IRequiredPaymentRepository;
+using ProviderRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories.ProviderRepository;
+using RequiredPaymentRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories.RequiredPaymentRepository;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {
@@ -45,6 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IDetermineWhichEarningsShouldBePaid>().Use<DetermineWhichEarningsShouldBePaidService>();
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
+            For<ICompletionPaymentService>().Use<CompletionPaymentService>();
+            For<IPaymentRepository>().Use<PaymentRepository>();
         }
 
         private static IEnumerable<object> GetAllInstances(IContext ctx, Type t)

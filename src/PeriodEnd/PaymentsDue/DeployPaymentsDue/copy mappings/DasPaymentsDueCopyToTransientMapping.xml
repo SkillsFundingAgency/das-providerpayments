@@ -133,6 +133,14 @@
           <Source>ApprenticeshipContractType</Source>
           <Destination>ApprenticeshipContractType</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeCumulativePMRs</Source>
+          <Destination>PriceEpisodeCumulativePMRs</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeCompExemCode</Source>
+          <Destination>PriceEpisodeCompExemCode</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

@@ -76,25 +76,36 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
         public static string GetStringDateFromPeriod(string period)
         {
+            return GetStringDateFromPeriodAndAcademicYear(period, "1718");
+        }
+
+        public static string GetStringDateFromPeriodAndAcademicYear(string period, string academicYear)
+        {
             if (string.IsNullOrEmpty(period))
                 return null;
 
+            if (academicYear.Length != 4)
+                return null;
+
+            var firstHalf = academicYear.Substring(0, 2);
+            var secondHalf = academicYear.Substring(2, 2);
+
             switch (period.ToUpper())
             {
-                case "R01": return "08/17";
-                case "R02": return "09/17";
-                case "R03": return "10/17";
-                case "R04": return "11/17";
-                case "R05": return "12/17";
-                case "R06": return "01/18";
-                case "R07": return "02/18";
-                case "R08": return "03/18";
-                case "R09": return "04/18";
-                case "R10": return "05/18";
-                case "R11": return "06/18";
-                case "R12": return "07/18";
-                case "R13": return "09/18";
-                case "R14": return "10/18";
+                case "R01": return $"08/{firstHalf}";
+                case "R02": return $"09/{firstHalf}";
+                case "R03": return $"10/{firstHalf}";
+                case "R04": return $"11/{firstHalf}";
+                case "R05": return $"12/{firstHalf}";
+                case "R06": return $"01/{secondHalf}";
+                case "R07": return $"02/{secondHalf}";
+                case "R08": return $"03/{secondHalf}";
+                case "R09": return $"04/{secondHalf}";
+                case "R10": return $"05/{secondHalf}";
+                case "R11": return $"06/{secondHalf}";
+                case "R12": return $"07/{secondHalf}";
+                case "R13": return $"09/{secondHalf}";
+                case "R14": return $"10/{secondHalf}";
                 default: return null;
             }
         }

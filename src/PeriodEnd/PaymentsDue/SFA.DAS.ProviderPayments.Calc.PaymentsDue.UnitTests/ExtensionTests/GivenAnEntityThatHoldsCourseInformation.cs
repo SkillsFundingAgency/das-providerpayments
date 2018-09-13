@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         public void ThenHasMatchingCourseInformationReturnsFalseWhenPathwayCodeIsDifferent(
             FundingDue lhs, FundingDue rhs)
         {
-            rhs.PathwayCode = lhs.PathwayCode * 2;
+            rhs.PathwayCode = lhs.PathwayCode + 2;
             rhs.StandardCode = lhs.StandardCode;
             rhs.FrameworkCode = lhs.FrameworkCode;
             rhs.ProgrammeType = lhs.ProgrammeType;
@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
         {
             rhs.PathwayCode = lhs.PathwayCode;
             rhs.StandardCode = lhs.StandardCode;
-            rhs.FrameworkCode = lhs.FrameworkCode * 2;
+            rhs.FrameworkCode = lhs.FrameworkCode + 2;
             rhs.ProgrammeType = lhs.ProgrammeType;
             rhs.ApprenticeshipContractType = lhs.ApprenticeshipContractType;
 
@@ -59,7 +59,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             FundingDue lhs, FundingDue rhs)
         {
             rhs.PathwayCode = lhs.PathwayCode;
-            rhs.StandardCode = lhs.StandardCode * 2;
+            rhs.StandardCode = lhs.StandardCode + 2;
             rhs.FrameworkCode = lhs.FrameworkCode;
             rhs.ProgrammeType = lhs.ProgrammeType;
             rhs.ApprenticeshipContractType = lhs.ApprenticeshipContractType;
@@ -76,7 +76,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             rhs.PathwayCode = lhs.PathwayCode;
             rhs.StandardCode = lhs.StandardCode;
             rhs.FrameworkCode = lhs.FrameworkCode;
-            rhs.ProgrammeType = lhs.ProgrammeType * 2;
+            rhs.ProgrammeType = lhs.ProgrammeType + 2;
             rhs.ApprenticeshipContractType = lhs.ApprenticeshipContractType;
 
             var actual = lhs.HasMatchingCourseInformationWith(rhs);
