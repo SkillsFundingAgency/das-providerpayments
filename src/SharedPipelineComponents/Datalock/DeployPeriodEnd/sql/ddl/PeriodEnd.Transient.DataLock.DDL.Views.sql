@@ -6,36 +6,6 @@ GO
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- vw_PriceEpisode
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PriceEpisode' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-    DROP VIEW DataLock.vw_PriceEpisode
-END
-GO
-
-CREATE VIEW DataLock.vw_PriceEpisode
-AS 
-    SELECT
-        [Ukprn],
-        [LearnRefNumber],
-        [Uln],
-        [NiNumber],
-        [AimSeqNumber],
-        [StandardCode],
-        [ProgrammeType],
-        [FrameworkCode],
-        [PathwayCode],
-        [StartDate],
-        [NegotiatedPrice],
-        [PriceEpisodeIdentifier],
-        [EndDate],
-		[PriceEpisodeFirstAdditionalPaymentThresholdDate] AS FirstAdditionalPaymentThresholdDate,
-		[PriceEpisodeSecondAdditionalPaymentThresholdDate] as SecondAdditionalPaymentThresholdDate
-    FROM Reference.DataLockPriceEpisode
-GO
-
------------------------------------------------------------------------------------------------------------------------------------------------
 -- vw_Providers
 -----------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_Providers' AND [schema_id] = SCHEMA_ID('DataLock'))
@@ -72,6 +42,38 @@ SELECT
     cp.[CollectionPeriodMonth],
     cp.[CollectionPeriodYear]
 FROM DataLock.ValidationError ve
+    CROSS JOIN (
+       SELECT TOP 1
+          '${YearOfCollection}-' + [Name] AS [CollectionPeriodName],
+          [CalendarMonth] AS [CollectionPeriodMonth],
+          [CalendarYear] AS [CollectionPeriodYear]
+       FROM [Reference].[CollectionPeriods]
+       WHERE [Open] = 1
+    ) cp
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_ValidationErrorByPeriod
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_ValidationErrorByPeriod' AND [schema_id] = SCHEMA_ID('DataLock'))
+BEGIN
+    DROP VIEW DataLock.vw_ValidationErrorByPeriod
+END
+GO
+
+CREATE VIEW DataLock.vw_ValidationErrorByPeriod
+AS
+SELECT 
+    ve.[Ukprn],
+    ve.[LearnRefNumber],
+    ve.[AimSeqNumber],
+    ve.[RuleId],
+    ve.[PriceEpisodeIdentifier],
+	ve.[Period],
+    cp.[CollectionPeriodName],
+    cp.[CollectionPeriodMonth],
+    cp.[CollectionPeriodYear]
+FROM DataLock.ValidationErrorByPeriod ve
     CROSS JOIN (
        SELECT TOP 1
           '${YearOfCollection}-' + [Name] AS [CollectionPeriodName],
@@ -161,7 +163,7 @@ END
 GO
 CREATE VIEW DataLock.vw_Commitments
 AS
-SELECT c.[CommitmentId]
+SELECT DISTINCT c.[CommitmentId]
       ,c.[VersionId]
       ,c.[Uln]
       ,c.[Ukprn] AS UKPRN
@@ -179,35 +181,12 @@ SELECT c.[CommitmentId]
       ,c.[Priority]
 	  ,c.[EffectiveFrom]
 	  ,c.[EffectiveTo]
+	  ,c.[WithdrawnOnDate]
+	  ,c.[PausedOnDate]
       
 FROM Reference.[DasCommitments] c
-  INNER JOIN [Reference].[DataLockPriceEpisode] x
+  LEFT JOIN [Staging].[RawEarnings] x
   ON x.ULN = c.Uln
    
 GO
 
-
------------------------------------------------------------------------------------------------------------------------------------------------
--- vw_16To18IncentiveEarnings
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_16To18IncentiveEarnings' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-    DROP VIEW DataLock.vw_16To18IncentiveEarnings
-END
-GO
-
-CREATE VIEW DataLock.vw_16To18IncentiveEarnings
-AS 
-   
-    SELECT
-        p.[Ukprn],
-        p.[LearnRefNumber] AS [LearnRefNumber],
-		p.Period,
-		p.PriceEpisodeFirstEmp1618Pay,
-		p.PriceEpisodeSecondEmp1618Pay,
-		p.PriceEpisodeIdentifier
-    
-	FROM [Reference].[ApprenticeshipPriceEpisode_Period] p
-   	
-	
-GO

@@ -1,10 +1,7 @@
-﻿using System;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DasAccount;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Earnings;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+﻿using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities
 {
     public class IncentiveEarningsEntityBuilder : IBuilder<IncentiveEarningsEntity>
     {
@@ -14,8 +11,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         private decimal _priceEpisodeFirstEmp1618Pay = 0;
         private decimal _priceEpisodeSecondEmp1618Pay = 0;
         private string _priceEpisodeIdentifier = null;
-
-
+        
         public IncentiveEarningsEntity Build()
         {
             return new IncentiveEarningsEntity
@@ -28,7 +24,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
                 Ukprn =_ukprn
             };
         }
-
         public IncentiveEarningsEntityBuilder WithLearnRefNumber(string learnRefNumber)
         {
             _learnRefNumber = learnRefNumber;

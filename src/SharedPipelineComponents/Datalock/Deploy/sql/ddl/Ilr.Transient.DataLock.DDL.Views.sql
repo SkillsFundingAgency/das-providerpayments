@@ -1,42 +1,4 @@
-IF NOT EXISTS(SELECT [schema_id] FROM sys.schemas WHERE [name]='DataLock')
-BEGIN
-    EXEC('CREATE SCHEMA DataLock')
-END
 
------------------------------------------------------------------------------------------------------------------------------------------------
--- vw_PriceEpisode
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_PriceEpisode' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-    DROP VIEW DataLock.vw_PriceEpisode
-END
-GO
-
-CREATE VIEW DataLock.vw_PriceEpisode
-AS 
-     SELECT
-        lp.UKPRN AS [Ukprn],
-        l.[LearnRefNumber] AS [LearnRefNumber],
-        l.[ULN] AS [Uln],
-        l.[NINumber] AS [NiNumber],
-        ld.[AimSeqNumber] AS [AimSeqNumber],
-        ld.[StdCode] AS [StandardCode],
-        ld.[ProgType] AS [ProgrammeType],
-        ld.[FworkCode] AS [FrameworkCode],
-        ld.[PwayCode] AS [PathwayCode],
-        ape.[EpisodeEffectiveTNPStartDate] AS [StartDate],
-        ape.[PriceEpisodeTotalTNPPrice] AS [NegotiatedPrice],
-        ape.[PriceEpisodeIdentifier],
-        COALESCE(ape.[PriceEpisodeActualEndDate], ape.[PriceEpisodePlannedEndDate]) AS [EndDate],
-		ape.[PriceEpisodeFirstAdditionalPaymentThresholdDate] AS FirstAdditionalPaymentThresholdDate,
-		ape.[PriceEpisodeSecondAdditionalPaymentThresholdDate] as SecondAdditionalPaymentThresholdDate
-    FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
-       JOIN [Valid].[Learner] l ON ape.[LearnRefNumber] = l.[LearnRefNumber]
-       JOIN [Valid].[LearningDelivery] ld ON ape.[LearnRefNumber] = ld.[LearnRefNumber]
-          AND ape.[PriceEpisodeAimSeqNumber] = ld.[AimSeqNumber]
-		, Valid.LearningProvider lp
-    WHERE ape.PriceEpisodeContractType = 'Levy Contract'
-GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- vw_Providers
@@ -75,6 +37,38 @@ SELECT
     cp.[CollectionPeriodMonth],
     cp.[CollectionPeriodYear]
 FROM DataLock.ValidationError ve
+    CROSS JOIN (
+       SELECT TOP 1
+          '${YearOfCollection}-' + [Name] AS [CollectionPeriodName],
+          [CalendarMonth] AS [CollectionPeriodMonth],
+          [CalendarYear] AS [CollectionPeriodYear]
+       FROM [Reference].[CollectionPeriods]
+       WHERE [Open] = 1
+    ) cp
+GO
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- vw_ValidationErrorByPeriod
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_ValidationErrorByPeriod' AND [schema_id] = SCHEMA_ID('DataLock'))
+BEGIN
+    DROP VIEW DataLock.vw_ValidationErrorByPeriod
+END
+GO
+
+CREATE VIEW DataLock.vw_ValidationErrorByPeriod
+AS
+SELECT 
+    ve.[Ukprn],
+    ve.[LearnRefNumber],
+    ve.[AimSeqNumber],
+    ve.[RuleId],
+    ve.[PriceEpisodeIdentifier],
+	ve.[Period],
+    cp.[CollectionPeriodName],
+    cp.[CollectionPeriodMonth],
+    cp.[CollectionPeriodYear]
+FROM DataLock.ValidationErrorByPeriod ve
     CROSS JOIN (
        SELECT TOP 1
           '${YearOfCollection}-' + [Name] AS [CollectionPeriodName],
@@ -169,7 +163,7 @@ SELECT c.[CommitmentId]
       ,c.[VersionId]
       ,c.[Uln]
       ,c.[Ukprn] as UKPRN
-	  ,x.UKPRN as ProviderUKPRN
+	  ,l.UKPRN as ProviderUKPRN
       ,c.[AccountId]
       ,c.[StartDate]
       ,c.[EndDate]
@@ -183,39 +177,12 @@ SELECT c.[CommitmentId]
       ,c.[Priority]
 	  ,c.[EffectiveFrom]
 	  ,c.[EffectiveTo]
-      
+      ,c.[WithdrawnOnDate]
+	  ,c.[PausedOnDate]
+
   FROM Reference.[DasCommitments] c
-  INNER JOIN Valid.Learner l ON l.ULN = c.Uln
-  ,Valid.LearningProvider x
- 
+  CROSS JOIN Valid.LearningProvider l 
+  
 GO
 
 
-
------------------------------------------------------------------------------------------------------------------------------------------------
--- vw_PriceEpisode
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='vw_16To18IncentiveEarnings' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-    DROP VIEW DataLock.vw_16To18IncentiveEarnings
-END
-GO
-
-CREATE VIEW DataLock.vw_16To18IncentiveEarnings
-AS 
-   
-    SELECT
-        (SELECT [UKPRN] FROM [Valid].[LearningProvider]) AS [Ukprn],
-        ape.[LearnRefNumber] AS [LearnRefNumber],
-		p.Period,
-		p.PriceEpisodeFirstEmp1618Pay,
-		p.PriceEpisodeSecondEmp1618Pay,
-		ape.PriceEpisodeIdentifier
-    FROM [Rulebase].[AEC_ApprenticeshipPriceEpisode] ape
-	JOIN [Rulebase].[AEC_ApprenticeshipPriceEpisode_Period] p
-		On p.LearnRefNumber = ape.LearnRefNumber 
-		And p.PriceEpisodeIdentifier = ape.PriceEpisodeIdentifier
-    WHERE ape.PriceEpisodeContractType = 'Levy Contract'
-	And (IsNull(p.PriceEpisodeFirstEmp1618Pay,0) <> 0 OR IsNull(p.PriceEpisodeSecondEmp1618Pay,0) <> 0)
-	
-GO

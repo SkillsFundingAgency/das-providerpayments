@@ -15,6 +15,14 @@ BEGIN
 END
 GO
 
+
+-- This is for our test framework... with one intra database rather than two
+IF EXISTS(SELECT [object_id] FROM sys.views WHERE [name]='RawEarnings' AND [schema_id] = SCHEMA_ID('Staging'))
+BEGIN
+    DROP VIEW Staging.RawEarnings
+END
+GO
+
 CREATE TABLE Staging.RawEarnings (
 	LearnRefNumber varchar(12) NOT NULL,
 	Ukprn bigint NOT NULL,
@@ -47,7 +55,11 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
-	ApprenticeshipContractType int
+	ApprenticeshipContractType int,
+	FirstIncentiveCensusDate date,
+	SecondIncentiveCensusDate date,
+	AgreedPrice decimal(15,5),
+	EndDate date
 )
 GO
 

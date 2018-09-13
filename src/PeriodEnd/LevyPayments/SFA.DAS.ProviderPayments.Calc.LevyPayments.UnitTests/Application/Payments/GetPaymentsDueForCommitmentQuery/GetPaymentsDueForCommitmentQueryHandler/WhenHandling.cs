@@ -11,12 +11,14 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
     public class WhenHandling
     {
         private const long CommitmentId = 1;
+        private const string CommitmentVersionId = "1-001";
 
         private static readonly PaymentDueEntity[] PaymentDueEntities = 
         {
             new PaymentDueEntity
             {
                 CommitmentId = CommitmentId,
+                CommitmentVersionId = CommitmentVersionId,
                 LearnRefNumber = "Lrn-001",
                 AimSeqNumber = 1,
                 Ukprn = 10007459,
@@ -28,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
             new PaymentDueEntity
             {
                 CommitmentId = CommitmentId,
+                CommitmentVersionId = CommitmentVersionId,
                 LearnRefNumber = "Lrn-001",
                 AimSeqNumber = 1,
                 Ukprn = 10007459,
@@ -54,6 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
             _request = new GetPaymentsDueForCommitmentQueryRequest
             {
                 CommitmentId = CommitmentId,
+                CommitmentVersionId = CommitmentVersionId,
                 RefundPayments = false
             };
 
@@ -67,7 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
         public void ThenValidGetPaymentsDueForCommitmentQueryResponseReturnedForValidRepositoryResponse(PaymentDueEntity[] paymentsDue)
         {
             // Arrange
-            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId,false))
+            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId, CommitmentVersionId, false))
                 .Returns(paymentsDue);
 
             // Act
@@ -82,7 +86,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
         public void ThenPaymentsDueShouldBeInTheGetPaymentsDueForCommitmentQueryResponse()
         {
             // Arrange
-            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId,false))
+            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId, CommitmentVersionId, false))
                 .Returns(PaymentDueEntities);
 
             // Act
@@ -104,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Payme
         public void ThenInvalidGetPaymentsDueForCommitmentQueryResponseReturnedForInvalidRepositoryResponse()
         {
             // Arrange
-            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId,false))
+            _repository.Setup(r => r.GetPaymentsDueForCommitment(CommitmentId, CommitmentVersionId, false))
                 .Throws<Exception>();
 
             // Act

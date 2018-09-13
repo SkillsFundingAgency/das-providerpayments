@@ -4,7 +4,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
 {
-    public class PaymentDataHelper
+    internal static class PaymentDataHelper
     {
         internal static IEnumerable<PaymentEntity> GetAll(PaymentSchema paymentSchema)
         {

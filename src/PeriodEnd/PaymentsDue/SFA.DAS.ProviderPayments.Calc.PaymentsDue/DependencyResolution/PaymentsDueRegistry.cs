@@ -8,7 +8,10 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using StructureMap;
+using ProviderRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories.ProviderRepository;
+using RequiredPaymentRepository = SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories.RequiredPaymentRepository;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
 {

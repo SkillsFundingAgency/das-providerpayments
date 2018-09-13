@@ -1,8 +1,10 @@
 ﻿using System;
-using SFA.DAS.CollectionEarnings.DataLock.Application.Commitment;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Enums;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
+using SFA.DAS.Payments.DCFS.Domain;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Application
 {
     public class CommitmentBuilder : IBuilder<Commitment>
     {
@@ -10,6 +12,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         private string _versionId = "1-001";
         private long _uln = 1000000019;
         private long _ukprn = 10007459;
+        private long _providerUkprn = 10007459;
         private long _accountId = 1;
         private DateTime _startDate = new DateTime(2016, 9, 1);
         private DateTime _endDate = new DateTime(2018, 12, 31);
@@ -25,7 +28,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
 
         public Commitment Build()
         {
-            return new Commitment
+            var entity = new CommitmentEntity
             {
                 CommitmentId = _commitmentId,
                 VersionId = _versionId,
@@ -34,7 +37,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
                 AccountId = _accountId,
                 StartDate = _startDate,
                 EndDate = _endDate,
-                NegotiatedPrice = _negoriatedPrice,
+                AgreedCost = _negoriatedPrice,
                 StandardCode = _standardCode,
                 ProgrammeType = _programmeType,
                 FrameworkCode = _frameworkCode,
@@ -42,8 +45,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
                 PaymentStatus = _paymentStatus,
                 PaymentStatusDescription = _paymentStatusDescription,
                 EffectiveFrom = _effectiveFrom,
-                EffectiveTo = _effectiveTo
+                EffectiveTo = _effectiveTo,
+                ProviderUkprn = _providerUkprn,
             };
+            return new Commitment(entity);
         }
 
         public CommitmentBuilder WithCommitmentId(long commitmentId)
@@ -63,13 +68,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Application
         public CommitmentBuilder WithUln(long uln)
         {
             _uln = uln;
-
+            
             return this;
         }
 
         public CommitmentBuilder Withukprn(long ukprn)
         {
             _ukprn = ukprn;
+            
+            return this;
+        }
+
+        public CommitmentBuilder WithProviderUkprn(long ukprn)
+        {
+            _providerUkprn = ukprn;
 
             return this;
         }

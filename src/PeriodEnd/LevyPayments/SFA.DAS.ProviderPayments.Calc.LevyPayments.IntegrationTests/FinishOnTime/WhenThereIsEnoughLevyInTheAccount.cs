@@ -30,10 +30,11 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         {
             // Arrange
             var accountId = 1;
+            var versionId = "1-001";
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 
@@ -44,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             task.Execute(taskContext);
 
             // Assert
-            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId, versionId);
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(0, paymentsMade.Length);
         }
@@ -55,14 +56,15 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         {
             // Arrange
             var accountId = 1;
+            var versionId = "1-001";
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 
-            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: amountDue, transactionType: transactionType);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: amountDue, transactionType: transactionType, commitmentVersionId: versionId);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -71,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             task.Execute(taskContext);
 
             // Assert
-            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId, versionId);
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(1, paymentsMade.Length);
 
@@ -85,15 +87,16 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
         {
             // Arrange
             var accountId = 1;
+            var versionId = "1-001";
             TestDataHelper.AddAccount(accountId);
 
             var commitmentId = 1L;
-            TestDataHelper.AddCommitment(commitmentId, accountId.ToString());
+            TestDataHelper.AddCommitment(commitmentId, accountId, versionId: versionId);
 
             TestDataHelper.CopyReferenceData();
 
-            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 575.12345m);
-            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 1725.54321m, transactionType: TransactionType.Completion);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 575.12345m, commitmentVersionId: versionId);
+            TestDataHelper.AddPaymentDueForCommitment(commitmentId, amountDue: 1725.54321m, transactionType: TransactionType.Completion, commitmentVersionId: versionId);
 
             var taskContext = new IntegrationTaskContext();
             var task = new LevyPaymentsTask();
@@ -102,7 +105,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests.FinishOnTi
             task.Execute(taskContext);
 
             // Assert
-            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId);
+            var paymentsMade = TestDataHelper.GetPaymentsForCommitment(commitmentId, versionId);
             Assert.IsNotNull(paymentsMade);
             Assert.AreEqual(2, paymentsMade.Length);
 

@@ -58,6 +58,7 @@
     <Compile Include="Context\PaymentsInvalidContextException.cs" />
     <Compile Include="Context\PaymentsContextPropertyKeys.cs" />
     <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />
+    <Compile Include="Domain\DataLockErrorCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +70,7 @@
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

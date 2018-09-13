@@ -95,6 +95,7 @@
     <Compile Include="Workflow\IlrSubmission\IlrSubmissionWorkflow.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\CleanuplrDedsTask.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\CopyDasIlrDataToDedsTask.cs" />
+    <Compile Include="Workflow\IlrSubmission\Tasks\CopyDataToTransientTask.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\DataLockEventsSubmissionTask.cs" />
     <Compile Include="Workflow\IlrSubmission\Tasks\SubmissionEventsTask.cs" />
     <Compile Include="Workflow\Summarisation\CleanupDedsWorkflow.cs" />

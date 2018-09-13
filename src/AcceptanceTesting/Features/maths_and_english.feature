@@ -545,10 +545,9 @@ Scenario: DPP-678 B Payment for a DAS learner, funding agreed within band maximu
 	Given levy balance > agreed price for all months
 		
     And the following commitments exist:
-	| Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to |
-	| provider A | learner a | 06/08/2017 | 08/08/2018 | 15000        | active    | 06/08/2017     | 08/01/2018   |
-	| provider A | learner a | 06/08/2017 | 08/08/2018 | 15000        | Cancelled | 09/01/2018     |              |
-	| provider B | learner a | 09/01/2018 | 08/08/2018 | 15000        | active    | 09/01/2018     |              |
+	| Provider   | ULN       | start date | end date   | agreed price | status    | effective from | effective to | stop effective from |
+	| provider A | learner a | 06/08/2017 | 08/08/2018 | 15000        | Cancelled | 06/08/2017     | 08/01/2018   | 09/01/2018   |
+	| provider B | learner a | 09/01/2018 | 08/08/2018 | 15000        | active    | 09/01/2018     |              |              |
 
 	When an ILR file is submitted with the following data:
 	| Provider   | ULN       | learner type             | agreed price | start date | planned end date | actual end date | completion status | funding adjustment for prior learning | other funding adjustment | restart indicator | aim type         |

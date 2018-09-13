@@ -4,18 +4,16 @@
     {
         public static IMatcher CreateMatcher()
         {
-            return  new UlnMatchHandler(
-                            new StartDateMatcher(
-                                new MultipleMatchHandler(
-                                    new UkprnMatchHandler(
-                                        new StandardMatchHandler(
-                                            new FrameworkMatchHandler(
-                                                new PathwayMatchHandler(
-                                                    new ProgrammeMatchHandler(
-                                                        new PriceMatchHandler(
-                                                            new LevyPayerFlagMatcher(null))))))))));
-
-          
+            return new UlnMatchHandler(
+                new UkprnMatchHandler(
+                    new StandardMatchHandler(
+                        new FrameworkMatchHandler(
+                            new PathwayMatchHandler(
+                                new ProgrammeMatchHandler(
+                                    new PriceMatchHandler(
+                                        new StartDateMatcher(
+                                            new WithdrawnCommitmentMatcher(
+                                                new PausedCommitmentMatcher(null))))))))));
         }
     }
 }

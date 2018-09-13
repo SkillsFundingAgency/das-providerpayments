@@ -7,6 +7,12 @@ DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[ValidationError]
         AND [CollectionPeriodYear] = @CollectionPeriodYear
 
 
+DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[ValidationErrorByPeriod]
+    WHERE 
+        [CollectionPeriodMonth] = @CollectionPeriodMonth
+        AND [CollectionPeriodYear] = @CollectionPeriodYear
+
+
 DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[PriceEpisodeMatch]
     WHERE 
 		[CollectionPeriodMonth] = @CollectionPeriodMonth

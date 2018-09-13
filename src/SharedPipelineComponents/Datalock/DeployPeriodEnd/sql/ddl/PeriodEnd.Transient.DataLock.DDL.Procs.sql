@@ -4,19 +4,6 @@ BEGIN
 END
 GO
 
-IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='DeleteExtraPriceEpisodeperiodMatches' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-	DROP PROCEDURE [DataLock].[DeleteExtraPriceEpisodeperiodMatches]
-END
-GO
-
-CREATE PROCEDURE [DataLock].[DeleteExtraPriceEpisodeperiodMatches] 
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-END
-GO
 
 IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='GetCommitmentsForProvider' AND [schema_id] = SCHEMA_ID('DataLock'))
 BEGIN
@@ -51,7 +38,9 @@ BEGIN
         Priority, 
         EffectiveFrom, 
         EffectiveTo,
-		A.IsLevyPayer
+		A.IsLevyPayer,
+		WithdrawnOnDate,
+		PausedOnDate
 		FROM DataLock.vw_Commitments C
 		LEFT JOIN Reference.DasAccounts A
 		ON C.AccountId = A.AccountId
@@ -75,32 +64,3 @@ FROM	Reference.DasAccounts
 
 GO
 
-IF EXISTS(SELECT [object_id] FROM sys.procedures WHERE [name]='GetPriceEpisodesByUkprn' AND [schema_id] = SCHEMA_ID('DataLock'))
-BEGIN
-	DROP PROCEDURE DataLock.GetPriceEpisodesByUkprn
-END
-GO
-
-CREATE PROCEDURE DataLock.GetPriceEpisodesByUkprn
-	@ukprn BIGINT
-AS
-DECLARE @localUkprn BIGINT = @ukprn
-
-SELECT 
-	Ukprn, 
-	LearnRefNumber, 
-	Uln, 
-	NiNumber, 
-	AimSeqNumber, 
-	StandardCode, 
-	ProgrammeType, 
-	FrameworkCode, 
-	PathwayCode, 
-	StartDate, 
-	NegotiatedPrice, 
-	PriceEpisodeIdentifier, 
-	EndDate, 
-	FirstAdditionalPaymentThresholdDate, 
-	SecondAdditionalPaymentThresholdDate
-FROM  DataLock.vw_PriceEpisode
-WHERE Ukprn = @localUkprn

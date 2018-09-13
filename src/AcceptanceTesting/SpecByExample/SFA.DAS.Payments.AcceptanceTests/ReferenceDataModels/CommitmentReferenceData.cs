@@ -24,5 +24,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public int? PathwayCode { get; set; }
         public int? TransferSendingEmployerAccountId { get; set; }
         public DateTime? TransferApprovalDate { get; set; }
+        public DateTime? WithdrawnOnDate { get; set; }
+        public DateTime? PausedOnDate { get; set; }
     }
 }

@@ -25,33 +25,20 @@ BEGIN
 END
 GO
 
-TRUNCATE TABLE [Reference].[DasCommitments]
+IF EXISTS (SELECT * FROM sys.indexes i
+JOIN sys.objects t ON i.object_id = t.object_id
+WHERE t.name = 'DasCommitments'
+AND i.name = 'IX_DasCommitments_CommitmentId')
+BEGIN
+	DROP INDEX IX_DasCommitments_CommitmentId ON Reference.DasCommitments
+END
+GO
+
+DELETE FROM [Reference].[DasCommitments]
 GO
 
 INSERT INTO [Reference].[DasCommitments]
-SELECT 
-	[CommitmentId],
-    MAX([VersionId]) [VersionId],
-    [Uln],
-    [Ukprn],
-    [AccountId],
-    [StartDate],
-    [EndDate],
-    [AgreedCost],
-    [StandardCode],
-    [ProgrammeType],
-    [FrameworkCode],
-    [PathwayCode],
-    [PaymentStatus],
-    [PaymentStatusDescription],
-    [Priority],
-    [EffectiveFromDate],
-    [EffectiveToDate],
-    [LegalEntityName],
-	[TransferSendingEmployerAccountId],
-	[TransferApprovalDate]
-FROM OPENQUERY(${DAS_CommitmentsReferenceData.servername}, '
-		SELECT
+		(
 			[CommitmentId],
 			[VersionId],
 			[Uln],
@@ -67,36 +54,39 @@ FROM OPENQUERY(${DAS_CommitmentsReferenceData.servername}, '
 			[PaymentStatus],
 			[PaymentStatusDescription],
 			[Priority],
-			[EffectiveFromDate],
-			[EffectiveToDate],
+			[EffectiveFrom],
+			[EffectiveTo],
 			[LegalEntityName],
 			[TransferSendingEmployerAccountId],
-			[TransferApprovalDate]
-		FROM 
-			${DAS_CommitmentsReferenceData.databasename}.[dbo].[DasCommitments]'
-    ) AS oq
-WHERE 
-	[ULN] IN (SELECT DISTINCT [ULN] FROM [Valid].[Learner])
-GROUP BY 
-	[CommitmentId],
-    [Uln],
-    [Ukprn],
-    [AccountId],
-    [StartDate],
-    [EndDate],
-    [AgreedCost],
-    [StandardCode],
-    [ProgrammeType],
-    [FrameworkCode],
-    [PathwayCode],
-    [PaymentStatus],
-    [PaymentStatusDescription],
-    [Priority],
-    [EffectiveFromDate],
-    [EffectiveToDate],
-    [LegalEntityName],
-	[TransferSendingEmployerAccountId],
-	[TransferApprovalDate]
+			[TransferApprovalDate],
+			[PausedOnDate],
+			[WithdrawnOnDate]
+		)
+    SELECT
+        [CommitmentId],
+        [VersionId],
+        [Uln],
+        [Ukprn],
+        [AccountId],
+        [StartDate],
+        [EndDate],
+        [AgreedCost],
+        [StandardCode],
+        [ProgrammeType],
+        [FrameworkCode],
+        [PathwayCode],
+        [PaymentStatus],
+        [PaymentStatusDescription],
+        [Priority],
+        [EffectiveFromDate],
+        [EffectiveToDate],
+        [LegalEntityName],
+		[TransferSendingEmployerAccountId],
+		[TransferApprovalDate],
+		[PausedOnDate],
+		[WithdrawnOnDate]
+    FROM ${DAS_Commitments.FQ}.[dbo].[DasCommitments]
+	WHERE [ULN] IN (SELECT DISTINCT [ULN] FROM [Valid].[Learner])
 GO
 
 CREATE INDEX [IDX_Commitments_Ukprn] ON Reference.DasCommitments ([Ukprn])
@@ -106,3 +96,12 @@ CREATE INDEX [IDX_Commitments_AccountId] ON Reference.DasCommitments (AccountId,
 GO
 
 CREATE INDEX IX_DasCommitments_Uln ON Reference.DasCommitments (Uln)
+GO
+
+CREATE INDEX IX_DasCommitments_CommitmentId ON Reference.DasCommitments (CommitmentId, VersionId)
+GO
+
+
+
+
+

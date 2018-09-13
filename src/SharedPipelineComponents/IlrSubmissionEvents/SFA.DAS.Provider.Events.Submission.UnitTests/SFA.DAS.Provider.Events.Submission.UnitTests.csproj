@@ -67,8 +67,8 @@
   <ItemGroup>
     <Compile Include="Application\GetCurrentVersions\GetCurrentVersionsQueryHandlerTests\WhenHandlingGetCurrentVersionsQuery.cs" />
     <Compile Include="Application\GetLastSeenVersions\GetLastSeenVersionsQueryHandlerTests\WhenHandlingGetLastSeenVersionsQuery.cs" />
-    <Compile Include="Application\WriteLastSeenIlrDetails\WriteLastSeenIlrDetailsCommandHandlerTests\WhenHandlingWriteLastSeenIlrDetailsCommand.cs" />
-    <Compile Include="Application\WriteSubmissionEvent\WriteSubmissionEventCommandHandlerTests\WhenHandlingWriteSubmissionEventCommand.cs" />
+    <Compile Include="Application\WriteLastSeenIlrDetails\HandlerTests\WhenHandlingWriteLastSeenIlrDetailsCommand.cs" />
+    <Compile Include="Application\WriteSubmissionEvent\HandlerTests\WhenHandlingWriteSubmissionEventCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubmissionEventsProcessorTests\WhenProcessing.cs" />
     <Compile Include="SubmissionEventsTaskTests\WhenExecuted.cs" />

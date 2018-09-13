@@ -286,9 +286,9 @@ Scenario:894-AC01 - DAS standard learner, original commitment is withdrawn after
 	Given  the apprenticeship funding band maximum is 15000
     And levy balance > agreed price for all months
     And the following commitments exist:    
-        | commitment Id | version Id | ULN       | start date | end date   | status    | agreed price | effective from | effective to | programme type	|
-        | 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | cancelled | 11250        | 01/08/2017     |              | 25				|
-        | 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | active    | 1            | 01/08/2017     |              | 25				|
+        | commitment Id | version Id | ULN       | start date | end date   | status    | agreed price | effective from | effective to | programme type | stop effective from |
+        | 1             | 1          | learner a | 01/08/2017 | 01/08/2018 | cancelled | 11250        | 01/08/2017     |              | 25             | 01/08/2017   |
+        | 2             | 1          | learner a | 01/08/2017 | 01/08/2018 | active    | 1            | 01/08/2017     |              | 25             |              |
     
 	And following learning has been recorded for previous payments:
 		| ULN       | start date | aim sequence number | completion status | programme type |

@@ -31,7 +31,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.UnitTests.Application.Accou
                 });
 
             _commitmentRepository = new Mock<ICommitmentRepository>();
-            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId.ToString()))
+            _commitmentRepository.Setup(r => r.GetCommitmentsForAccount(AccountId))
                 .Returns(new[]
                 {
                     new CommitmentEntity { Id = CommitmentId }
