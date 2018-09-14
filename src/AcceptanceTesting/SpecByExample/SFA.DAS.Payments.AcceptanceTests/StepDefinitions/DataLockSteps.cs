@@ -99,6 +99,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
                         submission.ContractTypes,
                         submission.EmploymentStatus,
                         submission.LearningSupportStatus,
+                        CommitmentsContext,
                         periodsToSubmitTo));
                     submission.HaveSubmissionsBeenDone = true;
                 }

@@ -289,7 +289,6 @@ Scenario: DLOCK08 - When multiple matching record found in an employer digital a
     Then the following data lock event is returned:
         | Price Episode identifier  | Apprenticeship Id | ULN       | ILR Start Date | ILR Training Price | 
         | 2-450-1-01/05/2017        | 73                | learner a | 01/05/2017     | 10000              |
-        | 2-450-1-01/05/2017        | 74                | learner a | 01/05/2017     | 10000              |
     And the data lock event has the following errors:    
         | Price Episode identifier  | Error code | Error Description										                                    |
         | 2-450-1-01/05/2017        | DLOCK_08   | Multiple matching records found in the employer digital account                          	|
@@ -301,7 +300,6 @@ Scenario: DLOCK08 - When multiple matching record found in an employer digital a
     And the data lock event used the following commitments   
         | Price Episode identifier | Apprentice Version | Start Date | framework code | programme type | pathway code | Negotiated Price | Effective Date |
         | 2-450-1-01/05/2017       | 73-125             | 01/05/2017 | 450            | 2              | 1            | 10000            | 01/05/2017     |
-        | 2-450-1-01/05/2017       | 74-002             | 01/05/2017 | 450            | 2              | 1            | 10000            | 01/05/2017     |
 
 
 

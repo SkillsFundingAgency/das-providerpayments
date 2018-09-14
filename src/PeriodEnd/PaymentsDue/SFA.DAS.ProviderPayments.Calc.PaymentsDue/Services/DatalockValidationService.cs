@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
@@ -41,6 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var output = new HashSet<DatalockOutput>();
 
             var invalidPriceEpisodeIdentifiers = datalockValidationErrors
+                .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
                 .Select(x => x.PriceEpisodeIdentifier)
                 .ToList();
 
@@ -56,7 +59,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (commitmentDictionary.ContainsKey(datalockOutputEntity.CommitmentId))
                 {
-                    var commitment = commitmentDictionary[datalockOutputEntity.CommitmentId];
+                    var commitment = commitments.FirstOrDefault(x => x.CommitmentId == datalockOutputEntity.CommitmentId &&
+                                                                     x.CommitmentVersionId == datalockOutputEntity.VersionId);
+                    if (commitment == null)
+                    {
+                        commitment = commitmentDictionary[datalockOutputEntity.CommitmentId];
+                    }
                     var processedValueObject = new DatalockOutput(datalockOutputEntity, commitment);
                     output.Add(processedValueObject);
                 }

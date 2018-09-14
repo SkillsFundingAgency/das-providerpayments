@@ -1,22 +1,18 @@
 ﻿using System.Collections.Generic;
 using CS.Common.External.Interfaces;
-using Moq;
+using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Context;
+using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.DependencyResolution;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
 using SFA.DAS.Payments.DCFS.Context;
-using SFA.DAS.Payments.DCFS.Infrastructure.DependencyResolution;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.DataLockTask
 {
     public class WhenExecutingWithValidContext
     {
         private IExternalContext _context;
-        private IExternalTask _task;
-
-        private Mock<IDependencyResolver> _dependencyResolver;
-        private Mock<DataLock.DataLockProcessor> _processor;
-
+        
         [SetUp]
         public void Arrange()
         {
@@ -30,25 +26,21 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.DataLockTask
                 }
             };
 
-            _dependencyResolver = new Mock<IDependencyResolver>();
-            _processor = new Mock<DataLock.DataLockProcessor>();
-
-            _task = new DataLock.DataLockTask(_dependencyResolver.Object);
         }
 
         [Test]
         public void ThenProcessorIsExecuted()
         {
             // Arrange
-            _dependencyResolver
-                .Setup(dr => dr.GetInstance<DataLock.DataLockProcessor>())
-                .Returns(_processor.Object);
+            var dependencyResolver = new TaskDependencyResolver();
 
             // Act
-            _task.Execute(_context);
+            dependencyResolver.Init(typeof(DataLockProcessor), new ContextWrapper(_context));
+
+            var processor = dependencyResolver.GetInstance<DataLockProcessor>();
 
             // Assert
-            _processor.Verify(p => p.Process(), Times.Once);
+            processor.Should().BeOfType<DataLockProcessor>();
         }
     }
 }

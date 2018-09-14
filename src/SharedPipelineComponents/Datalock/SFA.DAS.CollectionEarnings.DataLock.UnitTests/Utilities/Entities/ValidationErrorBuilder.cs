@@ -1,19 +1,20 @@
-﻿using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock;
-using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+﻿using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
+namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Entities
 {
-    public class ValidationErrorBuilder : IBuilder<ValidationErrorEntity>
+    public class ValidationErrorBuilder : IBuilder<DatalockValidationError>
     {
         private long _ukprn = 10007459;
         private string _learnRefNumber = "Lrn001";
-        private long? _aimSeqNumber = 1;
+        private int _aimSeqNumber = 1;
         private string _ruleId = DataLockErrorCodes.MismatchingUkprn;
         private string _priceEpisodeIdentifier = "27-25-2016-09-01";
 
-        public ValidationErrorEntity Build()
+        public DatalockValidationError Build()
         {
-            return new ValidationErrorEntity
+            return new DatalockValidationError
             {
                 Ukprn = _ukprn,
                 LearnRefNumber = _learnRefNumber,
@@ -37,7 +38,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tools.Entities
             return this;
         }
 
-        public ValidationErrorBuilder WithAimSeqNumber(long? aimseqNumber)
+        public ValidationErrorBuilder WithAimSeqNumber(int aimseqNumber)
         {
             _aimSeqNumber = aimseqNumber;
 

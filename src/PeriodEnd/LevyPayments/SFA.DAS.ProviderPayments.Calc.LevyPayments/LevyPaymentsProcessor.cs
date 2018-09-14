@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
                 {
                     _logger.Info($"Processing commitment {commitment.Id} for account {account.Id} for payments");
 
-                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, false);
+                    var paymentsDue = GetPaymentsDueForCommitment(commitment.Id, commitment.VersionId, false);
 
                     if (paymentsDue == null || !paymentsDue.Any())
                     {
@@ -110,11 +110,12 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments
             _mediator.Send(new MarkAccountAsProcessedCommandRequest { AccountId = accountId });
         }
 
-        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId, bool refundPayments)
+        private PaymentDue[] GetPaymentsDueForCommitment(long commitmentId, string versionId, bool refundPayments)
         {
             var paymentsDue = _mediator.Send(new GetPaymentsDueForCommitmentQueryRequest
             {
                 CommitmentId = commitmentId,
+                CommitmentVersionId = versionId,
                 RefundPayments = refundPayments
             });
 

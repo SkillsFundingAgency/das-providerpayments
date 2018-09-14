@@ -300,3 +300,11 @@ paket-files/
 /src/OpaEarning/Build/Deploy/1617/sql/ddl/OPA.Deds.Rulebase.ddl.tables.sql
 /src/OpaEarning/Build/Deploy/1617/copy mappings/DasEarningsCopyToDedsMapping.xml
 /src/OpaEarning/Build/Deploy/1718/copy mappings/DasEarningsCopyToDedsMapping.xml
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/ddl/PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/ddl/PeriodEnd.Transient.Reference.Commitments.ddl.tables.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/ddl/PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/ddl/PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/04 PeriodEnd.Populate.Reference.Accounts.dml.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/03 PeriodEnd.Populate.Reference.Commitments.dml.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/02 PeriodEnd.Populate.Reference.Providers.dml.sql
+/src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql

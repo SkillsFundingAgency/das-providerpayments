@@ -142,6 +142,7 @@ namespace SFA.DAS.Payments.Reference.Commitments
             if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Standard)
             {
                 request.StandardCode = long.Parse(apprenticeshipEvent.TrainingId);
+                request.ProgrammeType = 25;
             }
             else if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Framework)
             {

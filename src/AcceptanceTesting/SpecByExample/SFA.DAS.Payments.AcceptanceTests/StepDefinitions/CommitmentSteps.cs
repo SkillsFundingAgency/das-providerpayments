@@ -26,6 +26,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.StepDefinitions
             }
         }
 
+        [Given("the following commitments exist for academic year (.*) in period (.*):")]
+        public void GivenCommitmentsExistForLearners(string year, string period, Table commitments)
+        {
+            var submissionPeriod = PeriodNameHelper.GetStringDateFromPeriodAndAcademicYear(period, year);
+            CommitmentsTableParser.ParseAdditionalCommitmentsIntoContext(CommitmentsContext, commitments, LookupContext, submissionPeriod);
+        }
+
         [Given("the following commitments exist on (.*):")] // do we really care about the date?
         public void GivenCommitmentsExistForLearnersAtSpecificDate(string specDate, Table commitments)
         {

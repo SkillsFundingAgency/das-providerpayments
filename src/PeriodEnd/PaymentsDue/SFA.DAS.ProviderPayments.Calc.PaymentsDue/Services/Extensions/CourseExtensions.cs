@@ -1,4 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+﻿using SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.Payments;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions
 {

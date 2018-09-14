@@ -26,9 +26,13 @@ namespace SFA.DAS.ProviderPayments.Calc.LevyPayments.IntegrationTests
                     RunSqlScript(@"Ilr.Deds.Earnings.DDL.sql", connection);
                     RunSqlScript(@"Ilr.Deds.LearningProvider.DDL.sql", connection);
 
-                    RunSqlScript(@"DasCommitments.Deds.ddl.sql", connection);
+                    RunSqlScript(@"ddl.Deds.commitments.tables.sql", connection);
                     RunSqlScript(@"DasAccounts.Deds.ddl.sql", connection);
                     RunSqlScript(@"001_DEDS.dbo.DasAccounts_Add_TransferAllowance.sql", connection);
+
+                    RunSqlScript(@"001_ddl.DEDS.commitments.tables.change_versionid.sql", connection);
+                    RunSqlScript(@"0013_ddl.DEDS.dbo.commitments.add_transferfields.sql", connection);
+                    RunSqlScript(@"0014_ddl.DEDS.dbo.commitments.add_stop_pause_fields.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DDL.sql", connection);
                     RunSqlScript(@"Summarisation.Deds.DML.sql", connection);
                     RunSqlScript(@"Summarisation.Transient.PaymentsDue.DDL.tables.sql", connection);

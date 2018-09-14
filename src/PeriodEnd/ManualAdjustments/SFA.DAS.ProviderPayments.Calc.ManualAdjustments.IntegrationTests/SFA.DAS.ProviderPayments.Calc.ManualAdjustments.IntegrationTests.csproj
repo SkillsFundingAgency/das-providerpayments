@@ -85,6 +85,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
+      <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Shared\SQL\DDL\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
+      <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\CoInvestedPayments\DeployCoInvestedPayments\sql\ddl\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql">
       <Link>DbSetupScripts\ExternalComponents\CoInvested\PeriodEnd.Transient.CoInvestedPayments.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -127,14 +135,6 @@
     </Content>
     <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.PaymentsDue.DDL.views.sql">
       <Link>DbSetupScripts\ExternalComponents\PaymentsDue\PeriodEnd.Transient.PaymentsDue.DDL.views.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql">
-      <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.Accounts.ddl.tables.sql</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql">
-      <Link>DbSetupScripts\ExternalComponents\PeriodEnd.Transient.Reference.CollectionPeriods.ddl.tables.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DeployManualAdjustments\sql\Migration Scripts\1_PeriodEnd.ManualAdjustments.deds.Add_Indexes.sql">

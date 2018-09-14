@@ -21,6 +21,7 @@ if exist "%Component%\SFA.DAS.Payments.Calc.%Component%\bin\%BuildConfig%" (
   xcopy %Component%\SFA.DAS.Payments.Calc.%Component%\bin\%BuildConfig%\*.pdb Deploy%Component%\component\
 )
 
+xcopy ..\Shared\SQL\* Deploy%Component%\SQL\ /e /y
 xcopy ..\TestResult*.%Component%.xml Deploy%Component%\test-results\
 xcopy ..\TestResult*.DCFS*.xml Deploy%Component%\test-results\
 

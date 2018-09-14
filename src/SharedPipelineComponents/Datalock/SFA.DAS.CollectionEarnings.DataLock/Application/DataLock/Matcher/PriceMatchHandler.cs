@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using SFA.DAS.CollectionEarnings.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
 {
@@ -7,22 +11,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
     {
         public PriceMatchHandler(MatchHandler nextMatchHandler):
             base(nextMatchHandler)
-        {
+        {}
 
-        }
-        public override bool StopOnError
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override MatchResult Match(List<Commitment.Commitment> commitments, PriceEpisode.PriceEpisode priceEpisode, List<DasAccount.DasAccount> dasAccounts, MatchResult matchResult)
+        public override bool StopOnError { get { return false; } }
+
+        public override MatchResult Match(IReadOnlyList<Commitment> commitments, RawEarning earning,
+            DateTime censusDate,
+            MatchResult matchResult)
         {
             matchResult.Commitments = commitments.ToArray();
-
-            var commitmentsToMatch = commitments.Where(c => priceEpisode.NegotiatedPrice.HasValue &&
-                                                            (long) c.NegotiatedPrice == priceEpisode.NegotiatedPrice.Value).ToList();
+            // TODO!
+            var commitmentsToMatch = commitments.Where(c => c.AgreedCost == earning.AgreedPrice).ToList();
 
             if (!commitmentsToMatch.Any())
             {
@@ -34,7 +33,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
                 matchResult.Commitments = commitmentsToMatch.ToArray();
             }
 
-            return ExecuteNextHandler(commitments, priceEpisode,dasAccounts,matchResult);
+            return ExecuteNextHandler(commitments, earning, censusDate, matchResult);
         }
     }
 }

@@ -149,5 +149,48 @@
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
+    <TableMapping>
+      <Source>[DataLock].[vw_ValidationErrorByPeriod]</Source>
+      <Destination>[DataLock].[ValidationErrorByPeriod]</Destination>
+      <Ordinal>4</Ordinal>
+      <ColumnMappings>
+        <ColumnMapping>
+          <Source>Ukprn</Source>
+          <Destination>Ukprn</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>LearnRefNumber</Source>
+          <Destination>LearnRefNumber</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AimSeqNumber</Source>
+          <Destination>AimSeqNumber</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>RuleId</Source>
+          <Destination>RuleId</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodName</Source>
+          <Destination>CollectionPeriodName</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodMonth</Source>
+          <Destination>CollectionPeriodMonth</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CollectionPeriodYear</Source>
+          <Destination>CollectionPeriodYear</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PriceEpisodeIdentifier</Source>
+          <Destination>PriceEpisodeIdentifier</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>Period</Source>
+          <Destination>Period</Destination>
+        </ColumnMapping>
+      </ColumnMappings>
+    </TableMapping>
   </TableMappings>
 </CopyCatConfig>

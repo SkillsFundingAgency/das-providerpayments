@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using Dapper;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Infrastructure.Data;
@@ -12,7 +13,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Repositories
         {
         }
 
-        public CommitmentEntity[] GetProviderCommitments(long ukprn)
+        public IEnumerable<CommitmentEntity> GetProviderCommitments(long ukprn)
         {
             var parameters = new DynamicParameters();
             parameters.Add("ukprn", ukprn, DbType.Int64);

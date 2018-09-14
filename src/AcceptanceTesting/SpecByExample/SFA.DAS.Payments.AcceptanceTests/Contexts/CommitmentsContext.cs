@@ -8,7 +8,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Contexts
         public CommitmentsContext()
         {
             Commitments = new List<CommitmentReferenceData>();
+            CommitmentsForPeriod = new Dictionary<string, List<CommitmentReferenceData>>();
         }
         public List<CommitmentReferenceData> Commitments { get; set; }
+
+        public Dictionary<string, List<CommitmentReferenceData>> CommitmentsForPeriod { get; }
+
     }
 }

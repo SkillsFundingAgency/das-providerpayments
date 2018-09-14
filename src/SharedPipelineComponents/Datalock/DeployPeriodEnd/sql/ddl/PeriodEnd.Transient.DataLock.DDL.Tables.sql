@@ -49,6 +49,27 @@ GO
 CREATE INDEX IX_ValidationError_2 ON DataLock.ValidationError (UKPRN, LearnRefNumber, PriceEpisodeIdentifier)
 GO
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- ValidationErrorByPeriod
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='ValidationErrorByPeriod' AND [schema_id] = SCHEMA_ID('DataLock'))
+BEGIN
+    DROP TABLE DataLock.ValidationErrorByPeriod
+END
+GO
+
+CREATE TABLE DataLock.ValidationErrorByPeriod
+(
+    [Ukprn] bigint,
+    [LearnRefNumber] varchar(12),
+    [AimSeqNumber] int,
+    [RuleId] varchar(50),
+    [PriceEpisodeIdentifier] varchar(25) NOT NULL,
+	[Period] int
+)
+GO
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- PriceEpisodeMatch
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,3 +123,32 @@ GO
 CREATE NONCLUSTERED INDEX IX_Datalock_PriceEpisodePeriodMatch_Ukprn_LearnRefNumber 
 ON [DataLock].[PriceEpisodePeriodMatch] ([Ukprn],[LearnRefNumber])
 INCLUDE ([PriceEpisodeIdentifier],[AimSeqNumber],[CommitmentId],[VersionId],[Period],[Payable],[TransactionType],[TransactionTypesFlag])
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- DatalockOutput
+-----------------------------------------------------------------------------------------------------------------------------------------------
+IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='DatalockOutput' AND [schema_id] = SCHEMA_ID('DataLock'))
+BEGIN
+    DROP TABLE DataLock.DatalockOutput
+END
+GO
+
+CREATE TABLE DataLock.DatalockOutput
+(
+    [Ukprn] bigint NOT NULL,
+    [PriceEpisodeIdentifier] varchar(25) NOT NULL,
+    [LearnRefNumber] varchar(12) NOT NULL,
+    [AimSeqNumber] int NOT NULL,
+    [CommitmentId] bigint NOT NULL,
+    [VersionId] varchar(25) NOT NULL,
+    [Period] int NOT NULL,
+    [Payable] bit NOT NULL,
+	[PayOnProg] bit NOT NULL,
+	[PayFirst16To18Incentive] bit NOT NULL,
+	[PaySecond16To18Incentive] bit NOT NULL
+)
+GO
+
+
