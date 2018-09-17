@@ -48,5 +48,6 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         public int LearningAdjustmentForPriorLearning { get; set; }
         public int OtherFundingAdjustments { get; set; }
         public string SubmissionPeriod { get; set; }
+        public int EmployerContribution { get; set; }
     }
 }

@@ -29,6 +29,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
             DeliveryYear = rawEarning.DeliveryYear;
         }
 
+        public NonPayableEarning(RequiredPayment requiredPayment)
+        {
+            Uln = requiredPayment.Uln;
+            LearnRefNumber = requiredPayment.LearnRefNumber;
+            AimSeqNumber = requiredPayment.AimSeqNumber;
+            Ukprn = requiredPayment.Ukprn;
+            StandardCode = requiredPayment.StandardCode;
+            ProgrammeType = requiredPayment.ProgrammeType;
+            FrameworkCode = requiredPayment.FrameworkCode;
+            PathwayCode = requiredPayment.PathwayCode;
+            ApprenticeshipContractType = requiredPayment.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = requiredPayment.PriceEpisodeIdentifier;
+            SfaContributionPercentage = requiredPayment.SfaContributionPercentage;
+            FundingLineType = requiredPayment.FundingLineType;
+            LearnAimRef = requiredPayment.LearnAimRef;
+            LearningStartDate = requiredPayment.LearningStartDate;
+            DeliveryMonth = requiredPayment.DeliveryMonth;
+            DeliveryYear = requiredPayment.DeliveryYear;
+        }
+
+
         [StringLength(1000)]
         public string PaymentFailureMessage { get; set; }
 

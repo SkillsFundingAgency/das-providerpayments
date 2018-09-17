@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests</RootNamespace>
     <AssemblyName>SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Attributes\Datalocks\SetupNoValidationErrorsAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupValidationErrorsAttribute.cs" />
+    <Compile Include="Attributes\SetupPaymentsHistoryRepositoryAttribute.cs" />
     <Compile Include="Helpers\DatalockDataHelper.cs" />
     <Compile Include="Attributes\Datalocks\SetupDatalocksAttribute.cs" />
     <Compile Include="Attributes\Datalocks\SetupNoDatalocksAttribute.cs" />
@@ -138,6 +139,9 @@
     <Content Include="..\..\PeriodEnd\PaymentsDue\DeployPaymentsDue\sql\ddl\PeriodEnd.Transient.Staging.ddl.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Staging.ddl.tables.sql</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql">
+      <Link>DbSetupScripts\PeriodEnd.Transient.Reference.Refunds.DDL.tables.sql</Link>
     </Content>
     <Content Include="..\..\PeriodEnd\Refunds\DeployRefunds\sql\ddl\PeriodEnd.Transient.Refunds.DDL.tables.sql">
       <Link>DbSetupScripts\PeriodEnd.Transient.Refunds.DDL.tables.sql</Link>

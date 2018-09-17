@@ -25,8 +25,8 @@ Feature: Provider earnings and payments where learner completes later than plann
 
     Scenario: A non-DAS learner, learner finishes late
         When an ILR file is submitted with the following data:
-            | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status |
-            | learner a | programme only non-DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/12/2018      | completed         |
+            | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | employer contribution |
+            | learner a | programme only non-DAS | 15000        | 01/09/2017 | 08/09/2018       | 08/12/2018      | completed         | 1200                  |
         Then the provider earnings and payments break down as follows:
             | Type                           | 09/17 | 10/17 | 11/17 | ... | 08/18 | 09/18 | 10/18 | 11/18 | 12/18 | 01/19 |
             | Provider Earned Total          | 1000  | 1000  | 1000  | ... | 1000  | 0     | 0     | 0     | 3000  | 0     |

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using FastMember;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
@@ -27,59 +25,63 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         //  If a learner is ACT2 only, pay everything
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
-        private DateTime _firstDayOfThisAcademicYear;
-        private DateTime _firstDayOfNextAcademicYear;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-
-        private static readonly List<int> OnProgTransactionTypes = new List<int> { 1, 2, 3 };
+        private EarningValidationService _earningValidationService;
 
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
+            _earningValidationService = new EarningValidationService();
         }
 
-        // INPUT
-        List<RawEarning> RawEarnings { get; set; }
-        List<RawEarningForMathsOrEnglish> RawEarningsMathsOrEnglish { get; set; }
-        List<DatalockOutput> DatalockOutput { get; set; }
-        
-        // OUTPUT
-        private List<FundingDue> PayableEarnings { get; set; }
-        private HashSet<int> PeriodsToIgnore { get; set; }
-        private List<NonPayableEarning> NonPayableEarnings { get; set; }
-
-
+        /// <summary>
+        /// Put each raw earning into a payable or non-payable pot
+        /// </summary>
         public EarningValidationResult DeterminePayableEarnings(
-            List<DatalockOutput> datalockOutput,
+            List<DatalockOutput> successfulDatalocks,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
+            CompletionPaymentEvidence completionPaymentEvidence)
         {
-            PayableEarnings = new List<FundingDue>();
-            PeriodsToIgnore = new HashSet<int>();
-            NonPayableEarnings = new List<NonPayableEarning>();
+            var academicYearDetail =  GetFirstDayOfAcademicYears();
 
-            SetFirstDayOfAcademicYears();
+            var rawEarnings = GetEarningsForCurrentAcademicYear(earnings, academicYearDetail);
+            var datalockOutput = GetSuccessfulDatalocksForCurrentAcademicYear(successfulDatalocks, academicYearDetail);
 
-            // Exclude any earnings or datalocks that fall outside this academic year
-            RawEarnings = earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
-            DatalockOutput = datalockOutput.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier)).ToList();
+            var result = CreateEarningValidationResultForOnProg(rawEarnings, datalockOutput, completionPaymentEvidence);
+            result += MatchMathsAndEnglishToOnProg(result, mathsAndEnglishEarnings, rawEarnings, datalockOutput);
 
-            RawEarningsMathsOrEnglish = mathsAndEnglishEarnings;
-
-            // The reason for this method is to put each raw earning into a payable or non-payable pot
-
-            ValidateEarnings();
-            MatchMathsAndEnglishToOnProg();
-
-            return new EarningValidationResult(PayableEarnings, NonPayableEarnings, PeriodsToIgnore.ToList());
+            return result;
         }
 
-        private void SetFirstDayOfAcademicYears()
+        private List<DatalockOutput> GetSuccessfulDatalocksForCurrentAcademicYear(List<DatalockOutput> successfulDatalocks, AcademicYearDetail academicYearDetail)
+        {
+            return successfulDatalocks.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
+        }
+
+        private List<RawEarning> GetEarningsForCurrentAcademicYear(List<RawEarning> earnings, AcademicYearDetail academicYearDetail)
+        {
+            return earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
+        }
+
+        private class AcademicYearDetail
+        {
+            internal AcademicYearDetail(DateTime firstDayOfThisAcademicYear, DateTime firstDayOfNextAcademicYear)
+            {
+                FirstDayOfThisAcademicYear = firstDayOfThisAcademicYear;
+                FirstDayOfNextAcademicYear = firstDayOfNextAcademicYear;
+            }
+
+            internal DateTime FirstDayOfThisAcademicYear { get; }
+            internal DateTime FirstDayOfNextAcademicYear { get; }
+        }
+
+        private AcademicYearDetail GetFirstDayOfAcademicYears()
         {
             var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
             var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
-            _firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
-            _firstDayOfThisAcademicYear = _firstDayOfNextAcademicYear.AddYears(-1);
+            var firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
+            return new AcademicYearDetail(firstDayOfNextAcademicYear.AddYears(-1), firstDayOfNextAcademicYear);
         }
 
         private DateTime DateFromPriceEpisodeIdentifier(string priceEpisodeIdentifier)
@@ -94,35 +96,34 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return DateTime.MinValue;
         }
 
-        private bool PriceEpisodeFallsWithinAcademicYear(string priceEpisodeIdentifier)
+        private bool PriceEpisodeFallsWithinAcademicYear(string priceEpisodeIdentifier, AcademicYearDetail academicYearDetail)
         {
             var priceEpisodeStartDate = DateFromPriceEpisodeIdentifier(priceEpisodeIdentifier);
-            return priceEpisodeStartDate >= _firstDayOfThisAcademicYear &&
-                   priceEpisodeStartDate < _firstDayOfNextAcademicYear;
+            return priceEpisodeStartDate >= academicYearDetail.FirstDayOfThisAcademicYear &&
+                   priceEpisodeStartDate < academicYearDetail.FirstDayOfNextAcademicYear;
         }
 
-        private void ValidateEarnings()
+        private EarningValidationResult CreateEarningValidationResultForOnProg(List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput, CompletionPaymentEvidence completionPaymentEvidence)
         {
-            if (RawEarnings.All(x => x.ApprenticeshipContractType == 2))
+            if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                MarkNonZeroTransactionTypesAsPayable(RawEarnings);
-                return;
+                return _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(rawEarnings, null, completionPaymentEvidence);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
             //  period
             // If there are earnings and 0 successful datalocks, then ignore the period
-
-            var earningsByPeriod = RawEarnings.ToLookup(x => x.Period);
+            var result = new EarningValidationResult();
+            var earningsByPeriod = rawEarnings.ToLookup(x => x.Period);
             foreach (var periodGroup in earningsByPeriod.OrderBy(x => x.Key))
             {
                 var earningsForPeriod = periodGroup
                     .Where(x => x.HasNonZeroTransactions())
                     .ToList();
 
-                if (earningsForPeriod.All(x => x.ApprenticeshipContractType == 2))
+                if (earningsForPeriod.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
                 {
-                    MarkNonZeroTransactionTypesAsPayable(earningsForPeriod);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(earningsForPeriod);
                     continue;
                 }
 
@@ -131,48 +132,50 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     var priceEpisode = periodEarningsForPriceEpisode.Key;
 
-                    var datalocks = DatalockOutput
+                    var datalocks = datalockOutput
                         .Where(x => x.Period == periodGroup.Key &&
                                     x.PriceEpisodeIdentifier == priceEpisode)
                         .ToList();
 
                     if (datalocks.Count == 0)
                     {
-                        MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
+                        result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
                             $"Could not find a matching datalock for price episode: {priceEpisode} in period: {periodGroup.Key}",
                             PaymentFailureType.CouldNotFindSuccessfulDatalock);
-                        PeriodsToIgnore.Add(periodGroup.Key);
+                        result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
                         continue;
                     }
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    for (var transactionTypesFlag = 1; transactionTypesFlag < 5; transactionTypesFlag++)
+                    for (var censusType = 1; censusType < 5; censusType++)
                     {
                         var datalocksForFlag = datalocks
-                            .Where(x => x.TransactionTypesFlag == transactionTypesFlag)
+                            .Where(x => x.TransactionTypesFlag == censusType)
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
-                            MarkNonZeroTransactionTypesAsNonPayable(periodEarningsForPriceEpisode,
+                            result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
                                 $"Multiple matching datalocks for price episode: {priceEpisode} in period: {periodGroup.Key}",
                                 PaymentFailureType.MultipleMatchingSuccessfulDatalocks,
                                 datalocksForFlag.First());
-                            PeriodsToIgnore.Add(periodGroup.Key);
+                            result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
                             continue;
                         }
 
                         if (datalocksForFlag.Count == 1)
                         {
                             // We have 1 datalock and a commitment
-                            MarkNonZeroTransactionTypesAsPayable(
+                            result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
                                 periodEarningsForPriceEpisode, 
-                                datalocksForFlag.Single(), 
-                                transactionTypesFlag);
+                                datalocksForFlag.Single(),
+                                completionPaymentEvidence,
+                                censusType);
                         }
                     }
                 }
             }
+            return result;
         }
 
         /// <summary>
@@ -180,7 +183,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         ///     If there are on-prog earnings, if they are payable then pay
         ///     the maths and english earnings that match them, otherwise not
         /// </summary>
-        private void MatchMathsAndEnglishToOnProg()
+        private EarningValidationResult MatchMathsAndEnglishToOnProg(
+            EarningValidationResult resultSoFar,
+            List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish,
+            List<RawEarning> rawEarnings,
+            List<DatalockOutput> datalockOutput)
         {
             // 450 learners with no on-prog - 200 of which are from one provider
             //  not sure what to do...
@@ -190,192 +197,90 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             //  and continues maths/english aims onto next year
             // 1. If there are raw earnings for period 1 *only* and those would have 
             //      passed datalock, then pay maths/english earnings
-            if (NonPayableEarnings.Count == 0 && PayableEarnings.Count == 0)
+            if (resultSoFar.NonPayableEarnings.Count == 0 && resultSoFar.PayableEarnings.Count == 0)
             {
-                if (RawEarningsMathsOrEnglish.All(x => x.ApprenticeshipContractType == 2))
+                if (RawEarningsForMathsOrEnglish.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
                 {
-                    foreach (var rawEarningForMathsOrEnglish in RawEarningsMathsOrEnglish)
-                    {
-                        var matchingEarning = RawEarnings.FirstOrDefault(x =>
-                            x.HasMatchingCourseInformationWith(rawEarningForMathsOrEnglish));
-                        if (matchingEarning != null)
-                        {
-                            rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
-                            MarkNonZeroTransactionTypesAsPayable(
-                                new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish });
-                        }
-                        else
-                        {
-                            MarkNonZeroTransactionTypesAsNonPayable(
-                                new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish },
-                                "No on-prog earning found for maths/english earning",
-                                PaymentFailureType.CouldNotFindMatchingOnprog);
-                        }
-                    }
-
-                    return;
+                    return CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(RawEarningsForMathsOrEnglish, rawEarnings);
                 }
-
-                foreach (var rawEarning in RawEarnings)
-                {
-                    // Do we have a datalock??
-                    var datalock = DatalockOutput
-                        .FirstOrDefault(x =>
-                        x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier);
-                    if (datalock != null)
-                    {
-                        var matchingMathsAndEnglish = RawEarningsMathsOrEnglish
-                            .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
-                            .ToList();
-                        matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
-                        MarkNonZeroTransactionTypesAsPayable(matchingMathsAndEnglish, datalock);
-                    }
-                }
-
-                return;
+                return CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(RawEarningsForMathsOrEnglish, rawEarnings, datalockOutput);
             }
+            return CreateMathAndEnglishEarningValidationResultForLevyLearner(resultSoFar, RawEarningsForMathsOrEnglish);
+        }
 
+        private EarningValidationResult CreateMathAndEnglishEarningValidationResultForLevyLearner(
+            EarningValidationResult resultSoFar, List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish)
+        {
+            var result = new EarningValidationResult();
             // Find a matching payment with the same course information
-            foreach (var mathsOrEnglishEarning in RawEarningsMathsOrEnglish)
+            foreach (var mathsOrEnglishEarning in rawEarningsForMathsOrEnglish)
             {
-                var matchingOnProg = PayableEarnings.FirstOrDefault(x =>
+                var matchingOnProg = resultSoFar.PayableEarnings.FirstOrDefault(x =>
                     x.HasMatchingCourseInformationWith(mathsOrEnglishEarning) &&
-                    !PeriodsToIgnore.Contains(x.Period));
+                    !resultSoFar.PeriodsToIgnore.Contains(x.Period));
 
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
-                    MarkNonZeroTransactionTypesAsPayable(new List<RawEarning> { mathsOrEnglishEarning }, matchingOnProg);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                        new List<RawEarning> {mathsOrEnglishEarning}, matchingOnProg);
                 }
                 else
                 {
-                    MarkNonZeroTransactionTypesAsNonPayable(new List<RawEarning> { mathsOrEnglishEarning },
+                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> {mathsOrEnglishEarning},
                         "No matching payable earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
             }
+
+            return result;
         }
 
-        private void MarkNonZeroTransactionTypesAsPayable(
-            IEnumerable<RawEarning> earnings,
-            IHoldCommitmentInformation commitment = null,
-            int datalockType = -1)
+        private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
+            List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
         {
-            foreach (var rawEarning in earnings)
+            var result = new EarningValidationResult();
+            foreach (var rawEarning in rawEarnings)
             {
-                if (rawEarning.ApprenticeshipContractType == 1 &&
-                    rawEarning.SfaContributionPercentage < 1)
+                // Do we have a datalock??
+                var datalock = datalockOutput
+                    .FirstOrDefault(x =>
+                        x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier);
+                if (datalock != null)
                 {
-                    rawEarning.UseLevyBalance = true;
+                    var matchingMathsAndEnglish = rawEarningsForMathsOrEnglish
+                        .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
+                        .ToList();
+                    matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(matchingMathsAndEnglish, datalock);
                 }
-
-                AddFundingDue(rawEarning, commitment, datalockType);
             }
+            return result;
         }
 
-        private void MarkNonZeroTransactionTypesAsNonPayable(
-            IEnumerable<RawEarning> earnings,
-            string reason,
-            PaymentFailureType paymentFailureReason,
-            IHoldCommitmentInformation commitment = null)
+        private EarningValidationResult CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings)
         {
-            foreach (var rawEarning in earnings)
+            var result = new EarningValidationResult();
+            foreach (var rawEarningForMathsOrEnglish in rawEarningsForMathsOrEnglish)
             {
-                AddNonpayableFundingDue(rawEarning, reason, paymentFailureReason, commitment);
-            }
-        }
-
-        private static bool IgnoreTransactionType(int datalockType, int transactionType)
-        {
-            if (datalockType == 1 && (transactionType == 2 ||
-                                      transactionType == 4 ||
-                                      transactionType == 5 ||
-                                      transactionType == 6 ||
-                                      transactionType == 7 
-                                      ))
-            {
-                return true;
-            }
-
-            if (datalockType == 2 && (transactionType != 4 && transactionType != 5))
-            {
-                return true;
-            }
-
-            if (datalockType == 3 && (transactionType != 6 && transactionType != 7))
-            {
-                return true;
-            }
-
-            if (datalockType == 4 && (transactionType != 2))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
-
-        private void AddFundingDue(
-            RawEarning rawEarnings,
-            IHoldCommitmentInformation commitmentInformation = null,
-            int datalockType = -1)
-        {
-            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
-            {
-                var transactionType = (int)transactionTypeValue;
-                if (datalockType != -1 && IgnoreTransactionType(datalockType, transactionType))
+                var matchingEarning = rawEarnings.FirstOrDefault(x =>
+                    x.HasMatchingCourseInformationWith(rawEarningForMathsOrEnglish));
+                if (matchingEarning != null)
                 {
-                    continue;
+                    rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                        new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish});
                 }
-
-                var propertyName = $"TransactionType{transactionType:D2}";
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, propertyName];
-                if (amountDue == 0)
+                else
                 {
-                    continue;
+                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(
+                        new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish},
+                        "No on-prog earning found for maths/english earning",
+                        PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
-                var fundingDue = new FundingDue(rawEarnings);
-                fundingDue.TransactionType = transactionType;
-
-                if (!OnProgTransactionTypes.Contains(transactionType))
-                {
-                    fundingDue.SfaContributionPercentage = 1;
-                }
-
-                // Doing this to prevent a huge switch statement
-                fundingDue.AmountDue = amountDue;
-                commitmentInformation?.CopyCommitmentInformationTo(fundingDue);
-                PayableEarnings.Add(fundingDue);
             }
-        }
 
-        private void AddNonpayableFundingDue(RawEarning rawEarnings,
-            string reason,
-            PaymentFailureType paymentFailureReason,
-            IHoldCommitmentInformation commitmentInformation = null)
-        {
-            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
-            {
-                var transactionType = (int) transactionTypeValue;
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
-                if (amountDue == 0)
-                {
-                    continue;
-                }
-
-                var nonPayableEarning = new NonPayableEarning(rawEarnings);
-                nonPayableEarning.TransactionType = transactionType;
-
-                // Doing this to prevent a huge switch statement
-                nonPayableEarning.AmountDue = amountDue;
-                commitmentInformation?.CopyCommitmentInformationTo(nonPayableEarning);
-
-                nonPayableEarning.PaymentFailureMessage = reason;
-                nonPayableEarning.PaymentFailureReason = paymentFailureReason;
-                NonPayableEarnings.Add(nonPayableEarning);
-            }
+            return result;
         }
     }
 }

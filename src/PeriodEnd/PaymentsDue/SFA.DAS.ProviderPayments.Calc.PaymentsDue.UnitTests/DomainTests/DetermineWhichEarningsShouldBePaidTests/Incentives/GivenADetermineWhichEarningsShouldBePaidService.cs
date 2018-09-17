@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Helpers;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -34,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void IncentivePaymentsAreMarkedWithOneHundredPercentSfaContribution(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -58,16 +60,17 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(), 
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(), 
+                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            foreach (var actualEarning in actual.Earnings)
+            foreach (var actualEarning in actual.PayableEarnings)
             {
                 actualEarning.SfaContributionPercentage.Should().Be(1);
             }
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void OnProgPaymentsAreMarkedWithSameSfaContributionAsEarning(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -93,9 +96,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings.Take(1).ToList(),
-                new List<RawEarningForMathsOrEnglish>());
+                new List<RawEarningForMathsOrEnglish>(), 
+                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
 
-            foreach (var actualEarning in actual.Earnings)
+            foreach (var actualEarning in actual.PayableEarnings)
             {
                 actualEarning.SfaContributionPercentage.Should().Be(_earnings[0].SfaContributionPercentage);
             }

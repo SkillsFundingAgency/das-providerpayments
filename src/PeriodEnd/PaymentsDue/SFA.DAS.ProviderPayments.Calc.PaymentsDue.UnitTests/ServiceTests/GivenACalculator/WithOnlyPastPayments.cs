@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             PaymentsDueCalculationService sut
         )
         {
-            var actual = sut.Calculate(new List<FundingDue>(), new List<int>(), pastPayments);
+            var actual = sut.Calculate(new List<FundingDue>(), new HashSet<int>(), pastPayments);
 
             actual.Should().HaveCount(pastPayments.Count);
             foreach (var refund in pastPayments)

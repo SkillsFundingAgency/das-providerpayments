@@ -48,6 +48,7 @@
     <Compile Include="Data\Entities\DatalockOutputEntity.cs" />
     <Compile Include="Data\Entities\DatalockValidationErrorByPeriod.cs" />
     <Compile Include="Data\Entities\DatalockValidationError.cs" />
+    <Compile Include="Data\Entities\LearnerSummaryPaymentEntity.cs" />
     <Compile Include="Data\Entities\PaymentEntity.cs" />
     <Compile Include="Data\Entities\PriceEpisodeMatchEntity.cs" />
     <Compile Include="Data\Entities\PriceEpisodePeriodMatchEntity.cs" />
