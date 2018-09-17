@@ -23,7 +23,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
         {
             var parameters = TestData.LoadFrom("LearnerWithMultipleWithdrawnCommitmentAndOneActiveCommitment");
 
-            var datalockOutput = commitmentMatcher.ProcessDatalocks(
+            var datalockOutput = commitmentMatcher.GetSuccessfulDatalocks(
                 parameters.DatalockOutputs, 
                 parameters.DatalockValidationErrors,
                 parameters.Commitments);
@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
                 parameters.RawEarnings,
                 parameters.RawEarningsForMathsOrEnglish);
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
 
             actual.Should().HaveCount(0);
         }
