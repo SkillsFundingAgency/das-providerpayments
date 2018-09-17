@@ -4,6 +4,7 @@ using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Repositories;
+using SFA.DAS.Payments.Calc.ProviderAdjustments.Services;
 using SFA.DAS.Payments.DCFS.Context;
 using StructureMap;
 
@@ -27,7 +28,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.DependencyResolution
             For<IAdjustmentRepository>().Use<DcfsAdjustmentRepository>();
             For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
             For<IPaymentRepository>().Use<DcfsPaymentRepository>();
-            For<IProviderRepository>().Use<DcfsProviderRepository>();
+            For<ICalculateProviderPayments>().Use<ProviderPaymentsCalculator>();
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 

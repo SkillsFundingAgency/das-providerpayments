@@ -367,7 +367,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{124187AA-CB8A-499F-86AE-049FCF95DD42}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
-		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql
 		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\dml\07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql
 	EndProjectSection

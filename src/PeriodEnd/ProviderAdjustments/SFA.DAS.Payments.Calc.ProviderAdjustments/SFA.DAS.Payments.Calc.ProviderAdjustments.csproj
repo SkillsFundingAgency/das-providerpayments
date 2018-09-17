@@ -82,38 +82,24 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryRequest.cs" />
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
-    <Compile Include="Application\Payments\AddPaymentsCommand\AddPaymentsCommandHandler.cs" />
-    <Compile Include="Application\Payments\AddPaymentsCommand\AddPaymentsCommandRequest.cs" />
-    <Compile Include="Application\Adjustments\GetPreviousAdjustmentsQuery\GetPreviousAdjustmentsQueryHandler.cs" />
-    <Compile Include="Application\Adjustments\GetPreviousAdjustmentsQuery\GetPreviousAdjustmentsQueryRequest.cs" />
-    <Compile Include="Application\Adjustments\GetPreviousAdjustmentsQuery\GetPreviousAdjustmentsQueryResponse.cs" />
-    <Compile Include="Application\Payments\Payment.cs" />
-    <Compile Include="Application\Adjustments\GetCurrentAdjustmentsQuery\GetCurrentAdjustmentsQueryHandler.cs" />
-    <Compile Include="Application\Adjustments\GetCurrentAdjustmentsQuery\GetCurrentAdjustmentsQueryRequest.cs" />
-    <Compile Include="Application\Adjustments\GetCurrentAdjustmentsQuery\GetCurrentAdjustmentsQueryResponse.cs" />
-    <Compile Include="Application\Adjustments\Adjustment.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryHandler.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryRequest.cs" />
-    <Compile Include="Application\Providers\GetProvidersQuery\GetProvidersQueryResponse.cs" />
-    <Compile Include="Application\Providers\Provider.cs" />
     <Compile Include="DependencyResolution\ProviderAdjustmentsRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
+    <Compile Include="Domain\Extensions\ProviderPaymentsGroupExtensions.cs" />
+    <Compile Include="Domain\ProviderPaymentsGroup.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\AdjustmentEntity.cs" />
-    <Compile Include="Infrastructure\Data\Entities\ProviderEntity.cs" />
     <Compile Include="Infrastructure\Data\ICollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\IPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\IAdjustmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsCollectionPeriodRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsPaymentRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\DcfsAdjustmentRepository.cs" />
-    <Compile Include="Infrastructure\Data\Repositories\DcfsProviderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderAdjustmentsProcessor.cs" />
     <Compile Include="ProviderAdjustmentsProcessorException.cs" />
     <Compile Include="ProviderAdjustmentsTask.cs" />
+    <Compile Include="Services\ProviderPaymentsCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -145,6 +131,7 @@
       <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
