@@ -310,7 +310,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 .Where(x => x.StartDate <= endOfPeriod)
                 .Select(x =>
                 {
-                    var financialRecords = BuildLearningDeliveryFinancials(x);
+                    var financialRecords = BuildLearningDeliveryFinancials(x, endOfPeriod);
 
                     return new LearningDelivery
                     {
@@ -369,7 +369,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return learner;
         }
 
-        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData)
+        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData, DateTime endOfPeriod)
         {
             var agreedTrainingPrice = learnerReferenceData.FrameworkCode > 0 ? learnerReferenceData.AgreedPrice :
                                      (int)Math.Floor(learnerReferenceData.AgreedPrice * 0.8m);
@@ -490,6 +490,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 }
             }
 
+            if (learnerReferenceData.EmployerContribution > 0)
+            {
+                financialRecords.Add(new FinancialRecord
+                {
+                    Code = 1,
+                    Type = "PMR",
+                    Amount = learnerReferenceData.EmployerContribution,
+                    Date = endOfPeriod.Date
+                });
+            }
+
             return financialRecords.ToArray();
         }
 
@@ -503,6 +514,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var lsfFamCodes = BuildLsfFamCodes(learningSupportStatus);
             var eefFamCodes = BuildEefFamCodes(learnerDetails);
             var restartFamCode = BuildRestartIndicatorFamCode(learnerDetails);
+
 
             return actFamCodes.Concat(lsfFamCodes).Concat(eefFamCodes).Concat(restartFamCode).ToArray();
         }
