@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Domain;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Domain.Extensions;
@@ -18,11 +19,16 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Services
             IEnumerable<AdjustmentEntity> previousPayments, 
             IEnumerable<AdjustmentEntity> earnings)
         {
+            var previousPaymentsAsAList = previousPayments.ToList();
             var alreadyProcessedGroups = new HashSet<ProviderPaymentsGroup>();
+            var processedSubmissions = new HashSet<Guid>(previousPaymentsAsAList.Select(x => x.SubmissionId));
+
             var payments = new List<PaymentEntity>();
 
-            var groupedPreviousPayments = previousPayments.ToLookup(x => new ProviderPaymentsGroup(x));
-            var groupedEarnings = earnings.ToLookup(x => new ProviderPaymentsGroup(x));
+            var groupedPreviousPayments = previousPaymentsAsAList.ToLookup(x => new ProviderPaymentsGroup(x));
+            var groupedEarnings = earnings
+                .Where(x => !processedSubmissions.Contains(x.SubmissionId))
+                .ToLookup(x => new ProviderPaymentsGroup(x));
 
             foreach (var earningGroup in groupedEarnings)
             {

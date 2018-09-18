@@ -884,3 +884,7 @@ Feature: Provider adjustments (EAS) payments
 			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 599.59 | 1000  |
 			| Adult Levy Exceptional Learning Support     | 0     | 0     | 619.61 | 1000  |
 			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 639.63 | 1000  |
+
+
+
+			
