@@ -18,15 +18,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
 
         public static bool HasCompletionPayment(this RawEarning earning)
         {
-            return (earning.TransactionType02 != 0 && 
+            return ((earning.TransactionType02 != 0 ||
+                     earning.TransactionType03 != 0) &&
                     earning.EndDate.HasValue);
         }
 
         public static bool HasNonIncentiveEarnings(this RawEarning earning)
         {
             return (earning.TransactionType01 != 0 ||
-                    earning.TransactionType02 != 0 ||
-                    earning.TransactionType03 != 0 ||
                     earning.TransactionType08 != 0 ||
                     earning.TransactionType09 != 0 ||
                     earning.TransactionType10 != 0 ||
