@@ -9,23 +9,24 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Services
 {
     public interface ICalculateProviderPayments
     {
-        List<PaymentEntity> CalculatePayments(IEnumerable<AdjustmentEntity> previousPayments,
-            IEnumerable<AdjustmentEntity> earnings);
+        List<PaymentEntity> CalculatePayments(List<AdjustmentEntity> previousPayments,
+            List<AdjustmentEntity> earnings);
     }
 
-    class ProviderPaymentsCalculator : ICalculateProviderPayments
+    public class ProviderPaymentsCalculator : ICalculateProviderPayments
     {
         public List<PaymentEntity> CalculatePayments(
-            IEnumerable<AdjustmentEntity> previousPayments, 
-            IEnumerable<AdjustmentEntity> earnings)
+            List<AdjustmentEntity> previousPayments, 
+            List<AdjustmentEntity> earnings)
         {
-            var previousPaymentsAsAList = previousPayments.ToList();
             var alreadyProcessedGroups = new HashSet<ProviderPaymentsGroup>();
-            var processedSubmissions = new HashSet<Guid>(previousPaymentsAsAList.Select(x => x.SubmissionId));
+            var processedSubmissions = new HashSet<Guid>(
+                previousPayments.Select(x => x.SubmissionId)
+                    .Intersect(earnings.Select(y => y.SubmissionId)));
 
             var payments = new List<PaymentEntity>();
 
-            var groupedPreviousPayments = previousPaymentsAsAList.ToLookup(x => new ProviderPaymentsGroup(x));
+            var groupedPreviousPayments = previousPayments.ToLookup(x => new ProviderPaymentsGroup(x));
             var groupedEarnings = earnings
                 .Where(x => !processedSubmissions.Contains(x.SubmissionId))
                 .ToLookup(x => new ProviderPaymentsGroup(x));
@@ -44,7 +45,8 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Services
 
             foreach (var previousPaymentGroup in groupedPreviousPayments)
             {
-                if (alreadyProcessedGroups.Contains(previousPaymentGroup.Key))
+                if (alreadyProcessedGroups.Contains(previousPaymentGroup.Key) ||
+                    processedSubmissions.Contains(previousPaymentGroup.Key.SubmissionId))
                 {
                     continue;
                 }

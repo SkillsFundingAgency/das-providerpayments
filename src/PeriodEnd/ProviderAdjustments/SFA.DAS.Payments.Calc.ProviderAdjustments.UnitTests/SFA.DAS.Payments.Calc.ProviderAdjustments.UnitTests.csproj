@@ -88,10 +88,12 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryHandler\WhenHandling.cs" />
     <Compile Include="Common\ExternalContextStub.cs" />
     <Compile Include="DomainTests\GivenAProviderPaymentsGroup\WhenTestingForEquality.cs" />
+    <Compile Include="DomainTests\GivenAProviderPaymentsGroup\WhenTestingHashCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderAdjustmentsTask\WhenExecutingWithInvalidContext.cs" />
     <Compile Include="ProviderAdjustmentsTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Sandbox.cs" />
+    <Compile Include="ServicesTests\GivenAProviderPaymentsCalculator\WhenCalculatingPayments.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

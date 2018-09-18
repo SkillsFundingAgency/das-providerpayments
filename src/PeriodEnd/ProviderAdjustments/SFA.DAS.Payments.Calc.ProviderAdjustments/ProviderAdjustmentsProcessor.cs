@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using NLog;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Application.CollectionPeriods.GetCurrentCollectionPeriodQuery;
@@ -44,7 +45,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
             var previousPayments = _adjustmentRepository.GetPreviousProviderAdjustments();
             var earnings = _adjustmentRepository.GetCurrentProviderAdjustments();
 
-            var payments = _providerPayments.CalculatePayments(previousPayments, earnings);
+            var payments = _providerPayments.CalculatePayments(previousPayments.ToList(), earnings.ToList());
 
             PopulateCollectionPeriod(payments);
             _paymentRepository.AddProviderAdjustments(payments.ToArray());
