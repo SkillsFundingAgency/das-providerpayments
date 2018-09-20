@@ -28,7 +28,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.DependencyResolution
             For<IAdjustmentRepository>().Use<DcfsAdjustmentRepository>();
             For<ICollectionPeriodRepository>().Use<DcfsCollectionPeriodRepository>();
             For<IPaymentRepository>().Use<DcfsPaymentRepository>();
-            For<ICalculateProviderPayments>().Use<ProviderPaymentsCalculator>();
+            For<ICalculateProviderAdjustments>().Use<ProviderAdjustmentsCalculator>();
 
             For<ILogger>().Use(() => LogManager.GetLogger(taskType.FullName));
 

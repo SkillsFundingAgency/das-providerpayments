@@ -84,7 +84,6 @@
     <Compile Include="Application\CollectionPeriods\GetCurrentCollectionPeriodQuery\GetCurrentCollectionPeriodQueryResponse.cs" />
     <Compile Include="DependencyResolution\ProviderAdjustmentsRegistry.cs" />
     <Compile Include="DependencyResolution\TaskDependencyResolver.cs" />
-    <Compile Include="Domain\Extensions\ProviderPaymentsGroupExtensions.cs" />
     <Compile Include="Domain\ProviderPaymentsGroup.cs" />
     <Compile Include="Infrastructure\Data\Entities\CollectionPeriodEntity.cs" />
     <Compile Include="Infrastructure\Data\Entities\PaymentEntity.cs" />
@@ -99,7 +98,7 @@
     <Compile Include="ProviderAdjustmentsProcessor.cs" />
     <Compile Include="ProviderAdjustmentsProcessorException.cs" />
     <Compile Include="ProviderAdjustmentsTask.cs" />
-    <Compile Include="Services\ProviderPaymentsCalculator.cs" />
+    <Compile Include="Services\ProviderAdjustmentsCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

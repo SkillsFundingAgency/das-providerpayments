@@ -35,11 +35,11 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
         {
             [Test, AutoData]
             public void ThenTheTotalAmountPaidMatchesTheEarnings(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testEarnings
                 )
             {
-                var actual = sut.CalculatePayments(new List<AdjustmentEntity>(), testEarnings);
+                var actual = sut.CalculatePaymentsAndRefunds(new List<AdjustmentEntity>(), testEarnings);
 
                 var expectedTotal = testEarnings.Sum(x => x.Amount);
 
@@ -49,11 +49,11 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
 
             [Test, AutoData]
             public void ThenThereAreMatchingPayments(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testEarnings
             )
             {
-                var actual = sut.CalculatePayments(new List<AdjustmentEntity>(), testEarnings);
+                var actual = sut.CalculatePaymentsAndRefunds(new List<AdjustmentEntity>(), testEarnings).ToList();
 
                 actual.ShouldContainPaymentMatchingEarning(testEarnings[0]);
                 actual.ShouldContainPaymentMatchingEarning(testEarnings[1]);
@@ -66,7 +66,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
         {
             [Test, AutoData]
             public void ThenTheTotalAmountPaidMatchesTheEarnings(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testEarnings,
                 List<AdjustmentEntity> testPreviousPayments
             )
@@ -76,7 +76,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
                     AssociatePaymentWithEarning(testPreviousPayments[i], testEarnings[i]);
                 }
 
-                var actual = sut.CalculatePayments(testPreviousPayments, testEarnings);
+                var actual = sut.CalculatePaymentsAndRefunds(testPreviousPayments, testEarnings);
 
                 var expectedTotal = testEarnings.Sum(x => x.Amount) - testPreviousPayments.Sum(x => x.Amount);
 
@@ -86,7 +86,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
 
             [Test, AutoData]
             public void ThenThereAreMatchingPayments(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testEarnings,
                 List<AdjustmentEntity> testPreviousPayments
             )
@@ -96,7 +96,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
                     AssociatePaymentWithEarning(testPreviousPayments[i], testEarnings[i]);
                 }
 
-                var actual = sut.CalculatePayments(testPreviousPayments, testEarnings);
+                var actual = sut.CalculatePaymentsAndRefunds(testPreviousPayments, testEarnings).ToList();
 
                 testEarnings[0].Amount -= testPreviousPayments[0].Amount;
                 testEarnings[1].Amount -= testPreviousPayments[1].Amount;
@@ -109,7 +109,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
 
             [Test, AutoData]
             public void AndThereIsNoChangeThereAreNoPayments(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testEarnings,
                 List<AdjustmentEntity> testPreviousPayments
             )
@@ -121,7 +121,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
                     testPreviousPayments[i].Amount = testEarnings[i].Amount;
                 }
 
-                var actual = sut.CalculatePayments(testPreviousPayments, testEarnings);
+                var actual = sut.CalculatePaymentsAndRefunds(testPreviousPayments, testEarnings);
 
                 actual.Sum(x => x.Amount).Should().Be(0);
             }
@@ -132,11 +132,11 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
         {
             [Test, AutoData]
             public void ThenTheTotalAmountPaidMatchesThePreviousPayments(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testPreviousPayments
             )
             {
-                var actual = sut.CalculatePayments(testPreviousPayments, new List<AdjustmentEntity>());
+                var actual = sut.CalculatePaymentsAndRefunds(testPreviousPayments, new List<AdjustmentEntity>());
 
                 var expectedTotal = -1 * testPreviousPayments.Sum(x => x.Amount);
 
@@ -146,11 +146,11 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.UnitTests.ServicesTests.Give
 
             [Test, AutoData]
             public void ThenThereAreOppositePayments(
-                ProviderPaymentsCalculator sut,
+                ProviderAdjustmentsCalculator sut,
                 List<AdjustmentEntity> testPreviousPayments
             )
             {
-                var actual = sut.CalculatePayments(testPreviousPayments, new List<AdjustmentEntity>());
+                var actual = sut.CalculatePaymentsAndRefunds(testPreviousPayments, new List<AdjustmentEntity>()).ToList();
 
                 testPreviousPayments[0].Amount *= -1;
                 testPreviousPayments[1].Amount *= -1;

@@ -14,7 +14,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
         private readonly int _yearOfCollection;
-        private readonly ICalculateProviderPayments _providerPayments;
+        private readonly ICalculateProviderAdjustments _providerAdjustments;
         private readonly IAdjustmentRepository _adjustmentRepository;
         private readonly IPaymentRepository _paymentRepository;
 
@@ -22,14 +22,14 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
             ILogger logger, 
             IMediator mediator, 
             string yearOfCollection, 
-            ICalculateProviderPayments providerPayments, 
+            ICalculateProviderAdjustments providerAdjustments, 
             IAdjustmentRepository adjustmentRepository, 
             IPaymentRepository paymentRepository)
         {
             _logger = logger;
             _mediator = mediator;
             _yearOfCollection = int.Parse(yearOfCollection);
-            _providerPayments = providerPayments;
+            _providerAdjustments = providerAdjustments;
             _adjustmentRepository = adjustmentRepository;
             _paymentRepository = paymentRepository;
         }
@@ -45,7 +45,9 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
             var previousPayments = _adjustmentRepository.GetPreviousProviderAdjustments();
             var earnings = _adjustmentRepository.GetCurrentProviderAdjustments();
 
-            var payments = _providerPayments.CalculatePayments(previousPayments.ToList(), earnings.ToList());
+            var payments = _providerAdjustments
+                .CalculatePaymentsAndRefunds(previousPayments.ToList(), earnings.ToList())
+                .ToList();
 
             PopulateCollectionPeriod(payments);
             _paymentRepository.AddProviderAdjustments(payments.ToArray());
