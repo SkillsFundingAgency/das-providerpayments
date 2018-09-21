@@ -284,6 +284,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
+                    earning.EpisodeStartDate = RandomStartDateWithin1819AcademicYear(earning.EpisodeStartDate ?? new DateTime(2018, 1, 1));
                     earnings.AddPriceEpisodeIdentifiers();
 
                     var accounts = CreateNonPayableAccountsList();
