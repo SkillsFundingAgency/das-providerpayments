@@ -20,7 +20,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     }
 
     public class DatalockValidationService : IValidateDatalocks
-    {
+    { 
         private readonly IMatcher _datalockMatcher;
         private readonly string _yearOfCollection;
 
