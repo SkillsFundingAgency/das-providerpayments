@@ -5,7 +5,6 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
@@ -87,6 +86,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void ThenThereIsAPayablePeriodMatch(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                     )
@@ -97,8 +97,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> {commitment};
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable);
@@ -106,6 +104,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ShouldNotContainAFirst16To18Incentive(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -115,8 +114,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -125,6 +122,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ShouldNotContainASecond16To18Incentive(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -135,8 +133,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
@@ -144,6 +140,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void WithAFirst16To18IncentiveThenThereIsAPayablePeriodMatch(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -155,8 +152,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives);
@@ -164,6 +159,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void WithASecond16To18IncentiveThenThereIsAPayablePeriodMatch(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -175,8 +171,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
@@ -184,6 +178,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoValidationErrors(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -193,8 +188,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -203,6 +196,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereIsAMatch(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -212,8 +206,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -225,6 +217,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 {
                     [Test, AutoMoqData]
                     public void ThenThereIsADLOCK_11(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -234,8 +227,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList(commitment.AccountId);
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -249,13 +240,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void ThenThereAreNoPeriodMatches(
+                    DatalockValidationService sut,
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -264,6 +254,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereIsADLOCK_02ValidationError(
+                    DatalockValidationService sut,
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
@@ -273,8 +264,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().HaveCount(1);
@@ -283,13 +272,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoMatches(
+                    DatalockValidationService sut,
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -302,6 +290,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void MismatchedUkprnReturnsDLOCK_01(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment)
                 {
@@ -312,8 +301,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.ProviderUkprn += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingUkprn);
@@ -321,6 +308,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void MismatchedProgrammeTypeReturnsDLOCK_05(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -332,8 +320,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.ProgrammeType += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
                     
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingProgramme);
@@ -341,6 +327,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void MismatchedStandardCodeReturnsDLOCK_03(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -352,8 +339,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.StandardCode += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingStandard);
@@ -361,6 +346,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void MismatchedFrameworkCodeReturnsDLOCK_04(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -372,8 +358,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.FrameworkCode += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingFramework);
@@ -381,6 +365,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void MismatchedPathwayReturnsDLOCK_06(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -392,8 +377,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.PathwayCode += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingPathway);
@@ -401,6 +384,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void MismatchedPriceReturnsDLOCK_07(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment
                 )
@@ -412,8 +396,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     commitment.AgreedCost += 1;
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MismatchingPrice);
@@ -421,6 +403,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void OverlappingCommitmentsReturnsDLOCK_08(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment1
                 )
@@ -433,8 +416,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment1, commitment2 };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.MultipleMatches);
@@ -442,6 +423,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void CommitmentStartDateAfterEarningStartDateReturnsDLOCK_09(
+                    DatalockValidationService sut,
                     RawEarning earning,
                     CommitmentEntity commitment1
                 )
@@ -453,8 +435,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earning.Period = 1;
                     commitment1.StartDate = commitment1.StartDate.AddMonths(2);
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -473,6 +453,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     {
                         [Test, AutoMoqData]
                         public void ThenThereIsAPeriodMatchForTheCompletionPayment(
+                            DatalockValidationService sut,
                             RawEarning earning,
                             CommitmentEntity commitment
                         )
@@ -489,8 +470,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                             var commitments = new List<CommitmentEntity> { commitment };
                             var providerCommitments = new ProviderCommitments(commitments);
 
-                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                             var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                             actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(1);
@@ -502,6 +481,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     {
                         [Test, AutoMoqData]
                         public void ThenThereIsNoPeriodMatchForTheCompletionPayment(
+                            DatalockValidationService sut,
                             RawEarning earning,
                             CommitmentEntity commitment
                         )
@@ -517,8 +497,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                             var accounts = CreateNonPayableAccountsList();
                             var commitments = new List<CommitmentEntity> { commitment };
                             var providerCommitments = new ProviderCommitments(commitments);
-
-                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                             var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -527,6 +505,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                         [Test, AutoMoqData]
                         public void ThenThereIsADLOCK_10(
+                            DatalockValidationService sut,
                             RawEarning earning,
                             CommitmentEntity commitment
                         )
@@ -542,8 +521,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                             var accounts = CreateNonPayableAccountsList();
                             var commitments = new List<CommitmentEntity> { commitment };
                             var providerCommitments = new ProviderCommitments(commitments);
-
-                            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                             var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -558,6 +535,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 {
                     [Test, AutoMoqData]
                     public void ThenThereAreNoPeriodMatches(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -569,8 +547,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -579,6 +555,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereIsOneValidationErrors(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -590,8 +567,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -601,6 +576,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereAreNoMatches(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -612,8 +588,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -626,6 +600,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 {
                     [Test, AutoMoqData]
                     public void ThenThereIsAPeriodMatches(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -639,8 +614,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -649,6 +622,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereAreNoValidationErrors(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -662,8 +636,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -672,6 +644,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereIsAMatch(
+                        DatalockValidationService sut,
                         RawEarning earning,
                         CommitmentEntity commitment
                     )
@@ -686,7 +659,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
 
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -704,6 +676,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void ThenThereAreThreePayablePeriodMatches(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings,
                     CommitmentEntity commitment
                     )
@@ -716,8 +689,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Should().OnlyContain(x => x.Payable);
@@ -726,6 +697,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoValidationErrors(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings,
                     CommitmentEntity commitment
                 )
@@ -737,8 +709,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -747,6 +717,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreThreeMatches(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings,
                     CommitmentEntity commitment
                 )
@@ -758,8 +729,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -773,6 +742,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void ThenThereAreNoPeriodMatches(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings
                 )
                 {
@@ -781,8 +751,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -791,6 +759,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoValidationErrors(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings
                 )
                 {
@@ -799,8 +768,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -809,6 +776,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoMatches(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings
                 )
                 {
@@ -817,8 +785,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[2].Period = 3;
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -834,6 +800,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 {
                     [Test, AutoMoqData]
                     public void ThenThereAreTwoPeriodMatches(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -847,8 +814,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -857,6 +822,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereIsOneValidationErrors(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -870,8 +836,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -881,6 +845,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereAreTwoMatches(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -894,8 +859,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -908,6 +871,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 {
                     [Test, AutoMoqData]
                     public void ThenThereIsAPeriodMatch(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -921,8 +885,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -932,6 +894,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereAreNoValidationErrors(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -945,8 +908,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -955,6 +916,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThenThereIsAMatch(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -968,8 +930,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var accounts = CreateNonPayableAccountsList();
                         var commitments = new List<CommitmentEntity> { commitment };
                         var providerCommitments = new ProviderCommitments(commitments);
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -984,6 +944,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             {
                 [Test, AutoMoqData]
                 public void ThenThereAreNoPeriodMatches(
+                        DatalockValidationService sut,
                         List<RawEarning> earnings,
                         CommitmentEntity commitment
                     )
@@ -998,8 +959,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
 
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
-
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().BeEmpty();
@@ -1007,6 +966,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereIsOneValidationError(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings,
                     CommitmentEntity commitment
                 )
@@ -1020,8 +980,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -1031,6 +989,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                 [Test, AutoMoqData]
                 public void ThenThereAreNoMatches(
+                    DatalockValidationService sut,
                     List<RawEarning> earnings,
                     CommitmentEntity commitment
                 )
@@ -1044,8 +1003,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var accounts = CreateNonPayableAccountsList();
                     var commitments = new List<CommitmentEntity> { commitment };
                     var providerCommitments = new ProviderCommitments(commitments);
-
-                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -1122,6 +1079,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void TwoPricesReturnsSixPayablePeriodMatches(
+                        DatalockValidationService sut,
                         CommitmentEntity commitment
                     )
                     {
@@ -1140,8 +1098,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         }
                         var providerCommitments = new ProviderCommitments(commitments);
                         var accounts = CreateNonPayableAccountsList();
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -1172,6 +1128,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void TwoPricesReturnsSixPayablePeriodMatches(
+                        DatalockValidationService sut,
                         CommitmentEntity commitment
                     )
                     {
@@ -1190,8 +1147,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         }
                         var providerCommitments = new ProviderCommitments(commitments);
                         var accounts = CreateNonPayableAccountsList();
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
@@ -1228,6 +1183,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     [Test, AutoMoqData]
                     public void ThreePricesReturnsSixPayablePeriodMatches(
+                        DatalockValidationService sut,
                         CommitmentEntity commitment
                     )
                     {
@@ -1248,8 +1204,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         }
                         var providerCommitments = new ProviderCommitments(commitments);
                         var accounts = CreateNonPayableAccountsList();
-
-                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
                         var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
