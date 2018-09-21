@@ -14,28 +14,32 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     public interface IValidateDatalocks
     {
         DatalockValidationResult ValidateDatalockForProvider(
-            ProviderCommitments providerCommitments, 
-            IEnumerable<RawEarning> providerEarnings, 
+            ProviderCommitments providerCommitments,
+            IEnumerable<RawEarning> providerEarnings,
             ImmutableHashSet<long> accountsWithNonPayableFlagSet);
     }
 
     public class DatalockValidationService : IValidateDatalocks
     {
         private readonly IMatcher _datalockMatcher;
+        private readonly int _yearOfCollection;
 
-        public DatalockValidationService(IMatcher datalockMatcher)
+        public DatalockValidationService(
+            IMatcher datalockMatcher,
+            string yearOfCollection)
         {
             _datalockMatcher = datalockMatcher;
+            _yearOfCollection = int.Parse(yearOfCollection);
         }
 
         public DatalockValidationResult ValidateDatalockForProvider(
-            ProviderCommitments providerCommitments, 
+            ProviderCommitments providerCommitments,
             IEnumerable<RawEarning> providerEarnings,
             ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
             var earnings = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
-            
+
             var result = new DatalockValidationResult();
 
             var learners = earnings.AllUlns();
@@ -51,7 +55,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 {
                     if (earning.HasNonIncentiveEarnings())
                     {
-                        ProcessEarning(accountsWithNonPayableFlagSet, earning, 
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
                             learnerCommitments, result, TransactionTypesFlag.AllLearning);
                     }
 
@@ -78,8 +82,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             return result;
         }
 
+        private IEnumerable<RawEarning> FilterPreviousAcademicYear(IEnumerable<RawEarning> earnings, int academicYear)
+        {
+            return earnings;
+        }
+
+        private IEnumerable<RawEarning> FilterNextAcademicYear(IEnumerable<RawEarning> earnings, int academicYear)
+        {
+            return earnings;
+        }
+
         private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,
-            LearnerCommitments learnerCommitments, DatalockValidationResult result, TransactionTypesFlag earningType)
+                LearnerCommitments learnerCommitments, DatalockValidationResult result, TransactionTypesFlag earningType)
         {
             var censusDate = CalculateCensusDate(earning, earningType);
             var commitments = learnerCommitments.ActiveCommitmentsForDate(censusDate).ToList();
