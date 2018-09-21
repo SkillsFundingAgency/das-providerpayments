@@ -22,14 +22,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
     public class DatalockValidationService : IValidateDatalocks
     {
         private readonly IMatcher _datalockMatcher;
-        private readonly string _yearOfCollection;
+        private readonly int _yearOfCollection;
 
         public DatalockValidationService(
             IMatcher datalockMatcher,
             string yearOfCollection)
         {
             _datalockMatcher = datalockMatcher;
-            _yearOfCollection = yearOfCollection;
+            _yearOfCollection = int.Parse(yearOfCollection);
         }
 
         public DatalockValidationResult ValidateDatalockForProvider(
@@ -37,8 +37,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             IEnumerable<RawEarning> providerEarnings,
             ImmutableHashSet<long> accountsWithNonPayableFlagSet)
         {
-            var filteredEarnings = FilterOnlyCurrentAcademicYear(providerEarnings, _yearOfCollection);
-            var earnings = new ProviderEarnings(filteredEarnings);
+            var earnings = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
 
             var result = new DatalockValidationResult();
@@ -83,16 +82,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             return result;
         }
 
-        private IEnumerable<RawEarning> FilterOnlyCurrentAcademicYear(IEnumerable<RawEarning> earnings, string academicYear)
+        private IEnumerable<RawEarning> FilterPreviousAcademicYear(IEnumerable<RawEarning> earnings, int academicYear)
         {
-            foreach (var rawEarning in earnings)
-            {
-                var priceEpisode = new PriceEpisode(rawEarning.PriceEpisodeIdentifier);
-                if (priceEpisode.AcademicYear.Equals(academicYear))
-                {
-                    yield return rawEarning;
-                }
-            }
+            return earnings;
+        }
+
+        private IEnumerable<RawEarning> FilterNextAcademicYear(IEnumerable<RawEarning> earnings, int academicYear)
+        {
+            return earnings;
         }
 
         private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,

@@ -16,7 +16,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes
             var fixture = new Fixture();
             fixture.Customize(new AutoMoqCustomization());
 
-            fixture.Register(() => new DatalockValidationService(MatcherFactory.CreateMatcher(), "1819"));
+            fixture.Register(() => new DatalockValidationService(MatcherFactory.CreateMatcher(), "1718"));
 
             return fixture;
         }

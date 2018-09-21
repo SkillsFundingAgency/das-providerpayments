@@ -4,9 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
-using FluentAssertions.Common;
 using NUnit.Framework;
-using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
@@ -30,14 +28,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             return $"10-10-01/08/{source.Year}";
         }
 
-        public static void AddPriceEpisodeIdentifiers(this List<RawEarning> source)
-        {
-            foreach (var rawEarning in source)
-            {
-                rawEarning.PriceEpisodeIdentifier = rawEarning.EpisodeStartDate?.EpisodeIdentifier();
-            }
-        }
-
         public static DateTime FirstDayOfAcademicYear(this DateTime source)
         {
             if (source.Month < 8)
@@ -51,22 +41,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
     [TestFixture]
     public class WhenCallingValidateDatalocksForProvider
     {
-        static DateTime RandomStartDateWithin1819AcademicYear(DateTime source)
-        {
-            var fixture = new Fixture();
-            var date = source;
-            while (date > new DateTime(2019, 08, 01) ||
-                   date <= new DateTime(2018, 08, 01))
-            {
-                date = fixture.Create<DateTime>();
-            }
-
-            return date;
-        }
-
         static void AssociateEarningsWithCommitment(List<RawEarning> earnings, CommitmentEntity commitment)
         {
-            commitment.StartDate = RandomStartDateWithin1819AcademicYear(commitment.StartDate);
             commitment.StartDate = commitment.StartDate.FirstDayOfAcademicYear();
             var learnRefNumber = earnings.First().LearnRefNumber;
             var aimSequenceNumber = earnings.First().AimSeqNumber;
@@ -268,8 +244,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
-                    earnings.AddPriceEpisodeIdentifiers();
-
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -284,8 +258,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
-                    earnings.AddPriceEpisodeIdentifiers();
-
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -301,8 +273,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     RawEarning earning)
                 {
                     var earnings = new List<RawEarning> { earning };
-                    earnings.AddPriceEpisodeIdentifiers();
-                    
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -776,8 +746,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[0].Period = 1;
                     earnings[1].Period = 2;
                     earnings[2].Period = 3;
-                    earnings.AddPriceEpisodeIdentifiers();
-
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -795,11 +763,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[0].Period = 1;
                     earnings[1].Period = 2;
                     earnings[2].Period = 3;
-                    earnings[0].EpisodeStartDate = RandomStartDateWithin1819AcademicYear(earnings[0].EpisodeStartDate ?? new DateTime(2018, 8, 1));
-                    earnings[1].EpisodeStartDate = RandomStartDateWithin1819AcademicYear(earnings[0].EpisodeStartDate ?? new DateTime(2018, 8, 1));
-                    earnings[2].EpisodeStartDate = RandomStartDateWithin1819AcademicYear(earnings[0].EpisodeStartDate ?? new DateTime(2018, 8, 1));
-                    earnings.AddPriceEpisodeIdentifiers();
-
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -817,7 +780,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     earnings[0].Period = 1;
                     earnings[1].Period = 2;
                     earnings[2].Period = 3;
-                    earnings.AddPriceEpisodeIdentifiers();
                     var accounts = CreateNonPayableAccountsList();
                     var providerCommitments = new ProviderCommitments(new List<CommitmentEntity>());
 
@@ -1095,8 +1057,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var commitment2 = commitment.Clone();
                         var commitments = new List<CommitmentEntity> {commitment, commitment2};
 
-                        var startDate = RandomStartDateWithin1819AcademicYear(commitment.StartDate);
-                        var startDate1 = startDate.FirstDayOfAcademicYear();
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
 
                         SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
                         SetupEarningForCommitment(commitment2, earnings.Skip(3), startDate1.AddMonths(3).AddDays(1));
@@ -1151,8 +1112,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                         var commitments = new List<CommitmentEntity> { commitment, commitment2 };
 
-                        var startDate = RandomStartDateWithin1819AcademicYear(commitment.StartDate);
-                        var startDate1 = startDate.FirstDayOfAcademicYear();
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
                         var startDate2 = startDate1.AddMonths(3).AddDays(1);
 
                         SetupEarningForCommitment(commitment, earnings.Take(3), startDate1);
@@ -1201,8 +1161,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         var commitment3 = commitment2.Clone();
                         var commitments = new List<CommitmentEntity> { commitment, commitment2, commitment3 };
 
-                        var startDate = RandomStartDateWithin1819AcademicYear(commitment.StartDate);
-                        var startDate1 = startDate.FirstDayOfAcademicYear();
+                        var startDate1 = commitment.StartDate.FirstDayOfAcademicYear();
                         var startDate2 = startDate1.AddMonths(2).AddDays(1);
 
                         SetupEarningForCommitment(commitment, earnings.Take(2), startDate1);
@@ -1248,64 +1207,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         actual.PriceEpisodePeriodMatches.Where(x => x.Payable).Should().HaveCount(6);
                     }
                 }
-            }
-        }
-
-        [TestFixture]
-        public class WithPriceEpisodesFromFutureAcademicYears : WhenCallingValidateDatalocksForProvider
-        {
-            [Test, AutoMoqData]
-            public void ThenValidationErrorsOnlyHasCurrectAcademicYear(
-                List<RawEarning> earnings,
-                CommitmentEntity commitment
-            )
-            {
-                earnings[0].Period = 1;
-                earnings[1].Period = 2;
-                earnings[2].Period = 3;
-                AssociateEarningsWithCommitment(earnings, commitment);
-                var accounts = CreateNonPayableAccountsList();
-                var commitments = new List<CommitmentEntity> { commitment };
-                var providerCommitments = new ProviderCommitments(commitments);
-
-                var originalPriceEpisode = new PriceEpisode(earnings[2].PriceEpisodeIdentifier);
-
-                earnings[2].PriceEpisodeIdentifier = earnings[2].EpisodeStartDate?.AddYears(1).EpisodeIdentifier();
-                earnings[2].AgreedPrice += 10;
-                
-                var sut = new DatalockValidationService(MatcherFactory.CreateMatcher(), originalPriceEpisode.AcademicYear);
-                var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
-
-                actual.ValidationErrors.Should().BeEmpty();
-            }
-        }
-
-        [TestFixture]
-        public class WithPriceEpisodesFromPastAcademicYears : WhenCallingValidateDatalocksForProvider
-        {
-            [Test, AutoMoqData]
-            public void ThenValidationErrorsOnlyHasCurrectAcademicYear(
-                List<RawEarning> earnings,
-                CommitmentEntity commitment
-            )
-            {
-                earnings[0].Period = 1;
-                earnings[1].Period = 2;
-                earnings[2].Period = 3;
-                AssociateEarningsWithCommitment(earnings, commitment);
-                var accounts = CreateNonPayableAccountsList();
-                var commitments = new List<CommitmentEntity> { commitment };
-                var providerCommitments = new ProviderCommitments(commitments);
-
-                var originalPriceEpisode = new PriceEpisode(earnings[2].PriceEpisodeIdentifier);
-
-                earnings[2].PriceEpisodeIdentifier = earnings[2].EpisodeStartDate?.AddYears(-1).EpisodeIdentifier();
-                earnings[2].AgreedPrice += 10;
-
-                var sut = new DatalockValidationService(MatcherFactory.CreateMatcher(), originalPriceEpisode.AcademicYear);
-                var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
-
-                actual.ValidationErrors.Should().BeEmpty();
             }
         }
     }
