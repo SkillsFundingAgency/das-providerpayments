@@ -101,6 +101,10 @@
           <Source>WithdrawnOnDate</Source>
           <Destination>WithdrawnOnDate</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountLegalEntityPublicHashedId</Source>
+          <Destination>AccountLegalEntityPublicHashedId</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

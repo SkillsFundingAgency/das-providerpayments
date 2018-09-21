@@ -15,9 +15,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
         public void Arrange()
         {
             CommitmentDataHelper.Clean();
-
         }
-
 
         [TestCase(null, null, null, null, null)]
         [TestCase("2009-01-02",null, null, null, null)]
@@ -39,7 +37,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
             var result = _repository.CommitmentExistsAndDetailsAreIdentical(commitment);
 
             // Assert
-            Assert.IsNotNull(result);
             Assert.IsTrue(result);
         }
 
@@ -54,7 +51,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
             var result = _repository.CommitmentExistsAndDetailsAreIdentical(commitment);
 
             // Assert
-            Assert.IsNotNull(result);
             Assert.IsFalse(result);
         }
 
@@ -78,9 +74,10 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
                 PaymentStatusDescription = PaymentStatus.Withdrawn.ToString(),
                 VersionId = "1",
                 EffectiveFromDate = new DateTime(2019, 9, 1),
-                LegalEntityName = "Legal Entity"            };
+                LegalEntityName = "Legal Entity",
+                AccountLegalEntityPublicHashedId = "ABC123"
+            };
         }
-
 
         private void CreateCommitmentInDatabase(CommitmentEntity commitment)
         {
@@ -90,7 +87,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
                 commitment.Priority,
                 commitment.PaymentStatus, commitment.PaymentStatusDescription,
                 commitment.VersionId, commitment.EffectiveFromDate, commitment.EffectiveToDate, commitment.TransferSendingEmployerAccountId,
-                commitment.TransferApprovalDate, commitment.PausedOnDate, commitment.WithdrawnOnDate, commitment.LegalEntityName);
+                commitment.TransferApprovalDate, commitment.PausedOnDate, commitment.WithdrawnOnDate, commitment.LegalEntityName,
+                commitment.AccountLegalEntityPublicHashedId);
 
             _repository =
                 new Commitments.Infrastructure.Data.Dcfs.DcfsCommitmentRepository(GlobalTestContext.Instance

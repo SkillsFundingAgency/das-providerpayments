@@ -49,6 +49,7 @@ CREATE TABLE [dbo].[DasCommitments](
 	[TransferApprovalDate] datetime null,
 	[PausedOnDate] datetime null,
 	[WithdrawnOnDate] datetime null,
+	[AccountLegalEntityPublicHashedId] char(6) null,
 	PRIMARY KEY CLUSTERED 
 	(
 		[CommitmentId] ASC,
@@ -121,5 +122,6 @@ CREATE TABLE [dbo].[DasCommitmentsHistory](
 	[TransferSendingEmployerAccountId] bigint null,
 	[TransferApprovalDate] datetime null,
 	[PausedOnDate] datetime null,
-	[WithdrawnOnDate] datetime null
+	[WithdrawnOnDate] datetime null,
+	[AccountLegalEntityPublicHashedId] char(6) null
 )
