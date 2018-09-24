@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
-using FluentAssertions.Common;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
