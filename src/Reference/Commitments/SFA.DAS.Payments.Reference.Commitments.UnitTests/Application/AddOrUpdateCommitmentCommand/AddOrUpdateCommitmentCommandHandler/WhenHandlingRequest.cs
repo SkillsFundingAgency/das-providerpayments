@@ -36,7 +36,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
                 PausedOnDate = DateTime.Today.AddDays(-11),
                 WithdrawnOnDate = DateTime.Today.AddDays(-1),
                 LegalEntityName = "ACME Ltd.",
-                PriceEpisodes = new List<PriceEpisode>() {
+                AccountLegalEntityPublicHashedId = "A1B1C1",
+                PriceEpisodes = new List<PriceEpisode> {
                     new PriceEpisode {
                         AgreedPrice=12345,
                         EffectiveFromDate= new DateTime(2017, 4, 1)
@@ -114,9 +115,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
             // Assert
 
             _commitmentRepository.Verify(r => r.Insert(It.Is<CommitmentEntity>(e => DidEntityGetMappedCorrectlyFromRequest(e, newRequest))), Times.Exactly(2));
-            
-
-
         }
 
         [Test]
@@ -180,8 +178,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
 
         private bool DidEntityGetMappedCorrectlyFromRequest(CommitmentEntity commitmentEntity, AddOrUpdateCommitmentCommandRequest request)
         {
-            var result = false;
-            result = commitmentEntity.CommitmentId == request.CommitmentId
+            var result = commitmentEntity.CommitmentId == request.CommitmentId
                      && commitmentEntity.Uln == request.Uln
                      && commitmentEntity.Ukprn == request.Ukprn
                      && commitmentEntity.AccountId == request.AccountId
@@ -199,11 +196,11 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.Application.AddOrUpda
                      && commitmentEntity.PaymentStatusDescription == request.PaymentStatus.ToString()
                      && commitmentEntity.LegalEntityName == request.LegalEntityName
                      && commitmentEntity.TransferSendingEmployerAccountId == request.TransferSendingEmployerAccountId
-                     && commitmentEntity.TransferApprovalDate == request.TransferApprovalDate;
+                     && commitmentEntity.TransferApprovalDate == request.TransferApprovalDate
+                     && commitmentEntity.AccountLegalEntityPublicHashedId == request.AccountLegalEntityPublicHashedId;
 
             if (result)
             {
-                List<PriceEpisode> priceEpisodes = request.PriceEpisodes;
                 result = request.PriceEpisodes.Any(x => x.AgreedPrice == commitmentEntity.AgreedCost) &&
                           request.PriceEpisodes.Any(x => x.EffectiveFromDate == commitmentEntity.EffectiveFromDate) &&
                           request.PriceEpisodes.Any(x => x.EffectiveToDate == commitmentEntity.EffectiveToDate);

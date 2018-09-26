@@ -381,7 +381,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{09FC1E26-2B0F-409E-A00C-1B4CA71F9EA9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commitements", "Commitements", "{05FDF2FF-44D2-459B-ACFF-F5B411164BD1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commitments", "Commitments", "{05FDF2FF-44D2-459B-ACFF-F5B411164BD1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Copy Mappings", "Copy Mappings", "{8641ACF9-FFD1-4399-A79B-1815BF23A84C}"
 	ProjectSection(SolutionItems) = preProject
@@ -430,6 +430,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migrat
 		Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0012_AlterTable_AECEarningHistory.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0013_ddl.deds.dbo.commitments.add_transferfields.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0014_ddl.deds.dbo.commitments.add_stop_pause_fields.sql
+		Reference\Commitments\Deploy\sql\MigrationScripts\0015_ddl.deds.dbo.commitments.add_AccountLegalEntityPublicHashedId_field.sql = Reference\Commitments\Deploy\sql\MigrationScripts\0015_ddl.deds.dbo.commitments.add_AccountLegalEntityPublicHashedId_field.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql = Reference\Commitments\Deploy\sql\MigrationScripts\001_ddl.deds.commitments.tables.change_versionId.sql
 		Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql = Reference\Commitments\Deploy\sql\MigrationScripts\002_ddl.deds.commitments.tables.add_indexes.sql
 	EndProjectSection

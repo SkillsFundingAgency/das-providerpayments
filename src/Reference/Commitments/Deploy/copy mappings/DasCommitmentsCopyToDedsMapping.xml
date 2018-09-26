@@ -101,6 +101,10 @@
           <Source>WithdrawnOnDate</Source>
           <Destination>WithdrawnOnDate</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountLegalEntityPublicHashedId</Source>
+          <Destination>AccountLegalEntityPublicHashedId</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>
@@ -199,6 +203,10 @@
         <ColumnMapping>
           <Source>WithdrawnOnDate</Source>
           <Destination>WithdrawnOnDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>AccountLegalEntityPublicHashedId</Source>
+          <Destination>AccountLegalEntityPublicHashedId</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
