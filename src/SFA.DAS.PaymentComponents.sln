@@ -647,6 +647,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DML", "DML", "{8FCA0DC9-AF6
 		Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql = Shared\SQL\DML\04 PeriodEnd.Populate.Reference.Accounts.dml.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{712328FE-8022-4617-A9D6-B3C35CB1201B}"
+	ProjectSection(SolutionItems) = preProject
+		PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\MigrationScripts\1_PeriodEnd.Deds.ProviderAdjustments.ChangePrimaryKey.sql = PeriodEnd\ProviderAdjustments\DeployProviderAdjustments\sql\MigrationScripts\1_PeriodEnd.Deds.ProviderAdjustments.ChangePrimaryKey.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1005,6 +1010,7 @@ Global
 		{0F5431BD-6504-4066-A3B6-DB6CFF7D303F} = {0E02732D-353C-4E25-B16C-8CFE6433513C}
 		{CC905139-8609-4F48-9077-29751C9791FC} = {0F5431BD-6504-4066-A3B6-DB6CFF7D303F}
 		{8FCA0DC9-AF6C-4699-AA15-D437393153F3} = {0F5431BD-6504-4066-A3B6-DB6CFF7D303F}
+		{712328FE-8022-4617-A9D6-B3C35CB1201B} = {91439C4C-CC2D-4F10-9D51-595F4FF288D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}
