@@ -146,6 +146,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     result.Add(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
                         matchResult.Commitments.First());
                 }
+                else
+                {
+                    result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
+                }
             }
             else
             {

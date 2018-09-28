@@ -12,6 +12,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Services;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -66,7 +67,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
                 earning.EndDate = null;
 
-                commitment.EndDate = commitment.StartDate.AddYears(2);
+                commitment.EndDate = commitment.StartDate.AddYears(2).LastDayOfMonth();
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
                 commitment.PaymentStatus = (int)PaymentStatus.Active;
