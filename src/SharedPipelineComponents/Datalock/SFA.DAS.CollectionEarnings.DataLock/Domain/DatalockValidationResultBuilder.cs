@@ -7,7 +7,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 {
-    public class DatalockValidationResult
+    public class DatalockValidationResultBuilder
     {
         public List<DatalockValidationError> ValidationErrors { get; } = new List<DatalockValidationError>();
         public List<DatalockValidationErrorByPeriod> ValidationErrorsByPeriod { get; } = new List<DatalockValidationErrorByPeriod>();
@@ -15,21 +15,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
 
-        public DatalockValidationResult(List<DatalockValidationError> validationErrors,
-            List<DatalockValidationErrorByPeriod> validationErrorsByPeriod,
-            List<PriceEpisodePeriodMatchEntity> priceEpisodePeriodMatches,
-            List<PriceEpisodeMatchEntity> priceEpisodeMatches,
-            List<DatalockOutputEntity> datalockOutputEntities
-            )
-        {
-            ValidationErrors = validationErrors ?? ValidationErrors;
-            ValidationErrorsByPeriod = validationErrorsByPeriod ?? ValidationErrorsByPeriod;
-            PriceEpisodePeriodMatches = priceEpisodePeriodMatches ?? PriceEpisodePeriodMatches;
-            PriceEpisodeMatches = priceEpisodeMatches ?? PriceEpisodeMatches;
-            DatalockOutputEntities = datalockOutputEntities ?? DatalockOutputEntities;
-        }
-
-        public void Add(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
+        public DatalockValidationResultBuilder Add(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
         {
             var payable = false;
             if (errors.Any())
@@ -70,7 +56,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
             if (commitment == null)
             {
-                return;
+                return this;
             }
 
             PriceEpisodePeriodMatches.Add(new PriceEpisodePeriodMatchEntity
@@ -112,6 +98,17 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                     AimSeqNumber = earning.AimSeqNumber,
                 });
             }
+
+            return this;
+        }
+
+        public DatalockValidationResult Build()
+        {
+            return new DatalockValidationResult(ValidationErrors, 
+                ValidationErrorsByPeriod, 
+                PriceEpisodePeriodMatches, 
+                PriceEpisodeMatches, 
+                DatalockOutputEntities);
         }
     }
 }
