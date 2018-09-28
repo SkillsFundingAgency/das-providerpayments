@@ -3,6 +3,7 @@ using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
@@ -104,11 +105,41 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
         public DatalockValidationResult Build()
         {
+            RemoveErrorsInAdditionToDLOCK_09();
+
+            RemoveDuplicateMatches();
+
             return new DatalockValidationResult(ValidationErrors, 
                 ValidationErrorsByPeriod, 
                 PriceEpisodePeriodMatches, 
                 PriceEpisodeMatches, 
                 DatalockOutputEntities);
+        }
+
+        private void RemoveDuplicateMatches()
+        {
+            var groupedMatches = PriceEpisodeMatches.GroupBy(x => x.PriceEpisodeIdentifier);
+            foreach (var groupedMatch in groupedMatches)
+            {
+                if (groupedMatch.Any(x => x.IsSuccess))
+                {
+                    PriceEpisodeMatches.RemoveAll(x => x.PriceEpisodeIdentifier == groupedMatch.Key &&
+                                                       !x.IsSuccess);
+                }
+            }
+        }
+
+        private void RemoveErrorsInAdditionToDLOCK_09()
+        {
+            var groupedErrors = ValidationErrors.GroupBy(x => x.PriceEpisodeIdentifier);
+            foreach (var groupedError in groupedErrors)
+            {
+                if (groupedError.Any(x => x.RuleId == DataLockErrorCodes.EarlierStartDate))
+                {
+                    ValidationErrors.RemoveAll(x => x.PriceEpisodeIdentifier == groupedError.Key &&
+                                                    x.RuleId != DataLockErrorCodes.EarlierStartDate);
+                }
+            }
         }
     }
 }
