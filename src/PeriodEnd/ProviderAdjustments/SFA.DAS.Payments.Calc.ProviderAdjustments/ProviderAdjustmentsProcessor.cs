@@ -62,7 +62,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments
             {
                 payment.CollectionPeriodMonth = collectionPeriod.Month;
                 payment.CollectionPeriodYear = collectionPeriod.Year;
-                payment.CollectionPeriodName = collectionPeriod.Name;
+                payment.CollectionPeriodName = $"{_yearOfCollection}-{collectionPeriod.Name}";
                 payment.SubmissionAcademicYear = _yearOfCollection;
             }
         }
