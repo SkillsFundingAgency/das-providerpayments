@@ -82,6 +82,16 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     SecondIncentiveCensusDate = row.CastFieldAs<DateTime?>("2nd Incentive Date"),
                     FirstIncentiveCensusDate = row.CastFieldAs<DateTime?>("1st Incentive Date"),
                 };
+                if ((earning.TransactionType04 != 0 || earning.TransactionType05 != 0) &&
+                    earning.FirstIncentiveCensusDate == null)
+                {
+                    throw new Exception("Please include a column: '1st Incentive Date' to use transaction types 4 or 5");
+                }
+                if ((earning.TransactionType06 != 0 || earning.TransactionType07 != 0) &&
+                    earning.SecondIncentiveCensusDate == null)
+                {
+                    throw new Exception("Please include a column: '2nd Incentive Date' to use transaction types 6 or 7");
+                }
                 retVal.Add(earning);
             }
 

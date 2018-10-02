@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
+using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
@@ -74,7 +76,5 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         {
             Assert.AreEqual(numberOfErorrs, _resultsContext.DatalockValidationResult.ValidationErrorsByPeriod.Count);
         }
-
-
     }
 }
