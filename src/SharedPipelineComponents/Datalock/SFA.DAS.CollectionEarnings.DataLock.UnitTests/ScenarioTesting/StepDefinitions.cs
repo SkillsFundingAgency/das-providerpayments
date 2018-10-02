@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using TechTalk.SpecFlow;
 
@@ -71,7 +73,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         [Then(@"I get (.*) validation errors in the DataLockValidationResult")]
         public void ThenIGetValidationErrorsInTheDataLockValidationResult(int numberOfErorrs)
         {
-            Assert.AreEqual(numberOfErorrs, _resultsContext.DatalockValidationResult.ValidationErrorsByPeriod.Count);
+            Assert.AreEqual(numberOfErorrs, _resultsContext.DatalockValidationResult.ValidationErrors.Count);
+        }
+
+        [Then(@"The DatalockValidatioResult contains (.*)")]
+        public void TheValidationErrorsContain(string validationError)
+        {
+            _resultsContext.DatalockValidationResult.ValidationErrors.Should()
+                .Contain(x => x.RuleId == validationError);
         }
     }
 }

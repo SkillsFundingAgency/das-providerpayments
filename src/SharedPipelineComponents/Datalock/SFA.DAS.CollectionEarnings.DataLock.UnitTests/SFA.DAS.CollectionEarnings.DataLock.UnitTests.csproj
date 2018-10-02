@@ -130,6 +130,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>commitments_overlapping_month_end.feature</DependentUpon>
     </Compile>
+    <Compile Include="Tests\ScenarioTests\datalock.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>datalock.feature</DependentUpon>
+    </Compile>
     <Compile Include="Tests\ServiceTests\GivenADatalockValidationService\WhenCallingValidateDatalocksForProvider.cs" />
     <Compile Include="Utilities\Application\DasAccountBuilder.cs" />
     <Compile Include="Utilities\Application\CommitmentBuilder.cs" />
@@ -151,6 +156,10 @@
     <None Include="Tests\ScenarioTests\commitments_overlapping_month_end.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>commitments_overlapping_month_end.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Tests\ScenarioTests\datalock.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>datalock.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
