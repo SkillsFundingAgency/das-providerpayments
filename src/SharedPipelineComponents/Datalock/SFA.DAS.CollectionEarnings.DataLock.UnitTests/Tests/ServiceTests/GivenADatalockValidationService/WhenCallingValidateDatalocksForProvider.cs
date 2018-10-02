@@ -461,6 +461,37 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
             }
 
             [TestFixture]
+            public class WithMultipleErrors
+            {
+                [TestFixture]
+                public class IncludingADLOCK_09
+                {
+                    [Test, AutoMoqData]
+                    public void OnlyDLOCK_09Returned(
+                        RawEarning earning,
+                        CommitmentEntity commitment1
+                    )
+                    {
+                        var earnings = new List<RawEarning> { earning };
+                        AssociateEarningsWithCommitment(earnings, commitment1);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment1 };
+                        earning.Period = 1;
+                        commitment1.StartDate = commitment1.StartDate.AddMonths(2);
+                        commitment1.AgreedCost += 1;
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.EarlierStartDate);
+                        actual.ValidationErrors.Should().HaveCount(1);
+                    }
+                }
+            }
+
+            [TestFixture]
             public class WithAWithdrawnCommitment
             {
                 [TestFixture]

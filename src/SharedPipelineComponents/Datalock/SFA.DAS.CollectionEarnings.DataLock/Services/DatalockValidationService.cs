@@ -36,7 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             var earnings = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
             
-            var result = new DatalockValidationResultBuilder();
+            var resultBuilder = new DatalockValidationResultBuilder();
 
             var learners = earnings.AllUlns();
 
@@ -52,30 +52,31 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     if (earning.HasNonIncentiveEarnings())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning, 
-                            learnerCommitments, result, TransactionTypesFlag.AllLearning);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.AllLearning);
                     }
 
                     if (earning.HasCompletionPayment())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.Completion);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.Completion);
                     }
 
                     if (earning.HasFirstIncentive())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.FirstEmployerProviderIncentives);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.FirstEmployerProviderIncentives);
                     }
 
                     if (earning.HasSecondIncentive())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.SecondEmployerProviderIncentives);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.SecondEmployerProviderIncentives);
                     }
                 }
             }
 
-            return result.Build();
+            var result = resultBuilder.Build();
+            return result;
         }
 
         private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,

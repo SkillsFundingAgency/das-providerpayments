@@ -34,7 +34,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     WithdrawnOnDate = row.CastFieldAs<DateTime?>("WithdrawnOnDate"),
                     TransferSendingEmployerAccountId = row.CastFieldAs<long?>("TransferSendingEmployerAccountId"),
                     TransferApprovalDate = row.CastFieldAs<DateTime?>("TransferApprovalDate"),
-                    Uln = row.CastFieldAs<long>("Uln", 100)
+                    Uln = row.CastFieldAs<long>("Uln", 100),
                 };
                 retVal.Add(commitment);
             }
@@ -77,13 +77,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     TransactionType12 = row.CastFieldAs<decimal>("TT12"),
                     TransactionType15 = row.CastFieldAs<decimal>("TT15"),
                     ApprenticeshipContractType = row.CastFieldAs<int>("ApprenticeshipContractType", 1),
-                    Uln = row.CastFieldAs("Uln", 100)
+                    Uln = row.CastFieldAs<long>("Uln", 100),
+                    EndDate = row.CastFieldAs<DateTime?>("End Date"),
+                    SecondIncentiveCensusDate = row.CastFieldAs<DateTime?>("2nd Incentive Date"),
+                    FirstIncentiveCensusDate = row.CastFieldAs<DateTime?>("1st Incentive Date"),
                 };
                 retVal.Add(earning);
             }
 
             return retVal;
         }
-
     }
 }
