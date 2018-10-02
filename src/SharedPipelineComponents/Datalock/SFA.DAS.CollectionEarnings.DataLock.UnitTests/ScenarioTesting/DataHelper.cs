@@ -36,6 +36,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     TransferApprovalDate = row.CastFieldAs<DateTime?>("TransferApprovalDate"),
                     Uln = row.CastFieldAs<long>("Uln", 100),
                 };
+                if (commitment.PaymentStatus == 3 && commitment.WithdrawnOnDate == null)
+                {
+                    throw new Exception("Please include a column 'WithdrawnOnDate' for stopped commitments");
+                }
                 retVal.Add(commitment);
             }
 
