@@ -9,7 +9,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
 {
     public static class DataHelper
     {
-
         public static List<CommitmentEntity> CreateCommitmentEntities(Table table)
         {
             var retVal = new List<CommitmentEntity>();
