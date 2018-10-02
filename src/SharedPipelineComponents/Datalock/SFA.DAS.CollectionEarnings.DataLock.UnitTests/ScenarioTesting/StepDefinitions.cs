@@ -13,17 +13,25 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
 {
     public class EarningsContext
     {
-        public List<RawEarning> RawEarnings = new List<RawEarning>();
+        public EarningsContext()
+        {
+            RawEarnings = new List<RawEarning>();
+        }
+        public List<RawEarning> RawEarnings { get; }
     }
 
     public class CommitmentsContext
     {
-        public List<CommitmentEntity> CommitmentEntities = new List<CommitmentEntity>();
+        public CommitmentsContext()
+        {
+            CommitmentEntities = new List<CommitmentEntity>();
+        }
+        public List<CommitmentEntity> CommitmentEntities { get; }
     }
 
     public class ResultsContext
     {
-        public DatalockValidationResult DatalockValidationResult;
+        public DatalockValidationResult DatalockValidationResult { get; set; }
     }
 
     [Binding]
