@@ -64,6 +64,9 @@
     <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -91,6 +94,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SpecFlow.2.2.1\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\DataLock\Matcher\FrameworkMatchHandler\Match\WhenCalled.cs" />
@@ -111,11 +117,19 @@
     <Compile Include="DataLockTask\WhenExecutingWithValidContext.cs" />
     <Compile Include="Logging\LoggingConfigurationTests\WhenConfiguringLogging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenarioTesting\DataHelper.cs" />
+    <Compile Include="ScenarioTesting\StepDefinitions.cs" />
+    <Compile Include="ScenarioTesting\TableRowExtensionMethods.cs" />
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingNonActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingAllUlns.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingEarningsForLearner.cs" />
+    <Compile Include="Tests\ScenarioTests\commitments_overlapping_month_end.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>commitments_overlapping_month_end.feature</DependentUpon>
+    </Compile>
     <Compile Include="Tests\ServiceTests\GivenADatalockValidationService\WhenCallingValidateDatalocksForProvider.cs" />
     <Compile Include="Utilities\Application\DasAccountBuilder.cs" />
     <Compile Include="Utilities\Application\CommitmentBuilder.cs" />
@@ -134,6 +148,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Tests\ScenarioTests\commitments_overlapping_month_end.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>commitments_overlapping_month_end.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -150,6 +168,10 @@
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
+      <Project>{c43b8b7e-fef3-4c37-8eeb-5175b2cbeb79}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
