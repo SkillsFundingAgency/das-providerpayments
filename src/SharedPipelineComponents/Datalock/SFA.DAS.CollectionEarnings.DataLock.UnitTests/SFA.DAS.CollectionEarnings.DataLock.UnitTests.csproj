@@ -192,7 +192,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <PropertyGroup>
+    </PropertyGroup>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\SpecFlow.2.2.0\tools\TechTalk.SpecFlow.tasks"  Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.0\tools\TechTalk.SpecFlow.tasks')" />
+  <Import Project="..\..\..\..\packages\SpecFlow.2.2.0\tools\TechTalk.SpecFlow.targets" Condition="Exists('..\..\..\..\packages\SpecFlow.2.2.0\tools\TechTalk.SpecFlow.targets')" />
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -200,4 +207,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterUpdateFeatureFilesInProject">
+    <!-- include any files that specflow generated into the compilation of the project -->
+    <ItemGroup>
+        <Compile Include="**\*.feature.cs" />
+    </ItemGroup>
+</Target>
 </Project>
