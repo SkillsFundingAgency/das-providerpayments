@@ -267,22 +267,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                 }
 
                 [Test, AutoMoqData]
-                public void AndADateBeforeTheOverlapPeriodButAfterTheStartDate(
-                    CommitmentEntity commitment1,
-                    CommitmentEntity commitment2,
-                    long uln
-                )
-                {
-                    var commitments = SetupCommitments(commitment1, commitment2);
-
-                    var sut = new LearnerCommitments(commitments);
-
-                    var actual = sut.NonActiveCommitmentsForDate(new DateTime(2018, 09, 15));
-                    actual.Should().AllBeEquivalentTo(commitment1);
-                    actual.Should().HaveCount(1);
-                }
-
-                [Test, AutoMoqData]
                 public void AndADateBeforeTheStartDate(
                     CommitmentEntity commitment1,
                     CommitmentEntity commitment2,

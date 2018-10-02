@@ -254,7 +254,7 @@ Scenario: 1649 a Employer Stops After Balancing Payment
 		| Provider disadvantage uplift | 0     | ... | 0     | 0     |
 
 
-Scenario: 1649 b Employer Stops On Balancing Payment
+Scenario: 1649 b Employer Stops On Date Of Balancing Payment
 # Employer stops commitment on the day that the course is completed. Expecting completion payment to be paid
 
 	Given levy balance > agreed price for all months
@@ -290,7 +290,7 @@ Scenario: 1649 b Employer Stops On Balancing Payment
         | Framework uplift balancing   | 0     | ... | 0     | 0     |
         | Provider disadvantage uplift | 0     | ... | 0     | 0     |
 
-Scenario: 1649 c Employer Stops Before Balancing Payment
+Scenario: 1649 c Employer Stops Before Date Of Balancing Payment
 # Employer stops commitment before the day that the course is completed, but in the same month. Expect completion to not be paid
 
     Given levy balance > agreed price for all months

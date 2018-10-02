@@ -12,6 +12,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Services;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -66,7 +67,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 earning.PriceEpisodeIdentifier = earning.EpisodeStartDate.Value.EpisodeIdentifier();
                 earning.EndDate = null;
 
-                commitment.EndDate = commitment.StartDate.AddYears(2);
+                commitment.EndDate = commitment.StartDate.AddYears(2).LastDayOfMonth();
                 commitment.WithdrawnOnDate = null;
                 commitment.PausedOnDate = null;
                 commitment.PaymentStatus = (int)PaymentStatus.Active;
@@ -456,6 +457,37 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
                     actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.EarlierStartDate);
+                }
+            }
+
+            [TestFixture]
+            public class WithMultipleErrors
+            {
+                [TestFixture]
+                public class IncludingADLOCK_09
+                {
+                    [Test, AutoMoqData]
+                    public void OnlyDLOCK_09Returned(
+                        RawEarning earning,
+                        CommitmentEntity commitment1
+                    )
+                    {
+                        var earnings = new List<RawEarning> { earning };
+                        AssociateEarningsWithCommitment(earnings, commitment1);
+                        var accounts = CreateNonPayableAccountsList();
+                        var commitments = new List<CommitmentEntity> { commitment1 };
+                        earning.Period = 1;
+                        commitment1.StartDate = commitment1.StartDate.AddMonths(2);
+                        commitment1.AgreedCost += 1;
+                        var providerCommitments = new ProviderCommitments(commitments);
+
+                        var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                        var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                        actual.ValidationErrors.Should().Contain(x => x.RuleId == DataLockErrorCodes.EarlierStartDate);
+                        actual.ValidationErrors.Should().HaveCount(1);
+                    }
                 }
             }
 

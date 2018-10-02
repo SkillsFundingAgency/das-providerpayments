@@ -36,7 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             var earnings = new ProviderEarnings(providerEarnings);
             var processedLearners = new HashSet<long>();
             
-            var result = new DatalockValidationResult();
+            var resultBuilder = new DatalockValidationResultBuilder();
 
             var learners = earnings.AllUlns();
 
@@ -52,34 +52,35 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     if (earning.HasNonIncentiveEarnings())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning, 
-                            learnerCommitments, result, TransactionTypesFlag.AllLearning);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.AllLearning);
                     }
 
                     if (earning.HasCompletionPayment())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.Completion);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.Completion);
                     }
 
                     if (earning.HasFirstIncentive())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.FirstEmployerProviderIncentives);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.FirstEmployerProviderIncentives);
                     }
 
                     if (earning.HasSecondIncentive())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.SecondEmployerProviderIncentives);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.SecondEmployerProviderIncentives);
                     }
                 }
             }
 
+            var result = resultBuilder.Build();
             return result;
         }
 
         private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,
-            LearnerCommitments learnerCommitments, DatalockValidationResult result, TransactionTypesFlag earningType)
+            LearnerCommitments learnerCommitments, DatalockValidationResultBuilder result, TransactionTypesFlag earningType)
         {
             var censusDate = CalculateCensusDate(earning, earningType);
             var commitments = learnerCommitments.ActiveCommitmentsForDate(censusDate).ToList();
@@ -111,7 +112,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         }
 
         public void ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
-            List<Commitment> commitments, DatalockValidationResult result, ImmutableHashSet<long> accountsWithNonPayableFlagSet,
+            List<Commitment> commitments, DatalockValidationResultBuilder result, ImmutableHashSet<long> accountsWithNonPayableFlagSet,
             List<Commitment> allCommitments, DateTime censusDate)
         {
             if (commitments.Any(x => accountsWithNonPayableFlagSet.Contains(x.AccountId)))
@@ -132,7 +133,11 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             result.Add(earning, errors, paymentType, commitments.First());
         }
 
-        private void CheckForEarlierStartDate(RawEarning earning, List<Commitment> commitments, DateTime censusDate, TransactionTypesFlag paymentType, DatalockValidationResult result)
+        private void CheckForEarlierStartDate(RawEarning earning, 
+            List<Commitment> commitments, 
+            DateTime censusDate, 
+            TransactionTypesFlag paymentType,
+            DatalockValidationResultBuilder result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
             if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.ProviderUkprn == earning.Ukprn))
@@ -141,6 +146,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 {
                     result.Add(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
                         matchResult.Commitments.First());
+                }
+                else
+                {
+                    result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
                 }
             }
             else

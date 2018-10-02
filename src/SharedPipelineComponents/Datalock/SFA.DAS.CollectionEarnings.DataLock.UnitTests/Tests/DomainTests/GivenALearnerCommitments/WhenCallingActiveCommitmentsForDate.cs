@@ -273,7 +273,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     var sut = new LearnerCommitments(commitments);
 
                     var actual = sut.ActiveCommitmentsForDate(new DateTime(2018, 11, 15));
-                    actual.Should().HaveCount(2);
+                    actual.Should().HaveCount(1);
+                    actual.Should().AllBeEquivalentTo(commitment1);
                 }
 
                 [Test, AutoMoqData]
@@ -283,11 +284,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.DomainTests.GivenA
                     long uln
                 )
                 {
+                    // Commitments have start and stop dates of the first of the month
                     var commitments = SetupCommitments(commitment1, commitment2);
 
                     var sut = new LearnerCommitments(commitments);
 
-                    var actual = sut.ActiveCommitmentsForDate(new DateTime(2018, 09, 15));
+                    var actual = sut.ActiveCommitmentsForDate(new DateTime(2018, 10, 15));
                     actual.Should().AllBeEquivalentTo(commitment1);
                     actual.Should().HaveCount(1);
                 }
