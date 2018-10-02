@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using TechTalk.SpecFlow;
 
@@ -36,7 +37,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     TransferApprovalDate = row.CastFieldAs<DateTime?>("TransferApprovalDate"),
                     Uln = row.CastFieldAs<long>("Uln", 100),
                 };
-                if (commitment.PaymentStatus == 3 && commitment.WithdrawnOnDate == null)
+                if (commitment.PaymentStatus == (int)PaymentStatus.Cancelled &&
+                    commitment.WithdrawnOnDate == null)
                 {
                     throw new Exception("Please include a column 'WithdrawnOnDate' for stopped commitments");
                 }
