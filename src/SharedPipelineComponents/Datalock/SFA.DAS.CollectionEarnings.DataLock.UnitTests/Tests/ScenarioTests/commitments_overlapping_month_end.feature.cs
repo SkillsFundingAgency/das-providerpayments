@@ -31,7 +31,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ScenarioTests
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "commitments_overlapping_month_end", "\tTest what happens when we withdrawn from one course....", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "commitments_overlapping_month_end", "\tTest what happens when a learner withdrawns from one course in the middle of the" +
+                    " month and then starts a new course at the start of the same month.", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -68,7 +69,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ScenarioTests
         public virtual void DatalockDoesntOccurWhenOverlappingCommitments()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Datalock doesn\'t occur when overlapping commitments", ((string[])(null)));
-#line 4
+#line 5
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -94,52 +95,6 @@ this.ScenarioSetup(scenarioInfo);
                         "TT11",
                         "TT12",
                         "TT15"});
-            table1.AddRow(new string[] {
-                        "2-490-1-18/06/2018",
-                        "2018-06-18",
-                        "2018-06-18",
-                        "2450.00",
-                        "11",
-                        "2",
-                        "1",
-                        "0",
-                        "490",
-                        "115.29",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "23.52",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0"});
-            table1.AddRow(new string[] {
-                        "2-490-1-18/06/2018",
-                        "2018-06-18",
-                        "2018-06-18",
-                        "2450.00",
-                        "12",
-                        "2",
-                        "1",
-                        "0",
-                        "490",
-                        "115.29",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "23.52",
-                        "0",
-                        "0",
-                        "0",
-                        "0",
-                        "0"});
             table1.AddRow(new string[] {
                         "3-490-1-01/08/2017",
                         "2017-08-01",
@@ -393,7 +348,53 @@ this.ScenarioSetup(scenarioInfo);
                         "0",
                         "0",
                         "0"});
-#line 6
+            table1.AddRow(new string[] {
+                        "2-490-1-18/06/2018",
+                        "2018-06-18",
+                        "2018-06-18",
+                        "2450.00",
+                        "11",
+                        "2",
+                        "1",
+                        "0",
+                        "490",
+                        "115.29",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "23.52",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0"});
+            table1.AddRow(new string[] {
+                        "2-490-1-18/06/2018",
+                        "2018-06-18",
+                        "2018-06-18",
+                        "2450.00",
+                        "12",
+                        "2",
+                        "1",
+                        "0",
+                        "490",
+                        "115.29",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "23.52",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0"});
+#line 7
 testRunner.Given("I have the following on programme earnings", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -444,11 +445,11 @@ testRunner.Given("I have the following on programme earnings", ((string)(null)),
                         "2018-06-01",
                         "NULL",
                         "NULL"});
-#line 22
+#line 23
 testRunner.And("I have the following commitments", ((string)(null)), table2, "And ");
-#line 27
+#line 28
 testRunner.When("I call the service ValidataDatalockForProvider", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 29
+#line 30
 testRunner.Then("I get 3 validation errors in the DataLockValidationResult", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
