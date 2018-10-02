@@ -278,7 +278,6 @@ paket-files/
 
 
 /src/AcceptanceTesting/**/*.feature.cs
-/src/SharedPipelineComponents/**/*.feature.cs
 
 
 # Earnings calculation files that we change for AcceptanceTesting, but don't want to persist.
