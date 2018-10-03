@@ -35,7 +35,8 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
                 VersionId = "1-001",
                 EffectiveFromDate = new DateTime(2019, 9, 1),
                 TransferSendingEmployerAccountId = 123L,
-                TransferApprovalDate = DateTime.Today
+                TransferApprovalDate = DateTime.Today,
+                AccountLegalEntityPublicHashedId = "ABC123"
             };
 
             _repository = new Commitments.Infrastructure.Data.Dcfs.DcfsCommitmentRepository(GlobalTestContext.Instance.TransientConnectionString);
@@ -44,7 +45,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
         [Test]
         public void ThenItShouldCommitmentHistory()
         {
-       
             // Act
             _repository.InsertHistory(_commitment);
 
@@ -52,8 +52,6 @@ namespace SFA.DAS.Payments.Reference.Commitments.IntegrationTests.Infrastructure
 
             // Assert
             Assert.True(commitment > 0);
-
-
         }
     }
 }

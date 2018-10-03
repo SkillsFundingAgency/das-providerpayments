@@ -236,12 +236,41 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return result;
         }
 
-        private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
-            List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
+        private static bool IgnoreTransactionType(int datalockType, int transactionType)
         {
-            var result = new EarningValidationResult();
-            foreach (var rawEarning in rawEarnings)
+            if (datalockType == 1 && (transactionType == 2 ||
+                                      transactionType == 3 ||
+                                      transactionType == 4 ||
+                                      transactionType == 5 ||
+                                      transactionType == 6 ||
+                                      transactionType == 7
+                ))
             {
+                return true;
+            }
+
+            if (datalockType == 2 && (transactionType != 4 && transactionType != 5))
+
+            {
+                return true;
+            }
+
+            if (datalockType == 3 && (transactionType != 6 && transactionType != 7))
+            {
+                return true;
+            }
+
+            if (datalockType == 4 && (transactionType != 2 && transactionType != 3))
+            {
+                return true;
+            }
+        }
+
+        private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
+                    List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
+                {
+                    var result = new EarningValidationResult();
+                    foreach (var rawEarning in rawEarnings)
                 // Do we have a datalock??
                 var datalock = datalockOutput
                     .FirstOrDefault(x =>

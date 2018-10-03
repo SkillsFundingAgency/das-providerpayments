@@ -124,7 +124,8 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 WithdrawnOnDate = apprenticeshipEvent.StoppedOnDate,
                 LegalEntityName = apprenticeshipEvent.LegalEntityName,
                 TransferSendingEmployerAccountId = apprenticeshipEvent.TransferSenderId,
-                TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn
+                TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn,
+                AccountLegalEntityPublicHashedId = apprenticeshipEvent.AccountLegalEntityPublicHashedId
             };
             
             ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).
