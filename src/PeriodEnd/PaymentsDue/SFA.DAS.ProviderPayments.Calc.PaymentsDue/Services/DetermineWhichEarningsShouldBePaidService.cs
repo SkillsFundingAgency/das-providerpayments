@@ -43,7 +43,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
             CompletionPaymentEvidence completionPaymentEvidence)
         {
-            var academicYearDetail =  GetFirstDayOfAcademicYears();
+            var academicYearDetail = GetFirstDayOfAcademicYears();
 
             var rawEarnings = GetEarningsForCurrentAcademicYear(earnings, academicYearDetail);
             var datalockOutput = GetSuccessfulDatalocksForCurrentAcademicYear(successfulDatalocks, academicYearDetail);
@@ -167,7 +167,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         {
                             // We have 1 datalock and a commitment
                             result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
-                                periodEarningsForPriceEpisode, 
+                                periodEarningsForPriceEpisode,
                                 datalocksForFlag.Single(),
                                 completionPaymentEvidence,
                                 censusType);
@@ -223,11 +223,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
                     result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
-                        new List<RawEarning> {mathsOrEnglishEarning}, matchingOnProg);
+                        new List<RawEarning> { mathsOrEnglishEarning }, matchingOnProg);
                 }
                 else
                 {
-                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> {mathsOrEnglishEarning},
+                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> { mathsOrEnglishEarning },
                         "No matching payable earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
@@ -264,28 +264,33 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 return true;
             }
+
+            return false;
         }
 
         private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
                     List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput)
-                {
-                    var result = new EarningValidationResult();
-                    foreach (var rawEarning in rawEarnings)
+        {
+            var result = new EarningValidationResult();
+            foreach (var rawEarning in rawEarnings)
+            {
                 // Do we have a datalock??
                 var datalock = datalockOutput
-                    .FirstOrDefault(x =>
-                        x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier);
+                    .FirstOrDefault(x => x.PriceEpisodeIdentifier == rawEarning.PriceEpisodeIdentifier);
                 if (datalock != null)
                 {
                     var matchingMathsAndEnglish = rawEarningsForMathsOrEnglish
                         .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
                         .ToList();
                     matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
-                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(matchingMathsAndEnglish, datalock);
+                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                        matchingMathsAndEnglish, datalock);
                 }
             }
+
             return result;
         }
+
 
         private EarningValidationResult CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings)
         {
@@ -298,12 +303,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 {
                     rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
                     result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
-                        new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish});
+                        new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish });
                 }
                 else
                 {
                     result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(
-                        new List<RawEarningForMathsOrEnglish> {rawEarningForMathsOrEnglish},
+                        new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish },
                         "No on-prog earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
