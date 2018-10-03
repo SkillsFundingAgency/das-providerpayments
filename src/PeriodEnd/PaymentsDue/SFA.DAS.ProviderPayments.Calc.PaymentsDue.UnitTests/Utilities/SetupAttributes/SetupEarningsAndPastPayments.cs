@@ -50,6 +50,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var accountId = fixture.Create<long>();
             var commitmentId = fixture.Create<long>();
+            var commitmentVersionId = fixture.Create<string>();
 
             var earnings = fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
@@ -82,6 +83,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var datalocks = fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.VersionId, commitmentVersionId)
                 .With(x => x.Payable, _datalockSuccess)
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                 .With(x => x.TransactionTypesFlag, 1)
@@ -90,6 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var commitments = fixture.Build<Commitment>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.CommitmentVersionId, commitmentVersionId)
                 .With(x => x.AccountId, accountId)
                 .CreateMany(1)
                 .ToList();

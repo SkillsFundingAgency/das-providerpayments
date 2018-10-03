@@ -11,23 +11,32 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     public class CompletionPaymentService : ICompletionPaymentService
     {
         public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
-            List<LearnerSummaryPaymentEntity> learnerHistoricalPayments, List<RawEarning> learnerRawEarnings)
+            List<LearnerSummaryPaymentEntity> learnerHistoricalPayments, 
+            List<RawEarning> learnerRawEarnings)
         {
             if (learnerHistoricalPayments == null) throw new ArgumentException(nameof(learnerHistoricalPayments));
             if (learnerRawEarnings == null) throw new ArgumentException(nameof(learnerRawEarnings));
 
-            var iLrCompletionPayments = learnerRawEarnings.Where(x=> x.PriceEpisodeCumulativePmrs != 0).GroupBy(x => new CompletionPaymentGroup(x.PriceEpisodeCumulativePmrs, x.PriceEpisodeCompExemCode)).ToList();
-            if (iLrCompletionPayments.Count > 1)
-                return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0);
+            var iLrCompletionPayments = learnerRawEarnings
+                .Where(x => x.PriceEpisodeCumulativePmrs != 0)
+                .GroupBy(x => new CompletionPaymentGroup(x.PriceEpisodeCumulativePmrs, x.PriceEpisodeCompExemCode))
+                .ToList();
 
-            decimal totalEmployerPayments = learnerHistoricalPayments.Where(x =>
+            if (iLrCompletionPayments.Count > 1)
+            {
+                return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0);
+            }
+
+            var totalEmployerPayments = learnerHistoricalPayments.Where(x =>
                     x.TransactionType == TransactionType.Learning)
                 .Sum(x => x.Amount);
 
             var completionPayment = iLrCompletionPayments.FirstOrDefault();
 
             if (completionPayment == null)
+            {
                 return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.Checkable, totalEmployerPayments);
+            }
 
             return new CompletionPaymentEvidence(completionPayment.Key.PriceEpisodeCumulativePmrs,
                 MapReasonToState(completionPayment.Key.PriceEpisodeCompExemCode), totalEmployerPayments);
@@ -49,7 +58,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     return CompletionPaymentEvidenceState.ErrorOnIlr;
             }
         }
-
     }
 }
 

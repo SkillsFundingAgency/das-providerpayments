@@ -46,7 +46,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             foreach (var learner in learners)
             {
-                learner.CompletionPaymentEvidence = _completionPaymentService.CreateCompletionPaymentEvidence(learner.HistoricalEmployerPayments, learner.RawEarnings);
+                learner.CompletionPaymentEvidence = _completionPaymentService
+                    .CreateCompletionPaymentEvidence(learner.HistoricalEmployerPayments, learner.RawEarnings);
             }
             return learners;
         }
@@ -140,6 +141,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             return instance;
         }
+
         internal static LearnerData GetLearnerProcessParametersInstanceForLearner(this SortLearnerResults sortLearnerResults, long uln)
         {
             var learnerRefNumber = sortLearnerResults.LookupLearnerRefNumber(uln);
@@ -159,6 +161,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 sortLearnerResults.UlnToLearnerRefNumber.Add(uln, learnerRefNumber);
             }
         }
+
         internal static string LookupLearnerRefNumber(this SortLearnerResults sortLearnerResults, long uln)
         {
             if (sortLearnerResults.UlnToLearnerRefNumber.ContainsKey(uln))
@@ -167,6 +170,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
             return null;
         }
-
     }
 }
