@@ -5,6 +5,6 @@
         CouldNotFindSuccessfulDatalock,
         MultipleMatchingSuccessfulDatalocks,
         CouldNotFindMatchingOnprog,
-        HeldBackCompletionPayment
+        HeldBackCompletionPayment,
     }
 }

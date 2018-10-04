@@ -514,7 +514,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
             var actFamCodes = BuildActFamCodes(learnerDetails.LearnerType, learnerDetails.StartDate, learningEndDate, contractTypes);
             var lsfFamCodes = BuildLsfFamCodes(learningSupportStatus);
-            var eefFamCodes = BuildEefFamCodes(learnerDetails);
+            var eefFamCodes = BuildEefAndLdmFamCodes(learnerDetails);
             var restartFamCode = BuildRestartIndicatorFamCode(learnerDetails);
 
             return actFamCodes.Concat(lsfFamCodes).Concat(eefFamCodes).Concat(restartFamCode).ToArray();
@@ -555,10 +555,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }).ToArray();
         }
 
-        private static LearningDeliveryFamRecord[] BuildEefFamCodes(IlrLearnerReferenceData learnerDetails)
+        private static LearningDeliveryFamRecord[] BuildEefAndLdmFamCodes(IlrLearnerReferenceData learnerDetails)
         {
             if (learnerDetails.LearnDelFam == null || 
-                !learnerDetails.LearnDelFam.ToUpper().StartsWith("EEF"))
+                !learnerDetails.LearnDelFam.ToUpper().StartsWith("EEF") && !learnerDetails.LearnDelFam.ToUpper().StartsWith("LDM"))
             {
                 return new LearningDeliveryFamRecord[0];
             }
@@ -567,10 +567,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 new LearningDeliveryFamRecord
                 {
-                    FamType = "EEF",
-                    Code = learnerDetails.LearnDelFam.Substring(3),
-                    //From = learnerDetails.StartDate,
-                    //To = learnerDetails.PlannedEndDate,
+                    FamType = learnerDetails.LearnDelFam.Substring(0,3),
+                    Code = learnerDetails.LearnDelFam.Substring(3)
                 }
             };
         }

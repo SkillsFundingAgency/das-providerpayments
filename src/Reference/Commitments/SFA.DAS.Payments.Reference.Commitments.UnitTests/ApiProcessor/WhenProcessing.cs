@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using NLog;
@@ -10,7 +12,6 @@ using SFA.DAS.Payments.Reference.Commitments.Application.AddOrUpdateCommitmentCo
 using SFA.DAS.Payments.Reference.Commitments.Application.GetLastSeenEventIdQuery;
 using SFA.DAS.Payments.Reference.Commitments.Application.GetNextBatchOfCommitmentEventsQuery;
 using SFA.DAS.Payments.Reference.Commitments.Application.SetLastSeenEventIdCommand;
-using System.Linq;
 
 namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
 {
@@ -20,7 +21,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
         private Mock<ILogger> _logger;
         private Commitments.ApiProcessor _processor;
         private ApprenticeshipEventView[] _apprenticeshipEventViews;
-        private long _lastIdToReturn = 0;
+        private long _lastIdToReturn;
 
         [SetUp]
         public void Arrange()
@@ -34,6 +35,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
 
             _processor = new Commitments.ApiProcessor(_mediator.Object, _logger.Object);
         }
+
         private void ArrangeGetLastSeenEventIdQuery()
         {
             var counter = 0;
@@ -47,6 +49,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     };
                 });
         }
+
         private void ArrangeGetNextBatchOfCommitmentEventsQuery()
         {
             _apprenticeshipEventViews = new[]
@@ -64,6 +67,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingId = "1000",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
                     PausedOnDate = DateTime.Today,
+                    AccountLegalEntityPublicHashedId = "A1B1C1",
                     PriceHistory =new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2017,10,10),
@@ -86,6 +90,7 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                     TrainingId = "2000-2001-2002",
                     PaymentStatus = Events.Api.Types.PaymentStatus.Active,
                     StoppedOnDate = DateTime.Today,
+                    AccountLegalEntityPublicHashedId = "A2B2C2",
                     PriceHistory = new List<PriceHistory> {
                         new PriceHistory {
                             EffectiveFrom=new DateTime(2019, 9, 1),
@@ -116,6 +121,64 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                 });
         }
 
+        [TestFixture]
+        public class AnEventWithAStandardCode : WhenProcessing
+        {
+            [Test]
+            public void ThenTheProgrammeTypeIsTwentyFive()
+            {
+                _mediator.SetupSequence(x => x.Send(It.IsAny<GetLastSeenEventIdQueryRequest>()))
+                    .Returns(new GetLastSeenEventIdQueryResponse { EventId = 0 });
+                _apprenticeshipEventViews = _apprenticeshipEventViews.Take(1).ToArray();
+                _apprenticeshipEventViews[0].TrainingType = TrainingTypes.Standard;
+                _apprenticeshipEventViews[0].TrainingId = "312";
+
+                _lastIdToReturn = 0;
+
+                var commitmentList = new List<AddOrUpdateCommitmentCommandRequest>();
+
+                _mediator.Setup(x => x.Send(It.IsAny<AddOrUpdateCommitmentCommandRequest>()))
+                    .Callback<IRequest<Unit>>(x =>
+                    {
+                        var command = x as AddOrUpdateCommitmentCommandRequest;
+                        commitmentList.Add(command);
+                    });
+
+                // Act
+                _processor.Process();
+
+                // Assert
+                commitmentList.Where(x => x.ProgrammeType == 25).Should().HaveCount(2);
+            }
+
+            [Test]
+            public void ThenThereAreNoRecordsWithProgrammeTypeZero()
+            {
+                _mediator.SetupSequence(x => x.Send(It.IsAny<GetLastSeenEventIdQueryRequest>()))
+                    .Returns(new GetLastSeenEventIdQueryResponse { EventId = 0 });
+                _apprenticeshipEventViews = _apprenticeshipEventViews.Take(1).ToArray();
+                _apprenticeshipEventViews[0].TrainingType = TrainingTypes.Standard;
+                _apprenticeshipEventViews[0].TrainingId = "312";
+
+                _lastIdToReturn = 0;
+
+                var commitmentList = new List<AddOrUpdateCommitmentCommandRequest>();
+
+                _mediator.Setup(x => x.Send(It.IsAny<AddOrUpdateCommitmentCommandRequest>()))
+                    .Callback<IRequest<Unit>>(x =>
+                    {
+                        var command = x as AddOrUpdateCommitmentCommandRequest;
+                        commitmentList.Add(command);
+                    });
+
+                // Act
+                _processor.Process();
+
+                // Assert
+                commitmentList.Where(x => x.ProgrammeType == 0).Should().BeEmpty();
+            }
+        }
+        
         [Test]
         public void ThenItShouldGetBatchesOfCommitmentEventsUntilNoMoreAreAvailable()
         {
@@ -304,11 +367,10 @@ namespace SFA.DAS.Payments.Reference.Commitments.UnitTests.ApiProcessor
                                      ((List<PriceHistory>)@event.PriceHistory)[0].EffectiveTo == command.PriceEpisodes[0].EffectiveToDate &&
                                      @event.Id == command.VersionId && 
                                      @event.PausedOnDate == command.PausedOnDate &&
-                                     @event.StoppedOnDate == command.WithdrawnOnDate;
-
-      
+                                     @event.StoppedOnDate == command.WithdrawnOnDate &&
+                                     @event.AccountLegalEntityPublicHashedId == command.AccountLegalEntityPublicHashedId;
             
-                if (@event.TrainingType == TrainingTypes.Framework)
+            if (@event.TrainingType == TrainingTypes.Framework)
             {
                 var parts = @event.TrainingId.Split('-');
                 eventEqualsCommand = eventEqualsCommand &&

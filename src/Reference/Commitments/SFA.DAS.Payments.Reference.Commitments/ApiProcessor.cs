@@ -124,7 +124,8 @@ namespace SFA.DAS.Payments.Reference.Commitments
                 WithdrawnOnDate = apprenticeshipEvent.StoppedOnDate,
                 LegalEntityName = apprenticeshipEvent.LegalEntityName,
                 TransferSendingEmployerAccountId = apprenticeshipEvent.TransferSenderId,
-                TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn
+                TransferApprovalDate = apprenticeshipEvent.TransferApprovalActionedOn,
+                AccountLegalEntityPublicHashedId = apprenticeshipEvent.AccountLegalEntityPublicHashedId
             };
             
             ((List<Events.Api.Types.PriceHistory>)apprenticeshipEvent.PriceHistory).
@@ -141,6 +142,7 @@ namespace SFA.DAS.Payments.Reference.Commitments
             if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Standard)
             {
                 request.StandardCode = long.Parse(apprenticeshipEvent.TrainingId);
+                request.ProgrammeType = 25;
             }
             else if (apprenticeshipEvent.TrainingType == Events.Api.Types.TrainingTypes.Framework)
             {
