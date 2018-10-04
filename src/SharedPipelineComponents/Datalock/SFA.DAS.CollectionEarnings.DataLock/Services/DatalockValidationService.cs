@@ -140,22 +140,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             DatalockValidationResultBuilder result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
-            if (!matchResult.ErrorCodes.Any() && matchResult.Commitments.Any(x => x.ProviderUkprn == earning.Ukprn))
-            {
-                if (commitments.Any(x => x.PausedOnDate.HasValue || x.PaymentStatus == (int)PaymentStatus.Paused))
-                {
-                    result.Add(earning, new List<string> { DataLockErrorCodes.EmployerPaused }, paymentType,
-                        matchResult.Commitments.First());
-                }
-                else
-                {
-                    result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
-                }
-            }
-            else
-            {
-                result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
-            }
+            result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
         }
 
         private DateTime CalculateOnProgCensusDate(RawEarning earning)

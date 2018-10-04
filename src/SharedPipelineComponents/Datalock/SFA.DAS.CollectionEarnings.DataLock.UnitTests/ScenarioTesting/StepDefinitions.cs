@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
@@ -73,7 +74,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         [Then(@"I get (.*) validation errors in the DataLockValidationResult")]
         public void ThenIGetValidationErrorsInTheDataLockValidationResult(int numberOfErorrs)
         {
-            Assert.AreEqual(numberOfErorrs, _resultsContext.DatalockValidationResult.ValidationErrors.Count);
+            Assert.AreEqual(numberOfErorrs, _resultsContext.DatalockValidationResult.ValidationErrors.Count, 
+                "Error list: {0}", string.Join(", ", _resultsContext.DatalockValidationResult.ValidationErrors.Select(x => x.RuleId)));
         }
 
         [Then(@"The DatalockValidatioResult contains (.*)")]
