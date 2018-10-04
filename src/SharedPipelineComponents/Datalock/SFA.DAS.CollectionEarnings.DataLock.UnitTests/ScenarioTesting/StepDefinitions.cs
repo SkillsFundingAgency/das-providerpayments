@@ -84,5 +84,15 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
             _resultsContext.DatalockValidationResult.ValidationErrors.Should()
                 .Contain(x => x.RuleId == validationError);
         }
+
+        [Then(@"There are (.*) payable datalocks for price episode (.*)")]
+        public void ThenTheDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
+        {
+            _resultsContext.DatalockValidationResult
+                .PriceEpisodePeriodMatches
+                .Where(x => x.Payable)
+                .Should()
+                .HaveCount(expectedNumber);
+        }
     }
 }
