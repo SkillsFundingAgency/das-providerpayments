@@ -27,9 +27,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var output = new HashSet<DatalockOutput>();
             var commitmentsById = commitments.ToLookup(x => x.CommitmentId);
 
-            var invalidPriceEpisodeIdentifiers = GetPriceEpisodeIdentifiersFromDataLockValidationErrorsExcludingEmployerStoppedDataLocks(datalockValidationErrors)
+            var invalidPriceEpisodeIdentifiers = datalockValidationErrors
+                .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
+                .Select(x => x.PriceEpisodeIdentifier)
                 .ToList();
-
+            
             foreach (var datalockOutputEntity in datalocks)
             {
                 if (datalockOutputEntity.Payable == false)
@@ -66,13 +68,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
 
             return output.ToList();
-        }
-
-        private static IEnumerable<string> GetPriceEpisodeIdentifiersFromDataLockValidationErrorsExcludingEmployerStoppedDataLocks(List<DatalockValidationError> datalockValidationErrors)
-        {
-            return datalockValidationErrors
-                .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
-                .Select(x => x.PriceEpisodeIdentifier);
         }
     }
 }
