@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using CS.Common.External.Interfaces;
+using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools;
+using SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Utilities;
 
 namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdjustmentsTask
 {
@@ -32,7 +34,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
             _task.Execute(_context);
 
             // Assert
-            var payments = TestDataHelper.GetPaymentsForProvider(ukprn);
+            var payments = TestDataHelper.GetPayments();
 
             Assert.IsNotNull(payments);
             Assert.AreEqual(12, payments.Count(p => p.Ukprn == ukprn && p.Amount == 1000.00m));
@@ -53,7 +55,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
             _task.Execute(_context);
 
             // Assert
-            var payments = TestDataHelper.GetPaymentsForProvider(ukprn);
+            var payments = TestDataHelper.GetPayments();
 
             Assert.IsNotNull(payments);
             Assert.AreEqual(6, payments.Count(p => p.Ukprn == ukprn));
@@ -63,7 +65,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
         }
 
         [Test]
-        public void ThenItShouldNotWriteAnyPaymentsWhenCurrentAdjustmentsAreNotPresent()
+        public void ThenItShouldWritePaymentsWhenCurrentAdjustmentsAreNotPresent()
         {
             // Arrange
             var ukprn = 10007459;
@@ -77,10 +79,9 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
             _task.Execute(_context);
 
             // Assert
-            var payments = TestDataHelper.GetPaymentsForProvider(ukprn);
+            var payments = TestDataHelper.GetPayments();
 
-            Assert.IsNotNull(payments);
-            Assert.AreEqual(0, payments.Length);
+            payments.Should().NotBeEmpty();
         }
 
         [Test]
@@ -101,17 +102,15 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.ProviderAdj
             _task.Execute(_context);
 
             // Assert
-            var payments1 = TestDataHelper.GetPaymentsForProvider(ukprn1);
-            var payments2 = TestDataHelper.GetPaymentsForProvider(ukprn2);
-
+            var payments1 = TestDataHelper.GetPayments();
+            
             Assert.IsNotNull(payments1);
             Assert.AreEqual(6, payments1.Count(p => p.Ukprn == ukprn1));
-            Assert.AreEqual(1, payments1.Count(p => p.Amount == 125.00m));
-            Assert.AreEqual(1, payments1.Count(p => p.Amount == 100.00m));
-            Assert.AreEqual(4, payments1.Count(p => p.Amount == 50.00m));
-
-            Assert.IsNotNull(payments2);
-            Assert.AreEqual(12, payments2.Count(p => p.Ukprn == ukprn2 && p.Amount == 225.00m));
+            Assert.AreEqual(1, payments1.Count(p => p.Ukprn == ukprn1 && p.Amount == 125.00m));
+            Assert.AreEqual(1, payments1.Count(p => p.Ukprn == ukprn1 && p.Amount == 100.00m));
+            Assert.AreEqual(4, payments1.Count(p => p.Ukprn == ukprn1 && p.Amount == 50.00m));
+            
+            Assert.AreEqual(12, payments1.Count(p => p.Ukprn == ukprn2 && p.Amount == 225.00m));
         }
     }
 }

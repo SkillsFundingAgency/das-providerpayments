@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools;
+using SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Utilities;
 
 namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Infrastructure.Data.Repositories.DcfsAdjustmentRepository
 {
@@ -27,7 +28,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Infrastruct
             TestDataHelper.CopyReferenceData();
             
             // Act
-            var adjustments = _repository.GetCurrentProviderAdjustments(ukprn);
+            var adjustments = _repository.GetCurrentProviderAdjustments();
 
             Assert.IsNotNull(adjustments);
             Assert.AreEqual(12, adjustments.Length);

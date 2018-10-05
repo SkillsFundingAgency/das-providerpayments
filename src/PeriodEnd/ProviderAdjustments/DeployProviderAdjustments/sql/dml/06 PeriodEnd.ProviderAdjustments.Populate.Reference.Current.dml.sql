@@ -1,12 +1,6 @@
 TRUNCATE TABLE [Reference].[ProviderAdjustmentsCurrent]
 GO
 
-DECLARE @AlreadyProcessedSubmissions TABLE (SubmissionId UNIQUEIDENTIFIER)
-
-INSERT INTO @AlreadyProcessedSubmissions (SubmissionId)
-SELECT DISTINCT SubmissionId
-FROM ${DAS_PeriodEnd.FQ}.ProviderAdjustments.Payments
-
 INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
     [Ukprn],
     [SubmissionId],
@@ -16,28 +10,17 @@ INSERT INTO [Reference].[ProviderAdjustmentsCurrent] (
     [Amount]
     )
 SELECT 
-	s.Ukprn,
-    Submission_Id,
-    CollectionPeriod,
-    Payment_Id,
-    PaymentName,
-    PaymentValue
-FROM 
-	OPENQUERY(${DS_EAS1718_Collection.servername}, '
-	SELECT
-		s.Submission_Id,
-		s.CollectionPeriod,
-		p.Payment_Id,
-		p.PaymentName,
-		sv.PaymentValue,
-		s.Ukprn
-	FROM 
-		${DS_EAS1718_Collection.databasename}.dbo.EAS_Submission s
-		INNER JOIN ${DS_EAS1718_Collection.databasename}.dbo.EAS_Submission_Values sv ON s.Submission_Id = sv.Submission_Id
-			AND s.CollectionPeriod = sv.CollectionPeriod
-		INNER JOIN ${DS_EAS1718_Collection.databasename}.dbo.Payment_Types p ON sv.Payment_Id = p.Payment_Id
-	WHERE
-		p.FM36 = 1') as s
-WHERE 
-	s.Ukprn IN (SELECT Ukprn FROM Reference.ProviderAdjustmentsProviders)
-    AND s.Submission_Id NOT IN (SELECT SubmissionId FROM @AlreadyProcessedSubmissions)
+	S.Ukprn,
+	S.Submission_Id [SubmissionId],
+	S.CollectionPeriod [SubmissionCollectionPeriod],
+	V.Payment_Id [PaymentType],
+	P.PaymentName [PaymentTypeName],
+	V.PaymentValue [Amount]
+	
+FROM ${EAS_Deds.FQ}.dbo.EAS_Submission_Values V
+JOIN ${EAS_Deds.FQ}.dbo.EAS_Submission S
+	ON V.Submission_Id = S.Submission_Id
+	AND V.CollectionPeriod = S.CollectionPeriod
+JOIN ${EAS_Deds.FQ}.dbo.Payment_Types P
+	ON V.Payment_Id = P.Payment_Id
+WHERE P.FM36 = 1
