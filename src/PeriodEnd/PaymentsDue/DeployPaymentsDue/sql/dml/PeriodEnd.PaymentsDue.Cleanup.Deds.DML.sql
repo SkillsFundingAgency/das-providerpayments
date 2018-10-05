@@ -1,8 +1,5 @@
-declare @collectionPeriodName varchar(8) = (
-	SELECT [Collection_Period_Name] 
-	FROM ${DAS_PeriodEnd.FQ}.dbo.Collection_Period_Mapping 
-	WHERE [Collection_Open] = 1
-);
+DECLARE cCollectionPeriodName varchar(8) = (SELECT [AcademicYear] FROM Reference.CollectionPeriods WHERE [Open] = 1) + '-' + (SELECT [Name] FROM Reference.CollectionPeriods WHERE [Open] = 1)
+
 
 DELETE E 
 FROM ${DAS_PeriodEnd.FQ}.[PaymentsDue].[Earnings] E
