@@ -19,7 +19,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             var iLrCompletionPayments = rawEarnings
                 .Where(x => x.CumulativePmrs != 0)
-                .GroupBy(x => new CompletionPaymentGroup(x.CumulativePmrs, x.CompExemCode))
+                .GroupBy(x => new CompletionPaymentGroup(x.CumulativePmrs, x.ExemptionCodeForCompletionHoldback))
                 .ToList();
 
             if (iLrCompletionPayments.Count > 1)

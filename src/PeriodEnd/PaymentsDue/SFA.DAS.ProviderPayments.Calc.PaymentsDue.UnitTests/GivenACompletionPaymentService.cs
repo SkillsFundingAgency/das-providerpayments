@@ -42,7 +42,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             rawEarnings.ForEach(x =>
             {
                 x.CumulativePmrs = 100;
-                x.CompExemCode = pmrExempCode;
+                x.ExemptionCodeForCompletionHoldback = pmrExempCode;
             });
 
             paymentHistory.ForEach(x =>
