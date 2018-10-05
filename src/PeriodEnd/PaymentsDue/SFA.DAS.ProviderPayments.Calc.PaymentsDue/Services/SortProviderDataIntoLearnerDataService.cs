@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly IPaymentRepository _paymentRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private readonly ICompletionPaymentService _completionPaymentService;
+        private readonly IValidateCompletionPayments _validateCompletionPayments;
 
         public SortProviderDataIntoLearnerDataService(
             IRawEarningsRepository rawEarningsRepository,
@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             IDatalockRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository,
             ICollectionPeriodRepository collectionPeriodRepository, 
-            ICompletionPaymentService completionPaymentService,
+            IValidateCompletionPayments validateCompletionPayments,
             IPaymentRepository paymentRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _commitmentsRepository = commitmentsRepository;
             _paymentRepository = paymentRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
-            _completionPaymentService = completionPaymentService;
+            _validateCompletionPayments = validateCompletionPayments;
         }
 
         public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
@@ -46,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             foreach (var learner in learners)
             {
-                learner.CompletionPaymentEvidence = _completionPaymentService
+                learner.CompletionPaymentEvidence = _validateCompletionPayments
                     .CreateCompletionPaymentEvidence(learner.HistoricalEmployerPayments, learner.RawEarnings);
             }
             return learners;

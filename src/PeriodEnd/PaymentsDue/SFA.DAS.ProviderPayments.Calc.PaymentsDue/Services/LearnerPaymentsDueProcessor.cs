@@ -10,21 +10,28 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly IDetermineWhichEarningsShouldBePaid _determinePayableEarnings;
         private readonly IValidateRawDatalocks _rawDatalocksValidator;
         private readonly ICalculatePaymentsDue _paymentsDueCalculator;
+        private readonly IValidateCompletionPayments _completionPaymentValidator;
 
         public LearnerPaymentsDueProcessor(ILogger logger,
             IDetermineWhichEarningsShouldBePaid determinePayableEarnings, 
             IValidateRawDatalocks rawDatalocksValidator, 
-            ICalculatePaymentsDue paymentsDueCalculator)
+            ICalculatePaymentsDue paymentsDueCalculator, 
+            IValidateCompletionPayments completionPaymentValidator)
         {
             _logger = logger;
             _determinePayableEarnings = determinePayableEarnings;
             _rawDatalocksValidator = rawDatalocksValidator;
             _paymentsDueCalculator = paymentsDueCalculator;
+            _completionPaymentValidator = completionPaymentValidator;
         }
 
         public PaymentsDueResult GetPayableAndNonPayableEarnings(LearnerData parameters, long ukprn)
         {
             _logger.Info($"Processing started for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
+
+            var completionPayments = _completionPaymentValidator
+                .CreateCompletionPaymentEvidence(parameters.HistoricalEmployerPayments,
+                    parameters.RawEarnings);
 
             var successfulDatalocks = _rawDatalocksValidator
                 .GetSuccessfulDatalocks(parameters.DataLocks, 

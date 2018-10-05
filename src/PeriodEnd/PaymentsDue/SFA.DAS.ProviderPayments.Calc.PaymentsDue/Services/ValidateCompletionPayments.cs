@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class CompletionPaymentService : ICompletionPaymentService
+    public class ValidateCompletionPayments : IValidateCompletionPayments
     {
         public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
             List<LearnerSummaryPaymentEntity> learnerHistoricalPayments, 

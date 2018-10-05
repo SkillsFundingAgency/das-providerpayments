@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesACompletionPaymentEvidenceWhenThereIsNoEarningsOrHistory(
-            CompletionPaymentService sut)
+            ValidateCompletionPayments sut)
         {
             var result = sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), new List<RawEarning>());
 
@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             CompletionPaymentEvidenceState expectedState,
             List<RawEarning> rawEarnings,
             List<LearnerSummaryPaymentEntity> paymentHistory,
-            CompletionPaymentService sut)
+            ValidateCompletionPayments sut)
         {
             rawEarnings.ForEach(x =>
             {
@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesAnInvalidCompletionPaymentEvidenceFromEarningsAndPaymentHistory(
             List<RawEarning> rawEarnings,
             List<LearnerSummaryPaymentEntity> paymentHistory,
-            CompletionPaymentService sut)
+            ValidateCompletionPayments sut)
         {
             rawEarnings.ForEach(x =>
             {
@@ -78,7 +78,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueInlineAutoData()]
         public void ThenItThrowsArgumentExceptionWhenNoPaymentHistory(
-            CompletionPaymentService sut)
+            ValidateCompletionPayments sut)
         {
             Action test = () => sut.CreateCompletionPaymentEvidence(null, new List<RawEarning>());
 
@@ -87,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueInlineAutoData()]
         public void ThenItThrowsArgumentExceptionWhenNoEarnings(
-            CompletionPaymentService sut)
+            ValidateCompletionPayments sut)
         {
             Action test = () => sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), null);
 

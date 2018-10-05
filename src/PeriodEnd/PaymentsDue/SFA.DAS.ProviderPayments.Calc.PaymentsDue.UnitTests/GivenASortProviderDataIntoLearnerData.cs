@@ -371,7 +371,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 CompletionPaymentEvidence completionPaymentEvidence,
-                [Frozen] Mock<ICompletionPaymentService> mockCompletionPaymentService,
+                [Frozen] Mock<IValidateCompletionPayments> mockCompletionPaymentService,
                 SortProviderDataIntoLearnerDataService sut)
         {
 
