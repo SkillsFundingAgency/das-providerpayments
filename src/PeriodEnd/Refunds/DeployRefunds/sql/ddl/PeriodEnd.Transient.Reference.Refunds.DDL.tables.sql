@@ -32,4 +32,5 @@ CREATE TABLE Reference.PaymentsHistory
 	[FundingLineType] varchar(100) NOT NULL
 )
 
-CREATE INDEX IX_Reference_PaymentsHistory_Ukrpn ON Reference.PaymentsHistory (Ukprn)
+CREATE INDEX IX_Reference_PaymentsHistory_Ukrpn ON Reference.PaymentsHistory (Ukprn, FundingSource)
+
