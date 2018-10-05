@@ -179,8 +179,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             var datalockResult = datalock.DeterminePayableEarnings(
                 datalockOutput,
                 Earnings,
-                new List<RawEarningForMathsOrEnglish>(),
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                new List<RawEarningForMathsOrEnglish>());
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 

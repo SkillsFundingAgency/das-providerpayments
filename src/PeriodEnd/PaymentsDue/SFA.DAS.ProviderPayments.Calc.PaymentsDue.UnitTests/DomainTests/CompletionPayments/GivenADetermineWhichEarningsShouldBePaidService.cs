@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(), CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x=>x.TransactionType == 2);
             completionPayments.Should().HaveCount(1);
@@ -63,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(), CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(1);
@@ -78,8 +78,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(),
-                new CompletionPaymentEvidence(120, CompletionPaymentEvidenceState.Checkable, 130));
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(0);
@@ -93,8 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(),
-                new CompletionPaymentEvidence(129, CompletionPaymentEvidenceState.Checkable, 130));
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(0);
@@ -111,8 +109,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(), 
-                new CompletionPaymentEvidence(120, state, 130));
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(1);
@@ -127,12 +124,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Comple
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(),
-                new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0));
+                new List<RawEarningForMathsOrEnglish>());
 
             var completionPayments = actual.PayableEarnings.Where(x => x.TransactionType == 2);
             completionPayments.Should().HaveCount(0);
         }
-
     }
 }

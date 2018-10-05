@@ -358,48 +358,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryMonth.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Month));
             learners[0].RawEarningsMathsEnglish.ForEach(x => x.DeliveryYear.Should().Be(CollectionPeriods.First(y => y.Id == x.Period).Year));
         }
-
-
-        [Test, PaymentsDueAutoData]
-        public void ThenItCreatesThreeNewLearnerProcessParametersInstancesWithEarningsAndHistoricPayments(
-                long ukprn,
-                string[] learnRefNumbers,
-                long[] ulns,
-                List<RawEarning> rawEarnings,
-                [Frozen] Mock<IRawEarningsRepository> mockRawEarningsRepository,
-                List<LearnerSummaryPaymentEntity> historicalPayments,
-                [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
-                [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
-                CompletionPaymentEvidence completionPaymentEvidence,
-                [Frozen] Mock<ICheckEmployerPayments> mockCompletionPaymentService,
-                SortProviderDataIntoLearnerDataService sut)
-        {
-
-            // Arrange data so each maps to the Uln or LearnerRefNumber
-            for (var i = 0; i <= 2; i++)
-            {
-                rawEarnings[i].LearnRefNumber = learnRefNumbers[i];
-                rawEarnings[i].Uln = ulns[i];
-                historicalPayments[i].LearnRefNumber = learnRefNumbers[i];
-            }
-
-            mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
-            mockHistoricalPaymentsRepository.Setup(repository => repository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
-                .Returns(historicalPayments);
-            mockCompletionPaymentService
-                .Setup(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<LearnerSummaryPaymentEntity>>(),
-                    It.IsAny<List<RawEarning>>())).Returns(completionPaymentEvidence);
-            collectionPeriodRepository
-                .Setup(x => x.GetAllCollectionPeriods())
-                .Returns(CollectionPeriods);
-
-            var learners = sut.CreateLearnerDataForProvider(ukprn);
-
-            learners.Count.Should().Be(3);
-            mockCompletionPaymentService.Verify(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<LearnerSummaryPaymentEntity>>(), It.IsAny<List<RawEarning>>()), Times.Exactly(3));
-
-
-        }
-
     }
 }

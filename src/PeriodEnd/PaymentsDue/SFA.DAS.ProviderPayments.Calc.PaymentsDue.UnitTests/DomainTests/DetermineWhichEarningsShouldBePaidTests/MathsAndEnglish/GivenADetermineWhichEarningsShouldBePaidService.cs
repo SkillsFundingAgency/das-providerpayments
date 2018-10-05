@@ -47,8 +47,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(), 
                 _earnings,
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().BeEmpty();
         }
@@ -63,8 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 new List<RawEarning>(),
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().BeEmpty();
         }
@@ -77,8 +75,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 _earnings,
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().HaveCount(24); // M/E as well as onprog * 12
         }
@@ -94,8 +91,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 new List<RawEarning> {blankEarning},
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().HaveCount(12);
         }
@@ -111,8 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 _datalockOutput,
                 new List<RawEarning>{blankEarning}, 
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().HaveCount(12);
         }
@@ -125,8 +120,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(), 
                 new List<RawEarning>(),
-                _mathsAndEnglishEarnings, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _mathsAndEnglishEarnings);
 
             actual.PayableEarnings.Should().HaveCount(0);
         }

@@ -8,6 +8,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
 
@@ -27,6 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         public void ThenThePaymentsGeneratedShouldMatchTheExpectedPayments(
             string filename,
             [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
+            Mock<IFilterOutCompletionPaymentsWithoutEvidence> completionPaymentFilter,
             DetermineWhichEarningsShouldBePaidService datalock,
             PaymentsDueCalculationService paymentsDueCalc,
             DatalockValidationService commitmentMatcher,
@@ -34,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         {
             var testData = TestData.LoadFrom(filename);
 
-            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc, new RemoveCompletionPaymentsWithoutEvidence());
+            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc, completionPaymentFilter.Object);
 
             var parameters = new LearnerData(testData.LearnRefNumber, testData.Uln);
             parameters.RawEarnings.AddRange(testData.RawEarnings);

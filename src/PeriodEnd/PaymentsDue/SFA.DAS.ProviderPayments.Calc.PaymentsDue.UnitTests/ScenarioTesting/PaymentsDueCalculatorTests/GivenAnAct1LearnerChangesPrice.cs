@@ -63,7 +63,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
-                _earnings.Take(1).ToList(), _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _earnings.Take(1).ToList(), _mathsAndEnglishEarnings);
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(0).ToList());
 
@@ -88,7 +88,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore,
                 _pastPayments.Take(1).ToList());
@@ -113,7 +113,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
 
@@ -137,7 +137,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Pa
                 .Returns(new CollectionPeriodEntity { AcademicYear = "1718" });
 
             var datalockResult = datalock.DeterminePayableEarnings(datalockOutput,
-                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings, CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                _earnings.Take(2).ToList(), _mathsAndEnglishEarnings);
               
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, _pastPayments.Take(1).ToList());
 

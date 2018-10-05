@@ -16,7 +16,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public EarningValidationResult CreatePayableEarnings(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
-            CompletionPaymentEvidence completionPaymentEvidence = null,
             int cenususType = -1)
         {
             var earningValidationResult = new EarningValidationResult();

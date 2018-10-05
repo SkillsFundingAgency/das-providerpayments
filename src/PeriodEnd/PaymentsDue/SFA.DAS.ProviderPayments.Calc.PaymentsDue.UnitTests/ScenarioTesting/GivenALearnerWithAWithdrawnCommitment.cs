@@ -225,8 +225,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 var datalockResult = datalock.DeterminePayableEarnings(
                     datalockOutput,
                     Earnings,
-                    MathsAndEnglishEarnings, 
-                    CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                    MathsAndEnglishEarnings);
 
                 var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 
@@ -249,8 +248,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 var datalockResult = datalock.DeterminePayableEarnings(
                     datalockOutput,
                     Earnings,
-                    MathsAndEnglishEarnings, 
-                    CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                    MathsAndEnglishEarnings);
 
                 var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 

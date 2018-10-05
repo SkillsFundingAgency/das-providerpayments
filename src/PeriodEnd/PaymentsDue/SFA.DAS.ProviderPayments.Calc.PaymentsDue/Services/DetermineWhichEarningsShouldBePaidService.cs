@@ -40,15 +40,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         public EarningValidationResult DeterminePayableEarnings(
             List<DatalockOutput> successfulDatalocks,
             List<RawEarning> earnings,
-            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings,
-            CompletionPaymentEvidence completionPaymentEvidence)
+            List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
         {
             var academicYearDetail = GetFirstDayOfAcademicYears();
 
             var rawEarnings = GetEarningsForCurrentAcademicYear(earnings, academicYearDetail);
             var datalockOutput = GetSuccessfulDatalocksForCurrentAcademicYear(successfulDatalocks, academicYearDetail);
 
-            var result = CreateEarningValidationResultForOnProg(rawEarnings, datalockOutput, completionPaymentEvidence);
+            var result = CreateEarningValidationResultForOnProg(rawEarnings, datalockOutput);
             result += MatchMathsAndEnglishToOnProg(result, mathsAndEnglishEarnings, rawEarnings, datalockOutput);
 
             return result;
@@ -103,11 +102,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                    priceEpisodeStartDate < academicYearDetail.FirstDayOfNextAcademicYear;
         }
 
-        private EarningValidationResult CreateEarningValidationResultForOnProg(List<RawEarning> rawEarnings, List<DatalockOutput> datalockOutput, CompletionPaymentEvidence completionPaymentEvidence)
+        private EarningValidationResult CreateEarningValidationResultForOnProg(
+            List<RawEarning> rawEarnings, 
+            List<DatalockOutput> datalockOutput)
         {
             if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                return _earningValidationService.CreatePayableEarnings(rawEarnings, null, completionPaymentEvidence);
+                return _earningValidationService.CreatePayableEarnings(rawEarnings, null);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
@@ -169,7 +170,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                             result += _earningValidationService.CreatePayableEarnings(
                                 periodEarningsForPriceEpisode,
                                 datalocksForFlag.Single(),
-                                completionPaymentEvidence,
                                 censusType);
                         }
                     }

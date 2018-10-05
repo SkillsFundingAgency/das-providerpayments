@@ -35,8 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting.Gi
             var datalockResult = datalock.DeterminePayableEarnings(
                 datalockOutput,
                 parameters.RawEarnings,
-                parameters.RawEarningsForMathsOrEnglish, 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                parameters.RawEarningsForMathsOrEnglish);
 
             var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, parameters.PastPayments);
 

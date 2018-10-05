@@ -60,8 +60,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(), 
                 _earnings,
-                new List<RawEarningForMathsOrEnglish>(), 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                new List<RawEarningForMathsOrEnglish>());
 
             foreach (var actualEarning in actual.PayableEarnings)
             {
@@ -96,8 +95,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
             var actual = sut.DeterminePayableEarnings(
                 new List<DatalockOutput>(),
                 _earnings.Take(1).ToList(),
-                new List<RawEarningForMathsOrEnglish>(), 
-                CompletionPaymentsEvidenceHelper.CreateCanPayEvidence());
+                new List<RawEarningForMathsOrEnglish>());
 
             foreach (var actualEarning in actual.PayableEarnings)
             {

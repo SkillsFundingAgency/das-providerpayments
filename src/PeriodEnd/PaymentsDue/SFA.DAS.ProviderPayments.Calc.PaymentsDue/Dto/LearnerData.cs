@@ -14,7 +14,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
         }
         public string LearnRefNumber { get; }
         public long? Uln { get; }
-        public CompletionPaymentEvidence CompletionPaymentEvidence { get; set; }
         public List<RawEarning> RawEarnings { get; } = new List<RawEarning>();
         public List<RawEarningForMathsOrEnglish> RawEarningsMathsEnglish { get; } = new List<RawEarningForMathsOrEnglish>();
         public List<DatalockOutputEntity> DataLocks { get; } = new List<DatalockOutputEntity>();
