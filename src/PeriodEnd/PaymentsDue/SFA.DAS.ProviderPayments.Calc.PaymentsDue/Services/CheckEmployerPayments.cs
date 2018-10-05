@@ -8,38 +8,29 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class ValidateCompletionPayments : IValidateCompletionPayments
+    public class CheckEmployerPayments : ICheckEmployerPayments
     {
         public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
             List<LearnerSummaryPaymentEntity> employerPayments, 
-            List<RawEarning> rawEarnings)
+            RawEarning rawEarning)
         {
             if (employerPayments == null) throw new ArgumentException(nameof(employerPayments));
-            if (rawEarnings == null) throw new ArgumentException(nameof(rawEarnings));
-
-            var iLrCompletionPayments = rawEarnings
-                .Where(x => x.CumulativePmrs != 0)
-                .GroupBy(x => new CompletionPaymentGroup(x.CumulativePmrs, x.ExemptionCodeForCompletionHoldback))
-                .ToList();
-
-            if (iLrCompletionPayments.Count > 1)
-            {
-                return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0);
-            }
+            if (rawEarning == null) throw new ArgumentException(nameof(rawEarning));
 
             var totalEmployerPayments = employerPayments.Where(x =>
-                    x.TransactionType == TransactionType.Learning)
+                    x.TransactionType == TransactionType.Learning &&
+                    x.StandardCode == rawEarning.StandardCode &&
+                    x.ProgrammeType == rawEarning.ProgrammeType &&
+                    x.FrameworkCode == rawEarning.FrameworkCode &&
+                    x.PathwayCode == rawEarning.PathwayCode &&
+                    x.ApprenticeshipContractType == rawEarning.ApprenticeshipContractType &&
+                    x.SfaContributionPercentage == rawEarning.SfaContributionPercentage &&
+                    x.FundingLineType == rawEarning.FundingLineType)
                 .Sum(x => x.Amount);
 
-            var completionPayment = iLrCompletionPayments.FirstOrDefault();
-
-            if (completionPayment == null)
-            {
-                return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.Checkable, totalEmployerPayments);
-            }
-
-            return new CompletionPaymentEvidence(completionPayment.Key.PriceEpisodeCumulativePmrs,
-                MapReasonToState(completionPayment.Key.PriceEpisodeCompExemCode), totalEmployerPayments);
+            return new CompletionPaymentEvidence(rawEarning.CumulativePmrs,
+                MapReasonToState(rawEarning.ExemptionCodeForCompletionHoldback), 
+                totalEmployerPayments);
         }
 
         private CompletionPaymentEvidenceState MapReasonToState(int priceEpisodeCompExemCode)
@@ -60,6 +51,5 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         }
     }
 }
-
 
 

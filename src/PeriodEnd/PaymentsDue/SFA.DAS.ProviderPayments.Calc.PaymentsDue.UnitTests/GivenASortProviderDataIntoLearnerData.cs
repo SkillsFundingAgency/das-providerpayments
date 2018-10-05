@@ -147,7 +147,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             });
 
             mockHistoricalPaymentsRepository
-                .Setup(repository => repository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
+                .Setup(repository => repository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
                 .Returns(historicalPayments);
 
             var learners = sut.CreateLearnerDataForProvider(ukprn);
@@ -371,7 +371,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 [Frozen] Mock<IPaymentRepository> mockHistoricalPaymentsRepository,
                 [Frozen] Mock<ICollectionPeriodRepository> collectionPeriodRepository,
                 CompletionPaymentEvidence completionPaymentEvidence,
-                [Frozen] Mock<IValidateCompletionPayments> mockCompletionPaymentService,
+                [Frozen] Mock<ICheckEmployerPayments> mockCompletionPaymentService,
                 SortProviderDataIntoLearnerDataService sut)
         {
 
@@ -384,7 +384,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             }
 
             mockRawEarningsRepository.Setup(repository => repository.GetAllForProvider(ukprn)).Returns(rawEarnings);
-            mockHistoricalPaymentsRepository.Setup(repository => repository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
+            mockHistoricalPaymentsRepository.Setup(repository => repository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
                 .Returns(historicalPayments);
             mockCompletionPaymentService
                 .Setup(x => x.CreateCompletionPaymentEvidence(It.IsAny<List<LearnerSummaryPaymentEntity>>(),

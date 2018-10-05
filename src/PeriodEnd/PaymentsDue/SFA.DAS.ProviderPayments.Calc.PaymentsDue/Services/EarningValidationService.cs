@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using FastMember;
-using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -15,35 +13,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private static readonly HashSet<int> PotentialLevyTransactionTypes = new HashSet<int> { 1, 2, 3 };
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
 
-        public EarningValidationResult CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+        public EarningValidationResult CreatePayableEarnings(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
             CompletionPaymentEvidence completionPaymentEvidence = null,
             int cenususType = -1)
         {
             var earningValidationResult = new EarningValidationResult();
-            var reasonToHoldBack = "";
-            var holdBack = false;
-            if (completionPaymentEvidence != null)
-            {
-                holdBack = HoldBackCompletionPayment(completionPaymentEvidence, out reasonToHoldBack);
-            }
-
+            
             var payables = GetFundingDueForNonZeroTransactionTypes(earnings, commitment, cenususType);
-
-            if (holdBack)
-            {
-                var nonPaybles = payables.Where(x => x.TransactionType == (int) TransactionType.Completion).Select(x=>
-                {
-                    var nonPay = new NonPayableEarning(x);
-                    nonPay.PaymentFailureMessage = reasonToHoldBack;
-                    nonPay.PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment;
-                    return nonPay;
-                });
-
-                earningValidationResult.AddNonPayableEarnings(nonPaybles);
-                payables = payables.Where(x => x.TransactionType != (int)TransactionType.Completion).ToList();
-            }
 
             earningValidationResult.AddPayableEarnings(payables);
             return earningValidationResult;
@@ -104,7 +82,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             var payableEarnings = new List<FundingDue>();
             for (var transactionType = 1; transactionType <= 15; transactionType++)
             {
-                if (IgnoreTransactionTypeForASpecficCensusType(censusType, transactionType))
+                if (IgnoreTransactionTypeForASpecficCensusDateType(censusType, transactionType))
                 {
                     continue;
                 }
@@ -161,15 +139,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return nonPayableEarnings;
         }
 
-        private static bool IgnoreTransactionTypeForASpecficCensusType(int censusType, int transactionType)
+        private static bool IgnoreTransactionTypeForASpecficCensusDateType(int censusDateType, int transactionType)
         {
             // TODO These all need to be enums
-            if (censusType == -1)
+            if (censusDateType == -1)
             {
                 return false;
             }
 
-            if (censusType == 1 && (transactionType == 2 ||
+            if (censusDateType == 1 && (transactionType == 2 ||
+                                      transactionType == 3 ||
                                       transactionType == 4 ||
                                       transactionType == 5 ||
                                       transactionType == 6 ||
@@ -179,50 +158,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
-            if (censusType == 2 && (transactionType != 4 && transactionType != 5))
+            if (censusDateType == 2 && (transactionType != 4 && transactionType != 5))
+
             {
                 return true;
             }
 
-            if (censusType == 3 && (transactionType != 6 && transactionType != 7))
+            if (censusDateType == 3 && (transactionType != 6 && transactionType != 7))
             {
                 return true;
             }
 
-            if (censusType == 4 && (transactionType != 2))
+            if (censusDateType == 4 && (transactionType != 2 && 
+                                        transactionType != 3 &&
+                                        transactionType != 9 &&
+                                        transactionType != 10))
+            {
+                return true;
+            }
+
+            if (censusDateType == 5 && (transactionType != 16))
             {
                 return true;
             }
 
             return false;
         }
-
-        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
-        {
-            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
-            {
-                reason = "Error on PMR records in ILR";
-                return true;
-            }
-
-            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptRedundancy ||
-                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOwnDelivery ||
-                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOtherReason)
-            {
-                reason = "";
-                return false;
-            }
-
-            if (decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <
-                decimal.Floor(completionPaymentEvidence.TotalHistoricEmployerPayment))
-            {
-                reason = "Historic Evidence does not show enough employer payments were made";
-                return true;
-            }
-
-            reason = "";
-            return false;
-        }
-
     }
 }

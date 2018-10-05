@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private EarningValidationService _earningValidationService;
+        private readonly EarningValidationService _earningValidationService;
 
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
@@ -107,7 +107,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                return _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(rawEarnings, null, completionPaymentEvidence);
+                return _earningValidationService.CreatePayableEarnings(rawEarnings, null, completionPaymentEvidence);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
@@ -123,7 +123,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
                 {
-                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(earningsForPeriod);
+                    result += _earningValidationService.CreatePayableEarnings(earningsForPeriod);
                     continue;
                 }
 
@@ -166,7 +166,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         if (datalocksForFlag.Count == 1)
                         {
                             // We have 1 datalock and a commitment
-                            result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                            result += _earningValidationService.CreatePayableEarnings(
                                 periodEarningsForPriceEpisode,
                                 datalocksForFlag.Single(),
                                 completionPaymentEvidence,
@@ -222,7 +222,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
-                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                    result += _earningValidationService.CreatePayableEarnings(
                         new List<RawEarning> { mathsOrEnglishEarning }, matchingOnProg);
                 }
                 else
@@ -234,38 +234,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
 
             return result;
-        }
-
-        private static bool IgnoreTransactionType(int datalockType, int transactionType)
-        {
-            if (datalockType == 1 && (transactionType == 2 ||
-                                      transactionType == 3 ||
-                                      transactionType == 4 ||
-                                      transactionType == 5 ||
-                                      transactionType == 6 ||
-                                      transactionType == 7
-                ))
-            {
-                return true;
-            }
-
-            if (datalockType == 2 && (transactionType != 4 && transactionType != 5))
-
-            {
-                return true;
-            }
-
-            if (datalockType == 3 && (transactionType != 6 && transactionType != 7))
-            {
-                return true;
-            }
-
-            if (datalockType == 4 && (transactionType != 2 && transactionType != 3))
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private EarningValidationResult CreateMathsAndEnglishEarningValidationResultForMixedContractTypeLearner(
@@ -283,7 +251,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
                         .ToList();
                     matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
-                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                    result += _earningValidationService.CreatePayableEarnings(
                         matchingMathsAndEnglish, datalock);
                 }
             }
@@ -302,7 +270,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingEarning != null)
                 {
                     rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
-                    result += _earningValidationService.CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
+                    result += _earningValidationService.CreatePayableEarnings(
                         new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish });
                 }
                 else

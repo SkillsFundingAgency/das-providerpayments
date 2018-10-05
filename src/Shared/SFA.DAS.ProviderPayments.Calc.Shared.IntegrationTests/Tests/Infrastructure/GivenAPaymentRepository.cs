@@ -38,14 +38,14 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
             [Test]
             public void ThenItReturnsHistoricPaymentsForMatchingProvider()
             {
-                var result = _sut.GetHistoricEmployerPaymentsEachRoundedDownForProvider(1007);
+                var result = _sut.GetRoundedDownEmployerPaymentsForProvider(1007);
                 result.Count().Should().Be(3);
                 result.First().Amount.Should().Be(300);
             }
             [Test]
             public void ThenItReturnsNoHistoricPaymentsForNonMatchingProvider()
             {
-                var result = _sut.GetHistoricEmployerPaymentsEachRoundedDownForProvider(2001);
+                var result = _sut.GetRoundedDownEmployerPaymentsForProvider(2001);
                 result.Count().Should().Be(0);
             }
         }

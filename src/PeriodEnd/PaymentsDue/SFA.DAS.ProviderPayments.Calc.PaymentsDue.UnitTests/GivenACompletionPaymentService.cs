@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueAutoData]
         public void ThenItCreatesACompletionPaymentEvidenceWhenThereIsNoEarningsOrHistory(
-            ValidateCompletionPayments sut)
+            CheckEmployerPayments sut)
         {
             var result = sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), new List<RawEarning>());
 
@@ -37,7 +37,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             CompletionPaymentEvidenceState expectedState,
             List<RawEarning> rawEarnings,
             List<LearnerSummaryPaymentEntity> paymentHistory,
-            ValidateCompletionPayments sut)
+            CheckEmployerPayments sut)
         {
             rawEarnings.ForEach(x =>
             {
@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         public void ThenItCreatesAnInvalidCompletionPaymentEvidenceFromEarningsAndPaymentHistory(
             List<RawEarning> rawEarnings,
             List<LearnerSummaryPaymentEntity> paymentHistory,
-            ValidateCompletionPayments sut)
+            CheckEmployerPayments sut)
         {
             rawEarnings.ForEach(x =>
             {
@@ -78,7 +78,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueInlineAutoData()]
         public void ThenItThrowsArgumentExceptionWhenNoPaymentHistory(
-            ValidateCompletionPayments sut)
+            CheckEmployerPayments sut)
         {
             Action test = () => sut.CreateCompletionPaymentEvidence(null, new List<RawEarning>());
 
@@ -87,7 +87,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
         [Test, PaymentsDueInlineAutoData()]
         public void ThenItThrowsArgumentExceptionWhenNoEarnings(
-            ValidateCompletionPayments sut)
+            CheckEmployerPayments sut)
         {
             Action test = () => sut.CreateCompletionPaymentEvidence(new List<LearnerSummaryPaymentEntity>(), null);
 

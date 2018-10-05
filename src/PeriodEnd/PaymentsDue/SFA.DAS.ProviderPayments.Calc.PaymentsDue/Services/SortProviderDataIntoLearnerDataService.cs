@@ -18,8 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly ICommitmentRepository _commitmentsRepository;
         private readonly IPaymentRepository _paymentRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private readonly IValidateCompletionPayments _validateCompletionPayments;
-
+        
         public SortProviderDataIntoLearnerDataService(
             IRawEarningsRepository rawEarningsRepository,
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
@@ -27,7 +26,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             IDatalockRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository,
             ICollectionPeriodRepository collectionPeriodRepository, 
-            IValidateCompletionPayments validateCompletionPayments,
             IPaymentRepository paymentRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
@@ -37,18 +35,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _commitmentsRepository = commitmentsRepository;
             _paymentRepository = paymentRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
-            _validateCompletionPayments = validateCompletionPayments;
         }
 
         public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
         {
             var learners = Correlate(ukprn);
-
-            foreach (var learner in learners)
-            {
-                learner.CompletionPaymentEvidence = _validateCompletionPayments
-                    .CreateCompletionPaymentEvidence(learner.HistoricalEmployerPayments, learner.RawEarnings);
-            }
             return learners;
         }
 
@@ -76,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 learnerResults.GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
             }
 
-            foreach (var paymentEntity in _paymentRepository.GetHistoricEmployerPaymentsEachRoundedDownForProvider(ukprn))
+            foreach (var paymentEntity in _paymentRepository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
             {
                 learnerResults.GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalEmployerPayments.Add(paymentEntity);
             }

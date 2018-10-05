@@ -77,9 +77,9 @@
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
     <Compile Include="Services\Dependencies\IFilterOutCompletionPaymentsWithoutEvidence.cs" />
     <Compile Include="Services\RemoveCompletionPaymentsWithoutEvidence.cs" />
-    <Compile Include="Services\ValidateCompletionPayments.cs" />
+    <Compile Include="Services\CheckEmployerPayments.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
-    <Compile Include="Services\Dependencies\IValidateCompletionPayments.cs" />
+    <Compile Include="Services\Dependencies\ICheckEmployerPayments.cs" />
     <Compile Include="Services\Dependencies\ICorrelateLearnerData.cs" />
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
