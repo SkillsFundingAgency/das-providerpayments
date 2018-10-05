@@ -72,8 +72,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public decimal TransactionType14 { get; set; }
         public decimal TransactionType15 { get; set; }
 
-        public decimal PriceEpisodeCumulativePmrs { get; set; }
-        public int PriceEpisodeCompExemCode { get; set; }
+        public decimal CumulativePmrs { get; set; }
+        public int CompExemCode { get; set; }
 
         [NotMapped]
         public int DeliveryMonth { get; set; }

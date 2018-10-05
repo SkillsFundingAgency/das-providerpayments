@@ -14,6 +14,7 @@
 
         public decimal PriceEpisodeCumulativePmrs { get; }
         public int PriceEpisodeCompExemCode { get; }
+
         public override int GetHashCode()
         {
             unchecked

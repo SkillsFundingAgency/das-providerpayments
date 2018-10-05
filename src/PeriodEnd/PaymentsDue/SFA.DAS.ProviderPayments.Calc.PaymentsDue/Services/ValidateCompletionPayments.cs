@@ -11,15 +11,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
     public class ValidateCompletionPayments : IValidateCompletionPayments
     {
         public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
-            List<LearnerSummaryPaymentEntity> learnerHistoricalPayments, 
-            List<RawEarning> learnerRawEarnings)
+            List<LearnerSummaryPaymentEntity> employerPayments, 
+            List<RawEarning> rawEarnings)
         {
-            if (learnerHistoricalPayments == null) throw new ArgumentException(nameof(learnerHistoricalPayments));
-            if (learnerRawEarnings == null) throw new ArgumentException(nameof(learnerRawEarnings));
+            if (employerPayments == null) throw new ArgumentException(nameof(employerPayments));
+            if (rawEarnings == null) throw new ArgumentException(nameof(rawEarnings));
 
-            var iLrCompletionPayments = learnerRawEarnings
-                .Where(x => x.PriceEpisodeCumulativePmrs != 0)
-                .GroupBy(x => new CompletionPaymentGroup(x.PriceEpisodeCumulativePmrs, x.PriceEpisodeCompExemCode))
+            var iLrCompletionPayments = rawEarnings
+                .Where(x => x.CumulativePmrs != 0)
+                .GroupBy(x => new CompletionPaymentGroup(x.CumulativePmrs, x.CompExemCode))
                 .ToList();
 
             if (iLrCompletionPayments.Count > 1)
@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return new CompletionPaymentEvidence(0, CompletionPaymentEvidenceState.ErrorOnIlr, 0);
             }
 
-            var totalEmployerPayments = learnerHistoricalPayments.Where(x =>
+            var totalEmployerPayments = employerPayments.Where(x =>
                     x.TransactionType == TransactionType.Learning)
                 .Sum(x => x.Amount);
 

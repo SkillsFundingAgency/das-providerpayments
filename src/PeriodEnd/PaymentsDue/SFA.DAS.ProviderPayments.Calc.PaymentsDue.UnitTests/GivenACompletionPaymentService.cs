@@ -41,8 +41,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         {
             rawEarnings.ForEach(x =>
             {
-                x.PriceEpisodeCumulativePmrs = 100;
-                x.PriceEpisodeCompExemCode = pmrExempCode;
+                x.CumulativePmrs = 100;
+                x.CompExemCode = pmrExempCode;
             });
 
             paymentHistory.ForEach(x =>
@@ -66,7 +66,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
         {
             rawEarnings.ForEach(x =>
             {
-                x.PriceEpisodeCumulativePmrs = 100;
+                x.CumulativePmrs = 100;
             });
 
             var result = sut.CreateCompletionPaymentEvidence(paymentHistory, rawEarnings);

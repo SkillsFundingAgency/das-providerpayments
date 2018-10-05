@@ -34,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         {
             var testData = TestData.LoadFrom(filename);
 
-            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc);
+            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc, new RemoveCompletionPaymentsWithoutEvidence());
 
             var parameters = new LearnerData(testData.LearnRefNumber, testData.Uln);
             parameters.RawEarnings.AddRange(testData.RawEarnings);
