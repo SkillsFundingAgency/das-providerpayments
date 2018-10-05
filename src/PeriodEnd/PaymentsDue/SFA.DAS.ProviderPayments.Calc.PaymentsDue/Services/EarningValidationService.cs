@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class EarningValidationService 
     {
-        private static readonly List<int> OnProgTransactionTypes = new List<int> { 1, 2, 3 };
+        private static readonly HashSet<int> PotentialLevyTransactionTypes = new HashSet<int> { 1, 2, 3 };
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
 
         public EarningValidationResult CreatePayableEarningsButHoldBackCompletionPaymentIfNecessary(
@@ -118,7 +118,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 var fundingDue = new FundingDue(rawEarnings);
                 fundingDue.TransactionType = transactionType;
 
-                if (!OnProgTransactionTypes.Contains(transactionType))
+                if (!PotentialLevyTransactionTypes.Contains(transactionType))
                 {
                     fundingDue.SfaContributionPercentage = 1;
                 }
