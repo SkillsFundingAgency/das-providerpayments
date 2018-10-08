@@ -313,6 +313,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
+            if (datalockType == 5 && (transactionType != 16))
+            {
+                return true;
+            }
+
             return false;
         }
 

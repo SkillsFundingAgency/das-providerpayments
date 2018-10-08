@@ -226,6 +226,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ExtensionTests
             target.TransactionType13 = 0;
             target.TransactionType14 = 0;
             target.TransactionType15 = 0;
+            target.TransactionType16 = 0;
         }
     }
 }

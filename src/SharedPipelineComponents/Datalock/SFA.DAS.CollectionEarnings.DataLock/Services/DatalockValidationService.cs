@@ -72,6 +72,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
                             learnerCommitments, result, TransactionTypesFlag.SecondEmployerProviderIncentives);
                     }
+
+                    if (earning.HasCareLeaverApprenticePayment())
+                    {
+                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
+                            learnerCommitments, result, TransactionTypesFlag.CareLeaverApprenticePayments);
+                    }
                 }
             }
 
@@ -104,6 +110,9 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     break;
                 case TransactionTypesFlag.Completion:
                     date = earning.EndDate ?? date;
+                    break;
+                case TransactionTypesFlag.CareLeaverApprenticePayments:
+                    date = earning.LearnerAdditionalPaymentsDate ?? date;
                     break;
             }
 

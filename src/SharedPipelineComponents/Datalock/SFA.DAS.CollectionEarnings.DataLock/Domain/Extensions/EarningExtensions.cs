@@ -23,6 +23,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
                     earning.EndDate.HasValue);
         }
 
+        public static bool HasCareLeaverApprenticePayment(this RawEarning earning)
+        {
+            return earning.TransactionType16 != 0 &&
+                   earning.LearnerAdditionalPaymentsDate.HasValue;
+        }
+
         public static bool HasNonIncentiveEarnings(this RawEarning earning)
         {
             return (earning.TransactionType01 != 0 ||
@@ -35,7 +41,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
                     (
                         earning.Period == 1 &&
                         !earning.HasFirstIncentive() &&
-                        !earning.HasSecondIncentive() 
+                        !earning.HasSecondIncentive() &&
+                        !earning.HasCareLeaverApprenticePayment()
                     )
                 );
         }
