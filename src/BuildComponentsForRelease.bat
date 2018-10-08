@@ -1,6 +1,7 @@
 rmdir /S /Q "..\artifacts\components"
 mkdir "..\artifacts\components"
 
+xcopy "OpaEarning\Build\Deploy\1819" "..\artifacts\components\EarningsCalculator\1819\" /S /Y
 xcopy "OpaEarning\Build\Deploy\1718" "..\artifacts\components\EarningsCalculator\1718\" /S /Y
 xcopy "OpaEarning\Build\Deploy\1617" "..\artifacts\components\EarningsCalculator\1617\" /S /Y
 xcopy "SharedPipelineComponents\DataLock\DeployPeriodEnd" "..\artifacts\components\DataLockPeriodEnd\" /S /Y
