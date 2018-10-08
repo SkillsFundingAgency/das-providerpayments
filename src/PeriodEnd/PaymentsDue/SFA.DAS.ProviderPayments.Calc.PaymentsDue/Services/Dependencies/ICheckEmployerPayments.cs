@@ -6,8 +6,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
     public interface ICheckEmployerPayments
     {
-        CompletionPaymentEvidence CreateCompletionPaymentEvidence(
-            List<LearnerSummaryPaymentEntity> employerPayments, 
+        bool IsThereEvidenceOfSufficientEmployerPayments(List<LearnerSummaryPaymentEntity> employerPayments,
             RawEarning rawEarning);
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -10,8 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class CheckEmployerPayments : ICheckEmployerPayments
     {
-        public CompletionPaymentEvidence CreateCompletionPaymentEvidence(
-            List<LearnerSummaryPaymentEntity> employerPayments, 
+        public bool IsThereEvidenceOfSufficientEmployerPayments(List<LearnerSummaryPaymentEntity> employerPayments,
             RawEarning rawEarning)
         {
             if (employerPayments == null) throw new ArgumentException(nameof(employerPayments));
@@ -26,28 +24,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     x.ApprenticeshipContractType == rawEarning.ApprenticeshipContractType &&
                     x.SfaContributionPercentage == rawEarning.SfaContributionPercentage &&
                     x.FundingLineType == rawEarning.FundingLineType)
-                .Sum(x => x.Amount);
+                .Sum(x => decimal.Floor(x.Amount));
 
-            return new CompletionPaymentEvidence(rawEarning.CumulativePmrs,
-                MapReasonToState(rawEarning.ExemptionCodeForCompletionHoldback), 
-                totalEmployerPayments);
-        }
-
-        private CompletionPaymentEvidenceState MapReasonToState(int priceEpisodeCompExemCode)
-        {
-            switch (priceEpisodeCompExemCode)
+            if (rawEarning.CumulativePmrs < totalEmployerPayments)
             {
-                case 0:
-                    return CompletionPaymentEvidenceState.Checkable;
-                case 1:
-                    return CompletionPaymentEvidenceState.ExemptRedundancy;
-                case 2:
-                    return CompletionPaymentEvidenceState.ExemptOwnDelivery;
-                case 3:
-                    return CompletionPaymentEvidenceState.ExemptOtherReason;
-                default:
-                    return CompletionPaymentEvidenceState.ErrorOnIlr;
+                return false;
             }
+            return true;
         }
     }
 }

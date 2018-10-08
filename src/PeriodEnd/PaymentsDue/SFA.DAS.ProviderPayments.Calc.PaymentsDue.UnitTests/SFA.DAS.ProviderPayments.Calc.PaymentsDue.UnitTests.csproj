@@ -108,13 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMother.cs" />
-    <Compile Include="DomainTests\CompletionPayments\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\Incentives\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\MathsAndEnglish\GivenADetermineWhichEarningsShouldBePaidService.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\OnProg\GivenADetermineWhichEarningsShouldBePaidService.cs" />
-    <Compile Include="GivenACompletionPaymentService.cs" />
     <Compile Include="ServiceTests\GivenACalculator\ThatIsUsedForMultipleCalculations.cs" />
     <Compile Include="ServiceTests\GivenACalculator\WithBothPastPaymentsAndEarnings.cs" />
     <Compile Include="ServiceTests\GivenACalculator\WithNoPastPayments.cs" />
@@ -141,6 +139,7 @@
     <Compile Include="ScenarioTesting\ScenarioTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox.cs" />
+    <Compile Include="ServiceTests\GivenACheckEmployerPayments\WhenCallingIsThereEvidenceOfSufficientEmployerPayments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithDuplicateDatalockOutput.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithMissingCommitments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithNonPayableDatalocks.cs" />
@@ -150,7 +149,6 @@
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />
     <Compile Include="Utilities\ExternalContextStub.cs" />
-    <Compile Include="Utilities\Helper\CompletionPaymentsEvidenceHelper.cs" />
     <Compile Include="Utilities\PaymentsDueAutoDataAttribute.cs" />
     <Compile Include="Utilities\ReadOnlyClassManipulation\WriteToDatalockOutput.cs" />
     <Compile Include="Utilities\SetupAttributes\SetupEarningsAndPastPayments.cs" />

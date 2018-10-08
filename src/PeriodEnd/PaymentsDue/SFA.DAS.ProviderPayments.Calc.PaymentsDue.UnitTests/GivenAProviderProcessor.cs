@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;

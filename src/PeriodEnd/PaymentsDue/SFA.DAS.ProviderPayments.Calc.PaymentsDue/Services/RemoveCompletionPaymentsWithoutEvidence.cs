@@ -28,55 +28,22 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
-                var checkResult = _employerPaymentsChecker.CreateCompletionPaymentEvidence(
-                    employerPayments, 
-                    rawEarning);
-
-                var reasonToHoldBack = "";
-                var holdBack = false;
-                if (checkResult != null)
+                if (!_employerPaymentsChecker.IsThereEvidenceOfSufficientEmployerPayments(
+                    employerPayments,
+                    rawEarning))
                 {
-                    holdBack = HoldBackCompletionPayment(checkResult, out reasonToHoldBack);
-                }
+                    var heldBackCompletionPayment = new NonPayableEarning(rawEarning)
+                    {
+                        PaymentFailureMessage = "Historic evidence does not show enough employer payments",
+                        PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment
+                    };
 
-                if (holdBack)
-                {
-                    var heldBackCompletionPayment = new NonPayableEarning(rawEarning);
-                    heldBackCompletionPayment.PaymentFailureMessage = reasonToHoldBack;
-                    heldBackCompletionPayment.PaymentFailureReason = PaymentFailureType.HeldBackCompletionPayment;
-                    
                     nonPayableEarnings.Add(heldBackCompletionPayment);
+                    rawEarning.TransactionType02 = 0;
                 }
             }
 
             return new FilteredEarningsResult {RawEarnings = earnings, NonPayableEarnings = nonPayableEarnings};
-        }
-
-        private bool HoldBackCompletionPayment(CompletionPaymentEvidence completionPaymentEvidence, out string reason)
-        {
-            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ErrorOnIlr)
-            {
-                reason = "Error on PMR records in ILR";
-                return true;
-            }
-
-            if (completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptRedundancy ||
-                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOwnDelivery ||
-                completionPaymentEvidence.State == CompletionPaymentEvidenceState.ExemptOtherReason)
-            {
-                reason = "";
-                return false;
-            }
-
-            if (decimal.Round(completionPaymentEvidence.IlrEvidenceEmployerPayment) <
-                decimal.Floor(completionPaymentEvidence.TotalHistoricEmployerPayment))
-            {
-                reason = "Historic Evidence does not show enough employer payments were made";
-                return true;
-            }
-
-            reason = "";
-            return false;
         }
     }
 }
