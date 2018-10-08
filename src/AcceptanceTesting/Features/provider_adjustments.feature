@@ -884,3 +884,44 @@ Feature: Provider adjustments (EAS) payments
 			| 16-18 Non-Levy Exceptional Learning Support | 0     | 0     | 599.59 | 1000  |
 			| Adult Levy Exceptional Learning Support     | 0     | 0     | 619.61 | 1000  |
 			| Adult Non-Levy Exceptional Learning Support | 0     | 0     | 639.63 | 1000  |
+
+
+Scenario: 5a. Submission remains constant
+
+		Given the EAS collection period is 10/17
+		And the following EAS form is submitted in 09/17:
+			| Type                                  | 08/17 | 09/17 |
+			| 16-18 Levy Employer Audit Adjustments | 10.01 | 9.00  |
+			| 16-18 Levy Provider Audit Adjustments | 20.02 | 19.01 |
+			| 16-18 Levy Training Audit Adjustments | 30.03 | 29.02 |
+
+		When the following EAS form is submitted:
+			| Type                                  | 08/17 | 09/17 |
+			
+		Then the EAS payments are:
+			| type                                  | 08/17 | 09/17 | 10/17 | 11/17 |
+			| 16-18 Levy Employer Audit Adjustments | 0     | 0     | 19.01 | 0     |
+			| 16-18 Levy Provider Audit Adjustments | 0     | 0     | 39.03 | 0     |
+			| 16-18 Levy Training Audit Adjustments | 0     | 0     | 59.05 | 0     |
+			
+
+Scenario: 5b. Submission is removed
+
+		Given the EAS collection period is 10/17
+		And the following EAS form is submitted in 09/17:
+			| Type                                  | 08/17 | 09/17 |
+			| 16-18 Levy Employer Audit Adjustments | 10.01 | 9.00  |
+			| 16-18 Levy Provider Audit Adjustments | 20.02 | 19.01 |
+			| 16-18 Levy Training Audit Adjustments | 30.03 | 29.02 |
+
+		When the following EAS form is submitted:
+			| Type                                  | 08/17 | 09/17 |
+			| 16-18 Levy Employer Audit Adjustments | 0     | 0     |
+			| 16-18 Levy Provider Audit Adjustments | 0     | 0     |
+			| 16-18 Levy Training Audit Adjustments | 0     | 0     | 
+
+		Then the EAS payments are:
+			| type                                  | 08/17 | 09/17 | 10/17 | 11/17  |
+			| 16-18 Levy Employer Audit Adjustments | 0     | 0     | 19.01 | -19.01 |
+			| 16-18 Levy Provider Audit Adjustments | 0     | 0     | 39.03 | -39.03 |
+			| 16-18 Levy Training Audit Adjustments | 0     | 0     | 59.05 | -59.05 |

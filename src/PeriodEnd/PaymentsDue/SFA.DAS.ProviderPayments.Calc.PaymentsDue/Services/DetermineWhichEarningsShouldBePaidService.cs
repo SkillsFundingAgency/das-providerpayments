@@ -292,7 +292,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                                       transactionType == 4 ||
                                       transactionType == 5 ||
                                       transactionType == 6 ||
-                                      transactionType == 7 
+                                      transactionType == 7 ||
+                                      transactionType == 9 ||
+                                      transactionType == 10
                                       ))
             {
                 return true;
@@ -308,7 +310,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 return true;
             }
 
-            if (datalockType == 4 && (transactionType != 2 && transactionType != 3))
+            if (datalockType == 4 && 
+                    (transactionType != 2 && 
+                     transactionType != 3 && 
+                     transactionType != 9 && 
+                     transactionType != 10))
             {
                 return true;
             }

@@ -12,7 +12,7 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Reposito
                                                          + "PaymentType, "
                                                          + "PaymentTypeName, "
                                                          + "Amount";
-        private const string SelectCurrentProviderAdjustments = "SELECT " + CurrentAdjustmentColumns + " FROM " + CurrentAdjustmentSource + " WHERE Ukprn = @ukprn";
+        private const string SelectCurrentProviderAdjustments = "SELECT " + CurrentAdjustmentColumns + " FROM " + CurrentAdjustmentSource + " ";
 
         private const string PreviousAdjustmentSource = "Reference.ProviderAdjustmentsHistory";
         private const string PreviousAdjustmentColumns = "Ukprn, "
@@ -21,21 +21,21 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Reposito
                                                          + "PaymentType, "
                                                          + "PaymentTypeName, "
                                                          + "Amount";
-        private const string SelectPreviousProviderAdjustments = "SELECT " + PreviousAdjustmentColumns + " FROM " + PreviousAdjustmentSource + " WHERE Ukprn = @ukprn";
+        private const string SelectPreviousProviderAdjustments = "SELECT " + PreviousAdjustmentColumns + " FROM " + PreviousAdjustmentSource + " ";
 
         public DcfsAdjustmentRepository(string connectionString)
             : base(connectionString)
         {
         }
 
-        public AdjustmentEntity[] GetCurrentProviderAdjustments(long ukprn)
+        public AdjustmentEntity[] GetCurrentProviderAdjustments()
         {
-            return Query<AdjustmentEntity>(SelectCurrentProviderAdjustments, new { ukprn });
+            return Query<AdjustmentEntity>(SelectCurrentProviderAdjustments);
         }
 
-        public AdjustmentEntity[] GetPreviousProviderAdjustments(long ukprn)
+        public AdjustmentEntity[] GetPreviousProviderAdjustments()
         {
-            return Query<AdjustmentEntity>(SelectPreviousProviderAdjustments, new { ukprn });
+            return Query<AdjustmentEntity>(SelectPreviousProviderAdjustments);
         }
     }
 }

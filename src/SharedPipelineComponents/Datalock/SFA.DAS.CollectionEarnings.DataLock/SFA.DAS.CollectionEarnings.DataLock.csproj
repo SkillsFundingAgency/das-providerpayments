@@ -91,6 +91,7 @@
     <Compile Include="DataLockProcessor.cs" />
     <Compile Include="DataLockTask.cs" />
     <Compile Include="Domain\Commitment.cs" />
+    <Compile Include="Domain\DatalockValidationResultBuilder.cs" />
     <Compile Include="Domain\DatalockValidationResult.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
     <Compile Include="Domain\PriceEpisodeGroup.cs" />

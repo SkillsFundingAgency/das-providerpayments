@@ -5,14 +5,13 @@ using System.Linq;
 using Dapper;
 using SFA.DAS.Payments.Calc.ProviderAdjustments.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
+namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Utilities
 {
     public class TestDataHelper
     {
         private static readonly string[] PeriodEndCopyReferenceDataScripts =
         {
             "01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql",
-            "05 PeriodEnd.ProviderAdjustments.Populate.Reference.Providers.dml.sql",
             "06 PeriodEnd.ProviderAdjustments.Populate.Reference.Current.dml.sql",
             "07 PeriodEnd.ProviderAdjustments.Populate.Reference.History.dml.sql"
         };
@@ -109,9 +108,9 @@ namespace SFA.DAS.Payments.Calc.ProviderAdjustments.IntegrationTests.Tools
             }
         }
 
-        internal static PaymentEntity[] GetPaymentsForProvider(long ukprn)
+        internal static PaymentEntity[] GetPayments()
         {
-            return Query<PaymentEntity>("SELECT * FROM ProviderAdjustments.Payments WHERE Ukprn = @ukprn", new { ukprn });
+            return Query<PaymentEntity>("SELECT * FROM ProviderAdjustments.Payments ");
         }
 
         private static void Execute(string command, object param = null, bool inTransient = true)

@@ -4,23 +4,6 @@ BEGIN
 END
 GO
 
------------------------------------------------------------------------------------------------------------------------------------------------
--- ProviderAdjustmentsProviders
------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS(SELECT [object_id] FROM sys.tables WHERE [name]='ProviderAdjustmentsProviders' AND [schema_id] = SCHEMA_ID('Reference'))
-BEGIN
-    DROP TABLE Reference.ProviderAdjustmentsProviders
-END
-GO
-
-CREATE TABLE Reference.ProviderAdjustmentsProviders
-(
-    [Ukprn] bigint NOT NULL,
-	CONSTRAINT [PK_ProviderAdjustmentsProviders] PRIMARY KEY CLUSTERED (
-        [Ukprn] ASC
-    )
-)
-GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- ProviderAdjustmentsCurrent
