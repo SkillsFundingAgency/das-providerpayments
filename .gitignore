@@ -282,7 +282,9 @@ paket-files/
 
 /src/OpaEarning/SFA.OPA.InterfaceTransform.Console.exe
 
-/src/OpaEarning/Build/SFA.DAS.CollectionEarnings.Calculator/Resources/1617/Apprenticeships Earnings Calc 16_17.zip
+
+/src/OpaEarning/Build/SFA.DAS.CollectionEarnings.Calculator/Resources/**
+#/src/OpaEarning/Build/SFA.DAS.CollectionEarnings.Calculator/Resources/1617/Apprenticeships Earnings Calc 16_17.zip
 
 
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/ddl/PeriodEnd.Transient.Reference.Providers.ddl.tables.sql
