@@ -6,11 +6,16 @@ CD ../..
 CD OpaEarning/Transform
 CALL RunBuild.bat
 CD ..
+powershell -file .\TransformForAcceptanceTesting.ps1 1819
 powershell -file .\TransformForAcceptanceTesting.ps1 1718
 powershell -file .\TransformForAcceptanceTesting.ps1 1617
 CD Build
 CALL RunBuild.bat %1 %2
+pause Running Pack Component 1819
+CALL RunPackComponent.bat %1 1819
+pause Running Pack Component 1718
 CALL RunPackComponent.bat %1 1718
+pause Running Pack Compoent 1617
 CALL RunPackComponent.bat %1 1617
 CD ../..
 
