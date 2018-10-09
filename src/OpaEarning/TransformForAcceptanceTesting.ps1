@@ -1,5 +1,5 @@
 param (
-    [string]$rulebaseVersion = "1617"
+    [string]$rulebaseVersion = "1819"
  )
 
 function GetLatestVersion

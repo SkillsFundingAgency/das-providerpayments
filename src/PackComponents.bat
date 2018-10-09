@@ -5,9 +5,11 @@ CALL RunBuild.bat
 POPD
 powershell -file TransformForAcceptanceTesting.ps1 1718
 powershell -file TransformForAcceptanceTesting.ps1 1617
+powershell -file TransformForAcceptanceTesting.ps1 1819
 PUSHD Build
 CALL RunPackComponent.bat %1 1718
 CALL RunPackComponent.bat %1 1617
+CALL RunPackComponent.bat %1 1819
 POPD
 POPD
 

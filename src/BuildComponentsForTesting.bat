@@ -5,6 +5,7 @@ mkdir "C:\Temp\PaymentsAt\Components"
 REM call RunBuildComponents.bat "Debug"
 
 xcopy "OpaEarning\Build\Deploy\1718" "C:\Temp\PaymentsAT\Components\EarningsCalculator-1.0.0.0\1718\" /S /Y
+xcopy "OpaEarning\Build\Deploy\1819" "C:\Temp\PaymentsAT\Components\EarningsCalculator-1.0.0.0\1819\" /S /Y
 xcopy "SharedPipelineComponents\DataLock\DeployPeriodEnd" "C:\Temp\PaymentsAT\Components\DataLockPeriodEnd-1.0.0.0\" /S /Y
 xcopy "SharedPipelineComponents\DataLock\Deploy" "C:\Temp\PaymentsAT\Components\DataLockSubmission-1.0.0.0\" /S /Y
 xcopy "SharedPipelineComponents\DataLockEvents\DeployDataLock" "C:\Temp\PaymentsAT\Components\DataLockEvents-1.0.0.0\" /S /Y

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace SFA.OPA.InterfaceTransform.Console
@@ -145,7 +146,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables.");
 
-            var inputFileName = "AEC_Tables.sql";
+            var inputFileName = "01 ILR_Rulebase_Tables.sql";
             var outputFileName = "OPA.Transient.Rulebase.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -209,7 +210,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into deds tables.");
 
-            var inputFileName = "AEC_Tables.sql";
+            var inputFileName = "01 ILR_Rulebase_Tables.sql";
             var outputFileName = "OPA.Deds.Rulebase.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -244,21 +245,13 @@ namespace SFA.OPA.InterfaceTransform.Console
 
                 if (line.Trim().StartsWith("create table", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    outputDdl.Add(line);
+                    if (!tableName.Equals("Rulebase.AEC_global", StringComparison.OrdinalIgnoreCase))
+                    {
+                        outputDdl.Add(" [Ukprn] bigint NOT NULL,");
+                    }
+
                     afterCreateTable = true;
-                }
-
-                if (line.Trim().StartsWith("(") && afterCreateTable)
-                {
-                    if (tableName.Equals("[Rulebase].[AEC_global]", StringComparison.OrdinalIgnoreCase))
-                    {
-                        outputDdl.Add(line);
-                    }
-                    else
-                    {
-                        outputDdl.Add(line + " [Ukprn] bigint NOT NULL,");
-                    }
-
-                    afterCreateTable = false;
                     continue;
                 }
 
@@ -282,11 +275,24 @@ namespace SFA.OPA.InterfaceTransform.Console
             System.Console.WriteLine("Finished transforming the transient rulebase tables into deds tables.");
         }
 
+        private static readonly Regex FirstWordOnALineRegex = new Regex(@"\s*(\w*)\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        static string FirstWord(string input)
+        {
+            var matches = FirstWordOnALineRegex.Matches(input);
+            if (matches.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return matches[0].Value.Replace("\t", "");
+        }
+
         private static void TransformTransientRulebaseTablesIntoTransientViews(string inputPath, string outputPath)
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into transient views.");
 
-            var inputFileName = "AEC_Tables.sql";
+            var inputFileName = "01 ILR_Rulebase_Tables.sql";
             var outputFileName = "OPA.Transient.Rulebase.ddl.views.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -300,7 +306,6 @@ namespace SFA.OPA.InterfaceTransform.Console
 
             foreach (var line in inputDdl)
             {
-                
                 if (line.StartsWith("--"))
                 {
                     continue;
@@ -315,7 +320,7 @@ namespace SFA.OPA.InterfaceTransform.Console
                 if (line.Trim().StartsWith("if object_id", StringComparison.InvariantCultureIgnoreCase))
                 {
                     tableName = line.Split('\'')[1];
-                    viewName = tableName.ReplaceCaseInsensitive("].[", "].[vw_");
+                    viewName = tableName.ReplaceCaseInsensitive(".", ".vw_");
 
                     outputDdl.Add(line.ReplaceCaseInsensitive("'u'", "'v'").ReplaceCaseInsensitive(tableName, viewName));
                     continue;
@@ -324,26 +329,23 @@ namespace SFA.OPA.InterfaceTransform.Console
                 if (line.Trim().StartsWith("drop table", StringComparison.InvariantCultureIgnoreCase))
                 {
                     outputDdl.Add(line.ReplaceCaseInsensitive("drop table", "drop view").ReplaceCaseInsensitive(tableName, viewName));
-                    outputDdl.Add("GO");
                     continue;
                 }
 
                 if (line.Trim().StartsWith("create table", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    outputDdl.Add(line.ReplaceCaseInsensitive("create table", "create view").ReplaceCaseInsensitive(tableName, viewName));
+                    outputDdl.Add(line.ReplaceCaseInsensitive("create table", "create view")
+                        .ReplaceCaseInsensitive(tableName, viewName)
+                        .ReplaceCaseInsensitive("(", ""));
                     afterCreateTable = true;
-                    continue;
-                }
 
-                if (line.Trim().StartsWith("(") && afterCreateTable && !afterPrimaryKey)
-                {
-                    if (tableName.Equals("[Rulebase].[AEC_global]", StringComparison.OrdinalIgnoreCase))
+                    if (tableName.Equals("Rulebase.AEC_global", StringComparison.OrdinalIgnoreCase))
                     {
-                        outputDdl.Add("AS SELECT '' AS [Nothing]");
+                        outputDdl.Add("AS SELECT '' AS [Nothing],");
                     }
                     else
                     {
-                        outputDdl.Add("AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn]");
+                        outputDdl.Add("AS SELECT (SELECT Ukprn FROM Valid.LearningProvider) AS [Ukprn],");
                     }
 
                     continue;
@@ -368,18 +370,22 @@ namespace SFA.OPA.InterfaceTransform.Console
 
                 if (line.Trim().StartsWith(")") && afterCreateTable)
                 {
+                    var lastLine = outputDdl.Last().TrimEnd(',');
+                    outputDdl.RemoveAt(outputDdl.Count - 1);
+                    outputDdl.Add(lastLine);
+
                     outputDdl.Add("FROM " + tableName);
                     afterCreateTable = false;
                     continue;
                 }
 
-                var idx = line.TrimStart().IndexOf("]", StringComparison.OrdinalIgnoreCase);
-                if (idx != -1)
+                var firstWord = FirstWord(line);
+                if (!string.IsNullOrEmpty(firstWord) && afterCreateTable)
                 {
-                    outputDdl.Add("    ," + line.TrimStart().Remove(idx + 1));
+                    outputDdl.Add($"{firstWord},");
                     continue;
                 }
-
+                
                 outputDdl.Add(line);
             }
 
@@ -433,7 +439,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient reference tables.");
 
-            var inputFileName = "CreateReferenceDataTablesSQL.sql";
+            var inputFileName = "02 CreateReferenceTables.sql";
             var outputFileName = "OPA.Transient.Reference.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\Reference Data\{inputFileName}");
@@ -465,7 +471,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into copy to deds mapping xmls.");
 
-            var inputFileName = "AEC_Tables.sql";
+            var inputFileName = "01 ILR_Rulebase_Tables.sql";
             var outputFileName = "DasEarningsCopyToDedsMapping.xml";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -627,7 +633,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into a deds cleanup script.");
 
-            var inputFileName = "AEC_Tables.sql";
+            var inputFileName = "01 ILR_Rulebase_Tables.sql";
             var outputFileName = "Ilr.Earnings.Cleanup.Deds.DML.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
