@@ -618,6 +618,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration Scripts", "Migration Scripts", "{704E27F1-F639-4F3C-A397-08620474A859}"
 	ProjectSection(SolutionItems) = preProject
 		PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql = PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0036_PeriodEnd.Deds.Refunds.sql
+		PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0037_PeriodEnd.Deds.Refunds.HoldingBackCompletion.sql = PeriodEnd\Refunds\DeployRefunds\sql\MigrationScripts\0037_PeriodEnd.Deds.Refunds.HoldingBackCompletion.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Calc.Shared.Interfaces", "Shared\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj", "{C43B8B7E-FEF3-4C37-8EEB-5175B2CBEB79}"
