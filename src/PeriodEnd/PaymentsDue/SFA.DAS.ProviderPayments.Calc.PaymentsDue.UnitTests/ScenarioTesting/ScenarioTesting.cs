@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
@@ -11,6 +12,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestDataLoader;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
 {
@@ -36,7 +38,19 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
         {
             var testData = TestData.LoadFrom(filename);
 
-            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(), datalock, commitmentMatcher, paymentsDueCalc, completionPaymentFilter.Object);
+            completionPaymentFilter.Setup(x =>
+                    x.Process(It.IsAny<List<LearnerSummaryPaymentEntity>>(), testData.RawEarnings))
+                .Returns(new FilteredEarningsResult
+                {
+                    RawEarnings = testData.RawEarnings,
+                    NonPayableEarnings = new List<NonPayableEarning>(),
+                });
+
+            var sut = new LearnerPaymentsDueProcessor(LogManager.CreateNullLogger(),
+                datalock,
+                commitmentMatcher,
+                paymentsDueCalc,
+                completionPaymentFilter.Object);
 
             var parameters = new LearnerData(testData.LearnRefNumber, testData.Uln);
             parameters.RawEarnings.AddRange(testData.RawEarnings);
