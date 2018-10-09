@@ -108,7 +108,7 @@ SELECT
 	0 [TransactionType13],
 	0 [TransactionType14],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
-    ,COALESCE([APEP].[PriceEpisodeLearnerAdditionalPayment], 0) [TransactionType16]
+    COALESCE([APEP].[PriceEpisodeLearnerAdditionalPayment], 0) [TransactionType16],
     CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 	,[APE].[PriceEpisodeFirstAdditionalPaymentThresholdDate] [FirstIncentiveCensusDate]
 	,[APE].[PriceEpisodeSecondAdditionalPaymentThresholdDate] [SecondIncentiveCensusDate]
