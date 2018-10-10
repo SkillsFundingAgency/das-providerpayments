@@ -14,35 +14,16 @@ INSERT INTO [Reference].[ProviderAdjustmentsHistory] (
         [CollectionPeriodYear]
     )
 SELECT 
-	[Ukprn],
-    [SubmissionId],
-    [SubmissionCollectionPeriod],
-    [SubmissionAcademicYear],
-    [PaymentType],
-    [PaymentTypeName],
-    [Amount],
-    [CollectionPeriodName],
-    [CollectionPeriodMonth],
-    [CollectionPeriodYear]
-FROM OPENQUERY(${DAS_PeriodEnd.servername}, '
-		SELECT
-			[Ukprn],
-			[SubmissionId],
-			[SubmissionCollectionPeriod],
-			[SubmissionAcademicYear],
-			[PaymentType],
-			[PaymentTypeName],
-			[Amount],
-			[CollectionPeriodName],
-			[CollectionPeriodMonth],
-			[CollectionPeriodYear]
-		FROM 
-			${DAS_PeriodEnd.databasename}.ProviderAdjustments.Payments
-		WHERE
-			SubmissionAcademicYear = ${YearOfCollection}'
-    ) AS r
-WHERE Ukprn IN (
-        SELECT Ukprn
-        FROM Reference.ProviderAdjustmentsProviders
-      )      
+	Ukprn,
+	SubmissionId,
+	SubmissionCollectionPeriod,
+	SubmissionAcademicYear,
+	PaymentType,
+	PaymentTypeName,
+	Amount,
+	CollectionPeriodName,
+	CollectionPeriodMonth,
+	CollectionPeriodYear
+FROM ${DAS_PeriodEnd.FQ}.ProviderAdjustments.Payments
+WHERE SubmissionAcademicYear = ${YearOfCollection}
 GO

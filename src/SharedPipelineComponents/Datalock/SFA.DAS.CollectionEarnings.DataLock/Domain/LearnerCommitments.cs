@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.Payments.DCFS.Extensions;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 {
@@ -22,8 +23,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 if (commitmentList.Count == 1)
                 {
                     // No 'versions'
-                    commitmentList[0].EffectiveStartDate = commitmentList[0].StartDate;
-                    commitmentList[0].EffectiveEndDate = commitmentList[0].EndDate;
+                    commitmentList[0].EffectiveStartDate = commitmentList[0].StartDate.LastDayOfMonth();
+                    commitmentList[0].EffectiveEndDate = commitmentList[0].EndDate.LastDayOfMonth().AddDays(-1);
                 }
                 else
                 {

@@ -19,7 +19,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
         public static bool HasCompletionPayment(this RawEarning earning)
         {
             return ((earning.TransactionType02 != 0 ||
-                     earning.TransactionType03 != 0) &&
+                     earning.TransactionType03 != 0 ||
+                     earning.TransactionType09 != 0 ||
+                     earning.TransactionType10 != 0
+                    ) &&
                     earning.EndDate.HasValue);
         }
 
@@ -33,8 +36,6 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions
         {
             return (earning.TransactionType01 != 0 ||
                     earning.TransactionType08 != 0 ||
-                    earning.TransactionType09 != 0 ||
-                    earning.TransactionType10 != 0 ||
                     earning.TransactionType11 != 0 ||
                     earning.TransactionType12 != 0 ||
                     earning.TransactionType15 != 0 ||
