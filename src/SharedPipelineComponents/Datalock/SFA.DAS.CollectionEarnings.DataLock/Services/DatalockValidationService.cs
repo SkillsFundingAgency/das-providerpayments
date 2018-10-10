@@ -76,7 +76,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                     if (earning.HasCareLeaverApprenticePayment())
                     {
                         ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, result, TransactionTypesFlag.CareLeaverApprenticePayments);
+                            learnerCommitments, resultBuilder, TransactionTypesFlag.CareLeaverApprenticePayments);
                     }
                 }
             }
