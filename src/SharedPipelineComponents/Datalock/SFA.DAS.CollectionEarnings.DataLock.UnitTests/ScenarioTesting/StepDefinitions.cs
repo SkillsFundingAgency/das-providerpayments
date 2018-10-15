@@ -7,7 +7,6 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using TechTalk.SpecFlow;
 
@@ -65,7 +64,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         [When(@"I call the service ValidataDatalockForProvider")]
         public void WhenICallTheServiceValidataDatalockForProvider()
         {
-            DatalockValidationService sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
             _resultsContext.DatalockValidationResult = sut.ValidateDatalockForProvider(new ProviderCommitments(_commitmentsContext.CommitmentEntities), _earningsContext.RawEarnings,
                 new HashSet<long>().ToImmutableHashSet());
@@ -86,11 +85,23 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         }
 
         [Then(@"There are (.*) payable datalocks for price episode (.*)")]
-        public void ThenTheDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
+        public void ThenThePayableDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
         {
             _resultsContext.DatalockValidationResult
                 .PriceEpisodePeriodMatches
                 .Where(x => x.Payable)
+                .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier)
+                .Should()
+                .HaveCount(expectedNumber);
+        }
+
+        [Then(@"There are (.*) non-payable datalocks for price episode (.*)")]
+        public void ThenTheNonPayableDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
+        {
+            _resultsContext.DatalockValidationResult
+                .PriceEpisodePeriodMatches
+                .Where(x => !x.Payable)
+                .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier)
                 .Should()
                 .HaveCount(expectedNumber);
         }

@@ -6,12 +6,12 @@
         {
             return new UlnMatchHandler(
                 new UkprnMatchHandler(
-                    new StandardMatchHandler(
-                        new FrameworkMatchHandler(
-                            new PathwayMatchHandler(
-                                new ProgrammeMatchHandler(
-                                    new PriceMatchHandler(
-                                        new StartDateMatcher(
+                    new StartDateMatcher(
+                        new StandardMatchHandler(
+                            new FrameworkMatchHandler(
+                                new PathwayMatchHandler(
+                                    new ProgrammeMatchHandler(
+                                        new PriceMatchHandler(
                                             new WithdrawnCommitmentMatcher(
                                                 new PausedCommitmentMatcher(null))))))))));
         }

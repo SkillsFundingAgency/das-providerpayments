@@ -93,6 +93,7 @@
     <Compile Include="Domain\Commitment.cs" />
     <Compile Include="Domain\DatalockValidationResultBuilder.cs" />
     <Compile Include="Domain\DatalockValidationResult.cs" />
+    <Compile Include="Domain\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
     <Compile Include="Domain\PriceEpisodeGroup.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
