@@ -35,6 +35,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
         {
             if (value == null || value.Equals("null", StringComparison.OrdinalIgnoreCase))
             {
+                if (type == typeof(int?) || type == typeof(int))
+                {
+                    return 0;
+                }
+
+                if (type == typeof(long?) || type == typeof(long))
+                {
+                    return 0L;
+                }
+
                 return null;
             }
             if (type == typeof(string))
