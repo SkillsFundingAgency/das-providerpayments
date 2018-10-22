@@ -94,7 +94,7 @@
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentGroup.cs" />
-    <Compile Include="Services\Dependencies\ILearnerPaymentsDueProcessor.cs" />
+    <Compile Include="Services\Dependencies\IProcessPaymentsDue.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarning.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />

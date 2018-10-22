@@ -36,7 +36,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 ProviderEntity provider,
                 List<LearnerData> learnerParameters,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 ProviderPaymentsDueProcessor sut,
                 List<PaymentsDueResult> testResults
                 )
@@ -67,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderPaymentsDueProcessor sut)
             {
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderPaymentsDueProcessor sut)
             {
@@ -121,7 +121,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderPaymentsDueProcessor sut)
             {
@@ -153,7 +153,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<INonPayableEarningRepository> mockNonPayableEarningsRepository,
                 ProviderPaymentsDueProcessor sut)
             {
@@ -191,7 +191,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 List<LearnerData> learnerParameters,
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderPaymentsDueProcessor sut)
             {
@@ -223,7 +223,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
                 PaymentsDueResult learnerResult,
                 [Frozen] Mock<ICorrelateLearnerData> providerDataSorter,
                 [Frozen] Mock<ICollectionPeriodRepository> mockCollectionPeriodRepository,
-                [Frozen] Mock<ILearnerPaymentsDueProcessor> mockLearnerProcessor,
+                [Frozen] Mock<IProcessPaymentsDue> mockLearnerProcessor,
                 [Frozen] Mock<IRequiredPaymentRepository> mockRequiredPaymentsRepository,
                 ProviderPaymentsDueProcessor sut)
             {

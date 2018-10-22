@@ -5,7 +5,7 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class LearnerPaymentsDueProcessor : ILearnerPaymentsDueProcessor
+    public class LearnerPaymentsDueProcessor : IProcessPaymentsDue
     {
         private readonly ILogger _logger;
         private readonly IDetermineWhichEarningsShouldBePaid _determinePayableEarnings;

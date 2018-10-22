@@ -13,7 +13,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private readonly ILogger _logger;
         private readonly ICorrelateLearnerData _learnerDataCorrelator;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private readonly ILearnerPaymentsDueProcessor _learnerPaymentsDueProcessor;
+        private readonly IProcessPaymentsDue _processPaymentsDue;
         private readonly INonPayableEarningRepository _nonPayableEarningRepository;
         private readonly IRequiredPaymentRepository _requiredPaymentRepository;
 
@@ -21,14 +21,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             ILogger logger,
             ICorrelateLearnerData learnerDataCorrelator,
             ICollectionPeriodRepository collectionPeriodRepository,
-            ILearnerPaymentsDueProcessor learnerPaymentsDueProcessor,
+            IProcessPaymentsDue processPaymentsDue,
             INonPayableEarningRepository nonPayableEarningRepository,
             IRequiredPaymentRepository requiredPaymentRepository)
         {
             _logger = logger;
             _learnerDataCorrelator = learnerDataCorrelator;
             _collectionPeriodRepository = collectionPeriodRepository;
-            _learnerPaymentsDueProcessor = learnerPaymentsDueProcessor;
+            _processPaymentsDue = processPaymentsDue;
             _nonPayableEarningRepository = nonPayableEarningRepository;
             _requiredPaymentRepository = requiredPaymentRepository;
         }
@@ -37,15 +37,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             _logger.Info($"Processing started for Provider UKPRN: [{provider.Ukprn}].");
 
-            var learners = _learnerDataCorrelator.CreateLearnerDataForProvider(provider.Ukprn);
+            var correlatedLearnerData = _learnerDataCorrelator.CreateLearnerDataForProvider(provider.Ukprn);
             var currentCollectionPeriod = _collectionPeriodRepository.GetCurrentCollectionPeriod();
             
             var allNonPayablesForProvider = new List<NonPayableEarning>();
             var allPayablesForProvider = new List<RequiredPayment>();
 
-            foreach (var learner in learners)
+            foreach (var learnerData in correlatedLearnerData)
             {
-                var learnerEarnings = _learnerPaymentsDueProcessor.GetPayableAndNonPayableEarnings(learner, provider.Ukprn);
+                var learnerEarnings = _processPaymentsDue
+                    .GetPayableAndNonPayableEarnings(learnerData, provider.Ukprn);
 
                 allNonPayablesForProvider.AddRange(learnerEarnings.NonPayableEarnings);
                 allPayablesForProvider.AddRange(learnerEarnings.PayableEarnings);
@@ -53,12 +54,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             allNonPayablesForProvider.ForEach(nonPayable =>
             {
-                AddCollectionInformationToEarning(provider, nonPayable, currentCollectionPeriod);
+                AddCollectionDataToRequiredPayment(provider, nonPayable, currentCollectionPeriod);
             });
 
             allPayablesForProvider.ForEach(payable =>
             {
-                AddCollectionInformationToEarning(provider, payable, currentCollectionPeriod);
+                AddCollectionDataToRequiredPayment(provider, payable, currentCollectionPeriod);
             });
 
             StoreEarnings(allNonPayablesForProvider, allPayablesForProvider);
@@ -74,13 +75,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _requiredPaymentRepository.AddMany(allPayablesForProvider);
         }
 
-        private static void AddCollectionInformationToEarning(ProviderEntity provider, RequiredPayment nonPayable,
+        private static void AddCollectionDataToRequiredPayment(
+            ProviderEntity provider, 
+            RequiredPayment requiredPayment,
             CollectionPeriodEntity currentCollectionPeriod)
         {
-            nonPayable.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
-            nonPayable.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
-            nonPayable.CollectionPeriodMonth = currentCollectionPeriod.Month;
-            nonPayable.CollectionPeriodYear = currentCollectionPeriod.Year;
+            requiredPayment.IlrSubmissionDateTime = provider.IlrSubmissionDateTime;
+            requiredPayment.CollectionPeriodName = currentCollectionPeriod.CollectionPeriodName;
+            requiredPayment.CollectionPeriodMonth = currentCollectionPeriod.Month;
+            requiredPayment.CollectionPeriodYear = currentCollectionPeriod.Year;
         }
     }
 }

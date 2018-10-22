@@ -2,7 +2,7 @@
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies
 {
-    public interface ILearnerPaymentsDueProcessor
+    public interface IProcessPaymentsDue
     {
         PaymentsDueResult GetPayableAndNonPayableEarnings(LearnerData parameters, long ukprn);
     }
