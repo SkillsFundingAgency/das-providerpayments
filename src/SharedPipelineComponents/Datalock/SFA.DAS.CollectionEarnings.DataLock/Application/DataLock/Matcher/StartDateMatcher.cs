@@ -18,9 +18,14 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher
             DateTime censusDate,
             MatchResult matchResult)
         {
-            var commitmentsToMatch = commitments
-                .Where(c => c.StartDate <= earning.EpisodeEffectiveTnpStartDate)
-                .ToList();
+            var commitmentsToMatch = commitments.Where(c =>
+            {
+                if (c.IsVersioned)
+                {
+                    return c.EffectiveFrom <= earning.EpisodeEffectiveTnpStartDate;
+                }
+                return c.StartDate <= earning.EpisodeEffectiveTnpStartDate;
+            }).ToList();
 
             if (!commitmentsToMatch.Any())
             {
