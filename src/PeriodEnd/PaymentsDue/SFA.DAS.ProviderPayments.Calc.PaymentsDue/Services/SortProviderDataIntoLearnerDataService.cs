@@ -39,24 +39,21 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
         {
-            var learners = Correlate(ukprn);
-            return learners;
-        }
-
-        private List<LearnerData> Correlate(long ukprn)
-        {
             var learnerResults = new SortLearnerResults();
 
             var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
             var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
-            
+
             foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
             {
                 rawEarning.DeliveryMonth = periodToMonthMapper[rawEarning.Period];
                 rawEarning.DeliveryYear = periodToYearMapper[rawEarning.Period];
 
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(rawEarning.LearnRefNumber, rawEarning.Uln).RawEarnings.Add(rawEarning);
+                learnerResults
+                    .GetLearnerDataForLearner(rawEarning.LearnRefNumber, rawEarning.Uln)
+                    .RawEarnings
+                    .Add(rawEarning);
             }
 
             foreach (var rawEarningMathsEnglish in _rawEarningsMathsEnglishRepository.GetAllForProvider(ukprn))
@@ -64,100 +61,119 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 rawEarningMathsEnglish.DeliveryMonth = periodToMonthMapper[rawEarningMathsEnglish.Period];
                 rawEarningMathsEnglish.DeliveryYear = periodToYearMapper[rawEarningMathsEnglish.Period];
 
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
+                learnerResults
+                    .GetLearnerDataForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln)
+                    .RawEarningsMathsEnglish
+                    .Add(rawEarningMathsEnglish);
             }
 
             foreach (var paymentEntity in _paymentRepository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(paymentEntity.LearnRefNumber).HistoricalEmployerPayments.Add(paymentEntity);
+                learnerResults
+                    .GetLearnerDataForLearner(paymentEntity.LearnRefNumber)
+                    .HistoricalEmployerPayments
+                    .Add(paymentEntity);
             }
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalRequiredPayments.Add(historicalPayment);
+                learnerResults
+                    .GetLearnerDataForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln)
+                    .HistoricalRequiredPayments
+                    .Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(dataLock);
+                learnerResults
+                    .GetLearnerDataForLearner(dataLock.LearnRefNumber)
+                    .DataLocks
+                    .Add(dataLock);
             }
 
             foreach (var datalockValidationError in _dataLockRepository.GetValidationErrorsForProvider(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(datalockValidationError.LearnRefNumber).DatalockValidationErrors.Add(datalockValidationError);
+                learnerResults
+                    .GetLearnerDataForLearner(datalockValidationError.LearnRefNumber)
+                    .DatalockValidationErrors
+                    .Add(datalockValidationError);
             }
 
             foreach (var commitment in _commitmentsRepository.GetProviderCommitments(ukprn))
             {
-                learnerResults.GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
+                learnerResults
+                    .GetLearnerDataForLearner(commitment.Uln)?
+                    .Commitments
+                    .Add(commitment);
             }
 
-            return learnerResults.LearnerProcessParameters.Values.ToList();
+            return learnerResults.AllLearnerData();
         }
-
     }
 
     class SortLearnerResults
     {
-        public Dictionary<string, LearnerData> LearnerProcessParameters { get; }
-        internal Dictionary<long, string> UlnToLearnerRefNumber { get; }
+        private Dictionary<string, LearnerData> LearnerData { get; }
+        private Dictionary<long, string> UlnToLearnRefNumberMapping { get; }
 
         public SortLearnerResults()
         {
-            LearnerProcessParameters = new Dictionary<string, LearnerData>();
-            UlnToLearnerRefNumber = new Dictionary<long, string>();
+            LearnerData = new Dictionary<string, LearnerData>();
+            UlnToLearnRefNumberMapping = new Dictionary<long, string>();
         }
-    }
 
-    static class SortLearnerResultsExtensions
-    {
-        internal static LearnerData GetLearnerProcessParametersInstanceForLearner(this SortLearnerResults sortLearnerResults, string learnerRefNumber, long? uln = null)
+        public List<LearnerData> AllLearnerData()
+        {
+            return LearnerData.Values.ToList();
+        }
+
+        public LearnerData GetLearnerDataForLearner(string learnRefNumber, long? uln = null)
         {
             LearnerData instance;
-            if (!sortLearnerResults.LearnerProcessParameters.ContainsKey(learnerRefNumber))
+            if (!LearnerData.ContainsKey(learnRefNumber))
             {
-                instance = new LearnerData(learnerRefNumber, uln);
-                sortLearnerResults.LearnerProcessParameters.Add(learnerRefNumber, instance);
+                instance = new LearnerData(learnRefNumber, uln);
+                LearnerData.Add(learnRefNumber, instance);
             }
             else
             {
-                instance = sortLearnerResults.LearnerProcessParameters[learnerRefNumber];
+                instance = LearnerData[learnRefNumber];
             }
 
             // Add Uln to mapping dictionaries if a Uln exists
             if (uln != null)
             {
-                sortLearnerResults.AddToMappingUlnToLearnerRefNumber(uln.Value, learnerRefNumber);
+                AddUlnToLearnRefNumberMapping(uln.Value, learnRefNumber);
             }
 
             return instance;
         }
 
-        internal static LearnerData GetLearnerProcessParametersInstanceForLearner(this SortLearnerResults sortLearnerResults, long uln)
+        private void AddUlnToLearnRefNumberMapping(long uln, string learnRefNumber)
         {
-            var learnerRefNumber = sortLearnerResults.LookupLearnerRefNumber(uln);
+            // TODO Discuss if a mapping already exists (and it's different from our expectation),what do we do?
+            if (!UlnToLearnRefNumberMapping.ContainsKey(uln))
+            {
+                UlnToLearnRefNumberMapping.Add(uln, learnRefNumber);
+            }
+        }
+
+        public LearnerData GetLearnerDataForLearner(long uln)
+        {
+            var learnerRefNumber = LookupLearnRefNumber(uln);
             // TODO What do we do if no match is found? At the moment we return a null result
             if (learnerRefNumber == null)
             {
                 return null;
             }
-            return sortLearnerResults.GetLearnerProcessParametersInstanceForLearner(learnerRefNumber, uln);
+            return GetLearnerDataForLearner(learnerRefNumber, uln);
         }
 
-        internal static void AddToMappingUlnToLearnerRefNumber(this SortLearnerResults sortLearnerResults, long uln, string learnerRefNumber)
+        private string LookupLearnRefNumber(long uln)
         {
-            // TODO Discuss if a mapping already exists (and it's different from our expectation),what do we do?
-            if (!sortLearnerResults.UlnToLearnerRefNumber.ContainsKey(uln))
+            if (UlnToLearnRefNumberMapping.ContainsKey(uln))
             {
-                sortLearnerResults.UlnToLearnerRefNumber.Add(uln, learnerRefNumber);
-            }
-        }
-
-        internal static string LookupLearnerRefNumber(this SortLearnerResults sortLearnerResults, long uln)
-        {
-            if (sortLearnerResults.UlnToLearnerRefNumber.ContainsKey(uln))
-            {
-                return sortLearnerResults.UlnToLearnerRefNumber[uln];
+                return UlnToLearnRefNumberMapping[uln];
             }
             return null;
         }
