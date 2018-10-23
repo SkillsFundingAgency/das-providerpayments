@@ -170,6 +170,10 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>

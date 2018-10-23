@@ -4,13 +4,13 @@ using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
-using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentCollectionPeriod;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents;
 using SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents;
 using SFA.DAS.Provider.Events.DataLock.Application.GetProviders;
 using SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent;
 using SFA.DAS.Provider.Events.DataLock.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
 {
@@ -35,8 +35,8 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
             new object[] { new [] { new DataLockEventPeriod { CollectionPeriod = new CollectionPeriod {Year = 1} } }, new [] { new DataLockEventPeriod { CollectionPeriod = new CollectionPeriod {Year = 2} } } },
             new object[] { new [] { new DataLockEventPeriod { CommitmentVersion = "1-001" } }, new [] { new DataLockEventPeriod { CommitmentVersion = "1-002" } } },
             new object[] { new [] { new DataLockEventPeriod { IsPayable = true } }, new [] { new DataLockEventPeriod { IsPayable = false } } },
-            new object[] { new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.FirstEmployerProviderIncentives } },
-                            new [] { new DataLockEventPeriod { TransactionTypesFlag = TransactionTypesFlag.AllLearning} }                             }
+            new object[] { new [] { new DataLockEventPeriod { TransactionTypesFlag = CensusDateType.First16To18Incentive } },
+                            new [] { new DataLockEventPeriod { TransactionTypesFlag = CensusDateType.OnProgLearning} }                             }
         };
 
         private static readonly object[] EventCommitmentVersions =
@@ -101,7 +101,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "75-001",
                         IsPayable = false,
-                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
+                        TransactionTypesFlag = CensusDateType.OnProgLearning
                     }
                 },
                 Errors = new[]
@@ -157,7 +157,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "99-015",
                         IsPayable = false,
-                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
+                        TransactionTypesFlag = CensusDateType.OnProgLearning
                     }
                 },
                 Errors = new[]
@@ -217,7 +217,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
                         },
                         CommitmentVersion = "99-015",
                         IsPayable = false,
-                        TransactionTypesFlag = TransactionTypesFlag.AllLearning
+                        TransactionTypesFlag = CensusDateType.OnProgLearning
                     }
                 },
                 Errors = new[]

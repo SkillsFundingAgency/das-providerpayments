@@ -5,8 +5,7 @@ using MediatR;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
-using SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities;
-using System.Diagnostics;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents
 {
@@ -91,7 +90,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents
                                 CommitmentVersion = entity.CommitmentVersionId,
                                 IsPayable = entity.Payable,
                                 TransactionType = (TransactionType)entity.TransactionType,
-                                TransactionTypesFlag = (TransactionTypesFlag)entity.TransactionTypesFlag
+                                TransactionTypesFlag = (CensusDateType)entity.TransactionTypesFlag
                             });
                         }
 

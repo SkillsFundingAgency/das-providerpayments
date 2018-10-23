@@ -4,9 +4,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
-using SFA.DAS.CollectionEarnings.DataLock.Domain.Extensions;
-using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Common.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
@@ -49,28 +48,18 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
                 foreach (var earning in learnerEarnings)
                 {
-                    if (earning.HasNonIncentiveEarnings())
+                    foreach (CensusDateType censusDateType in Enum.GetValues(typeof(CensusDateType)))
                     {
-                        ProcessEarning(accountsWithNonPayableFlagSet, earning, 
-                            learnerCommitments, resultBuilder, TransactionTypesFlag.AllLearning);
-                    }
+                        if (censusDateType == CensusDateType.All)
+                        {
+                            continue;
+                        }
 
-                    if (earning.HasCompletionPayment())
-                    {
-                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, resultBuilder, TransactionTypesFlag.Completion);
-                    }
-
-                    if (earning.HasFirstIncentive())
-                    {
-                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, resultBuilder, TransactionTypesFlag.FirstEmployerProviderIncentives);
-                    }
-
-                    if (earning.HasSecondIncentive())
-                    {
-                        ProcessEarning(accountsWithNonPayableFlagSet, earning,
-                            learnerCommitments, resultBuilder, TransactionTypesFlag.SecondEmployerProviderIncentives);
+                        if (earning.HasNonZeroTransactionsForCensusDateType(censusDateType))
+                        {
+                            ProcessEarning(accountsWithNonPayableFlagSet, earning,
+                                learnerCommitments, resultBuilder, censusDateType);
+                        }
                     }
                 }
             }
@@ -80,7 +69,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
         }
 
         private void ProcessEarning(ImmutableHashSet<long> accountsWithNonPayableFlagSet, RawEarning earning,
-            LearnerCommitments learnerCommitments, DatalockValidationResultBuilder result, TransactionTypesFlag earningType)
+            LearnerCommitments learnerCommitments, DatalockValidationResultBuilder result, CensusDateType earningType)
         {
             var censusDate = CalculateCensusDate(earning, earningType);
             var commitments = learnerCommitments.ActiveCommitmentsForDate(censusDate).ToList();
@@ -89,29 +78,31 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 commitments, result, accountsWithNonPayableFlagSet, learnerCommitments.Commitments, censusDate);
         }
 
-        private DateTime CalculateCensusDate(RawEarning earning, TransactionTypesFlag earningType)
+        private DateTime CalculateCensusDate(RawEarning earning, CensusDateType censusDateType)
         {
             var date = new DateTime(1900, 01, 01);
-            switch (earningType)
+            switch (censusDateType)
             {
-                case TransactionTypesFlag.AllLearning:
+                case CensusDateType.OnProgLearning:
                     date = CalculateOnProgCensusDate(earning);
                     break;
-                case TransactionTypesFlag.FirstEmployerProviderIncentives:
+                case CensusDateType.First16To18Incentive:
                     date = earning.FirstIncentiveCensusDate ?? date;
                     break;
-                case TransactionTypesFlag.SecondEmployerProviderIncentives:
+                case CensusDateType.Second16To18Incentive:
                     date = earning.SecondIncentiveCensusDate ?? date;
                     break;
-                case TransactionTypesFlag.Completion:
+                case CensusDateType.CompletionPayments:
                     date = earning.EndDate ?? date;
+                    break;
+                case CensusDateType.LearnerIncentive:
                     break;
             }
 
             return date;
         }
 
-        public void ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType,
+        public void ValidateInitialResult(RawEarning earning, List<string> errors, CensusDateType censusDateType,
             List<Commitment> commitments, DatalockValidationResultBuilder result, ImmutableHashSet<long> accountsWithNonPayableFlagSet,
             List<Commitment> allCommitments, DateTime censusDate)
         {
@@ -120,27 +111,27 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                 errors.Add(DataLockErrorCodes.NotLevyPayer);
             }
 
-            if (commitments.Count > 1 && paymentType == TransactionTypesFlag.AllLearning)
+            if (commitments.Count > 1 && censusDateType == CensusDateType.OnProgLearning)
             {
                 errors.Add(DataLockErrorCodes.MultipleMatches);
             }
             else if (commitments.Count == 0)
             {
-                CheckForEarlierStartDate(earning, allCommitments, censusDate, paymentType, result);
+                CheckForEarlierStartDate(earning, allCommitments, censusDate, censusDateType, result);
                 return;
             }
 
-            result.Add(earning, errors, paymentType, commitments.First());
+            result.Add(earning, errors, censusDateType, commitments.First());
         }
 
         private void CheckForEarlierStartDate(RawEarning earning, 
             List<Commitment> commitments, 
-            DateTime censusDate, 
-            TransactionTypesFlag paymentType,
+            DateTime censusDate,
+            CensusDateType censusDateType,
             DatalockValidationResultBuilder result)
         {
             var matchResult = _datalockMatcher.Match(commitments, earning, censusDate);
-            result.Add(earning, matchResult.ErrorCodes, paymentType, matchResult.Commitments.LastOrDefault());
+            result.Add(earning, matchResult.ErrorCodes, censusDateType, matchResult.Commitments.LastOrDefault());
         }
 
         private DateTime CalculateOnProgCensusDate(RawEarning earning)

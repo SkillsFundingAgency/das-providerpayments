@@ -7,6 +7,7 @@ using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.IntegrationTests.TestContext;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 {
@@ -201,7 +202,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (var traxType in Enum.GetValues(typeof(CensusDateType)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -212,7 +213,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             if (endDate != endDate.LastDayOfMonth() && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (var traxType in Enum.GetValues(typeof(CensusDateType)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -393,7 +394,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (var traxType in Enum.GetValues(typeof(CensusDateType)))
                 {
                     AddDataLockEventPeriod(period, (int)traxType, passedDataLock, eventId);
                 }
@@ -548,7 +549,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                 {
                     connection.Execute(command, param);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw;
                 }

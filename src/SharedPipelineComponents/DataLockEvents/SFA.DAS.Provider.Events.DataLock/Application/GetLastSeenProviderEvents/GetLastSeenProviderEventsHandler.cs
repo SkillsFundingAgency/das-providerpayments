@@ -4,6 +4,7 @@ using MediatR;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
 {
@@ -117,7 +118,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                         CommitmentVersion = e.CommitmentVersion,
                         IsPayable = e.IsPayable,
                         TransactionType = (TransactionType) e.TransactionType,
-                        TransactionTypesFlag = (TransactionTypesFlag)e.TransactionTypesFlag
+                        TransactionTypesFlag = (CensusDateType)e.TransactionTypesFlag
                     })
                     .ToArray();
         }

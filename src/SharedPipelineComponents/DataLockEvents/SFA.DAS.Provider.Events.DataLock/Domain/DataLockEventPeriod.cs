@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
 using System;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.Domain
 {
@@ -11,6 +12,6 @@ namespace SFA.DAS.Provider.Events.DataLock.Domain
         public bool IsPayable { get; set; }
         public TransactionType TransactionType { get; set; }
 
-        public TransactionTypesFlag TransactionTypesFlag { get; set; }
+        public CensusDateType TransactionTypesFlag { get; set; }
     }
 }

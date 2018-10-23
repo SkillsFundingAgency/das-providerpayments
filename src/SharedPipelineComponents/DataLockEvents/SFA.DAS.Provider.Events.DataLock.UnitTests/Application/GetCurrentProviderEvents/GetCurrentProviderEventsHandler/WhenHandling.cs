@@ -1,11 +1,11 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProviderEvents.GetCurrentProviderEventsHandler
 {
@@ -194,14 +194,14 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.GetCurrentProvi
             Assert.AreEqual("1617-R01", actualEvent.Periods[0].CollectionPeriod.Name);
             Assert.AreEqual("1-001", actualEvent.Periods[0].CommitmentVersion);
             Assert.AreEqual(true, actualEvent.Periods[0].IsPayable);
-            Assert.AreEqual(TransactionTypesFlag.AllLearning, actualEvent.Periods[0].TransactionTypesFlag);
+            Assert.AreEqual(CensusDateType.OnProgLearning, actualEvent.Periods[0].TransactionTypesFlag);
 
             Assert.AreEqual(9, actualEvent.Periods[1].CollectionPeriod.Month);
             Assert.AreEqual(2016, actualEvent.Periods[1].CollectionPeriod.Year);
             Assert.AreEqual("1617-R02", actualEvent.Periods[1].CollectionPeriod.Name);
             Assert.AreEqual("1-002", actualEvent.Periods[1].CommitmentVersion);
             Assert.AreEqual(false, actualEvent.Periods[1].IsPayable);
-            Assert.AreEqual(TransactionTypesFlag.AllLearning, actualEvent.Periods[1].TransactionTypesFlag);
+            Assert.AreEqual(CensusDateType.OnProgLearning, actualEvent.Periods[1].TransactionTypesFlag);
 
             // Commitment versions
             Assert.IsNotNull(actualEvent.CommitmentVersions);

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
-using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
@@ -25,13 +25,13 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
 
         public static bool DoesNotContainEarningForCommitmentAndPaymentType(this List<PriceEpisodePeriodMatchEntity> source, 
             RawEarning earning, 
-            CommitmentEntity commitment, 
-            TransactionTypesFlag paymentType)
+            CommitmentEntity commitment,
+            CensusDateType censusDateType)
         {
             if (source.FirstOrDefault(x => x.MatchesEarning(earning) && 
                                            x.MatchesCommitment(commitment) &&
                                            x.Payable &&
-                                           x.TransactionTypesFlag == paymentType) == null)
+                                           x.TransactionTypesFlag == censusDateType) == null)
             {
                 return true;
             }

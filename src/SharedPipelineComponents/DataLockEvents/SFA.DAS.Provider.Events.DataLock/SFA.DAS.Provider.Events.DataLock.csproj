@@ -137,6 +137,10 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

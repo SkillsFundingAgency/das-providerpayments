@@ -1,4 +1,5 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatch
 {
@@ -14,7 +15,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatc
         public bool Payable { get; set; }
         public TransactionType TransactionType { get; set; }
 
-        public TransactionTypesFlag TransactionTypesFlag { get; set; }
+        public CensusDateType TransactionTypesFlag { get; set; }
 
     }
 }

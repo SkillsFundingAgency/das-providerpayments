@@ -34,6 +34,9 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\..\ExternalDependancies\CS.Common.External.dll</HintPath>
     </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -67,8 +70,7 @@
     <Compile Include="Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
-    <Compile Include="Domain\CensusDateType.cs" />
-    <Compile Include="Domain\Extensions\RawEarningExtensions.cs" />
+    <Compile Include="Extensions\RawEarningExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,11 +82,17 @@
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces\SFA.DAS.ProviderPayments.Calc.Shared.Interfaces.csproj">
       <Project>{c43b8b7e-fef3-4c37-8eeb-5175b2cbeb79}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
