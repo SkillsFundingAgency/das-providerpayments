@@ -120,34 +120,9 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
         {
             switch (paymentDue.TransactionType)
             {
-                case TransactionType.First16To18EmployerIncentive:
-                case TransactionType.First16To18ProviderIncentive:
-                case TransactionType.Second16To18EmployerIncentive:
-                case TransactionType.Second16To18ProviderIncentive:
-                case TransactionType.Balancing16To18FrameworkUplift:
-                case TransactionType.Completion16To18FrameworkUplift:
-                case TransactionType.OnProgramme16To18FrameworkUplift:
-                case TransactionType.FirstDisadvantagePayment:
-                case TransactionType.SecondDisadvantagePayment:
-                case TransactionType.OnProgrammeMathsAndEnglish:
-                case TransactionType.BalancingMathsAndEnglish:
-                case TransactionType.LearningSupport:
-                    payments.Add(
-                        new Payment
-                        {
-                            RequiredPaymentId = paymentDue.Id,
-                            DeliveryMonth = paymentDue.DeliveryMonth,
-                            DeliveryYear = paymentDue.DeliveryYear,
-                            CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
-                            CollectionPeriodMonth = currentPeriod.Month,
-                            CollectionPeriodYear = currentPeriod.Year,
-                            FundingSource = FundingSource.FullyFundedSfa,
-                            TransactionType = paymentDue.TransactionType,
-                            Amount = paymentDue.AmountDue
-                        });
-                    break;
-                default:
-
+                case TransactionType.Learning:
+                case TransactionType.Balancing:
+                case TransactionType.Completion:
                     var coInvestedSfaAmount = DetermineCoInvestedAmount(FundingSource.CoInvestedSfa, paymentDue.SfaContributionPercentage, paymentDue.AmountDue);
                     if (coInvestedSfaAmount != 0)
                     {
@@ -184,6 +159,22 @@ namespace SFA.DAS.Payments.Calc.CoInvestedPayments
                             });
                     }
                     break;
+                default:
+                    payments.Add(
+                        new Payment
+                        {
+                            RequiredPaymentId = paymentDue.Id,
+                            DeliveryMonth = paymentDue.DeliveryMonth,
+                            DeliveryYear = paymentDue.DeliveryYear,
+                            CollectionPeriodName = $"{_yearOfCollection}-{currentPeriod.Name}",
+                            CollectionPeriodMonth = currentPeriod.Month,
+                            CollectionPeriodYear = currentPeriod.Year,
+                            FundingSource = FundingSource.FullyFundedSfa,
+                            TransactionType = paymentDue.TransactionType,
+                            Amount = paymentDue.AmountDue
+                        });
+                    break;
+                
             }
         }
 
