@@ -9,7 +9,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class CheckEmployerPayments : ICheckEmployerPayments
     {
-        public bool IsThereEvidenceOfSufficientEmployerPayments(List<LearnerSummaryPaymentEntity> employerPayments,
+        public bool EvidenceOfSufficientEmployerPayments(
+            List<LearnerSummaryPaymentEntity> employerPayments,
             RawEarning rawEarning)
         {
             if (employerPayments == null) throw new ArgumentException(nameof(employerPayments));

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FastMember;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -38,10 +40,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return earningValidationResult;
         }
 
-        public EarningValidationResult AddPeriodToIgnore(int periods)
+        public EarningValidationResult IgnorePeriod(int period)
         {
             var earningValidationResult = new EarningValidationResult();
-            earningValidationResult.PeriodsToIgnore.Add(periods);
+            earningValidationResult.PeriodsToIgnore.Add(period);
             return earningValidationResult;
         }
 
@@ -76,36 +78,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<FundingDue> GetPayableEarnings(
             RawEarning rawEarnings,
             IHoldCommitmentInformation commitmentInformation = null,
-            int censusType = -1)
+            int censusDateType = -1)
         {
-            var payableEarnings = new List<FundingDue>();
-            for (var transactionType = 1; transactionType <= 15; transactionType++)
-            {
-                if (IgnoreTransactionTypeForASpecficCensusDateType(censusType, transactionType))
-                {
-                    continue;
-                }
-
-                var propertyName = $"TransactionType{transactionType:D2}";
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, propertyName];
-                if (amountDue == 0)
-                {
-                    continue;
-                }
-                var fundingDue = new FundingDue(rawEarnings);
-                fundingDue.TransactionType = transactionType;
-
-                if (!PotentialLevyTransactionTypes.Contains(transactionType))
-                {
-                    fundingDue.SfaContributionPercentage = 1;
-                }
-
-                // Doing this to prevent a huge switch statement
-                fundingDue.AmountDue = amountDue;
-                commitmentInformation?.CopyCommitmentInformationTo(fundingDue);
-                payableEarnings.Add(fundingDue);
-            }
-
+            var payableEarnings = ExpandEarning<FundingDue>(rawEarnings, commitmentInformation, censusDateType);
+            
             return payableEarnings;
         }
 
@@ -114,28 +90,55 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             PaymentFailureType paymentFailureReason,
             IHoldCommitmentInformation commitmentInformation = null)
         {
-            var nonPayableEarnings = new List<NonPayableEarning>();
-            for (var transactionType = 1; transactionType <= 15; transactionType++)
+            var nonPayableEarnings = ExpandEarning<NonPayableEarning>(rawEarnings, commitmentInformation);
+            nonPayableEarnings.ForEach(x =>
             {
-                var amountDue = (decimal)FundingDueAccessor[rawEarnings, $"TransactionType{transactionType:D2}"];
+                x.PaymentFailureMessage = reason;
+                x.PaymentFailureReason = paymentFailureReason;
+            });
+            
+            return nonPayableEarnings;
+        }
+
+        private List<T> ExpandEarning<T>(
+            RawEarning earning,
+            IHoldCommitmentInformation commitment = null,
+            int censusDateType = -1)
+            where T : FundingDue, new()
+        {
+            var expandedList = new List<T>();
+            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
+            {
+                var transactionType = (int) transactionTypeValue;
+
+                if (IgnoreTransactionTypeForASpecficCensusDateType(censusDateType, transactionType))
+                {
+                    continue;
+                }
+
+                var amountDue = (decimal) FundingDueAccessor[earning, $"TransactionType{transactionType:D2}"];
                 if (amountDue == 0)
                 {
                     continue;
                 }
 
-                var nonPayableEarning = new NonPayableEarning(rawEarnings);
-                nonPayableEarning.TransactionType = transactionType;
+                var constructor = typeof(T).GetConstructor(new[] {typeof(RawEarning)});
+                var funding = constructor.Invoke(new object[] {earning}) as T;
+                funding.TransactionType = transactionType;
+
+                if (!PotentialLevyTransactionTypes.Contains(transactionType))
+                {
+                    funding.SfaContributionPercentage = 1;
+                }
 
                 // Doing this to prevent a huge switch statement
-                nonPayableEarning.AmountDue = amountDue;
-                commitmentInformation?.CopyCommitmentInformationTo(nonPayableEarning);
+                funding.AmountDue = amountDue;
+                commitment?.CopyCommitmentInformationTo(funding);
 
-                nonPayableEarning.PaymentFailureMessage = reason;
-                nonPayableEarning.PaymentFailureReason = paymentFailureReason;
-                nonPayableEarnings.Add(nonPayableEarning);
+                expandedList.Add(funding);
             }
 
-            return nonPayableEarnings;
+            return expandedList;
         }
 
         private static bool IgnoreTransactionTypeForASpecficCensusDateType(int censusDateType, int transactionType)
@@ -147,11 +150,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             }
 
             if (censusDateType == 1 && (transactionType == 2 ||
-                                      transactionType == 3 ||
-                                      transactionType == 4 ||
-                                      transactionType == 5 ||
-                                      transactionType == 6 ||
-                                      transactionType == 7
+                                        transactionType == 3 ||
+                                        transactionType == 4 ||
+                                        transactionType == 5 ||
+                                        transactionType == 6 ||
+                                        transactionType == 7 ||
+                                        transactionType == 9 ||
+                                        transactionType == 10
                 ))
             {
                 return true;

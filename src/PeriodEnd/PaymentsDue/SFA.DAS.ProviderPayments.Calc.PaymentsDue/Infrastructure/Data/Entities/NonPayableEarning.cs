@@ -4,7 +4,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class NonPayableEarning : RequiredPayment, ICanStoreCommitmentInformation
+    public class NonPayableEarning : FundingDue
     {
         public NonPayableEarning()
         {}

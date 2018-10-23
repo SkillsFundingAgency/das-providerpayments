@@ -42,25 +42,25 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             List<RawEarning> earnings,
             List<RawEarningForMathsOrEnglish> mathsAndEnglishEarnings)
         {
-            var academicYearDetail = GetFirstDayOfAcademicYears();
+            var academicYearDetail = GetAcademicYearsDetail();
 
             var rawEarnings = GetEarningsForCurrentAcademicYear(earnings, academicYearDetail);
             var datalockOutput = GetSuccessfulDatalocksForCurrentAcademicYear(successfulDatalocks, academicYearDetail);
 
-            var result = CreateEarningValidationResultForOnProg(rawEarnings, datalockOutput);
-            result += MatchMathsAndEnglishToOnProg(result, mathsAndEnglishEarnings, rawEarnings, datalockOutput);
+            var result = GetEarnings(rawEarnings, datalockOutput);
+            result += MatchMathsToEarnings(result, mathsAndEnglishEarnings, rawEarnings, datalockOutput);
 
             return result;
         }
 
-        private List<DatalockOutput> GetSuccessfulDatalocksForCurrentAcademicYear(List<DatalockOutput> successfulDatalocks, AcademicYearDetail academicYearDetail)
+        private List<DatalockOutput> GetSuccessfulDatalocksForCurrentAcademicYear(IEnumerable<DatalockOutput> successfulDatalocks, AcademicYearDetail academicYearDetail)
         {
-            return successfulDatalocks.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
+            return successfulDatalocks.Where(x => PriceEpisodeFallsWithinThisAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
         }
 
-        private List<RawEarning> GetEarningsForCurrentAcademicYear(List<RawEarning> earnings, AcademicYearDetail academicYearDetail)
+        private List<RawEarning> GetEarningsForCurrentAcademicYear(IEnumerable<RawEarning> earnings, AcademicYearDetail academicYearDetail)
         {
-            return earnings.Where(x => PriceEpisodeFallsWithinAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
+            return earnings.Where(x => PriceEpisodeFallsWithinThisAcademicYear(x.PriceEpisodeIdentifier, academicYearDetail)).ToList();
         }
 
         private class AcademicYearDetail
@@ -75,11 +75,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             internal DateTime FirstDayOfNextAcademicYear { get; }
         }
 
-        private AcademicYearDetail GetFirstDayOfAcademicYears()
+        private AcademicYearDetail GetAcademicYearsDetail()
         {
             var currentCollectionPeriodAcademicYear = _collectionPeriodRepository.GetCurrentCollectionPeriod()?.AcademicYear ?? "1718";
-            var startingYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
-            var firstDayOfNextAcademicYear = new DateTime(startingYear, 8, 1);
+            var calendarYearForStartOfNextAcademicYear = int.Parse(currentCollectionPeriodAcademicYear.Substring(2)) + 2000; // will fail in 2100...
+            var firstDayOfNextAcademicYear = new DateTime(calendarYearForStartOfNextAcademicYear, 8, 1);
             return new AcademicYearDetail(firstDayOfNextAcademicYear.AddYears(-1), firstDayOfNextAcademicYear);
         }
 
@@ -95,20 +95,20 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return DateTime.MinValue;
         }
 
-        private bool PriceEpisodeFallsWithinAcademicYear(string priceEpisodeIdentifier, AcademicYearDetail academicYearDetail)
+        private bool PriceEpisodeFallsWithinThisAcademicYear(string priceEpisodeIdentifier, AcademicYearDetail academicYearDetail)
         {
             var priceEpisodeStartDate = DateFromPriceEpisodeIdentifier(priceEpisodeIdentifier);
             return priceEpisodeStartDate >= academicYearDetail.FirstDayOfThisAcademicYear &&
                    priceEpisodeStartDate < academicYearDetail.FirstDayOfNextAcademicYear;
         }
 
-        private EarningValidationResult CreateEarningValidationResultForOnProg(
+        private EarningValidationResult GetEarnings(
             List<RawEarning> rawEarnings, 
             List<DatalockOutput> datalockOutput)
         {
             if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                return _earningValidationService.CreatePayableEarnings(rawEarnings, null);
+                return _earningValidationService.CreatePayableEarnings(rawEarnings);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
@@ -143,7 +143,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
                             $"Could not find a matching datalock for price episode: {priceEpisode} in period: {periodGroup.Key}",
                             PaymentFailureType.CouldNotFindSuccessfulDatalock);
-                        result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
+                        result += _earningValidationService.IgnorePeriod(periodGroup.Key);
                         continue;
                     }
 
@@ -160,7 +160,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                                 $"Multiple matching datalocks for price episode: {priceEpisode} in period: {periodGroup.Key}",
                                 PaymentFailureType.MultipleMatchingSuccessfulDatalocks,
                                 datalocksForFlag.First());
-                            result += _earningValidationService.AddPeriodToIgnore(periodGroup.Key);
+                            result += _earningValidationService.IgnorePeriod(periodGroup.Key);
                             continue;
                         }
 
@@ -183,7 +183,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         ///     If there are on-prog earnings, if they are payable then pay
         ///     the maths and english earnings that match them, otherwise not
         /// </summary>
-        private EarningValidationResult MatchMathsAndEnglishToOnProg(
+        private EarningValidationResult MatchMathsToEarnings(
             EarningValidationResult resultSoFar,
             List<RawEarningForMathsOrEnglish> RawEarningsForMathsOrEnglish,
             List<RawEarning> rawEarnings,

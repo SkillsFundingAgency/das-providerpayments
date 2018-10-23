@@ -7,7 +7,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class PaymentsDueCalculationService : ICalculatePaymentsDue
     {
-        public List<RequiredPayment> Calculate(List<FundingDue> earnings,
+        public List<RequiredPayment> Calculate(
+            List<FundingDue> earnings,
             HashSet<int> periodsToIgnore,
             List<RequiredPayment> pastPayments)
         {

@@ -16,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         public void ThenItThrowsArgumentExceptionWhenNoPaymentHistory(
             CheckEmployerPayments sut)
         {
-            Action test = () => sut.IsThereEvidenceOfSufficientEmployerPayments(null, new RawEarning());
+            Action test = () => sut.EvidenceOfSufficientEmployerPayments(null, new RawEarning());
 
             test.ShouldThrow<ArgumentException>().And.Message.Should().ContainEquivalentOf("employerPayments");
         }
@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         public void ThenItThrowsArgumentExceptionWhenNoEarnings(
             CheckEmployerPayments sut)
         {
-            Action test = () => sut.IsThereEvidenceOfSufficientEmployerPayments(new List<LearnerSummaryPaymentEntity>(), null);
+            Action test = () => sut.EvidenceOfSufficientEmployerPayments(new List<LearnerSummaryPaymentEntity>(), null);
 
             test.ShouldThrow<ArgumentException>().And.Message.Should().ContainEquivalentOf("rawEarning");
         }
@@ -45,7 +45,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                     learnerSummaryPaymentEntity.Amount = 0;
                 }
 
-                var actual = sut.IsThereEvidenceOfSufficientEmployerPayments(testPayments, testEarning);
+                var actual = sut.EvidenceOfSufficientEmployerPayments(testPayments, testEarning);
 
                 actual.Should().BeTrue();
             }
@@ -71,7 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                         learnerSummaryPaymentEntity.Amount = testEarning.CumulativePmrs;
                     }
 
-                    var actual = sut.IsThereEvidenceOfSufficientEmployerPayments(testPayments, testEarning);
+                    var actual = sut.EvidenceOfSufficientEmployerPayments(testPayments, testEarning);
 
                     actual.Should().BeTrue();
                 }
@@ -94,7 +94,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                         learnerSummaryPaymentEntity.Amount = testEarning.CumulativePmrs / 4;
                     }
 
-                    var actual = sut.IsThereEvidenceOfSufficientEmployerPayments(testPayments, testEarning);
+                    var actual = sut.EvidenceOfSufficientEmployerPayments(testPayments, testEarning);
 
                     actual.Should().BeTrue();
                 }
@@ -120,7 +120,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                         learnerSummaryPaymentEntity.Amount = exactlyOneThird;
                     }
 
-                    var actual = sut.IsThereEvidenceOfSufficientEmployerPayments(testPayments, testEarning);
+                    var actual = sut.EvidenceOfSufficientEmployerPayments(testPayments, testEarning);
 
                     actual.Should().BeTrue();
                 }

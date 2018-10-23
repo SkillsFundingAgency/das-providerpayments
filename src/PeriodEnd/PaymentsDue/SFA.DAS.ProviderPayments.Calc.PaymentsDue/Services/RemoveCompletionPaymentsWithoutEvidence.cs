@@ -28,7 +28,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
-                if (!_employerPaymentsChecker.IsThereEvidenceOfSufficientEmployerPayments(
+                if (!_employerPaymentsChecker.EvidenceOfSufficientEmployerPayments(
                     employerPayments,
                     rawEarning))
                 {

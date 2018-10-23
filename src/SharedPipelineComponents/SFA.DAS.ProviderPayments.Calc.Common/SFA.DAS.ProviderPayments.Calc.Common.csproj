@@ -58,6 +58,7 @@
     <Compile Include="Context\PaymentsInvalidContextException.cs" />
     <Compile Include="Context\PaymentsContextPropertyKeys.cs" />
     <Compile Include="DependencyResolution\YearOfCollectionPolicy.cs" />
+    <Compile Include="Domain\CensusDateType.cs" />
     <Compile Include="Domain\DataLockErrorCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
