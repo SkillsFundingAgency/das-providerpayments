@@ -16,7 +16,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             if (employerPayments == null) throw new ArgumentException(nameof(employerPayments));
             if (rawEarning == null) throw new ArgumentException(nameof(rawEarning));
 
-            var totalEmployerPayments = employerPayments.Where(x =>
+            var whatEployerHasPaid = rawEarning.CumulativePmrs;
+
+            var whatEmployerNeedsToPay = employerPayments.Where(x =>
                     x.TransactionType == TransactionType.Learning &&
                     x.StandardCode == rawEarning.StandardCode &&
                     x.ProgrammeType == rawEarning.ProgrammeType &&
@@ -27,7 +29,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     x.FundingLineType == rawEarning.FundingLineType)
                 .Sum(x => decimal.Floor(x.Amount));
 
-            if (rawEarning.CumulativePmrs < totalEmployerPayments)
+            if (whatEployerHasPaid < whatEmployerNeedsToPay)
             {
                 return false;
             }

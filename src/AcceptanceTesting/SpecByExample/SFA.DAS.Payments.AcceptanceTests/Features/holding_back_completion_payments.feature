@@ -743,15 +743,15 @@ Scenario: AC15 - 1 learner, levy, LDM code 361 used, co-funding has been used an
 
     Then the provider earnings and payments break down as follows:
         | Type                                    | 06/17 | 07/17 | 08/17 | ... | 05/18 | 06/18 | 07/18 |
-        | Provider Earned Total                   | 600   | 600   | 600   | ... | 600   | 1800  | 0	    |
-        | Provider Paid by SFA                    | 0     | 540   | 540   | ... | 540   | 540   | 1620  | 
-	    | Payment due from Employer               | 0     | 60    | 60    | ... | 60    | 60    | 180   |
-        | Levy account debited                    | 0     | 0     | 0     | ... | 0     | 0     | 0     | 
+        | Provider Earned Total                   | 600   | 600   | 600   | ... | 600   | 1800  | 0     |
+        | Provider Paid by SFA                    | 0     | 540   | 540   | ... | 540   | 540   | 1620  |
+        | Payment due from Employer               | 0     | 60    | 60    | ... | 60    | 60    | 180   |
+        | Levy account debited                    | 0     | 0     | 0     | ... | 0     | 0     | 0     |
         | SFA Levy employer budget                | 0     | 0     | 0     | ... | 0     | 0     | 0     |
-        | SFA Levy co-funding budget              | 540   | 540   | 540   | ... | 540   | 1620   | 0  |
-        | SFA Levy additional payments budget     | 0     | 0     | 0     | ... | 0     | 0	    | 0     |
-		| SFA non-Levy co-funding budget          | 0     | 0     | 0     | ... | 0     | 0     | 0     | 
-	    | SFA non-Levy additional payments budget | 0     | 0     | 0     | ... | 0     | 0     | 0     |
+        | SFA Levy co-funding budget              | 540   | 540   | 540   | ... | 540   | 1620  | 0     |
+        | SFA Levy additional payments budget     | 0     | 0     | 0     | ... | 0     | 0     | 0     |
+        | SFA non-Levy co-funding budget          | 0     | 0     | 0     | ... | 0     | 0     | 0     |
+        | SFA non-Levy additional payments budget | 0     | 0     | 0     | ... | 0     | 0     | 0     |
 
     And the transaction types for the payments are:
 	    | Payment type                            | 07/17 | 08/17 | 09/17 | ... | 05/18 | 06/18 | 07/18 |

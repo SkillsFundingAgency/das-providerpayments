@@ -28,6 +28,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                     continue;
                 }
 
+                if (rawEarning.ExemptionCodeForCompletionHoldback != 0)
+                {
+                    continue;
+                }
+
                 if (!_employerPaymentsChecker.EvidenceOfSufficientEmployerPayments(
                     employerPayments,
                     rawEarning))
