@@ -150,12 +150,12 @@
           <Destination>EndDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PriceEpisodeCumulativePMRs</Source>
-          <Destination>PriceEpisodeCumulativePMRs</Destination>
+          <Source>CumulativePmrs</Source>
+          <Destination>CumulativePmrs</Destination>
         </ColumnMapping>
         <ColumnMapping>
-          <Source>PriceEpisodeCompExemCode</Source>
-          <Destination>PriceEpisodeCompExemCode</Destination>
+          <Source>ExemptionCodeForCompletionHoldback</Source>
+          <Destination>ExemptionCodeForCompletionHoldback</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>

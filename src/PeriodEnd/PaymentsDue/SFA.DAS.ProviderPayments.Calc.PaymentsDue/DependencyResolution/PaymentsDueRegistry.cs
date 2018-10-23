@@ -51,6 +51,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.DependencyResolution
             For<IRawEarningsRepository>().Use<RawEarningsRepository>();
             For<IRawEarningsMathsEnglishRepository>().Use<RawEarningsMathsEnglishRepository>();
 
+            For<IFilterOutCompletionPaymentsWithoutEvidence>().Use<RemoveCompletionPaymentsWithoutEvidence>();
+
             For<ICheckEmployerPayments>().Use<CheckEmployerPayments>();
             For<IPaymentRepository>().Use<PaymentRepository>();
         }
