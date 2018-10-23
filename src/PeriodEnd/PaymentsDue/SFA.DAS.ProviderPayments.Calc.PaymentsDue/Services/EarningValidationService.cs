@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FastMember;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -12,13 +13,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
     public class EarningValidationService 
     {
-        private static readonly HashSet<int> PotentialLevyTransactionTypes = new HashSet<int> { 1, 2, 3 };
+        private static readonly HashSet<TransactionType> PotentialLevyTransactionTypes = 
+            new HashSet<TransactionType> { TransactionType.Learning, TransactionType.Completion, TransactionType.Balancing };
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
 
         public EarningValidationResult CreatePayableEarnings(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment = null,
-            int cenususType = -1)
+            CensusDateType cenususType = CensusDateType.All)
         {
             var earningValidationResult = new EarningValidationResult();
             
@@ -50,12 +52,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<FundingDue> GetFundingDueForNonZeroTransactionTypes(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment,
-            int datalockType)
+            CensusDateType censusDateType)
         {
             var payableEarnings = new List<FundingDue>();
             foreach (var rawEarning in earnings)
             {
-                payableEarnings.AddRange(GetPayableEarnings(rawEarning, commitment, datalockType));
+                payableEarnings.AddRange(GetPayableEarnings(rawEarning, commitment, censusDateType));
             }
 
             return payableEarnings;
@@ -78,7 +80,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<FundingDue> GetPayableEarnings(
             RawEarning rawEarnings,
             IHoldCommitmentInformation commitmentInformation = null,
-            int censusDateType = -1)
+            CensusDateType censusDateType = CensusDateType.All)
         {
             var payableEarnings = ExpandEarning<FundingDue>(rawEarnings, commitmentInformation, censusDateType);
             
@@ -103,15 +105,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<T> ExpandEarning<T>(
             RawEarning earning,
             IHoldCommitmentInformation commitment = null,
-            int censusDateType = -1)
+            CensusDateType censusDateType = CensusDateType.All)
             where T : FundingDue, new()
         {
             var expandedList = new List<T>();
-            foreach (var transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
+            foreach (TransactionType transactionTypeValue in Enum.GetValues(typeof(TransactionType)))
             {
                 var transactionType = (int) transactionTypeValue;
 
-                if (IgnoreTransactionTypeForASpecficCensusDateType(censusDateType, transactionType))
+                if (IgnoreTransactionTypeForCensusDateType(censusDateType, transactionTypeValue))
                 {
                     continue;
                 }
@@ -123,10 +125,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 }
 
                 var constructor = typeof(T).GetConstructor(new[] {typeof(RawEarning)});
-                var funding = constructor.Invoke(new object[] {earning}) as T;
+                var funding = constructor?.Invoke(new object[] {earning}) as T;
+
+                if (funding == null)
+                {
+                    throw new Exception($"Could not create {typeof(T).FullName} - failing process");
+                }
                 funding.TransactionType = transactionType;
 
-                if (!PotentialLevyTransactionTypes.Contains(transactionType))
+                if (TransactionTypeIsSfaOnly(transactionTypeValue))
                 {
                     funding.SfaContributionPercentage = 1;
                 }
@@ -141,52 +148,64 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             return expandedList;
         }
 
-        private static bool IgnoreTransactionTypeForASpecficCensusDateType(int censusDateType, int transactionType)
+        private static bool TransactionTypeIsSfaOnly(TransactionType transactionType) 
+        {
+            return !PotentialLevyTransactionTypes.Contains(transactionType);
+        }
+
+        private static bool IgnoreTransactionTypeForCensusDateType(CensusDateType censusDateType, TransactionType transactionType)
         {
             // TODO These all need to be enums
-            if (censusDateType == -1)
+            if (censusDateType == CensusDateType.All)
             {
                 return false;
             }
 
-            if (censusDateType == 1 && (transactionType == 2 ||
-                                        transactionType == 3 ||
-                                        transactionType == 4 ||
-                                        transactionType == 5 ||
-                                        transactionType == 6 ||
-                                        transactionType == 7 ||
-                                        transactionType == 9 ||
-                                        transactionType == 10
+            if (censusDateType == CensusDateType.OnProgLearning && (
+                    transactionType == TransactionType.Learning ||
+                                        transactionType == TransactionType.OnProgramme16To18FrameworkUplift ||
+                                        transactionType == TransactionType.FirstDisadvantagePayment ||
+                                        transactionType == TransactionType.SecondDisadvantagePayment ||
+                                        transactionType == TransactionType.OnProgrammeMathsAndEnglish ||
+                                        transactionType == TransactionType.BalancingMathsAndEnglish ||
+                                        transactionType == TransactionType.LearningSupport
                 ))
             {
-                return true;
+                return false;
             }
 
-            if (censusDateType == 2 && (transactionType != 4 && transactionType != 5))
+            if (censusDateType == CensusDateType.First16To18Incentive && 
+                (transactionType == TransactionType.First16To18EmployerIncentive ||
+                 transactionType == TransactionType.First16To18ProviderIncentive))
 
             {
-                return true;
+                return false;
             }
 
-            if (censusDateType == 3 && (transactionType != 6 && transactionType != 7))
+            if (censusDateType == CensusDateType.Second16To18Incentive && 
+                (transactionType == TransactionType.Second16To18EmployerIncentive ||
+                 transactionType == TransactionType.Second16To18ProviderIncentive))
             {
-                return true;
+                return false;
             }
 
-            if (censusDateType == 4 && (transactionType != 2 && 
-                                        transactionType != 3 &&
-                                        transactionType != 9 &&
-                                        transactionType != 10))
+            if (censusDateType == CensusDateType.CompletionPayments &&
+                (transactionType == TransactionType.Balancing ||
+                 transactionType == TransactionType.Completion ||
+                 transactionType == TransactionType.Completion16To18FrameworkUplift ||
+                 transactionType == TransactionType.Balancing16To18FrameworkUplift))
             {
-                return true;
+                return false;
             }
 
-            if (censusDateType == 5 && (transactionType != 16))
+            if (censusDateType == CensusDateType.LearnerIncentive && 
+                //(transactionType == TransactionType.CareLeaverApprenticePayments))
+            true)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
     }
 }

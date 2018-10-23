@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
@@ -149,10 +150,15 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    for (var censusType = 1; censusType < 5; censusType++)
+                    foreach (CensusDateType censusDateType in Enum.GetValues(typeof(CensusDateType)))
                     {
+                        if (censusDateType == CensusDateType.All)
+                        {
+                            continue;
+                        }
+
                         var datalocksForFlag = datalocks
-                            .Where(x => x.TransactionTypesFlag == censusType)
+                            .Where(x => x.CensusDateType == censusDateType)
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
@@ -170,7 +176,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                             result += _earningValidationService.CreatePayableEarnings(
                                 periodEarningsForPriceEpisode,
                                 datalocksForFlag.Single(),
-                                censusType);
+                                censusDateType);
                         }
                     }
                 }
@@ -258,8 +264,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
             return result;
         }
-
-
+        
         private EarningValidationResult CreateMathOrEnglishEarningValidationResultForNonLevyApprentice(List<RawEarningForMathsOrEnglish> rawEarningsForMathsOrEnglish, List<RawEarning> rawEarnings)
         {
             var result = new EarningValidationResult();

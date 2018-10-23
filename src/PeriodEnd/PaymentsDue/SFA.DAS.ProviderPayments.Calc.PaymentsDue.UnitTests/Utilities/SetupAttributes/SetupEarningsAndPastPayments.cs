@@ -41,10 +41,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             var fixture = new Fixture();
 
             var priceEpisode1 = fixture.Create<string>() + $"01/08/20{_academicYear.Substring(0, 2)}";
-            int programmeType = fixture.Create<int>();
-            int standardCode = fixture.Create<int>();
-            int pathwayCode = fixture.Create<int>();
-            int frameworkCode = fixture.Create<int>();
+            var programmeType = fixture.Create<int>();
+            var standardCode = fixture.Create<int>();
+            var pathwayCode = fixture.Create<int>();
+            var frameworkCode = fixture.Create<int>();
 
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 

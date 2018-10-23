@@ -67,6 +67,8 @@
     <Compile Include="Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
+    <Compile Include="Domain\CensusDateType.cs" />
+    <Compile Include="Domain\Extensions\RawEarningExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
