@@ -70,7 +70,6 @@
     <Compile Include="Data\Repositories\RawEarningsMathsEnglishRepository.cs" />
     <Compile Include="Data\Repositories\RawEarningsRepository.cs" />
     <Compile Include="Data\Repositories\RequiredPaymentRepository.cs" />
-    <Compile Include="Extensions\RawEarningExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

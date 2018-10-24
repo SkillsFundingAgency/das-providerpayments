@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;

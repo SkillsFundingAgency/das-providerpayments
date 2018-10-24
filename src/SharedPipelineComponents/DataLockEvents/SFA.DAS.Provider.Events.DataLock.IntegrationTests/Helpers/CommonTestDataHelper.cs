@@ -7,7 +7,6 @@ using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.DCFS.Extensions;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.IntegrationTests.TestContext;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 {

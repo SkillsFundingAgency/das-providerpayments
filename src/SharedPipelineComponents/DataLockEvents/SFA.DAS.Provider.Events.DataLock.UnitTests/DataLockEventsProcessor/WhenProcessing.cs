@@ -4,13 +4,13 @@ using MediatR;
 using Moq;
 using NLog;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentCollectionPeriod;
 using SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents;
 using SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents;
 using SFA.DAS.Provider.Events.DataLock.Application.GetProviders;
 using SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent;
 using SFA.DAS.Provider.Events.DataLock.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.UnitTests.DataLockEventsProcessor
 {

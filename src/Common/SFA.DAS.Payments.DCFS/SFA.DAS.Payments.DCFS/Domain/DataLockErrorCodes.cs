@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ProviderPayments.Calc.Common.Domain
+﻿namespace SFA.DAS.Payments.DCFS.Domain
 {
     public class DataLockErrorCodes
     {

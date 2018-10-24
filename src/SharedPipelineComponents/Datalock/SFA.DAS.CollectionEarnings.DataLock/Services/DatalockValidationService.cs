@@ -4,9 +4,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain.Extensions;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Services
 {
@@ -55,7 +55,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
                             continue;
                         }
 
-                        if (earning.HasNonZeroTransactionsForCensusDateType(censusDateType))
+                        if (earning.HasValidTransactionsForCensusDateType(censusDateType))
                         {
                             ProcessEarning(accountsWithNonPayableFlagSet, earning,
                                 learnerCommitments, resultBuilder, censusDateType);

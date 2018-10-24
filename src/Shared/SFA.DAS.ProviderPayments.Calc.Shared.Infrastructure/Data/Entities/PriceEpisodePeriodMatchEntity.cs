@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 {

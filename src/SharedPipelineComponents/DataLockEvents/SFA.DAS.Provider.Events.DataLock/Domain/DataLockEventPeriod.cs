@@ -1,6 +1,5 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
 using System;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.Domain
 {

@@ -41,8 +41,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
                 context == TestFixtureContext.PeriodEnd
                 ? EventSource.PeriodEnd
                 : EventSource.Submission);
-
-
+            
             // Assert
             var events = _helper.GetAllEvents();
 

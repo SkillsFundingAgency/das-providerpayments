@@ -1,11 +1,11 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Application.WriteDataLockEvent;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.WriteDataLockEvent.Handler
 {

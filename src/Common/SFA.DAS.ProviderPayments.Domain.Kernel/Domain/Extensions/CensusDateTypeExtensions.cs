@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
-namespace SFA.DAS.ProviderPayments.Calc.Common.Domain
+namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
 {
-    public enum CensusDateType
-    {
-        All = -1,
-        OnProgLearning = 1,
-        First16To18Incentive = 2,
-        Second16To18Incentive = 3,
-        CompletionPayments = 4,
-        LearnerIncentive = 5,
-    }
-
     public static class CensusDateTypeExtensions
     {
+        public static string DependentPropertyName(this CensusDateType source)
+        {
+            switch (source)
+            {
+                case CensusDateType.All:
+                    return null;
+                case CensusDateType.OnProgLearning:
+                    return null;
+                case CensusDateType.First16To18Incentive:
+                    return nameof(RawEarning.FirstIncentiveCensusDate);
+                case CensusDateType.Second16To18Incentive:
+                    return nameof(RawEarning.SecondIncentiveCensusDate);
+                case CensusDateType.CompletionPayments:
+                    return nameof(RawEarning.EndDate);
+                case CensusDateType.LearnerIncentive:
+                    return "changeme when it's merged";
+            }
+
+            return "error";
+        }
+
         public static List<TransactionType> ValidTransactionTypes(this CensusDateType source)
         {
             switch (source)

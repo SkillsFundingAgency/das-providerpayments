@@ -3,8 +3,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using Dapper;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.DCFS.Extensions;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Entities;
 

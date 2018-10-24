@@ -5,7 +5,6 @@ using MediatR;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain;
 using SFA.DAS.Provider.Events.DataLock.Domain.Data;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents
 {

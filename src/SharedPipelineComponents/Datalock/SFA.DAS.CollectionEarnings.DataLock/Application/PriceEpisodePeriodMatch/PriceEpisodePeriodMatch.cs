@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatch
 {
