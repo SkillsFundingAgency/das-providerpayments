@@ -26,12 +26,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         //  If a learner has a 'bad' datalock for a period, ignore that period (includes the above)
 
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-        private readonly EarningValidationService _earningValidationService;
+        private readonly EarningToFundingDueService _earningToFundingDueService;
 
         public DetermineWhichEarningsShouldBePaidService(ICollectionPeriodRepository collectionPeriodRepository)
         {
             _collectionPeriodRepository = collectionPeriodRepository;
-            _earningValidationService = new EarningValidationService();
+            _earningToFundingDueService = new EarningToFundingDueService();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         {
             if (rawEarnings.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
             {
-                return _earningValidationService.CreatePayableEarnings(rawEarnings);
+                return _earningToFundingDueService.CreatePayableFundingDue(rawEarnings);
             }
 
             // Look at the earnings now. We are expecting there to be at most one successful datalock per 
@@ -124,7 +124,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                 if (earningsForPeriod.All(x => x.ApprenticeshipContractType == ApprenticeshipContractType.NonLevy))
                 {
-                    result += _earningValidationService.CreatePayableEarnings(earningsForPeriod);
+                    result += _earningToFundingDueService.CreatePayableFundingDue(earningsForPeriod);
                     continue;
                 }
 
@@ -140,10 +140,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     if (datalocks.Count == 0)
                     {
-                        result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
+                        result += _earningToFundingDueService.CreateNonPayableFundingDue(periodEarningsForPriceEpisode,
                             $"Could not find a matching datalock for price episode: {priceEpisode} in period: {periodGroup.Key}",
                             PaymentFailureType.CouldNotFindSuccessfulDatalock);
-                        result += _earningValidationService.IgnorePeriod(periodGroup.Key);
+                        result += _earningToFundingDueService.IgnorePeriod(periodGroup.Key);
                         continue;
                     }
 
@@ -161,18 +161,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
-                            result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(periodEarningsForPriceEpisode,
+                            result += _earningToFundingDueService.CreateNonPayableFundingDue(periodEarningsForPriceEpisode,
                                 $"Multiple matching datalocks for price episode: {priceEpisode} in period: {periodGroup.Key}",
                                 PaymentFailureType.MultipleMatchingSuccessfulDatalocks,
                                 datalocksForFlag.First());
-                            result += _earningValidationService.IgnorePeriod(periodGroup.Key);
+                            result += _earningToFundingDueService.IgnorePeriod(periodGroup.Key);
                             continue;
                         }
 
                         if (datalocksForFlag.Count == 1)
                         {
                             // We have 1 datalock and a commitment
-                            result += _earningValidationService.CreatePayableEarnings(
+                            result += _earningToFundingDueService.CreatePayableFundingDue(
                                 periodEarningsForPriceEpisode,
                                 datalocksForFlag.Single(),
                                 censusDateType);
@@ -227,12 +227,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingOnProg != null)
                 {
                     mathsOrEnglishEarning.PriceEpisodeIdentifier = matchingOnProg.PriceEpisodeIdentifier;
-                    result += _earningValidationService.CreatePayableEarnings(
+                    result += _earningToFundingDueService.CreatePayableFundingDue(
                         new List<RawEarning> { mathsOrEnglishEarning }, matchingOnProg);
                 }
                 else
                 {
-                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(new List<RawEarning> { mathsOrEnglishEarning },
+                    result += _earningToFundingDueService.CreateNonPayableFundingDue(new List<RawEarning> { mathsOrEnglishEarning },
                         "No matching payable earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);
                 }
@@ -256,7 +256,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                         .Where(x => x.HasMatchingCourseInformationWith(rawEarning))
                         .ToList();
                     matchingMathsAndEnglish.ForEach(x => x.PriceEpisodeIdentifier = rawEarning.PriceEpisodeIdentifier);
-                    result += _earningValidationService.CreatePayableEarnings(
+                    result += _earningToFundingDueService.CreatePayableFundingDue(
                         matchingMathsAndEnglish, datalock);
                 }
             }
@@ -274,12 +274,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 if (matchingEarning != null)
                 {
                     rawEarningForMathsOrEnglish.PriceEpisodeIdentifier = matchingEarning.PriceEpisodeIdentifier;
-                    result += _earningValidationService.CreatePayableEarnings(
+                    result += _earningToFundingDueService.CreatePayableFundingDue(
                         new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish });
                 }
                 else
                 {
-                    result += _earningValidationService.CreateNonPayableEarningsForNonZeroTransactionTypes(
+                    result += _earningToFundingDueService.CreateNonPayableFundingDue(
                         new List<RawEarningForMathsOrEnglish> { rawEarningForMathsOrEnglish },
                         "No on-prog earning found for maths/english earning",
                         PaymentFailureType.CouldNotFindMatchingOnprog);

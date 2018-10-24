@@ -84,7 +84,7 @@
     <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
     <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
-    <Compile Include="Services\EarningValidationService.cs" />
+    <Compile Include="Services\EarningToFundingDueService.cs" />
     <Compile Include="Services\Extensions\DatalockExtensions.cs" />
     <Compile Include="Services\PaymentsDueCalculationService.cs" />
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
