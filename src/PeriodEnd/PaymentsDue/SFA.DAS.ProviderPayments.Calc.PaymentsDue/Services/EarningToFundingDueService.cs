@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FastMember;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
@@ -19,11 +20,29 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         public EarningValidationResult CreatePayableFundingDue(
             IEnumerable<RawEarning> earnings,
-            IHoldCommitmentInformation commitment = null,
-            CensusDateType cenususType = CensusDateType.All)
+            IHoldCommitmentInformation commitment = null)
         {
             var earningValidationResult = new EarningValidationResult();
-            var payables = EarningsToFundingDue<FundingDue>(earnings, commitment, cenususType);
+            var earningsAsList = earnings.ToList();
+            foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
+            {
+                earningValidationResult
+                    .AddPayableEarnings(EarningsToFundingDue<NonPayableEarning>(
+                        earningsAsList,
+                        commitment,
+                        transactionTypeGroup));
+            }
+
+            return earningValidationResult;
+        }
+
+        public EarningValidationResult CreatePayableFundingDue(
+            IEnumerable<RawEarning> earnings,
+            TransactionTypeGroup cenususTypeGroup,
+            IHoldCommitmentInformation commitment = null)
+        {
+            var earningValidationResult = new EarningValidationResult();
+            var payables = EarningsToFundingDue<FundingDue>(earnings, commitment, cenususTypeGroup);
             earningValidationResult.AddPayableEarnings(payables);
             return earningValidationResult;
         }
@@ -34,7 +53,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             PaymentFailureType paymentFailureReason,
             IHoldCommitmentInformation commitment = null)
         {
-            var nonPayables = EarningsToFundingDue<NonPayableEarning>(earnings, commitment, CensusDateType.All);
+            var nonPayables = new List<NonPayableEarning>();
+            var earningsAsList = earnings.ToList();
+
+            foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
+            {
+                nonPayables.AddRange(EarningsToFundingDue<NonPayableEarning>(earningsAsList, commitment, transactionTypeGroup));
+            }
             nonPayables.ForEach(x =>
             {
                 x.PaymentFailureMessage = reason;
@@ -55,13 +80,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
         private List<T> EarningsToFundingDue<T>(
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment,
-            CensusDateType censusDateType)
+            TransactionTypeGroup transactionTypeGroup)
             where T : FundingDue, new()
         {
             var payableEarnings = new List<T>();
             foreach (var rawEarning in earnings)
             {
-                payableEarnings.AddRange(ExpandEarning<T>(rawEarning, commitment, censusDateType));
+                payableEarnings.AddRange(ExpandEarning<T>(rawEarning, transactionTypeGroup, commitment));
             }
 
             return payableEarnings;
@@ -69,8 +94,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
         private List<T> ExpandEarning<T>(
            RawEarning earning,
-           IHoldCommitmentInformation commitment = null,
-           CensusDateType censusDateType = CensusDateType.All)
+           TransactionTypeGroup transactionTypeGroup,
+           IHoldCommitmentInformation commitment = null
+           )
            where T : FundingDue, new()
         {
             var expandedList = new List<T>();
@@ -78,7 +104,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             {
                 var transactionType = (int)transactionTypeValue;
 
-                if (!transactionTypeValue.ValidForCensusDateType(censusDateType))
+                if (!transactionTypeValue.ValidForTransactionTypeGroup(transactionTypeGroup))
                 {
                     continue;
                 }

@@ -117,7 +117,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetLastSeenProviderEvents
                         CommitmentVersion = e.CommitmentVersion,
                         IsPayable = e.IsPayable,
                         TransactionType = (TransactionType) e.TransactionType,
-                        TransactionTypesFlag = (CensusDateType)e.TransactionTypesFlag
+                        TransactionTypesFlag = (TransactionTypeGroup)e.TransactionTypesFlag
                     })
                     .ToArray();
         }

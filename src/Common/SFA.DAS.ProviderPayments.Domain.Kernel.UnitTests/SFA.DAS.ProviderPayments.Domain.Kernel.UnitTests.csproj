@@ -70,9 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainTests\GivenACensusDateType\WhenCallingValidTransactionTypes.cs" />
+    <Compile Include="DomainTests\GivenATransactionTypeGroup\WhenCallingValidTransactionTypes.cs" />
     <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasNonZeroTransactionsForCensusDateType.cs" />
-    <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasValidTransactionsForCensusDateType.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasValidTransactionsForTransactionTypeGroup.cs" />
+    <Compile Include="DomainTests\GivenATransactionType\WhenCallingValidForTransactionTypeGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,8 +97,6 @@
       <Name>SFA.DAS.ProviderPayments.Domain.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DomainTests\GivenATransactionType\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

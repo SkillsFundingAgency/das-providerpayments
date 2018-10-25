@@ -26,12 +26,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services.Extensions
         public static bool DoesNotContainEarningForCommitmentAndPaymentType(this List<PriceEpisodePeriodMatchEntity> source, 
             RawEarning earning, 
             CommitmentEntity commitment,
-            CensusDateType censusDateType)
+            TransactionTypeGroup transactionTypeGroup)
         {
             if (source.FirstOrDefault(x => x.MatchesEarning(earning) && 
                                            x.MatchesCommitment(commitment) &&
                                            x.Payable &&
-                                           x.TransactionTypesFlag == censusDateType) == null)
+                                           x.TransactionTypesFlag == transactionTypeGroup) == null)
             {
                 return true;
             }

@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             bool passedDataLock = true,
             int[] notPayablePeriods = null,
             int[] notMatchedPeriods = null,
-            CensusDateType censusDateType = CensusDateType.OnProgLearning,
+            TransactionTypeGroup transactionTypeGroup = TransactionTypeGroup.OnProgLearning,
             bool addPriceEpisodeMatches = true)
         {
             var minStartDate = new DateTime(2016, 8, 1);
@@ -122,7 +122,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 {
 
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier,
-                        period, passedDataLock, notPayablePeriods, notMatchedPeriods, censusDateType);
+                        period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypeGroup);
                     censusDate = censusDate.AddMonths(1).LastDayOfMonth();
                     period++;
                 }
@@ -130,7 +130,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                 if (endDate != endDate.LastDayOfMonth() && period <= 12)
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier,
-                        period, passedDataLock, notPayablePeriods, notMatchedPeriods, censusDateType);
+                        period, passedDataLock, notPayablePeriods, notMatchedPeriods, transactionTypeGroup);
                 }
             }
 
@@ -153,7 +153,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
             bool passedDataLock,
             int[] notPayablePeriods,
             int[] notMatchedPeriods,
-            CensusDateType censusDateType)
+            TransactionTypeGroup transactionTypeGroup)
         {
             if (notMatchedPeriods != null && notMatchedPeriods.Contains(period))
             {
@@ -180,7 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.IntegrationTests.Tools
                     priceEpisodeIdentifier,
                     period,
                     payable,
-                    transactionTypesFlag = censusDateType
+                    transactionTypesFlag = transactionTypeGroup
                 });
         }
 

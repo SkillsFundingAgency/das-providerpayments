@@ -14,7 +14,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Application.PriceEpisodePeriodMatc
         public bool Payable { get; set; }
         public TransactionType TransactionType { get; set; }
 
-        public CensusDateType TransactionTypesFlag { get; set; }
+        public TransactionTypeGroup TransactionTypesFlag { get; set; }
 
     }
 }

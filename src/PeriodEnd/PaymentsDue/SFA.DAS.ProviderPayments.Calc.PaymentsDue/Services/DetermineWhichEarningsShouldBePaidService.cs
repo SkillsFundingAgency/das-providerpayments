@@ -149,15 +149,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 
                     // There is more than one datalock, so go through all the transactiontypeflags
                     //  and pay each in turn
-                    foreach (CensusDateType censusDateType in Enum.GetValues(typeof(CensusDateType)))
+                    foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
                     {
-                        if (censusDateType == CensusDateType.All)
-                        {
-                            continue;
-                        }
-
                         var datalocksForFlag = datalocks
-                            .Where(x => x.CensusDateType == censusDateType)
+                            .Where(x => x.TransactionTypeGroup == transactionTypeGroup)
                             .ToList();
                         if (datalocksForFlag.Count > 1)
                         {
@@ -174,8 +169,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                             // We have 1 datalock and a commitment
                             result += _earningToFundingDueService.CreatePayableFundingDue(
                                 periodEarningsForPriceEpisode,
-                                datalocksForFlag.Single(),
-                                censusDateType);
+                                transactionTypeGroup,
+                                datalocksForFlag.Single()
+                            );
                         }
                     }
                 }

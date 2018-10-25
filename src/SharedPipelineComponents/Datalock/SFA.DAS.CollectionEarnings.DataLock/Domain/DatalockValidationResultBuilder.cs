@@ -15,7 +15,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
 
-        public DatalockValidationResultBuilder Add(RawEarning earning, List<string> errors, CensusDateType censusDateType, CommitmentEntity commitment)
+        public DatalockValidationResultBuilder Add(RawEarning earning, List<string> errors, TransactionTypeGroup transactionTypeGroup, CommitmentEntity commitment)
         {
             var payable = false;
             if (errors.Any())
@@ -23,7 +23,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 foreach (var error in errors)
                 {
                     if (ValidationErrors.DoesNotAlreadyContainEarningForThisError(earning, error) &&
-                        PriceEpisodePeriodMatches.DoesNotContainEarningForCommitmentAndPaymentType(earning, commitment, censusDateType))
+                        PriceEpisodePeriodMatches.DoesNotContainEarningForCommitmentAndPaymentType(earning, commitment, transactionTypeGroup))
                     {
                         ValidationErrors.Add(new DatalockValidationError
                         {
@@ -66,7 +66,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 LearnRefNumber = earning.LearnRefNumber,
                 PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                 Period = earning.Period,
-                TransactionTypesFlag = censusDateType,
+                TransactionTypesFlag = transactionTypeGroup,
                 Payable = payable,
                 Ukprn = earning.Ukprn,
                 VersionId = commitment.VersionId,

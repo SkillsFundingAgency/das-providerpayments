@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Extensions\CensusDateTypeExtensions.cs" />
+    <Compile Include="Domain\Extensions\TransactionTypeGroupExtensions.cs" />
     <Compile Include="Domain\Extensions\RawEarningExtensions.cs" />
     <Compile Include="Domain\Extensions\TransactionTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

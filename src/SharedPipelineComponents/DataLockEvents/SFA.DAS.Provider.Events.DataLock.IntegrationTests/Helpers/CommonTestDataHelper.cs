@@ -201,12 +201,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (CensusDateType traxType in Enum.GetValues(typeof(CensusDateType)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
-                    if (traxType == CensusDateType.All)
-                    {
-                        continue;
-                    }
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
 
@@ -216,12 +212,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             if (endDate != endDate.LastDayOfMonth() && period <= 12)
             {
-                foreach (CensusDateType traxType in Enum.GetValues(typeof(CensusDateType)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
-                    if (traxType == CensusDateType.All)
-                    {
-                        continue;
-                    }
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
             }
@@ -401,12 +393,8 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (CensusDateType traxType in Enum.GetValues(typeof(CensusDateType)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
-                    if (traxType == CensusDateType.All)
-                    {
-                        continue;
-                    }
                     AddDataLockEventPeriod(period, (int)traxType, passedDataLock, eventId);
                 }
 

@@ -622,8 +622,8 @@ Scenario:590-AC01- 1 non-DAS Payment for a non-DAS learner, funding agreed withi
         | English and maths on programme | 31.40 | 31.40 | 31.40 | 31.40 | ... | 31.40 | 0     |
         | English and maths Balancing    | 0     | 0     | 0     | 0     | ... | 0     | 94.20 |
 
-
-Scenario:590-AC02- Payment for a* DAS learner*, funding agreed within band, with the planned duration the same as the programme duration (assumes both start at same time), but learner completes aim 1 month early.
+@das @levy_available
+Scenario:590-AC02- Planned duration the same as the programme duration (assumes both start at same time), but learner completes aim 1 month early.
     
     Given levy balance > agreed price for all months
     And the following commitments exist:

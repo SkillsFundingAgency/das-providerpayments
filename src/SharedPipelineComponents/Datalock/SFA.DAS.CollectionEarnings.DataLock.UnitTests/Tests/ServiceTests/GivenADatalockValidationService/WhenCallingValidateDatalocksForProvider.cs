@@ -120,7 +120,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == CensusDateType.First16To18Incentive);
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.NinetyDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -139,7 +139,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == CensusDateType.Second16To18Incentive);
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.ThreeSixtyFiveDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -159,7 +159,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == CensusDateType.First16To18Incentive);
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.NinetyDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -179,7 +179,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == CensusDateType.Second16To18Incentive);
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.ThreeSixtyFiveDayIncentives);
                 }
 
                 [Test, AutoMoqData]

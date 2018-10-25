@@ -9,16 +9,19 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
     {
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
 
-        public static bool HasValidTransactionsForCensusDateType(
+        public static bool HasValidTransactionsForTransactionTypeGroup(
             this RawEarning earning,
-            CensusDateType censusDateType)
+            TransactionTypeGroup transactionTypeGroup)
         {
-            if (!earning.HasNonZeroTransactionsForCensusDateType(censusDateType))
+            // I hate this... but it makes Maths & English payments work when they cross years
+            if (earning.IsBlankPeriodOneEarning(transactionTypeGroup)) return true;
+
+            if (!earning.HasNonZeroTransactionsForGroup(transactionTypeGroup))
             {
                 return false;
             }
 
-            var dependentPropertyName = censusDateType.DependentPropertyName();
+            var dependentPropertyName = transactionTypeGroup.DependentPropertyName();
             if (dependentPropertyName == null)
             {
                 return true;
@@ -33,11 +36,39 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
             return false;
         }
 
-        public static bool HasNonZeroTransactionsForCensusDateType(
-            this RawEarning earning,
-            CensusDateType censusDateType)
+        public static bool IsBlankPeriodOneEarning(this RawEarning earning, TransactionTypeGroup transactionTypeGroupToCheck)
         {
-            var transactionsToCheck = censusDateType.ValidTransactionTypes();
+            if (earning.Period == 1 && transactionTypeGroupToCheck == TransactionTypeGroup.OnProgLearning)
+            {
+                var otherTransactions = false;
+                foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
+                {
+                    if (transactionTypeGroup == TransactionTypeGroup.OnProgLearning)
+                    {
+                        continue;
+                    }
+
+                    if (earning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup))
+                    {
+                        otherTransactions = true;
+                        break;
+                    }
+                }
+
+                if (!otherTransactions)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool HasNonZeroTransactionsForGroup(
+            this RawEarning earning,
+            TransactionTypeGroup transactionTypeGroup)
+        {
+            var transactionsToCheck = transactionTypeGroup.ValidTransactionTypes();
             foreach (var transactionType in transactionsToCheck)
             {
                 var transactionAmount = (decimal)FundingDueAccessor[earning, $"TransactionType{(int)transactionType:D2}"];

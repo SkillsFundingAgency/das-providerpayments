@@ -89,7 +89,7 @@ namespace SFA.DAS.Provider.Events.DataLock.Application.GetCurrentProviderEvents
                                 CommitmentVersion = entity.CommitmentVersionId,
                                 IsPayable = entity.Payable,
                                 TransactionType = (TransactionType)entity.TransactionType,
-                                TransactionTypesFlag = (CensusDateType)entity.TransactionTypesFlag
+                                TransactionTypesFlag = (TransactionTypeGroup)entity.TransactionTypesFlag
                             });
                         }
 

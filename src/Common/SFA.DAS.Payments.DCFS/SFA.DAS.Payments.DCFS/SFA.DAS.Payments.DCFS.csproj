@@ -63,7 +63,7 @@
     <Compile Include="Context\InvalidContextException.cs" />
     <Compile Include="DcfsTask.cs" />
     <Compile Include="Domain\ApprenticeshipContractType.cs" />
-    <Compile Include="Domain\CensusDateType.cs" />
+    <Compile Include="Domain\TransactionTypeGroup.cs" />
     <Compile Include="Domain\DataLockErrorCodes.cs" />
     <Compile Include="Domain\FundingSource.cs" />
     <Compile Include="Domain\PaymentStatus.cs" />

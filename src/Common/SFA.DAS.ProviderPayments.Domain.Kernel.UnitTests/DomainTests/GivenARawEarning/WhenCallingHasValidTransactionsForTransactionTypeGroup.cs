@@ -8,7 +8,7 @@ using SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions;
 namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARawEarning
 {
     [TestFixture]
-    public class WhenCallingHasValidTransactionsForCensusDateType
+    public class WhenCallingHasValidTransactionsForTransactionTypeGroup
     {
         [TestFixture]
         public class WithTransactionType1
@@ -26,13 +26,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -49,13 +49,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -71,13 +71,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -93,13 +93,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -122,13 +122,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -145,13 +145,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -167,13 +167,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -189,13 +189,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, true)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -218,13 +218,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -241,13 +241,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -263,13 +263,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -285,13 +285,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, true)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -314,13 +314,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -337,13 +337,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, true)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -359,13 +359,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -381,13 +381,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -410,13 +410,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -433,13 +433,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, true)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -455,13 +455,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -477,13 +477,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -506,13 +506,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -529,13 +529,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -551,13 +551,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, true)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -573,13 +573,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -602,13 +602,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -625,13 +625,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -647,13 +647,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, true)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -669,13 +669,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -698,13 +698,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -721,13 +721,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -743,13 +743,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -765,13 +765,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -794,13 +794,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -817,13 +817,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -839,13 +839,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -861,13 +861,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, true)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -890,13 +890,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
                 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -913,13 +913,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -935,13 +935,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -957,13 +957,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, true)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -986,13 +986,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1009,13 +1009,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1031,13 +1031,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1053,13 +1053,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1082,13 +1082,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1105,13 +1105,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1127,13 +1127,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1149,13 +1149,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1178,13 +1178,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1201,13 +1201,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1223,13 +1223,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1245,13 +1245,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1274,13 +1274,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1297,13 +1297,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1319,13 +1319,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1341,13 +1341,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1370,13 +1370,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = null;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1393,13 +1393,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.FirstIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1415,13 +1415,13 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
                     TestEarning.SecondIncentiveCensusDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1438,13 +1438,13 @@ TestEarning.FirstIncentiveCensusDate = null;
                     TestEarning.EndDate = new DateTime();
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void Then(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void Then(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
 
                     actual.Should().Be(expected);
                 }
@@ -1484,13 +1484,13 @@ TestEarning.FirstIncentiveCensusDate = null;
                     TestEarning.TransactionType15 = 0;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void ThenNoIncentivesReturnTrue(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void ThenNoIncentivesReturnTrue(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
                     actual.Should().Be(expected);
                 }
             }
@@ -1518,13 +1518,13 @@ TestEarning.FirstIncentiveCensusDate = null;
                     TestEarning.TransactionType15 = 100;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, true)]
-                [TestCase(CensusDateType.Second16To18Incentive, true)]
-                [TestCase(CensusDateType.CompletionPayments, true)]
-                public void ThenNoIncentivesReturnTrue(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+                public void ThenNoIncentivesReturnTrue(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
                     actual.Should().Be(expected);
                 }
             }
@@ -1563,13 +1563,13 @@ TestEarning.FirstIncentiveCensusDate = null;
                     TestEarning.TransactionType15 = 0;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, false)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void ThenNoIncentivesReturnTrue(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void ThenNoIncentivesReturnTrue(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
                     actual.Should().Be(expected);
                 }
             }
@@ -1597,13 +1597,13 @@ TestEarning.FirstIncentiveCensusDate = null;
                     TestEarning.TransactionType15 = 100;
                 }
 
-                [TestCase(CensusDateType.OnProgLearning, true)]
-                [TestCase(CensusDateType.First16To18Incentive, false)]
-                [TestCase(CensusDateType.Second16To18Incentive, false)]
-                [TestCase(CensusDateType.CompletionPayments, false)]
-                public void ThenNoIncentivesReturnTrue(CensusDateType censusDateType, bool expected)
+                [TestCase(TransactionTypeGroup.OnProgLearning, true)]
+                [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+                [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+                public void ThenNoIncentivesReturnTrue(TransactionTypeGroup transactionTypeGroup, bool expected)
                 {
-                    var actual = TestEarning.HasValidTransactionsForCensusDateType(censusDateType);
+                    var actual = TestEarning.HasValidTransactionsForTransactionTypeGroup(transactionTypeGroup);
                     actual.Should().Be(expected);
                 }
             }

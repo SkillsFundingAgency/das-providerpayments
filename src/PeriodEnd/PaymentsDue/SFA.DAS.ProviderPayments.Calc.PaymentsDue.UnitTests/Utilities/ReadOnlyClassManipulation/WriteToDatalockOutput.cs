@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.ReadOnly
         public static void SetTransactionTypeFlag(DatalockOutput obj, int value)
         {
             var type = typeof(DatalockOutput);
-            var fieldName = $"<{nameof(DatalockOutput.CensusDateType)}>k__BackingField";
+            var fieldName = $"<{nameof(DatalockOutput.TransactionTypeGroup)}>k__BackingField";
             var field = type.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
             if (field == null)
             {

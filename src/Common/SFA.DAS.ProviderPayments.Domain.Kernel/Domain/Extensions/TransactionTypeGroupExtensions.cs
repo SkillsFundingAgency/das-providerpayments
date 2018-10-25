@@ -6,59 +6,55 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
 {
-    public static class CensusDateTypeExtensions
+    public static class TransactionTypeGroupExtensions
     {
-        public static string DependentPropertyName(this CensusDateType source)
+        public static string DependentPropertyName(this TransactionTypeGroup source)
         {
             switch (source)
             {
-                case CensusDateType.All:
+                case TransactionTypeGroup.OnProgLearning:
                     return null;
-                case CensusDateType.OnProgLearning:
-                    return null;
-                case CensusDateType.First16To18Incentive:
+                case TransactionTypeGroup.NinetyDayIncentives:
                     return nameof(RawEarning.FirstIncentiveCensusDate);
-                case CensusDateType.Second16To18Incentive:
+                case TransactionTypeGroup.ThreeSixtyFiveDayIncentives:
                     return nameof(RawEarning.SecondIncentiveCensusDate);
-                case CensusDateType.CompletionPayments:
+                case TransactionTypeGroup.CompletionPayments:
                     return nameof(RawEarning.EndDate);
-                case CensusDateType.LearnerIncentive:
+                case TransactionTypeGroup.LearnerIncentive:
                     return "changeme when it's merged";
             }
 
             return "error";
         }
 
-        public static List<TransactionType> ValidTransactionTypes(this CensusDateType source)
+        public static List<TransactionType> ValidTransactionTypes(this TransactionTypeGroup source)
         {
             switch (source)
             {
-                case CensusDateType.All:
-                    return Enum.GetValues(typeof(TransactionType)).OfType<TransactionType>().ToList();
-                case CensusDateType.OnProgLearning:
+                case TransactionTypeGroup.OnProgLearning:
                     return new List<TransactionType>
                     {
                         TransactionType.Learning,
                         TransactionType.OnProgramme16To18FrameworkUplift,
-                        TransactionType.FirstDisadvantagePayment,
-                        TransactionType.SecondDisadvantagePayment,
                         TransactionType.OnProgrammeMathsAndEnglish,
                         TransactionType.BalancingMathsAndEnglish,
                         TransactionType.LearningSupport,
                     };
-                case CensusDateType.First16To18Incentive:
+                case TransactionTypeGroup.NinetyDayIncentives:
                     return new List<TransactionType>
                     {
                         TransactionType.First16To18EmployerIncentive,
                         TransactionType.First16To18ProviderIncentive,
+                        TransactionType.FirstDisadvantagePayment,
                     };
-                case CensusDateType.Second16To18Incentive:
+                case TransactionTypeGroup.ThreeSixtyFiveDayIncentives:
                     return new List<TransactionType>
                     {
                         TransactionType.Second16To18EmployerIncentive,
                         TransactionType.Second16To18ProviderIncentive,
+                        TransactionType.SecondDisadvantagePayment,
                     };
-                case CensusDateType.CompletionPayments:
+                case TransactionTypeGroup.CompletionPayments:
                     return new List<TransactionType>
                     {
                         TransactionType.Completion,
@@ -66,7 +62,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
                         TransactionType.Completion16To18FrameworkUplift,
                         TransactionType.Balancing16To18FrameworkUplift,
                     };
-                case CensusDateType.LearnerIncentive:
+                case TransactionTypeGroup.LearnerIncentive:
                     return new List<TransactionType>
                     {
 

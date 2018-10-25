@@ -21,13 +21,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             CommitmentId = entity.CommitmentId;
             Period = entity.Period;
             Payable = entity.Payable;
-            CensusDateType = (CensusDateType)entity.TransactionTypesFlag;
+            TransactionTypeGroup = (TransactionTypeGroup)entity.TransactionTypesFlag;
             AccountId = commitment.AccountId;
             AccountVersionId = commitment.AccountVersionId;
             CommitmentVersionId = commitment.CommitmentVersionId;
         }
 
-        public DatalockOutput(DatalockOutput entity, CensusDateType censusDateType)
+        public DatalockOutput(DatalockOutput entity, TransactionTypeGroup transactionTypeGroup)
         {
             Ukprn = entity.Ukprn;
             PriceEpisodeIdentifier = entity.PriceEpisodeIdentifier;
@@ -35,7 +35,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             CommitmentId = entity.CommitmentId;
             Period = entity.Period;
             Payable = entity.Payable;
-            CensusDateType = censusDateType;
+            TransactionTypeGroup = transactionTypeGroup;
             AccountId = entity.AccountId;
             AccountVersionId = entity.AccountVersionId;
             CommitmentVersionId = entity.CommitmentVersionId;
@@ -55,7 +55,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         [Range(1, 12)]
         public int Period { get; }
         public bool Payable { get; }
-        public CensusDateType CensusDateType { get; }
+        public TransactionTypeGroup TransactionTypeGroup { get; }
 
         public override int GetHashCode()
         {
@@ -73,7 +73,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 hash = 31 * hash + CommitmentId.GetHashCode();
                 hash = 31 * hash + Period.GetHashCode();
                 hash = 31 * hash + Payable.GetHashCode();
-                hash = 31 * hash + CensusDateType.GetHashCode();
+                hash = 31 * hash + TransactionTypeGroup.GetHashCode();
 
                 return hash;
             }
@@ -97,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                    CommitmentId == obj.CommitmentId &&
                    Period == obj.Period &&
                    Payable == obj.Payable &&
-                   CensusDateType == obj.CensusDateType;
+                   TransactionTypeGroup == obj.TransactionTypeGroup;
         }
 
         public override bool Equals(object obj)
