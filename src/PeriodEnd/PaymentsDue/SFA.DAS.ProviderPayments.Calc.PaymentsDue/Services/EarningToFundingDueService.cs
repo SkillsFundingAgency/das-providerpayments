@@ -81,7 +81,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             IEnumerable<RawEarning> earnings,
             IHoldCommitmentInformation commitment,
             TransactionTypeGroup transactionTypeGroup)
-            where T : FundingDue, new()
+            where T : FundingDue
         {
             var payableEarnings = new List<T>();
             foreach (var rawEarning in earnings)
@@ -97,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
            TransactionTypeGroup transactionTypeGroup,
            IHoldCommitmentInformation commitment = null
            )
-           where T : FundingDue, new()
+           where T : FundingDue
         {
             var expandedList = new List<T>();
             foreach (TransactionType transactionTypeValue in Enum.GetValues(typeof(TransactionType)))

@@ -79,7 +79,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
             {
                 return CalculateOnProgCensusDate(earning);
             }
-            var censusDate = earning.DependantDate(transactionTypeGroup) ?? new DateTime(1900, 01, 01);
+            var censusDate = earning.CensusDate(transactionTypeGroup) ?? new DateTime(1900, 01, 01);
             return censusDate;
         }
 

@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
     {
         private static readonly TypeAccessor FundingDueAccessor = TypeAccessor.Create(typeof(RawEarning));
 
-        public static DateTime? DependantDate(this RawEarning earning, TransactionTypeGroup transactionTypeGroup)
+        public static DateTime? CensusDate(this RawEarning earning, TransactionTypeGroup transactionTypeGroup)
         {
             var dependentProperty = transactionTypeGroup.DependentPropertyName();
             var dependentPropertyValue = FundingDueAccessor[earning, dependentProperty] as DateTime?;

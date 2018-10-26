@@ -17,7 +17,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _employerPaymentsChecker = employerPaymentsChecker;
         }
 
-        public FilteredEarningsResult Process(List<LearnerSummaryPaymentEntity> employerPayments, List<RawEarning> earnings)
+        public FilteredEarningsResult Process(
+            List<LearnerSummaryPaymentEntity> employerPayments, 
+            List<RawEarning> earnings)
         {
             var nonPayableEarnings = new List<NonPayableEarning>();
 

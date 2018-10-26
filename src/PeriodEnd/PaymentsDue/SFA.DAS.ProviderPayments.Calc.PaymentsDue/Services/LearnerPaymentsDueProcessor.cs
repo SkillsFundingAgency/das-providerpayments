@@ -49,7 +49,11 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 earnings.PeriodsToIgnore,
                 parameters.HistoricalRequiredPayments);
 
-            var results = new PaymentsDueResult(paymentsDue, earnings.NonPayableEarnings.Union(filteredPayments.NonPayableEarnings).ToList());
+            var results = new PaymentsDueResult(paymentsDue, 
+                earnings
+                    .NonPayableEarnings
+                    .Union(filteredPayments.NonPayableEarnings)
+                    .ToList());
             
             _logger.Info($"There are [{results.NonPayableEarnings.Count}] non-payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
             _logger.Info($"There are [{results.PayableEarnings.Count}] payable earnings for Learner LearnRefNumber: [{parameters.LearnRefNumber}] from provider UKPRN: [{ukprn}].");
