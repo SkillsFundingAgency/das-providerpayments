@@ -96,10 +96,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AcceptanceTesting\SpecByExample\SFA.DAS.Payments.AcceptanceTests\SFA.DAS.Payments.AcceptanceTests.csproj">
-      <Project>{1CF0088D-EB97-4D4F-9F8F-7B09F02AA9AF}</Project>
-      <Name>SFA.DAS.Payments.AcceptanceTests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>
       <Name>SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure</Name>

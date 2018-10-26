@@ -8,6 +8,7 @@ using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
 using System.IO;
+using ProviderPayments.TestStack.Core.Domain;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
@@ -212,7 +213,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var periodNumber = date.GetPeriodNumber();
 
             TestEnvironment.Variables.CurrentYear = date.GetAcademicYear();
-            TestEnvironment.Variables.CollectionPeriod = new ProviderPayments.TestStack.Core.Domain.CollectionPeriod
+            TestEnvironment.Variables.CollectionPeriod = new CollectionPeriod
             {
                 PeriodId = date.GetPeriodNumber(),
                 Period = "R" + periodNumber.ToString("00"),
