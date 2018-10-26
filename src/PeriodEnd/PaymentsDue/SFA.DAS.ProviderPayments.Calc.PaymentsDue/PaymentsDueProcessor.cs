@@ -30,7 +30,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue
             {
                 var providers = _providerRepository.GetAllProviders();
 
-                Parallel.ForEach(providers, provider =>
+                Parallel.ForEach(providers, new ParallelOptions { MaxDegreeOfParallelism = 25 }, 
+                    provider =>
                 {
                     _providerProcessor.Process(provider);
                 });
