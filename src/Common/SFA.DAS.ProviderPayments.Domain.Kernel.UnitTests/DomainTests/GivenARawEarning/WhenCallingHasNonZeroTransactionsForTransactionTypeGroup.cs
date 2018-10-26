@@ -7,7 +7,7 @@ using SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions;
 namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARawEarning
 {
     [TestFixture]
-    public class WhenCallingHasNonZeroTransactionsForCensusDateType
+    public class WhenCallingHasNonZeroTransactionsForTransactionTypeGroup
     {
         [TestFixture]
         public class WithTransactionType1
@@ -18,6 +18,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -35,6 +36,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -52,6 +54,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -69,6 +72,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -86,6 +90,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -103,6 +108,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -120,6 +126,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -137,6 +144,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -154,6 +162,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -171,6 +180,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -188,6 +198,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -205,6 +216,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -222,6 +234,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -239,6 +252,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
@@ -256,6 +270,25 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARaw
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
+            public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
+            {
+                var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);
+
+                actual.Should().Be(expected);
+            }
+        }
+
+        [TestFixture]
+        public class WithTransactionType16
+        {
+            private static readonly RawEarning TestEarning = new RawEarning { TransactionType16 = 100 };
+
+            [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+            [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+            [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+            [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, true)]
             public void ThenTestByCensusDateType(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TestEarning.HasNonZeroTransactionsForGroup(transactionTypeGroup);

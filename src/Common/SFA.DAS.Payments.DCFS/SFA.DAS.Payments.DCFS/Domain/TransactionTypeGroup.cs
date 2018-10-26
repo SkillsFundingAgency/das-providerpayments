@@ -6,6 +6,6 @@
         NinetyDayIncentives = 2,
         ThreeSixtyFiveDayIncentives = 3,
         CompletionPayments = 4,
-        LearnerIncentive = 5,
+        SixtyDayIncentives = 5,
     }
 }

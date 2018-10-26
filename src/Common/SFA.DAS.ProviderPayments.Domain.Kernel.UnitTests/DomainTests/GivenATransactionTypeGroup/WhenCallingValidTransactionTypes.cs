@@ -15,15 +15,33 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
         {
             var allTransactions = new HashSet<TransactionType>();
 
-            foreach (TransactionTypeGroup censusDateType in Enum.GetValues(typeof(TransactionTypeGroup)))
+            foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
             {
-                var newValues = censusDateType.ValidTransactionTypes();
+                var newValues = transactionTypeGroup.ValidTransactionTypes();
                 foreach (var transactionType in newValues)
                 {
                     allTransactions.Should().NotContain(transactionType);
                     allTransactions.Add(transactionType);
                 }
             }
+        }
+
+        [Test]
+        public void ThenAllTransactionTypeGroupsShouldReturnAllTransactionTypes()
+        {
+            var expected = new HashSet<TransactionType>();
+
+            foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
+            {
+                var newValues = transactionTypeGroup.ValidTransactionTypes();
+                foreach (var transactionType in newValues)
+                {
+                    expected.Add(transactionType);
+                }
+            }
+
+            var actual = Enum.GetValues(typeof(TransactionType));
+            actual.Should().BeEquivalentTo(expected);
         }
     }
 }

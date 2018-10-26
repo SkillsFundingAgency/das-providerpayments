@@ -38,7 +38,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensio
                    earning.TransactionType12 +
                    earning.TransactionType13 +
                    earning.TransactionType14 +
-                   earning.TransactionType15;
+                   earning.TransactionType15 +
+                   earning.TransactionType16;
         }
 
         public static int NumberOfNonZeroTransactions(this IEnumerable<RawEarning> earnings)
@@ -62,7 +63,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensio
                    ((earning.TransactionType12 != 0) ? 1 : 0) +
                    ((earning.TransactionType13 != 0) ? 1 : 0) +
                    ((earning.TransactionType14 != 0) ? 1 : 0) +
-                   ((earning.TransactionType15 != 0) ? 1 : 0);
+                   ((earning.TransactionType15 != 0) ? 1 : 0) +
+                   ((earning.TransactionType16 != 0) ? 1 : 0);
         }
     }
 }

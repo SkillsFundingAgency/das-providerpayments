@@ -75,26 +75,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Services
 
         private DateTime CalculateCensusDate(RawEarning earning, TransactionTypeGroup transactionTypeGroup)
         {
-            var date = new DateTime(1900, 01, 01);
-            switch (transactionTypeGroup)
+            if (transactionTypeGroup == TransactionTypeGroup.OnProgLearning)
             {
-                case TransactionTypeGroup.OnProgLearning:
-                    date = CalculateOnProgCensusDate(earning);
-                    break;
-                case TransactionTypeGroup.NinetyDayIncentives:
-                    date = earning.FirstIncentiveCensusDate ?? date;
-                    break;
-                case TransactionTypeGroup.ThreeSixtyFiveDayIncentives:
-                    date = earning.SecondIncentiveCensusDate ?? date;
-                    break;
-                case TransactionTypeGroup.CompletionPayments:
-                    date = earning.EndDate ?? date;
-                    break;
-                case TransactionTypeGroup.LearnerIncentive:
-                    break;
+                return CalculateOnProgCensusDate(earning);
             }
-
-            return date;
+            var censusDate = earning.DependantDate(transactionTypeGroup) ?? new DateTime(1900, 01, 01);
+            return censusDate;
         }
 
         public void ValidateInitialResult(RawEarning earning, List<string> errors, TransactionTypeGroup transactionTypeGroup,

@@ -71,6 +71,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public decimal TransactionType13 { get; set; }
         public decimal TransactionType14 { get; set; }
         public decimal TransactionType15 { get; set; }
+        public decimal TransactionType16 { get; set; }
 
         public decimal CumulativePmrs { get; set; }
         public int ExemptionCodeForCompletionHoldback { get; set; }
@@ -93,5 +94,8 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
 
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? LearnerAdditionalPaymentsDate { get; set; }
     }
 }

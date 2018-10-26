@@ -90,7 +90,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 earning.TransactionType13 = xlRow.Cell(25).Value.Equals("NULL") ? 0 : xlRow.Cell(25).GetValue<decimal>();
                 earning.TransactionType14 = xlRow.Cell(26).Value.Equals("NULL") ? 0 : xlRow.Cell(26).GetValue<decimal>();
                 earning.TransactionType15 = xlRow.Cell(27).GetValue<decimal>();
-                earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>() == 1 ? ApprenticeshipContractType.Levy : ApprenticeshipContractType.NonLevy;
+                earning.TransactionType16 = xlRow.Cell(28).GetValue<decimal>();
+                earning.ApprenticeshipContractType = xlRow.Cell(29).GetValue<int>() == 1 ? ApprenticeshipContractType.Levy : ApprenticeshipContractType.NonLevy;
 
                 earning.Ukprn = result.Ukprn;
                 earning.Uln = result.Uln;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
@@ -20,11 +19,11 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
                     return nameof(RawEarning.SecondIncentiveCensusDate);
                 case TransactionTypeGroup.CompletionPayments:
                     return nameof(RawEarning.EndDate);
-                case TransactionTypeGroup.LearnerIncentive:
-                    return "changeme when it's merged";
+                case TransactionTypeGroup.SixtyDayIncentives:
+                    return nameof(RawEarning.LearnerAdditionalPaymentsDate);
             }
 
-            return "error";
+            throw new Exception($"Please include the raw earning dependent property name for Transaction Type Group: {source}");
         }
 
         public static List<TransactionType> ValidTransactionTypes(this TransactionTypeGroup source)
@@ -62,10 +61,10 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions
                         TransactionType.Completion16To18FrameworkUplift,
                         TransactionType.Balancing16To18FrameworkUplift,
                     };
-                case TransactionTypeGroup.LearnerIncentive:
+                case TransactionTypeGroup.SixtyDayIncentives:
                     return new List<TransactionType>
                     {
-
+                        TransactionType.CareLeaverApprenticePayments,
                     };
             }
 

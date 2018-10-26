@@ -70,8 +70,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType1.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType10.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType11.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType12.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType13.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType14.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType15.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType16.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType2.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType3.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType4.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType5.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType6.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType7.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType8.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingValidTransactionsForTransactionTypeGrp\WithTransactionType9.cs" />
     <Compile Include="DomainTests\GivenATransactionTypeGroup\WhenCallingValidTransactionTypes.cs" />
-    <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasNonZeroTransactionsForCensusDateType.cs" />
+    <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasNonZeroTransactionsForTransactionTypeGroup.cs" />
     <Compile Include="DomainTests\GivenARawEarning\WhenCallingHasValidTransactionsForTransactionTypeGroup.cs" />
     <Compile Include="DomainTests\GivenATransactionType\WhenCallingValidForTransactionTypeGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,4 @@
-﻿using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
-using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+﻿using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions
 {
@@ -21,7 +20,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions
                    source.TransactionType12 != 0 ||
                    source.TransactionType13 != 0 ||
                    source.TransactionType14 != 0 ||
-                   source.TransactionType15 != 0;
+                   source.TransactionType15 != 0 ||
+                   source.TransactionType16 != 0;
         }
     }
 }

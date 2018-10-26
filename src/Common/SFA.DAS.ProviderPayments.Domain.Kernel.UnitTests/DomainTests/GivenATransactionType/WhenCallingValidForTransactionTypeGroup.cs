@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Domain.Kernel.Domain.Extensions;
-using SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenARawEarning;
 
 namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATransactionType
 {
@@ -16,6 +15,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Learning.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -30,6 +30,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Completion.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -44,6 +45,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Balancing.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -58,6 +60,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.First16To18EmployerIncentive.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -72,6 +75,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.First16To18ProviderIncentive.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -86,6 +90,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Second16To18EmployerIncentive.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -100,6 +105,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Second16To18ProviderIncentive.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -114,6 +120,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.OnProgramme16To18FrameworkUplift.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -128,6 +135,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Completion16To18FrameworkUplift.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -142,6 +150,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, true)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.Balancing16To18FrameworkUplift.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -156,6 +165,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, true)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.FirstDisadvantagePayment.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -170,6 +180,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, true)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.SecondDisadvantagePayment.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -184,6 +195,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.OnProgrammeMathsAndEnglish.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -198,6 +210,7 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.BalancingMathsAndEnglish.ValidForTransactionTypeGroup(transactionTypeGroup);
@@ -212,9 +225,25 @@ namespace SFA.DAS.ProviderPayments.Domain.Kernel.UnitTests.DomainTests.GivenATra
             [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
             [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
             [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, false)]
             public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
             {
                 var actual = TransactionType.LearningSupport.ValidForTransactionTypeGroup(transactionTypeGroup);
+                actual.Should().Be(expected);
+            }
+        }
+
+        [TestFixture]
+        public class WithTransactionType16
+        {
+            [TestCase(TransactionTypeGroup.OnProgLearning, false)]
+            [TestCase(TransactionTypeGroup.NinetyDayIncentives, false)]
+            [TestCase(TransactionTypeGroup.ThreeSixtyFiveDayIncentives, false)]
+            [TestCase(TransactionTypeGroup.CompletionPayments, false)]
+            [TestCase(TransactionTypeGroup.SixtyDayIncentives, true)]
+            public void ThenTheResultIsCorrect(TransactionTypeGroup transactionTypeGroup, bool expected)
+            {
+                var actual = TransactionType.CareLeaverApprenticePayments.ValidForTransactionTypeGroup(transactionTypeGroup);
                 actual.Should().Be(expected);
             }
         }

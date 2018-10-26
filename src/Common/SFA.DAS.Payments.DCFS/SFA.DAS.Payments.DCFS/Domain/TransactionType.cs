@@ -17,6 +17,6 @@
         OnProgrammeMathsAndEnglish = 13,
         BalancingMathsAndEnglish = 14,
         LearningSupport = 15,
-        //CareLeaverApprenticePayments = 16,
+        CareLeaverApprenticePayments = 16,
     }
 }

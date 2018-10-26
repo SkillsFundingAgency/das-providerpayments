@@ -119,7 +119,6 @@
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
-    <Compile Include="Domain\Extensions\EarningExtensions.cs" />
     <Compile Include="Services\Extensions\PriceEpisodeMatchExtensions.cs" />
     <Compile Include="Services\Extensions\PriceEpisodePeriodMatchExtensions.cs" />
     <Compile Include="Services\Extensions\ValidationErrorExtensions.cs" />
