@@ -108,9 +108,11 @@ SELECT
 	0 [TransactionType13],
 	0 [TransactionType14],
     COALESCE(APEP.PriceEpisodeLSFCash, 0) [TransactionType15],
+    COALESCE([APEP].[PriceEpisodeLearnerAdditionalPayment], 0) [TransactionType16],
     CASE WHEN APE.PriceEpisodeContractType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 	,[APE].[PriceEpisodeFirstAdditionalPaymentThresholdDate] [FirstIncentiveCensusDate]
 	,[APE].[PriceEpisodeSecondAdditionalPaymentThresholdDate] [SecondIncentiveCensusDate]
+	,[APE].[PriceEpisodeLearnerAdditionalPaymentThresholdDate] [LearnerAdditionalPaymentsDate]
 	,[APE].[PriceEpisodeTotalTnpPrice] [AgreedPrice]
 	,[APE].[PriceEpisodeActualEndDate] [EndDate]
 FROM [Period],
@@ -140,6 +142,7 @@ where (
 	or APEP.PriceEpisodeFirstDisadvantagePayment != 0
 	or APEP.PriceEpisodeSecondDisadvantagePayment != 0
 	or APEP.PriceEpisodeLSFCash != 0
+	OR [APEP].[PriceEpisodeLearnerAdditionalPayment] != 0
 	OR APEP.[Period] = 1
     )
 	and APEP.[Period] <= Period_Id
@@ -193,6 +196,7 @@ select
     COALESCE(MathEngOnProgPayment, 0) [TransactionType13],
     COALESCE(MathEngBalPayment, 0) [TransactionType14],
     COALESCE(LearnSuppFundCash, 0) [TransactionType15],
+    0 [TransactionType16],
     CASE WHEN LDP.LearnDelContType = 'Levy Contract' THEN 1 ELSE 2 END [ApprenticeshipContractType]
 FROM [Period],
 	${ILR_Deds.FQ}.Rulebase.AEC_LearningDelivery_Period LDP

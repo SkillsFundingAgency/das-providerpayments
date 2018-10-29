@@ -181,6 +181,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                     _actualRawEarnings[0].TransactionType15.Should().Be(_expectedRawEarnings[0].TransactionType15);
 
                 [Test]
+                public void ThenTransactionType16IsSetCorrectly() =>
+                    _actualRawEarnings[0].TransactionType16.Should().Be(_expectedRawEarnings[0].TransactionType16);
+
+                [Test]
                 public void ThenActIsSetCorrectly() =>
                     _actualRawEarnings[0].ApprenticeshipContractType.Should().Be(_expectedRawEarnings[0].ApprenticeshipContractType);
 
@@ -191,6 +195,10 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Tests.Infrastruc
                 [Test]
                 public void ThenSecondIncentiveCensusDateIsSetCorrectly() =>
                     _actualRawEarnings[0].SecondIncentiveCensusDate.Should().Be(_expectedRawEarnings[0].SecondIncentiveCensusDate?.Date);
+
+                [Test]
+                public void ThenLeanerAdditionalPaymentsDateIsSetCorrectly() =>
+                    _actualRawEarnings[0].LearnerAdditionalPaymentsDate.Should().Be(_expectedRawEarnings[0].LearnerAdditionalPaymentsDate?.Date);
             }
         }
     }
