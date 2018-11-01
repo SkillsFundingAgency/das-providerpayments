@@ -37,9 +37,9 @@ WHERE [CollectionPeriodName]= @CollectionPeriodName AND [Ukprn] IN (@ukprn1, @uk
 
 
 -- manual adjustments
-PRINT 'Update Adjustments.ManualAdjustments'
-UPDATE Adjustments.ManualAdjustments
-SET RequiredPaymentIdForReversal = NULL
+PRINT 'DELETE Adjustments.ManualAdjustments'
+DELETE
+FROM Adjustments.ManualAdjustments
 WHERE RequiredPaymentIdForReversal IN 
 	(
 		SELECT [Id] 

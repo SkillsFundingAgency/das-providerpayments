@@ -232,6 +232,32 @@ SELECT 'INSERT INTO [ProviderAdjustments].[Payments](
 WHERE CollectionPeriodName = @collectionPeriodName AND Ukprn IN (@ukprn1, @ukprn2);		
 
 
+SELECT 'INSERT INTO Adjustments.ManualAdjustments(
+[RequiredPaymentIdToReverse]
+,[ReasonForReversal]
+,[RequestorName]
+,[DateUploaded]
+,[RequiredPaymentIdForReversal]
+) VALUES (			
+' + ISNULL('''' + cast([RequiredPaymentIdToReverse] as sysname) + '''' , 'NULL')  + '			
+,' + ISNULL('''' + [ReasonForReversal] + '''' , 'NULL')  + '			
+,' + ISNULL('''' + [RequestorName] + '''' , 'NULL')  + '			
+,' + ISNULL('''' + convert(sysname, [DateUploaded], 120) + '''', 'NULL')  + '			
+,' + ISNULL('''' + cast([RequiredPaymentIdForReversal] as sysname) + '''' , 'NULL')  + '			
+			
+)' FROM Adjustments.ManualAdjustments			
+WHERE RequiredPaymentIdForReversal IN 			
+	(		
+		SELECT [Id] 	
+		FROM [PaymentsDue].[RequiredPayments] 	
+		WHERE [Ukprn] IN (@ukprn1, @ukprn2) 	
+			AND CollectionPeriodName = @collectionPeriodName
+	);		
+
+
+
+
+
 
 SELECT 'INSERT INTO Adjustments.ManualAdjustments(
 [RequiredPaymentIdToReverse]
