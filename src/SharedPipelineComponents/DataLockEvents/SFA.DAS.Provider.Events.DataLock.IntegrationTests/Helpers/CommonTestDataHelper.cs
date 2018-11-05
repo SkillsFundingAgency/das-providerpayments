@@ -201,7 +201,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -212,7 +212,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             if (endDate != endDate.LastDayOfMonth() && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
                     AddPriceEpisodePeriodMatch(id, ukprn, learnerRefNumber, aimSequenceNumber, priceEpisodeIdentifier, period, (int)traxType, passedDataLock, inSubmission);
                 }
@@ -393,7 +393,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
 
             while (censusDate <= endDate && period <= 12)
             {
-                foreach (var traxType in Enum.GetValues(typeof(TransactionTypesFlag)))
+                foreach (TransactionTypeGroup traxType in Enum.GetValues(typeof(TransactionTypeGroup)))
                 {
                     AddDataLockEventPeriod(period, (int)traxType, passedDataLock, eventId);
                 }
@@ -548,7 +548,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Helpers
                 {
                     connection.Execute(command, param);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw;
                 }

@@ -115,6 +115,8 @@ SELECT
 	,[APE].[PriceEpisodeLearnerAdditionalPaymentThresholdDate] [LearnerAdditionalPaymentsDate]
 	,[APE].[PriceEpisodeTotalTnpPrice] [AgreedPrice]
 	,[APE].[PriceEpisodeActualEndDate] [EndDate]
+	,[APE].[PriceEpisodeCumulativePMRs] [CumulativePmrs]
+	,[APE].[PriceEpisodeCompExemCode] [ExemptionCodeForCompletionHoldback]
 FROM [Period],
 	${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode_Period APEP
 INNER JOIN ${ILR_Deds.FQ}.Rulebase.AEC_ApprenticeshipPriceEpisode APE

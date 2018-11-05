@@ -65,18 +65,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\BaseEquatableGroup.cs" />
+    <Compile Include="Domain\CompletionPaymentGroup.cs" />
     <Compile Include="Domain\DatalockOutput.cs" />
     <Compile Include="Domain\ICanStoreCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentFailureType.cs" />
     <Compile Include="Dto\EarningValidationResult.cs" />
+    <Compile Include="Dto\FilteredEarningsResult.cs" />
     <Compile Include="Infrastructure\Data\Entities\RequiredPaymentEntity.cs" />
+    <Compile Include="Services\Dependencies\IFilterOutCompletionPaymentsWithoutEvidence.cs" />
+    <Compile Include="Services\RemoveCompletionPaymentsWithoutEvidence.cs" />
+    <Compile Include="Services\CheckEmployerPayments.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
-    <Compile Include="Services\Dependencies\ISortProviderDataIntoLearnerData.cs" />
+    <Compile Include="Services\Dependencies\ICheckEmployerPayments.cs" />
+    <Compile Include="Services\Dependencies\ICorrelateLearnerData.cs" />
     <Compile Include="Services\Dependencies\IValidateRawDatalocks.cs" />
     <Compile Include="Services\Dependencies\IProviderLearnersBuilder.cs" />
     <Compile Include="Services\Dependencies\IDetermineWhichEarningsShouldBePaid.cs" />
     <Compile Include="Services\Dependencies\ICalculatePaymentsDue.cs" />
     <Compile Include="Services\DetermineWhichEarningsShouldBePaidService.cs" />
+    <Compile Include="Services\EarningToFundingDueService.cs" />
+    <Compile Include="Services\Extensions\DatalockExtensions.cs" />
     <Compile Include="Services\PaymentsDueCalculationService.cs" />
     <Compile Include="Services\Extensions\CommitmentExtensions.cs" />
     <Compile Include="Services\Extensions\CourseExtensions.cs" />
@@ -85,7 +94,7 @@
     <Compile Include="Domain\FundingDue.cs" />
     <Compile Include="Domain\IHoldCommitmentInformation.cs" />
     <Compile Include="Domain\PaymentGroup.cs" />
-    <Compile Include="Services\Dependencies\ILearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\IProcessPaymentsDue.cs" />
     <Compile Include="Infrastructure\Data\Entities\Commitment.cs" />
     <Compile Include="Infrastructure\Data\Entities\NonPayableEarning.cs" />
     <Compile Include="Infrastructure\Data\IRequiredPaymentRepository.cs" />
@@ -102,15 +111,15 @@
     <Compile Include="Infrastructure\Data\IProviderRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\NonPayableEarningRepository.cs" />
     <Compile Include="Infrastructure\Data\Repositories\RequiredPaymentsHistoryRepository.cs" />
-    <Compile Include="Services\Dependencies\IProviderProcessor.cs" />
-    <Compile Include="Services\LearnerProcessor.cs" />
+    <Compile Include="Services\Dependencies\IProviderPaymentsDueProcessor.cs" />
+    <Compile Include="Services\LearnerPaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDuePassThroughProcessor.cs" />
     <Compile Include="PaymentsDueProcessor.cs" />
     <Compile Include="PaymentsDueProcessorException.cs" />
     <Compile Include="PaymentsDueTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dto\PaymentsDueResult.cs" />
-    <Compile Include="Services\ProviderProcessor.cs" />
+    <Compile Include="Services\ProviderPaymentsDueProcessor.cs" />
     <Compile Include="Dto\LearnerData.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +133,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.ProviderPayments.Domain.Kernel\SFA.DAS.ProviderPayments.Domain.Kernel.csproj">
+      <Project>{6AA1E784-6E83-4693-833C-C97E73B768F7}</Project>
+      <Name>SFA.DAS.ProviderPayments.Domain.Kernel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SharedPipelineComponents\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
       <Project>{e8aed497-09e3-417f-89f8-5a45bbadd08f}</Project>

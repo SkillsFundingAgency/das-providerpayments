@@ -157,6 +157,14 @@
           <Source>EndDate</Source>
           <Destination>EndDate</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>CumulativePmrs</Source>
+          <Destination>CumulativePmrs</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ExemptionCodeForCompletionHoldback</Source>
+          <Destination>ExemptionCodeForCompletionHoldback</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
     <TableMapping>

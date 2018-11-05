@@ -21,15 +21,18 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         {
             var fixture = new Fixture();
             var commitmentId = fixture.Create<long>();
+            var commitmentVersionId = fixture.Create<string>();
 
             RawDatalocks = fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.VersionId, commitmentVersionId)
                 .With(x => x.Payable, true)
                 .CreateMany(10)
                 .ToList();
 
             Commitments = fixture.Build<Commitment>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.CommitmentVersionId, commitmentVersionId)
                 .CreateMany(1)
                 .ToList();
         }
@@ -41,7 +44,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             RawDatalocks[2] = RawDatalocks[0];
             RawDatalocks[3] = RawDatalocks[0];
 
-            var actual = sut.ProcessDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
+            var actual = sut.GetSuccessfulDatalocks(RawDatalocks, new List<DatalockValidationError>(), Commitments);
 
             actual.Should().HaveCount(7);
         }

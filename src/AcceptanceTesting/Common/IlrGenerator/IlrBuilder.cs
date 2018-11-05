@@ -276,6 +276,7 @@ namespace IlrGenerator
                     FindFinancialRecordElement(financialRecord, "TBFinAmount", "AFinAmount").Value =
                         delivery.FinancialRecords[0].Amount.ToString(CurrencyFormat);
                     FindFinancialRecordElement(financialRecord, "TBFinCode", "AFinCode").Value = delivery.FinancialRecords[0].Code.ToString();
+                    FindFinancialRecordElement(financialRecord, "TBFinType", "AFinType").Value = delivery.FinancialRecords[0].Type;
 
                     for (var x = 1; x < delivery.FinancialRecords.Length; x++)
                     {
@@ -287,6 +288,8 @@ namespace IlrGenerator
                             delivery.FinancialRecords[x].Amount.ToString(CurrencyFormat);
                         FindFinancialRecordElement(newFinancialRecord, "TBFinCode", "AFinCode").Value =
                             delivery.FinancialRecords[x].Code.ToString();
+                        FindFinancialRecordElement(newFinancialRecord, "TBFinType", "AFinType").Value =
+                            delivery.FinancialRecords[x].Type;
 
                         financialRecord.AddAfterSelf(newFinancialRecord);
                     }
@@ -364,7 +367,7 @@ namespace IlrGenerator
                     FindElement(newNonActFamElement, "LearnDelFAMCode").Value = famRecord.Code;
                     FindElement(newNonActFamElement, "LearnDelFAMType").Value = famRecord.FamType;
 
-                    if (!famRecord.FamType.Equals("RES", StringComparison.InvariantCultureIgnoreCase))
+                    if (!famRecord.FamType.Equals("RES", StringComparison.InvariantCultureIgnoreCase) && !famRecord.FamType.Equals("LDM", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var famDateFrom = CreateElement("LearnDelFAMDateFrom", famRecord.From.ToString(DateFormat));
                         var dateTo = GetFamToDate(famRecord.To, delivery.ActualEndDate);
@@ -373,10 +376,8 @@ namespace IlrGenerator
                             var famDateTo = CreateElement("LearnDelFAMDateTo", dateTo.Value.ToString(DateFormat));
                             FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateTo);
                         }
-                        
                         FindElement(newNonActFamElement, "LearnDelFAMCode").AddAfterSelf(famDateFrom);
                     }
-
                     learnerNonActFamElement.AddAfterSelf(newNonActFamElement);
                 }
             }

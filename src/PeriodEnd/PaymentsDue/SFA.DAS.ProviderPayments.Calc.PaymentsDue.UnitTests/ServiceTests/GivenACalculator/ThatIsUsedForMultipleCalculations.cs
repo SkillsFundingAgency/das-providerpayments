@@ -2,7 +2,6 @@
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
@@ -18,12 +17,12 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         {
             var runOne = sut.Calculate(
                 earnings,
-                new List<int>(), 
+                new HashSet<int>(), 
                 new List<RequiredPayment>());
 
             var runTwo = sut.Calculate(
                 earnings,
-                new List<int>(),
+                new HashSet<int>(),
                 new List<RequiredPayment>());
 
             runOne.ShouldAllBeEquivalentTo(runTwo, options => options.Excluding(x => x.Id));

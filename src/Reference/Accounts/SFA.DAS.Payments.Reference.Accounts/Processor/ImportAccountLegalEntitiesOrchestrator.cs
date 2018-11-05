@@ -24,7 +24,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
 
             var pageNumber = 1;
             var hasMorePages = true;
-            var numberOfAgreements = 0l;
+            var numberOfAgreements = 0L;
             while (hasMorePages)
             {
                 _logger.Info($"Starting to process page {pageNumber}");

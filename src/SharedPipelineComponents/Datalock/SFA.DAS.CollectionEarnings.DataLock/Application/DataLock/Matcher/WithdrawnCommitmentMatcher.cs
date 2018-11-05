@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher

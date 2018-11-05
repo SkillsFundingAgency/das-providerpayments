@@ -39,7 +39,7 @@ namespace SFA.DAS.Provider.Events.DataLock.UnitTests.Application.WriteDataLockEv
                 },
                 CommitmentVersion = "1-001",
                 IsPayable = false,
-                TransactionTypesFlag = TransactionTypesFlag.AllLearning
+                TransactionTypesFlag = TransactionTypeGroup.OnProgLearning
             };
 
             _eventCommitmentVersion = new DataLockEventCommitmentVersion

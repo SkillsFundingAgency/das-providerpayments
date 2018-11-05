@@ -8,6 +8,7 @@ using SFA.DAS.Payments.AcceptanceTests.DataCollectors;
 using SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels;
 using SFA.DAS.Payments.AcceptanceTests.ResultsDataModels;
 using System.IO;
+using ProviderPayments.TestStack.Core.Domain;
 
 namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 {
@@ -156,6 +157,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var latestDate = latestActualDate.HasValue && latestActualDate > latestPlannedDate ? latestActualDate : latestPlannedDate;
             if (lastAssertionPeriodDate.HasValue && lastAssertionPeriodDate < latestDate)
                 latestDate = lastAssertionPeriodDate.Value.AddMonths(1).AddDays(-1);
+            if (firstSubmissionDate.HasValue && firstSubmissionDate > latestDate)
+                latestDate = firstSubmissionDate.Value.AddMonths(1).AddDays(-1);
 
             var date = earliestDate;
             while (date <= latestDate)
@@ -210,7 +213,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             var periodNumber = date.GetPeriodNumber();
 
             TestEnvironment.Variables.CurrentYear = date.GetAcademicYear();
-            TestEnvironment.Variables.CollectionPeriod = new ProviderPayments.TestStack.Core.Domain.CollectionPeriod
+            TestEnvironment.Variables.CollectionPeriod = new CollectionPeriod
             {
                 PeriodId = date.GetPeriodNumber(),
                 Period = "R" + periodNumber.ToString("00"),
@@ -310,7 +313,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 .Where(x => x.StartDate <= endOfPeriod)
                 .Select(x =>
                 {
-                    var financialRecords = BuildLearningDeliveryFinancials(x);
+                    var financialRecords = BuildLearningDeliveryFinancials(x, endOfPeriod);
 
                     return new LearningDelivery
                     {
@@ -369,7 +372,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             return learner;
         }
 
-        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData)
+        private static FinancialRecord[] BuildLearningDeliveryFinancials(IlrLearnerReferenceData learnerReferenceData, DateTime endOfPeriod)
         {
             var agreedTrainingPrice = learnerReferenceData.FrameworkCode > 0 ? learnerReferenceData.AgreedPrice :
                                      (int)Math.Floor(learnerReferenceData.AgreedPrice * 0.8m);
@@ -490,6 +493,17 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
                 }
             }
 
+            if (learnerReferenceData.EmployerContribution > 0)
+            {
+                financialRecords.Add(new FinancialRecord
+                {
+                    Code = 1,
+                    Type = "PMR",
+                    Amount = learnerReferenceData.EmployerContribution,
+                    Date = endOfPeriod.Date
+                });
+            }
+
             return financialRecords.ToArray();
         }
 
@@ -501,7 +515,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
 
             var actFamCodes = BuildActFamCodes(learnerDetails.LearnerType, learnerDetails.StartDate, learningEndDate, contractTypes);
             var lsfFamCodes = BuildLsfFamCodes(learningSupportStatus);
-            var eefFamCodes = BuildEefFamCodes(learnerDetails);
+            var eefFamCodes = BuildEefAndLdmFamCodes(learnerDetails);
             var restartFamCode = BuildRestartIndicatorFamCode(learnerDetails);
 
             return actFamCodes.Concat(lsfFamCodes).Concat(eefFamCodes).Concat(restartFamCode).ToArray();
@@ -542,10 +556,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             }).ToArray();
         }
 
-        private static LearningDeliveryFamRecord[] BuildEefFamCodes(IlrLearnerReferenceData learnerDetails)
+        private static LearningDeliveryFamRecord[] BuildEefAndLdmFamCodes(IlrLearnerReferenceData learnerDetails)
         {
             if (learnerDetails.LearnDelFam == null || 
-                !learnerDetails.LearnDelFam.ToUpper().StartsWith("EEF"))
+                !learnerDetails.LearnDelFam.ToUpper().StartsWith("EEF") && !learnerDetails.LearnDelFam.ToUpper().StartsWith("LDM"))
             {
                 return new LearningDeliveryFamRecord[0];
             }
@@ -554,10 +568,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.ExecutionManagers
             {
                 new LearningDeliveryFamRecord
                 {
-                    FamType = "EEF",
-                    Code = learnerDetails.LearnDelFam.Substring(3),
-                    //From = learnerDetails.StartDate,
-                    //To = learnerDetails.PlannedEndDate,
+                    FamType = learnerDetails.LearnDelFam.Substring(0,3),
+                    Code = learnerDetails.LearnDelFam.Substring(3)
                 }
             };
         }

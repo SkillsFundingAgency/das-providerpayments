@@ -145,7 +145,7 @@
       <Link>DbSetupScripts\MigrationScripts\004_DataLockEvents_Add_TransactionTypesFlag.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Add_Indexes.sql" >
+    <Content Include="..\DeployDataLock\sql\migrationscripts\005_DataLockEvents_Add_Indexes.sql">
       <Link>DbSetupScripts\MigrationScripts\005_DataLockEvents_Add_Indexes.sql</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -164,7 +164,6 @@
     <Content Include="DbSetupScripts\Ilr.Transient.Reference.CollectionPeriods.ddl.tables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    
     <Content Include="DbSetupScripts\Payments.deds.ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -179,6 +178,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SFA.DAS.ProviderPayments.Calc.Common\SFA.DAS.ProviderPayments.Calc.Common.csproj">
+      <Project>{E8AED497-09E3-417F-89F8-5A45BBADD08F}</Project>
+      <Name>SFA.DAS.ProviderPayments.Calc.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.Provider.Events.DataLock\SFA.DAS.Provider.Events.DataLock.csproj">
       <Project>{fa1f038d-f0a5-4a3e-a642-62d294e5521d}</Project>

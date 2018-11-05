@@ -139,10 +139,12 @@
     <Compile Include="ScenarioTesting\ScenarioTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox.cs" />
+    <Compile Include="ServiceTests\GivenACheckEmployerPayments\WhenCallingIsThereEvidenceOfSufficientEmployerPayments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithDuplicateDatalockOutput.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithMissingCommitments.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithNonPayableDatalocks.cs" />
     <Compile Include="ServiceTests\GivenADatalockValidationService\WithValidationErrors.cs" />
+    <Compile Include="ServiceTests\GivenARemoveCompletionPaymentsWithoutEvidence\WhenCallingProcess.cs" />
     <Compile Include="Utilities\Extensions\DeliveryPeriods.cs" />
     <Compile Include="Utilities\Extensions\EarningsExtensions.cs" />
     <Compile Include="Utilities\Extensions\RequiredPaymentExtensions.cs" />

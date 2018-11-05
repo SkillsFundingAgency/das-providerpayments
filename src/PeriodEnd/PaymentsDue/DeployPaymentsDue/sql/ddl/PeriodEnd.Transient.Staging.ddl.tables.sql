@@ -61,7 +61,9 @@ CREATE TABLE Staging.RawEarnings (
 	SecondIncentiveCensusDate date,
 	LearnerAdditionalPaymentsDate date,
 	AgreedPrice decimal(15,5),
-	EndDate date
+	EndDate date,
+	CumulativePmrs decimal(12,5),
+	ExemptionCodeForCompletionHoldback int,
 )
 GO
 

@@ -26,7 +26,7 @@ namespace SFA.DAS.Payments.Reference.Accounts.Processor
             var correlationDate = DateTime.Today;
             var pageNumber = 1;
             var hasMorePages = true;
-            var numberOfAccounts = 0l;
+            var numberOfAccounts = 0L;
             while (hasMorePages)
             {
                 _logger.Info($"Starting to process page {pageNumber}");

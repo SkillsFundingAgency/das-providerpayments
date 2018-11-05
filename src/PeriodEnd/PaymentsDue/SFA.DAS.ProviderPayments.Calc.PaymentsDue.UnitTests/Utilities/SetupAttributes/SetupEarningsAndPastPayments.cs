@@ -5,6 +5,7 @@ using AutoFixture;
 using NLog;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -15,14 +16,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 {
     class SetupMatchingEarningsAndPastPayments : Attribute, IApplyToContext
     {
-        private readonly int _apprenticeshipContractType;
+        private readonly ApprenticeshipContractType _apprenticeshipContractType;
         private readonly bool _datalockSuccess;
         private readonly decimal _onProgAmount;
         private readonly decimal _mathsEnglishAmount;
         private readonly string _academicYear;
         
         public SetupMatchingEarningsAndPastPayments(
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             bool datalockSuccess = true,
             int onProgAmount = 500,
             string academicYear = "1718",
@@ -40,15 +41,16 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             var fixture = new Fixture();
 
             var priceEpisode1 = fixture.Create<string>() + $"01/08/20{_academicYear.Substring(0, 2)}";
-            int programmeType = fixture.Create<int>();
-            int standardCode = fixture.Create<int>();
-            int pathwayCode = fixture.Create<int>();
-            int frameworkCode = fixture.Create<int>();
+            var programmeType = fixture.Create<int>();
+            var standardCode = fixture.Create<int>();
+            var pathwayCode = fixture.Create<int>();
+            var frameworkCode = fixture.Create<int>();
 
             var mathsAndEnglishEarnings = new List<RawEarningForMathsOrEnglish>();
 
             var accountId = fixture.Create<long>();
             var commitmentId = fixture.Create<long>();
+            var commitmentVersionId = fixture.Create<string>();
 
             var earnings = fixture.Build<RawEarning>()
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
@@ -81,6 +83,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var datalocks = fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.VersionId, commitmentVersionId)
                 .With(x => x.Payable, _datalockSuccess)
                 .With(x => x.PriceEpisodeIdentifier, priceEpisode1)
                 .With(x => x.TransactionTypesFlag, 1)
@@ -89,6 +92,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
             var commitments = fixture.Build<Commitment>()
                 .With(x => x.CommitmentId, commitmentId)
+                .With(x => x.CommitmentVersionId, commitmentVersionId)
                 .With(x => x.AccountId, accountId)
                 .CreateMany(1)
                 .ToList();
@@ -166,7 +170,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
 
                 pastPayments[i].Period = earnings[i].Period;
 
-                if (_apprenticeshipContractType == 2)
+                if (_apprenticeshipContractType == ApprenticeshipContractType.NonLevy)
                 {
                     pastPayments[i].AccountId = 0;
                     pastPayments[i].AccountVersionId = null;
@@ -176,7 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
             }
 
             var validationService = new DatalockValidationService(LogManager.CreateNullLogger());
-            var datalockOutput = validationService.ProcessDatalocks(datalocks, datalockValidationErrors, commitments);
+            var datalockOutput = validationService.GetSuccessfulDatalocks(datalocks, datalockValidationErrors, commitments);
 
             var earningsDictionary = new Dictionary<string, object>
             {

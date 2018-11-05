@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NLog;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Extensions;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
@@ -18,53 +19,42 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             _logger = logger;
         }
 
-        public List<DatalockOutput> ProcessDatalocks(
+        public List<DatalockOutput> GetSuccessfulDatalocks(
             List<DatalockOutputEntity> datalocks, 
             List<DatalockValidationError> datalockValidationErrors,
             List<Commitment> commitments)
         {
-            // We want the account id from the commitment id, different versions 
-            //  of a commitment will have the same account id
-
-            // Generally there are more datalocks than commitments by an order of 10
-            var commitmentDictionary = new Dictionary<long, Commitment>();
-            var orderedCommitments = commitments
-                .OrderByDescending(x => x.CommitmentId)
-                .ThenByDescending(x => x.CommitmentVersionId);
-
-            foreach (var commitment in orderedCommitments)
-            {
-                if (!commitmentDictionary.ContainsKey(commitment.CommitmentId))
-                {
-                    commitmentDictionary.Add(commitment.CommitmentId, commitment);
-                }
-            }
-
             var output = new HashSet<DatalockOutput>();
+            var commitmentsById = commitments.ToLookup(x => x.CommitmentId);
 
             var invalidPriceEpisodeIdentifiers = datalockValidationErrors
                 .Where(x => x.RuleId != DataLockErrorCodes.EmployerStopped)
                 .Select(x => x.PriceEpisodeIdentifier)
                 .ToList();
-
+            
             foreach (var datalockOutputEntity in datalocks)
             {
-                // Reject any where payable != true
-                //  or the price episode id is in the validation error list
-                if (datalockOutputEntity.Payable == false ||
-                    invalidPriceEpisodeIdentifiers.Contains(datalockOutputEntity.PriceEpisodeIdentifier))
+                if (datalockOutputEntity.Payable == false)
                 {
                     continue;
                 }
 
-                if (commitmentDictionary.ContainsKey(datalockOutputEntity.CommitmentId))
+                if (datalockOutputEntity.HasDatalockValidationError(invalidPriceEpisodeIdentifiers))
                 {
-                    var commitment = commitments.FirstOrDefault(x => x.CommitmentId == datalockOutputEntity.CommitmentId &&
-                                                                     x.CommitmentVersionId == datalockOutputEntity.VersionId);
-                    if (commitment == null)
-                    {
-                        commitment = commitmentDictionary[datalockOutputEntity.CommitmentId];
-                    }
+                    continue;
+                }
+
+                Commitment commitment = null;
+
+                if (commitmentsById.Contains(datalockOutputEntity.CommitmentId))
+                {
+                    commitment = commitmentsById[datalockOutputEntity.CommitmentId]
+                        .FirstOrDefault(x => x.CommitmentId == datalockOutputEntity.CommitmentId &&
+                                             x.CommitmentVersionId == datalockOutputEntity.VersionId);
+                }
+
+                if (commitment != null)
+                {
                     var processedValueObject = new DatalockOutput(datalockOutputEntity, commitment);
                     output.Add(processedValueObject);
                 }
