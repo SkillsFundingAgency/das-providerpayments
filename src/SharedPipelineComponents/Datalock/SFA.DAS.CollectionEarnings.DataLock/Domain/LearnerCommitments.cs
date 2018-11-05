@@ -14,7 +14,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         public LearnerCommitments(IEnumerable<CommitmentEntity> commitments)
         {
             Commitments = new List<Commitment>(commitments.Select(x => new Commitment(x)));
-            var commitmentsById = Commitments.ToLookup(x => x.CommitmentId);
+            var commitmentsById = Commitments.ToLookup(x => x.CommitmentId).OrderBy(x => x.Key);
 
             foreach (var commitmentsForId in commitmentsById)
             {
@@ -22,57 +22,98 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
 
                 if (commitmentList.Count == 1)
                 {
-                    // No 'versions'
-                    commitmentList[0].EffectiveStartDate = commitmentList[0].StartDate.LastDayOfMonth();
-                    commitmentList[0].EffectiveEndDate = commitmentList[0].EndDate.LastDayOfMonth().AddDays(-1);
+                    SetupNonVersionedCommitment(commitmentList[0]);
                 }
                 else
                 {
-                    foreach (var commitment in commitmentList)
-                    {
-                        commitment.EffectiveStartDate = commitment.EffectiveFrom;
-                        commitment.EffectiveEndDate = commitment.EffectiveTo;
-                        commitment.IsVersioned = true;
-                    }
-                }
+                    SetupVersionedCommitments(commitmentList);
 
-                foreach (var commitment in commitmentList)
-                {
-                    if (commitment.WithdrawnOnDate.HasValue)
-                    {
-                        commitment.EffectiveEndDate = commitment.WithdrawnOnDate;
-                    }
+                    RemoveCommitmentsWithNoDays(commitmentList);
                 }
             }
 
+            AdjustCommitmentEndDatesToMatchFollowingCommitmentsStartDate();
+
+            AdjustLastCommitmentEndDateToInfinity();
+        }
+
+        private static void SetupVersionedCommitments(List<Commitment> commitmentList)
+        {
+            foreach (var commitment in commitmentList)
+            {
+                commitment.EffectiveStartDate = commitment.EffectiveFrom;
+
+                if (commitment.PaymentStatus == (int) PaymentStatus.Cancelled &&
+                    commitment.WithdrawnOnDate < commitment.EffectiveTo)
+                {
+                    commitment.EffectiveEndDate = commitment.WithdrawnOnDate;
+                }
+                else
+                {
+                    commitment.EffectiveEndDate = commitment.EffectiveTo;
+                }
+
+                commitment.IsVersioned = true;
+            }
+        }
+
+        private static void SetupNonVersionedCommitment(Commitment commitment)
+        {
+            commitment.EffectiveStartDate = commitment.StartDate.LastDayOfMonth();
+            if (commitment.PaymentStatus == (int) PaymentStatus.Cancelled)
+            {
+                commitment.EffectiveEndDate = commitment.WithdrawnOnDate;
+            }
+            else
+            {
+                commitment.EffectiveEndDate = commitment.EndDate.LastDayOfMonth().AddDays(-1);
+            }
+        }
+
+        private void AdjustLastCommitmentEndDateToInfinity()
+        {
             var lastCommitment = Commitments
                 .OrderByDescending(x => x.EffectiveStartDate)
                 .ThenByDescending(x => x.CommitmentId)
                 .FirstOrDefault();
-            if (lastCommitment != null)
+            if (lastCommitment != null && lastCommitment.PaymentStatus == (int) PaymentStatus.Active)
             {
-                lastCommitment.EffectiveEndDate = null;
+                lastCommitment.EffectiveEndDate = new DateTime(2099, 01, 01);
+            }
+        }
+
+        private void AdjustCommitmentEndDatesToMatchFollowingCommitmentsStartDate()
+        {
+            for (var i = 0; i < Commitments.Count - 1; i++) // not looking at the last one
+            {
+                if (Commitments[i].EffectiveEndDate < Commitments[i + 1].EffectiveStartDate)
+                {
+                    Commitments[i].EffectiveEndDate = Commitments[i + 1].EffectiveStartDate.AddDays(-1);
+                }
+            }
+        }
+
+        private void RemoveCommitmentsWithNoDays(IEnumerable<Commitment> commitmentList)
+        {
+            var commitmentsToRemove = new List<Commitment>();
+            foreach (var commitment in commitmentList)
+            {
+                if (commitment.EffectiveEndDate < commitment.EffectiveStartDate)
+                {
+                    commitmentsToRemove.Add(commitment);
+                }
+            }
+
+            foreach (var commitment in commitmentsToRemove)
+            {
+                Commitments.Remove(commitment);
             }
         }
 
         public IReadOnlyList<Commitment> ActiveCommitmentsForDate(DateTime date)
         {
             return Commitments.Where(x => x.EffectiveStartDate <= date &&
-
-                                          (x.EffectiveEndDate == null ||
-                                          x.EffectiveEndDate >= date) &&
-
-                                          (x.PaymentStatus == (int)PaymentStatus.Active || 
-                                              (x.PaymentStatus == (int)PaymentStatus.Cancelled &&
-                                               x.WithdrawnOnDate >= date)))
-                .ToList();
-        }
-
-        public IReadOnlyList<CommitmentEntity> NonActiveCommitmentsForDate(DateTime date)
-        {
-            return Commitments.Where(x => x.EffectiveStartDate < date &&
-                                          (x.WithdrawnOnDate.HasValue ||
-                                          x.PausedOnDate.HasValue))
+                                          x.EffectiveEndDate >= date)
                 .ToList();
         }
     }
