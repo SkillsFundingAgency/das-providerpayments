@@ -1,25 +1,22 @@
-DECLARE @CollectionPeriodMonth int = (SELECT [CalendarMonth] FROM Reference.CollectionPeriods WHERE [Open] = 1)
-DECLARE @CollectionPeriodYear int = (SELECT [CalendarYear] FROM Reference.CollectionPeriods WHERE [Open] = 1)
+DECLARE @CollectionPeriodName varchar(8) = (SELECT [AcademicYear] FROM Reference.CollectionPeriods WHERE [Open] = 1) + '-' + (SELECT [Name] FROM Reference.CollectionPeriods WHERE [Open] = 1)
+
 
 DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[ValidationError]
     WHERE 
-        [CollectionPeriodMonth] = @CollectionPeriodMonth
-        AND [CollectionPeriodYear] = @CollectionPeriodYear
+        [CollectionPeriodName] = @CollectionPeriodName
 
 
 DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[ValidationErrorByPeriod]
     WHERE 
-        [CollectionPeriodMonth] = @CollectionPeriodMonth
-        AND [CollectionPeriodYear] = @CollectionPeriodYear
-
+		[CollectionPeriodName] = @CollectionPeriodName
+        
 
 DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[PriceEpisodeMatch]
     WHERE 
-		[CollectionPeriodMonth] = @CollectionPeriodMonth
-        AND [CollectionPeriodYear] = @CollectionPeriodYear
-
+		[CollectionPeriodName] = @CollectionPeriodName
+        
 
 DELETE FROM ${DAS_PeriodEnd.FQ}.[DataLock].[PriceEpisodePeriodMatch]
     WHERE 
-		[CollectionPeriodMonth] = @CollectionPeriodMonth
-        AND [CollectionPeriodYear] = @CollectionPeriodYear
+		[CollectionPeriodName] = @CollectionPeriodName
+        

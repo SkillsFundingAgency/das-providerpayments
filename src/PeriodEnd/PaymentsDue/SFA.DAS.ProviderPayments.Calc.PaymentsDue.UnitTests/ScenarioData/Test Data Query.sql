@@ -22,7 +22,7 @@ SELECT * FROM PaymentsDue.RequiredPayments
  StandardCode, SfaContributionPercentage, FundingLineType, LearnAimRef, LearningStartDate, TransactionType01, TransactionType02,
  TransactionType03,TransactionType04, TransactionType05, TransactionType06, TransactionType07, TransactionType08, 
  TransactionType09, TransactionType10, TransactionType11, TransactionType12, TransactionType13, TransactionType14, 
- TransactionType15, ApprenticeshipContractType, LearnRefNumber
+ TransactionType15, TransactionType16, ApprenticeshipContractType, LearnRefNumber
   FROM Staging.RawEarnings
 -- WHERE  UKPRN = @ukprn
 -- AND LearnRefNumber = @learnRefNumber

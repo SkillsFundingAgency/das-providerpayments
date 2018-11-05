@@ -1,11 +1,11 @@
+DECLARE @CollectionPeriodName varchar(8) = (SELECT [AcademicYear] FROM Reference.CollectionPeriods WHERE [Open] = 1) + '-' + (SELECT [Name] FROM Reference.CollectionPeriods WHERE [Open] = 1)
+
 DELETE FROM ${DAS_PeriodEnd.FQ}.[Payments].[Payments]
     WHERE [RequiredPaymentId] IN (
 		SELECT DISTINCT [Id] FROM [PaymentsDue].[RequiredPayments] WHERE [Ukprn] IN (
 			SELECT DISTINCT [Ukprn] FROM [Reference].[Providers]
 			)
 		)
-        AND [CollectionPeriodName] IN (SELECT '${YearOfCollection}-' + [Collection_Period] FROM [LevyPayments].[vw_CollectionPeriods] WHERE [Collection_Open] = 1)
-        AND [CollectionPeriodMonth] IN (SELECT [Period] FROM [LevyPayments].[vw_CollectionPeriods] WHERE [Collection_Open] = 1)
-        AND [CollectionPeriodYear] IN (SELECT [Calendar_Year] FROM [LevyPayments].[vw_CollectionPeriods] WHERE [Collection_Open] = 1)
+        AND [CollectionPeriodName] = @CollectionPeriodName
         AND [FundingSource] = 1
 GO

@@ -126,6 +126,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 earnings[i].TransactionType13 = 0m;
                 earnings[i].TransactionType14 = 0m;
                 earnings[i].TransactionType15 = 0m;
+                earnings[i].TransactionType16 = 0m;
 
                 mathsAndEnglishEarnings[i].TransactionType01 = 0m;
                 mathsAndEnglishEarnings[i].TransactionType02 = 0m;
@@ -141,6 +142,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAtt
                 mathsAndEnglishEarnings[i].TransactionType12 = 0m;
                 mathsAndEnglishEarnings[i].TransactionType14 = 0m;
                 mathsAndEnglishEarnings[i].TransactionType15 = 0m;
+                mathsAndEnglishEarnings[i].TransactionType16 = 0m;
 
                 earnings[i].DeliveryMonth = (i + 1).DeliveryMonthFromPeriod();
                 earnings[i].DeliveryYear = (i + 1).DeliveryYearFromPeriod();
