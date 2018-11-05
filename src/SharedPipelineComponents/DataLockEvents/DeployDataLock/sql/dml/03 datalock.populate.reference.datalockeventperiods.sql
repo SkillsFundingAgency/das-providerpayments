@@ -13,6 +13,5 @@ SELECT
     dlep.TransactionType,
 	dlep.TransactionTypesFlag
 FROM Reference.DataLockEvents dle 
-INNER JOIN OPENQUERY(${DAS_ProviderEvents.servername}, '
-		SELECT * FROM ${DAS_ProviderEvents.databasename}.DataLock.DataLockEventPeriods'
-	) AS dlep ON dle.DataLockEventId = dlep.DataLockEventId
+INNER JOIN ${DAS_ProviderEvents.FQ}.DataLock.DataLockEventPeriods dlep
+On dle.DataLockEventId = dlep.DataLockEventId 

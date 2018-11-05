@@ -123,10 +123,9 @@ SELECT
     dle.[IlrPriceEffectiveToDate]
 FROM 
 	[DataLock].[vw_Providers] ptp WITH (NOLOCK)
-	INNER JOIN OPENQUERY(${DAS_ProviderEvents.servername}, '
-		SELECT * 
-		FROM ${DAS_ProviderEvents.databasename}.[DataLock].[DataLockEvents] dle WITH (NOLOCK)'
-	) AS dle ON ptp.[UKPRN] = dle.[UKPRN]
+	INNER JOIN 
+		${DAS_ProviderEvents.FQ}.[DataLock].[DataLockEvents] dle WITH ( NOLOCK )
+		ON ptp.[UKPRN] = dle.[UKPRN]
 
 /* +++++ start post-op monitoring */
 SET @duration = DATEDIFF(MS, @Now, GETDATE())
