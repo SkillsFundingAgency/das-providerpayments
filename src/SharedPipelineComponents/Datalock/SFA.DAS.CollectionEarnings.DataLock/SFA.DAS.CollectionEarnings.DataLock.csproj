@@ -94,7 +94,6 @@
     <Compile Include="Domain\DatalockValidationResultBuilder.cs" />
     <Compile Include="Domain\DatalockValidationResult.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
-    <Compile Include="Domain\PriceEpisodeGroup.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
     <Compile Include="Domain\ProviderEarnings.cs" />
     <Compile Include="Exceptions\LearnerNotFoundException.cs" />
@@ -123,8 +122,6 @@
     <Compile Include="Services\Extensions\PriceEpisodeMatchExtensions.cs" />
     <Compile Include="Services\Extensions\PriceEpisodePeriodMatchExtensions.cs" />
     <Compile Include="Services\Extensions\ValidationErrorExtensions.cs" />
-    <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
-    <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
     <Compile Include="Utilities\Providers\IDateTimeProvider.cs" />
   </ItemGroup>
