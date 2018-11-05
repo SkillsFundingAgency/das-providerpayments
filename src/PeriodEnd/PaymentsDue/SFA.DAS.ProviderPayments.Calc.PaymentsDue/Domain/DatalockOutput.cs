@@ -9,7 +9,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
     /// <summary>
     /// Datalock value object
     ///     Account id is assumed to be equal if the commitment id is equal
-    ///     Account version id and commitment version id are not used in equality comparisons
+    ///     Account version id is not used in equality comparisons
     /// </summary>
     public sealed class DatalockOutput : IEquatable<DatalockOutput>, IHoldCommitmentInformation
     {
@@ -61,8 +61,6 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         {
             // Assumptions:
             //  If the commitment id is the same, the account id will be the same
-            //  A different version of a commitment doesn't mean that the datalock
-            //  is different
             //  We ignore the account version id
             unchecked
             {
@@ -74,6 +72,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                 hash = 31 * hash + Period.GetHashCode();
                 hash = 31 * hash + Payable.GetHashCode();
                 hash = 31 * hash + TransactionTypeGroup.GetHashCode();
+                hash = 31 * hash + CommitmentVersionId.GetHashCode();
 
                 return hash;
             }
@@ -97,6 +96,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
                    CommitmentId == obj.CommitmentId &&
                    Period == obj.Period &&
                    Payable == obj.Payable &&
+                   CommitmentVersionId == obj.CommitmentVersionId &&
                    TransactionTypeGroup == obj.TransactionTypeGroup;
         }
 
