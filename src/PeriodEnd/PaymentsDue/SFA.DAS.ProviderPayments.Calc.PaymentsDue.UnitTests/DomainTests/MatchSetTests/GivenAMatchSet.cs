@@ -23,7 +23,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.MatchS
             PaymentGroup sut)
         {
             // ReSharper disable once EqualExpressionComparison
+#pragma warning disable CS1718 // Comparison made to same variable
             var actual = sut == sut;
+#pragma warning restore CS1718 // Comparison made to same variable
 
             actual.Should().BeTrue();
         }

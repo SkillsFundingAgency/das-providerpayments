@@ -37,9 +37,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
                 TransactionType11,
                 TransactionType12,
                 TransactionType15,
+                TransactionType16,
                 ApprenticeshipContractType,
                 FirstIncentiveCensusDate,
-                SecondIncentiveCensusDate
+                SecondIncentiveCensusDate,
+                LearnerAdditionalPaymentsDate
             ) VALUES (
                 @LearnRefNumber,
                 @Ukprn,
@@ -70,9 +72,11 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.IntegrationTests.Helpers
                 @TransactionType11,
                 @TransactionType12,
                 @TransactionType15,
+                @TransactionType16,
                 @ApprenticeshipContractType,
                 @FirstIncentiveCensusDate,
-                @SecondIncentiveCensusDate
+                @SecondIncentiveCensusDate,
+                @LearnerAdditionalPaymentsDate
             );";
 
             TestDataHelper.Execute(sql, rawEarning);
