@@ -7,6 +7,9 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService;
+using SFA.DAS.Payments.DCFS.Domain;
+using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using TechTalk.SpecFlow;
 
@@ -33,6 +36,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
     public class ResultsContext
     {
         public DatalockValidationResult DatalockValidationResult { get; set; }
+        public DatalockValidationResultBuilder DatalockValidationResultBuilder { get; set; }
     }
 
     [Binding]
@@ -49,7 +53,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
             _resultsContext = resultsContext;
         }
 
-        [Given(@"I have the following on programme earnings")]
+        [Given(@"I have the following earnings")]
         public void GivenIHaveTheFollowingOnProgrammeEarnings(Table table)
         {
             _earningsContext.RawEarnings.AddRange(DataHelper.CreateRawEarnings(table));
@@ -59,6 +63,20 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         public void GivenIHaveTheForCommitments(Table table)
         {
             _commitmentsContext.CommitmentEntities.AddRange(DataHelper.CreateCommitmentEntities(table));
+        }
+
+        [Given(@"I build using DatalockValidationResultBuilder")]
+        public void BuildUsingDatalockValidationResultBuilder(Table table)
+        {
+            _resultsContext.DatalockValidationResultBuilder = new DatalockValidationResultBuilder();
+
+            foreach (var earning in _earningsContext.RawEarnings)
+            {
+                _resultsContext.DatalockValidationResultBuilder.Add(earning, 
+                    new List<string> {DataLockErrorCodes.EmployerStopped},
+                    TransactionTypesFlag.AllLearning, 
+                    _commitmentsContext.CommitmentEntities.First());
+            }
         }
 
         [When(@"I call the service ValidataDatalockForProvider")]
