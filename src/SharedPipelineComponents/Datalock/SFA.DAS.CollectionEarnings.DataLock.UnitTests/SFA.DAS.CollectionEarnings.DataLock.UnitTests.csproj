@@ -123,6 +123,11 @@
     <Compile Include="ScenarioTesting\DataHelper.cs" />
     <Compile Include="ScenarioTesting\StepDefinitions.cs" />
     <Compile Include="ScenarioTesting\TableRowExtensionMethods.cs" />
+    <Compile Include="Tests\DomainTests\datalock-validation-result-builder.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>datalock-validation-result-builder.feature</DependentUpon>
+    </Compile>
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingNonActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
@@ -156,6 +161,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Tests\DomainTests\datalock-validation-result-builder.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>datalock-validation-result-builder.feature.cs</LastGenOutput>
+    </None>
     <None Include="Tests\ScenarioTests\commitments_overlapping_month_end.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>commitments_overlapping_month_end.feature.cs</LastGenOutput>
