@@ -30,10 +30,10 @@ Scenario: Multiple earnings for a commitment that was stopped in the previous ac
 		| 2-454-1-01/08/2018     | DLOCK_10 |
 		| 2-454-1-01/08/2019     | DLOCK_10 |
 
-	When I call Build()
+	When I call Build
 
 	Then I get 1 validation errors in the DataLockValidationResult 
-	And The DatalockValidatioResult contains DLOCK_09
+	And The DatalockValidatioResult contains DLOCK_10
 
 
 

@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         {
             Action test = () => sut.EvidenceOfSufficientEmployerPayments(null, new RawEarning());
 
-            test.ShouldThrow<ArgumentException>().And.Message.Should().ContainEquivalentOf("employerPayments");
+            test.Should().Throw<ArgumentException>().And.Message.Should().ContainEquivalentOf("employerPayments");
         }
 
         [Test, PaymentsDueInlineAutoData()]
@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         {
             Action test = () => sut.EvidenceOfSufficientEmployerPayments(new List<LearnerSummaryPaymentEntity>(), null);
 
-            test.ShouldThrow<ArgumentException>().And.Message.Should().ContainEquivalentOf("rawEarning");
+            test.Should().Throw<ArgumentException>().And.Message.Should().ContainEquivalentOf("rawEarning");
         }
 
         [TestFixture]

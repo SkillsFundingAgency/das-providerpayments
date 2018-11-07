@@ -86,6 +86,12 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                 new HashSet<long>().ToImmutableHashSet());
         }
 
+        [When(@"I call Build")]
+        public void WhenICallBuild()
+        {
+            _resultsContext.DatalockValidationResult = _resultsContext.DatalockValidationResultBuilder.Build();
+        }
+
         [Then(@"I get (.*) validation errors in the DataLockValidationResult")]
         public void ThenIGetValidationErrorsInTheDataLockValidationResult(int numberOfErorrs)
         {

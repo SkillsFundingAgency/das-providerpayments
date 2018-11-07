@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using FastMember;
 using FluentAssertions;
 using TechTalk.SpecFlow;
-using FastMember;
 
-namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
+namespace SFA.DAS.TestUtilities.SpecflowTools
 {
-    internal static class TableParser
+    public static class TableParser
     {
         public static List<T> Parse<T>(Table table) where T : new()
         {

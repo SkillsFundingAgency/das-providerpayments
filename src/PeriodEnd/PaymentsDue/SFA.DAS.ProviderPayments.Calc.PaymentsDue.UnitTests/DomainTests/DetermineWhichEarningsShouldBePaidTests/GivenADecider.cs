@@ -4,6 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.SetupAttributes;
@@ -47,9 +48,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            runOne.PayableEarnings.ShouldAllBeEquivalentTo(runTwo.PayableEarnings, options => options.Excluding(x => x.Id));
-            runOne.NonPayableEarnings.ShouldAllBeEquivalentTo(runTwo.NonPayableEarnings);
-            runOne.PeriodsToIgnore.ShouldAllBeEquivalentTo(runTwo.PeriodsToIgnore);
+            runOne.PayableEarnings.Should().BeEquivalentTo(runTwo.PayableEarnings, config => config.Excluding(x => x.SelectedMemberInfo.Name == nameof(FundingDue.Id)));
+            runOne.NonPayableEarnings.Should().BeEquivalentTo(runTwo.NonPayableEarnings, config => config.Excluding(x => x.SelectedMemberInfo.Name == nameof(NonPayableEarning.Id)));
+            runOne.PeriodsToIgnore.Should().BeEquivalentTo(runTwo.PeriodsToIgnore);
         }
     }
 }

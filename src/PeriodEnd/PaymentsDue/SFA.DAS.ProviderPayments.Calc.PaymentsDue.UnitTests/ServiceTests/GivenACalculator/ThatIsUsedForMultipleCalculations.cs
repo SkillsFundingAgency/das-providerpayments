@@ -25,7 +25,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
                 new HashSet<int>(),
                 new List<RequiredPayment>());
 
-            runOne.ShouldAllBeEquivalentTo(runTwo, options => options.Excluding(x => x.Id));
+            runOne.Should().BeEquivalentTo(runTwo, config => config.Excluding(x => x.SelectedMemberInfo.Name == nameof(RequiredPayment.Id)));
         }
     }
 }

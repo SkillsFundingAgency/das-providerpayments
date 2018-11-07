@@ -67,7 +67,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().Be(uln);
-            learners[0].RawEarnings.ShouldAllBeEquivalentTo(rawEarnings);
+            learners[0].RawEarnings.Should().BeEquivalentTo(rawEarnings);
         }
 
 
@@ -100,7 +100,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().Be(uln);
-            learners[0].RawEarningsMathsEnglish.ShouldAllBeEquivalentTo(rawEarningsMathsEnglish);
+            learners[0].RawEarningsMathsEnglish.Should().BeEquivalentTo(rawEarningsMathsEnglish);
         }
 
         [Test, PaymentsDueAutoData]
@@ -127,7 +127,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().Be(uln);
-            learners[0].HistoricalRequiredPayments.ShouldAllBeEquivalentTo(historicalRequiredPayments);
+            learners[0].HistoricalRequiredPayments.Should().BeEquivalentTo(historicalRequiredPayments);
         }
 
         [Test, PaymentsDueAutoData]
@@ -153,7 +153,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
 
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
-            learners[0].HistoricalEmployerPayments.ShouldAllBeEquivalentTo(historicalPayments);
+            learners[0].HistoricalEmployerPayments.Should().BeEquivalentTo(historicalPayments);
         }
 
         [Test, PaymentsDueAutoData]
@@ -175,7 +175,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().BeNull();
-            learners[0].DataLocks.ShouldAllBeEquivalentTo(dataLocks);
+            learners[0].DataLocks.Should().BeEquivalentTo(dataLocks);
         }
 
         [Test, PaymentsDueAutoData]
@@ -197,7 +197,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().BeNull();
-            learners[0].DatalockValidationErrors.ShouldAllBeEquivalentTo(dataLockErrors);
+            learners[0].DatalockValidationErrors.Should().BeEquivalentTo(dataLockErrors);
         }
 
 
@@ -311,8 +311,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests
             learners.Count.Should().Be(1);
             learners[0].LearnRefNumber.Should().Be(learnRefNumber);
             learners[0].Uln.Should().Be(uln);
-            learners[0].RawEarnings.ShouldAllBeEquivalentTo(rawEarnings);
-            learners[0].Commitments.ShouldAllBeEquivalentTo(commitments);
+            learners[0].RawEarnings.Should().BeEquivalentTo(rawEarnings);
+            learners[0].Commitments.Should().BeEquivalentTo(commitments);
         }
 
         [Test, PaymentsDueAutoData]

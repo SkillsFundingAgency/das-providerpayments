@@ -27,7 +27,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
             foreach (TransactionTypeGroup transactionTypeGroup in Enum.GetValues(typeof(TransactionTypeGroup)))
             {
                 earningValidationResult
-                    .AddPayableEarnings(EarningsToFundingDue<NonPayableEarning>(
+                    .AddPayableEarnings(EarningsToFundingDue<FundingDue>(
                         earningsAsList,
                         commitment,
                         transactionTypeGroup));
