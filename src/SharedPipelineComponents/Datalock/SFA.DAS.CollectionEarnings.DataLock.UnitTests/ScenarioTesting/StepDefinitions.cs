@@ -7,9 +7,7 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using TechTalk.SpecFlow;
 
@@ -74,7 +72,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
             {
                 _resultsContext.DatalockValidationResultBuilder.Add(earning, 
                     new List<string> {DataLockErrorCodes.EmployerStopped},
-                    TransactionTypesFlag.AllLearning, 
+                    TransactionTypeGroup.OnProgLearning, 
                     _commitmentsContext.CommitmentEntities.First());
             }
         }

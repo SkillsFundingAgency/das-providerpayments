@@ -128,7 +128,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>datalock-validation-result-builder.feature</DependentUpon>
     </Compile>
-    <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingNonActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingAllUlns.cs" />

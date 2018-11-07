@@ -5,15 +5,17 @@ using FluentAssertions;
 using Moq;
 using NLog;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
+using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.FutureDomain;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 using TechTalk.SpecFlow;
-using RequiredPaymentEntity = SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities.RequiredPaymentEntity;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
 {
@@ -152,6 +154,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
                 var datalockRepository = new Mock<IDatalockRepository>();
                 var commitmentRepository = new Mock<ICommitmentRepository>();
                 var collectionPeriodRepository = new Mock<ICollectionPeriodRepository>();
+                var paymentRepository = new Mock<IPaymentRepository>();
+                var filterNonPaidCompletionPayments = new Mock<IFilterOutCompletionPaymentsWithoutEvidence>();
 
                 var providerContext = _scenarioData.ContextForUkprn(ukprn);
 
@@ -171,6 +175,10 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
                     .Returns(_scenarioData.OpenCollectionPeriod);
                 collectionPeriodRepository.Setup(x => x.GetAllCollectionPeriods())
                     .Returns(_scenarioData.CollectionPeriods);
+                filterNonPaidCompletionPayments.Setup(x =>
+                        x.Process(It.IsAny<List<LearnerSummaryPaymentEntity>>(), It.IsAny<List<RawEarning>>()))
+                    .Returns<List<LearnerSummaryPaymentEntity>, List<RawEarning>>((payments, earnings) =>
+                        new FilteredEarningsResult{NonPayableEarnings = new List<NonPayableEarning>(), RawEarnings = earnings});
 
                 var providerDataService = new SortProviderDataIntoLearnerDataService(
                     earningsRepository.Object,
@@ -178,25 +186,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
                     previousPaymentsRepository.Object,
                     datalockRepository.Object,
                     commitmentRepository.Object,
-                    collectionPeriodRepository.Object);
+                    collectionPeriodRepository.Object,
+                    paymentRepository.Object);
 
-                var providerData = providerDataService.Sort(ukprn);
+                var providerData = providerDataService.CreateLearnerDataForProvider(ukprn);
                 var determineWhichEarningsShouldBePaid =
                     new DetermineWhichEarningsShouldBePaidService(collectionPeriodRepository.Object);
                 var datalockService = new DatalockValidationService(LogManager.CreateNullLogger());
                 var paymentsDueCalc = new PaymentsDueCalculationService();
 
-                var learnerProcessor = new LearnerProcessor(
+                var learnerProcessor = new LearnerPaymentsDueProcessor(
                     LogManager.CreateNullLogger(), 
                     determineWhichEarningsShouldBePaid, 
                     datalockService, 
-                    paymentsDueCalc);
+                    paymentsDueCalc,
+                    filterNonPaidCompletionPayments.Object);
 
                 foreach (var learnerData in providerData)
                 {
                     var uln = learnerData.RawEarnings.FirstOrDefault()?.Uln ??
                               learnerData.RawEarningsMathsEnglish.FirstOrDefault()?.Uln ?? 0;
-                    var result = learnerProcessor.Process(learnerData, ukprn);
+                    var result = learnerProcessor.GetPayableAndNonPayableEarnings(learnerData, ukprn);
                     result.NonPayableEarnings.ForEach(x => x.Uln = uln);
                     _results.NonPayableEarnings.AddRange(result.NonPayableEarnings);
                     result.PayableEarnings.ForEach(x => x.Uln = uln);
