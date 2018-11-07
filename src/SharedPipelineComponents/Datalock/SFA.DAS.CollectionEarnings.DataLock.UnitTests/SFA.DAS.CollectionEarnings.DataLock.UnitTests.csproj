@@ -123,6 +123,7 @@
     <Compile Include="ScenarioTesting\DataHelper.cs" />
     <Compile Include="ScenarioTesting\StepDefinitions.cs" />
     <Compile Include="ScenarioTesting\TableRowExtensionMethods.cs" />
+    <Compile Include="ScenarioTesting\TestObjects\DatalockRule.cs" />
     <Compile Include="Tests\DomainTests\datalock-validation-result-builder.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -184,6 +185,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.TestUtilities\SFA.DAS.TestUtilities.csproj">
+      <Project>{FA714CCE-BB99-4679-8F5C-E955505DC5B1}</Project>
+      <Name>SFA.DAS.TestUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>

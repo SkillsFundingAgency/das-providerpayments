@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using FluentAssertions;
@@ -7,8 +8,10 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting.TestObjects;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.TestUtilities.SpecflowTools;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
@@ -66,12 +69,25 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         [Given(@"I build using DatalockValidationResultBuilder")]
         public void BuildUsingDatalockValidationResultBuilder(Table table)
         {
+            var testData = TableParser.Parse<DatalockRule>(table);
+            
             _resultsContext.DatalockValidationResultBuilder = new DatalockValidationResultBuilder();
 
             foreach (var earning in _earningsContext.RawEarnings)
             {
+                var rule = testData.FirstOrDefault(x => x.PriceEpisodeIdentifier.Equals(earning.PriceEpisodeIdentifier));
+
+                if (rule == null)
+                {
+                    throw new Exception($"Please ensure that the price episode identifier: {earning.PriceEpisodeIdentifier} is present in the table");
+                }
+
+                var ruleCollection = string.IsNullOrEmpty(rule.RuleId)
+                    ? new List<string>()
+                    : new List<string> {rule.RuleId};
+
                 _resultsContext.DatalockValidationResultBuilder.Add(earning, 
-                    new List<string> {DataLockErrorCodes.EmployerStopped},
+                    ruleCollection,
                     TransactionTypeGroup.OnProgLearning, 
                     _commitmentsContext.CommitmentEntities.First());
             }
