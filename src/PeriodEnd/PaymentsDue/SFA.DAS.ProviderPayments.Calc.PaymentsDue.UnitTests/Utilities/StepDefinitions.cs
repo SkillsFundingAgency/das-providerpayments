@@ -241,5 +241,23 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities
                 .Sum(x => x.AmountDue)
                 .Should().Be(expectedAmount - previousPayments);
         }
+
+        [Then(@"All required payments should have UseLevyBalance flag set")]
+        public void AllRequiredPaymentsHaveUseLevyBalanceSet()
+        {
+            _results.Payments.Should().OnlyContain(x => x.UseLevyBalance);
+        }
+
+        [Then(@"All required payments should not have UseLevyBalance flag set")]
+        public void AllRequiredPaymentsDoNotHaveUseLevyBalanceSet()
+        {
+            _results.Payments.Should().OnlyContain(x => !x.UseLevyBalance);
+        }
+
+        [Then(@"There should be (\d*) required payments")]
+        public void ThereShouldBeRequiredPayments(int expectedPayments)
+        {
+            _results.Payments.Should().HaveCount(expectedPayments);
+        }
     }
 }

@@ -118,6 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Army-Issues.feature</DependentUpon>
     </Compile>
+    <Compile Include="AcceptanceTests\Levy-correctly-marked.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Levy-correctly-marked.feature</DependentUpon>
+    </Compile>
     <Compile Include="ContextMother.cs" />
     <Compile Include="DomainTests\DatalockTests\GivenADatalockOutputEqualityComparer.cs" />
     <Compile Include="DomainTests\DetermineWhichEarningsShouldBePaidTests\GivenADecider.cs" />
@@ -171,6 +176,10 @@
     <None Include="AcceptanceTests\Army-Issues.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Army-Issues.feature.cs</LastGenOutput>
+    </None>
+    <None Include="AcceptanceTests\Levy-correctly-marked.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Levy-correctly-marked.feature.cs</LastGenOutput>
     </None>
     <None Include="app.config">
       <SubType>Designer</SubType>
