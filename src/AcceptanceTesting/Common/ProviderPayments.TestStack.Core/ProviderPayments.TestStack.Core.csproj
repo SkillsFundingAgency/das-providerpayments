@@ -172,7 +172,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\BaseILR_1819.xml" />
     <Content Include="Resources\BaseILR_1718.xml" />
+    <None Include="Resources\CopyIlrDataToDeds_1819.sql" />
+    <None Include="Resources\ILRTableMap_1819.xml" />
     <None Include="Resources\EAS.PeriodEnd.Cleanup.Deds.DML.sql" />
     <None Include="Resources\CopyIlrDataToDeds_1718.sql" />
     <None Include="Resources\ILRTableMap_1718.xml" />

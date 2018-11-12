@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -103,7 +104,8 @@ namespace ProviderPayments.TestStack.Core.Workflow
                 {
                     var runAllDdl = !DdlManager.HasRan(componentDirectory);
 
-                    foreach (var sqlFile in GetOrderedSqlFiles(sqlDirectory))
+                    var files = GetOrderedSqlFiles(sqlDirectory).ToList();
+                    foreach (var sqlFile in files)
                     {
                         _logger.Debug($"Found script {sqlFile}");
 
@@ -188,6 +190,10 @@ namespace ProviderPayments.TestStack.Core.Workflow
                         _logger.Debug($"Executing {sqlFile}");
                         ExecuteSqlScript(sql, transientConnection, context);
                     }
+                }
+                catch (SqlException)
+                {
+                    throw;
                 }
                 finally
                 {

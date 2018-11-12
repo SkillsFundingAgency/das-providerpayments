@@ -146,7 +146,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables.");
 
-            var inputFileName = "01 ILR_Rulebase_Tables.sql";
+            var inputFileName = "AEC_Tables.sql";
             var outputFileName = "OPA.Transient.Rulebase.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -210,7 +210,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into deds tables.");
 
-            var inputFileName = "01 ILR_Rulebase_Tables.sql";
+            var inputFileName = "AEC_Tables.sql";
             var outputFileName = "OPA.Deds.Rulebase.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -292,7 +292,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into transient views.");
 
-            var inputFileName = "01 ILR_Rulebase_Tables.sql";
+            var inputFileName = "AEC_Tables.sql";
             var outputFileName = "OPA.Transient.Rulebase.ddl.views.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -439,7 +439,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient reference tables.");
 
-            var inputFileName = "02 CreateReferenceTables.sql";
+            var inputFileName = "CreateReferenceDataTablesSQL.sql";
             var outputFileName = "OPA.Transient.Reference.ddl.tables.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\Reference Data\{inputFileName}");
@@ -471,7 +471,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into copy to deds mapping xmls.");
 
-            var inputFileName = "01 ILR_Rulebase_Tables.sql";
+            var inputFileName = "AEC_Tables.sql";
             var outputFileName = "DasEarningsCopyToDedsMapping.xml";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");
@@ -633,7 +633,7 @@ namespace SFA.OPA.InterfaceTransform.Console
         {
             System.Console.WriteLine("Started transforming the transient rulebase tables into a deds cleanup script.");
 
-            var inputFileName = "01 ILR_Rulebase_Tables.sql";
+            var inputFileName = "AEC_Tables.sql";
             var outputFileName = "Ilr.Earnings.Cleanup.Deds.DML.sql";
 
             var inputDdl = File.ReadAllLines($@"{inputPath}\{inputFileName}");

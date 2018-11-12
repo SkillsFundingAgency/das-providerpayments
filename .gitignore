@@ -308,3 +308,4 @@ paket-files/
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/03 PeriodEnd.Populate.Reference.Commitments.dml.sql
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/02 PeriodEnd.Populate.Reference.Providers.dml.sql
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/sql/dml/01 PeriodEnd.Populate.Reference.CollectionPeriods.dml.sql
+/src/OpaEarning/Build/Deploy/1819/component

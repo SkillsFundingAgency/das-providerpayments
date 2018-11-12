@@ -18,9 +18,19 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission.Tasks
 
         internal override void Execute(TestStackContext context)
         {
-            var scripts = context.OpaRulebaseYear == "1617" ? 
-                    Properties.Resources.CopyIlrDataToDeds_1617 :
-                    Properties.Resources.CopyIlrDataToDeds_1718 ;
+            string scripts = null;
+            switch (context.OpaRulebaseYear)
+            {
+                case "1617":
+                    scripts = Properties.Resources.CopyIlrDataToDeds_1617;
+                    break;
+                case "1718":
+                    scripts = Properties.Resources.CopyIlrDataToDeds_1718;
+                    break;
+                case "1819":
+                    scripts = Properties.Resources.CopyIlrDataToDeds_1819;
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(scripts))
             {

@@ -1,4 +1,5 @@
-﻿using ProviderPayments.TestStack.Core.Context;
+﻿using System.Data.SqlClient;
+using ProviderPayments.TestStack.Core.Context;
 
 namespace ProviderPayments.TestStack.Core.Workflow
 {
@@ -28,6 +29,10 @@ namespace ProviderPayments.TestStack.Core.Workflow
                             ExecuteSqlScript(sql, connection, context);
                         }
                     }
+                    catch (SqlException)
+                    {
+                        throw;
+                    }
                     finally
                     {
                         connection.Close();
@@ -45,6 +50,10 @@ namespace ProviderPayments.TestStack.Core.Workflow
                         {
                             ExecuteSqlScript(sql, connection, context);
                         }
+                    }
+                    catch (SqlException)
+                    {
+                        throw;
                     }
                     finally
                     {

@@ -30,6 +30,8 @@ namespace ProviderPayments.TestStack.Core.Workflow.IlrSubmission.Tasks
                 File.WriteAllText(path, Properties.Resources.ILRTableMap_1617);
             else if(context.OpaRulebaseYear == "1718")
                 File.WriteAllText(path, Properties.Resources.ILRTableMap_1718);
+            else if(context.OpaRulebaseYear == "1819")
+                File.WriteAllText(path, Properties.Resources.ILRTableMap_1819);
         }
         internal override void Execute(TestStackContext context)
         {

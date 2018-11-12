@@ -44,8 +44,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
                     catch (Exception ex)
                     {
                         statusWatcherBase.TaskCompleted(task.Id, ex);
-                        didATaskError = true;
-                        break;
+                        throw;
                     }
                 }
 
