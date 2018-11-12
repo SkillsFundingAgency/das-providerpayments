@@ -73,6 +73,26 @@
           <Source>FundingLineType</Source>
           <Destination>FundingLineType</Destination>
         </ColumnMapping>
+        <ColumnMapping>
+          <Source>ProgrammeType</Source>
+          <Destination>ProgrammeType</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>FrameworkCode</Source>
+          <Destination>FrameworkCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>PathwayCode</Source>
+          <Destination>PathwayCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>StandardCode</Source>
+          <Destination>StandardCode</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>SfaContributionPercentage</Source>
+          <Destination>SfaContributionPercentage</Destination>
+        </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
   </TableMappings>

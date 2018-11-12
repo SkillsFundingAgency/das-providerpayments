@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Reposito
         {
         }
 
-        public void AddRequiredPayments(List<RequiredPayment> payments)
+        public void AddMany(List<RequiredPayment> payments)
         {
             var paymentsEntities = payments.Select(x => new RequiredPaymentEntity(x));
             ExecuteBatch(paymentsEntities.ToArray(), PaymentsDestination);

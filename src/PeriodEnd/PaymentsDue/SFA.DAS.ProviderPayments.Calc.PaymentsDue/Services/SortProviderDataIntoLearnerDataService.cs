@@ -4,52 +4,56 @@ using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Repositories;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services.Dependencies;
+using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Repositories;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
 {
-    public class SortProviderDataIntoLearnerDataService : ISortProviderDataIntoLearnerData
+    public class SortProviderDataIntoLearnerDataService : ICorrelateLearnerData
     {
         private readonly IRawEarningsRepository _rawEarningsRepository;
         private readonly IRawEarningsMathsEnglishRepository _rawEarningsMathsEnglishRepository;
         private readonly IRequiredPaymentsHistoryRepository _historicalPaymentsRepository;
         private readonly IDatalockRepository _dataLockRepository;
         private readonly ICommitmentRepository _commitmentsRepository;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly ICollectionPeriodRepository _collectionPeriodRepository;
-
-        private Dictionary<string, LearnerData> _learnerProcessParameters;
-        private Dictionary<long, string> _ulnToLearnerRefNumber;
-       
+        
         public SortProviderDataIntoLearnerDataService(
             IRawEarningsRepository rawEarningsRepository,
             IRawEarningsMathsEnglishRepository rawEarningsMathsEnglishRepository,
             IRequiredPaymentsHistoryRepository historicalPaymentsRepository,
             IDatalockRepository dataLockRepository,
             ICommitmentRepository commitmentsRepository,
-            ICollectionPeriodRepository collectionPeriodRepository)
+            ICollectionPeriodRepository collectionPeriodRepository, 
+            IPaymentRepository paymentRepository)
         {
             _rawEarningsRepository = rawEarningsRepository;
             _rawEarningsMathsEnglishRepository = rawEarningsMathsEnglishRepository;
             _historicalPaymentsRepository = historicalPaymentsRepository;
             _dataLockRepository = dataLockRepository;
             _commitmentsRepository = commitmentsRepository;
+            _paymentRepository = paymentRepository;
             _collectionPeriodRepository = collectionPeriodRepository;
         }
 
-        public List<LearnerData> Sort(long ukprn)
+        public List<LearnerData> CreateLearnerDataForProvider(long ukprn)
         {
-            ResetLearnerResultsList();
-            
+            var learnerResults = new SortLearnerResults();
+
             var allCollectionPeriods = _collectionPeriodRepository.GetAllCollectionPeriods();
             var periodToMonthMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Month);
             var periodToYearMapper = allCollectionPeriods.ToDictionary(x => x.Id, x => x.Year);
-            
+
             foreach (var rawEarning in _rawEarningsRepository.GetAllForProvider(ukprn))
             {
                 rawEarning.DeliveryMonth = periodToMonthMapper[rawEarning.Period];
                 rawEarning.DeliveryYear = periodToYearMapper[rawEarning.Period];
 
-                GetLearnerProcessParametersInstanceForLearner(rawEarning.LearnRefNumber, rawEarning.Uln).RawEarnings.Add(rawEarning);
+                learnerResults
+                    .GetLearnerDataForLearner(rawEarning.LearnRefNumber, rawEarning.Uln)
+                    .RawEarnings
+                    .Add(rawEarning);
             }
 
             foreach (var rawEarningMathsEnglish in _rawEarningsMathsEnglishRepository.GetAllForProvider(ukprn))
@@ -57,87 +61,120 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services
                 rawEarningMathsEnglish.DeliveryMonth = periodToMonthMapper[rawEarningMathsEnglish.Period];
                 rawEarningMathsEnglish.DeliveryYear = periodToYearMapper[rawEarningMathsEnglish.Period];
 
-                GetLearnerProcessParametersInstanceForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln).RawEarningsMathsEnglish.Add(rawEarningMathsEnglish);
+                learnerResults
+                    .GetLearnerDataForLearner(rawEarningMathsEnglish.LearnRefNumber, rawEarningMathsEnglish.Uln)
+                    .RawEarningsMathsEnglish
+                    .Add(rawEarningMathsEnglish);
+            }
+
+            foreach (var paymentEntity in _paymentRepository.GetRoundedDownEmployerPaymentsForProvider(ukprn))
+            {
+                learnerResults
+                    .GetLearnerDataForLearner(paymentEntity.LearnRefNumber)
+                    .HistoricalEmployerPayments
+                    .Add(paymentEntity);
             }
 
             foreach (var historicalPayment in _historicalPaymentsRepository.GetAllForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln).HistoricalPayments.Add(historicalPayment);
+                learnerResults
+                    .GetLearnerDataForLearner(historicalPayment.LearnRefNumber, historicalPayment.Uln)
+                    .HistoricalRequiredPayments
+                    .Add(historicalPayment);
             }
 
             foreach (var dataLock in _dataLockRepository.GetDatalockOutputForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(dataLock.LearnRefNumber).DataLocks.Add(dataLock);
+                learnerResults
+                    .GetLearnerDataForLearner(dataLock.LearnRefNumber)
+                    .DataLocks
+                    .Add(dataLock);
             }
 
             foreach (var datalockValidationError in _dataLockRepository.GetValidationErrorsForProvider(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(datalockValidationError.LearnRefNumber).DatalockValidationErrors.Add(datalockValidationError);
+                learnerResults
+                    .GetLearnerDataForLearner(datalockValidationError.LearnRefNumber)
+                    .DatalockValidationErrors
+                    .Add(datalockValidationError);
             }
 
             foreach (var commitment in _commitmentsRepository.GetProviderCommitments(ukprn))
             {
-                GetLearnerProcessParametersInstanceForLearner(commitment.Uln)?.Commitments.Add(commitment);
+                learnerResults
+                    .GetLearnerDataForLearner(commitment.Uln)?
+                    .Commitments
+                    .Add(commitment);
             }
 
-            return _learnerProcessParameters.Values.ToList();
+            return learnerResults.AllLearnerData();
         }
+    }
 
-        private void ResetLearnerResultsList()
+    class SortLearnerResults
+    {
+        private Dictionary<string, LearnerData> LearnerData { get; }
+        private Dictionary<long, string> UlnToLearnRefNumberMapping { get; }
+
+        public SortLearnerResults()
         {
-            _learnerProcessParameters = new Dictionary<string, LearnerData>();
-            _ulnToLearnerRefNumber = new Dictionary<long, string>();
+            LearnerData = new Dictionary<string, LearnerData>();
+            UlnToLearnRefNumberMapping = new Dictionary<long, string>();
         }
 
-        private LearnerData GetLearnerProcessParametersInstanceForLearner(long uln)
+        public List<LearnerData> AllLearnerData()
         {
-            var learnerRefNumber = LookupLearnerRefNumber(uln);
-            // TODO What do we do if no match is found? At the moment we return a null result
-            if (learnerRefNumber == null)
-            {
-                return null;
-            }
-            return GetLearnerProcessParametersInstanceForLearner(learnerRefNumber, uln);
+            return LearnerData.Values.ToList();
         }
 
-        private LearnerData GetLearnerProcessParametersInstanceForLearner(string learnerRefNumber, long? uln = null)
+        public LearnerData GetLearnerDataForLearner(string learnRefNumber, long? uln = null)
         {
             LearnerData instance;
-            if (!_learnerProcessParameters.ContainsKey(learnerRefNumber))
+            if (!LearnerData.ContainsKey(learnRefNumber))
             {
-                instance = new LearnerData(learnerRefNumber, uln);
-                _learnerProcessParameters.Add(learnerRefNumber, instance);
+                instance = new LearnerData(learnRefNumber, uln);
+                LearnerData.Add(learnRefNumber, instance);
             }
             else
             {
-                instance = _learnerProcessParameters[learnerRefNumber];
+                instance = LearnerData[learnRefNumber];
             }
 
             // Add Uln to mapping dictionaries if a Uln exists
             if (uln != null)
             {
-                AddToMappingUlnToLearnerRefNumber(uln.Value, learnerRefNumber);
+                AddUlnToLearnRefNumberMapping(uln.Value, learnRefNumber);
             }
 
             return instance;
         }
 
-        private void AddToMappingUlnToLearnerRefNumber(long uln, string learnerRefNumber)
+        private void AddUlnToLearnRefNumberMapping(long uln, string learnRefNumber)
         {
             // TODO Discuss if a mapping already exists (and it's different from our expectation),what do we do?
-            if (!_ulnToLearnerRefNumber.ContainsKey(uln))
+            if (!UlnToLearnRefNumberMapping.ContainsKey(uln))
             {
-                _ulnToLearnerRefNumber.Add(uln, learnerRefNumber);
+                UlnToLearnRefNumberMapping.Add(uln, learnRefNumber);
             }
         }
 
-        private string LookupLearnerRefNumber(long uln)
+        public LearnerData GetLearnerDataForLearner(long uln)
         {
-            if (_ulnToLearnerRefNumber.ContainsKey(uln))
+            var learnerRefNumber = LookupLearnRefNumber(uln);
+            // TODO What do we do if no match is found? At the moment we return a null result
+            if (learnerRefNumber == null)
             {
-                return _ulnToLearnerRefNumber[uln];
+                return null;
             }
+            return GetLearnerDataForLearner(learnerRefNumber, uln);
+        }
 
+        private string LookupLearnRefNumber(long uln)
+        {
+            if (UlnToLearnRefNumberMapping.ContainsKey(uln))
+            {
+                return UlnToLearnRefNumberMapping[uln];
+            }
             return null;
         }
     }

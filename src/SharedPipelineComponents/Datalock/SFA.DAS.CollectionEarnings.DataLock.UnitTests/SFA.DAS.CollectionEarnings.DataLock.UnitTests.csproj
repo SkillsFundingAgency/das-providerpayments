@@ -58,8 +58,8 @@
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=5.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\FluentAssertions.5.3.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FluentAssertions.5.4.2\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
@@ -123,7 +123,12 @@
     <Compile Include="ScenarioTesting\DataHelper.cs" />
     <Compile Include="ScenarioTesting\StepDefinitions.cs" />
     <Compile Include="ScenarioTesting\TableRowExtensionMethods.cs" />
-    <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingNonActiveCommitmentsForDate.cs" />
+    <Compile Include="ScenarioTesting\TestObjects\DatalockRule.cs" />
+    <Compile Include="Tests\DomainTests\datalock-validation-result-builder.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>datalock-validation-result-builder.feature</DependentUpon>
+    </Compile>
     <Compile Include="Tests\DomainTests\GivenALearnerCommitments\WhenCallingActiveCommitmentsForDate.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderCommitments\WhenCallingCommitmentsForLearner.cs" />
     <Compile Include="Tests\DomainTests\GivenAProviderEarnings\WhenCallingAllUlns.cs" />
@@ -156,6 +161,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Tests\DomainTests\datalock-validation-result-builder.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>datalock-validation-result-builder.feature.cs</LastGenOutput>
+    </None>
     <None Include="Tests\ScenarioTests\commitments_overlapping_month_end.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>commitments_overlapping_month_end.feature.cs</LastGenOutput>
@@ -176,6 +185,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.TestUtilities\SFA.DAS.TestUtilities.csproj">
+      <Project>{FA714CCE-BB99-4679-8F5C-E955505DC5B1}</Project>
+      <Name>SFA.DAS.TestUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034c2d76-3ca3-4e61-b74c-c8315f90cdf6}</Project>

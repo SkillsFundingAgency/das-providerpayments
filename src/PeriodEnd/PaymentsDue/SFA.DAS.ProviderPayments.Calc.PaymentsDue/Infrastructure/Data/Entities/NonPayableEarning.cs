@@ -4,7 +4,7 @@ using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
 {
-    public class NonPayableEarning : RequiredPayment, ICanStoreCommitmentInformation
+    public class NonPayableEarning : FundingDue
     {
         public NonPayableEarning()
         {}
@@ -28,6 +28,27 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities
             DeliveryMonth = rawEarning.DeliveryMonth;
             DeliveryYear = rawEarning.DeliveryYear;
         }
+
+        public NonPayableEarning(RequiredPayment requiredPayment)
+        {
+            Uln = requiredPayment.Uln;
+            LearnRefNumber = requiredPayment.LearnRefNumber;
+            AimSeqNumber = requiredPayment.AimSeqNumber;
+            Ukprn = requiredPayment.Ukprn;
+            StandardCode = requiredPayment.StandardCode;
+            ProgrammeType = requiredPayment.ProgrammeType;
+            FrameworkCode = requiredPayment.FrameworkCode;
+            PathwayCode = requiredPayment.PathwayCode;
+            ApprenticeshipContractType = requiredPayment.ApprenticeshipContractType;
+            PriceEpisodeIdentifier = requiredPayment.PriceEpisodeIdentifier;
+            SfaContributionPercentage = requiredPayment.SfaContributionPercentage;
+            FundingLineType = requiredPayment.FundingLineType;
+            LearnAimRef = requiredPayment.LearnAimRef;
+            LearningStartDate = requiredPayment.LearningStartDate;
+            DeliveryMonth = requiredPayment.DeliveryMonth;
+            DeliveryYear = requiredPayment.DeliveryYear;
+        }
+
 
         [StringLength(1000)]
         public string PaymentFailureMessage { get; set; }

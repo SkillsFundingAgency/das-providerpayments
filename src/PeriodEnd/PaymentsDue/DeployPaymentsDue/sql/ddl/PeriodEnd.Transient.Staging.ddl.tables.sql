@@ -55,11 +55,15 @@ CREATE TABLE Staging.RawEarnings (
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
+	TransactionType16 decimal(15,5),
 	ApprenticeshipContractType int,
 	FirstIncentiveCensusDate date,
 	SecondIncentiveCensusDate date,
+	LearnerAdditionalPaymentsDate date,
 	AgreedPrice decimal(15,5),
-	EndDate date
+	EndDate date,
+	CumulativePmrs decimal(12,5),
+	ExemptionCodeForCompletionHoldback int,
 )
 GO
 
@@ -104,6 +108,7 @@ CREATE TABLE Staging.RawEarningsMathsEnglish (
 	TransactionType13 decimal(15,5),
 	TransactionType14 decimal(15,5),
 	TransactionType15 decimal(15,5),
+	TransactionType16 decimal(15,5),
 	ApprenticeshipContractType tinyint
 )
 GO

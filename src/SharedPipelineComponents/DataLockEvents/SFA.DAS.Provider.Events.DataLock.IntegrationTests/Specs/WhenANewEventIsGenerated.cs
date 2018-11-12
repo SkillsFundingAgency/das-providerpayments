@@ -41,8 +41,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
                 context == TestFixtureContext.PeriodEnd
                 ? EventSource.PeriodEnd
                 : EventSource.Submission);
-
-
+            
             // Assert
             var events = _helper.GetAllEvents();
 
@@ -65,7 +64,7 @@ namespace SFA.DAS.Provider.Events.DataLock.IntegrationTests.Specs
             Assert.IsNotNull(eventCommitmentVersions);
 
             Assert.AreEqual(1, eventErrors.Length);
-            Assert.AreEqual(48, eventPeriods.Length);
+            Assert.AreEqual(60, eventPeriods.Length);
             Assert.AreEqual(1, eventCommitmentVersions.Length);
         }
 

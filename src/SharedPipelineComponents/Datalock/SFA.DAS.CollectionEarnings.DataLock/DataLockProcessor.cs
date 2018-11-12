@@ -51,7 +51,8 @@ namespace SFA.DAS.CollectionEarnings.DataLock
 
             if (providersQueryResponse.HasAnyItems())
             {
-                Parallel.ForEach(providersQueryResponse.Items, provider =>
+                Parallel.ForEach(providersQueryResponse.Items, new ParallelOptions {MaxDegreeOfParallelism = 25}, 
+                    provider =>
                 {
                     _logger.Info($"Performing Data Lock Validation for provider with ukprn {provider.Ukprn}.");
 

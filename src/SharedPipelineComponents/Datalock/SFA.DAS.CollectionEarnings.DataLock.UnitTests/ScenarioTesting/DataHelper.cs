@@ -27,10 +27,10 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     ProgrammeType = row.CastFieldAs<int?>("Prog"),
                     FrameworkCode = row.CastFieldAs<int?>("Framework"),
                     PathwayCode = row.CastFieldAs<int?>("Pathway"),
-                    PaymentStatus = row.CastFieldAs<int>("PaymentStatus"),
-                    PaymentStatusDescription = row.CastFieldAs<string>("PaymentStatusDescription"),
-                    EffectiveFrom = row.CastFieldAs<DateTime>("EffectiveFromDate"),
-                    EffectiveTo = row.CastFieldAs<DateTime>("EffectiveToDate"),
+                    PaymentStatus = row.CastFieldAs<int>("Status"),
+                    PaymentStatusDescription = row.CastFieldAs<string>("StatusDescription"),
+                    EffectiveFrom = row.CastFieldAs<DateTime>("EffectiveFrom"),
+                    EffectiveTo = row.CastFieldAs<DateTime>("EffectiveTo"),
                     WithdrawnOnDate = row.CastFieldAs<DateTime?>("WithdrawnOnDate"),
                     TransferSendingEmployerAccountId = row.CastFieldAs<long?>("TransferSendingEmployerAccountId"),
                     TransferApprovalDate = row.CastFieldAs<DateTime?>("TransferApprovalDate"),
@@ -81,17 +81,19 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
                     TransactionType11 = row.CastFieldAs<decimal>("TT11"),
                     TransactionType12 = row.CastFieldAs<decimal>("TT12"),
                     TransactionType15 = row.CastFieldAs<decimal>("TT15"),
-                    ApprenticeshipContractType = row.CastFieldAs<int>("ApprenticeshipContractType", 1),
+                    ApprenticeshipContractType = row.CastFieldAs("ApprenticeshipContractType", ApprenticeshipContractType.Levy),
                     Uln = row.CastFieldAs<long>("Uln", 100),
                     EndDate = row.CastFieldAs<DateTime?>("End Date"),
                     SecondIncentiveCensusDate = row.CastFieldAs<DateTime?>("2nd Incentive Date"),
                     FirstIncentiveCensusDate = row.CastFieldAs<DateTime?>("1st Incentive Date"),
                 };
+
                 if ((earning.TransactionType04 != 0 || earning.TransactionType05 != 0) &&
                     earning.FirstIncentiveCensusDate == null)
                 {
                     throw new Exception("Please include a column: '1st Incentive Date' to use transaction types 4 or 5");
                 }
+
                 if ((earning.TransactionType06 != 0 || earning.TransactionType07 != 0) &&
                     earning.SecondIncentiveCensusDate == null)
                 {

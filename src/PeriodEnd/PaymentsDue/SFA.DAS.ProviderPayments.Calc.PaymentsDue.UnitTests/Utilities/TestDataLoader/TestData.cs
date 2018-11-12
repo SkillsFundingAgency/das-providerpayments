@@ -5,6 +5,7 @@ using System.Linq;
 using AutoFixture;
 using ClosedXML.Excel;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions;
@@ -45,7 +46,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 pastPayment.PriceEpisodeIdentifier = xlRow.Cell(14).GetValue<string>();
                 pastPayment.LearnAimRef = xlRow.Cell(15).GetValue<string>();
                 pastPayment.LearningStartDate = xlRow.Cell(16).GetDateTime();
-                pastPayment.ApprenticeshipContractType = xlRow.Cell(17).GetValue<int>();
+                pastPayment.ApprenticeshipContractType = xlRow.Cell(17).GetValue<int>() == 1 ? ApprenticeshipContractType.Levy : ApprenticeshipContractType.NonLevy;
                 pastPayment.SfaContributionPercentage = xlRow.Cell(18).GetValue<decimal>();
                 pastPayment.FundingLineType = xlRow.Cell(19).GetValue<string>();
 
@@ -89,7 +90,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 earning.TransactionType13 = xlRow.Cell(25).Value.Equals("NULL") ? 0 : xlRow.Cell(25).GetValue<decimal>();
                 earning.TransactionType14 = xlRow.Cell(26).Value.Equals("NULL") ? 0 : xlRow.Cell(26).GetValue<decimal>();
                 earning.TransactionType15 = xlRow.Cell(27).GetValue<decimal>();
-                earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>();
+                earning.TransactionType16 = xlRow.Cell(28).GetValue<decimal>();
+                earning.ApprenticeshipContractType = xlRow.Cell(29).GetValue<int>() == 1 ? ApprenticeshipContractType.Levy : ApprenticeshipContractType.NonLevy;
 
                 earning.Ukprn = result.Ukprn;
                 earning.Uln = result.Uln;
@@ -131,7 +133,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.TestData
                 earning.TransactionType13 = xlRow.Cell(25).Value.Equals("NULL") ? 0 : xlRow.Cell(25).GetValue<decimal>();
                 earning.TransactionType14 = xlRow.Cell(26).Value.Equals("NULL") ? 0 : xlRow.Cell(26).GetValue<decimal>();
                 earning.TransactionType15 = xlRow.Cell(27).GetValue<decimal>();
-                earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>();
+                earning.ApprenticeshipContractType = xlRow.Cell(28).GetValue<int>() == 1 ? ApprenticeshipContractType.Levy : ApprenticeshipContractType.NonLevy;
 
                 earning.Ukprn = result.Ukprn;
                 earning.Uln = result.Uln;

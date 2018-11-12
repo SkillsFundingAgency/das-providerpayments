@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensions
 {
     public static class EarningsExtensions
     {
+        public static void CopyPaymentMetadataTo(this RawEarning source, LearnerSummaryPaymentEntity payment)
+        {
+            payment.ApprenticeshipContractType = source.ApprenticeshipContractType;
+            payment.FrameworkCode = source.FrameworkCode;
+            payment.FundingLineType = source.FundingLineType;
+            payment.PathwayCode = source.PathwayCode;
+            payment.ProgrammeType = source.ProgrammeType;
+            payment.SfaContributionPercentage = source.SfaContributionPercentage;
+            payment.StandardCode = source.StandardCode;
+        }
+
         public static decimal TotalAmount(this IEnumerable<RawEarning> earnings)
         {
             return earnings.Sum(x => x.TotalAmount());
@@ -28,7 +38,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensio
                    earning.TransactionType12 +
                    earning.TransactionType13 +
                    earning.TransactionType14 +
-                   earning.TransactionType15;
+                   earning.TransactionType15 +
+                   earning.TransactionType16;
         }
 
         public static int NumberOfNonZeroTransactions(this IEnumerable<RawEarning> earnings)
@@ -52,7 +63,8 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities.Extensio
                    ((earning.TransactionType12 != 0) ? 1 : 0) +
                    ((earning.TransactionType13 != 0) ? 1 : 0) +
                    ((earning.TransactionType14 != 0) ? 1 : 0) +
-                   ((earning.TransactionType15 != 0) ? 1 : 0);
+                   ((earning.TransactionType15 != 0) ? 1 : 0) +
+                   ((earning.TransactionType16 != 0) ? 1 : 0);
         }
     }
 }

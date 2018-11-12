@@ -1,4 +1,5 @@
 ﻿using System;
+using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
 {
@@ -7,13 +8,13 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
     ///     treated the same (ie aggregated) 
     ///     or differently (ie refunded and repaid)
     /// </summary>
-    public sealed class PaymentGroup : IEquatable<PaymentGroup>
+    public sealed class PaymentGroup : BaseEquatableGroup<PaymentGroup>
     {
         public PaymentGroup(int standardCode,
             int frameworkCode,
             int programmeType,
             int pathwayCode,
-            int apprenticeshipContractType,
+            ApprenticeshipContractType apprenticeshipContractType,
             int transactionType,
             decimal sfaContributionPercentage,
             string learnAimRef,
@@ -56,7 +57,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
         public int FrameworkCode { get; }
         public int ProgrammeType { get; }
         public int PathwayCode { get; }
-        public int ApprenticeshipContractType { get; }
+        public ApprenticeshipContractType ApprenticeshipContractType { get; }
         public int TransactionType { get; }
         public decimal SfaContributionPercentage { get; }
         public string LearnAimRef { get; }
@@ -87,40 +88,14 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain
             }
         }
 
-        public static bool operator ==(PaymentGroup left, PaymentGroup right)
+       
+        public override bool Equals(PaymentGroup test)
         {
-            if (ReferenceEquals(left, right))
-            {
+            if (base.Equals(test))
                 return true;
-            }
 
-            if (ReferenceEquals(left, null))
-            {
+            if (test == null)
                 return false;
-            }
-            if (ReferenceEquals(right, null))
-            {
-                return false;
-            }
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(PaymentGroup left, PaymentGroup right)
-        {
-            return !(left == right);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as PaymentGroup;
-            return other != null && Equals(other);
-        }
-
-        public bool Equals(PaymentGroup test)
-        {
-            if (ReferenceEquals(null, test)) return false;
-            if (ReferenceEquals(this, test)) return true;
 
             return StandardCode == test.StandardCode &&
                    FrameworkCode == test.FrameworkCode &&

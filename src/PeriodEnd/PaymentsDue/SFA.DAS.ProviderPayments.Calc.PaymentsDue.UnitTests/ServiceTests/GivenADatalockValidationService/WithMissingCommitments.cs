@@ -18,20 +18,26 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
         private static List<DatalockValidationError> DatalockValidationErrors { get; set; }
 
         private static long _commitmentIdTwo;
+        private static string _commitmentVersionIdTwo;
 
         public WithMissingCommitments()
         {
             var fixture = new Fixture();
             var commitmentIdOne = fixture.Create<long>();
+            var commitmentVersionIdOne = fixture.Create<string>();
+            
             _commitmentIdTwo = fixture.Create<long>();
+            _commitmentVersionIdTwo = fixture.Create<string>();
 
             RawDatalocks = fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, commitmentIdOne)
+                .With(x => x.VersionId, commitmentVersionIdOne)
                 .With(x => x.Payable, true)
                 .CreateMany(5)
                 .ToList();
             RawDatalocks.AddRange(fixture.Build<DatalockOutputEntity>()
                 .With(x => x.CommitmentId, _commitmentIdTwo)
+                .With(x => x.VersionId, _commitmentVersionIdTwo)
                 .With(x => x.Payable, true)
                 .CreateMany(5)
             );
@@ -50,7 +56,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             [Test, PaymentsDueAutoData]
             public void ThenTheOutputShouldBeEmpty(DatalockValidationService sut)
             {
-                var actual = sut.ProcessDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
+                var actual = sut.GetSuccessfulDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
 
                 actual.Should().HaveCount(0);
             }
@@ -63,6 +69,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             {
                 Commitments = new Fixture().Build<Commitment>()
                     .With(x => x.CommitmentId, _commitmentIdTwo)
+                    .With(x => x.CommitmentVersionId, _commitmentVersionIdTwo)
                     .CreateMany(1)
                     .ToList();
             }
@@ -70,7 +77,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             [Test, PaymentsDueAutoData]
             public void ThenThereShouldBeOutputForTheCommitments(DatalockValidationService sut)
             {
-                var actual = sut.ProcessDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
+                var actual = sut.GetSuccessfulDatalocks(RawDatalocks, DatalockValidationErrors, Commitments);
 
                 actual.Should().HaveCount(5);
             }

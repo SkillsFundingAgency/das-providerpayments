@@ -48,15 +48,30 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Datalo
             }
 
             [Test, PaymentsDueAutoData]
-            public void AndDifferentCommitmentVersionWillBeEqual(
-                DatalockOutputEntity seed)
+            public void AndSameCommitmentVersionWillBeEqual(
+                DatalockOutputEntity seed,
+                string testVersion)
             {
-                var object1 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = "a" });
-                var object2 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = "b" });
+                var object1 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = testVersion });
+                var object2 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = testVersion });
 
                 var actual = object1.Equals(object2);
 
                 actual.Should().BeTrue();
+            }
+
+            [Test, PaymentsDueAutoData]
+            public void AndDifferentCommitmentVersionWillNotBeEqual(
+                DatalockOutputEntity seed,
+                string testVersion1,
+                string testVersion2)
+            {
+                var object1 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = testVersion1 });
+                var object2 = new DatalockOutput(seed, new Commitment { CommitmentVersionId = testVersion2 });
+
+                var actual = object1.Equals(object2);
+
+                actual.Should().BeFalse();
             }
 
             [Test, PaymentsDueAutoData]

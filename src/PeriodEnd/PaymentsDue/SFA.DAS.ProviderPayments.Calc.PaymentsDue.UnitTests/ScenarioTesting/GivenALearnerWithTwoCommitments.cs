@@ -5,6 +5,7 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
@@ -38,7 +39,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             .With(x => x.PathwayCode, 0)
             .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
             .With(x => x.LearnAimRef, LearnAimRef)
-            .With(x => x.ApprenticeshipContractType, 1)
+            .With(x => x.ApprenticeshipContractType, ApprenticeshipContractType.Levy)
             .With(x => x.SfaContributionPercentage, 0.9m)
             .With(x => x.FundingLineType, FundingLineType)
             .CreateMany(9)
@@ -96,7 +97,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             .With(x => x.TransactionType13, 0)
             .With(x => x.TransactionType14, 0)
             .With(x => x.TransactionType15, 0)
-            .With(x => x.ApprenticeshipContractType, 1)
+            .With(x => x.ApprenticeshipContractType, ApprenticeshipContractType.Levy)
             .CreateMany(10)
             .ToList();
 
@@ -114,7 +115,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 .With(x => x.PathwayCode, 0)
                 .With(x => x.PriceEpisodeIdentifier, PriceEpisodeIdentifierForThisYear)
                 .With(x => x.LearnAimRef, LearnAimRef)
-                .With(x => x.ApprenticeshipContractType, 1)
+                .With(x => x.ApprenticeshipContractType, ApprenticeshipContractType.Levy)
                 .With(x => x.SfaContributionPercentage, 0.9m)
                 .With(x => x.FundingLineType, FundingLineType)
                 .CreateMany(1)
@@ -167,7 +168,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
             PaymentsDueCalculationService sut,
             DatalockValidationService commitmentMatcher)
         {
-            var datalockOutput = commitmentMatcher.ProcessDatalocks(
+            var datalockOutput = commitmentMatcher.GetSuccessfulDatalocks(
                 Datalocks, new List<DatalockValidationError>(),
                 Commitments);
 
@@ -179,7 +180,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ScenarioTesting
                 Earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            var actual = sut.Calculate(datalockResult.Earnings, datalockResult.PeriodsToIgnore, PastPayments);
+            var actual = sut.Calculate(datalockResult.PayableEarnings, datalockResult.PeriodsToIgnore, PastPayments);
 
             actual.Should().NotContain(x => x.AmountDue < 0);
         }

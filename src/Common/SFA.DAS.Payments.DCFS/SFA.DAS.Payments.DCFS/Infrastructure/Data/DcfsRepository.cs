@@ -28,7 +28,7 @@ namespace SFA.DAS.Payments.DCFS.Infrastructure.Data
                             commandTimeout: timeout)
                         .ToArray();
                 }
-                catch (SqlException e)
+                catch (SqlException)
                 {
                     throw;
                 }

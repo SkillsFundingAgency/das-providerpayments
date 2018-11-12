@@ -247,6 +247,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                     case "employer small employer":
                         employmentStatusTableColumnStructure.SmallEmployerIndex = c;
                         break;
+                    case "employer contribution":
+                        tableStructure.EmployerContributionIndex = c;
+                        break;
                     default:
                         throw new ArgumentException($"Unexpected column in ILR table: {header}");
                 }
@@ -379,7 +382,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.TableParsers
                 RestartIndicator = row.ReadRowColumnValue<string>(ilrTableStructure.RestartIndicatorIndex, "restart indicator")?
                                        .Equals("YES", StringComparison.InvariantCultureIgnoreCase) ?? false,
                 LearningAdjustmentForPriorLearning = row.ParseColumnValue(ilrTableStructure.FundingAdjustmentForPriorLearningIndex),
-                OtherFundingAdjustments = row.ParseColumnValue(ilrTableStructure.OtherFundingAdjustmentIndex)
+                OtherFundingAdjustments = row.ParseColumnValue(ilrTableStructure.OtherFundingAdjustmentIndex),
+                EmployerContribution = row.ParseColumnValue(ilrTableStructure.EmployerContributionIndex)
             };
 
 

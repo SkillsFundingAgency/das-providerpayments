@@ -2,7 +2,6 @@
 using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
-using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.Utilities;
 
@@ -17,7 +16,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.ServiceTests.Given
             PaymentsDueCalculationService sut
         )
         {
-            var actual = sut.Calculate(earnings, new List<int>(), new List<RequiredPayment>());
+            var actual = sut.Calculate(earnings, new HashSet<int>(), new List<RequiredPayment>());
 
             actual.Should().HaveCount(earnings.Count);
             foreach (var fundingDue in earnings)

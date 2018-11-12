@@ -18,6 +18,6 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public int Period { get; set; }
         public bool Payable { get; set; }
         public TransactionType TransactionType { get; set; }
-        public TransactionTypesFlag TransactionTypesFlag { get; set; }
+        public TransactionTypeGroup TransactionTypesFlag { get; set; }
     }
 }

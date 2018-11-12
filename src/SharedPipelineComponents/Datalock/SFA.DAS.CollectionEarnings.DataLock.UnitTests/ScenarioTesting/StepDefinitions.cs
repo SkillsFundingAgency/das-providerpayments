@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using FluentAssertions;
@@ -7,8 +8,10 @@ using SFA.DAS.CollectionEarnings.DataLock.Application.DataLock.Matcher;
 using SFA.DAS.CollectionEarnings.DataLock.Domain;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services;
-using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService;
+using SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting.TestObjects;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
+using SFA.DAS.TestUtilities.SpecflowTools;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
@@ -34,6 +37,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
     public class ResultsContext
     {
         public DatalockValidationResult DatalockValidationResult { get; set; }
+        public DatalockValidationResultBuilder DatalockValidationResultBuilder { get; set; }
     }
 
     [Binding]
@@ -50,7 +54,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
             _resultsContext = resultsContext;
         }
 
-        [Given(@"I have the following on programme earnings")]
+        [Given(@"I have the following earnings")]
         public void GivenIHaveTheFollowingOnProgrammeEarnings(Table table)
         {
             _earningsContext.RawEarnings.AddRange(DataHelper.CreateRawEarnings(table));
@@ -62,13 +66,46 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
             _commitmentsContext.CommitmentEntities.AddRange(DataHelper.CreateCommitmentEntities(table));
         }
 
+        [Given(@"I build using DatalockValidationResultBuilder")]
+        public void BuildUsingDatalockValidationResultBuilder(Table table)
+        {
+            var testData = TableParser.Parse<DatalockRule>(table);
+            
+            _resultsContext.DatalockValidationResultBuilder = new DatalockValidationResultBuilder();
+
+            foreach (var earning in _earningsContext.RawEarnings)
+            {
+                var rule = testData.FirstOrDefault(x => x.PriceEpisodeIdentifier.Equals(earning.PriceEpisodeIdentifier));
+
+                if (rule == null)
+                {
+                    throw new Exception($"Please ensure that the price episode identifier: {earning.PriceEpisodeIdentifier} is present in the table");
+                }
+
+                var ruleCollection = string.IsNullOrEmpty(rule.RuleId)
+                    ? new List<string>()
+                    : new List<string> {rule.RuleId};
+
+                _resultsContext.DatalockValidationResultBuilder.Add(earning, 
+                    ruleCollection,
+                    TransactionTypeGroup.OnProgLearning, 
+                    _commitmentsContext.CommitmentEntities.First());
+            }
+        }
+
         [When(@"I call the service ValidataDatalockForProvider")]
         public void WhenICallTheServiceValidataDatalockForProvider()
         {
-            DatalockValidationService sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+            var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
 
             _resultsContext.DatalockValidationResult = sut.ValidateDatalockForProvider(new ProviderCommitments(_commitmentsContext.CommitmentEntities), _earningsContext.RawEarnings,
                 new HashSet<long>().ToImmutableHashSet());
+        }
+
+        [When(@"I call Build")]
+        public void WhenICallBuild()
+        {
+            _resultsContext.DatalockValidationResult = _resultsContext.DatalockValidationResultBuilder.Build();
         }
 
         [Then(@"I get (.*) validation errors in the DataLockValidationResult")]
@@ -86,11 +123,23 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.ScenarioTesting
         }
 
         [Then(@"There are (.*) payable datalocks for price episode (.*)")]
-        public void ThenTheDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
+        public void ThenThePayableDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
         {
             _resultsContext.DatalockValidationResult
                 .PriceEpisodePeriodMatches
                 .Where(x => x.Payable)
+                .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier)
+                .Should()
+                .HaveCount(expectedNumber);
+        }
+
+        [Then(@"There are (.*) non-payable datalocks for price episode (.*)")]
+        public void ThenTheNonPayableDatalocksContain(int expectedNumber, string priceEpisodeIdentifier)
+        {
+            _resultsContext.DatalockValidationResult
+                .PriceEpisodePeriodMatches
+                .Where(x => !x.Payable)
+                .Where(x => x.PriceEpisodeIdentifier == priceEpisodeIdentifier)
                 .Should()
                 .HaveCount(expectedNumber);
         }

@@ -130,6 +130,10 @@
           <Destination>TransactionType15</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>TransactionType16</Source>
+          <Destination>TransactionType16</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>ApprenticeshipContractType</Source>
           <Destination>ApprenticeshipContractType</Destination>
         </ColumnMapping>
@@ -142,12 +146,24 @@
           <Destination>SecondIncentiveCensusDate</Destination>
         </ColumnMapping>
         <ColumnMapping>
+          <Source>LearnerAdditionalPaymentsDate</Source>
+          <Destination>LearnerAdditionalPaymentsDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
           <Source>AgreedPrice</Source>
           <Destination>AgreedPrice</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>EndDate</Source>
           <Destination>EndDate</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>CumulativePmrs</Source>
+          <Destination>CumulativePmrs</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>ExemptionCodeForCompletionHoldback</Source>
+          <Destination>ExemptionCodeForCompletionHoldback</Destination>
         </ColumnMapping>
       </ColumnMappings>
     </TableMapping>
@@ -219,6 +235,10 @@
         <ColumnMapping>
           <Source>TransactionType15</Source>
           <Destination>TransactionType15</Destination>
+        </ColumnMapping>
+        <ColumnMapping>
+          <Source>TransactionType16</Source>
+          <Destination>TransactionType16</Destination>
         </ColumnMapping>
         <ColumnMapping>
           <Source>ApprenticeshipContractType</Source>

@@ -94,7 +94,6 @@
     <Compile Include="Domain\DatalockValidationResultBuilder.cs" />
     <Compile Include="Domain\DatalockValidationResult.cs" />
     <Compile Include="Domain\LearnerCommitments.cs" />
-    <Compile Include="Domain\PriceEpisodeGroup.cs" />
     <Compile Include="Domain\ProviderCommitments.cs" />
     <Compile Include="Domain\ProviderEarnings.cs" />
     <Compile Include="Exceptions\LearnerNotFoundException.cs" />
@@ -119,12 +118,9 @@
     <Compile Include="Infrastructure\DependencyResolution\YearOfCollectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatalockValidationService.cs" />
-    <Compile Include="Domain\Extensions\EarningExtensions.cs" />
     <Compile Include="Services\Extensions\PriceEpisodeMatchExtensions.cs" />
     <Compile Include="Services\Extensions\PriceEpisodePeriodMatchExtensions.cs" />
     <Compile Include="Services\Extensions\ValidationErrorExtensions.cs" />
-    <Compile Include="Utilities\Extensions\ConcurrentBagExtensions.cs" />
-    <Compile Include="Utilities\Extensions\DateTimeDayOfMonthExtensions.cs" />
     <Compile Include="Utilities\Providers\DateTimeProvider.cs" />
     <Compile Include="Utilities\Providers\IDateTimeProvider.cs" />
   </ItemGroup>
@@ -141,6 +137,10 @@
     <ProjectReference Include="..\..\..\Common\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS\SFA.DAS.Payments.DCFS.csproj">
       <Project>{6c00ce90-9ac7-48df-b15d-20f312b8f9e4}</Project>
       <Name>SFA.DAS.Payments.DCFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\SFA.DAS.ProviderPayments.Domain.Kernel\SFA.DAS.ProviderPayments.Domain.Kernel.csproj">
+      <Project>{6AA1E784-6E83-4693-833C-C97E73B768F7}</Project>
+      <Name>SFA.DAS.ProviderPayments.Domain.Kernel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure\SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.csproj">
       <Project>{034C2D76-3CA3-4E61-B74C-C8315F90CDF6}</Project>

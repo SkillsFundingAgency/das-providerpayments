@@ -18,7 +18,7 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
         public bool Payable { get; set; }
         [Range(1, 15)]
         public int TransactionType { get; set; }
-        [Range(1, 3)]
+        [Range(1, 5)]
         public int TransactionTypesFlag { get; set; }
 
         public bool PayOnprog { get; set; }

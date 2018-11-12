@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using SFA.DAS.Payments.DCFS.Domain;
 
 namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
@@ -21,6 +22,13 @@ namespace SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities
             FundingSource = payment.FundingSource;
             TransactionType = payment.TransactionType;
         }
+
+        [NotMapped]
+        public long Ukprn { get; set; }
+
+        [NotMapped]
+        [StringLength(12)]
+        public string LearnRefNumber { get; set; }
 
         [Range(2017, 2020)]
         public int DeliveryYear { get; set; }

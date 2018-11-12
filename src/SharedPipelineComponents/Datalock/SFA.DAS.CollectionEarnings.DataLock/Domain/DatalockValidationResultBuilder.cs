@@ -3,7 +3,6 @@ using System.Linq;
 using SFA.DAS.CollectionEarnings.DataLock.Infrastructure.Data.Entities;
 using SFA.DAS.CollectionEarnings.DataLock.Services.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.Domain
@@ -16,7 +15,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
         public List<PriceEpisodeMatchEntity> PriceEpisodeMatches { get; } = new List<PriceEpisodeMatchEntity>();
         public List<DatalockOutputEntity> DatalockOutputEntities { get; } = new List<DatalockOutputEntity>();
 
-        public DatalockValidationResultBuilder Add(RawEarning earning, List<string> errors, TransactionTypesFlag paymentType, CommitmentEntity commitment)
+        public DatalockValidationResultBuilder Add(RawEarning earning, List<string> errors, TransactionTypeGroup transactionTypeGroup, CommitmentEntity commitment)
         {
             var payable = false;
             if (errors.Any())
@@ -24,7 +23,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 foreach (var error in errors)
                 {
                     if (ValidationErrors.DoesNotAlreadyContainEarningForThisError(earning, error) &&
-                        PriceEpisodePeriodMatches.DoesNotContainEarningForCommitmentAndPaymentType(earning, commitment, paymentType))
+                        PriceEpisodePeriodMatches.DoesNotContainEarningForCommitmentAndPaymentType(earning, commitment, transactionTypeGroup))
                     {
                         ValidationErrors.Add(new DatalockValidationError
                         {
@@ -67,7 +66,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.Domain
                 LearnRefNumber = earning.LearnRefNumber,
                 PriceEpisodeIdentifier = earning.PriceEpisodeIdentifier,
                 Period = earning.Period,
-                TransactionTypesFlag = paymentType,
+                TransactionTypesFlag = transactionTypeGroup,
                 Payable = payable,
                 Ukprn = earning.Ukprn,
                 VersionId = commitment.VersionId,

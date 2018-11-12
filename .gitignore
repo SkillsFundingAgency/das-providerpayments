@@ -277,8 +277,7 @@ paket-files/
 /src/SharedPipelineComponents/Datalock/DeployPeriodEnd/test-results
 
 
-/src/AcceptanceTesting/**/*.feature.cs
-/src/SharedPipelineComponents/**/*.feature.cs
+/src/**/*.feature.cs
 
 
 # Earnings calculation files that we change for AcceptanceTesting, but don't want to persist.

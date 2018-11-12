@@ -60,8 +60,8 @@ Scenario:AC2- Payment for a 16-18 DAS learner, levy available, incentives not pa
 Scenario:AC3-Learner finishes on time, earns on-programme and completion payments. Assumes 12 month apprenticeship and learner completes after 10 months.
     Given the apprenticeship funding band maximum is 9000
     When an ILR file is submitted with the following data:
-		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | 123456 | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 09/08/2018       | 10/08/2018      | Completed         | 403            | 2              | 1            |
+		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | employer contribution |
+		| 123456 | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 09/08/2018       | 10/08/2018      | Completed         | 403            | 2              | 1            | 720                   |
 
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 06/18 | 07/18 | 08/18 | 09/18 |
@@ -92,8 +92,8 @@ Scenario:AC3-Learner finishes on time, earns on-programme and completion payment
 Scenario:AC4-Learner finishes on time, Price is less than Funding Band Maximum of £9,000
     Given the apprenticeship funding band maximum is 9000
     When an ILR file is submitted with the following data:
-		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | 123455 | 16-18 programme only non-DAS | 8250         | 06/08/2017 | 09/08/2018       | 10/08/2018      | Completed         | 403            | 2              | 1            |
+		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | employer contribution |
+        | 123455 | 16-18 programme only non-DAS | 8250         | 06/08/2017 | 09/08/2018       | 10/08/2018      | Completed         | 403            | 2              | 1            | 660                   |
 
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 06/18 | 07/18 | 08/18 | 09/18 |
@@ -622,8 +622,8 @@ Scenario:590-AC01- 1 non-DAS Payment for a non-DAS learner, funding agreed withi
         | English and maths on programme | 31.40 | 31.40 | 31.40 | 31.40 | ... | 31.40 | 0     |
         | English and maths Balancing    | 0     | 0     | 0     | 0     | ... | 0     | 94.20 |
 
-
-Scenario:590-AC02- Payment for a* DAS learner*, funding agreed within band, with the planned duration the same as the programme duration (assumes both start at same time), but learner completes aim 1 month early.
+@das @levy_available
+Scenario:590-AC02- Planned duration the same as the programme duration (assumes both start at same time), but learner completes aim 1 month early.
     
     Given levy balance > agreed price for all months
     And the following commitments exist:
@@ -656,8 +656,8 @@ Scenario:590-AC02- Payment for a* DAS learner*, funding agreed within band, with
 Scenario: 581-AC01-Non DAS learner finishes early, price equals the funding band maximum, earns balancing and completion framework uplift payments. Assumes 15 month apprenticeship and learner completes after 12 months.
     Given the apprenticeship funding band maximum is 9000
     When an ILR file is submitted with the following data:
-		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | 123456 | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 09/11/2018       | 09/08/2018      | Completed         | 403            | 2              | 1            |
+		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | employer contribution |
+        | 123456 | 16-18 programme only non-DAS | 9000         | 06/08/2017 | 09/11/2018       | 09/08/2018      | Completed         | 403            | 2              | 1            | 576                   |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 06/18 | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 576   | 576   | 576   | 1576  | 576   | ... | 576   | 576   | 4888  | 0     |
@@ -687,8 +687,8 @@ Scenario: 581-AC01-Non DAS learner finishes early, price equals the funding band
 Scenario: 581-AC02-Non DAS learner finishes early, price lower than the funding band maximum, earns balancing and completion framework uplift payments. Assumes 15 month apprenticeship and learner completes after 12 months.
     Given the apprenticeship funding band maximum is 9000
     When an ILR file is submitted with the following data:
-		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | 123456 | 16-18 programme only non-DAS | 7500         | 06/08/2017 | 09/11/2018       | 09/08/2018      | Completed         | 403            | 2              | 1            |
+		| ULN    | learner type                 | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | employer contribution |
+        | 123456 | 16-18 programme only non-DAS | 7500         | 06/08/2017 | 09/11/2018       | 09/08/2018      | Completed         | 403            | 2              | 1            | 480                   |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 06/18 | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 496   | 496   | 496   | 1496  | 496   | ... | 496   | 496   | 4348  | 0     |
@@ -717,9 +717,9 @@ Scenario: 581-AC02-Non DAS learner finishes early, price lower than the funding 
 Scenario:591-AC01 Payment for a non -DAS learner, funding agreed within band maximum, planned duration is same as programme (assumes both start and finish at same time).
 #This scenario will continue to apply when the English & Maths aim goes beyond its planned end date 
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | aim type         | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code |
-        | learner a | programme only non-DAS | programme        | 15000        | 01/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 403            | 2              | 1            |
-        | learner a | programme only non-DAS | maths or english |              | 01/08/2017 | 08/08/2018       | 08/11/2018      | completed         | 403            | 2              | 1            |
+        | ULN       | learner type           | aim type         | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | employer contribution |
+        | learner a | programme only non-DAS | programme        | 15000        | 01/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 403            | 2              | 1            | 1200                  |
+        | learner a | programme only non-DAS | maths or english |              | 01/08/2017 | 08/08/2018       | 08/11/2018      | completed         | 403            | 2              | 1            | 1200                  |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17   | 09/17   | 10/17   | 11/17   | 12/17   | ... | 07/18   | 08/18  | 09/18 | 10/18 | 11/18 | 12/18 |
         | Provider Earned Total                   | 1039.25 | 1039.25 | 1039.25 | 1039.25 | 1039.25 | ... | 1039.25 | 3000   | 0     | 0     | 0     | 0     |
@@ -771,8 +771,8 @@ Scenario:591_AC02- Payment for a DAS learner, funding agreed within band maximum
 @LearningSupport
 Scenario: 637-AC01-Payment for a non-DAS learner, requires learning support, doing an apprenticeship framework
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to |
-        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 563            | 21             | 2            | 1                     | 06/08/2017                 | 10/08/2018               |
+        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | framework code | programme type | pathway code | learning support code | learning support date from | learning support date to | employer contribution |
+        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 563            | 21             | 2            | 1                     | 06/08/2017                 | 10/08/2018               | 1200                  |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -799,8 +799,8 @@ Scenario: 637-AC01-Payment for a non-DAS learner, requires learning support, doi
 @LearningSupport
 Scenario: 637-AC02-Payment for a non-DAS learner, requires learning support, doing an apprenticeship standard
     When an ILR file is submitted with the following data:
-        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | standard code | learning support code | learning support date from | learning support date to |
-        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            | 1                     | 06/08/2017                 | 10/08/2018               |
+        | ULN       | learner type           | agreed price | start date | planned end date | actual end date | completion status | standard code | learning support code | learning support date from | learning support date to | employer contribution |
+        | learner a | programme only non-DAS | 15000        | 06/08/2017 | 08/08/2018       | 10/08/2018      | completed         | 50            | 1                     | 06/08/2017                 | 10/08/2018               | 1200                  |
     Then the provider earnings and payments break down as follows:
         | Type                                    | 08/17 | 09/17 | 10/17 | 11/17 | 12/17 | ... | 07/18 | 08/18 | 09/18 |
         | Provider Earned Total                   | 1150  | 1150  | 1150  | 1150  | 1150  | ... | 1150  | 3000  | 0     |
@@ -895,9 +895,9 @@ Scenario: 637-AC04-Payment for a DAS learner, requires learning support, doing a
 Scenario:638-AC01 Non-DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim
 
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | 
-		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 
-		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         |
+		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | employer contribution |
+		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1200                  |
+		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1200                  |
 	Then the provider earnings and payments break down as follows:
 		| Type                                    | 08/17   | 09/17   | 10/17   | ... | 05/18   | 06/18   | 07/18   | 08/18   | 09/18   | 10/18 | 11/18 |
 		| Provider Earned Total                   | 1033.64 | 1033.64 | 1033.64 | ... | 1033.64 | 1033.64 | 1033.64 | 3033.64 | 33.64   | 0     | 0     |
@@ -997,9 +997,9 @@ Scenario:638-AC03 DAS learner, takes an English qualification that has a planned
 Scenario:657-AC01 Non-DAS learner, takes an English qualification that has a planned end date that exceeds the actual end date of the programme aim and learning support is applicable to all learning
 
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to |
-		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               |
-		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               |
+		| ULN       | learner type           | aim type         | agreed price | aim rate | start date | planned end date | actual end date | completion status | learning support code | learning support date from | learning support date to | employer contribution |
+		| learner a | programme only non-DAS | programme        | 15000        |          | 06/08/2017 | 08/08/2018       | 08/08/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               | 1200                  |
+		| learner a | programme only non-DAS | maths or english |              | 471      | 06/08/2017 | 06/10/2018       | 06/10/2018      | completed         | 1                     | 06/08/2017                 | 06/10/2018               | 1200                  |
 	Then the provider earnings and payments break down as follows:
 		| Type                                    | 08/17   | 09/17   | 10/17   | ... | 05/18   | 06/18   | 07/18   | 08/18   | 09/18   | 10/18  | 11/18 |
 		| Provider Earned Total                   | 1183.64 | 1183.64 | 1183.64 | ... | 1183.64 | 1183.64 | 1183.64 | 3183.64 | 183.64  | 0      | 0     |
@@ -1260,10 +1260,10 @@ Scenario:671-AC03 DAS learner, levy available, is taking an English or maths qua
 @MathsAndEnglishNonDas
 Scenario:597_AC01 Non-DAS learner, fails their English or maths aim during their programme and retakes it - the second instance of the aim goes beyond the actual end date of the programme.
 	When an ILR file is submitted with the following data:
-		| ULN       | learner type           | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | 
-		| learner a | programme only non-DAS | programme        | 06/08/2017 | 22/08/2018       | 22/08/2018      | completed         |          | 12000                  | 06/08/2017                            | 3000                     | 06/08/2017                              | 
-		| learner a | programme only non-DAS | maths or english | 06/08/2017 | 08/06/2018       | 08/06/2018      | completed         | 471      |                        |                                       |                          |                                         | 
-		| learner a | programme only non-DAS | maths or english | 09/06/2018 | 08/06/2019       | 08/06/2019      | completed         | 471      |                        |                                       |                          |                                         |		  
+		| ULN       | learner type           | aim type         | start date | planned end date | actual end date | completion status | aim rate | Total training price 1 | Total training price 1 effective date | Total assessment price 1 | Total assessment price 1 effective date | employer contribution |
+		| learner a | programme only non-DAS | programme        | 06/08/2017 | 22/08/2018       | 22/08/2018      | completed         |          | 12000                  | 06/08/2017                            | 3000                     | 06/08/2017                              | 1200                  |
+		| learner a | programme only non-DAS | maths or english | 06/08/2017 | 08/06/2018       | 08/06/2018      | completed         | 471      |                        |                                       |                          |                                         | 1200                  |
+		| learner a | programme only non-DAS | maths or english | 09/06/2018 | 08/06/2019       | 08/06/2019      | completed         | 471      |                        |                                       |                          |                                         | 1200                  |	  
 
 	Then the provider earnings and payments break down as follows:
 		| Type                                    | 08/17   | 09/17   | 10/17   | ... | 05/18   | 06/18   | 07/18   | 08/18   | 09/18   | ... | 05/19 | 06/19 | 07/19 |

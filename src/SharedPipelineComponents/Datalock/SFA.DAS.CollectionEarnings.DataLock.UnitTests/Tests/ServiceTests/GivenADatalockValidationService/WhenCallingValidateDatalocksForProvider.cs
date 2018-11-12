@@ -13,7 +13,6 @@ using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Attributes;
 using SFA.DAS.CollectionEarnings.DataLock.UnitTests.Utilities.Extensions;
 using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.Payments.DCFS.Extensions;
-using SFA.DAS.ProviderPayments.Calc.Common.Domain;
 using SFA.DAS.ProviderPayments.Calc.Shared.Infrastructure.Data.Entities;
 
 namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.GivenADatalockValidationService
@@ -59,6 +58,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                 earning.Ukprn = commitment.Ukprn;
                 earning.FirstIncentiveCensusDate = null;
                 earning.SecondIncentiveCensusDate = null;
+                earning.LearnerAdditionalPaymentsDate = null;
                 earning.LearnRefNumber = learnRefNumber;
                 earning.AimSeqNumber = aimSequenceNumber;
                 
@@ -121,7 +121,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives);
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.NinetyDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -140,7 +140,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
+                    actual.PriceEpisodePeriodMatches.Should().NotContain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.ThreeSixtyFiveDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -160,7 +160,29 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.FirstEmployerProviderIncentives);
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.NinetyDayIncentives);
+                }
+
+                [Test, AutoMoqData]
+                public void WithCareLeaverIncentiveThenThereIsAPayablePeriodMatch(
+                    RawEarning earning,
+                    CommitmentEntity commitment
+                )
+                {
+                    var earnings = new List<RawEarning> { earning };
+                    AssociateEarningsWithCommitment(earnings, commitment);
+                    earning.LearnerAdditionalPaymentsDate = commitment.StartDate.AddDays(15);
+                    var accounts = CreateNonPayableAccountsList();
+                    var commitments = new List<CommitmentEntity> { commitment };
+                    var providerCommitments = new ProviderCommitments(commitments);
+
+                    var sut = new DatalockValidationService(MatcherFactory.CreateMatcher());
+
+                    var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
+
+                    actual.PriceEpisodePeriodMatches.Should()
+                        .Contain(x => x.Payable && 
+                                      x.TransactionTypesFlag == TransactionTypeGroup.SixtyDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -180,7 +202,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
 
                     var actual = sut.ValidateDatalockForProvider(providerCommitments, earnings, accounts);
 
-                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypesFlag.SecondEmployerProviderIncentives);
+                    actual.PriceEpisodePeriodMatches.Should().Contain(x => x.Payable && x.TransactionTypesFlag == TransactionTypeGroup.ThreeSixtyFiveDayIncentives);
                 }
 
                 [Test, AutoMoqData]
@@ -1108,6 +1130,7 @@ namespace SFA.DAS.CollectionEarnings.DataLock.UnitTests.Tests.ServiceTests.Given
                         earning.Ukprn = commitment.Ukprn;
                         earning.FirstIncentiveCensusDate = null;
                         earning.SecondIncentiveCensusDate = null;
+                        earning.LearnerAdditionalPaymentsDate = null;
                         earning.LearnRefNumber = learnRefNumber;
                         earning.AimSeqNumber = aimSequenceNumber;
 

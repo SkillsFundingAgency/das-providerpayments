@@ -11,6 +11,6 @@ namespace SFA.DAS.Provider.Events.DataLock.Domain
         public bool IsPayable { get; set; }
         public TransactionType TransactionType { get; set; }
 
-        public TransactionTypesFlag TransactionTypesFlag { get; set; }
+        public TransactionTypeGroup TransactionTypesFlag { get; set; }
     }
 }

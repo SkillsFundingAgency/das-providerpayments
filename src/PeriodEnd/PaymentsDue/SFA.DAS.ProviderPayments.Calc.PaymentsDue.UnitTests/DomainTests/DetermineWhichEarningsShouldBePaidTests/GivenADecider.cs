@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using SFA.DAS.Payments.DCFS.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Domain;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Infrastructure.Data.Entities;
 using SFA.DAS.ProviderPayments.Calc.PaymentsDue.Services;
@@ -33,7 +34,7 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
         }
 
         [Test, PaymentsDueAutoData]
-        [SetupMatchingEarningsAndPastPayments(2)]
+        [SetupMatchingEarningsAndPastPayments(ApprenticeshipContractType.NonLevy)]
         public void CallingTwiceWithTheSameDataReturnsTheSameResults(
             DetermineWhichEarningsShouldBePaidService sut)
         {
@@ -47,9 +48,9 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.UnitTests.DomainTests.Determ
                 _earnings,
                 new List<RawEarningForMathsOrEnglish>());
 
-            runOne.Earnings.ShouldAllBeEquivalentTo(runTwo.Earnings, options => options.Excluding(x => x.Id));
-            runOne.NonPayableEarnings.ShouldAllBeEquivalentTo(runTwo.NonPayableEarnings);
-            runOne.PeriodsToIgnore.ShouldAllBeEquivalentTo(runTwo.PeriodsToIgnore);
+            runOne.PayableEarnings.Should().BeEquivalentTo(runTwo.PayableEarnings, config => config.Excluding(x => x.SelectedMemberInfo.Name == nameof(FundingDue.Id)));
+            runOne.NonPayableEarnings.Should().BeEquivalentTo(runTwo.NonPayableEarnings, config => config.Excluding(x => x.SelectedMemberInfo.Name == nameof(NonPayableEarning.Id)));
+            runOne.PeriodsToIgnore.Should().BeEquivalentTo(runTwo.PeriodsToIgnore);
         }
     }
 }

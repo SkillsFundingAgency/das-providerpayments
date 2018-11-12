@@ -6,24 +6,31 @@ namespace SFA.DAS.ProviderPayments.Calc.PaymentsDue.Dto
 {
     public class EarningValidationResult
     {
-        public EarningValidationResult(
-            List<FundingDue> earnings,
-            List<NonPayableEarning> nonPayableEarnings,
-            List<int> periodsToIgnore = null)
+        public List<FundingDue> PayableEarnings { get; set; } = new List<FundingDue>();
+        public List<NonPayableEarning> NonPayableEarnings { get; set; } = new List<NonPayableEarning>();
+        public HashSet<int> PeriodsToIgnore { get; set; } = new HashSet<int>();
+
+        public static EarningValidationResult operator +(EarningValidationResult left, EarningValidationResult right)
         {
-            Earnings = new List<FundingDue>(earnings);
-            NonPayableEarnings = new List<NonPayableEarning>(nonPayableEarnings);
-            if (periodsToIgnore == null)
-            {
-                PeriodsToIgnore = new List<int>();
-            }
-            else
-            {
-                PeriodsToIgnore = new List<int>(periodsToIgnore);
-            }
+            left.AddPayableEarnings(right.PayableEarnings);
+            left.AddNonPayableEarnings(right.NonPayableEarnings);
+            left.AddPeriodsToIgnore(right.PeriodsToIgnore);
+            return left;
         }
-        public List<FundingDue> Earnings { get; set; }
-        public List<NonPayableEarning> NonPayableEarnings { get; set; }
-        public List<int> PeriodsToIgnore { get; set; }
+
+        public void AddPayableEarnings(IEnumerable<FundingDue> payableEarnings)
+        {
+            PayableEarnings.AddRange(payableEarnings);
+        }
+
+        public void AddNonPayableEarnings(IEnumerable<NonPayableEarning> nonPayableEarnings)
+        {
+            NonPayableEarnings.AddRange(nonPayableEarnings);
+        }
+
+        public void AddPeriodsToIgnore(HashSet<int> periodsToIgnore)
+        {
+            PeriodsToIgnore.UnionWith(periodsToIgnore);
+        }
     }
 }

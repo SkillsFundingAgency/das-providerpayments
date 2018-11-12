@@ -19,6 +19,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.ReferenceDataModels
         SecondDisadvantagePayment = 12,
         OnProgrammeMathsAndEnglish = 13,
         BalancingMathsAndEnglish = 14,
-        LearningSupport = 15
+        LearningSupport = 15,
+        CareLeaverApprenticePayments = 16,
     }
 }
