@@ -34,7 +34,7 @@ namespace ProviderPayments.TestStack.Core.Workflow
             "PeriodEnd.Transient.Staging.ddl.tables.sql",
 
             "OPA.Transient.Earnings.ddl.tables.sql",
-            "OPA.Transient.Input.ddl.tables.sql",
+            "OPA.Transient.ddl.tables.sql",
             "OPA.Transient.Invalid.ddl.tables.sql",
             "OPA.Transient.Reference.ddl.tables.sql",
             "OPA.Transient.Rulebase.ddl.sprocs.sql",

@@ -660,6 +660,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderPayments.Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.TestUtilities", "Common\SFA.DAS.TestUtilities\SFA.DAS.TestUtilities.csproj", "{FA714CCE-BB99-4679-8F5C-E955505DC5B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlBulkCopyCat", "AcceptanceTesting\Common\SqlBulkCopyCat\SqlBulkCopyCat.csproj", "{4FE4D705-7101-4943-89DF-9C5F9B0D9042}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -886,6 +888,10 @@ Global
 		{FA714CCE-BB99-4679-8F5C-E955505DC5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA714CCE-BB99-4679-8F5C-E955505DC5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA714CCE-BB99-4679-8F5C-E955505DC5B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE4D705-7101-4943-89DF-9C5F9B0D9042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE4D705-7101-4943-89DF-9C5F9B0D9042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE4D705-7101-4943-89DF-9C5F9B0D9042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE4D705-7101-4943-89DF-9C5F9B0D9042}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1034,6 +1040,7 @@ Global
 		{6AA1E784-6E83-4693-833C-C97E73B768F7} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
 		{41966962-7527-4AB0-A0A4-CD00A959A332} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
 		{FA714CCE-BB99-4679-8F5C-E955505DC5B1} = {AF7848AE-3C39-4D22-9D28-7ED89E4A347D}
+		{4FE4D705-7101-4943-89DF-9C5F9B0D9042} = {CD71D53B-72B2-4141-A6E5-DC5AC3D648F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {871C406E-4347-4217-BFC2-C416FC427BB2}

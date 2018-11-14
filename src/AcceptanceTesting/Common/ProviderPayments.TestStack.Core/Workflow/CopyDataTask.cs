@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using CS.Common.SqlBulkCopyCat;
-using CS.Common.SqlBulkCopyCat.Model.Config.Builder;
 using ProviderPayments.TestStack.Core.Context;
+using SqlBulkCopyCat;
+using SqlBulkCopyCat.Model.Config.Builder;
 
 namespace ProviderPayments.TestStack.Core.Workflow
 {

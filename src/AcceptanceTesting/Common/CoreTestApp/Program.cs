@@ -484,61 +484,6 @@ namespace CoreTestApp
                     }
                 }
             };
-
-            var submission = new IlrSubmission();
-
-            Write("UKPRN: ");
-            submission.Ukprn = long.Parse(ReadLine());
-
-            Write("Number of learners: ");
-            submission.Learners = new Learner[int.Parse(ReadLine())];
-
-            for (var i = 0; i < submission.Learners.Length; i++)
-            {
-                submission.Learners[i] = new Learner
-                {
-                    LearningDeliveries = new[]
-                    {
-                        new LearningDelivery()
-                    }
-                };
-
-                Write($"Uln[{i}]: ");
-                submission.Learners[i].Uln = long.Parse(ReadLine());
-
-                Write($"Standard code[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].StandardCode = long.Parse(ReadLine());
-
-                Write($"Framework code[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].FrameworkCode = int.Parse(ReadLine());
-
-                Write($"Programme type[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].ProgrammeType = int.Parse(ReadLine());
-
-                Write($"Pathway code[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].PathwayCode = int.Parse(ReadLine());
-
-                Write($"Agreed price[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].TrainingCost = decimal.Parse(ReadLine());
-
-                Write($"Start date[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].ActualStartDate = DateTime.Parse(ReadLine());
-
-                Write($"Planned end date[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].PlannedEndDate = DateTime.Parse(ReadLine());
-
-                Write($"Planned end date[{i}]: ");
-                var actualEndDateInput = ReadLine();
-                if (!string.IsNullOrEmpty(actualEndDateInput))
-                {
-                    submission.Learners[i].LearningDeliveries[0].ActualEndDate = DateTime.Parse(actualEndDateInput);
-                }
-
-                Write($"ACT FAM code[{i}]: ");
-                submission.Learners[i].LearningDeliveries[0].ActFamCodeValue = short.Parse(ReadLine());
-            }
-
-            return submission;
         }
 
         private static void RunSummarisationProcess()

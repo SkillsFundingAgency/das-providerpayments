@@ -39,9 +39,6 @@
     <Reference Include="CS.Common.External">
       <HintPath>..\assemblies\CS.Common.External.dll</HintPath>
     </Reference>
-    <Reference Include="CS.Common.SqlBulkCopyCat">
-      <HintPath>..\assemblies\CS.Common.SqlBulkCopyCat.dll</HintPath>
-    </Reference>
     <Reference Include="CS.Common.XmlToSql">
       <HintPath>..\assemblies\CS.Common.XmlToSql.dll</HintPath>
     </Reference>
@@ -170,12 +167,18 @@
       <Project>{c7ad11e0-04af-4d3a-9166-296ff68cc416}</Project>
       <Name>ProviderPayments.TestStack.Core.ExecutionProxy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SqlBulkCopyCat\SqlBulkCopyCat.csproj">
+      <Project>{4fe4d705-7101-4943-89df-9c5f9b0d9042}</Project>
+      <Name>SqlBulkCopyCat</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BaseILR_1819.xml" />
     <Content Include="Resources\BaseILR_1718.xml" />
     <None Include="Resources\CopyIlrDataToDeds_1819.sql" />
-    <None Include="Resources\ILRTableMap_1819.xml" />
+    <None Include="Resources\ILRTableMap_1819.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\EAS.PeriodEnd.Cleanup.Deds.DML.sql" />
     <None Include="Resources\CopyIlrDataToDeds_1718.sql" />
     <None Include="Resources\ILRTableMap_1718.xml" />
