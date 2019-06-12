@@ -41,3 +41,46 @@ IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'CompStatus' AN
 	ADD CompStatus int NULL
   END
 GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'FundingModel' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD FundingModel int NULL
+  END
+GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'DelLocPostCode' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD DelLocPostCode VARCHAR(50)  NULL
+  END
+GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'LearnActEndDate' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD LearnActEndDate Date NULL
+  END
+GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'WithdrawReason' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD WithdrawReason int NULL
+  END
+GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'Outcome' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD Outcome int NULL
+  END
+GO
+
+IF NOT EXISTS(SELECT [column_id] FROM sys.columns WHERE [name] = 'AimType' AND [object_id] = OBJECT_ID('Submissions.SubmissionEvents'))
+  BEGIN
+    ALTER TABLE [Submissions].[SubmissionEvents]
+	ADD AimType int NULL
+  END
+GO
+

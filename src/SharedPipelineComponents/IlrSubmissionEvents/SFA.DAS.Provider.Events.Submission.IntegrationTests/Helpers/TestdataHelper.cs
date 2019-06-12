@@ -15,10 +15,12 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
         {
             var command = "INSERT INTO Submissions.LastSeenVersion " +
                       "(IlrFileName,FileDateTime,SubmittedDateTime,ComponentVersionNumber,UKPRN,ULN,LearnRefNumber,AimSeqNumber,PriceEpisodeIdentifier," +
-                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear,EPAOrgId,CompStatus,FamilyName,GivenNames) " +
+                      "StandardCode,ActualStartDate,PlannedEndDate,OnProgrammeTotalPrice,CompletionTotalPrice,AcademicYear,EPAOrgId,CompStatus,FamilyName,GivenNames,FundingModel," +
+                      "DelLocPostCode,LearnActEndDate,WithdrawReason,Outcome,AimType) " +
                       "VALUES " +
                       "(@IlrFileName,@FileDateTime,@SubmittedDateTime,@ComponentVersionNumber,@UKPRN,@ULN,@LearnRefNumber,@AimSeqNumber,@PriceEpisodeIdentifier," +
-                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear,@EPAOrgId,@CompStatus,@FamilyName,@GivenNames)";
+                      "@StandardCode,@ActualStartDate,@PlannedEndDate,@OnProgrammeTotalPrice,@CompletionTotalPrice,@AcademicYear,@EPAOrgId,@CompStatus,@FamilyName,@GivenNames,@FundingModel," +
+                      "@DelLocPostCode,@LearnActEndDate,@WithdrawReason,@Outcome,@AimType)";
 
             dedsConnection.Execute(command, new
             {
@@ -35,17 +37,20 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Helpers
                 ActualStartDate = ilrDetails.ActualStartDate,
                 PlannedEndDate = ilrDetails.PlannedEndDate,
                 OnProgrammeTotalPrice = ilrDetails.OnProgrammeTotalPrice,
-                CompletionTotalPrice = ilrDetails.CompletionTotalPrice ,
+                CompletionTotalPrice = ilrDetails.CompletionTotalPrice,
                 AcademicYear = ilrDetails.AcademicYear,
                 EPAOrgId = ilrDetails.EPAOrgId,
                 CompStatus = ilrDetails.CompStatus,
-                FamilyName=  ilrDetails.FamilyName,
-                GivenNames=  ilrDetails.GivenNames
+                FamilyName = ilrDetails.FamilyName,
+                GivenNames = ilrDetails.GivenNames,
+
+                FundingModel = ilrDetails.FundingModel,
+                DelLocPostCode = ilrDetails.DelLocPostCode,
+                LearnActEndDate = ilrDetails.LearnActEndDate,
+                WithdrawReason = ilrDetails.WithdrawReason,
+                Outcome = ilrDetails.Outcome,
+                AimType = ilrDetails.AimType
             });
         }
-
-
     }
-
-    
 }

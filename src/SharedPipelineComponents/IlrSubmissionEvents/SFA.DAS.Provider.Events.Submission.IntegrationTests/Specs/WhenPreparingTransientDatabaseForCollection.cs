@@ -19,6 +19,12 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
         private const string EPAOrgId = "EPA0001";
         private const string GivenNames = "John";
         private const string FamilyName = "Smith";
+        private int? FundingModel = 39;
+        private string DelLocPostCode = "B1 1HT";
+        private DateTime? LearnActEndDate = new DateTime(2019, 9, 15);
+        private int? WithdrawReason = 97;
+        private int? Outcome = 1;
+        private int? AimType = 1;
         private const int CompStatus = 1;
         private readonly DateTime FilePrepDate = new DateTime(2017, 9, 2, 12, 37, 26);
         private readonly DateTime SubmissionTime = new DateTime(2017, 9, 2, 12, 54, 56);
@@ -85,7 +91,13 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
                 EPAOrgId = EPAOrgId, 
                 CompStatus = CompStatus,
                 GivenNames = GivenNames,
-                FamilyName = FamilyName
+                FamilyName = FamilyName,
+                FundingModel = FundingModel,
+                DelLocPostCode = DelLocPostCode,
+                LearnActEndDate = LearnActEndDate,
+                WithdrawReason = WithdrawReason,
+                Outcome = Outcome,
+                AimType = AimType
             };
 
             TestDataHelper.PopulateLastSeen(dedsConnection, ilrDetails);
@@ -118,6 +130,13 @@ namespace SFA.DAS.Provider.Events.Submission.IntegrationTests.Specs
             Assert.AreEqual(CompStatus, lastSeen[0].CompStatus);
             Assert.AreEqual(FamilyName, lastSeen[0].FamilyName);
             Assert.AreEqual(GivenNames, lastSeen[0].GivenNames);
+            Assert.AreEqual(FundingModel, lastSeen[0].FundingModel);
+            Assert.AreEqual(DelLocPostCode, lastSeen[0].DelLocPostCode);
+            Assert.AreEqual(LearnActEndDate, lastSeen[0].LearnActEndDate);
+            Assert.AreEqual(WithdrawReason, lastSeen[0].WithdrawReason);
+            Assert.AreEqual(Outcome, lastSeen[0].Outcome);
+            Assert.AreEqual(AimType, lastSeen[0].AimType);
+
         }
     }
 }

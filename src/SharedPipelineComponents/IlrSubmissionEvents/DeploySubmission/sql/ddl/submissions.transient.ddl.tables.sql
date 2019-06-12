@@ -66,7 +66,13 @@ CREATE TABLE [Submissions].[SubmissionEvents]
 	EPAOrgId				VARCHAR(7)		NULL,
 	GivenNames				VARCHAR(100)	NULL,
 	FamilyName				VARCHAR(100)	NULL,
-	CompStatus				int				NULL
+	CompStatus				int				NULL,
+	FundingModel			int			    NULL,
+    DelLocPostCode          VARCHAR(50)     NULL,
+    LearnActEndDate			Date			NULL,
+    WithdrawReason          int				NULL,
+    Outcome					int				NULL,
+    AimType					int				NULL
 )
 GO
 
@@ -106,6 +112,12 @@ CREATE TABLE [Submissions].[LastSeenVersion]
 	EPAOrgId				VARCHAR(7)		NULL,
 	GivenNames				VARCHAR(100)	NULL,
 	FamilyName				VARCHAR(100)	NULL,
-	CompStatus				int				NULL
+	CompStatus				int				NULL,
+    FundingModel			int			    NULL,
+    DelLocPostCode          VARCHAR(50)     NULL,
+    LearnActEndDate			Date			NULL,
+    WithdrawReason          int				NULL,
+    Outcome					int				NULL,
+    AimType					int				NULL
 )
 GO

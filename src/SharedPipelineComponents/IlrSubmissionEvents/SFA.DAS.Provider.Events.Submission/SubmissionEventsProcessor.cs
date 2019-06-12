@@ -109,16 +109,6 @@ namespace SFA.DAS.Provider.Events.Submission
                 (@event = @event ?? new SubmissionEvent()).PathwayCode = currentIlr.PathwayCode;
             }
 
-            if (currentIlr.ActualStartDate != lastSeenIlr?.ActualStartDate)
-            {
-                (@event = @event ?? new SubmissionEvent()).ActualStartDate = currentIlr.ActualStartDate;
-            }
-
-            if (currentIlr.PlannedEndDate != lastSeenIlr?.PlannedEndDate)
-            {
-                (@event = @event ?? new SubmissionEvent()).PlannedEndDate = currentIlr.PlannedEndDate;
-            }
-
             if (currentIlr.ActualEndDate != lastSeenIlr?.ActualEndDate)
             {
                 (@event = @event ?? new SubmissionEvent()).ActualEndDate = currentIlr.ActualEndDate;
@@ -145,7 +135,15 @@ namespace SFA.DAS.Provider.Events.Submission
                 || currentIlr.EPAOrgId != lastSeenIlr?.EPAOrgId
                 || currentIlr.GivenNames != lastSeenIlr?.GivenNames
                 || currentIlr.FamilyName != lastSeenIlr?.FamilyName
-                || currentIlr.CompStatus != lastSeenIlr?.CompStatus)
+                || currentIlr.CompStatus != lastSeenIlr?.CompStatus
+                || currentIlr.ActualStartDate != lastSeenIlr?.ActualStartDate
+                || currentIlr.PlannedEndDate != lastSeenIlr?.PlannedEndDate
+                || currentIlr.FundingModel != lastSeenIlr?.FundingModel
+                || currentIlr.DelLocPostCode != lastSeenIlr?.DelLocPostCode
+                || currentIlr.LearnActEndDate != lastSeenIlr?.LearnActEndDate
+                || currentIlr.WithdrawReason != lastSeenIlr?.WithdrawReason
+                || currentIlr.Outcome != lastSeenIlr?.Outcome
+                || currentIlr.AimType != lastSeenIlr?.AimType)
             {
                 if (@event == null)
                     @event = new SubmissionEvent();
@@ -177,6 +175,15 @@ namespace SFA.DAS.Provider.Events.Submission
             @event.StandardCode = currentIlr.StandardCode;
             @event.ActualStartDate = currentIlr.ActualStartDate;
             @event.CompStatus = currentIlr.CompStatus;
+
+            @event.PlannedEndDate = currentIlr.PlannedEndDate;
+            @event.FundingModel = currentIlr.FundingModel;
+            @event.DelLocPostCode = currentIlr.DelLocPostCode;
+            @event.LearnActEndDate = currentIlr.LearnActEndDate;
+            @event.WithdrawReason = currentIlr.WithdrawReason;
+            @event.Outcome = currentIlr.Outcome;
+            @event.AimType = currentIlr.AimType;
+
             return @event;
         }
     }
