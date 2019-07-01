@@ -108,6 +108,16 @@ namespace SFA.DAS.Provider.Events.Submission
             {
                 (@event = @event ?? new SubmissionEvent()).PathwayCode = currentIlr.PathwayCode;
             }
+            
+            if (currentIlr.ActualStartDate != lastSeenIlr?.ActualStartDate)
+            {
+                (@event = @event ?? new SubmissionEvent()).ActualStartDate = currentIlr.ActualStartDate;
+            }
+
+            if (currentIlr.PlannedEndDate != lastSeenIlr?.PlannedEndDate)
+            {
+                (@event = @event ?? new SubmissionEvent()).PlannedEndDate = currentIlr.PlannedEndDate;
+            }
 
             if (currentIlr.ActualEndDate != lastSeenIlr?.ActualEndDate)
             {
